@@ -21,3 +21,4 @@ Session.vim
 # mine
 node_modules/*
 dist/*.map
+site/
