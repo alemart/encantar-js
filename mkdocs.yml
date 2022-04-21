@@ -1,0 +1,120 @@
+site_name: "MARTINS.js: GPU-accelerated Augmented Reality for the web"
+site_url: https://alemart.github.io/martins-js
+site_author: Alexandre Martins
+site_description: Create Augmented Reality experiences that run in web browsers. No need to download apps. WebAR technology.
+copyright: Copyright &copy; 2022 Alexandre Martins
+
+repo_name: alemart/martins-js
+repo_url: https://github.com/alemart/martins-js
+
+theme:
+  name: material
+  custom_dir: docs_overrides
+  features: [ 'navigation.tabs', 'navigation.tabs.sticky' ]
+  logo: img/martins-icon.png
+
+extra_css: [ 'style/extra.css' ]
+extra_javascript: [ 'js/extra.js' ]
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - md_in_html
+  - footnotes
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.gemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_png
+      #emoji_index: !!python/name:materialx.emoji.gemoji 
+      #emoji_generator: !!python/name:materialx.emoji.to_svg
+
+extra:
+  analytics:
+    provider: google
+    property: G-YDRRYB5GW6
+  social:
+    - icon: material/coffee
+      link: https://ko-fi.com/alemart
+    - icon: fontawesome/brands/github
+      link: https://github.com/alemart
+    - icon: fontawesome/brands/youtube
+      link: https://youtube.com/alemart88
+
+dev_addr: 127.0.0.1:8008
+
+nav:
+  - 'Home': 'index.md'
+  - 'Getting started':
+    - 'Welcome to MARTINS.js': 'getting-started/index.md'
+    - 'Crash course on WebAR':
+      - 'Introduction': 'getting-started/introduction.md'
+      - 'Concepts': 'getting-started/concepts.md'
+      - 'Set up a web server': 'getting-started/set-up-a-web-server.md'
+      - 'Set up the tracker': 'getting-started/set-up-the-tracker.md'
+      - 'Set up the session': 'getting-started/set-up-the-session.md'
+      - 'Create the augmented scene': 'getting-started/create-the-augmented-scene.md'
+      - 'Activate your webcam': 'getting-started/activate-your-webcam.md'
+      - 'Next steps': 'getting-started/next-steps.md'
+    - 'Guidelines for Images': 'getting-started/guidelines-for-images.md'
+    - 'Questions & Answers': 'getting-started/questions-and-answers.md'
+  - 'Download':
+    - 'Download': 'download.md'
+    - 'Licenses':
+      - 'AGPL 3.0': 'license/agpl-3.0.md'
+      - 'Polyform Perimeter 1.0.0': 'license/PolyForm-Perimeter-1.0.0-1.md'
+  - 'Demos': 'demos.md'
+  - 'API':
+    - 'General':
+      - 'Session': 'api/session.md'
+      - 'Frame': 'api/frame.md'
+      - 'Time': 'api/time.md'
+      - 'Martins': 'api/martins.md'
+      - 'Settings': 'api/settings.md'
+      - 'Resolution': 'api/resolution.md'
+    - 'Trackers':
+      - 'Image tracker':
+        - 'ImageTracker': 'api/image-tracker.md'
+        - 'ReferenceImage': 'api/reference-image.md'
+        - 'ReferenceImageDatabase': 'api/reference-image-database.md'
+        - 'ImageTrackerResult': 'api/image-tracker-result.md'
+        - 'TrackableImage': 'api/trackable-image.md'
+      - 'Tracker': 'api/tracker.md'
+      - 'TrackerResult': 'api/tracker-result.md'
+      - 'Trackable': 'api/trackable.md'
+    - 'Sources':
+      - 'CameraSource': 'api/camera-source.md'
+      - 'CanvasSource': 'api/canvas-source.md'
+      - 'VideoSource': 'api/video-source.md'
+      - 'Source': 'api/source.md'
+    - 'Geometry':
+      - 'Pose': 'api/pose.md'
+      - 'Viewer': 'api/viewer.md'
+      - 'ViewerPose': 'api/viewer-pose.md'
+      - 'View': 'api/view.md'
+      - 'PerspectiveView': 'api/perspective-view.md'
+      - 'RigidTransform': 'api/rigid-transform.md'
+    - 'Visualization':
+      - 'Viewport': 'api/viewport.md'
+      - 'HUD': 'api/hud.md'
+      - 'Gizmos': 'api/gizmos.md'
+    - 'Events':
+      - 'AREvent': 'api/ar-event.md'
+      - 'AREventListener': 'api/ar-event-listener.md'
+      - 'AREventTarget': 'api/ar-event-target.md'
+      - 'AREventType': 'api/ar-event-type.md'
+    - 'Speedy':
+      - 'Speedy': 'api/speedy.md'
+      - 'SpeedySize': 'api/speedy-size.md'
+      - 'SpeedyMatrix': 'api/speedy-matrix.md'
+      - 'SpeedyPromise': 'api/speedy-promise.md'
+  - 'Support':
+    - 'Contact': 'contact.md'
+    - 'Support my work': 'support-my-work.md'
+    - 'How to contribute': 'CONTRIBUTING.md'

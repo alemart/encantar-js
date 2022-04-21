@@ -1,0 +1,37 @@
+# Martins
+
+The `Martins` namespace is the entry point of the features and components of MARTINS.js.
+
+I have documented the instantiation of the components of the engine in their respective pages.
+
+## Properties
+
+### Settings
+
+`Martins.Settings: Settings, read-only`
+
+The [settings](settings.md) of the engine.
+
+### version
+
+`Martins.version: string, read-only`
+
+The version of MARTINS.js.
+
+### edition
+
+`Martins.edition: string, read-only`
+
+The edition of MARTINS.js.
+
+## Methods
+
+### isSupported
+
+`Martins.isSupported(): boolean`
+
+Checks if the user agent is capable of running the engine.
+
+**Returns**
+
+Returns `true` if the user agent is compatible with the engine, or `false` otherwise.

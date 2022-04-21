@@ -1,0 +1,125 @@
+{% extends "main.html" %}
+
+{% block tabs %}
+{{ super() }}
+
+<style>
+.md-main {
+    display: none;
+}
+
+.md-nav {
+    display: none;
+}
+
+.md-header {
+    box-shadow: none !important;
+}
+
+:root {
+    --md-secondary-fg-color: #8ef;
+}
+
+.md-button {
+    --md-primary-bg-color: #4051b5;
+    --md-primary-fg-color: var(--md-secondary-fg-color);
+    --md-accent-fg-color: var(--md-secondary-fg-color);
+    --md-accent-bg-color: var(--md-primary-fg-color--light);
+}
+
+#splash {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.splash-container {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+}
+
+.splash-text {
+    font-size: 16pt;
+    padding: 0 14px 0 14px; /* align to header */
+    text-align: center;
+}
+
+.splash-image {
+    text-align: center;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.splash-text em {
+    font-style: normal;
+    color: var(--md-secondary-fg-color);
+}
+
+.splash-text h2 {
+    margin: 0.5em 0 0.5em 0;
+}
+
+.splash-image > video {
+    width: 80%;
+    border-radius: 32px;
+    border: 4px solid var(--md-primary-fg-color--light);
+}
+
+@media screen and (min-width: 1220px) {
+    .splash-container {
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .splash-text {
+        flex: 14;
+        text-align: left;
+    }
+
+    .splash-image {
+        flex: 9;
+        text-align: right;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .splash-image > video {
+        width: 100%;
+    }
+}
+
+@keyframes appear {
+    from { transform: translateY(10%); opacity: 0.01; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.appear {
+    animation: appear 0.5s ease-out 0.2s;
+    animation-fill-mode: both;
+}
+</style>
+
+<section id="splash" data-md-color-primary="indigo">
+    <div class="splash-container md-grid">
+        <div class="splash-text md-typeset appear">
+            <h2><em>Create Augmented Reality experiences that run in web browsers.</em> No need to download apps.</h2>
+            <p>Make AR easy for your users. Create AR experiences using web technologies that you're already familiar with. Open Source WebAR engine.</p>
+            <a href="{{ './getting-started' | url }}" class="md-button">Get started</a>
+        </div>
+        <div class="splash-image">
+            <video src="{{ './img/splash.webm' | url }}" poster="{{ './img/splash.webp' | url }}" muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block announce %}{% endblock %}
+{% block site_nav %}{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}{% endblock %}
