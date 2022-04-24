@@ -6,6 +6,14 @@
 
 [Get started with WebAR](./introduction.md){ .md-button .md-button--primary }
 
+## Features
+
+Currently supported features:
+
+* **Image tracking**, also known as natural feature tracking. Use it to track detailed images (such as book covers, cartoons or photos) for AR.
+
+![WebAR demo](../img/demo-aframe.gif) ![WebAR demo](../img/demo-hello.gif)
+
 ## Why use MARTINS.js?
 
 Here is why MARTINS.js is a great choice for creating Augmented Reality experiences:
@@ -17,6 +25,16 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
 
 [Check out my WebAR demos](../demos.md){ .md-button }
+
+## Browser compatibility
+
+MARTINS.js is currently compatible with the latest versions of almost all major web browsers:
+
+| Chrome | Edge | Firefox | Opera | Safari |
+|:------:|:----:|:-------:|:-----:|:------:|
+| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | - |
+
+At the time of this writing, Safari is not yet compatible. MARTINS.js requires WebGL2 and WebAssembly.
 
 ## Author
 

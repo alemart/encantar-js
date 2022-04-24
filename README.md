@@ -8,6 +8,14 @@ Get started at <https://alemart.github.io/martins-js/>
 
 MARTINS.js is [dual licensed](#author). It is currently in beta.
 
+## Features
+
+Currently supported features:
+
+* **Image tracking**, also known as natural feature tracking. Use it to track detailed images (such as book covers, cartoons or photos) for AR.
+
+![WebAR demo](docs/img/demo-aframe.gif) ![WebAR demo](docs/img/demo-hello.gif)
+
 ## Why use MARTINS.js?
 
 Here is why MARTINS.js is a great choice for creating Augmented Reality experiences:
@@ -17,6 +25,16 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
 * **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. It's not WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
+
+## Browser compatibility
+
+This demo is compatible with the latest versions of almost all major web browsers:
+
+| Chrome | Edge | Firefox | Opera | Safari |
+| ------ | ---- | ------- | ----- | ------ |
+| ✔      | ✔    | ✔       | ✔     | -      |
+
+At the time of this writing, Safari is not yet compatible. MARTINS.js requires WebGL2 and WebAssembly.
 
 ## Author
 
