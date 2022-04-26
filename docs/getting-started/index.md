@@ -10,7 +10,7 @@
 
 Currently supported features:
 
-* **Image tracking**, also known as natural feature tracking. Use it to track detailed images (such as book covers, cartoons or photos) for AR.
+* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
 
 ![WebAR demo](../img/demo-aframe.gif) ![WebAR demo](../img/demo-hello.gif)
 
