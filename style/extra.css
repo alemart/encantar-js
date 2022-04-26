@@ -19,6 +19,13 @@
     background-repeat: repeat;
 }
 
+/* Responsive videos */
+
+.md-typeset video {
+    height: auto;
+    max-width: 100%;
+}
+
 /* Share buttons */
 
 .share-buttons {
