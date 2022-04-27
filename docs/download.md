@@ -20,7 +20,7 @@ There are currently two editions of MARTINS.js: Free and Professional. The Free 
 
 If you're an individual doing personal experiments, a developer of free and open-source software, a student or a researcher, pick the Free Edition. If you're a freelancer, a small game studio, a small marketing or webdesign agency, or a similar business, pick the Professional Edition.
 
-### What about commercial use?
+### Is it free of charge?
 
 In a nutshell: it's free of charge if you write free software.
 
