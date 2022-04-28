@@ -4,8 +4,6 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 Get started at <https://alemart.github.io/martins-js/>
 
-![WebAR demo](docs/img/demo-cool3.gif)
-
 MARTINS.js is [dual licensed](#author). It is currently in beta.
 
 ## Features
@@ -24,15 +22,15 @@ Currently supported features:
 4. Scan the cartoon below.
 5. Enjoy! :wink:
 
-> &nbsp;
+> ---
 > **Guidelines for WebAR:**
 > - WebGL2 and WebAssembly are required. Use a [compatible browser](#browser-compatibility).
 > - Don't move the camera too quickly - it produces motion blur.
 > - The physical environment should be properly illuminated.
 > - Avoid low-quality cameras (cameras of common smartphones are OK).
-> &nbsp;
+> ---
 
-| Cartoon | QR code |
+| Cartoon | &nbsp; |
 | - | - |
 | [![Reference Image](docs/demo/my-reference-image.webp)](docs/demo/my-reference-image.webp) | [![QR code](docs/demo/qr-code.png)](https://alemart.github.io/martins-js/demo/) |
 

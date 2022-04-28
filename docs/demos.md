@@ -8,7 +8,7 @@ title: WebAR demos
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-end;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .gallery-item {
@@ -22,11 +22,7 @@ title: WebAR demos
 
 @media screen and (min-width: 600px) {
     .gallery-item {
-        flex-basis: 40%;
-    }
-
-    .gallery-item-3 {
-        flex-basis: 30% !important;
+        flex-basis: 30%;
     }
 }
 
@@ -44,18 +40,46 @@ title: WebAR demos
 
 # WebAR demos
 
-Welcome to my demo gallery! Here you'll find some cool examples of what you can do with MARTINS.js. Feel free to adapt my demos and also to study my code. My demos are available for a fee, which helps my work.
+Welcome to my demo gallery! Here you'll find some cool examples of what you can do with MARTINS.js. Feel free to adapt my demos and also to study my code.
 
-The Free Edition of MARTINS.js is included with my demos. The Professional Edition is available [separately](./download.md){ ._blank }. Before creating derivative works of my demos, make sure to [pick the right edition](./download.md){ ._blank } for you. If you have questions, feel free to [reach out](./contact.md){ ._blank }.
+!!! info "Derivative works"
+
+    The Free Edition of MARTINS.js is included with my demos. Before creating derivative works of my demos, make sure to [pick the right edition for you](./download.md){ ._blank }.
+
+## Free demos
+
+The following free demos will help you get started:
+
+<div class="gallery-grid" markdown>
+<div class="gallery-item" markdown>
+<a href="https://ko-fi.com/s/058542943d" rel="external" target="_blank">
+
+![](./img/demo-hello.webp)
+
+**Hello, world!**
+
+</a>
+</div>
+<div class="gallery-item" markdown>
+<a href="https://ko-fi.com/s/25f4038f8b" rel="external" target="_blank">
+
+
+![](./img/demo-webgl.jpg)
+
+**Render with WebGL (3D)**
+
+</a>
+</div>
+</div>
+
+
 
 ## Glue codes
 
-MARTINS.js scans the physical environment, but it doesn't render virtual content. You need a 3D rendering technology for that. Glue codes link MARTINS.js to different 3D rendering technologies. My glue codes are compatible with both the Free and the Professional Edition of MARTINS.js.
-
-AFRAME is the easiest choice for non-coders. If you're a coder, all choices are good. A basic demo is included with all of them.
+MARTINS.js scans the physical environment, but it doesn't render virtual content. Third-party 3D rendering technologies can help you with that. Glue codes link MARTINS.js to different 3D rendering technologies. My glue codes are compatible with both the Free and the Professional Edition of MARTINS.js. A basic demo is included with all of them.
 
 <div class="gallery-grid" markdown>
-<div class="gallery-item gallery-item-3" markdown>
+<div class="gallery-item" markdown>
 <a href="https://ko-fi.com/s/24523f7548" rel="external" target="_blank">
 
 ![](./img/logo-aframe.png "A-Frame logo by Mozilla")
@@ -64,7 +88,7 @@ AFRAME is the easiest choice for non-coders. If you're a coder, all choices are 
 
 </a>
 </div>
-<div class="gallery-item gallery-item-3" markdown>
+<div class="gallery-item" markdown>
 <a href="https://ko-fi.com/s/eea4077938" rel="external" target="_blank">
 
 
@@ -74,7 +98,7 @@ AFRAME is the easiest choice for non-coders. If you're a coder, all choices are 
 
 </a>
 </div>
-<div class="gallery-item gallery-item-3" markdown>
+<div class="gallery-item" markdown>
 
 ![](./img/logo-babylonjs.png "Babylon.js logo by David Catuhe")
 
@@ -83,22 +107,16 @@ AFRAME is the easiest choice for non-coders. If you're a coder, all choices are 
 </div>
 </div>
 
+!!! tip Tip
+
+    AFRAME is the easiest choice for non-coders. If you're a coder, all choices are good.
 
 
-## For newbies
+## Fun & games
 
-These simple demos help you get started with WebAR. They are great learning material!
+WebAR can be a lot of fun. More demos coming soon!
 
 <div class="gallery-grid" markdown>
-<div class="gallery-item" markdown>
-<a href="https://ko-fi.com/s/058542943d" rel="external" target="_blank">
-
-![](./img/demo-hello.webp)
-
-**Hello world with MARTINS.js**
-
-</a>
-</div>
 <div class="gallery-item" markdown>
 <a href="https://ko-fi.com/s/1d3c7e401c" rel="external" target="_blank">
 
@@ -110,12 +128,6 @@ These simple demos help you get started with WebAR. They are great learning mate
 </a>
 </div>
 </div>
-
-
-
-## Fun & games
-
-Soon!
 
 
 
