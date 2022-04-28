@@ -22,13 +22,14 @@ Currently supported features:
 4. Scan the cartoon below.
 5. Enjoy! :wink:
 
-> &nbsp;
+>
 > **Guidelines for WebAR:**
+>
 > - WebGL2 and WebAssembly are required. Use a [compatible browser](#browser-compatibility).
 > - Don't move the camera too quickly - it produces motion blur.
 > - The physical environment should be properly illuminated.
 > - Avoid low-quality cameras (cameras of common smartphones are OK).
-> &nbsp;
+>
 
 | Cartoon | &nbsp; |
 | - | - |
