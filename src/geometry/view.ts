@@ -26,11 +26,11 @@ import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { CameraModel, FX, FY, U0, V0 } from './camera-model';
 import { IllegalArgumentError } from '../utils/errors';
 
-/** Default distance of the near plane to the optical center of the camera */
-const DEFAULT_NEAR = 0.1;
+/** Default distance in pixels of the near plane to the optical center of the camera */
+const DEFAULT_NEAR = 1;
 
-/** Default distance of the far plane to the optical center of the camera */
-const DEFAULT_FAR = 2000;
+/** Default distance in pixels of the far plane to the optical center of the camera */
+const DEFAULT_FAR = 20000;
 
 
 
