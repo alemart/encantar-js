@@ -46,7 +46,7 @@ import { ReferenceImage } from '../reference-image';
 import { CameraModel } from '../../../geometry/camera-model';
 import { Viewer } from '../../../geometry/viewer';
 import { Pose } from '../../../geometry/pose';
-import { RigidTransform } from '../../../geometry/transform';
+import { RigidTransform, StandardTransform } from '../../../geometry/transform';
 import { IllegalOperationError, IllegalArgumentError, TrackingError } from '../../../utils/errors';
 import {
     TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_MIN_MATCHES, TRACK_LOST_TOLERANCE,
@@ -69,12 +69,6 @@ const NUMBER_OF_PBOS = 2;
 
 /** Frame skipping; meaningful only when using turbo */
 const TURBO_SKIP = 2;
-
-/** An identity transform computed lazily */
-const identityTransform: () => RigidTransform = (() => {
-    let transform: Nullable<RigidTransform> = null;
-    return () => (transform = transform || RigidTransform.fromMatrix(Speedy.Matrix.Eye(4)));
-})();
 
 /** A pair (a,b) of arrays of keypoints such that keypoint a[i] is a match to keypoint b[i] for all i */
 type QualityMatches = [ SpeedyMatchedKeypoint[], SpeedyKeypoint[] ];
@@ -389,7 +383,11 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         }).then(polyline => {
 
             // we let the target object be at the origin of the world space
-            const pose = new Pose(identityTransform());
+            // (identity transform). We also perform a change of coordinates,
+            // so that we move out from pixel space and into normalized space
+            const modelMatrix = this._camera.denormalizer(); // ~ "identity matrix"
+            const transform = new StandardTransform(modelMatrix);
+            const pose = new Pose(transform);
 
             // given the current state of the camera model, we get a viewer
             // compatible with the pose of the target

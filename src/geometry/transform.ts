@@ -58,41 +58,84 @@ abstract class BaseTransform
 /**
  * An invertible 3D transformation
  */
-abstract class InvertibleTransform extends BaseTransform
+class InvertibleTransform extends BaseTransform
 {
-    abstract get inverse(): InvertibleTransform;
+    /**
+     * Constructor
+     * @param matrix a 4x4 matrix
+     */
+    constructor(matrix: SpeedyMatrix)
+    {
+        // WARNING: we do not check if the matrix actually encodes an invertible transform!
+        super(matrix);
+    }
+
+    /**
+     * The inverse of the transform
+     */
+    get inverse(): InvertibleTransform
+    {
+        const inverseMatrix = Speedy.Matrix(this._matrix.inverse());
+        return new InvertibleTransform(inverseMatrix);
+    }
 }
 
 /**
- * A 3D transformation described by position and orientation
+ * A 3D transformation described by translation, rotation and scale
  */
-export class RigidTransform extends InvertibleTransform
+export class StandardTransform extends InvertibleTransform
 {
-    // TODO: position and orientation attributes
+    // TODO: position, rotation and scale attributes
 
     /**
      * Constructor
      * @param matrix a 4x4 matrix
      */
-    private constructor(matrix: SpeedyMatrix)
+    constructor(matrix: SpeedyMatrix)
     {
+        // WARNING: we do not check if the matrix actually encodes a standard transform!
         super(matrix);
     }
 
     /**
-     * Create a new rigid transform using a pre-computed transformation matrix
-     * @param matrix a 4x4 matrix encoding a rigid transform
-     * @returns a new rigid transform
-     * @internal
+     * The inverse of the transform
      */
-    static fromMatrix(matrix: SpeedyMatrix): RigidTransform
+    get inverse(): StandardTransform
+    {
+        /*
+
+        The inverse of a 4x4 standard transform T * R * S...
+
+        [  RS  t  ]    is    [  ZR' -ZR't ]
+        [  0'  1  ]          [  0'    1   ]
+
+        where S is 3x3, R is 3x3, t is 3x1, 0' is 1x3 and Z is the inverse of S
+
+        */
+
+        return super.inverse as StandardTransform;
+    }
+}
+
+/**
+ * A 3D transformation described by position and orientation
+ */
+export class RigidTransform extends StandardTransform
+{
+    // TODO: position and rotation attributes (need to decompose the matrix)
+
+    /**
+     * Constructor
+     * @param matrix a 4x4 matrix
+     */
+    constructor(matrix: SpeedyMatrix)
     {
         // WARNING: we do not check if the matrix actually encodes a rigid transform!
-        return new RigidTransform(matrix);
+        super(matrix);
     }
 
     /**
-     * The inverse of the rigid transform
+     * The inverse of the transform
      */
     get inverse(): RigidTransform
     {

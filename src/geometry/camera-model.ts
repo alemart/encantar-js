@@ -315,25 +315,6 @@ export class CameraModel
     }
 
     /**
-     * The inverse of denormalizer()
-     * @returns 4x4 matrix
-     */
-    denormalizerInverse(): SpeedyMatrix
-    {
-        const w = this._screenSize.width / 2;
-        const h = this._screenSize.height / 2;
-        const d = Math.min(w, h);
-        const b = 1 / d;
-
-        return Speedy.Matrix(4, 4, [
-            b, 0, 0, 0,
-            0,-b, 0, 0,
-            0, 0,-b, 0,
-            -w*b, h*b, 0, 1,
-        ]);
-    }
-
-    /**
      * Size of the AR screen space, in pixels
      * @returns size in pixels
      */

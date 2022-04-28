@@ -26,7 +26,7 @@ import { CameraModel } from './camera-model';
 import { Pose } from './pose';
 import { ViewerPose } from './viewer-pose';
 import { View, PerspectiveView } from './view';
-import { RigidTransform } from './transform';
+import { StandardTransform } from './transform';
 import { IllegalOperationError } from '../utils/errors';
 
 
@@ -97,7 +97,7 @@ export class Viewer
         const viewMatrix = this._pose.viewMatrix;
         const modelViewMatrix = Speedy.Matrix(viewMatrix.times(modelMatrix));
 
-        const transform = RigidTransform.fromMatrix(modelViewMatrix);
+        const transform = new StandardTransform(modelViewMatrix);
         return new Pose(transform);
     }
 }

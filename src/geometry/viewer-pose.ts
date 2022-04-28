@@ -46,17 +46,10 @@ export class ViewerPose extends Pose
     {
         // compute the view matrix and its inverse in AR screen space
         const viewMatrix = ViewerPose._computeViewMatrix(camera);
-        const viewMatrixInverse = RigidTransform.fromMatrix(viewMatrix).inverse.matrix;
+        const inverseTransform = new RigidTransform(viewMatrix);
 
-        // perform a change of coordinates
-        const M = camera.denormalizer();
-        const W = camera.denormalizerInverse();
-        const myViewMatrix = Speedy.Matrix(viewMatrix.times(M));
-        const myViewMatrixInverse = Speedy.Matrix(W.times(viewMatrixInverse));
-
-        // create the viewer pose
-        super(RigidTransform.fromMatrix(myViewMatrixInverse));
-        this._viewMatrix = myViewMatrix;
+        super(inverseTransform.inverse);
+        this._viewMatrix = viewMatrix;
     }
 
     /**

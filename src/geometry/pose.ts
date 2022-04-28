@@ -22,34 +22,35 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
-import { RigidTransform } from './transform';
+import { RigidTransform, StandardTransform } from './transform';
 
 
 
 /**
  * A pose represents a position and an orientation in a 3D space
+ * (and sometimes a scale, too...)
  */
 export class Pose
 {
-    /** A rigid transform in 3D world space */
-    private _transform: RigidTransform;
+    /** A transform in 3D world space */
+    private _transform: StandardTransform;
 
 
 
     /**
      * Constructor
-     * @param transform a rigid transform in a 3D space (e.g., world space, viewer space or other)
+     * @param transform usually a rigid transform in a 3D space (e.g., world space, viewer space or other)
      */
-    constructor(transform: RigidTransform)
+    constructor(transform: StandardTransform)
     {
         this._transform = transform;
     }
 
     /**
-     * A rigid transform describing the position and the orientation
+     * A transform describing the position and the orientation
      * of the pose relative to the 3D space to which it belongs
      */
-    get transform(): RigidTransform
+    get transform(): StandardTransform
     {
         return this._transform;
     }
