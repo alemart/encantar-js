@@ -1,11 +1,11 @@
 /*!
- * MARTINS.js Free Edition version 0.1.0
+ * MARTINS.js Free Edition version 0.1.1
  * GPU-accelerated Augmented Reality for the web
  * Copyright 2022 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://github.com/alemart/martins-js
  *
  * @license AGPL-3.0-only
- * Date: 2022-04-21T17:21:12.069Z
+ * Date: 2022-04-28T23:26:33.373Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -26480,22 +26480,6 @@ class CameraModel {
         ]);
     }
     /**
-     * The inverse of denormalizer()
-     * @returns 4x4 matrix
-     */
-    denormalizerInverse() {
-        const w = this._screenSize.width / 2;
-        const h = this._screenSize.height / 2;
-        const d = Math.min(w, h);
-        const b = 1 / d;
-        return speedy_vision_default().Matrix(4, 4, [
-            b, 0, 0, 0,
-            0, -b, 0, 0,
-            0, 0, -b, 0,
-            -w * b, h * b, 0, 1,
-        ]);
-    }
-    /**
      * Size of the AR screen space, in pixels
      * @returns size in pixels
      */
@@ -27072,17 +27056,18 @@ class CameraModel {
  */
 /**
  * A pose represents a position and an orientation in a 3D space
+ * (and sometimes a scale, too...)
  */
 class Pose {
     /**
      * Constructor
-     * @param transform a rigid transform in a 3D space (e.g., world space, viewer space or other)
+     * @param transform usually a rigid transform in a 3D space (e.g., world space, viewer space or other)
      */
     constructor(transform) {
         this._transform = transform;
     }
     /**
-     * A rigid transform describing the position and the orientation
+     * A transform describing the position and the orientation
      * of the pose relative to the 3D space to which it belongs
      */
     get transform() {
@@ -27138,31 +27123,67 @@ class BaseTransform {
  * An invertible 3D transformation
  */
 class InvertibleTransform extends BaseTransform {
-}
-/**
- * A 3D transformation described by position and orientation
- */
-class RigidTransform extends InvertibleTransform {
-    // TODO: position and orientation attributes
     /**
      * Constructor
      * @param matrix a 4x4 matrix
      */
     constructor(matrix) {
+        // WARNING: we do not check if the matrix actually encodes an invertible transform!
         super(matrix);
     }
     /**
-     * Create a new rigid transform using a pre-computed transformation matrix
-     * @param matrix a 4x4 matrix encoding a rigid transform
-     * @returns a new rigid transform
-     * @internal
+     * The inverse of the transform
      */
-    static fromMatrix(matrix) {
-        // WARNING: we do not check if the matrix actually encodes a rigid transform!
-        return new RigidTransform(matrix);
+    get inverse() {
+        const inverseMatrix = speedy_vision_default().Matrix(this._matrix.inverse());
+        return new InvertibleTransform(inverseMatrix);
+    }
+}
+/**
+ * A 3D transformation described by translation, rotation and scale
+ */
+class StandardTransform extends InvertibleTransform {
+    // TODO: position, rotation and scale attributes
+    /**
+     * Constructor
+     * @param matrix a 4x4 matrix
+     */
+    constructor(matrix) {
+        // WARNING: we do not check if the matrix actually encodes a standard transform!
+        super(matrix);
     }
     /**
-     * The inverse of the rigid transform
+     * The inverse of the transform
+     */
+    get inverse() {
+        /*
+
+        The inverse of a 4x4 standard transform T * R * S...
+
+        [  RS  t  ]    is    [  ZR' -ZR't ]
+        [  0'  1  ]          [  0'    1   ]
+
+        where S is 3x3, R is 3x3, t is 3x1, 0' is 1x3 and Z is the inverse of S
+
+        */
+        return super.inverse;
+    }
+}
+/**
+ * A 3D transformation described by position and orientation
+ */
+class RigidTransform extends StandardTransform {
+    // TODO: position and rotation attributes (need to decompose the matrix)
+    /**
+     * Constructor
+     * @param matrix a 4x4 matrix
+     */
+    constructor(matrix) {
+        // WARNING: we do not check if the matrix actually encodes a rigid transform!
+        super(matrix);
+    }
+    /**
+     * The inverse of the transform
      */
     get inverse() {
         /*
@@ -27232,15 +27253,9 @@ class ViewerPose extends Pose {
     constructor(camera) {
         // compute the view matrix and its inverse in AR screen space
         const viewMatrix = ViewerPose._computeViewMatrix(camera);
-        const viewMatrixInverse = RigidTransform.fromMatrix(viewMatrix).inverse.matrix;
-        // perform a change of coordinates
-        const M = camera.denormalizer();
-        const W = camera.denormalizerInverse();
-        const myViewMatrix = speedy_vision_default().Matrix(viewMatrix.times(M));
-        const myViewMatrixInverse = speedy_vision_default().Matrix(W.times(viewMatrixInverse));
-        // create the viewer pose
-        super(RigidTransform.fromMatrix(myViewMatrixInverse));
-        this._viewMatrix = myViewMatrix;
+        const inverseTransform = new RigidTransform(viewMatrix);
+        super(inverseTransform.inverse);
+        this._viewMatrix = viewMatrix;
     }
     /**
      * This 4x4 matrix moves 3D points from world space to viewer space. We
@@ -27317,10 +27332,10 @@ class ViewerPose extends Pose {
 
 
 
-/** Default distance of the near plane to the optical center of the camera */
-const DEFAULT_NEAR = 0.1;
-/** Default distance of the far plane to the optical center of the camera */
-const DEFAULT_FAR = 2000;
+/** Default distance in pixels of the near plane to the optical center of the camera */
+const DEFAULT_NEAR = 1;
+/** Default distance in pixels of the far plane to the optical center of the camera */
+const DEFAULT_FAR = 20000;
 /**
  * A PerspectiveView is a View defining a symmetric frustum around the z-axis
  * (perspective projection)
@@ -27469,7 +27484,7 @@ class Viewer {
         const modelMatrix = pose.transform.matrix;
         const viewMatrix = this._pose.viewMatrix;
         const modelViewMatrix = speedy_vision_default().Matrix(viewMatrix.times(modelMatrix));
-        const transform = RigidTransform.fromMatrix(modelViewMatrix);
+        const transform = new StandardTransform(modelViewMatrix);
         return new Pose(transform);
     }
 }
@@ -27513,11 +27528,6 @@ const USE_TURBO = true;
 const NUMBER_OF_PBOS = 2;
 /** Frame skipping; meaningful only when using turbo */
 const TURBO_SKIP = 2;
-/** An identity transform computed lazily */
-const identityTransform = (() => {
-    let transform = null;
-    return () => (transform = transform || RigidTransform.fromMatrix(speedy_vision_default().Matrix.Eye(4)));
-})();
 /**
  * The tracking state of the Image Tracker tracks
  * keypoints of the image target and updates the
@@ -27729,7 +27739,11 @@ class ImageTrackerTrackingState extends ImageTrackerState {
             //return this._findPolyline(this._warpHomography, this.screenSize);
         }).then(polyline => {
             // we let the target object be at the origin of the world space
-            const pose = new Pose(identityTransform());
+            // (identity transform). We also perform a change of coordinates,
+            // so that we move out from pixel space and into normalized space
+            const modelMatrix = this._camera.denormalizer(); // ~ "identity matrix"
+            const transform = new StandardTransform(modelMatrix);
+            const pose = new Pose(transform);
             // given the current state of the camera model, we get a viewer
             // compatible with the pose of the target
             const viewer = new Viewer(this._camera);
@@ -28783,7 +28797,7 @@ class Martins {
         if (false)
             {}
         else
-            return "0.1.0";
+            return "0.1.1";
     }
     /**
      * Engine edition
