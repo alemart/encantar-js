@@ -4,7 +4,7 @@
 
 **MARTINS.js** is a GPU-accelerated Augmented Reality engine for the web. It's a standalone WebAR technology for creating AR experiences that run in web browsers. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
 
-[Get started with WebAR](./introduction.md){ .md-button .md-button--primary }
+[Learn WebAR](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo/instructions.md){ .md-button }
 
 ## Features
 
@@ -23,8 +23,6 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
 * **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. It's not WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
-
-[Check out my WebAR demos](../demos.md){ .md-button }
 
 ## Browser compatibility
 

@@ -69,7 +69,9 @@ nav:
     - 'Licenses':
       - 'AGPL 3.0': 'license/agpl-3.0.md'
       - 'Polyform Perimeter 1.0.0': 'license/PolyForm-Perimeter-1.0.0-1.md'
-  - 'Demos': 'demos.md'
+  - 'Demos':
+    - 'Demo gallery': 'demos.md'
+    - 'Try it online!': 'demo/instructions.md'
   - 'API':
     - 'General':
       - 'Session': 'api/session.md'

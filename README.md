@@ -4,7 +4,7 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 Get started at <https://alemart.github.io/martins-js/>
 
-![WebAR demo](docs/img/demo-cool3.gif) ![WebAR demo](docs/img/splash.gif)
+![WebAR demo](docs/img/demo-cool3.gif)
 
 MARTINS.js is [dual licensed](#author). It is currently in beta.
 
@@ -15,6 +15,27 @@ Currently supported features:
 * **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
 
 ![WebAR demo](docs/img/demo-aframe.gif) ![WebAR demo](docs/img/demo-hello.gif)
+
+## Try WebAR right now!
+
+1. Scan or tap the QR code below with a mobile device.
+2. A web page will be opened. It's the WebAR experience.
+3. The web page will request access to your webcam. Authorize it.
+4. Scan the cartoon below.
+5. Enjoy! :wink:
+
+> &nbsp;
+> **Guidelines for WebAR:**
+> - WebGL2 and WebAssembly are required. Use a [compatible browser](#browser-compatibility).
+> - Don't move the camera too quickly - it produces motion blur.
+> - The physical environment should be properly illuminated.
+> - Avoid low-quality cameras (cameras of common smartphones are OK).
+> &nbsp;
+
+| Cartoon | QR code |
+| - | - |
+| [![Reference Image](docs/demo/my-reference-image.webp)](docs/demo/my-reference-image.webp) | [![QR code](docs/demo/qr-code.png)](https://alemart.github.io/martins-js/demo/) |
+
 
 ## Why use MARTINS.js?
 
