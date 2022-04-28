@@ -1,0 +1,10 @@
+body {
+    background-color: #3d5afe;
+}
+
+#scan {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.75;
+}
