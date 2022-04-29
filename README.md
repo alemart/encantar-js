@@ -2,9 +2,11 @@
 
 Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web.
 
-Get started at <https://alemart.github.io/martins-js/>
+**Get started at <https://alemart.github.io/martins-js/>**
 
-MARTINS.js is [dual licensed](#author). It is currently in beta.
+MARTINS.js is [developed independently](#author). It is currently in beta.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart)
 
 ## Features
 
