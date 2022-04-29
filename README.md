@@ -31,10 +31,7 @@ Currently supported features:
 > - Avoid low-quality cameras (cameras of common smartphones are OK).
 >
 
-| Cartoon | &nbsp; |
-| - | - |
-| [![Reference Image](docs/demo/my-reference-image.webp)](docs/demo/my-reference-image.webp) | [![QR code](docs/demo/qr-code.png)](https://alemart.github.io/martins-js/demo/) |
-
+[![WebAR demo](docs/demo/reference-image-with-qr-code.webp)](https://alemart.github.io/martins-js/demo/)
 
 ## Why use MARTINS.js?
 

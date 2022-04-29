@@ -19,13 +19,7 @@ title: Try WebAR right now!
     - The physical environment should be properly illuminated.
     - Avoid low-quality cameras (cameras of common smartphones are OK).
 
-## Scan the QR code
-
-[![QR code](qr-code.png){ width=320 }](index.md){ ._blank }
-
-## Scan the cartoon
-
-[![Reference Image](my-reference-image.webp){ width=600 }](my-reference-image.webp){ ._blank }
+[![WebAR demo](reference-image-with-qr-code.webp)](./index.md){ ._blank }
 
 ## Wanna see more?
 
