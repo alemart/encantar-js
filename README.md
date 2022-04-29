@@ -47,7 +47,7 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 
 ## Browser compatibility
 
-This demo is compatible with the latest versions of almost all major web browsers:
+MARTINS.js is compatible with the latest versions of almost all major web browsers:
 
 | Chrome | Edge | Firefox | Opera | Safari |
 | ------ | ---- | ------- | ----- | ------ |
