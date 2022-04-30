@@ -40,11 +40,7 @@ title: WebAR demos
 
 # WebAR demos
 
-Welcome to my demo gallery! Here you'll find some cool examples of what you can do with MARTINS.js. Feel free to adapt my demos and also to study my code.
-
-!!! info "Derivative works"
-
-    The Free Edition of MARTINS.js is included with my demos. Before creating derivative works of my demos, make sure to [pick the right edition for you](./download.md){ ._blank }.
+Welcome to my demo gallery! Here you'll find some cool examples of what you can do with MARTINS.js. Feel free to adapt my demos and also to study my code. The Free Edition of MARTINS.js is included with my demos. Before creating derivative works of my demos, make sure to [pick the right edition for you](./download.md){ ._blank }. If you have any questions, feel free to [reach out](./contact.md){ ._blank }.
 
 ## Free demos
 
@@ -64,9 +60,9 @@ The following free demos will help you get started:
 <a href="https://ko-fi.com/s/25f4038f8b" rel="external" target="_blank">
 
 
-![](./img/demo-webgl.jpg)
+![](./img/logo-webgl.png)
 
-**Render with WebGL (3D)**
+**WebAR with WebGL + MARTINS.js**
 
 </a>
 </div>
@@ -84,7 +80,7 @@ MARTINS.js scans the physical environment, but it doesn't render virtual content
 
 ![](./img/logo-aframe.png "A-Frame logo by Mozilla")
 
-**AFRAME + MARTINS.js**
+**WebAR with AFRAME + MARTINS.js**
 
 </a>
 </div>
@@ -94,7 +90,7 @@ MARTINS.js scans the physical environment, but it doesn't render virtual content
 
 ![](./img/logo-threejs.png "Three.js logo by Mr.doob")
 
-**THREE.js + MARTINS.js**
+**WebAR with THREE.js + MARTINS.js**
 
 </a>
 </div>
@@ -102,7 +98,7 @@ MARTINS.js scans the physical environment, but it doesn't render virtual content
 
 ![](./img/logo-babylonjs.png "Babylon.js logo by David Catuhe")
 
-**BABYLON.js + MARTINS.js (soon)**
+**WebAR with BABYLON.js + MARTINS.js (soon)**
 
 </div>
 </div>
@@ -121,7 +117,7 @@ WebAR can be a lot of fun. More demos coming soon!
 <a href="https://ko-fi.com/s/1d3c7e401c" rel="external" target="_blank">
 
 
-![](./img/demo-interactivity-three.jpg)
+![](./img/logo-threejs.png)
 
 **Touch interaction with THREE.js**
 

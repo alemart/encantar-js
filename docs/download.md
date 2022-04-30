@@ -22,11 +22,11 @@ If you're an individual doing personal experiments, a developer of free and open
 
 ### Is it free of charge?
 
-In a nutshell: it's free of charge if you write free software.
+It's free of charge if your software is also free.
 
 The Free Edition is unsuitable for most commercial users. It's [AGPL](./license/agpl-3.0.md)-licensed: any software written with the Free Edition must be free as well. If you write non-free software, use the Professional Edition instead.
 
-You may use the Professional Edition to create various kinds of commercial, proprietary AR experiences. However, you may not sublicense it nor transfer your license to anyone. Additionally, you may not use it to create any product that competes with this software, not even a "as-a-service" style of product (e.g., SaaS). Please read the [license](./license/PolyForm-Perimeter-1.0.0-1.md) for more information.
+You may use the Professional Edition to create various kinds of commercial, proprietary AR experiences. However, you may not sublicense it nor transfer your license to anyone. Additionally, you may not use it to create any product that competes with this software, including a "as-a-service" style of product (e.g., SaaS). Please read the [license](./license/PolyForm-Perimeter-1.0.0-1.md) for more information.
 
 ### Where can I ask questions?
 
