@@ -492,7 +492,7 @@
   
     <li class="md-nav__item">
       <a href="../getting-started/create-the-augmented-scene/" class="md-nav__link">
-        Create the augmented scene (supporters)
+        Create the augmented scene
       </a>
     </li>
   
@@ -747,15 +747,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#free-demos" class="md-nav__link">
-    Free demos
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#glue-codes" class="md-nav__link">
-    Glue codes
+  <a href="#basic-demos" class="md-nav__link">
+    Basic demos
   </a>
   
 </li>
@@ -763,6 +756,13 @@
         <li class="md-nav__item">
   <a href="#fun-games" class="md-nav__link">
     Fun &amp; games
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-image" class="md-nav__link">
+    Reference image
   </a>
   
 </li>
@@ -790,7 +790,7 @@
   
     <li class="md-nav__item">
       <a href="../demo/instructions/" class="md-nav__link">
-        Try it online!
+        Try WebAR now!
       </a>
     </li>
   
@@ -1694,15 +1694,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#free-demos" class="md-nav__link">
-    Free demos
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#glue-codes" class="md-nav__link">
-    Glue codes
+  <a href="#basic-demos" class="md-nav__link">
+    Basic demos
   </a>
   
 </li>
@@ -1710,6 +1703,13 @@
         <li class="md-nav__item">
   <a href="#fun-games" class="md-nav__link">
     Fun &amp; games
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reference-image" class="md-nav__link">
+    Reference image
   </a>
   
 </li>
@@ -1774,12 +1774,12 @@
 }
 
 .gallery-item:not(.gallery-item-3) img {
-    border-radius: 25px;
+    /*border-radius: 25px;*/
 }
 
 @media screen and (min-width: 600px) {
     .gallery-item {
-        flex-basis: 30%;
+        flex-basis: 80%;
     }
 }
 
@@ -1789,48 +1789,43 @@
         opacity: 0.9;
     }
     .gallery-item:hover {
-        transform: scale(1.1);
+        /*transform: scale(1.1);*/
         opacity: 1.0;
     }
 }
 </style>
 
 <h1 id="webar-demos">WebAR demos</h1>
-<p>Welcome to my demo gallery! Here you'll find some cool examples of what you can do with MARTINS.js. Feel free to adapt my demos and also to study my code. The Free Edition of MARTINS.js is included with my demos. Before creating derivative works of my demos, make sure to <a class="_blank" href="../download/">pick the right edition for you</a>. If you have any questions, feel free to <a class="_blank" href="../contact/">reach out</a>.</p>
-<h2 id="free-demos">Free demos</h2>
+<p>Here you'll find some cool examples of what you can do with MARTINS.js. They are hosted on <a class="_blank" href="https://glitch.com">Glitch</a>: it's easy to remix them. Simply click on a link or scan any of the QR codes below.</p>
+<p>Before creating derivative works of my demos, make sure to <a class="_blank" href="../download/">pick the right edition for you</a>. If you have any questions, feel free to <a class="_blank" href="../contact/">reach out</a>.</p>
+<p><strong>Note:</strong> when using a QR code, scan the <a href="#reference-image">reference image below</a>.</p>
+<h2 id="basic-demos">Basic demos</h2>
 <p>The following free demos will help you get started:</p>
 <div class="gallery-grid">
 <div class="gallery-item">
-<p><a href="https://ko-fi.com/s/058542943d" rel="external" target="_blank"></p>
-<p><img alt="" src="../img/demo-hello.webp" /></p>
-<p><strong>Hello, world!</strong></p>
-<p></a></p>
+<p><img alt="QR code" src="../img/qr-demo-hello-aframe.png" /></p>
+<p><strong>WebAR with MARTINS.js + AFRAME</strong></p>
+<p><a class="_blank" href="https://webar-martins-js-hello-aframe.glitch.me">Launch demo</a> | <a class="_blank" href="https://glitch.com/edit/#!/webar-martins-js-hello-aframe">View code</a></p>
 </div>
 <div class="gallery-item">
-<p><a href="https://ko-fi.com/s/25f4038f8b" rel="external" target="_blank"></p>
-<p><img alt="" src="../img/logo-webgl.png" /></p>
-<p><strong>WebAR with WebGL + MARTINS.js</strong></p>
-<p></a></p>
-</div>
-</div>
-<h2 id="glue-codes">Glue codes</h2>
-<p>MARTINS.js scans the physical environment, but it doesn't render virtual content. Third-party 3D rendering technologies can help you with that. Glue codes link MARTINS.js to different 3D rendering technologies. My glue codes are compatible with both the Free and the Professional Edition of MARTINS.js. A basic demo is included with all of them.</p>
-<div class="gallery-grid">
-<div class="gallery-item">
-<p><a href="https://ko-fi.com/s/24523f7548" rel="external" target="_blank"></p>
-<p><img alt="" src="../img/logo-aframe.png" title="A-Frame logo by Mozilla" /></p>
-<p><strong>WebAR with AFRAME + MARTINS.js</strong></p>
-<p></a></p>
+<p><img alt="QR code" src="../img/qr-demo-hello-three.png" /></p>
+<p><strong>WebAR with MARTINS.js + THREE.js</strong></p>
+<p><a class="_blank" href="https://webar-martins-js-hello-three.glitch.me">Launch demo</a> | <a class="_blank" href="https://glitch.com/edit/#!/webar-martins-js-hello-three">View code</a></p>
 </div>
 <div class="gallery-item">
-<p><a href="https://ko-fi.com/s/eea4077938" rel="external" target="_blank"></p>
-<p><img alt="" src="../img/logo-threejs.png" title="Three.js logo by Mr.doob" /></p>
-<p><strong>WebAR with THREE.js + MARTINS.js</strong></p>
-<p></a></p>
+<p><img alt="QR code" src="../img/qr-demo-hello-webgl.png" /></p>
+<p><strong>WebAR with MARTINS.js + pure WebGL</strong></p>
+<p><a class="_blank" href="https://webar-martins-js-hello-webgl.glitch.me">Launch demo</a> | <a class="_blank" href="https://glitch.com/edit/#!/webar-martins-js-hello-webgl">View code</a></p>
 </div>
 <div class="gallery-item">
 <p><img alt="" src="../img/logo-babylonjs.png" title="Babylon.js logo by David Catuhe" /></p>
-<p><strong>WebAR with BABYLON.js + MARTINS.js (soon)</strong></p>
+<p><strong>WebAR with MARTINS.js + BABYLON.js</strong></p>
+<p>Soon!</p>
+</div>
+<div class="gallery-item">
+<p><img alt="QR code" src="../img/qr-demo-hello-world.png" /></p>
+<p><strong>Hello, world: minimal example</strong></p>
+<p><a class="_blank" href="https://webar-martins-js-hello-world.glitch.me">Launch demo</a> | <a class="_blank" href="https://glitch.com/edit/#!/webar-martins-js-hello-world">View code</a></p>
 </div>
 </div>
 <div class="admonition tip tip">
@@ -1841,12 +1836,13 @@
 <p>WebAR can be a lot of fun. More demos coming soon!</p>
 <div class="gallery-grid">
 <div class="gallery-item">
-<p><a href="https://ko-fi.com/s/1d3c7e401c" rel="external" target="_blank"></p>
-<p><img alt="" src="../img/logo-threejs.png" /></p>
+<p><img alt="QR code" src="../img/qr-demo-interactivity-three.png" /></p>
 <p><strong>Touch interaction with THREE.js</strong></p>
-<p></a></p>
+<p><a class="_blank" href="https://webar-martins-js-interactivity-three.glitch.me">Launch demo</a> | <a class="_blank" href="https://glitch.com/edit/#!/webar-martins-js-interactivity-three">View code</a></p>
 </div>
 </div>
+<h2 id="reference-image">Reference image</h2>
+<p><a class="_blank" href="../assets/my-reference-image.webp"><img alt="Reference image" src="../assets/my-reference-image.webp" /></a></p>
 <h2 id="need-something-else">Need something else?</h2>
 <p>You need a WebAR experience tailored for you, but you are unable to do it yourself. Is that your situation? Feel free to make a request!</p>
 <p><a class="_blank md-button" href="https://ko-fi.com/alemart/commissions">Request a WebAR experience</a></p>
@@ -1880,13 +1876,13 @@
       
       
         
-        <a href="../demo/instructions/" class="md-footer__link md-footer__link--next" aria-label="Next: Try it online!" rel="next">
+        <a href="../demo/instructions/" class="md-footer__link md-footer__link--next" aria-label="Next: Try WebAR now!" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Try it online!
+              Try WebAR now!
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -1946,15 +1942,6 @@
 </div>
       
         <div class="md-social">
-  
-    
-    
-      
-      
-    
-    <a href="https://ko-fi.com/alemart" target="_blank" rel="noopener" title="ko-fi.com" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg>
-    </a>
   
     
     
