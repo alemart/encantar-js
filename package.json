@@ -1,12 +1,12 @@
 {
   "name": "martins-js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "GPU-accelerated Augmented Reality for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
   "homepage": "https://github.com/alemart/martins-js",
   "license": "SEE LICENSE IN LICENSE.md AND LICENSE-PRO.md",
   "repository": "github:alemart/martins-js",
-  "funding": "https://ko-fi.com/alemart",
+  "funding": "https://github.com/sponsors/alemart",
   "keywords": [
     "augmented reality",
     "mixed reality",

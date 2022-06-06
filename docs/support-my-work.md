@@ -8,11 +8,9 @@ Read on to know [how you can support my work](#how-to-become-my-supporter), what
 
 ## How to become my supporter
 
-Thank you for your interest in supporting my work! Please visit my profile on Ko-fi and buy a membership. Ko-fi is a platform for content creators like myself. Users support their favorite content creators through that platform and get special benefits!
+Thank you for your interest in supporting my work! Please support my work with a monthly contribution on GitHub Sponsors. GitHub Sponsors is a platform that helps fund open-source projects such as this one.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart){ ._blank }
-
-Memberships are 100% risk-free: you can cancel yours at any time.
+[:octocat: Support my work on GitHub Sponsors](https://github.com/sponsors/alemart/){ ._blank .md-button .md-button--primary2 }
 
 ## Special benefits for supporters
 
@@ -23,10 +21,6 @@ Here are some key benefits you'll get by being my supporter:
 2. You'll be able to create WebAR experiences for various kinds of **commercial, closed-source endeavors**.
 
 3. You'll get **a warm feeling of well-being** :heart:{ .heart }, knowing that you are a supporter of an open-source initiative that you care about. I speak [a few words about supporting open-source](#why-support-open-source).
-
-## Why memberships?
-
-You will be given access to exciting updates! Memberships help this project be sustainable and are 100% risk-free: you can cancel at anytime. If you cancel your membership, you will no longer receive a license to use newer versions of the Professional Edition. However, you may keep the older releases you previously had. Sounds like a great deal!
 
 ## Why support Open Source?
 
@@ -40,7 +34,7 @@ Developers such as myself sometimes pick strong copyleft licenses like the AGPL[
 
 Far from being merely a moral duty, giving back is a necessity. It's a practical matter that helps you, your business, and the developers thrive. It's a key element that helps the open-source projects you rely on be sustainable; so much so that I see a growing trend towards sustainability in the open-source movement. You too can become part of this virtuous cycle. Doing so will ultimately benefit you too.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart){ ._blank }
+[:octocat: Support my work on GitHub Sponsors](https://github.com/sponsors/alemart/){ ._blank .md-button .md-button--primary2 }
 
 [^1]: A notion that says that users have the freedom to run, copy, distribute, study and modify the software.
 [^2]: GNU Affero General Public License, a copyleft license published by the Free Software Foundation.

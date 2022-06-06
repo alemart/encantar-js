@@ -6,7 +6,10 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 MARTINS.js is [developed independently](#author). It is currently in beta.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart)
+| |
+|-|
+| :octocat: [**Support my work on GitHub Sponsors!**](https://github.com/sponsors/alemart/) |
+| |
 
 ## Features
 

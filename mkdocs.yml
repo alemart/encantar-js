@@ -40,8 +40,6 @@ extra:
     provider: google
     property: G-YDRRYB5GW6
   social:
-    - icon: material/coffee
-      link: https://ko-fi.com/alemart
     - icon: fontawesome/brands/github
       link: https://github.com/alemart
     - icon: fontawesome/brands/youtube
@@ -59,7 +57,7 @@ nav:
       - 'Set up a web server': 'getting-started/set-up-a-web-server.md'
       - 'Set up the tracker': 'getting-started/set-up-the-tracker.md'
       - 'Set up the session': 'getting-started/set-up-the-session.md'
-      - 'Create the augmented scene (supporters)': 'getting-started/create-the-augmented-scene.md'
+      - 'Create the augmented scene': 'getting-started/create-the-augmented-scene.md'
       - 'Activate your webcam': 'getting-started/activate-your-webcam.md'
       - 'Next steps': 'getting-started/next-steps.md'
     - 'Guidelines for Images': 'getting-started/guidelines-for-images.md'
@@ -71,7 +69,7 @@ nav:
       - 'Polyform Perimeter 1.0.0': 'license/PolyForm-Perimeter-1.0.0-1.md'
   - 'Demos':
     - 'Demo gallery': 'demos.md'
-    - 'Try it online!': 'demo/instructions.md'
+    - 'Try WebAR now!': 'demo/instructions.md'
   - 'API':
     - 'General':
       - 'Session': 'api/session.md'
