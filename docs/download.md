@@ -22,7 +22,7 @@ If you're an individual doing personal experiments, a developer of free and open
 
 ### Is it free of charge?
 
-It's free of charge if your software is also free.
+It's free of charge if your software is free.
 
 The Free Edition is unsuitable for most commercial users. It's [AGPL](./license/agpl-3.0.md)-licensed: any software written with the Free Edition must be free as well. If you write non-free software, use the Professional Edition instead.
 
