@@ -17,12 +17,12 @@ title: WebAR demos
 }
 
 .gallery-item:not(.gallery-item-3) img {
-    border-radius: 25px;
+    /*border-radius: 25px;*/
 }
 
 @media screen and (min-width: 600px) {
     .gallery-item {
-        flex-basis: 30%;
+        flex-basis: 80%;
     }
 }
 
@@ -32,7 +32,7 @@ title: WebAR demos
         opacity: 0.9;
     }
     .gallery-item:hover {
-        transform: scale(1.1);
+        /*transform: scale(1.1);*/
         opacity: 1.0;
     }
 }
@@ -40,66 +40,51 @@ title: WebAR demos
 
 # WebAR demos
 
-Welcome to my demo gallery! Here you'll find some cool examples of what you can do with MARTINS.js. Feel free to adapt my demos and also to study my code. The Free Edition of MARTINS.js is included with my demos. Before creating derivative works of my demos, make sure to [pick the right edition for you](./download.md){ ._blank }. If you have any questions, feel free to [reach out](./contact.md){ ._blank }.
+Here you'll find some cool examples of what you can do with MARTINS.js. They are hosted on [Glitch](https://glitch.com){ ._blank }: it's easy to remix them. Simply click on a link or scan any of the QR codes below.
 
-## Free demos
+Before creating derivative works of my demos, make sure to [pick the right edition for you](./download.md){ ._blank }. If you have any questions, feel free to [reach out](./contact.md){ ._blank }.
+
+**Note:** when using a QR code, scan the [reference image below](#reference-image).
+
+## Basic demos
 
 The following free demos will help you get started:
 
 <div class="gallery-grid" markdown>
 <div class="gallery-item" markdown>
-<a href="https://ko-fi.com/s/058542943d" rel="external" target="_blank">
+![QR code](./img/qr-demo-hello-aframe.png)
 
-![](./img/demo-hello.webp)
+**WebAR with MARTINS.js + AFRAME**
 
-**Hello, world!**
-
-</a>
+[Launch demo](https://webar-martins-js-hello-aframe.glitch.me){ ._blank } | [View code](https://glitch.com/edit/#!/webar-martins-js-hello-aframe){ ._blank }
 </div>
 <div class="gallery-item" markdown>
-<a href="https://ko-fi.com/s/25f4038f8b" rel="external" target="_blank">
+![QR code](./img/qr-demo-hello-three.png)
 
+**WebAR with MARTINS.js + THREE.js**
 
-![](./img/logo-webgl.png)
-
-**WebAR with WebGL + MARTINS.js**
-
-</a>
-</div>
-</div>
-
-
-
-## Glue codes
-
-MARTINS.js scans the physical environment, but it doesn't render virtual content. Third-party 3D rendering technologies can help you with that. Glue codes link MARTINS.js to different 3D rendering technologies. My glue codes are compatible with both the Free and the Professional Edition of MARTINS.js. A basic demo is included with all of them.
-
-<div class="gallery-grid" markdown>
-<div class="gallery-item" markdown>
-<a href="https://ko-fi.com/s/24523f7548" rel="external" target="_blank">
-
-![](./img/logo-aframe.png "A-Frame logo by Mozilla")
-
-**WebAR with AFRAME + MARTINS.js**
-
-</a>
+[Launch demo](https://webar-martins-js-hello-three.glitch.me){ ._blank } | [View code](https://glitch.com/edit/#!/webar-martins-js-hello-three){ ._blank }
 </div>
 <div class="gallery-item" markdown>
-<a href="https://ko-fi.com/s/eea4077938" rel="external" target="_blank">
+![QR code](./img/qr-demo-hello-webgl.png)
 
+**WebAR with MARTINS.js + pure WebGL**
 
-![](./img/logo-threejs.png "Three.js logo by Mr.doob")
-
-**WebAR with THREE.js + MARTINS.js**
-
-</a>
+[Launch demo](https://webar-martins-js-hello-webgl.glitch.me){ ._blank } | [View code](https://glitch.com/edit/#!/webar-martins-js-hello-webgl){ ._blank }
 </div>
 <div class="gallery-item" markdown>
-
 ![](./img/logo-babylonjs.png "Babylon.js logo by David Catuhe")
 
-**WebAR with BABYLON.js + MARTINS.js (soon)**
+**WebAR with MARTINS.js + BABYLON.js**
 
+Soon!
+</div>
+<div class="gallery-item" markdown>
+![QR code](./img/qr-demo-hello-world.png)
+
+**Hello, world: minimal example**
+
+[Launch demo](https://webar-martins-js-hello-world.glitch.me){ ._blank } | [View code](https://glitch.com/edit/#!/webar-martins-js-hello-world){ ._blank }
 </div>
 </div>
 
@@ -107,24 +92,24 @@ MARTINS.js scans the physical environment, but it doesn't render virtual content
 
     AFRAME is the easiest choice for non-coders. If you're a coder, all choices are good.
 
-
 ## Fun & games
 
 WebAR can be a lot of fun. More demos coming soon!
 
 <div class="gallery-grid" markdown>
 <div class="gallery-item" markdown>
-<a href="https://ko-fi.com/s/1d3c7e401c" rel="external" target="_blank">
-
-
-![](./img/logo-threejs.png)
+![QR code](./img/qr-demo-interactivity-three.png)
 
 **Touch interaction with THREE.js**
 
-</a>
+[Launch demo](https://webar-martins-js-interactivity-three.glitch.me){ ._blank } | [View code](https://glitch.com/edit/#!/webar-martins-js-interactivity-three){ ._blank }
 </div>
 </div>
 
+
+## Reference image
+
+[![Reference image](./assets/my-reference-image.webp)](./assets/my-reference-image.webp){ ._blank }
 
 
 ## Need something else?
