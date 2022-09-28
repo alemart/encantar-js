@@ -42,13 +42,11 @@ title: WebAR demos
 
 Here you'll find some cool examples of what you can do with MARTINS.js. They are hosted on [Glitch](https://glitch.com){ ._blank }: it's easy to remix them. Simply click on a link or scan any of the QR codes below.
 
-Before creating derivative works of my demos, make sure to [pick the right edition for you](./download.md){ ._blank }. If you have any questions, feel free to [reach out](./contact.md){ ._blank }.
-
-**Note:** when using a QR code, scan the [reference image below](#reference-image).
+**Important:** after opening the web pages, scan the [reference image below](#reference-image).
 
 ## Basic demos
 
-The following free demos will help you get started:
+The following demos will help you get started:
 
 <div class="gallery-grid" markdown>
 <div class="gallery-item" markdown>
@@ -110,10 +108,3 @@ WebAR can be a lot of fun. More demos coming soon!
 ## Reference image
 
 [![Reference image](./assets/my-reference-image.webp)](./assets/my-reference-image.webp){ ._blank }
-
-
-## Need something else?
-
-You need a WebAR experience tailored for you, but you are unable to do it yourself. Is that your situation? Feel free to make a request!
-
-[Request a WebAR experience](https://ko-fi.com/alemart/commissions){ ._blank .md-button }

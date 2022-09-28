@@ -1,5 +1,7 @@
 # Contact
 
-Please ask your questions on [GitHub Discussions](https://github.com/alemart/martins-js/discussions){ ._blank }. Make sure that you search for the answers before requesting help.
+For technical questions, please [open an issue](https://github.com/alemart/martins-js/issues){ ._blank } on GitHub.
 
-[:heart:{ .heart } Support my work](./support-my-work.md){ .md-button }
+For non-technical enquiries, contact me at alemartf at Google's email service dot com.
+
+For requesting a WebAR experience: [commissions open](https://ko-fi.com/alemart/commissions){ ._blank }!

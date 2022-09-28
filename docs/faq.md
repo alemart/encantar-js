@@ -8,7 +8,7 @@ MARTINS is a recursive acronym for MARTINS Augmented Reality Technology for Inte
 
 ## What is WebAR?
 
-Refer to the [concepts](./concepts.md).
+Refer to the [concepts](./getting-started/concepts.md).
 
 ## Is this WebXR?
 
@@ -31,6 +31,20 @@ MARTINS.js is currently compatible with the latest versions of almost all major 
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | - |
 
 At the time of this writing, Safari is not yet compatible. MARTINS.js requires WebGL2 and WebAssembly.
+
+## What about the licensing?
+
+MARTINS.js is dual-licensed. It can be used for free under the [AGPL 3.0](./license/agpl-3.0.md). Any software developed with it must be free software. If you're doing personal experiments, or if you're a student, a hobbyist or a developer of free and open-source software, you may use it for free.
+
+If you intend to use MARTINS.js in a commercial, proprietary software, [get in touch](./contact.md) for a different license.
+
+## How can I contact you?
+
+[Get in touch](./contact.md)!
+
+## How can I support you?
+
+[:heart:{ .heart } Support my work](./support-my-work.md){ .md-button }
 
 ## I love WebAR!
 

@@ -4,7 +4,7 @@
   "description": "GPU-accelerated Augmented Reality for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
   "homepage": "https://github.com/alemart/martins-js",
-  "license": "SEE LICENSE IN LICENSE.md AND LICENSE-PRO.md",
+  "license": "AGPL-3.0-only",
   "repository": "github:alemart/martins-js",
   "funding": "https://github.com/sponsors/alemart",
   "keywords": [
@@ -23,7 +23,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "speedy-vision": "^0.9.0-wip"
+    "speedy-vision": "^0.9.0"
   },
   "devDependencies": {
     "ts-loader": "^9.2.6",

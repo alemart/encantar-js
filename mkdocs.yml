@@ -61,9 +61,9 @@ nav:
       - 'Activate your webcam': 'getting-started/activate-your-webcam.md'
       - 'Next steps': 'getting-started/next-steps.md'
     - 'Guidelines for Images': 'getting-started/guidelines-for-images.md'
-    - 'Questions & Answers': 'getting-started/questions-and-answers.md'
   - 'Download':
     - 'Download': 'download.md'
+    - 'Questions & Answers': 'faq.md'
     - 'Licenses':
       - 'AGPL 3.0': 'license/agpl-3.0.md'
       - 'Polyform Perimeter 1.0.0': 'license/PolyForm-Perimeter-1.0.0-1.md'
@@ -114,7 +114,4 @@ nav:
       - 'SpeedySize': 'api/speedy-size.md'
       - 'SpeedyMatrix': 'api/speedy-matrix.md'
       - 'SpeedyPromise': 'api/speedy-promise.md'
-  - 'Support':
-    - 'Contact': 'contact.md'
-    - 'Support my work': 'support-my-work.md'
-    - 'How to contribute': 'CONTRIBUTING.md'
+  - 'Contact': 'contact.md'

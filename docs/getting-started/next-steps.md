@@ -90,6 +90,6 @@ So far we've just created a static HTML page. Static pages are surprisingly easy
 
 If you came this far in the guide, WebAR probably excites you. It is definitely something you want. I know, it is awesome! The possibilities are endless. Even better than getting your creative juices boiling with enthusiasm is the feeling of joy I have for sharing this work with you.
 
-Do you want more WebAR? Help me bring you more! Creating this WebAR engine has been a **huge** personal effort that required time, skill and highly specialized knowledge. Please support my work, so that I'm able to continue it and make it even more awesome!
+I develop MARTINS.js independently. Creating this WebAR engine required a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
 
 [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }

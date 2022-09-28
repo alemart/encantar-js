@@ -14,7 +14,7 @@ title: Try WebAR right now!
 
 !!! info "Guidelines for WebAR"
 
-    - WebGL2 and WebAssembly are required. Use a [compatible browser](../getting-started/questions-and-answers.md#what-about-browser-compatibility).
+    - WebGL2 and WebAssembly are required. Use a [compatible browser](../faq.md#what-about-browser-compatibility).
     - Don't move the camera too quickly - it produces motion blur.
     - The physical environment should be properly illuminated.
     - Avoid low-quality cameras (cameras of common smartphones are OK).

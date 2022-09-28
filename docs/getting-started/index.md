@@ -36,6 +36,6 @@ At the time of this writing, Safari is not yet compatible. MARTINS.js requires W
 
 ## Author
 
-MARTINS.js is developed by me, [Alexandre Martins](https://github.com/alemart){ ._blank }, a computer scientist from Brazil. This project is dual-licensed. The Free Edition, available to everyone, is licensed under the [AGPL 3.0](../license/agpl-3.0.md). The Professional Edition, available to my supporters, is licensed under the [Polyform Perimeter 1.0.0](../license/PolyForm-Perimeter-1.0.0-1.md).
+MARTINS.js is developed independently by [Alexandre Martins](https://github.com/alemart) and is [dual-licensed](../faq.md#what-about-the-licensing).
 
 [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
