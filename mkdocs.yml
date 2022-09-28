@@ -2,7 +2,7 @@ site_name: "MARTINS.js: GPU-accelerated Augmented Reality for the web"
 site_url: https://alemart.github.io/martins-js
 site_author: Alexandre Martins
 site_description: Create Augmented Reality experiences that run in web browsers. No need to download apps. WebAR technology.
-copyright: Copyright &copy; 2022 Alexandre Martins
+copyright: Copyright &copy; 2022 - present Alexandre Martins
 
 repo_name: alemart/martins-js
 repo_url: https://github.com/alemart/martins-js
@@ -41,7 +41,7 @@ extra:
     property: G-YDRRYB5GW6
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/alemart
+      link: https://github.com/alemart/martins-js
     - icon: fontawesome/brands/youtube
       link: https://youtube.com/alemart88
 

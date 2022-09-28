@@ -18,6 +18,12 @@ Currently supported features:
 
 ![WebAR demo](docs/img/demo-aframe.gif) ![WebAR demo](docs/img/demo-hello.gif)
 
+## Documentation
+
+Full documentation is available at <https://alemart.github.io/martins-js/>.
+
+Cool demos are available at <https://alemart.github.io/martins-js/demos/>.
+
 ## Why use MARTINS.js?
 
 Here is why MARTINS.js is a great choice for creating Augmented Reality experiences:
@@ -27,12 +33,6 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
 * **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. It's not WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
-
-## Documentation
-
-Full documentation is available at <https://alemart.github.io/martins-js/>.
-
-Cool demos are available at <https://alemart.github.io/martins-js/demos/>.
 
 ## Try WebAR right now!
 
@@ -62,3 +62,7 @@ MARTINS.js is compatible with the latest versions of almost all major web browse
 | ✔      | ✔    | ✔       | ✔     | -      |
 
 At the time of this writing, Safari is not yet compatible. MARTINS.js requires WebGL2 and WebAssembly.
+
+## Contact
+
+[Get in touch!](https://alemart.github.io/martins-js/contact)
