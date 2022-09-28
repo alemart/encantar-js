@@ -1,6 +1,6 @@
 # Support my work
 
-My name is Alexandre Martins and I develop this Augmented Reality engine independently. Creating this WebAR engine required a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
+Creating this WebAR engine required a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
 
 * If you want to buy me a coffee, support me on Ko-fi:
 

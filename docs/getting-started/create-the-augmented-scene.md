@@ -34,6 +34,8 @@ I provide easy-to-use glue codes that work with different 3D rendering technolog
 
 [Get the glue codes in my demos](../demos.md){ .md-button ._blank }
 
+[:octocat: Get the glue codes on GitHub](https://github.com/alemart/martins-js/tree/master/dist){ .md-button ._blank }
+
 ## Create the virtual scene
 
 Once you plug in the glue code, you'll be using the 3D rendering technology of your choice to create the virtual scene. The physical scene will be automatically augmented with the virtual scene, thus creating the augmented scene.

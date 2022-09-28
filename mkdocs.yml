@@ -114,4 +114,7 @@ nav:
       - 'SpeedySize': 'api/speedy-size.md'
       - 'SpeedyMatrix': 'api/speedy-matrix.md'
       - 'SpeedyPromise': 'api/speedy-promise.md'
-  - 'Contact': 'contact.md'
+  - 'Contact':
+    - 'Contact': 'contact.md'
+    - 'Support my work': 'support-my-work.md'
+    - 'Contributing': 'CONTRIBUTING.md'
