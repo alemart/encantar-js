@@ -62,4 +62,4 @@ At the time of this writing, Safari is not yet compatible. MARTINS.js requires W
 
 MARTINS.js is developed independently by [Alexandre Martins](https://github.com/alemart) and is [dual-licensed](docs/faq.md#what-about-the-licensing).
 
-See [CONTRIBUTING](CONTRIBUTING.md) for information on how you can contribute.
+See [CONTRIBUTING](./docs/CONTRIBUTING.md) for information on how you can contribute.
