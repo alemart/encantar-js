@@ -1,14 +1,12 @@
 # MARTINS.js WebAR engine
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/martins-js)](https://github.com/alemart/martins-js/releases/)
-![GitHub file size in bytes on a specified ref (branch/commit/tag)](https://img.shields.io/github/size/alemart/martins-js/dist/martins.min.js?branch=master&label=minified%20js)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/martins-js)](https://github.com/alemart/martins-js/releases/) ![GitHub file size in bytes on a specified ref (branch/commit/tag)](https://img.shields.io/github/size/alemart/martins-js/dist/martins.min.js?branch=master&label=minified%20js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/martins-js?logo=github)](https://github.com/alemart/martins-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
 
 Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
 
-MARTINS.js is developed independently by [Alexandre Martins](https://github.com/alemart) and is [dual-licensed](https://alemart.github.io/martins-js/faq#what-about-the-licensing).
+MARTINS.js is developed independently by [Alexandre Martins](https://github.com/alemart) and is [dual-licensed](https://alemart.github.io/martins-js/faq#what-about-the-licensing). It's based on [Speedy Vision](https://github.com/alemart/speedy-vision).
 
 ## Features
 
