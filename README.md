@@ -4,23 +4,25 @@
 
 Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
+[**Try a demo**](#try-webar-right-now) | [**:heart: Support my work!**](https://alemart.github.io/martins-js/support-my-work)
 
-MARTINS.js is developed independently by [Alexandre Martins](https://github.com/alemart) and is [dual-licensed](https://alemart.github.io/martins-js/faq#what-about-the-licensing). It's based on [Speedy Vision](https://github.com/alemart/speedy-vision).
+:man_technologist: MARTINS.js is developed by [Alexandre Martins](https://github.com/alemart) and is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
 
-## Features
+:books: Full documentation is available at <https://alemart.github.io/martins-js/>.
 
-Currently supported features:
+:mailbox: [Contact me](https://github.com/alemart) for freelance work if you're not a developer.
 
-* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
+## What can you do with Web-based Augmented Reality?
 
-![WebAR demo](docs/img/demo-aframe.gif) ![WebAR demo](docs/img/demo-hello.gif)
+Lots of exciting things that run in the web browser!
 
-## Documentation
+* Marketing gimmicks
+* WebAR Games
+* Interactive art
+* Tech demos
+* ...and more!
 
-Full documentation is available at <https://alemart.github.io/martins-js/>.
-
-Cool demos are available at <https://alemart.github.io/martins-js/demos/>.
+[Try a demo!](#try-webar-right-now)
 
 ## Why use MARTINS.js?
 
@@ -29,13 +31,13 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **No need to download apps!** MARTINS.js is a WebAR engine. It runs in web browsers. Users can access the AR experience immediately.
 * **Fast and powerful!** MARTINS.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
 * **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
-* **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. It's not WebXR.
+* **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
 
 ## Try WebAR right now!
 
 1. Scan or tap the QR code below with a mobile device.
-2. A web page will be opened. It's the WebAR experience.
+2. A [web page](https://alemart.github.io/martins-js/demo/) will be opened. It's the WebAR experience.
 3. The web page will request access to your webcam. Authorize it.
 4. Scan the cartoon below.
 5. Enjoy! :wink:
@@ -49,7 +51,15 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 > - Avoid low-quality cameras (cameras of common smartphones are OK).
 >
 
-[![WebAR demo](docs/demo/reference-image-with-qr-code.webp)](https://alemart.github.io/martins-js/demo/)
+[![WebAR demo](https://alemart.github.io/martins-js/demo/reference-image-with-qr-code.webp)](https://alemart.github.io/martins-js/demo/)
+
+Other demos available [here](https://alemart.github.io/martins-js/demos/).
+
+## Features
+
+Currently supported features:
+
+* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
 
 ## Browser compatibility
 
@@ -59,8 +69,10 @@ MARTINS.js is compatible with the latest versions of almost all major web browse
 | ------ | ---- | ------- | ----- | ------ |
 | ✔      | ✔    | ✔       | ✔     | -      |
 
-At the time of this writing, Safari is not yet compatible. MARTINS.js requires WebGL2 and WebAssembly.
+Safari support: coming soon.
 
-## Contact
+MARTINS.js requires WebGL2 and WebAssembly. No need of WebXR.
 
-[Get in touch!](https://alemart.github.io/martins-js/contact)
+## License
+
+Released under the [AGPL 3.0](LICENSE.md). A different license is available if you [support my work](https://alemart.github.io/martins-js/support-my-work).

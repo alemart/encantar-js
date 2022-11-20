@@ -22,29 +22,9 @@ MARTINS.js uses a right-handed coordinate system with the Z-axis pointing "up". 
 
     Fixing the orientation of the model is the preferred solution. However, you can also fix the issue with code: add a node (entity) to the scene graph and make it rotate its children by 90 degrees around the x-axis.
 
-## What about browser compatibility?
-
-MARTINS.js is currently compatible with the latest versions of almost all major web browsers:
-
-| Chrome | Edge | Firefox | Opera | Safari |
-|:------:|:----:|:-------:|:-----:|:------:|
-| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | - |
-
-At the time of this writing, Safari is not yet compatible. MARTINS.js requires WebGL2 and WebAssembly.
-
-## What about the licensing?
-
-MARTINS.js is dual-licensed. It can be used for free under the [AGPL 3.0](./license/agpl-3.0.md). Any software developed with it must be free software. If you're doing personal experiments, or if you're a student, a hobbyist or a developer of free and open-source software, you may use it for free.
-
-If you intend to use MARTINS.js in a commercial, proprietary software, [get in touch](./contact.md) for a different license.
-
 ## How can I contact you?
 
-[Get in touch](./contact.md)!
-
-## How can I support you?
-
-[:heart:{ .heart } Support my work](./support-my-work.md){ .md-button }
+[Get in touch!](https://github.com/alemart)
 
 ## I love WebAR!
 

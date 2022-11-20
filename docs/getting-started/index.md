@@ -4,15 +4,25 @@
 
 **MARTINS.js** is a GPU-accelerated Augmented Reality engine for the web. It's a standalone WebAR technology for creating AR experiences that run in web browsers. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
 
-[Learn WebAR](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo/instructions.md){ .md-button }
+[Learn WebAR](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo/instructions.md){ .md-button } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
 
-## Features
+:man_technologist: MARTINS.js is developed by [Alexandre Martins](https://github.com/alemart) and is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
 
-Currently supported features:
+:books: Full documentation is available at <https://alemart.github.io/martins-js/>.
 
-* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
+:mailbox: [Contact me](https://github.com/alemart) for freelance work if you're not a developer.
 
-![WebAR demo](../img/demo-aframe.gif) ![WebAR demo](../img/demo-hello.gif)
+## What can you do with Web-based Augmented Reality?
+
+Lots of exciting things that run in the web browser!
+
+* Marketing gimmicks
+* WebAR Games
+* Interactive art
+* Tech demos
+* ...and more!
+
+[Try a demo!](../demo/instructions.md)
 
 ## Why use MARTINS.js?
 
@@ -21,8 +31,14 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **No need to download apps!** MARTINS.js is a WebAR engine. It runs in web browsers. Users can access the AR experience immediately.
 * **Fast and powerful!** MARTINS.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
 * **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
-* **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. It's not WebXR.
+* **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
+
+## Features
+
+Currently supported features:
+
+* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
 
 ## Browser compatibility
 
@@ -32,10 +48,10 @@ MARTINS.js is currently compatible with the latest versions of almost all major 
 |:------:|:----:|:-------:|:-----:|:------:|
 | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | - |
 
-At the time of this writing, Safari is not yet compatible. MARTINS.js requires WebGL2 and WebAssembly.
+Safari support: coming soon.
 
-## Author
+MARTINS.js requires WebGL2 and WebAssembly. No need of WebXR.
 
-MARTINS.js is developed independently by [Alexandre Martins](https://github.com/alemart) and is [dual-licensed](../faq.md#what-about-the-licensing).
+## License
 
-[:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
+Released under the [AGPL 3.0](../license/agpl-3.0.md). A different license is available if you [support my work](../support-my-work.md).
