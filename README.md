@@ -8,7 +8,7 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 :man_technologist: MARTINS.js is developed by [Alexandre Martins](https://github.com/alemart) and is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
 
-:books: Full documentation is available at <https://alemart.github.io/martins-js/>.
+:books: Technical documentation is available at <https://alemart.github.io/martins-js/>.
 
 :mailbox: [Contact me](https://github.com/alemart) for freelance work if you're not a developer.
 
