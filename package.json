@@ -1,6 +1,6 @@
 {
   "name": "martins-js",
-  "version": "0.1.2",
+  "version": "0.1.2-wip",
   "description": "GPU-accelerated Augmented Reality for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
   "homepage": "https://github.com/alemart/martins-js",
@@ -23,7 +23,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "speedy-vision": "^0.9.0"
+    "speedy-vision": "alemart/speedy-vision"
   },
   "devDependencies": {
     "ts-loader": "^9.2.6",
