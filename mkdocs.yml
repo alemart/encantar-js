@@ -14,7 +14,7 @@ theme:
   logo: img/martins-icon.png
 
 extra_css: [ 'style/extra.css' ]
-extra_javascript: [ 'js/extra.js' ]
+extra_javascript: [ 'js/extra.js', 'dist/martins.js', 'dist/martins.min.js' ]
 
 markdown_extensions:
   - admonition
