@@ -5,7 +5,7 @@
  * https://github.com/alemart/martins-js
  *
  * @license AGPL-3.0-only
- * Date: 2024-01-09T17:56:51.419Z
+ * Date: 2024-01-10T13:47:03.478Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -30,7 +30,7 @@ return /******/ (() => { // webpackBootstrap
  * https://github.com/alemart/speedy-vision
  *
  * @license Apache-2.0
- * Date: 2024-01-06T03:16:16.840Z
+ * Date: 2024-01-10T13:44:25.122Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
@@ -4729,7 +4729,7 @@ module.exports = "@include \"keypoints.glsl\"\n@include \"int32.glsl\"\n#if !def
 /***/ 2277:
 /***/ ((module) => {
 
-module.exports = "@include \"pyramids.glsl\"\n@include \"float16.glsl\"\n@include \"filters.glsl\"\n#if !defined(USE_LAPLACIAN)\n#error Undefined USE_LAPLACIAN\n#endif\nuniform sampler2D corners;\nuniform sampler2D pyramid;\nuniform float lodStep;\n#if USE_LAPLACIAN\nuniform sampler2D pyrLaplacian;\n#endif\nvoid main()\n{\nivec2 thread = threadLocation();\nvec4 pixel = threadPixel(corners);\nfloat score = decodeFloat16(pixel.rb);\nfloat myEncodedLod = pixel.a;\nfloat lod = decodeLod(myEncodedLod);\nfloat lodPlus = lod + lodStep;\nfloat lodMinus = lod - lodStep;\nfloat pot = exp2(lod);\nfloat potPlus = exp2(lodPlus);\nfloat potMinus = exp2(lodMinus);\ncolor = pixel;\nif(score == 0.0f)\nreturn;\n#define P(p,u,v) textureLod(corners, texCoord + (p) * vec2((u),(v)) / texSize, 0.0f)\nvec4 pix[18];\n#define D(u,v) P(potMinus,(u),(v))\npix[0] = D(-1,-1); pix[1] = D(0,-1); pix[2] = D(1,-1);\npix[3] = D(-1,0); pix[4] = D(0,0); pix[5] = D(1,0);\npix[6] = D(-1,1); pix[7] = D(0,1); pix[8] = D(1,1);\n#define U(u,v) P(potPlus,(u),(v))\npix[9] = U(-1,-1); pix[10] = U(0,-1); pix[11] = U(1,-1);\npix[12] = U(-1,0); pix[13] = U(0,0); pix[14] = U(1,0);\npix[15] = U(-1,1); pix[16] = U(0,1); pix[17] = U(1,1);\nfloat scores[18];\n#define C(j) decodeFloat16(pix[j].rb)\nscores[0] = C(0); scores[1] = C(1); scores[2] = C(2);\nscores[3] = C(3); scores[4] = C(4); scores[5] = C(5);\nscores[6] = C(6); scores[7] = C(7); scores[8] = C(8);\nscores[9] = C(9); scores[10] = C(10); scores[11] = C(11);\nscores[12] = C(12); scores[13] = C(13); scores[14] = C(14);\nscores[15] = C(15); scores[16] = C(16); scores[17] = C(17);\nfloat lods[18];\n#define E(j) decodeLod(pix[j].a)\nlods[0] = E(0); lods[1] = E(1); lods[2] = E(2);\nlods[3] = E(3); lods[4] = E(4); lods[5] = E(5);\nlods[6] = E(6); lods[7] = E(7); lods[8] = E(8);\nlods[9] = E(9); lods[10] = E(10); lods[11] = E(11);\nlods[12] = E(12); lods[13] = E(13); lods[14] = E(14);\nlods[15] = E(15); lods[16] = E(16); lods[17] = E(17);\n#if USE_LAPLACIAN\n#define L(p,u,v) textureLod(pyrLaplacian, texCoord + (p) * vec2((u),(v)) / texSize, 0.0f)\nmat3 strengths[2] = mat3[2](mat3(\n#define Lm(u,v) abs(decodeFloat16(L(potMinus,(u),(v)).xy))\nLm(-1,-1), Lm(0,-1), Lm(1,-1),\nLm(-1,0), Lm(0,0), Lm(1,0),\nLm(-1,1), Lm(0,1), Lm(1,1)\n), mat3(\n#define Lp(u,v) abs(decodeFloat16(L(potPlus,(u),(v)).zw))\nLp(-1,-1), Lp(0,-1), Lp(1,-1),\nLp(-1,0), Lp(0,0), Lp(1,0),\nLp(-1,1), Lp(0,1), Lp(1,1)\n));\nfloat myStrength = abs(laplacian(pyramid, vec2(thread), lod));\n#else\n#define L(u,v) (((v)+1)*3 + ((u)+1))\nmat3 strengths[2] = mat3[2](mat3(\n#define Lm(u,v) scores[L((u),(v))]\nLm(-1,-1), Lm(0,-1), Lm(1,-1),\nLm(-1,0), Lm(0,0), Lm(1,0),\nLm(-1,1), Lm(0,1), Lm(1,1)\n), mat3(\n#define Lp(u,v) scores[9 + L((u),(v))]\nLp(-1,-1), Lp(0,-1), Lp(1,-1),\nLp(-1,0), Lp(0,0), Lp(1,0),\nLp(-1,1), Lp(0,1), Lp(1,1)\n));\nfloat myStrength = score;\n#endif\n#define B(j,lod) float(isSameLod(lods[j], (lod))) * float(scores[j] > 0.0f)\nmat3 nearLod[2] = mat3[2](mat3(\n#define Bm(j) B((j), lodMinus)\nBm(0), Bm(1), Bm(2),\nBm(3), Bm(4), Bm(5),\nBm(6), Bm(7), Bm(8)\n), mat3(\n#define Bp(j) B((j), lodPlus)\nBp(9), Bp(10), Bp(11),\nBp(12), Bp(13), Bp(14),\nBp(15), Bp(16), Bp(17)\n));\nmat3 upStrengths = matrixCompMult(strengths[1], nearLod[1]);\nmat3 downStrengths = matrixCompMult(strengths[0], nearLod[0]);\nvec3 maxUpStrength3 = max(upStrengths[0], max(upStrengths[1], upStrengths[2]));\nvec3 maxDownStrength3 = max(downStrengths[0], max(downStrengths[1], downStrengths[2]));\nvec3 maxStrength3 = max(maxUpStrength3, maxDownStrength3);\nfloat maxStrength = max(maxStrength3.x, max(maxStrength3.y, maxStrength3.z));\ncolor.rb = encodeFloat16(score * step(maxStrength, myStrength));\n}"
+module.exports = "@include \"pyramids.glsl\"\n@include \"float16.glsl\"\n@include \"filters.glsl\"\n#if !defined(USE_LAPLACIAN)\n#error Undefined USE_LAPLACIAN\n#endif\nuniform sampler2D corners;\nuniform sampler2D pyramid;\nuniform float lodStep;\n#if USE_LAPLACIAN\nuniform sampler2D pyrLaplacian;\n#endif\nvoid main()\n{\nivec2 thread = threadLocation();\nvec4 pixel = threadPixel(corners);\nfloat score = decodeFloat16(pixel.rb);\nfloat myEncodedLod = pixel.a;\nfloat lod = decodeLod(myEncodedLod);\nfloat lodPlus = lod + lodStep;\nfloat lodMinus = lod - lodStep;\nfloat pot = exp2(lod);\nfloat potPlus = exp2(lodPlus);\nfloat potMinus = exp2(lodMinus);\ncolor = pixel;\nif(score == 0.0f)\nreturn;\n#define P(p,u,v) textureLod(corners, texCoord + (p) * vec2((u),(v)) / texSize, 0.0f)\nvec4 pix[18];\n#define D(u,v) P(potMinus,(u),(v))\npix[0] = D(-1,-1); pix[1] = D(0,-1); pix[2] = D(1,-1);\npix[3] = D(-1,0); pix[4] = D(0,0); pix[5] = D(1,0);\npix[6] = D(-1,1); pix[7] = D(0,1); pix[8] = D(1,1);\n#define U(u,v) P(potPlus,(u),(v))\npix[9] = U(-1,-1); pix[10] = U(0,-1); pix[11] = U(1,-1);\npix[12] = U(-1,0); pix[13] = U(0,0); pix[14] = U(1,0);\npix[15] = U(-1,1); pix[16] = U(0,1); pix[17] = U(1,1);\nfloat scores[18];\n#define C(j) decodeFloat16(pix[j].rb)\nscores[0] = C(0); scores[1] = C(1); scores[2] = C(2);\nscores[3] = C(3); scores[4] = C(4); scores[5] = C(5);\nscores[6] = C(6); scores[7] = C(7); scores[8] = C(8);\nscores[9] = C(9); scores[10] = C(10); scores[11] = C(11);\nscores[12] = C(12); scores[13] = C(13); scores[14] = C(14);\nscores[15] = C(15); scores[16] = C(16); scores[17] = C(17);\nfloat lods[18];\n#define E(j) decodeLod(pix[j].a)\nlods[0] = E(0); lods[1] = E(1); lods[2] = E(2);\nlods[3] = E(3); lods[4] = E(4); lods[5] = E(5);\nlods[6] = E(6); lods[7] = E(7); lods[8] = E(8);\nlods[9] = E(9); lods[10] = E(10); lods[11] = E(11);\nlods[12] = E(12); lods[13] = E(13); lods[14] = E(14);\nlods[15] = E(15); lods[16] = E(16); lods[17] = E(17);\n#if USE_LAPLACIAN\n#define L(p,u,v) textureLod(pyrLaplacian, texCoord + (p) * vec2((u),(v)) / texSize, 0.0f)\nmat3 strengths[2];\nstrengths[0] = mat3(\n#define Lm(u,v) abs(decodeFloat16(L(potMinus,(u),(v)).xy))\nLm(-1,-1), Lm(0,-1), Lm(1,-1),\nLm(-1,0), Lm(0,0), Lm(1,0),\nLm(-1,1), Lm(0,1), Lm(1,1)\n);\nstrengths[1] = mat3(\n#define Lp(u,v) abs(decodeFloat16(L(potPlus,(u),(v)).zw))\nLp(-1,-1), Lp(0,-1), Lp(1,-1),\nLp(-1,0), Lp(0,0), Lp(1,0),\nLp(-1,1), Lp(0,1), Lp(1,1)\n);\nfloat myStrength = abs(laplacian(pyramid, vec2(thread), lod));\n#else\n#define L(u,v) (((v)+1)*3 + ((u)+1))\nmat3 strengths[2];\nstrengths[0] = mat3(\n#define Lm(u,v) scores[L((u),(v))]\nLm(-1,-1), Lm(0,-1), Lm(1,-1),\nLm(-1,0), Lm(0,0), Lm(1,0),\nLm(-1,1), Lm(0,1), Lm(1,1)\n);\nstrengths[1] = mat3(\n#define Lp(u,v) scores[9 + L((u),(v))]\nLp(-1,-1), Lp(0,-1), Lp(1,-1),\nLp(-1,0), Lp(0,0), Lp(1,0),\nLp(-1,1), Lp(0,1), Lp(1,1)\n);\nfloat myStrength = score;\n#endif\n#define B(j,lod) float(isSameLod(lods[j], (lod))) * float(scores[j] > 0.0f)\nmat3 nearLod[2];\nnearLod[0] = mat3(\n#define Bm(j) B((j), lodMinus)\nBm(0), Bm(1), Bm(2),\nBm(3), Bm(4), Bm(5),\nBm(6), Bm(7), Bm(8)\n);\nnearLod[1] = mat3(\n#define Bp(j) B((j), lodPlus)\nBp(9), Bp(10), Bp(11),\nBp(12), Bp(13), Bp(14),\nBp(15), Bp(16), Bp(17)\n);\nmat3 upStrengths = matrixCompMult(strengths[1], nearLod[1]);\nmat3 downStrengths = matrixCompMult(strengths[0], nearLod[0]);\nvec3 maxUpStrength3 = max(upStrengths[0], max(upStrengths[1], upStrengths[2]));\nvec3 maxDownStrength3 = max(downStrengths[0], max(downStrengths[1], downStrengths[2]));\nvec3 maxStrength3 = max(maxUpStrength3, maxDownStrength3);\nfloat maxStrength = max(maxStrength3.x, max(maxStrength3.y, maxStrength3.z));\ncolor.rb = encodeFloat16(score * step(maxStrength, myStrength));\n}"
 
 /***/ }),
 
@@ -5410,7 +5410,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 /******/ 	var __webpack_module_cache__ = {};
 /******/ 	
 /******/ 	// The require function
-/******/ 	function __nested_webpack_require_312538__(moduleId) {
+/******/ 	function __nested_webpack_require_312600__(moduleId) {
 /******/ 		// Check if module is in cache
 /******/ 		var cachedModule = __webpack_module_cache__[moduleId];
 /******/ 		if (cachedModule !== undefined) {
@@ -5424,7 +5424,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_312538__);
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __nested_webpack_require_312600__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -5434,9 +5434,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__nested_webpack_require_312538__.d = (exports, definition) => {
+/******/ 		__nested_webpack_require_312600__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
-/******/ 				if(__nested_webpack_require_312538__.o(definition, key) && !__nested_webpack_require_312538__.o(exports, key)) {
+/******/ 				if(__nested_webpack_require_312600__.o(definition, key) && !__nested_webpack_require_312600__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
@@ -5445,13 +5445,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
-/******/ 		__nested_webpack_require_312538__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 		__nested_webpack_require_312600__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__nested_webpack_require_312538__.r = (exports) => {
+/******/ 		__nested_webpack_require_312600__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
@@ -5466,18 +5466,18 @@ var __webpack_exports__ = {};
 "use strict";
 
 // EXPORTS
-__nested_webpack_require_312538__.d(__webpack_exports__, {
+__nested_webpack_require_312600__.d(__webpack_exports__, {
   "default": () => (/* binding */ Speedy)
 });
 
 // EXTERNAL MODULE: ./src/gpu/speedy-gl.js
-var speedy_gl = __nested_webpack_require_312538__(7905);
+var speedy_gl = __nested_webpack_require_312600__(7905);
 // EXTERNAL MODULE: ./src/utils/utils.js
-var utils = __nested_webpack_require_312538__(5484);
+var utils = __nested_webpack_require_312600__(5484);
 // EXTERNAL MODULE: ./src/core/settings.js
-var settings = __nested_webpack_require_312538__(3135);
+var settings = __nested_webpack_require_312600__(3135);
 // EXTERNAL MODULE: ./src/core/speedy-promise.js
-var speedy_promise = __nested_webpack_require_312538__(4500);
+var speedy_promise = __nested_webpack_require_312600__(4500);
 ;// CONCATENATED MODULE: ./src/utils/asap.js
 /*
  * speedy-vision.js
@@ -5535,7 +5535,7 @@ function asap(fn, ...params)
     window.postMessage(ASAP_KEY, '*');
 }
 // EXTERNAL MODULE: ./src/utils/errors.js
-var utils_errors = __nested_webpack_require_312538__(3841);
+var utils_errors = __nested_webpack_require_312600__(3841);
 ;// CONCATENATED MODULE: ./src/gpu/speedy-texture-reader.js
 /*
  * speedy-vision.js
@@ -5912,7 +5912,7 @@ class SpeedyTextureReader
     }
 }
 // EXTERNAL MODULE: ./src/utils/globals.js
-var globals = __nested_webpack_require_312538__(3020);
+var globals = __nested_webpack_require_312600__(3020);
 ;// CONCATENATED MODULE: ./src/gpu/speedy-texture.js
 /*
  * speedy-vision.js
@@ -6643,7 +6643,7 @@ class SpeedyDrawableTexture extends SpeedyTexture
     }
 }
 // EXTERNAL MODULE: ./src/gpu/shader-declaration.js + 1 modules
-var shader_declaration = __nested_webpack_require_312538__(9759);
+var shader_declaration = __nested_webpack_require_312600__(9759);
 ;// CONCATENATED MODULE: ./src/gpu/speedy-program.js
 /*
  * speedy-vision.js
@@ -7660,7 +7660,7 @@ class SpeedyProgramGroupUtils extends SpeedyProgramGroup
     }
 }
 // EXTERNAL MODULE: ./src/gpu/shaders/filters/convolution.js
-var convolution = __nested_webpack_require_312538__(6776);
+var convolution = __nested_webpack_require_312600__(6776);
 ;// CONCATENATED MODULE: ./src/gpu/programs/filters.js
 /*
  * speedy-vision.js
@@ -7847,7 +7847,7 @@ class SpeedyProgramGroupFilters extends SpeedyProgramGroup
 }
 
 // EXTERNAL MODULE: ./src/core/speedy-namespace.js
-var speedy_namespace = __nested_webpack_require_312538__(2411);
+var speedy_namespace = __nested_webpack_require_312600__(2411);
 ;// CONCATENATED MODULE: ./src/gpu/speedy-descriptordb.js
 /*
  * speedy-vision.js
@@ -9486,7 +9486,7 @@ class SpeedyTexturePool
     }
 }
 // EXTERNAL MODULE: ./src/utils/types.js
-var types = __nested_webpack_require_312538__(6731);
+var types = __nested_webpack_require_312600__(6731);
 ;// CONCATENATED MODULE: ./src/core/speedy-media-source.js
 /*
  * speedy-vision.js
@@ -10278,7 +10278,7 @@ class SpeedyTextureUploader
     }
 }
 // EXTERNAL MODULE: ./src/utils/observable.js
-var observable = __nested_webpack_require_312538__(9845);
+var observable = __nested_webpack_require_312600__(9845);
 ;// CONCATENATED MODULE: ./src/gpu/speedy-gpu.js
 /*
  * speedy-vision.js
@@ -11223,11 +11223,11 @@ class SpeedyPoint2
     }
 }
 // EXTERNAL MODULE: ./src/core/speedy-matrix-expr.js
-var speedy_matrix_expr = __nested_webpack_require_312538__(5137);
+var speedy_matrix_expr = __nested_webpack_require_312600__(5137);
 // EXTERNAL MODULE: ./src/core/speedy-matrix-wasm.js
-var speedy_matrix_wasm = __nested_webpack_require_312538__(4368);
+var speedy_matrix_wasm = __nested_webpack_require_312600__(4368);
 // EXTERNAL MODULE: ./src/core/speedy-matrix.js
-var speedy_matrix = __nested_webpack_require_312538__(8007);
+var speedy_matrix = __nested_webpack_require_312600__(8007);
 ;// CONCATENATED MODULE: ./src/core/speedy-matrix-factory.js
 /*
  * speedy-vision.js
