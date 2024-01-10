@@ -21,6 +21,7 @@
     "build": "npm run update && npm run clean && webpack --mode production && webpack --mode production --env minimize=1",
     "clean": "rm -rf dist/martins*.js",
     "update": "npm update speedy-vision",
+    "deploy": "mkdocs gh-deploy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
