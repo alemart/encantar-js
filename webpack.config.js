@@ -69,7 +69,7 @@ module.exports = (env, argv) => ({
         https: true,
         host: env.HOST || '0.0.0.0',
         port: env.PORT || 8000,
-        static: ['assets', 'demos', 'tests'].map(dir => ({
+        static: ['demos', 'tests'].map(dir => ({
             directory: path.resolve(__dirname, dir),
             publicPath: `/${dir}/`,
         })),

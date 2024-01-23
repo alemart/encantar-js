@@ -10,30 +10,6 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 :books: Technical documentation is available at <https://alemart.github.io/martins-js/>.
 
-:mailbox: [Contact me](https://github.com/alemart) for freelance work if you're not a developer.
-
-## What can you do with Web-based Augmented Reality?
-
-Lots of exciting things that run in the web browser!
-
-* Marketing gimmicks
-* WebAR Games
-* Interactive art
-* Tech demos
-* ...and more!
-
-[Try a demo!](#try-webar-right-now)
-
-## Why use MARTINS.js?
-
-Here is why MARTINS.js is a great choice for creating Augmented Reality experiences:
-
-* **No need to download apps!** MARTINS.js is a WebAR engine. It runs in web browsers. Users can access the AR experience immediately.
-* **Fast and powerful!** MARTINS.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
-* **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
-* **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
-* **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
-
 ## Try WebAR right now!
 
 1. Scan or tap the QR code below with a mobile device.
@@ -53,7 +29,42 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 
 [![WebAR demo](https://alemart.github.io/martins-js/demo/reference-image-with-qr-code.webp)](https://alemart.github.io/martins-js/demo/)
 
-Other demos available [here](https://alemart.github.io/martins-js/demos/).
+Other demos available [here](https://alemart.github.io/martins-js/gallery/).
+
+## Try in your own machine
+
+Try the demos in your own machine:
+
+1. Run on a console:
+
+```sh
+git clone git@github.com:alemart/martins-js.git
+cd martins-js
+npm start
+```
+
+2. Open https://localhost:8000/demos/
+3. Pick a demo and have fun!
+
+## What can you do with Web-based Augmented Reality?
+
+Lots of exciting things that run in the web browser!
+
+* Marketing gimmicks
+* WebAR Games
+* Interactive art
+* Tech demos
+* ...and more!
+
+## Why use MARTINS.js?
+
+Here is why MARTINS.js is a great choice for creating Augmented Reality experiences:
+
+* **No need to download apps!** MARTINS.js is a WebAR engine. It runs in web browsers. Users can access the AR experience immediately.
+* **Fast and powerful!** MARTINS.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
+* **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
+* **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
+* **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
 
 ## Features
 

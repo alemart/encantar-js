@@ -1,0 +1,33 @@
+MARTINS.js WebAR engine developed by Alexandre Martins (https://github.com/alemart)
+
+MARTINS.js: GPU-accelerated Augmented Reality for the web
+Copyright (c) Alexandre Martins
+https://github.com/alemart/martins-js
+
+Speedy Vision: GPU-accelerated Computer Vision for JavaScript
+Copyright (c) Alexandre Martins
+https://github.com/alemart/speedy-vision
+
+A-Frame: A web framework for building virtual reality experiences
+Copyright (c) A-Frame authors
+https://aframe.io
+
+Babylon.js: a powerful, beautiful, simple, and open game and rendering engine packed into a friendly JavaScript framework
+Copyright (c) Microsoft Corporation and Babylon.js contributors
+https://www.babylonjs.com
+
+Three.js: JavaScript 3D Library
+Copyright (c) Three.js authors
+https://threejs.org
+
+aframe-particle-system-component: Particle systems for A-Frame
+Copyright (c) IdeaSpace
+https://github.com/IdeaSpaceVR/aframe-particle-system-component
+
+ShaderParticleEngine: A GLSL-heavy particle engine for THREE.js
+Copyright (c) Luke Moody (squarefeet)
+https://github.com/squarefeet/ShaderParticleEngine
+
+three-bmfont-text: renders BMFont files in ThreeJS with word-wrapping
+Copyright (c) Jam3 (mattdesl)
+https://github.com/Jam3/three-bmfont-text

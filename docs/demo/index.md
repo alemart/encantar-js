@@ -1,4 +1,4 @@
 ---
-template: demo/index.html
+template: basic_demo.html
 title: ""
 ---

@@ -19,8 +19,8 @@ title: Try WebAR right now!
     - The physical environment should be properly illuminated.
     - Avoid low-quality cameras (cameras of common smartphones are OK).
 
-[![WebAR demo](reference-image-with-qr-code.webp)](./index.md){ ._blank }
+[![WebAR demo](reference-image-with-qr-code.webp "Based on free image by ArtRose from https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/")](./index.md){ ._blank }
 
 ## Wanna see more?
 
-[Check out my WebAR demos](../demos.md){ .md-button }
+[Check out my WebAR demos](../gallery.md){ .md-button }

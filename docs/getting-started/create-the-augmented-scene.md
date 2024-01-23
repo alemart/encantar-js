@@ -34,7 +34,7 @@ I provide easy-to-use glue codes that work with different 3D rendering technolog
 
 [:octocat: Get the glue codes on GitHub](https://github.com/alemart/martins-js/tree/master/dist){ .md-button ._blank }
 
-[Get the glue codes in my demos](../demos.md){ .md-button ._blank }
+[Get the glue codes in my demos](../gallery.md){ .md-button ._blank }
 
 ## Create the virtual scene
 

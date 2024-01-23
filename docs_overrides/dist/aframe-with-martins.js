@@ -1,1 +1,0 @@
-../../dist/aframe-with-martins.js
