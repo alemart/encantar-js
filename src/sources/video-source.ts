@@ -17,24 +17,60 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * video-source.ts
- * <video>-based source of data
+ * HTMLVideoElement-based source of data
  */
 
-import { Utils } from '../utils/utils';
-import { MediaSource } from './media-source';
+import Speedy from 'speedy-vision';
+import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
+import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
+import { Utils, Nullable } from '../utils/utils';
+import { IllegalOperationError } from '../utils/errors';
+import { Source } from './source';
+
 
 /**
- * <video>-based source of data
+ * HTMLVideoElement-based source of data
  */
-export class VideoSource extends MediaSource
+export class VideoSource implements Source
 {
+    /** video element */
+    private _video: HTMLVideoElement;
+
+    /** media source */
+    protected _media: Nullable<SpeedyMedia>;
+
+
+
     /**
      * Constructor
      */
     constructor(video: HTMLVideoElement)
     {
         Utils.assert(video instanceof HTMLVideoElement, 'Expected a video element');
-        super(video);
+
+        this._video = video;
+        this._media = null;
+    }
+
+    /**
+     * A type-identifier of the source of data
+     * @internal
+     */
+    get _type(): string
+    {
+        return 'video';
+    }
+
+    /**
+     * Get media
+     * @internal
+     */
+    get _data(): SpeedyMedia
+    {
+        if(this._media == null)
+            throw new IllegalOperationError(`The media of the source of data isn't loaded`);
+
+        return this._media;
     }
 
     /**
@@ -43,6 +79,40 @@ export class VideoSource extends MediaSource
      */
     get _stats(): string
     {
-        return `${this._size} video`;
+        const media = this._media;
+
+        if(media != null)
+            return `${media.width}x${media.height} video`;
+        else
+            return 'uninitialized video';
+    }
+
+    /**
+     * Initialize this source of data
+     * @returns a promise that resolves as soon as this source of data is initialized
+     * @internal
+     */
+    _init(): SpeedyPromise<void>
+    {
+        this._video.setAttribute('playsinline', '');
+
+        return Speedy.load(this._video).then(media => {
+            Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
+            this._media = media;
+        });
+    }
+
+    /**
+     * Release this source of data
+     * @returns a promise that resolves as soon as this source of data is released
+     * @internal
+     */
+    _release(): SpeedyPromise<void>
+    {
+        if(this._media)
+            this._media.release();
+
+        this._media = null;
+        return Speedy.Promise.resolve();
     }
 }

@@ -17,24 +17,59 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * canvas-source.ts
- * <canvas>-based source of data
+ * HTMLCanvasElement-based source of data
  */
 
-import { Utils } from '../utils/utils';
-import { MediaSource } from './media-source';
+import Speedy from 'speedy-vision';
+import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
+import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
+import { Utils, Nullable } from '../utils/utils';
+import { IllegalOperationError } from '../utils/errors';
+import { Source } from './source';
 
 /**
- * <canvas>-based source of data
+ * HTMLCanvasElement-based source of data
  */
-export class CanvasSource extends MediaSource
+export class CanvasSource implements Source
 {
+    /** canvas element */
+    private _canvas: HTMLCanvasElement;
+
+    /** media source */
+    protected _media: Nullable<SpeedyMedia>;
+
+
+
     /**
      * Constructor
      */
     constructor(canvas: HTMLCanvasElement)
     {
         Utils.assert(canvas instanceof HTMLCanvasElement, 'Expected a canvas element');
-        super(canvas);
+
+        this._canvas = canvas;
+        this._media = null;
+    }
+
+    /**
+     * A type-identifier of the source of data
+     * @internal
+     */
+    get _type(): string
+    {
+        return 'canvas';
+    }
+
+    /**
+     * Get media
+     * @internal
+     */
+    get _data(): SpeedyMedia
+    {
+        if(this._media == null)
+            throw new IllegalOperationError(`The media of the source of data isn't loaded`);
+
+        return this._media;
     }
 
     /**
@@ -43,6 +78,38 @@ export class CanvasSource extends MediaSource
      */
     get _stats(): string
     {
-        return `${this._size} canvas`;
+        const media = this._media;
+
+        if(media != null)
+            return `${media.width}x${media.height} canvas`;
+        else
+            return 'uninitialized canvas';
+    }
+
+    /**
+     * Initialize this source of data
+     * @returns a promise that resolves as soon as this source of data is initialized
+     * @internal
+     */
+    _init(): SpeedyPromise<void>
+    {
+        return Speedy.load(this._canvas).then(media => {
+            Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
+            this._media = media;
+        });
+    }
+
+    /**
+     * Release this source of data
+     * @returns a promise that resolves as soon as this source of data is released
+     * @internal
+     */
+    _release(): SpeedyPromise<void>
+    {
+        if(this._media)
+            this._media.release();
+
+        this._media = null;
+        return Speedy.Promise.resolve();
     }
 }

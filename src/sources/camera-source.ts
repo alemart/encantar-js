@@ -23,7 +23,6 @@
 import Speedy from 'speedy-vision';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { Utils } from '../utils/utils';
 import { Resolution } from '../core/resolution';
 import { NotSupportedError, AccessDeniedError } from '../utils/errors';
@@ -60,7 +59,7 @@ const DEFAULT_CAMERA_OPTIONS: Readonly<Required<CameraSourceOptions>> = {
 export class CameraSource extends VideoSource
 {
     /** Video element */
-    private _video: HTMLVideoElement;
+    private _cameraVideo: HTMLVideoElement;
 
     /** Options of the constructor */
     private _options: Required<CameraSourceOptions>;
@@ -75,7 +74,7 @@ export class CameraSource extends VideoSource
         const video = document.createElement('video');
 
         super(video);
-        this._video = video;
+        this._cameraVideo = video;
         this._options = Object.assign({}, DEFAULT_CAMERA_OPTIONS, options);
     }
 
@@ -85,15 +84,6 @@ export class CameraSource extends VideoSource
     get resolution(): Resolution
     {
         return this._options.resolution;
-    }
-
-    /**
-     * Stats related to this source of data
-     * @internal
-     */
-    get _stats(): string
-    {
-        return `${this._size} webcam`;
     }
 
     /**
@@ -124,14 +114,16 @@ export class CameraSource extends VideoSource
         // load camera stream
         return new Speedy.Promise<HTMLVideoElement>((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                const video = this._video;
+                const video = this._cameraVideo;
                 video.onloadedmetadata = () => {
                     video.play();
                     Utils.log('Access to the webcam has been granted.');
                     resolve(video);
                 };
+                video.setAttribute('playsinline', '');
+                video.setAttribute('autoplay', '');
+                video.setAttribute('muted', '');
                 video.srcObject = stream;
-                video.muted = true;
             }).catch(err => {
                 reject(new AccessDeniedError(
                     'Please give access to the webcam and reload the page.',
@@ -148,13 +140,13 @@ export class CameraSource extends VideoSource
      */
     _release(): SpeedyPromise<void>
     {
-        const stream = this._video.srcObject as MediaStream;
+        const stream = this._cameraVideo.srcObject as MediaStream;
         const tracks = stream.getTracks();
 
         // stop camera feed
         tracks.forEach(track => track.stop());
-        this._video.onloadedmetadata = null;
-        this._video.srcObject = null;
+        this._cameraVideo.onloadedmetadata = null;
+        this._cameraVideo.srcObject = null;
 
         // release the media
         return super._release();

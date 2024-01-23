@@ -5,7 +5,7 @@
  * https://github.com/alemart/martins-js
  *
  * @license AGPL-3.0-only
- * Date: 2024-01-10T13:47:03.478Z
+ * Date: 2024-01-23T23:03:16.650Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -26913,92 +26913,6 @@ class TrackerFactory {
     }
 }
 
-;// CONCATENATED MODULE: ./src/sources/media-source.ts
-/*
- * MARTINS.js Free Edition
- * GPU-accelerated Augmented Reality for the web
- * Copyright (C) 2022  Alexandre Martins <alemartf(at)gmail.com>
- * https://github.com/alemart/martins-js
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- * media-source.ts
- * SpeedyMedia-based source of data
- */
-
-
-
-/**
- * SpeedyMedia-based source of data
- */
-class MediaSource {
-    /**
-     * Constructor
-     */
-    constructor(source) {
-        this._media = null;
-        this._source = source;
-    }
-    /**
-     * A type-identifier of the source of data
-     * @internal
-     */
-    get _type() {
-        return 'video';
-    }
-    /**
-     * Get media
-     * @internal
-     */
-    get _data() {
-        if (this._media == null)
-            throw new IllegalOperationError(`The media of the source of data isn't loaded`);
-        return this._media;
-    }
-    /**
-     * Initialize this source of data
-     * @returns a promise that resolves as soon as this source of data is initialized
-     * @internal
-     */
-    _init() {
-        return speedy_vision_default().load(this._source).then(media => {
-            Utils.log(`Source of data is ${media.width}x${media.height}`);
-            this._media = media;
-        });
-    }
-    /**
-     * Release this source of data
-     * @returns a promise that resolves as soon as this source of data is released
-     * @internal
-     */
-    _release() {
-        if (this._media)
-            this._media.release();
-        this._media = null;
-        return speedy_vision_default().Promise.resolve();
-    }
-    /**
-     * A string featuring the size of the media, in pixels
-     */
-    get _size() {
-        const media = this._media;
-        if (media != null)
-            return `${media.width}x${media.height}`;
-        else
-            return '-';
-    }
-}
-
 ;// CONCATENATED MODULE: ./src/sources/video-source.ts
 /*
  * MARTINS.js Free Edition
@@ -27019,27 +26933,72 @@ class MediaSource {
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * video-source.ts
- * <video>-based source of data
+ * HTMLVideoElement-based source of data
  */
+
 
 
 /**
- * <video>-based source of data
+ * HTMLVideoElement-based source of data
  */
-class VideoSource extends MediaSource {
+class VideoSource {
     /**
      * Constructor
      */
     constructor(video) {
         Utils.assert(video instanceof HTMLVideoElement, 'Expected a video element');
-        super(video);
+        this._video = video;
+        this._media = null;
+    }
+    /**
+     * A type-identifier of the source of data
+     * @internal
+     */
+    get _type() {
+        return 'video';
+    }
+    /**
+     * Get media
+     * @internal
+     */
+    get _data() {
+        if (this._media == null)
+            throw new IllegalOperationError(`The media of the source of data isn't loaded`);
+        return this._media;
     }
     /**
      * Stats related to this source of data
      * @internal
      */
     get _stats() {
-        return `${this._size} video`;
+        const media = this._media;
+        if (media != null)
+            return `${media.width}x${media.height} video`;
+        else
+            return 'uninitialized video';
+    }
+    /**
+     * Initialize this source of data
+     * @returns a promise that resolves as soon as this source of data is initialized
+     * @internal
+     */
+    _init() {
+        this._video.setAttribute('playsinline', '');
+        return speedy_vision_default().load(this._video).then(media => {
+            Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
+            this._media = media;
+        });
+    }
+    /**
+     * Release this source of data
+     * @returns a promise that resolves as soon as this source of data is released
+     * @internal
+     */
+    _release() {
+        if (this._media)
+            this._media.release();
+        this._media = null;
+        return speedy_vision_default().Promise.resolve();
     }
 }
 
@@ -27063,27 +27022,71 @@ class VideoSource extends MediaSource {
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * canvas-source.ts
- * <canvas>-based source of data
+ * HTMLCanvasElement-based source of data
  */
+
 
 
 /**
- * <canvas>-based source of data
+ * HTMLCanvasElement-based source of data
  */
-class CanvasSource extends MediaSource {
+class CanvasSource {
     /**
      * Constructor
      */
     constructor(canvas) {
         Utils.assert(canvas instanceof HTMLCanvasElement, 'Expected a canvas element');
-        super(canvas);
+        this._canvas = canvas;
+        this._media = null;
+    }
+    /**
+     * A type-identifier of the source of data
+     * @internal
+     */
+    get _type() {
+        return 'canvas';
+    }
+    /**
+     * Get media
+     * @internal
+     */
+    get _data() {
+        if (this._media == null)
+            throw new IllegalOperationError(`The media of the source of data isn't loaded`);
+        return this._media;
     }
     /**
      * Stats related to this source of data
      * @internal
      */
     get _stats() {
-        return `${this._size} canvas`;
+        const media = this._media;
+        if (media != null)
+            return `${media.width}x${media.height} canvas`;
+        else
+            return 'uninitialized canvas';
+    }
+    /**
+     * Initialize this source of data
+     * @returns a promise that resolves as soon as this source of data is initialized
+     * @internal
+     */
+    _init() {
+        return speedy_vision_default().load(this._canvas).then(media => {
+            Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
+            this._media = media;
+        });
+    }
+    /**
+     * Release this source of data
+     * @returns a promise that resolves as soon as this source of data is released
+     * @internal
+     */
+    _release() {
+        if (this._media)
+            this._media.release();
+        this._media = null;
+        return speedy_vision_default().Promise.resolve();
     }
 }
 
@@ -27129,7 +27132,7 @@ class CameraSource extends VideoSource {
     constructor(options) {
         const video = document.createElement('video');
         super(video);
-        this._video = video;
+        this._cameraVideo = video;
         this._options = Object.assign({}, DEFAULT_CAMERA_OPTIONS, options);
     }
     /**
@@ -27137,13 +27140,6 @@ class CameraSource extends VideoSource {
      */
     get resolution() {
         return this._options.resolution;
-    }
-    /**
-     * Stats related to this source of data
-     * @internal
-     */
-    get _stats() {
-        return `${this._size} webcam`;
     }
     /**
      * Initialize this source of data
@@ -27165,14 +27161,16 @@ class CameraSource extends VideoSource {
         // load camera stream
         return new (speedy_vision_default()).Promise((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                const video = this._video;
+                const video = this._cameraVideo;
                 video.onloadedmetadata = () => {
                     video.play();
                     Utils.log('Access to the webcam has been granted.');
                     resolve(video);
                 };
+                video.setAttribute('playsinline', '');
+                video.setAttribute('autoplay', '');
+                video.setAttribute('muted', '');
                 video.srcObject = stream;
-                video.muted = true;
             }).catch(err => {
                 reject(new AccessDeniedError('Please give access to the webcam and reload the page.', err));
             });
@@ -27184,12 +27182,12 @@ class CameraSource extends VideoSource {
      * @internal
      */
     _release() {
-        const stream = this._video.srcObject;
+        const stream = this._cameraVideo.srcObject;
         const tracks = stream.getTracks();
         // stop camera feed
         tracks.forEach(track => track.stop());
-        this._video.onloadedmetadata = null;
-        this._video.srcObject = null;
+        this._cameraVideo.onloadedmetadata = null;
+        this._cameraVideo.srcObject = null;
         // release the media
         return super._release();
     }
