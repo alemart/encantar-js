@@ -17,7 +17,7 @@ body {
     border: 0;
     font-size: 36px;
     color: #fff;
-    background: none;
+    background: rgba(61, 90, 254, 0.8);
 
     position: absolute;
     right: 0;
