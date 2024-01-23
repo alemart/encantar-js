@@ -1,10 +1,10 @@
-/*
+/**
+ * @file MARTINS.js WebAR demo using pure WebGL
+ * @version 1.0.2
+ * @author Alexandre Martins (https://github.com/alemart)
+ * @license AGPL-3.0
+ */
 
-This demo is rendered using WebGL code
-
-Check the MARTINS.js code below!
-
-*/
 
 
 /*
@@ -936,7 +936,10 @@ window.addEventListener('load', async function() {
             hudContainer: document.getElementById('ar-hud')
         });
 
-        const source = Martins.Source.Camera({
+        //const useWebcam = true;
+        const useWebcam = (location.search.substr(1) == 'webcam');
+        const video = document.getElementById('my-video');
+        const source = !useWebcam ? Martins.Source.Video(video) : Martins.Source.Camera({
             resolution: 'md'
         });
 
@@ -965,4 +968,22 @@ window.addEventListener('load', async function() {
 
         return session;
     }
+});
+
+// Toggle webcam
+window.addEventListener('load', () => {
+    const page = location.href.replace(/\?.*$/, '');
+    const usingWebcam = (location.search.substr(1) == 'webcam');
+    const button = document.getElementById('toggle-webcam');
+
+    if(!button)
+        return;
+
+    button.innerHTML = usingWebcam ? '&#x1F39E' : '&#x1F3A5';
+    button.addEventListener('click', () => {
+        if(usingWebcam)
+            location.href = page;
+        else
+            location.href = page + '?webcam';
+    });
 });

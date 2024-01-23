@@ -1,13 +1,13 @@
 /**
  * @file MARTINS.js & AFRAME glue code
- * @version 1.0.1
+ * @version 1.0.2
  * @author Alexandre Martins (https://github.com/alemart)
- * @license AGPL-3.0-only or PolyForm-Perimeter-1.0.0
+ * @license AGPL-3.0
  */
 
 /* Usage of the indicated versions is encouraged */
 __THIS_GLUE_CODE_HAS_BEEN_TESTED_WITH__({
-    'MARTINS.js': { version: '0.1.1' },
+    'MARTINS.js': { version: '0.1.2' },
         'AFRAME': { version: '1.3.0' }
 });
 
