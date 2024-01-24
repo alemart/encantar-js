@@ -31,9 +31,9 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 Other demos available [here](https://alemart.github.io/martins-js/gallery/).
 
-## Try in your own machine
+## Try locally
 
-Try the demos in your own machine:
+Try the demos on your own machine:
 
 1. Run on a console:
 
@@ -48,7 +48,7 @@ npm start
 
 ## What can you do with Web-based Augmented Reality?
 
-Lots of exciting things that run in the web browser!
+Lots of exciting things that run in the web browser! No need to install apps!
 
 * Marketing gimmicks
 * WebAR Games

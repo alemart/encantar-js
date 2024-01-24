@@ -23,4 +23,4 @@ title: Try WebAR right now!
 
 ## Wanna see more?
 
-[Check out my WebAR demos](../gallery.md){ .md-button }
+[Demo gallery](../gallery.md){ .md-button .md-button--primary }

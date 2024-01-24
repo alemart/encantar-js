@@ -1,5 +1,5 @@
 ---
-title: WebAR demos
+title: WebAR Demo gallery
 ---
 
 <style>
@@ -39,7 +39,7 @@ title: WebAR demos
 }
 </style>
 
-# WebAR demos
+# WebAR Demo gallery
 
 Here you'll find some cool examples of what you can do with MARTINS.js. Simply click on a link or scan any of the QR codes below. After opening the web pages, scan the [target image](#target-image). In addition, please read the [guidelines](#guidelines).
 
@@ -109,6 +109,21 @@ You can use a webcam or a video file as input. Click on the 🎥 icon at the top
 * The target image should appear clearly in the video.
 * If you're scanning the image on a screen, make sure to adjust the brightness. If the screen is too bright (too dark), it will cause overexposure (underexposure) in the video and tracking difficulties - details of the images will be lost. Screen reflections are also undesirable.
 * If you print the image, avoid shiny materials (e.g., glossy paper). They may generate artifacts in the image and interfere with the tracking. Prefer non-reflective materials.
+
+## Try locally
+
+Try the demos on your own machine:
+
+1. Run on a console:
+
+```sh
+git clone git@github.com:alemart/martins-js.git
+cd martins-js
+npm start
+```
+
+2. Open [https://localhost:8000/demos/](https://localhost:8000/demos/)
+3. Pick a demo and have fun!
 
 ## Target image
 

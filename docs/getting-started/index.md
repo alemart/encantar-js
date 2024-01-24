@@ -2,19 +2,17 @@
 
 <iframe src="https://ghbtns.com/github-btn.html?user=alemart&repo=martins-js&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe> <iframe src="https://ghbtns.com/github-btn.html?user=alemart&repo=martins-js&type=watch&count=true&size=large&v=2" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 
-**MARTINS.js** is a GPU-accelerated Augmented Reality engine for the web. It's a standalone WebAR technology for creating AR experiences that run in web browsers. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
+Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
 
-[Learn WebAR](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo/instructions.md){ .md-button } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
+[Try a demo](../demo/instructions.md){ .md-button .md-button--primary } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
 
 :man_technologist: MARTINS.js is developed by [Alexandre Martins](https://github.com/alemart) and is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
 
-:books: Full documentation is available at <https://alemart.github.io/martins-js/>.
-
-:mailbox: [Contact me](https://github.com/alemart) for freelance work if you're not a developer.
+:books: Technical documentation is available at <https://alemart.github.io/martins-js/>.
 
 ## What can you do with Web-based Augmented Reality?
 
-Lots of exciting things that run in the web browser!
+Lots of exciting things that run in the web browser! No need to install apps!
 
 * Marketing gimmicks
 * WebAR Games
@@ -22,7 +20,7 @@ Lots of exciting things that run in the web browser!
 * Tech demos
 * ...and more!
 
-[Try a demo!](../demo/instructions.md)
+[WebAR Crash Course](./introduction.md){ .md-button .md-button--primary } [Demo gallery](../gallery.md){ .md-button }
 
 ## Why use MARTINS.js?
 
@@ -42,7 +40,7 @@ Currently supported features:
 
 ## Browser compatibility
 
-MARTINS.js is currently compatible with the latest versions of almost all major web browsers:
+MARTINS.js is compatible with the latest versions of almost all major web browsers:
 
 | Chrome | Edge | Firefox | Opera | Safari |
 |:------:|:----:|:-------:|:-----:|:------:|
