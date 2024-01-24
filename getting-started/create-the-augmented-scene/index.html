@@ -1615,19 +1615,24 @@
 <p>Once you pick a 3D rendering technology, you need to integrate it with MARTINS.js. There is a code that is responsible for that integration. I call it a <em>glue code</em>. Among other things, a glue code transports the tracking results from MARTINS.js to the 3D rendering technology of your choice - it really is a "glue" connecting them.</p>
 <h2 id="write-the-glue-code">Write the glue code</h2>
 <p>Writing a glue code is a task of moderate complexity. It requires dealing with matrices, with performance issues, and with some idiosyncrasies of the 3D rendering technologies in order to make sure it all works as intended. It is advisable to have specialized knowledge of computer graphics programming in order to write a glue code that works correctly.</p>
-<p>I provide easy-to-use glue codes that work with different 3D rendering technologies in my demos, so that you don't need to deal with the complexity. Those glue codes are JavaScript (.js) files. You just need to add a glue code to your web page (e.g., via a <code>&lt;script&gt;</code> tag) and then the integration will be done for you. It's really that simple! Also, my glue codes may be used in both free and non-free projects.</p>
-<p><a class="md-button _blank" href="https://github.com/alemart/martins-js/tree/master/dist"><img alt=":octocat:" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/octocat.png" title=":octocat:" /> Get the glue codes on GitHub</a></p>
-<p><a class="md-button _blank" href="../../gallery/">Get the glue codes in my demos</a></p>
+<p>I provide easy-to-use glue codes that work with different 3D rendering technologies in my demos, so that you don't need to deal with the complexity. Those glue codes are JavaScript (.js) files. You just need to add a glue code to your web page (e.g., via a <code>&lt;script&gt;</code> tag) and then the integration will be done for you. It's really that simple!</p>
+<p><a class="md-button _blank" href="../../gallery/">Find the glue codes in my demos</a></p>
 <h2 id="create-the-virtual-scene">Create the virtual scene</h2>
 <p>Once you plug in the glue code, you'll be using the 3D rendering technology of your choice to create the virtual scene. The physical scene will be automatically augmented with the virtual scene, thus creating the augmented scene.</p>
 <figure>
-<video autoplay="autoplay" controls="controls" loop="loop" muted="muted" oncanplay="this.muted=true;this.play()" playsinline="playsinline" poster="../../img/demo-cool2.webp" src="../../img/demo-cool2.webm" style="width:600px"></video>
+<video autoplay="autoplay" controls="controls" loop="loop" muted="muted" oncanplay="this.muted=true;this.play()" playsinline="playsinline" poster="../../img/demo-cool2.webp" style="width:600px">
+    <source src="../../img/demo-cool2.webm" type="video/webm" />
+    <source src="../../img/demo-cool2.mp4" type="video/mp4" />
+</video>
 <figcaption>
 <p>An augmented scene with a <a href="../../assets/my-3d-model.glb" title="A public domain 3D model from Kenney, converted to glTF format">3D model</a> from <a class="_blank" href="https://www.kenney.nl">Kenney</a></p>
 </figcaption>
 </figure>
 <figure>
-<video autoplay="autoplay" controls="controls" loop="loop" muted="muted" oncanplay="this.muted=true;this.play()" playsinline="playsinline" poster="../../img/demo-cool.webp" src="../../img/demo-cool.webm" style="width:600px"></video>
+<video autoplay="autoplay" controls="controls" loop="loop" muted="muted" oncanplay="this.muted=true;this.play()" playsinline="playsinline" poster="../../img/demo-cool.webp" style="width:600px">
+    <source src="../../img/demo-cool.webm" type="video/webm" />
+    <source src="../../img/demo-cool.mp4" type="video/mp4" />
+</video>
 <figcaption>
 <p>A similar augmented scene viewed from a different perspective</p>
 </figcaption>
@@ -1652,25 +1657,28 @@
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;ar-viewport&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-reference-image&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-reference-image.webp&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.webm&quot;</span> <span class="na">hidden</span> <span class="na">muted</span> <span class="na">loop</span> <span class="na">playsinline</span> <span class="na">autoplay</span> <span class="na">oncanplay</span><span class="o">=</span><span class="s">&quot;this.muted=true;this.play()&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="hll">        <span class="cm">&lt;!-- This is a scene --&gt;</span>
-</span><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">ar-scene</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">a-camera</span> <span class="na">ar-camera</span><span class="p">&gt;&lt;/</span><span class="nt">a-camera</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="hll">
-</span><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="hll">            <span class="cm">&lt;!-- Whatever you add to &lt;ar-root&gt; will appear in AR --&gt;</span>
-</span><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">ar-root</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="hll">                <span class="p">&lt;</span><span class="nt">a-entity</span> <span class="na">gltf-model</span><span class="o">=</span><span class="s">&quot;#my-3d-model&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a-entity</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="hll">            <span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="hll">
-</span><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="hll">            <span class="cm">&lt;!-- Declare external media files here --&gt;</span>
-</span><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">a-assets</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="hll">                <span class="p">&lt;</span><span class="nt">a-asset-item</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-3d-model&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-3d-model.glb&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a-asset-item</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="hll">            <span class="p">&lt;/</span><span class="nt">a-assets</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="hll">        <span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
-</span><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
-<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">hidden</span> <span class="na">muted</span> <span class="na">loop</span> <span class="na">playsinline</span> <span class="na">autoplay</span> <span class="na">oncanplay</span><span class="o">=</span><span class="s">&quot;this.muted=true;this.play()&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>            <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.webm&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/webm&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span> <span class="p">/&gt;</span>
+</span><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="hll">        <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+</span><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="hll">
+</span><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="hll">        <span class="cm">&lt;!-- This is a scene --&gt;</span>
+</span><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">ar-scene</span><span class="p">&gt;</span>
+</span><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">a-camera</span> <span class="na">ar-camera</span><span class="p">&gt;&lt;/</span><span class="nt">a-camera</span><span class="p">&gt;</span>
+</span><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="hll">
+</span><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="hll">            <span class="cm">&lt;!-- Whatever you add to &lt;ar-root&gt; will appear in AR --&gt;</span>
+</span><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+</span><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="hll">                <span class="p">&lt;</span><span class="nt">a-entity</span> <span class="na">gltf-model</span><span class="o">=</span><span class="s">&quot;#my-3d-model&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a-entity</span><span class="p">&gt;</span>
+</span><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="hll">            <span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+</span><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="hll">
+</span><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="hll">            <span class="cm">&lt;!-- Declare external media files here --&gt;</span>
+</span><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">a-assets</span><span class="p">&gt;</span>
+</span><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>                <span class="p">&lt;</span><span class="nt">a-asset-item</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-3d-model&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-3d-model.glb&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a-asset-item</span><span class="p">&gt;</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>            <span class="p">&lt;/</span><span class="nt">a-assets</span><span class="p">&gt;</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>        <span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <p><code>&lt;ar-root&gt;</code> is not part of A-Frame, but it becomes available as soon as you plug in my glue code.</p>
 <p>A-Frame lets you create animated scenes with special effects simply by declaring things, like in the above example. In many cases, writing new JavaScript code is not needed. A-Frame also includes a visual inspector that makes things really easy for non-coders.</p>

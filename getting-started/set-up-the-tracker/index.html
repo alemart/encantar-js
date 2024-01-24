@@ -1601,9 +1601,11 @@
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <h2 id="add-a-test-video">Add a test video</h2>
-<p>We're going to be tracking that reference image in a test video. Please save the following video as <a class="_blank" href="../../assets/my-video.webm">my-video.webm</a> in <code>ar-demo/</code>. Later on I'll tell you how to use your webcam instead.</p>
+<p>We're going to be tracking that reference image in a test video. Please save the following video as <a class="_blank" href="../../assets/my-video.webm">my-video.webm</a> and <a class="_blank" href="../../assets/my-video.mp4">my-video.mp4</a> in <code>ar-demo/</code>. Later on I'll tell you how to use your webcam instead.</p>
 <figure>
-<video autoplay="autoplay" controls="controls" loop="loop" muted="muted" oncanplay="this.muted=true;this.play()" playsinline="playsinline" src="../../assets/my-video.webm" style="width:600px">
+<video autoplay="autoplay" controls="controls" loop="loop" muted="muted" oncanplay="this.muted=true;this.play()" playsinline="playsinline" style="width:600px">
+    <source src="../../assets/my-video.webm" type="video/webm" />
+    <source src="../../assets/my-video.mp4" type="video/mp4" />
 </video>
 </figure>
 <p>This is the expected directory structure at this point:</p>
@@ -1611,6 +1613,7 @@
 ├── index.html
 ├── martins.js
 ├── my-reference-image.webp
+├── my-video.mp4
 └── my-video.webm
 </code></pre></div>
 <p>Let's include the test video in our page. Add a <code>&lt;video&gt;</code> tag as follows:</p>
@@ -1625,9 +1628,12 @@
 <a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
 <a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-reference-image&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-reference-image.webp&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.webm&quot;</span> <span class="na">hidden</span> <span class="na">muted</span> <span class="na">loop</span> <span class="na">playsinline</span> <span class="na">autoplay</span> <span class="na">oncanplay</span><span class="o">=</span><span class="s">&quot;this.muted=true;this.play()&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
-</span><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">hidden</span> <span class="na">muted</span> <span class="na">loop</span> <span class="na">playsinline</span> <span class="na">autoplay</span> <span class="na">oncanplay</span><span class="o">=</span><span class="s">&quot;this.muted=true;this.play()&quot;</span><span class="p">&gt;</span>
+</span><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>            <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.webm&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/webm&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>            <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>        <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <h2 id="instantiate-an-image-tracker">Instantiate an Image Tracker</h2>
 <p>In order to track the reference image in our video, we need an Image Tracker. Remember that a tracker is a subsystem of the WebAR engine that analyzes input data in some way. An Image Tracker is a tracker that finds and tracks reference images in a video stream.</p>
@@ -1645,9 +1651,12 @@
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
 <a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
 <a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-reference-image&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-reference-image.webp&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.webm&quot;</span> <span class="na">hidden</span> <span class="na">muted</span> <span class="na">loop</span> <span class="na">playsinline</span> <span class="na">autoplay</span> <span class="na">oncanplay</span><span class="o">=</span><span class="s">&quot;this.muted=true;this.play()&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">hidden</span> <span class="na">muted</span> <span class="na">loop</span> <span class="na">playsinline</span> <span class="na">autoplay</span> <span class="na">oncanplay</span><span class="o">=</span><span class="s">&quot;this.muted=true;this.play()&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>            <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.webm&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/webm&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>            <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>        <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>Create a new file called <code>ar-demo.js</code> and store it in the <code>ar-demo/</code> folder. Write the following contents to it:</p>
 <div class="highlight"><span class="filename">ar-demo.js</span><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="k">async</span> <span class="kd">function</span><span class="p">()</span>
@@ -1675,6 +1684,7 @@
 ├── index.html
 ├── martins.js
 ├── my-reference-image.webp
+├── my-video.mp4
 └── my-video.webm
 </code></pre></div>
 <h2 id="link-the-image-to-the-tracker">Link the image to the tracker</h2>

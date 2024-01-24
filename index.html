@@ -339,7 +339,10 @@
             <a href="demo/instructions" class="md-button">Try a demo</a>
         </div>
         <div class="splash-image">
-            <video src="img/splash.webm" poster="img/splash.webp" muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+            <video poster="img/splash.webp" muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+                <source src="img/splash.webm" type="video/webm" />
+                <source src="img/splash.mp4" type="video/mp4" />
+            </video>
         </div>
     </div>
 </section>
