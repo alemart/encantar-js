@@ -115,7 +115,10 @@
             <a href="{{ './demo/instructions' | url }}" class="md-button">Try a demo</a>
         </div>
         <div class="splash-image">
-            <video src="{{ './img/splash.webm' | url }}" poster="{{ './img/splash.webp' | url }}" muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+            <video poster="{{ './img/splash.webp' | url }}" muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+                <source src="{{ './img/splash.webm' | url }}" type="video/webm" />
+                <source src="{{ './img/splash.mp4' | url }}" type="video/mp4" />
+            </video>
         </div>
     </div>
 </section>

@@ -60,7 +60,10 @@ Let's also comment (or remove) the `<video>` tag from the HTML file - we no long
         <div id="ar-viewport"></div>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
         <!--
-        <video id="my-video" src="my-video.webm" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+            <source src="my-video.webm" type="video/webm" />
+            <source src="my-video.mp4" type="video/mp4" />
+        </video>
         -->
     </body>
 </html>
@@ -139,7 +142,10 @@ In order to display that scan gimmick, we need to create a HUD. A HUD is an over
         </div>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
         <!--
-        <video id="my-video" src="my-video.webm" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+            <source src="my-video.webm" type="video/webm" />
+            <source src="my-video.mp4" type="video/mp4" />
+        </video>
         -->
     </body>
 </html>

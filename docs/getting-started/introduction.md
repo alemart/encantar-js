@@ -5,7 +5,10 @@ Augmented Reality (AR) has applications in many fields, including: games, market
 Traditionally, users were required to download (sometimes large) apps to experience AR. That was an obstacle for adoption. What if we dropped the need for apps and just required a web browser instead? Users already have web browsers! That's where WebAR comes in.
 
 <figure markdown>
-<video src="../../img/demo-cool.webm" poster="../../img/demo-cool.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+<video poster="../../img/demo-cool.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+    <source src="../../img/demo-cool.webm" type="video/webm" />
+    <source src="../../img/demo-cool.mp4" type="video/mp4" />
+</video>
 <figcaption>A WebAR demo created with MARTINS.js</figcaption>
 </figure>
 
@@ -16,7 +19,10 @@ We will create together an Augmented Reality experience that runs in web browser
 No matter if you are a beginner, an expert, or somewhere in-between, set yourself at ease: this step-by-step guide can be followed by you.
 
 <figure markdown>
-<video src="../../img/demo-cool3.webm" poster="../../img/demo-cool3.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+<video poster="../../img/demo-cool3.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+    <source src="../../img/demo-cool3.webm" type="video/webm" />
+    <source src="../../img/demo-cool3.mp4" type="video/mp4" />
+</video>
 <figcaption>Augmented Reality based on Image Tracking</figcaption>
 </figure>
 

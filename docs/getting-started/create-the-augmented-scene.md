@@ -30,23 +30,27 @@ Once you pick a 3D rendering technology, you need to integrate it with MARTINS.j
 
 Writing a glue code is a task of moderate complexity. It requires dealing with matrices, with performance issues, and with some idiosyncrasies of the 3D rendering technologies in order to make sure it all works as intended. It is advisable to have specialized knowledge of computer graphics programming in order to write a glue code that works correctly.
 
-I provide easy-to-use glue codes that work with different 3D rendering technologies in my demos, so that you don't need to deal with the complexity. Those glue codes are JavaScript (.js) files. You just need to add a glue code to your web page (e.g., via a `<script>` tag) and then the integration will be done for you. It's really that simple! Also, my glue codes may be used in both free and non-free projects.
+I provide easy-to-use glue codes that work with different 3D rendering technologies in my demos, so that you don't need to deal with the complexity. Those glue codes are JavaScript (.js) files. You just need to add a glue code to your web page (e.g., via a `<script>` tag) and then the integration will be done for you. It's really that simple!
 
-[:octocat: Get the glue codes on GitHub](https://github.com/alemart/martins-js/tree/master/dist){ .md-button ._blank }
-
-[Get the glue codes in my demos](../gallery.md){ .md-button ._blank }
+[Find the glue codes in my demos](../gallery.md){ .md-button ._blank }
 
 ## Create the virtual scene
 
 Once you plug in the glue code, you'll be using the 3D rendering technology of your choice to create the virtual scene. The physical scene will be automatically augmented with the virtual scene, thus creating the augmented scene.
 
 <figure markdown>
-<video src="../../img/demo-cool2.webm" poster="../../img/demo-cool2.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+<video poster="../../img/demo-cool2.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+    <source src="../../img/demo-cool2.webm" type="video/webm" />
+    <source src="../../img/demo-cool2.mp4" type="video/mp4" />
+</video>
 <figcaption markdown>An augmented scene with a [3D model](../assets/my-3d-model.glb "A public domain 3D model from Kenney, converted to glTF format") from [Kenney](https://www.kenney.nl){ ._blank }</figcaption>
 </figure>
 
 <figure markdown>
-<video src="../../img/demo-cool.webm" poster="../../img/demo-cool.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+<video poster="../../img/demo-cool.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+    <source src="../../img/demo-cool.webm" type="video/webm" />
+    <source src="../../img/demo-cool.mp4" type="video/mp4" />
+</video>
 <figcaption markdown>A similar augmented scene viewed from a different perspective</figcaption>
 </figure>
 
@@ -76,7 +80,10 @@ A-Frame is easy for beginners and pleasing for experts. A simple scene is declar
     <body>
         <div id="ar-viewport"></div>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
-        <video id="my-video" src="my-video.webm" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+            <source src="my-video.webm" type="video/webm" />
+            <source src="my-video.mp4" type="video/mp4" />
+        </video>
 
         <!-- This is a scene -->
         <a-scene ar-scene>

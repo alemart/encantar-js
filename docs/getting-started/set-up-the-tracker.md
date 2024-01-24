@@ -62,10 +62,13 @@ Once you see that the image is being properly loaded, there is no need to keep i
 
 ## Add a test video
 
-We're going to be tracking that reference image in a test video. Please save the following video as [my-video.webm](../assets/my-video.webm){ ._blank } in `ar-demo/`. Later on I'll tell you how to use your webcam instead.
+We're going to be tracking that reference image in a test video. Please save the following video as [my-video.webm](../assets/my-video.webm){ ._blank } and [my-video.mp4](../assets/my-video.mp4){ ._blank } in `ar-demo/`. Later on I'll tell you how to use your webcam instead.
 
 <figure markdown>
-<video src="../../assets/my-video.webm" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+<video style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+    <source src="../../assets/my-video.webm" type="video/webm" />
+    <source src="../../assets/my-video.mp4" type="video/mp4" />
+</video>
 </figure>
 
 This is the expected directory structure at this point:
@@ -74,6 +77,7 @@ This is the expected directory structure at this point:
     ├── index.html
     ├── martins.js
     ├── my-reference-image.webp
+    ├── my-video.mp4
     └── my-video.webm
 
 Let's include the test video in our page. Add a `<video>` tag as follows:
@@ -90,7 +94,10 @@ Let's include the test video in our page. Add a `<video>` tag as follows:
     </head>
     <body>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
-        <video id="my-video" src="my-video.webm" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+            <source src="my-video.webm" type="video/webm" />
+            <source src="my-video.mp4" type="video/mp4" />
+        </video>
     </body>
 </html>
 ```
@@ -116,7 +123,10 @@ We'll be writing a little bit of JavaScript code now. In order to keep our code 
     </head>
     <body>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
-        <video id="my-video" src="my-video.webm" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()"></video>
+        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+            <source src="my-video.webm" type="video/webm" />
+            <source src="my-video.mp4" type="video/mp4" />
+        </video>
     </body>
 </html>
 ```
@@ -153,6 +163,7 @@ Before moving on, make sure that you have the following directory structure at t
     ├── index.html
     ├── martins.js
     ├── my-reference-image.webp
+    ├── my-video.mp4
     └── my-video.webm
 
 ## Link the image to the tracker
