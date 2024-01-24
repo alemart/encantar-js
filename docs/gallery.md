@@ -51,21 +51,21 @@ The following demos will help you get started:
 <div class="gallery-item" markdown>
 [![QR code](./img/qr-demo-hello-aframe.gif)](/martins-js/demos/hello-aframe){ ._blank }
 
-**MARTINS.js + AFRAME**
+**MARTINS.js with AFRAME**
 
 [Launch demo](/martins-js/demos/hello-aframe){ ._blank } | [View the code](https://github.com/alemart/martins-js/tree/master/demos/hello-aframe){ ._blank }
 </div>
 <div class="gallery-item" markdown>
 [![QR code](./img/qr-demo-hello-three.gif)](/martins-js/demos/hello-three){ ._blank }
 
-**MARTINS.js + THREE.js**
+**MARTINS.js with THREE.js**
 
 [Launch demo](/martins-js/demos/hello-three){ ._blank } | [View the code](https://github.com/alemart/martins-js/tree/master/demos/hello-three){ ._blank }
 </div>
 <div class="gallery-item" markdown>
 [![QR code](./img/qr-demo-hello-webgl.gif)](/martins-js/demos/hello-webgl){ ._blank }
 
-**MARTINS.js + pure WebGL**
+**MARTINS.js with pure WebGL**
 
 [Launch demo](/martins-js/demos/hello-webgl){ ._blank } | [View the code](https://github.com/alemart/martins-js/tree/master/demos/hello-webgl){ ._blank }
 </div>
@@ -86,7 +86,7 @@ Explore the source code with these minimalistic demos:
 <div class="gallery-item" markdown>
 [![QR code](./img/qr-demo-hello-world.gif)](/martins-js/demos/hello-world){ ._blank }
 
-**Hello, world!**
+**Hello, World!**
 
 [Launch demo](/martins-js/demos/hello-world){ ._blank } | [View the code](https://github.com/alemart/martins-js/tree/master/demos/hello-world){ ._blank }
 </div>

@@ -29,7 +29,7 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 [![WebAR demo](https://alemart.github.io/martins-js/demo/reference-image-with-qr-code.webp)](https://alemart.github.io/martins-js/demo/)
 
-Other demos available [here](https://alemart.github.io/martins-js/gallery/).
+Visit the [Demo gallery](https://alemart.github.io/martins-js/gallery/) for more.
 
 ## Try locally
 
@@ -46,12 +46,16 @@ npm start
 2. Open https://localhost:8000/demos/
 3. Pick a demo and have fun!
 
+## Features
+
+* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
+
 ## What can you do with Web-based Augmented Reality?
 
 Lots of exciting things that run in the web browser! No need to install apps!
 
+* WebAR games
 * Marketing gimmicks
-* WebAR Games
 * Interactive art
 * Tech demos
 * ...and more!
@@ -65,12 +69,6 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
 * **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
-
-## Features
-
-Currently supported features:
-
-* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
 
 ## Browser compatibility
 

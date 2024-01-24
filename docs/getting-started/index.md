@@ -10,17 +10,21 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 :books: Technical documentation is available at <https://alemart.github.io/martins-js/>.
 
+## Features
+
+* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
+
 ## What can you do with Web-based Augmented Reality?
 
 Lots of exciting things that run in the web browser! No need to install apps!
 
+* WebAR games
 * Marketing gimmicks
-* WebAR Games
 * Interactive art
 * Tech demos
 * ...and more!
 
-[WebAR Crash Course](./introduction.md){ .md-button .md-button--primary } [Demo gallery](../gallery.md){ .md-button }
+[Visit the Demo gallery](../gallery.md){ .md-button .md-button--primary }
 
 ## Why use MARTINS.js?
 
@@ -32,11 +36,7 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 * **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
 
-## Features
-
-Currently supported features:
-
-* **Image tracking**, also known as natural feature tracking. Use it to track detailed images such as: book covers, cartoons and photos.
+[Take the Crash Course](./introduction.md){ .md-button .md-button--primary }
 
 ## Browser compatibility
 
