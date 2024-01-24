@@ -2,7 +2,7 @@
 
 <iframe src="https://ghbtns.com/github-btn.html?user=alemart&repo=martins-js&type=star&count=true&size=large" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe> <iframe src="https://ghbtns.com/github-btn.html?user=alemart&repo=martins-js&type=watch&count=true&size=large&v=2" frameborder="0" scrolling="0" width="170" height="30" title="GitHub"></iframe>
 
-Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
+Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern web browser.
 
 [Try a demo](../demo/instructions.md){ .md-button .md-button--primary } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
 
@@ -40,15 +40,15 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 
 ## Browser compatibility
 
-MARTINS.js is compatible with the latest versions of almost all major web browsers:
+MARTINS.js is compatible with all major web browsers:
 
-| Chrome | Edge | Firefox | Opera | Safari |
-|:------:|:----:|:-------:|:-----:|:------:|
-| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | - |
+| Chrome | Edge | Firefox | Opera | Safari* |
+|:------:|:----:|:-------:|:-----:|:-------:|
+| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
-Safari support: coming soon.
+\* use Safari 15.2 or later.
 
-MARTINS.js requires WebGL2 and WebAssembly. No need of WebXR.
+MARTINS.js requires WebGL2 and WebAssembly.
 
 ## License
 

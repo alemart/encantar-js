@@ -2,7 +2,7 @@
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/martins-js)](https://github.com/alemart/martins-js/releases/) ![GitHub file size in bytes on a specified ref (branch/commit/tag)](https://img.shields.io/github/size/alemart/martins-js/dist/martins.min.js?branch=master&label=minified%20js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/martins-js?logo=github)](https://github.com/alemart/martins-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
 
-Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
+Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern web browser.
 
 [**Try a demo**](#try-webar-right-now) | [**:heart: Support my work!**](https://alemart.github.io/martins-js/support-my-work)
 
@@ -66,21 +66,21 @@ Here is why MARTINS.js is a great choice for creating Augmented Reality experien
 
 * **No need to download apps!** MARTINS.js is a WebAR engine. It runs in web browsers. Users can access the AR experience immediately.
 * **Fast and powerful!** MARTINS.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
-* **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern and compatible web browser.
+* **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern web browser.
 * **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
 
 ## Browser compatibility
 
-MARTINS.js is compatible with the latest versions of almost all major web browsers:
+MARTINS.js is compatible with all major web browsers:
 
-| Chrome | Edge | Firefox | Opera | Safari |
-| ------ | ---- | ------- | ----- | ------ |
-| ✔      | ✔    | ✔       | ✔     | -      |
+| Chrome | Edge | Firefox | Opera | Safari* |
+| ------ | ---- | ------- | ----- | ------- |
+| ✔      | ✔    | ✔       | ✔     | ✔       |
 
-Safari support: coming soon.
+\* use Safari 15.2 or later.
 
-MARTINS.js requires WebGL2 and WebAssembly. No need of WebXR.
+MARTINS.js requires WebGL2 and WebAssembly.
 
 ## License
 

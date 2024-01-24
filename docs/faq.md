@@ -2,7 +2,7 @@
 
 ## What is MARTINS.js?
 
-MARTINS.js is a GPU-accelerated Augmented Reality engine for the web. It's a standalone WebAR technology for creating AR experiences that run in web browsers. Users don't need specialized hardware nor dedicated software - only a modern and compatible web browser.
+MARTINS.js is a GPU-accelerated Augmented Reality engine for the web. It's a standalone WebAR technology for creating AR experiences that run in web browsers. Users don't need specialized hardware nor dedicated software - only a modern web browser.
 
 MARTINS is a recursive acronym for MARTINS Augmented Reality Technology for Internet Software. It also happens to be my name. See, AR is part of my name. Can you believe it? :sunglasses:
 
