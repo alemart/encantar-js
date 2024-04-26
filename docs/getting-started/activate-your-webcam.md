@@ -45,7 +45,7 @@ async function startARSession()
 
 Let's also comment (or remove) the `<video>` tag from the HTML file - we no longer need it:
 
-```html title="index.html" hl_lines="14-16"
+```html title="index.html" hl_lines="14-19"
 <!doctype html>
 <html>
     <head>
@@ -92,7 +92,7 @@ Open <http://localhost:8000>{ ._blank } and... ta-da! The web browser will ask f
 
     If you're using a screen to display the reference image, make sure to adjust the brightness. Too much brightness causes overexposure and loss of detail, leading to tracking difficulties. Not enough brightness is also undesirable, because it makes the reference image look too dark in the video. Screen reflections are also undesirable.
 
-!!! warning "Use HTTPS"
+!!! tip "Use HTTPS"
 
     When distributing your WebAR experiences over the internet, make sure to use HTTPS. Web browsers will only allow access to the webcam in secure contexts.
 
@@ -117,7 +117,7 @@ Save the image below as [scan.png](../assets/scan.png){ ._blank }:
 <figcaption>Scan gimmick</figcaption>
 </figure>
 
-In order to display that scan gimmick, we need to create a HUD. A HUD is an overlay used to display 2D content in front of the augmented scene. It's part of the viewport. Modify `index.html` and `ar-demo.js` as follows:
+In order to display that scan gimmick, we need to create a HUD (<em>Heads-Up Display</em>). A HUD is an overlay used to display 2D content in front of the augmented scene. It's part of the viewport. Modify `index.html` and `ar-demo.js` as follows:
 
 ```html title="index.html" hl_lines="10-13 16-20"
 <!doctype html>

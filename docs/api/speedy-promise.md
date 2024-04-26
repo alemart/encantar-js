@@ -1,6 +1,6 @@
 # SpeedyPromise
 
-[Speedy](speedy.md) includes its own implementation of promises. A `SpeedyPromise` works just like a standard promise. SpeedyPromises are designed for realtime applications. There are some subtle differences behind the scenes, but you need not be concerned with those.
+[Speedy](speedy.md) includes its own implementation of promises. A `SpeedyPromise` works just like a standard promise. SpeedyPromises are designed for real-time applications. There are some subtle differences behind the scenes, but you need not be concerned with those.
 
 ## Instantiation
 

@@ -64,7 +64,7 @@ A-Frame is built on top of [Three.js](#threejs) and extends it in powerful ways.
 
 A-Frame is easy for beginners and pleasing for experts. A simple scene is declared like this:
 
-```html title="index.html" hl_lines="7 10 18-31"
+```html title="index.html" hl_lines="7 10 21-34"
 <!doctype html>
 <html>
     <head>

@@ -82,7 +82,7 @@ This is the expected directory structure at this point:
 
 Let's include the test video in our page. Add a `<video>` tag as follows:
 
-```html title="index.html" hl_lines="12"
+```html title="index.html" hl_lines="12-15"
 <!doctype html>
 <html>
     <head>
