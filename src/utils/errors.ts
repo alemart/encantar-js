@@ -76,6 +76,13 @@ export class AccessDeniedError extends MartinsError
 }
 
 /**
+ * Timeout
+ */
+export class TimeoutError extends MartinsError
+{
+}
+
+/**
  * Assertion error
  */
 export class AssertionError extends MartinsError
