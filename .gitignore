@@ -22,3 +22,4 @@ Session.vim
 node_modules/*
 dist/*.map
 site/
+docs/__pycache__/*
