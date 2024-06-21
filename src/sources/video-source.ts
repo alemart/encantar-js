@@ -136,9 +136,14 @@ export class VideoSource implements Source
                 const p = video.play();
                 if(typeof p === 'object') {
                     p.catch((error: DOMException) => {
-                        Utils.error(`Can't autoplay video! Tip: allow manual playback`, error, video);
-                        if(Utils.isIOS() && error.name == 'NotAllowedError')
-                            Utils.warning('Is low power mode on?');
+                        Utils.error(`Can't autoplay video!`, error, video);
+
+                        if(error.name == 'NotAllowedError') {
+                            Utils.warning('Tip: allow manual playback');
+
+                            if(Utils.isIOS())
+                                Utils.warning('Is low power mode on?');
+                        }
                     });
                 }
             });
