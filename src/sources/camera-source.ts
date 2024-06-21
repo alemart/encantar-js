@@ -25,7 +25,7 @@ import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Utils } from '../utils/utils';
 import { Resolution } from '../core/resolution';
-import { NotSupportedError, AccessDeniedError } from '../utils/errors';
+import { NotSupportedError, AccessDeniedError, IllegalOperationError } from '../utils/errors';
 import { VideoSource } from './video-source';
 
 
@@ -116,18 +116,35 @@ export class CameraSource extends VideoSource
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
                 const video = this._cameraVideo;
                 video.onloadedmetadata = () => {
-                    video.play();
-                    Utils.log('Access to the webcam has been granted.');
-                    resolve(video);
+                    const promise = video.play();
+                    const success = 'Access to the webcam has been granted.';
+
+                    // handle older browsers
+                    if(promise === undefined) {
+                        Utils.log(success);
+                        resolve(video);
+                        return;
+                    }
+
+                    // handle promise
+                    promise.then(() => {
+                        Utils.log(success);
+                        resolve(video);
+                    }).catch(error => {
+                        reject(new IllegalOperationError(
+                            'Webcam error!',
+                            error
+                        ));
+                    });
                 };
                 video.setAttribute('playsinline', '');
                 video.setAttribute('autoplay', '');
                 video.setAttribute('muted', '');
                 video.srcObject = stream;
-            }).catch(err => {
+            }).catch(error => {
                 reject(new AccessDeniedError(
                     'Please give access to the webcam and reload the page.',
-                    err
+                    error
                 ));
             });
         }).then(_ => super._init()); // this will call VideoSource._handleBrowserQuirks()
