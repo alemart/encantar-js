@@ -138,7 +138,7 @@ export class VideoSource implements Source
         // handle autoplay
         return this._handleAutoPlay(video).then(video => {
 
-            // Handle WebKit quirks
+            // handle WebKit quirks
             // note: navigator.vendor is deprecated. Alternatively, test GL_RENDERER == "Apple GPU"
             if(Utils.isIOS() || /Apple/.test(navigator.vendor)) {
 
@@ -210,11 +210,15 @@ export class VideoSource implements Source
                             // this is added for convenience
                             document.body.addEventListener('pointerdown', () => video.play());
 
-                            // display the interactive message only once
+                            // ask only once for user interaction
                             if(!displayedAlertMessage) {
                                 alert(ALERT_MESSAGE);
                                 displayedAlertMessage = true;
                             }
+
+                            // XXX what if the Session mode is inline? In this
+                            // case, this convenience code may be undesirable.
+                            // A workaround is to disable autoplay.
 
                         }
                         /*else {
