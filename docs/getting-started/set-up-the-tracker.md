@@ -94,7 +94,7 @@ Let's include the test video in our page. Add a `<video>` tag as follows:
     </head>
     <body>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
-        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+        <video id="my-video" hidden muted loop playsinline autoplay>
             <source src="my-video.webm" type="video/webm" />
             <source src="my-video.mp4" type="video/mp4" />
         </video>
@@ -123,7 +123,7 @@ We'll be writing a little bit of JavaScript code now. In order to keep our code 
     </head>
     <body>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
-        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+        <video id="my-video" hidden muted loop playsinline autoplay>
             <source src="my-video.webm" type="video/webm" />
             <source src="my-video.mp4" type="video/mp4" />
         </video>

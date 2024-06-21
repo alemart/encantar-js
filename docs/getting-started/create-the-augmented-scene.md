@@ -80,7 +80,7 @@ A-Frame is easy for beginners and pleasing for experts. A simple scene is declar
     <body>
         <div id="ar-viewport"></div>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
-        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+        <video id="my-video" hidden muted loop playsinline autoplay>
             <source src="my-video.webm" type="video/webm" />
             <source src="my-video.mp4" type="video/mp4" />
         </video>

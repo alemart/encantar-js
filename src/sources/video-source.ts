@@ -94,7 +94,7 @@ export class VideoSource implements Source
      */
     _init(): SpeedyPromise<void>
     {
-        this._video.setAttribute('playsinline', '');
+        this._handleBrowserPolicies(this._video);
 
         return Speedy.load(this._video).then(media => {
             Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
@@ -114,5 +114,47 @@ export class VideoSource implements Source
 
         this._media = null;
         return Speedy.Promise.resolve();
+    }
+
+    /**
+     * Handle browser-specific policies for <video> elements
+     * @param video
+     * @internal
+     */
+    _handleBrowserPolicies(video: HTMLVideoElement): void
+    {
+        // WebKit <video> policies for iOS:
+        // https://webkit.org/blog/6784/new-video-policies-for-ios/
+
+        // required on iOS; nice to have in all browsers
+        video.setAttribute('playsinline', '');
+
+        // autoplay videos should be muted
+        if(video.autoplay) {
+            video.muted = true;
+            video.addEventListener('canplay', () => {
+                const p = video.play();
+                if(typeof p === 'object') {
+                    p.catch((error: DOMException) => {
+                        Utils.error(`Can't autoplay video! Tip: allow manual playback`, error, video);
+                        if(Utils.isIOS() && error.name == 'NotAllowedError')
+                            Utils.warning('Is low power mode on?');
+                    });
+                }
+            });
+        }
+
+        // Handle WebKit policies
+        // note: navigator.vendor is deprecated. Alternatively, test GL_RENDERER == "Apple GPU"
+        if(Utils.isIOS() || /Apple/.test(navigator.vendor)) {
+
+            // on Epiphany, a hidden <video> shows up as a black screen when copied to a canvas
+            if(video.hidden) {
+                video.hidden = false;
+                video.style.setProperty('opacity', '0');
+                video.style.setProperty('position', 'absolute');
+            }
+
+        }
     }
 }

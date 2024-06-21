@@ -20,7 +20,7 @@ We begin by creating the viewport. Remember that the viewport is the area in whi
     <body>
         <div id="ar-viewport"></div>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
-        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
+        <video id="my-video" hidden muted loop playsinline autoplay>
             <source src="my-video.webm" type="video/webm" />
             <source src="my-video.mp4" type="video/mp4" />
         </video>
