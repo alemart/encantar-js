@@ -130,7 +130,7 @@ export class CameraSource extends VideoSource
                     err
                 ));
             });
-        }).then(_ => super._init());
+        }).then(_ => super._init()); // this will call VideoSource._handleBrowserQuirks()
     }
 
     /**
