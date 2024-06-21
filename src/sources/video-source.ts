@@ -147,6 +147,8 @@ export class VideoSource implements Source
                     video.hidden = false;
                     video.style.setProperty('opacity', '0');
                     video.style.setProperty('position', 'absolute');
+                    //video.style.setProperty('display', 'none'); // doesn't work. Same as video.hidden
+                    //video.style.setProperty('visibility', 'hidden'); // doesn't work either
                 }
 
             }
@@ -174,7 +176,10 @@ export class VideoSource implements Source
             return Speedy.Promise.resolve(video);
 
         // videos marked with autoplay should be muted
-        video.muted = true;
+        if(!video.muted) {
+            Utils.warning('Videos marked with autoplay should be muted', video);
+            video.muted = true;
+        }
 
         // the browser may not honor the autoplay attribute if the video is not
         // visible on-screen. So, let's try to play the video in any case.
@@ -262,7 +267,8 @@ export class VideoSource implements Source
                     clearInterval(t);
                     resolve(video);
                 }
-                else if((ms += INTERVAL) > TIMEOUT) {
+                else if((ms += INTERVAL) >= TIMEOUT) {
+                    clearInterval(t);
                     reject(new TimeoutError('The video took too long to load'));
                 }
 
