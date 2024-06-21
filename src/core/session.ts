@@ -188,6 +188,33 @@ export class Session extends AREventTarget<SessionEventType>
      */
     static isSupported(): boolean
     {
+        // navigator.platform is deprecated
+        const platform = ((navigator: any): string =>
+            typeof navigator.userAgentData === 'object' ?
+            navigator.userAgentData.platform :
+            navigator.platform
+        )(navigator);
+
+        // If Safari or iOS, require version 15.2 or later
+        if(/(Mac|iOS|iPhone|iPad|iPod)/i.test(platform)) {
+            const ios = /(iPhone|iPad|iPod).* (CPU[\s\w]* OS|CPU iPhone|iOS) ([\d\._]+)/.exec(navigator.userAgent); // Chrome, Firefox, Edge, Safari on iOS
+            const safari = /(AppleWebKit)\/.* (Version)\/([\d\.]+)/.exec(navigator.userAgent); // Safari on macOS (also newer iPads, Edge on iOS...)
+            const matches = safari || ios; // match safari first (min version)
+
+            if(matches !== null) {
+                const version = matches[3] || '0.0';
+                const [x, y] = version.split(/[\._]/).map(v => parseInt(v));
+
+                if((x < 15) || (x == 15 && y < 2)) {
+                    Utils.warning(`${matches === safari ? 'Safari' : 'iOS'} version ${version} is not supported! User agent: ${navigator.userAgent}`);
+                    return false;
+                }
+            }
+            else
+                Utils.warning(`Unrecognized user agent: ${navigator.userAgent}`);
+        }
+
+        // Check if WebGL2 and WebAssembly are supported
         return Speedy.isSupported();
     }
 
