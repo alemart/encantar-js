@@ -39,7 +39,7 @@ export class Utils
      * @param message
      * @param args optional additional messages
      */
-    static log(message: string, ...args: string[]): void
+    static log(message: string, ...args: any[]): void
     {
         console.log('[martins-js]', message, ...args);
     }
@@ -49,7 +49,7 @@ export class Utils
      * @param message
      * @param args optional additional messages
      */
-    static warning(message: string, ...args: string[]): void
+    static warning(message: string, ...args: any[]): void
     {
         console.warn('[martins-js]', message, ...args);
     }
@@ -59,7 +59,7 @@ export class Utils
      * @param message
      * @param args optional additional messages
      */
-    static error(message: string, ...args: string[]): void
+    static error(message: string, ...args: any[]): void
     {
         console.error('[martins-js]', message, ...args);
     }
