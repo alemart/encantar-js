@@ -154,6 +154,9 @@ export class VideoSource implements Source
      */
     _handleAutoPlay(video: HTMLVideoElement): void
     {
+        // Autoplay guide: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
+        // Chrome policy: https://developer.chrome.com/blog/autoplay/
+        // WebKit policy: https://webkit.org/blog/7734/auto-play-policy-changes-for-macos/
         Utils.assert(video.autoplay);
 
         // videos marked with autoplay should be muted
@@ -165,7 +168,7 @@ export class VideoSource implements Source
             const promise = video.play();
 
             // handle older browsers
-            if(typeof promise !== 'object')
+            if(promise === undefined)
                 return;
 
             // can't play the video
@@ -189,6 +192,12 @@ export class VideoSource implements Source
                         document.body.addEventListener('pointerdown', () => video.play());
                         alert('Tap on the screen to start');
                     }
+                    /*else {
+                        // play the video after the first interaction with the page
+                        const polling = setInterval(() => {
+                            video.play().then(() => clearInterval(polling));
+                        }, 500);
+                    }*/
                 }
 
                 // unsupported media source
