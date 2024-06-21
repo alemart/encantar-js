@@ -99,4 +99,34 @@ export class Utils
     {
         return computeResolution(resolution, aspectRatio);
     }
+
+    /**
+     * Returns a string containing platform brand information
+     * @returns platform brand information
+     */
+    static platformString(): string
+    {
+        return ((navigator: any): string =>
+            typeof navigator.userAgentData === 'object' ? // prefer the NavigatorUAData interface
+            navigator.userAgentData.platform : // use only low entropy data
+            navigator.platform // navigator.platform is deprecated
+        )(navigator);
+    }
+
+    /**
+     * Checks if we're on iOS
+     * @returns true if we're on iOS
+     */
+    static isIOS(): boolean
+    {
+        const platform = Utils.platformString();
+
+        if(/(iOS|iPhone|iPad|iPod)/i.test(platform))
+            return true;
+
+        if(/Mac/i.test(platform) && navigator.maxTouchPoints !== undefined) // iPad OS 13+
+            return navigator.maxTouchPoints > 2;
+
+        return false;
+    }
 }
