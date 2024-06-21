@@ -24,8 +24,14 @@ import Speedy from 'speedy-vision';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Utils, Nullable } from '../utils/utils';
-import { IllegalOperationError, NotSupportedError } from '../utils/errors';
+import { IllegalOperationError, NotSupportedError, TimeoutError } from '../utils/errors';
 import { Source } from './source';
+
+/** A message to be displayed if a video can't autoplay and user interaction is required */
+const ALERT_MESSAGE = 'Tap on the screen to start';
+
+/** Whether or not we have displayed the ALERT_MESSAGE */
+let displayedAlertMessage = false;
 
 
 /**
@@ -94,11 +100,10 @@ export class VideoSource implements Source
      */
     _init(): SpeedyPromise<void>
     {
-        this._handleBrowserQuirks(this._video);
-
         return Speedy.load(this._video).then(media => {
             Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
             this._media = media;
+            return this._handleBrowserQuirks(this._video).then(() => void(0));
         });
     }
 
@@ -118,10 +123,11 @@ export class VideoSource implements Source
 
     /**
      * Handle browser-specific quirks for <video> elements
-     * @param video
+     * @param video a video element
+     * @returns a promise that resolves to the input video
      * @internal
      */
-    _handleBrowserQuirks(video: HTMLVideoElement): void
+    _handleBrowserQuirks(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
     {
         // WebKit <video> policies for iOS:
         // https://webkit.org/blog/6784/new-video-policies-for-ios/
@@ -130,80 +136,133 @@ export class VideoSource implements Source
         video.setAttribute('playsinline', '');
 
         // handle autoplay
-        if(video.autoplay)
-            this._handleAutoPlay(video);
+        return this._handleAutoPlay(video).then(video => {
 
-        // Handle WebKit quirks
-        // note: navigator.vendor is deprecated. Alternatively, test GL_RENDERER == "Apple GPU"
-        if(Utils.isIOS() || /Apple/.test(navigator.vendor)) {
+            // Handle WebKit quirks
+            // note: navigator.vendor is deprecated. Alternatively, test GL_RENDERER == "Apple GPU"
+            if(Utils.isIOS() || /Apple/.test(navigator.vendor)) {
 
-            // on Epiphany, a hidden <video> shows up as a black screen when copied to a canvas
-            if(video.hidden) {
-                video.hidden = false;
-                video.style.setProperty('opacity', '0');
-                video.style.setProperty('position', 'absolute');
+                // on Epiphany, a hidden <video> shows up as a black screen when copied to a canvas
+                if(video.hidden) {
+                    video.hidden = false;
+                    video.style.setProperty('opacity', '0');
+                    video.style.setProperty('position', 'absolute');
+                }
+
             }
 
-        }
+            // done
+            return video;
+
+        });
     }
 
     /**
      * Handle browser-specific quirks for videos marked with autoplay
      * @param video a <video> marked with autoplay
+     * @returns a promise that resolves to the input video
      * @internal
      */
-    _handleAutoPlay(video: HTMLVideoElement): void
+    _handleAutoPlay(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
     {
         // Autoplay guide: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
         // Chrome policy: https://developer.chrome.com/blog/autoplay/
         // WebKit policy: https://webkit.org/blog/7734/auto-play-policy-changes-for-macos/
-        Utils.assert(video.autoplay);
+
+        // nothing to do?
+        if(!video.autoplay)
+            return Speedy.Promise.resolve(video);
 
         // videos marked with autoplay should be muted
         video.muted = true;
 
         // the browser may not honor the autoplay attribute if the video is not
         // visible on-screen. So, let's try to play the video in any case.
-        video.addEventListener('canplay', () => {
+        return this._waitUntilPlayable(video).then(video => {
+
+            // try to play the video
             const promise = video.play();
 
             // handle older browsers
             if(promise === undefined)
-                return;
+                return video;
 
-            // can't play the video
-            promise.catch((error: DOMException) => {
-                Utils.error(`Can't autoplay video!`, error, video);
+            // resolve if successful
+            return new Speedy.Promise<HTMLVideoElement>((resolve, reject) => {
+                promise.then(() => resolve(video), error => {
+                    // can't play the video
+                    Utils.error(`Can't autoplay video!`, error, video);
 
-                // autoplay is blocked for some reason
-                if(error.name == 'NotAllowedError') {
-                    Utils.warning('Tip: allow manual playback');
+                    // autoplay is blocked for some reason
+                    if(error.name == 'NotAllowedError') {
+                        Utils.warning('Tip: allow manual playback');
 
-                    if(Utils.isIOS())
-                        Utils.warning('Is low power mode on?');
+                        if(Utils.isIOS())
+                            Utils.warning('Is low power mode on?');
 
-                    // User interaction is required to play the video. We can
-                    // solve this here (easy and convenient to do) or at the
-                    // application layer (for a better user experience). If the
-                    // latter is preferred, just disable autoplay and play the
-                    // video programatically.
-                    if(video.hidden || !video.controls || video.parentNode === null) {
-                        // this is added for convenience
-                        document.body.addEventListener('pointerdown', () => video.play());
-                        alert('Tap on the screen to start');
+                        // User interaction is required to play the video. We can
+                        // solve this here (easy and convenient to do) or at the
+                        // application layer (for a better user experience). If the
+                        // latter is preferred, just disable autoplay and play the
+                        // video programatically.
+                        if(video.hidden || !video.controls || video.parentNode === null) {
+
+                            // this is added for convenience
+                            document.body.addEventListener('pointerdown', () => video.play());
+
+                            // display the interactive message only once
+                            if(!displayedAlertMessage) {
+                                alert(ALERT_MESSAGE);
+                                displayedAlertMessage = true;
+                            }
+
+                        }
+                        /*else {
+                            // play the video after the first interaction with the page
+                            const polling = setInterval(() => {
+                                video.play().then(() => clearInterval(polling));
+                            }, 500);
+                        }*/
                     }
-                    /*else {
-                        // play the video after the first interaction with the page
-                        const polling = setInterval(() => {
-                            video.play().then(() => clearInterval(polling));
-                        }, 500);
-                    }*/
+
+                    // unsupported media source
+                    else if(error.name == 'NotSupportedError') {
+                        reject(new NotSupportedError('Unsupported video format', error));
+                        return;
+                    }
+
+                    // done
+                    resolve(video);
+                });
+            });
+        });
+    }
+
+    /**
+     * Wait for the input video to be playable
+     * @param video
+     * @returns a promise that resolves to the input video when it can be played through to the end
+     * @internal
+     */
+    _waitUntilPlayable(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
+    {
+        const TIMEOUT = 15000, INTERVAL = 500;
+
+        if(video.readyState >= 4)
+            return Speedy.Promise.resolve(video);
+
+        return new Speedy.Promise<HTMLVideoElement>((resolve, reject) => {
+            let ms = 0, t = setInterval(() => {
+
+                if(video.readyState >= 4) { // canplaythrough
+                    clearInterval(t);
+                    resolve(video);
+                }
+                else if((ms += INTERVAL) > TIMEOUT) {
+                    reject(new TimeoutError('The video took too long to load'));
                 }
 
-                // unsupported media source
-                else if(error.name == 'NotSupportedError')
-                    throw new NotSupportedError('Unsupported video format', error);
-            });
+            }, INTERVAL);
         });
     }
 }
