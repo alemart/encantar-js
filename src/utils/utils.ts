@@ -129,4 +129,27 @@ export class Utils
 
         return false;
     }
+
+    /**
+     * Checks if we're on a WebKit-based browser
+     * @returns true if we're on a WebKit-based browser
+     */
+    static isWebKit(): boolean
+    {
+        // note: navigator.vendor is deprecated.
+        // Alternatively, test GL_RENDERER == "Apple GPU"
+        if(/Apple/.test(navigator.vendor))
+            return true;
+
+        // Desktop and Mobile Safari, Epiphany on Linux
+        if(/AppleWebKit\/.* Version\//.test(navigator.userAgent))
+            return true;
+
+        // Chrome, Firefox, Edge on iOS
+        if(/(CriOS\/|FxiOS\/|EdgiOS\/)/.test(navigator.userAgent))
+            return true;
+
+        // not WebKit
+        return false;
+    }
 }
