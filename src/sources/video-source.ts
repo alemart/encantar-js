@@ -100,10 +100,16 @@ export class VideoSource implements Source
      */
     _init(): SpeedyPromise<void>
     {
-        return Speedy.load(this._video).then(media => {
-            Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
-            this._media = media;
-            return this._handleBrowserQuirks(this._video).then(() => void(0));
+        Utils.log(`Initializing ${this._type} source...`);
+
+        // prepare the video before loading the SpeedyMedia!
+        return this._prepareVideo(this._video).then(video => {
+            Utils.log('The video is prepared');
+
+            return Speedy.load(video).then(media => {
+                Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
+                this._media = media;
+            });
         });
     }
 
@@ -125,9 +131,8 @@ export class VideoSource implements Source
      * Handle browser-specific quirks for <video> elements
      * @param video a video element
      * @returns a promise that resolves to the input video
-     * @internal
      */
-    _handleBrowserQuirks(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
+    private _prepareVideo(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
     {
         // WebKit <video> policies for iOS:
         // https://webkit.org/blog/6784/new-video-policies-for-ios/
@@ -139,10 +144,10 @@ export class VideoSource implements Source
         return this._handleAutoPlay(video).then(video => {
 
             // handle WebKit quirks
-            // note: navigator.vendor is deprecated. Alternatively, test GL_RENDERER == "Apple GPU"
-            if(Utils.isIOS() || /Apple/.test(navigator.vendor)) {
+            if(Utils.isWebKit()) {
 
                 // on Epiphany, a hidden <video> shows up as a black screen when copied to a canvas
+                // on iOS, this hack doesn't seem necessary, but works okay
                 if(video.hidden) {
                     video.hidden = false;
                     video.style.setProperty('opacity', '0');
@@ -163,9 +168,8 @@ export class VideoSource implements Source
      * Handle browser-specific quirks for videos marked with autoplay
      * @param video a <video> marked with autoplay
      * @returns a promise that resolves to the input video
-     * @internal
      */
-    _handleAutoPlay(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
+    private _handleAutoPlay(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
     {
         // Autoplay guide: https://developer.mozilla.org/en-US/docs/Web/Media/Autoplay_guide
         // Chrome policy: https://developer.chrome.com/blog/autoplay/
@@ -251,9 +255,8 @@ export class VideoSource implements Source
      * Wait for the input video to be playable
      * @param video
      * @returns a promise that resolves to the input video when it can be played through to the end
-     * @internal
      */
-    _waitUntilPlayable(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
+    private _waitUntilPlayable(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
     {
         const TIMEOUT = 15000, INTERVAL = 500;
 
