@@ -191,7 +191,7 @@ export class Session extends AREventTarget<SessionEventType>
         // If Safari or iOS, require version 15.2 or later
         if(/(Mac|iOS|iPhone|iPad|iPod)/i.test(Utils.platformString())) {
             const ios = /(iPhone|iPad|iPod).* (CPU[\s\w]* OS|CPU iPhone|iOS) ([\d\._]+)/.exec(navigator.userAgent); // Chrome, Firefox, Edge, Safari on iOS
-            const safari = /(AppleWebKit)\/.* (Version)\/([\d\.]+)/.exec(navigator.userAgent); // Safari on macOS (also newer iPads, Edge on iOS...)
+            const safari = /(AppleWebKit)\/.* (Version)\/([\d\.]+)/.exec(navigator.userAgent); // Desktop and Mobile Safari, Epiphany on Linux
             const matches = safari || ios; // match safari first (min version)
 
             if(matches !== null) {
@@ -199,7 +199,7 @@ export class Session extends AREventTarget<SessionEventType>
                 const [x, y] = version.split(/[\._]/).map(v => parseInt(v));
 
                 if((x < 15) || (x == 15 && y < 2)) {
-                    Utils.warning(`${matches === safari ? 'Safari' : 'iOS'} version ${version} is not supported! User agent: ${navigator.userAgent}`);
+                    Utils.error(`${matches === safari ? 'Safari' : 'iOS'} version ${version} is not supported! User agent: ${navigator.userAgent}`);
                     return false;
                 }
             }
