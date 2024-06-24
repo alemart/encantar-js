@@ -146,8 +146,8 @@ export class VideoSource implements Source
             // handle WebKit quirks
             if(Utils.isWebKit()) {
 
-                // on Epiphany, a hidden <video> shows up as a black screen when copied to a canvas
-                // on iOS, this hack doesn't seem necessary, but works okay
+                // on Epiphany 45, a hidden <video> shows up as a black screen when copied to a canvas
+                // on iOS 15.2-17.3, this hack doesn't seem necessary, but works okay
                 if(video.hidden) {
                     video.hidden = false;
                     video.style.setProperty('opacity', '0');
