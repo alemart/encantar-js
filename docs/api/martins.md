@@ -18,12 +18,6 @@ The [settings](settings.md) of the engine.
 
 The version of MARTINS.js.
 
-### edition
-
-`Martins.edition: string, read-only`
-
-The edition of MARTINS.js.
-
 ## Methods
 
 ### isSupported

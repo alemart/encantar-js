@@ -121,8 +121,7 @@ export class StatsPanel
         };
 
         this._container.textContent = (
-            `MARTINS.js ${Martins.edition}
-            Version ${Martins.version}
+            `MARTINS.js v${Martins.version}
             FPS: [fps] | GPU: [gpu] [powerIcon]
             IN : ${sourceStats}
             OUT: ${trackerStats}`

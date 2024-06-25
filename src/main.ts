@@ -93,14 +93,6 @@ export default class Martins
     }
 
     /**
-     * Engine edition
-     */
-    static get edition(): string
-    {
-        return 'Free Edition';
-    }
-
-    /**
      * Speedy Vision
      */
     static get Speedy(): typeof Speedy
@@ -126,7 +118,7 @@ Object.freeze(Martins);
 
 // Display a notice
 Utils.log(
-    `MARTINS.js ${Martins.edition} version ${Martins.version}. ` +
+    `MARTINS.js version ${Martins.version}. ` +
     `GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` +
     __MARTINS_WEBSITE__
 );
