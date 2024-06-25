@@ -32,12 +32,12 @@ module.exports = (env, argv) => ({
     plugins: [
         new webpack.BannerPlugin({
             banner: ((({ author, version, year, homepage, description, date }) => ([
-                `MARTINS.js Free Edition version ${version}`,
+                `MARTINS.js version ${version}`,
                 `${description}`,
                 `Copyright ${year} ${author}`,
                 `${homepage}`,
                 ``,
-                `@license AGPL-3.0-only`,
+                `@license LGPL-3.0-or-later`,
                 `Date: ${date}`,
             ].join('\n')))({
                 ...pack,

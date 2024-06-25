@@ -2,7 +2,7 @@
  * @file MARTINS.js & AFRAME glue code
  * @version 1.0.2
  * @author Alexandre Martins (https://github.com/alemart)
- * @license AGPL-3.0
+ * @license LGPL-3.0-or-later
  */
 
 /* Usage of the indicated versions is encouraged */
