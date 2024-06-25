@@ -2,8 +2,6 @@
 
 Let's prepare our local environment in order to create our first WebAR experience.
 
-We're going to use the Free Edition of MARTINS.js in this guide. The Free Edition is suitable for personal study, educational purposes and open-source projects. More information [in this link](../download.md){ ._blank }.
-
 ## Create a file structure
 
 Let's create a file structure for our AR experience:
