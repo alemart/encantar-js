@@ -1,7 +1,7 @@
 /*
  * MARTINS.js
  * GPU-accelerated Augmented Reality for the web
- * Copyright (C) 2022  Alexandre Martins <alemartf(at)gmail.com>
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published
