@@ -6,7 +6,7 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 [Get started](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo/instructions.md){ .md-button .md-button } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
 
-:man_technologist: MARTINS.js is free and open-source software released under the [LGPL](../license.md).
+:man_technologist: MARTINS.js is free and open-source software.
 
 :books: Technical documentation is available at <https://alemart.github.io/martins-js/>.
 
@@ -38,4 +38,4 @@ MARTINS.js requires WebGL2 and WebAssembly.
 
 ## About
 
-MARTINS.js is free and open-source software developed by [Alexandre Martins](https://github.com/alemart). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
+MARTINS.js is free and open-source software developed by [Alexandre Martins](https://github.com/alemart). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision) and released under the [LGPL](LICENSE.md).

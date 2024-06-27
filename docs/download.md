@@ -2,7 +2,7 @@
 
 MARTINS.js can be downloaded from GitHub or used via a CDN. Read the [getting started](./getting-started/index.md) guide for information on how to add it to your web page.
 
-## Downloading from GitHub
+## Download from GitHub
 
 [:octocat: Download now](https://github.com/alemart/martins-js/releases){ .md-button ._blank }
 

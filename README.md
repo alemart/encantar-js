@@ -4,7 +4,7 @@
 
 Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web. Users don't need specialized hardware nor dedicated software - only a modern web browser.
 
-:man_technologist: MARTINS.js is free and open-source software released under the [LGPL](LICENSE.md).
+:man_technologist: MARTINS.js is free and open-source software.
 
 :books: Technical documentation is available at <https://alemart.github.io/martins-js/>.
 
@@ -72,4 +72,4 @@ MARTINS.js requires WebGL2 and WebAssembly.
 
 ## About
 
-MARTINS.js is free and open-source software developed by [Alexandre Martins](https://github.com/alemart). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
+MARTINS.js is free and open-source software developed by [Alexandre Martins](https://github.com/alemart). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision) and released under the [LGPL](LICENSE.md).
