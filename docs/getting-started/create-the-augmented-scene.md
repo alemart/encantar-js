@@ -4,25 +4,7 @@ Now that the image is being tracked, the next step is to render a virtual scene 
 
 ## Pick a 3D rendering technology
 
-MARTINS.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with MARTINS.js. Popular solutions include:
-
-<div style="display: flex; flex-flow: row wrap; justify-content: center; align-items: flex-end; text-align: center" markdown>
-<div markdown>
-![A-Frame](../img/logo-aframe.png "A-Frame logo by Mozilla"){ width=200 }
-
-**A-Frame**
-</div><div markdown>
-![Babylon.js](../img/logo-babylonjs.png "Babylon.js logo by David Catuhe"){ width=200 }
-
-**Babylon.js**
-</div><div markdown>
-![Three.js](../img/logo-threejs.png "Three.js logo by Mr.doob"){ width=200 }
-
-**Three.js**
-</div>
-</div>
-
-You can also use other solutions. MARTINS.js lets you pick any 3D rendering technology.
+MARTINS.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with MARTINS.js. Popular solutions include: A-Frame, Babylon.js and Three.js. You can also use other solutions. MARTINS.js lets you pick any 3D rendering technology.
 
 Once you pick a 3D rendering technology, you need to integrate it with MARTINS.js. There is a code that is responsible for that integration. I call it a _glue code_. Among other things, a glue code transports the tracking results from MARTINS.js to the 3D rendering technology of your choice - it really is a "glue" connecting them.
 
@@ -46,14 +28,6 @@ Once you plug in the glue code, you'll be using the 3D rendering technology of y
 <figcaption markdown>An augmented scene with a [3D model](../assets/my-3d-model.glb "A public domain 3D model from Kenney, converted to glTF format") from [Kenney](https://www.kenney.nl){ ._blank }</figcaption>
 </figure>
 
-<figure markdown>
-<video poster="../../img/demo-cool.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
-    <source src="../../img/demo-cool.webm" type="video/webm" />
-    <source src="../../img/demo-cool.mp4" type="video/mp4" />
-</video>
-<figcaption markdown>A similar augmented scene viewed from a different perspective</figcaption>
-</figure>
-
 Let me tell you a bit more about the 3D rendering technologies I just mentioned.
 
 ### A-Frame
@@ -64,17 +38,19 @@ A-Frame is built on top of [Three.js](#threejs) and extends it in powerful ways.
 
 A-Frame is easy for beginners and pleasing for experts. A simple scene is declared like this:
 
-```html title="index.html" hl_lines="7 10 21-34"
+```html title="index.html" hl_lines="7-8 11-12 23-36"
 <!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>MARTINS.js WebAR demo</title>
+        <!-- include A-Frame -->
         <script src="aframe-vX.Y.Z.min.js"></script>
         <script src="martins.js"></script>
         <script src="ar-demo.js"></script>
-        <script src="plug in my glue code here"></script>
+        <!-- this is my glue code for A-Frame -->
+        <script src="aframe-with-martins.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
     <body>

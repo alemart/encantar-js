@@ -76,11 +76,11 @@ Explore the API to see how you can have multiple virtual scenes in a single web 
 
 ## Publish your WebAR experiences
 
-So far we've just created a static HTML page. Static pages are surprisingly easy to deploy. Any quality web hosting supports them. [Neocities](https://neocities.org/){ ._blank }, [Glitch](https://glitch.com/){ ._blank } and [GitHub Pages](https://pages.github.com/){ ._blank } are popular alternatives that let you host your WebAR experiences easily and for free. Your pages will be served over HTTPS, and that's important for webcam access!
+So far we've just created a static HTML page. The next step is to make your page available on the web. Your pages must be served over HTTPS - that's important for webcam access!
 
 !!! tip "Tip: use a QR code"
 
-    If you intend to print your reference images and have them placed on, let's say, a wall somewhere, consider adding a [QR code](https://en.wikipedia.org/wiki/QR_code){ ._blank } nearby. The QR code should point to your website. Users can then just scan your QR code to open your WebAR experience. Easy! :wink:
+    If you intend to print your reference images, consider adding a QR code nearby. The QR code should point to your web page. Users can then just scan your QR code to open your WebAR experience. Easy! :wink:
 
 !!! tip "Use the minified code"
 
