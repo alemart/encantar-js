@@ -40,20 +40,12 @@ markdown_extensions:
       #emoji_index: !!python/name:materialx.emoji.gemoji 
       #emoji_generator: !!python/name:materialx.emoji.to_svg
 
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/alemart/martins-js
-    - icon: fontawesome/brands/youtube
-      link: https://youtube.com/alemart88
-
 dev_addr: 127.0.0.1:8008
 
 nav:
   - 'Home': 'index.md'
   - 'Getting started':
     - 'Welcome': 'getting-started/index.md'
-    - 'Download': 'download.md'
     - 'WebAR Crash Course':
       - 'Introduction': 'getting-started/introduction.md'
       - 'Concepts': 'getting-started/concepts.md'
@@ -67,9 +59,9 @@ nav:
     - 'Questions & Answers': 'faq.md'
     - 'Support my work': 'support-my-work.md'
     - 'License': 'license.md'
+  - 'Download': 'download.md'
   - 'Demos':
     - 'Demo gallery': 'gallery.md'
-    - 'Try WebAR now!': 'demo/instructions.md'
   - 'API':
     - 'General':
       - 'Session': 'api/session.md'
