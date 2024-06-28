@@ -8,7 +8,7 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 ## Features
 
-* **Standalone AR**. Runs in any modern web browser on Android, iOS and even on Desktop computers. No need of WebXR-capable devices.
+* **Free and standalone**. It runs in any modern web browser. It can be used on Android, on iOS, and even on Desktop computers. No need of AR-capable devices.
 * **Image tracking**. Use it to track detailed images such as: book covers, cartoons and photos.
 
 ## Why use MARTINS.js?
