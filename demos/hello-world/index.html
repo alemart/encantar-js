@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR: Hello World demo</title>
-        <link href="../assets/demo.css" rel="stylesheet">
+        <title>MARTINS.js WebAR template</title>
+        <link href="demo.css" rel="stylesheet">
         <script src="../../dist/martins.js"></script>
         <script src="demo.js"></script>
     </head>
@@ -12,13 +12,9 @@
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
                 <img id="scan" src="../assets/scan.png">
-                <button id="toggle-webcam"></button>
+                <a id="about" href="NOTICE.html"></a>
             </div>
         </div>
         <img id="my-reference-image" src="../assets/my-reference-image.webp" hidden>
-        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
-            <source src="../assets/my-video.webm" type="video/webm" />
-            <source src="../assets/my-video.mp4" type="video/mp4" />
-        </video>
     </body>
 </html>

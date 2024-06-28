@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo using A-Frame</title>
-        <link href="../assets/demo.css" rel="stylesheet">
+        <title>MARTINS.js WebAR demo with A-Frame</title>
+        <link href="demo.css" rel="stylesheet">
         <script src="../../dist/martins.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/aframe@1.3.0/dist/aframe-v1.3.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.2/dist/aframe-v1.4.2.min.js"></script>
         <script src="../assets/aframe-particle-system-component.min.js"></script>
         <script src="demo.js"></script>
         <script src="../assets/aframe-with-martins.js"></script>
@@ -15,14 +15,10 @@
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
                 <img id="scan" src="../assets/scan.png">
-                <button id="toggle-webcam"></button>
+                <a id="about" href="NOTICE.html"></a>
             </div>
         </div>
         <img id="my-reference-image" src="../assets/my-reference-image.webp" hidden>
-        <video id="my-video" hidden muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
-            <source src="../assets/my-video.webm" type="video/webm" />
-            <source src="../assets/my-video.mp4" type="video/mp4" />
-        </video>
 
         <!-- This is a scene -->
         <a-scene ar-scene>
