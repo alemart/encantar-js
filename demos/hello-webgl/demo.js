@@ -1,11 +1,9 @@
 /**
- * @file MARTINS.js WebAR demo using pure WebGL
- * @version 1.0.2
+ * @file MARTINS.js WebAR demo with WebGL
+ * @version 1.1.0
  * @author Alexandre Martins (https://github.com/alemart)
  * @license LGPL-3.0-or-later
  */
-
-
 
 /*
 
@@ -787,16 +785,16 @@ class ItWorks extends ImageQuad
     }
 }
 
-class Bird extends Sprite
+class WingMan extends Sprite
 {
     constructor(gl)
     {
-        Bird._count = Bird._count || 0;
-        ++Bird._count;
+        WingMan._count = WingMan._count || 0;
+        ++WingMan._count;
 
         super(gl);
 
-        this._image = document.getElementById('bird');
+        this._image = document.getElementById('wing-man');
         this.upload(this._image);
     }
 
@@ -813,14 +811,14 @@ class Bird extends Sprite
     get _initialFrame()
     {
         const n = 2;
-        return (Bird._count % n) * Math.floor(this._numberOfFrames / n);
+        return (WingMan._count % n) * Math.floor(this._numberOfFrames / n);
     }
 
     get _transform()
     {
         return `
         const float PI = float(${Math.PI});
-        const float INITIAL_PHASE = PI * float(${Bird._count});
+        const float INITIAL_PHASE = PI * float(${WingMan._count});
         const vec3 INITIAL_POSITION = vec3(1.25 * cos(INITIAL_PHASE), -0.25, 2.0);
         const vec3 SCALE = vec3(0.7);
 
@@ -836,9 +834,6 @@ class Bird extends Sprite
     }
 }
 
-
-
-
 /*
 
 MARTINS.js + WebGL code:
@@ -853,8 +848,8 @@ window.addEventListener('load', async function() {
             new AnimatedPyramid(gl),
             new AnimatedCube(gl),
             new ItWorks(gl),
-            new Bird(gl),
-            new Bird(gl),
+            new WingMan(gl),
+            new WingMan(gl),
         ];
 
         function initGL(canvas)
@@ -936,12 +931,11 @@ window.addEventListener('load', async function() {
             hudContainer: document.getElementById('ar-hud')
         });
 
-        //const useWebcam = true;
-        const useWebcam = (location.search.substr(1) == 'webcam');
         const video = document.getElementById('my-video');
-        const source = !useWebcam ? Martins.Source.Video(video) : Martins.Source.Camera({
-            resolution: 'md'
-        });
+        const useWebcam = (video === null);
+        const source = useWebcam ?
+            Martins.Source.Camera({ resolution: 'md' }) :
+            Martins.Source.Video(video);
 
         const session = await Martins.startSession({
             mode: 'immersive',
@@ -968,22 +962,4 @@ window.addEventListener('load', async function() {
 
         return session;
     }
-});
-
-// Toggle webcam
-window.addEventListener('load', () => {
-    const page = location.href.replace(/\?.*$/, '');
-    const usingWebcam = (location.search.substr(1) == 'webcam');
-    const button = document.getElementById('toggle-webcam');
-
-    if(!button)
-        return;
-
-    button.innerHTML = usingWebcam ? '&#x1F39E' : '&#x1F3A5';
-    button.addEventListener('click', () => {
-        if(usingWebcam)
-            location.href = page;
-        else
-            location.href = page + '?webcam';
-    });
 });

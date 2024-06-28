@@ -3,20 +3,16 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo with touch interaction using THREE.js</title>
-        <link href="../assets/demo.css" rel="stylesheet">
+        <title>MARTINS.js WebAR template</title>
+        <link href="demo.css" rel="stylesheet">
         <script src="../../dist/martins.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/build/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/examples/js/loaders/FontLoader.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/examples/js/geometries/TextGeometry.js"></script>
-        <script src="../assets/three-with-martins.js"></script>
         <script src="demo.js"></script>
     </head>
     <body>
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
                 <img id="scan" src="../assets/scan.png">
-                <button id="toggle-webcam"></button>
+                <a id="about" href="NOTICE.html"></a>
             </div>
         </div>
         <img id="my-reference-image" src="../assets/my-reference-image.webp" hidden>

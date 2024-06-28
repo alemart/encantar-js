@@ -3,11 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo with three.js</title>
+        <title>MARTINS.js WebAR demo with three.js and touch interaction</title>
         <link href="demo.css" rel="stylesheet">
         <script src="../../dist/martins.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/build/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/examples/js/loaders/GLTFLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/examples/js/loaders/FontLoader.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.138.3/examples/js/geometries/TextGeometry.js"></script>
         <script src="../assets/three-with-martins.js"></script>
         <script src="demo.js"></script>
     </head>
@@ -19,5 +20,9 @@
             </div>
         </div>
         <img id="my-reference-image" src="../assets/my-reference-image.webp" hidden>
+        <video id="my-video" hidden muted loop playsinline autoplay>
+            <source src="../assets/my-video.webm" type="video/webm" />
+            <source src="../assets/my-video.mp4" type="video/mp4" />
+        </video>
     </body>
 </html>

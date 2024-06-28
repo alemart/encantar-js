@@ -1,6 +1,6 @@
 /**
- * @file MARTINS.js WebAR demo using THREE.js
- * @version 1.0.2
+ * @file MARTINS.js WebAR demo with three.js
+ * @version 1.1.0
  * @author Alexandre Martins (https://github.com/alemart)
  * @license LGPL-3.0-or-later
  */
@@ -126,10 +126,11 @@ window.addEventListener('load', () => {
             hudContainer: document.getElementById('ar-hud')
         });
 
-        //const useWebcam = true;
-        const useWebcam = (location.search.substr(1) == 'webcam');
         const video = document.getElementById('my-video');
-        const source = !useWebcam ? Martins.Source.Video(video) : Martins.Source.Camera();
+        const useWebcam = (video === null);
+        const source = useWebcam ?
+            Martins.Source.Camera({ resolution: 'md' }) :
+            Martins.Source.Video(video);
 
         const session = await Martins.startSession({
             mode: 'immersive',
@@ -160,22 +161,4 @@ window.addEventListener('load', () => {
     // link MARTINS.js to THREE.js
     linkMartinsToTHREE(startARSession, animate, initialize);
 
-});
-
-// Toggle webcam
-window.addEventListener('load', () => {
-    const page = location.href.replace(/\?.*$/, '');
-    const usingWebcam = (location.search.substr(1) == 'webcam');
-    const button = document.getElementById('toggle-webcam');
-
-    if(!button)
-        return;
-
-    button.innerHTML = usingWebcam ? '&#x1F39E' : '&#x1F3A5';
-    button.addEventListener('click', () => {
-        if(usingWebcam)
-            location.href = page;
-        else
-            location.href = page + '?webcam';
-    });
 });

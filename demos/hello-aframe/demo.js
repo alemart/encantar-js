@@ -1,6 +1,6 @@
 /**
- * @file MARTINS.js WebAR demo using A-Frame
- * @version 1.0.2
+ * @file MARTINS.js WebAR demo with A-Frame
+ * @version 1.1.0
  * @author Alexandre Martins (https://github.com/alemart)
  * @license LGPL-3.0-or-later
  */
@@ -31,10 +31,11 @@ async function startARSession(canvas)
         hudContainer: document.getElementById('ar-hud')
     });
 
-    //const useWebcam = true;
-    const useWebcam = (location.search.substr(1) == 'webcam');
     const video = document.getElementById('my-video');
-    const source = !useWebcam ? Martins.Source.Video(video) : Martins.Source.Camera();
+    const useWebcam = (video === null);
+    const source = useWebcam ?
+        Martins.Source.Camera({ resolution: 'md' }) :
+        Martins.Source.Video(video);
 
     const session = await Martins.startSession({
         mode: 'immersive',
@@ -61,21 +62,3 @@ async function startARSession(canvas)
 
     return session;
 }
-
-// Toggle webcam
-window.addEventListener('load', () => {
-    const page = location.href.replace(/\?.*$/, '');
-    const usingWebcam = (location.search.substr(1) == 'webcam');
-    const button = document.getElementById('toggle-webcam');
-
-    if(!button)
-        return;
-
-    button.innerHTML = usingWebcam ? '&#x1F39E' : '&#x1F3A5';
-    button.addEventListener('click', () => {
-        if(usingWebcam)
-            location.href = page;
-        else
-            location.href = page + '?webcam';
-    });
-});
