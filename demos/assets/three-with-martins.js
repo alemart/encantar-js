@@ -7,8 +7,8 @@
 
 /* Usage of the indicated versions is encouraged */
 __THIS_GLUE_CODE_HAS_BEEN_TESTED_WITH__({
-    'MARTINS.js': { version: '0.1.2' },
-      'THREE.js': { version: '138' }
+    'MARTINS.js': { version: '0.2.0' },
+      'THREE.js': { version: '147' }
 });
 
 /**
