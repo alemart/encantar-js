@@ -1,6 +1,5 @@
 /**
  * @file MARTINS.js WebAR demo with A-Frame
- * @version 1.1.0
  * @author Alexandre Martins (https://github.com/alemart)
  * @license LGPL-3.0-or-later
  */
