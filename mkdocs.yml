@@ -17,6 +17,7 @@ extra_css: [ 'style/extra.css' ]
 extra_javascript: [ 'js/extra.js' ]
 
 plugins:
+  - search
   - mkdocs-simple-hooks:
       hooks:
         on_post_build: 'docs.hooks:copy_static_files'
