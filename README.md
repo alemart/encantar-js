@@ -13,7 +13,7 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 ## Try WebAR right now!
 
-[Launch a demo!](https://alemart.github.io/martins-js/demo/instructions)
+[Launch a demo!](https://alemart.github.io/martins-js/demo)
 
 >
 > **Guidelines:**

@@ -4,7 +4,7 @@
 
 Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelerated Augmented Reality engine for the web.
 
-[Get started](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo/instructions.md){ .md-button .md-button } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
+[Get started](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo.md){ .md-button .md-button } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
 
 ## Features
 

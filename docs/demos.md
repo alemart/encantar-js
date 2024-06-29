@@ -1,5 +1,7 @@
 ---
 title: WebAR Demo gallery
+#hide:
+#  - navigation
 ---
 
 # Demo gallery
@@ -10,13 +12,13 @@ Please read the [guidelines](#guidelines) before you play with the demos. Feel f
 
 ### WebAR with A-Frame
 
-Create an augmented scene with A-Frame. This is the easiest demo to edit!
+Create an augmented scene with [A-Frame](https://aframe.io){ ._blank }. This is the easiest demo to edit!
 
 [Launch demo](/martins-js/demos/hello-aframe/README.html){ ._blank .md-button }
 
 ### WebAR with three.js
 
-Create an augmented scene with three.js.
+Create an augmented scene with [three.js](https://threejs.org){ ._blank }.
 
 [Launch demo](/martins-js/demos/hello-three/README.html){ ._blank .md-button }
 

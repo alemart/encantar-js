@@ -62,7 +62,7 @@ nav:
     - 'License': 'license.md'
   - 'Download': 'download.md'
   - 'Demos':
-    - 'Demo gallery': 'gallery.md'
+    - 'Demo gallery': 'demos.md'
   - 'API':
     - 'General':
       - 'Session': 'api/session.md'

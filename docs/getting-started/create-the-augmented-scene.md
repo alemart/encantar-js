@@ -14,7 +14,7 @@ Writing a glue code is a task of moderate complexity. It requires dealing with m
 
 I provide easy-to-use glue codes that work with different 3D rendering technologies in my demos, so that you don't need to deal with the complexity. Those glue codes are JavaScript (.js) files. You just need to add a glue code to your web page (e.g., via a `<script>` tag) and then the integration will be done for you. It's really that simple!
 
-[Find the glue codes in my demos](../gallery.md){ .md-button ._blank }
+[Find the glue codes in my demos](../demos.md){ .md-button ._blank }
 
 ## Create the virtual scene
 
