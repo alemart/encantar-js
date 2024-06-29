@@ -1,7 +1,7 @@
 site_name: "MARTINS.js: GPU-accelerated Augmented Reality for the web"
 site_url: https://alemart.github.io/martins-js
 site_author: Alexandre Martins
-site_description: Free and open-source WebAR engine based on Speedy Vision.
+site_description: Open source WebAR engine. Runs everywhere. Easy to get started.
 copyright: Copyright &copy; 2022 - present Alexandre Martins
 
 repo_name: alemart/martins-js
