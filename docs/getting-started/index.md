@@ -8,16 +8,16 @@ Create amazing Augmented Reality experiences with **MARTINS.js**, a GPU-accelera
 
 ## Features
 
-* **Free and standalone**. It runs in any modern web browser. It can be used on Android, on iOS, and even on Desktop computers. No need of AR-capable devices.
+* **Runs everywhere**: on Android, on iOS, and even on Desktop computers. No need of AR-capable devices.
 * **Image tracking**. Use it to track detailed images such as: book covers, cartoons and photos.
 
 ## Why use MARTINS.js?
 
-* **No need to download apps!** MARTINS.js is a WebAR engine. It runs in web browsers. Users can access the AR experience immediately.
-* **Fast and powerful!** MARTINS.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
-* **No need of custom hardware or software!** MARTINS.js is built from scratch using standard web technologies. All it requires is a modern web browser.
-* **Fully standalone!** MARTINS.js has in it everything it needs to analyze the environment and help you create AR. There are no additional requirements. No need of WebXR.
+* **No need to download apps!** MARTINS.js is a WebAR engine: it runs in web browsers. Users can access the AR experiences immediately.
 * **Easy to get started!** MARTINS.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
+* **Fast and powerful!** MARTINS.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
+* **Fully standalone!** MARTINS.js is built from scratch using standard web technologies. No need for additional hardware or software!
+* **Free and open-source!** Get started right away!
 
 ## Browser compatibility
 
