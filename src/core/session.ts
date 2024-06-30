@@ -520,9 +520,13 @@ export class Session extends AREventTarget<SessionEventType>
                 // update internals
                 this._updateStats.update();
                 this._frameReady = true;
-            }).catch(err => {
-                // handle error
-                Utils.warning('Tracking error: ' + err.toString());
+            }).catch((err: any) => {
+                // log error
+                Utils.error('Tracking error: ' + err.toString(), err);
+
+                // throw WebGL errors
+                if(err.name == 'GLError' || (typeof err.cause == 'object' && err.cause.name == 'GLError'))
+                    throw err;
             });
         }
         else {
