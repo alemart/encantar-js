@@ -20,21 +20,24 @@
  * Error classes
  */
 
-type ErrorCause = Error | null;
+type MartinsErrorCause = Error | null;
 
 /**
  * Generic error class
  */
-abstract class MartinsError extends Error
+export abstract class MartinsError extends Error
 {
     /**
      * Constructor
      * @param message error message
      * @param cause optional error cause
      */
-    constructor(message = '', public readonly cause: ErrorCause = null)
+    constructor(message = '', public readonly cause: MartinsErrorCause = null)
     {
-        super(`${message}\n${cause ? cause.toString() : ''}`);
+        super([
+            message,
+            cause ? cause.toString() : '[martins-js]'
+        ].join('\n-> '));
     }
 
     /**
