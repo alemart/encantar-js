@@ -161,4 +161,20 @@ export class Utils
         // not WebKit
         return false;
     }
+
+    /**
+     * Device-specific information for debugging purposes
+     */
+    static deviceInfo(): string
+    {
+        return JSON.stringify({
+            isIOS: Utils.isIOS(),
+            isWebKit: Utils.isWebKit(),
+            renderer: Speedy.Platform.renderer,
+            vendor: Speedy.Platform.vendor,
+            screen: [screen.width, screen.height].toString(),
+            userAgent: navigator.userAgent,
+            platform: [Utils.platformString(), navigator.platform, navigator.vendor],
+        }, null, 4);
+    }
 }
