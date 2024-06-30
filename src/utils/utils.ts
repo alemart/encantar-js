@@ -20,9 +20,10 @@
  * Generic utilities
  */
 
+import Speedy from 'speedy-vision';
+import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { AssertionError, IllegalArgumentError } from './errors';
 import { Resolution, computeResolution } from '../core/resolution';
-import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 
 /**
  * Nullable type
@@ -119,12 +120,15 @@ export class Utils
      */
     static isIOS(): boolean
     {
-        const platform = Utils.platformString();
+        // at the time of this writing, navigator.userAgentData is not yet
+        // compatible with Safari. navigator.platform is deprecated, but
+        // predictable.
 
-        if(/(iOS|iPhone|iPad|iPod)/i.test(platform))
+        //if(/(iOS|iPhone|iPad|iPod)/i.test(Utils.platformString()))
+        if(/(iOS|iPhone|iPad|iPod)/i.test(navigator.platform))
             return true;
 
-        if(/Mac/i.test(platform) && navigator.maxTouchPoints !== undefined) // iPad OS 13+
+        if(/Mac/i.test(navigator.platform) && navigator.maxTouchPoints !== undefined) // iPad OS 13+
             return navigator.maxTouchPoints > 2;
 
         return false;
@@ -137,7 +141,7 @@ export class Utils
     static isWebKit(): boolean
     {
         // note: navigator.vendor is deprecated.
-        // Alternatively, test GL_RENDERER == "Apple GPU"
+        // Alternatively, test GL_RENDERER == "Apple GPU" (valid since Feb 2020)
         if(/Apple/.test(navigator.vendor))
             return true;
 
