@@ -190,6 +190,36 @@ export class Session extends AREventTarget<SessionEventType>
     {
         // If Safari or iOS, require version 15.2 or later
         if(/(Mac|iOS|iPhone|iPad|iPod)/i.test(Utils.platformString())) {
+
+            /*
+
+            iOS compatibility
+            -----------------
+
+            The engine is known to work on iPhone 8 or later, with iOS 15.2 or
+            later. Tested on many devices, including iPads, on the cloud.
+
+            The engine crashes on an iPhone 13 Pro Max with iOS 15.1 and on an
+            iPhone 12 Pro with iOS 15.0.2. A (valid) shader from speedy-vision
+            version 0.9.1 (bf-knn) fails to compile: "WebGL error. Program has
+            not been successfully linked".
+
+            The engine freezes on an older iPhone 6S (2015) with iOS 15.8.2.
+            The exact cause is unknown, but it happens when training an image
+            tracker, at ImageTrackerTrainingState._gpuUpdate() (a WebGL error?
+            a hardware limitation?)
+
+            Successfully tested down to iPhone 8 so far.
+            Successfully tested down to iOS 15.2.
+
+            >> WebGL2 support was introduced in Safari 15 <<
+
+            Note: the webp image format used in the demos is supported on
+            Safari for iOS 14+. Desktop Safari 14-15.6 supports webp, but
+            requires macOS 11 Big Sur or later. https://caniuse.com/webp
+
+            */
+
             const ios = /(iPhone|iPad|iPod).* (CPU[\s\w]* OS|CPU iPhone|iOS) ([\d\._]+)/.exec(navigator.userAgent); // Chrome, Firefox, Edge, Safari on iOS
             const safari = /(AppleWebKit)\/.* (Version)\/([\d\.]+)/.exec(navigator.userAgent); // Desktop and Mobile Safari, Epiphany on Linux
             const matches = safari || ios; // match safari first (min version)
@@ -525,8 +555,10 @@ export class Session extends AREventTarget<SessionEventType>
                 Utils.error('Tracking error: ' + err.toString(), err);
 
                 // throw WebGL errors
-                if(err.name == 'GLError' || (typeof err.cause == 'object' && err.cause.name == 'GLError'))
+                if(err.name == 'GLError' || (typeof err.cause == 'object' && err.cause.name == 'GLError')) {
+                    alert(err.message); // fatal error?
                     throw err;
+                }
             });
         }
         else {
