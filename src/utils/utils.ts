@@ -141,9 +141,14 @@ export class Utils
     static isWebKit(): boolean
     {
         // note: navigator.vendor is deprecated.
-        // Alternatively, test GL_RENDERER == "Apple GPU" (valid since Feb 2020)
         if(/Apple/.test(navigator.vendor))
             return true;
+
+        // Can a non WebKit-based browser pass this test?
+        // Test masked GL_RENDERER == "Apple GPU" (valid since Feb 2020)
+        // https://bugs.webkit.org/show_bug.cgi?id=207608
+        /*if(Speedy.Platform.renderer == 'Apple GPU' && Speedy.Platform.vendor == 'Apple Inc.')
+            return true;*/
 
         // Desktop and Mobile Safari, Epiphany on Linux
         if(/AppleWebKit\/.* Version\//.test(navigator.userAgent))
