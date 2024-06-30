@@ -188,7 +188,9 @@ export class Session extends AREventTarget<SessionEventType>
      */
     static isSupported(): boolean
     {
-        // If Safari or iOS, require version 15.2 or later
+        //alert(Utils.deviceInfo()); // debug
+
+        // If Safari / iOS, require version 15.2 or later
         if(/(Mac|iOS|iPhone|iPad|iPod)/i.test(Utils.platformString())) {
 
             /*
@@ -226,16 +228,26 @@ export class Session extends AREventTarget<SessionEventType>
 
             if(matches !== null) {
                 const version = matches[3] || '0.0';
-                const [x, y] = version.split(/[\._]/).map(v => parseInt(v));
+                const [x, y] = version.split(/[\._]/).map(v => parseInt(v) | 0);
 
                 if((x < 15) || (x == 15 && y < 2)) {
                     Utils.error(`${matches === safari ? 'Safari' : 'iOS'} version ${version} is not supported! User agent: ${navigator.userAgent}`);
                     return false;
                 }
+
+                // XXX reject older iPhone models? Which ones?
+                /*if(navigator.userAgent.includes('iPhone')) {
+                    // detect screen size?
+                }*/
             }
             else
                 Utils.warning(`Unrecognized user agent: ${navigator.userAgent}`);
         }
+
+        // Android: reject very old / weak devices?
+        // XXX establish criteria?
+        /*if(Utils.isAndroid()) {
+        }*/
 
         // Check if WebGL2 and WebAssembly are supported
         return Speedy.isSupported();
