@@ -456,19 +456,21 @@ export class Session extends AREventTarget<SessionEventType>
         const canvas = this._viewport._background;
         const ctx = canvas.getContext('2d', { alpha: false });
         
-        if(ctx) {
+        if(ctx && this.media.type != 'data') {
             ctx.imageSmoothingEnabled = false;
 
             // draw user media
-            const image = this.media.source;
+            const image = this.media.source as CanvasImageSource;
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
             // render output image(s)
             for(let i = 0; i < this._trackers.length; i++) {
-                const image = this._trackers[i]._output.image;
-                if(image !== undefined)
-                    ctx.drawImage(image.source, 0, 0, canvas.width, canvas.height);
-                    //ctx.drawImage(image.source, canvas.width - image.width, canvas.height - image.height, image.width, image.height);
+                const media = this._trackers[i]._output.image;
+                if(media !== undefined) {
+                    const image = media.source as CanvasImageSource;
+                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    //ctx.drawImage(image, canvas.width - media.width, canvas.height - media.height, media.width, media.height);
+                }
             }
 
             // render gizmos
