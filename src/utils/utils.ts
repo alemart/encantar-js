@@ -167,14 +167,15 @@ export class Utils
      */
     static deviceInfo(): string
     {
-        return JSON.stringify({
+        return 'Device info: ' + JSON.stringify({
             isIOS: Utils.isIOS(),
             isWebKit: Utils.isWebKit(),
             renderer: Speedy.Platform.renderer,
             vendor: Speedy.Platform.vendor,
-            screen: [screen.width, screen.height].toString(),
+            screen: [screen.width, screen.height].join('x'),
+            platform: [navigator.platform, navigator.vendor].join('; '),
             userAgent: navigator.userAgent,
-            platform: [Utils.platformString(), navigator.platform, navigator.vendor],
-        }, null, 4);
+            userAgentData: (navigator as any).userAgentData || null,
+        }, null, 2);
     }
 }
