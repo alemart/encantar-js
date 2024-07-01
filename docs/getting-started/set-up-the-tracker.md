@@ -139,8 +139,8 @@ window.onload = async function()
     try {
         if(!Martins.isSupported()) {
             throw new Error(
-                'Use a browser/device compatible with WebGL2 and WebAssembly. ' +
-                'Your user agent is ' + navigator.userAgent
+                'This device is not compatible with AR.\n\n' +
+                'User agent: ' + navigator.userAgent
             );
         }
 
@@ -180,8 +180,8 @@ window.onload = async function()
     try {
         if(!Martins.isSupported()) {
             throw new Error(
-                'Use a browser/device compatible with WebGL2 and WebAssembly. ' +
-                'Your user agent is ' + navigator.userAgent
+                'This device is not compatible with AR.\n\n' +
+                'User agent: ' + navigator.userAgent
             );
         }
 
