@@ -24,7 +24,7 @@ Create an augmented scene with [three.js](https://threejs.org){ ._blank }.
 
 ### WebAR with WebGL only
 
-Create an augmented scene without additional libraries, for curiosity only.
+Create an augmented scene without additional libraries.
 
 [Launch demo](/martins-js/demos/hello-webgl/README.html){ ._blank .md-button }
 
