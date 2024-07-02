@@ -151,7 +151,9 @@ export class VideoSource implements Source
                 if(video.hidden) {
                     video.hidden = false;
                     video.style.setProperty('opacity', '0');
-                    video.style.setProperty('position', 'absolute');
+                    video.style.setProperty('position', 'fixed'); // make sure that it's visible on-screen
+                    video.style.setProperty('left', '0');
+                    video.style.setProperty('top', '0');
                     //video.style.setProperty('display', 'none'); // doesn't work. Same as video.hidden
                     //video.style.setProperty('visibility', 'hidden'); // doesn't work either
                 }
