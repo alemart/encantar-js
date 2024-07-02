@@ -32,7 +32,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "speedy-vision": "github:alemart/speedy-vision"
+    "speedy-vision": "github:alemart/speedy-vision#v0.9.1"
   },
   "devDependencies": {
     "ts-loader": "^9.2.6",
