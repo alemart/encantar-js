@@ -139,7 +139,7 @@ window.onload = async function()
     try {
         if(!Martins.isSupported()) {
             throw new Error(
-                'This device is not compatible with AR.\n\n' +
+                'This device is not compatible with this AR experience.\n\n' +
                 'User agent: ' + navigator.userAgent
             );
         }
@@ -180,7 +180,7 @@ window.onload = async function()
     try {
         if(!Martins.isSupported()) {
             throw new Error(
-                'This device is not compatible with AR.\n\n' +
+                'This device is not compatible with this AR experience.\n\n' +
                 'User agent: ' + navigator.userAgent
             );
         }

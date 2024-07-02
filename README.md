@@ -45,4 +45,4 @@ MARTINS.js requires WebGL2 and WebAssembly.
 
 ## About
 
-MARTINS.js is free and open-source software developed by [Alexandre Martins](https://github.com/alemart) and released under the [LGPL](LICENSE.md). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
+MARTINS.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [LGPL](LICENSE.md). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
