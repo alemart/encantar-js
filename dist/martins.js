@@ -5,7 +5,7 @@
  * https://github.com/alemart/martins-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-07-03T00:48:51.452Z
+ * Date: 2024-07-03T01:35:21.792Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -30,7 +30,7 @@ return /******/ (() => { // webpackBootstrap
  * https://github.com/alemart/speedy-vision
  *
  * @license Apache-2.0
- * Date: 2024-07-03T00:44:51.739Z
+ * Date: 2024-07-03T01:32:00.614Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
@@ -9087,6 +9087,8 @@ class SpeedyVideoMediaSource extends SpeedyMediaSource {
    */
   _load(video) {
     if (this.isLoaded()) this.release();
+    setTimeout(() => video.load()); // tweak for slow connections
+
     return SpeedyVideoMediaSource._waitUntilPlayable(video).then(() => {
       return SpeedyVideoMediaSource._handleAutoplay(video).then(() => {
         this._data = video;
