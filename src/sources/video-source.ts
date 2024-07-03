@@ -256,19 +256,20 @@ export class VideoSource implements Source
     /**
      * Wait for the input video to be playable
      * @param video
-     * @returns a promise that resolves to the input video when it can be played through to the end
+     * @returns a promise that resolves to the input video when it can be played
      */
     private _waitUntilPlayable(video: HTMLVideoElement): SpeedyPromise<HTMLVideoElement>
     {
         const TIMEOUT = 15000, INTERVAL = 500;
 
-        if(video.readyState >= 4)
+        if(video.readyState >= 3)
             return Speedy.Promise.resolve(video);
 
         return new Speedy.Promise<HTMLVideoElement>((resolve, reject) => {
             let ms = 0, t = setInterval(() => {
 
-                if(video.readyState >= 4) { // canplaythrough
+                //if(video.readyState >= 4) { // canplaythrough (may timeout on slow connections)
+                if(video.readyState >= 3) {
                     clearInterval(t);
                     resolve(video);
                 }
