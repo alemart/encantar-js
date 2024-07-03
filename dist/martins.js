@@ -5,7 +5,7 @@
  * https://github.com/alemart/martins-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-07-03T01:35:21.792Z
+ * Date: 2024-07-03T02:20:15.988Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -30,7 +30,7 @@ return /******/ (() => { // webpackBootstrap
  * https://github.com/alemart/speedy-vision
  *
  * @license Apache-2.0
- * Date: 2024-07-03T01:32:00.614Z
+ * Date: 2024-07-03T02:16:25.769Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
@@ -9087,8 +9087,8 @@ class SpeedyVideoMediaSource extends SpeedyMediaSource {
    */
   _load(video) {
     if (this.isLoaded()) this.release();
-    setTimeout(() => video.load()); // tweak for slow connections
-
+    utils/* Utils */.A.log('Loading a video...');
+    video.load();
     return SpeedyVideoMediaSource._waitUntilPlayable(video).then(() => {
       return SpeedyVideoMediaSource._handleAutoplay(video).then(() => {
         this._data = video;
@@ -9143,7 +9143,7 @@ class SpeedyVideoMediaSource extends SpeedyMediaSource {
    * @returns {SpeedyPromise<HTMLVideoElement>} resolves to the input video when it can be played
    */
   static _waitUntilPlayable(video) {
-    const TIMEOUT = 15000,
+    const TIMEOUT = 30000,
       INTERVAL = 500;
     if (video.readyState >= 3) return speedy_promise/* SpeedyPromise */.i.resolve(video);
     return new speedy_promise/* SpeedyPromise */.i((resolve, reject) => {
