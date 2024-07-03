@@ -23,7 +23,7 @@
   ],
   "main": "dist/martins.js",
   "scripts": {
-    "start": "webpack serve --mode development --env PORT=8000",
+    "start": "webpack serve --mode development --env PORT=8000 --env minimize=1",
     "build-dev": "npm run update && npm run clean && webpack --mode development",
     "build": "npm run update && npm run clean && webpack --mode production && webpack --mode production --env minimize=1",
     "clean": "rm -rf dist/martins*.js",

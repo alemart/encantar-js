@@ -61,12 +61,18 @@ module.exports = (env, argv) => ({
             test: /\.ts$/,
             include: path.resolve(__dirname, 'src'),
             exclude: /node_modules/,
-            use: 'ts-loader',
+            use: [{
+                loader: 'ts-loader',
+                options: {
+                    // improve the build time when using the dev server
+                    transpileOnly: env.PORT !== undefined,
+                },
+            }],
         }],
     },
 
     devServer: {
-        https: true,
+        server: 'https',
         host: env.HOST || '0.0.0.0',
         port: env.PORT || 8000,
         static: ['demos', 'tests'].map(dir => ({
