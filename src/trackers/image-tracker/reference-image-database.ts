@@ -27,7 +27,10 @@ import { ReferenceImage } from './reference-image';
 import { IllegalArgumentError, IllegalOperationError } from '../../utils/errors';
 
 /** Default capacity of a Reference Image Database */
-const DEFAULT_CAPACITY = 100;
+const DEFAULT_CAPACITY = 100; // this number should exceed normal usage
+                              // XXX this number may be changed (is 100 too conservative?)
+                              // further testing is needed to verify the appropriateness of this number;
+                              // it depends on the images, on the keypoint descriptors, and even on the target devices
 
 /** Generate a unique name for a reference image */
 const generateUniqueName = () => 'target-' + Math.random().toString(16).substr(2);
@@ -88,18 +91,17 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
 
     /**
      * Maximum number of elements
+     * Increasing the capacity is considered experimental
      */
-    /*
     set capacity(value: number)
     {
         const capacity = Math.max(0, value | 0);
 
         if(this.count > capacity)
-            throw new IllegalArgumentError(`Can't set the capacity of the database to ${this._capacity}: it currently stores ${this.count} entries`);
+            throw new IllegalArgumentError(`Can't set the capacity of the database to ${capacity}: it currently stores ${this.count} entries`);
 
         this._capacity = capacity;
     }
-    */
 
     /**
      * Iterates over the collection
