@@ -1,6 +1,6 @@
 {
   "name": "martins-js",
-  "version": "0.2.0",
+  "version": "0.2.1-wip",
   "description": "GPU-accelerated Augmented Reality for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
   "homepage": "https://github.com/alemart/martins-js",
