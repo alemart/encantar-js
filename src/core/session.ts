@@ -26,7 +26,7 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable, Utils } from '../utils/utils';
 import { AREvent, AREventTarget } from '../utils/ar-events';
 import { IllegalArgumentError, IllegalOperationError, NotSupportedError } from '../utils/errors';
-import { Viewport, ImmersiveViewport, InlineViewport } from './viewport';
+import { Viewport, BaseViewport, ImmersiveViewport, InlineViewport } from './viewport';
 import { Settings } from './settings';
 import { Stats } from './stats';
 import { StatsPanel } from './stats-panel';
@@ -53,7 +53,7 @@ export interface SessionOptions
     sources: Source[];
 
     /** viewport */
-    viewport: Nullable<Viewport>;
+    viewport: Nullable<BaseViewport>;
 
     /** show stats? */
     stats?: boolean;
@@ -141,7 +141,7 @@ export class Session extends AREventTarget<SessionEventType>
      * @param stats render stats panel?
      * @param gizmos render gizmos?
      */
-    private constructor(sources: Source[], mode: SessionMode, viewport: Viewport, stats: boolean, gizmos: boolean)
+    private constructor(sources: Source[], mode: SessionMode, viewport: BaseViewport, stats: boolean, gizmos: boolean)
     {
         super();
 
@@ -495,7 +495,7 @@ export class Session extends AREventTarget<SessionEventType>
      */
     private _renderUserMedia(): void
     {
-        const canvas = this._viewport._background;
+        const canvas = this._viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
         
         if(ctx && this.media.type != 'data') {

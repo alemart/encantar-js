@@ -30,6 +30,7 @@ import { HUD, HUDContainer } from './hud';
 import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
 
 
+
 /** Viewport container */
 export type ViewportContainer = HTMLDivElement;
 
@@ -42,10 +43,18 @@ type ViewportEventType = 'resize';
 /** An event emitted by a Viewport */
 class ViewportEvent extends AREvent<ViewportEventType> { }
 
+/** Viewport event target */
+class ViewportEventTarget extends AREventTarget<ViewportEventType> { }
+
+/** Viewport style (immersive mode) */
+type ViewportStyle = 'best-fit' | 'stretch' | 'inline';
+
+
+
 /**
  * Viewport interface
  */
-export interface Viewport extends AREventTarget<ViewportEventType>
+export interface Viewport extends ViewportEventTarget
 {
     /** Resolution of the virtual scene */
     readonly resolution: Resolution;
@@ -53,29 +62,29 @@ export interface Viewport extends AREventTarget<ViewportEventType>
     /** Viewport container */
     readonly container: ViewportContainer;
 
+    /** Viewport style */
+    style: ViewportStyle;
+
     /** HUD */
     readonly hud: HUD;
-
-    /** Size of the drawing buffer of the foreground canvas */
-    readonly virtualSize: SpeedySize;
 
     /** Canvas on which the virtual scene will be drawn */
     readonly canvas: HTMLCanvasElement;
 
+    /** Size of the drawing buffer of the foreground canvas */
+    readonly virtualSize: SpeedySize;
+
     /** Canvas on which the physical scene will be drawn @internal */
-    readonly _background: HTMLCanvasElement;
+    readonly _backgroundCanvas: HTMLCanvasElement;
 
     /** Size of the drawing buffer of the background canvas @internal */
-    readonly _size: SpeedySize;
+    readonly _realSize: SpeedySize;
 
     /** Initialize the viewport @internal */
     _init(): void;
 
     /** Release the viewport @internal */
     _release(): void;
-
-    /** Function to be called when the viewport is resized @internal */
-    _onResize(): void;
 }
 
 /**
@@ -92,6 +101,9 @@ export interface ViewportSettings
     /** Resolution of the canvas on which the virtual scene will be drawn */
     resolution?: Resolution;
 
+    /** Viewport style */
+    style?: ViewportStyle;
+
     /** An existing <canvas> on which the virtual scene will be drawn */
     canvas?: Nullable<HTMLCanvasElement>;
 }
@@ -101,11 +113,24 @@ const DEFAULT_VIEWPORT_SETTINGS: Readonly<Required<ViewportSettings>> = {
     container: null,
     hudContainer: null,
     resolution: 'lg',
+    style: 'best-fit',
     canvas: null,
 };
 
+/** Z-index of the viewport container */
+const CONTAINER_ZINDEX = 1000000000;
+
 /** Base z-index of the children of the viewport container */
 const BASE_ZINDEX = 0;
+
+/** Z-index of the background canvas */
+const BACKGROUND_ZINDEX = BASE_ZINDEX + 0;
+
+/** Z-index of the foreground canvas */
+const FOREGROUND_ZINDEX = BASE_ZINDEX + 1;
+
+/** Z-index of the HUD */
+const HUD_ZINDEX = BASE_ZINDEX + 2;
 
 /** Default viewport width, in pixels */
 const DEFAULT_VIEWPORT_WIDTH = 300;
@@ -118,7 +143,7 @@ const DEFAULT_VIEWPORT_HEIGHT = 150;
 /**
  * Viewport
  */
-export class BaseViewport extends AREventTarget<ViewportEventType> implements Viewport
+export class BaseViewport extends ViewportEventTarget implements Viewport
 {
     /** Viewport resolution (controls the size of the drawing buffer of the foreground canvas) */
     private readonly _resolution: Resolution;
@@ -129,8 +154,11 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
     /** An overlay displayed in front of the augmented scene */
     protected readonly _hud: HUD;
 
+    /** Viewport style */
+    protected _style: ViewportStyle;
+
     /** Internal canvas used to render the physical scene */
-    protected readonly _backgroundCanvas: HTMLCanvasElement;
+    private readonly __backgroundCanvas: HTMLCanvasElement;
 
     /** A canvas used to render the virtual scene */
     protected readonly _foregroundCanvas: HTMLCanvasElement;
@@ -148,23 +176,37 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
     {
         super();
 
-        // validate settings
         const settings = Object.assign({}, DEFAULT_VIEWPORT_SETTINGS, viewportSettings);
+        const size = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
+
+        // validate settings
         if(settings.container == null)
             throw new IllegalArgumentError('Unspecified viewport container');
+        else if(!(settings.container instanceof HTMLElement))
+            throw new IllegalArgumentError('Invalid viewport container');
 
         // initialize attributes
         this._resolution = settings.resolution;
         this._container = settings.container;
         this._hud = new HUD(settings.container, settings.hudContainer);
-        this._parentOfImportedForegroundCanvas = settings.canvas ? settings.canvas.parentNode : null;
 
-        // create canvas elements
-        const size = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
-        this._backgroundCanvas = this._createBackgroundCanvas(this._container, size);
-        this._foregroundCanvas = settings.canvas == null ?
-            this._createForegroundCanvas(this._container, size) :
-            this._foregroundCanvas = this._importForegroundCanvas(settings.canvas, this._container, size);
+        // make this more elegant?
+        // need to initialize this._style and validate settings.style
+        this._style = DEFAULT_VIEWPORT_SETTINGS.style;
+        this.style = settings.style;
+
+        // create the background canvas
+        this.__backgroundCanvas = this._createBackgroundCanvas(this._container, size);
+
+        // create the foreground canvas
+        if(settings.canvas == null) {
+            this._foregroundCanvas = this._createForegroundCanvas(this._container, size);
+            this._parentOfImportedForegroundCanvas = null;
+        }
+        else {
+            this._foregroundCanvas = settings.canvas;
+            this._parentOfImportedForegroundCanvas = settings.canvas.parentNode;
+        }
     }
 
     /**
@@ -173,6 +215,25 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
     get container(): ViewportContainer
     {
         return this._container;
+    }
+
+    /**
+     * Viewport style
+     */
+    get style(): ViewportStyle
+    {
+        return this._style;
+    }
+
+    /**
+     * Set viewport style
+     */
+    set style(value: ViewportStyle)
+    {
+        if(value != 'best-fit' && value != 'stretch' && value != 'inline')
+            throw new IllegalArgumentError('Invalid viewport style: ' + value);
+
+        this._style = value;
     }
 
     /**
@@ -210,19 +271,19 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
     }
 
     /**
-     * Background canvas
+     * The canvas on which the physical scene will be drawn
      * @internal
      */
-    get _background(): HTMLCanvasElement
+    get _backgroundCanvas(): HTMLCanvasElement
     {
-        return this._backgroundCanvas;
+        return this.__backgroundCanvas;
     }
 
     /**
      * Size of the drawing buffer of the background canvas, in pixels
      * @internal
      */
-    get _size(): SpeedySize
+    get _realSize(): SpeedySize
     {
         throw new IllegalOperationError();
     }
@@ -233,8 +294,17 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
      */
     _init(): void
     {
+        // import foreground canvas
+        if(this._parentOfImportedForegroundCanvas != null) {
+            const size = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
+            this._importForegroundCanvas(this._foregroundCanvas, this._container, size);
+        }
+
+        // setup CSS
         this._container.style.touchAction = 'none';
-        this._hud._init(BASE_ZINDEX + 2);
+
+        // initialize the HUD
+        this._hud._init(HUD_ZINDEX);
         this._hud.visible = true;
     }
 
@@ -244,53 +314,15 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
      */
     _release(): void
     {
-        //this._hud.visible = false; // depends on the type of the viewport
+        // release the HUD
         this._hud._release();
-        this._restoreImportedForegroundCanvas();
+
+        // reset the CSS
         this._container.style.touchAction = 'auto';
-    }
 
-    /**
-     * Function to be called when the viewport is resized
-     * @internal
-     */
-    _onResize(): void
-    {
-        // Resize the drawing buffer of the foreground canvas, so that it
-        // matches the desired resolution and the aspect ratio of the
-        // background canvas
-        const virtualSize = this.virtualSize;
-        this._foregroundCanvas.width = virtualSize.width;
-        this._foregroundCanvas.height = virtualSize.height;
-        this._styleCanvas(this._foregroundCanvas, 'foreground');
-
-        // dispatch event
-        const event = new ViewportEvent('resize');
-        this.dispatchEvent(event);
-    }
-
-    /**
-     * Create the background canvas
-     * @param parent parent container
-     * @param size size of the drawing buffer
-     * @returns a new canvas as a child of parent
-     */
-    private _createBackgroundCanvas(parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
-    {
-        const canvas = this._createCanvas(parent, size);
-        return this._styleCanvas(canvas, 'background');
-    }
-
-    /**
-     * Create the foreground canvas
-     * @param parent parent container
-     * @param size size of the drawing buffer
-     * @returns a new canvas as a child of parent
-     */
-    private _createForegroundCanvas(parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
-    {
-        const canvas = this._createCanvas(parent, size);
-        return this._styleCanvas(canvas, 'foreground');
+        // restore imported canvas
+        if(this._parentOfImportedForegroundCanvas != null)
+            this._restoreImportedForegroundCanvas();
     }
 
     /**
@@ -311,28 +343,27 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
     }
 
     /**
-     * Add suitable CSS rules to a canvas
-     * @param canvas
-     * @param canvasType
-     * @returns canvas
+     * Create the background canvas
+     * @param parent parent container
+     * @param size size of the drawing buffer
+     * @returns a new canvas as a child of parent
      */
-    private _styleCanvas(canvas: HTMLCanvasElement, canvasType: 'foreground' | 'background'): HTMLCanvasElement
+    private _createBackgroundCanvas(parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
     {
-        const offset = (canvasType == 'foreground') ? 1 : 0;
-        const zIndex = BASE_ZINDEX + offset;
+        const canvas = this._createCanvas(parent, size);
+        return this._styleCanvas(canvas, BACKGROUND_ZINDEX);
+    }
 
-        canvas.setAttribute('style', [
-            'position: absolute',
-            'left: 0px',
-            'top: 0px',
-
-            'z-index: ' + String(zIndex),
-
-            'width: 100% !important',
-            'height: 100% !important',
-        ].join('; '));
-
-        return canvas;
+    /**
+     * Create the foreground canvas
+     * @param parent parent container
+     * @param size size of the drawing buffer
+     * @returns a new canvas as a child of parent
+     */
+    private _createForegroundCanvas(parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
+    {
+        const canvas = this._createCanvas(parent, size);
+        return this._styleCanvas(canvas, FOREGROUND_ZINDEX);
     }
 
     /**
@@ -345,7 +376,7 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
     private _importForegroundCanvas(canvas: HTMLCanvasElement, parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
     {
         if(!(canvas instanceof HTMLCanvasElement))
-            throw new IllegalArgumentError(`Not a <canvas>: ${canvas}`);
+            throw new IllegalArgumentError('Not a canvas: ' + canvas);
 
         // borrow the canvas; add it as a child of the viewport container
         canvas.remove();
@@ -356,7 +387,7 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
 
         canvas.dataset.cssText = canvas.style.cssText; // save CSS
         canvas.style.cssText = ''; // clear CSS
-        this._styleCanvas(canvas, 'foreground');
+        this._styleCanvas(canvas, FOREGROUND_ZINDEX);
 
         return canvas;
     }
@@ -368,19 +399,37 @@ export class BaseViewport extends AREventTarget<ViewportEventType> implements Vi
     {
         // not an imported canvas; nothing to do
         if(this._parentOfImportedForegroundCanvas == null)
-            return;
+            throw new IllegalOperationError();
 
         const canvas = this._foregroundCanvas;
         canvas.style.cssText = canvas.dataset.cssText || ''; // restore CSS
         canvas.remove();
         this._parentOfImportedForegroundCanvas.appendChild(canvas);
     }
+
+    /**
+     * Add suitable CSS rules to a canvas
+     * @param canvas
+     * @param canvasType
+     * @returns canvas
+     */
+    private _styleCanvas(canvas: HTMLCanvasElement, zIndex: number): HTMLCanvasElement
+    {
+        canvas.style.position = 'absolute';
+        canvas.style.left = '0px';
+        canvas.style.top = '0px';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = String(zIndex);
+
+        return canvas;
+    }
 }
 
 /**
  * Viewport decorator
  */
-abstract class ViewportDecorator extends AREventTarget<ViewportEventType> implements Viewport
+abstract class ViewportDecorator extends ViewportEventTarget implements Viewport
 {
     /** The decorated viewport */
     private _base: Viewport;
@@ -409,6 +458,22 @@ abstract class ViewportDecorator extends AREventTarget<ViewportEventType> implem
     get container(): ViewportContainer
     {
         return this._base.container;
+    }
+
+    /**
+     * Viewport style
+     */
+    get style(): ViewportStyle
+    {
+        return this._base.style;
+    }
+
+    /**
+     * Set viewport style
+     */
+    set style(value: ViewportStyle)
+    {
+        this._base.style = value;
     }
 
     /**
@@ -448,16 +513,16 @@ abstract class ViewportDecorator extends AREventTarget<ViewportEventType> implem
      * Background canvas
      * @internal
      */
-    get _background(): HTMLCanvasElement
+    get _backgroundCanvas(): HTMLCanvasElement
     {
-        return this._base._background;
+        return this._base._backgroundCanvas;
     }
 
     /**
      * Size of the drawing buffer of the background canvas, in pixels
      * @internal
      */
-    get _size(): SpeedySize
+    get _realSize(): SpeedySize
     {
         return this._getSize();
     }
@@ -478,15 +543,6 @@ abstract class ViewportDecorator extends AREventTarget<ViewportEventType> implem
     _release(): void
     {
         this._base._release();
-    }
-
-    /**
-     * Function to be called when the viewport is resized
-     * @internal
-     */
-    _onResize(): void
-    {
-        this._base._onResize();
     }
 
     /**
@@ -529,6 +585,9 @@ abstract class ResizableViewport extends ViewportDecorator
     /** is this viewport subject to being resized? */
     private _active: boolean;
 
+    /** a bound _onResize */
+    private _resize: () => void;
+
 
 
     /**
@@ -536,16 +595,12 @@ abstract class ResizableViewport extends ViewportDecorator
      * @param base to be decorated
      * @param getSize size getter
      */
-    constructor(base: Viewport, getSize: ViewportSizeGetter)
+    constructor(base: BaseViewport, getSize: ViewportSizeGetter)
     {
         super(base, getSize);
         this._active = false;
+        this._resize = this._onResize.bind(this);
     }
-
-    /**
-     * Resize the viewport
-     */
-    protected abstract _resize(): void;
 
     /**
      * Initialize the viewport
@@ -571,14 +626,20 @@ abstract class ResizableViewport extends ViewportDecorator
 
             timeout = setTimeout(() => {
                 timeout = null;
-                this._resize.call(this);
-                this._onResize.call(this);
+                this._resize();
             }, 100);
         };
-
         window.addEventListener('resize', onresize);
-        this._resize();
-        this._onResize();
+
+        // handle changes of orientation
+        // (is this needed? we already listen to resize events)
+        if(screen.orientation !== undefined)
+            screen.orientation.addEventListener('change', this._resize);
+        else
+            window.addEventListener('orientationchange', this._resize); // deprecated
+
+        // trigger a resize to setup the sizes / the CSS
+        setTimeout(this._resize, 0);
     }
 
     /**
@@ -587,8 +648,37 @@ abstract class ResizableViewport extends ViewportDecorator
      */
     _release(): void
     {
+        if(screen.orientation !== undefined)
+            screen.orientation.removeEventListener('change', this._resize);
+        else
+            window.removeEventListener('orientationchange', this._resize); // deprecated
+
         this._active = false;
         super._release();
+    }
+
+    /**
+     * Function to be called when the viewport is resized
+     */
+    protected _onResize(): void
+    {
+        // Resize the drawing buffer of the foreground canvas, so that it
+        // matches the desired resolution, as well as the aspect ratio of the
+        // background canvas
+        const foregroundCanvas = this.canvas;
+        const virtualSize = this.virtualSize;
+        foregroundCanvas.width = virtualSize.width;
+        foregroundCanvas.height = virtualSize.height;
+
+        // Resize the drawing buffer of the background canvas
+        const backgroundCanvas = this._backgroundCanvas;
+        const realSize = this._realSize;
+        backgroundCanvas.width = realSize.width;
+        backgroundCanvas.height = realSize.height;
+
+        // dispatch event
+        const event = new ViewportEvent('resize');
+        this.dispatchEvent(event);
     }
 }
 
@@ -598,13 +688,25 @@ abstract class ResizableViewport extends ViewportDecorator
 export class ImmersiveViewport extends ResizableViewport
 {
     /**
+     * Initialize the viewport
+     * @internal
+     */
+    _init(): void
+    {
+        super._init();
+
+        this.container.style.zIndex = String(CONTAINER_ZINDEX);
+        this.container.style.backgroundColor = 'black';
+    }
+
+    /**
      * Release the viewport
      * @internal
      */
     _release(): void
     {
         this.canvas.remove();
-        this._background.remove();
+        this._backgroundCanvas.remove();
         this.hud.visible = false;
         this.container.style.cssText = ''; // reset CSS
 
@@ -615,40 +717,42 @@ export class ImmersiveViewport extends ResizableViewport
      * Resize the immersive viewport, so that it occupies the entire page.
      * We respect the aspect ratio of the source media
      */
-    protected _resize(): void
+    protected _onResize(): void
     {
-        const { width, height } = this._size;
-        const viewportSize = Speedy.Size(0, 0);
-        const viewportAspectRatio = width / height;
-        const windowSize = Speedy.Size(window.innerWidth, window.innerHeight);
-        const windowAspectRatio = windowSize.width / windowSize.height;
+        super._onResize();
 
-        // figure out the viewport size
-        if(viewportAspectRatio <= windowAspectRatio) {
-            viewportSize.height = windowSize.height;
-            viewportSize.width = (viewportSize.height * viewportAspectRatio) | 0;
-        }
-        else {
-            viewportSize.width = windowSize.width;
-            viewportSize.height = (viewportSize.width / viewportAspectRatio) | 0;
-        }
-
-        // position the viewport and set its size
         const container = this.container;
         container.style.position = 'fixed';
-        container.style.left = `calc(50% - ${viewportSize.width >>> 1}px)`;
-        container.style.top = `calc(50% - ${viewportSize.height >>> 1}px)`;
-        container.style.zIndex = '1000000000'; // 1B //String(2147483647);
-        container.style.width = viewportSize.width + 'px';
-        container.style.height = viewportSize.height + 'px';
-        container.style.backgroundColor = '#000';
 
-        // set the size of the drawing buffer of the background canvas
-        const backgroundCanvas = this._background;
-        const backgroundCanvasAspectRatio = viewportAspectRatio;
-        const referenceHeight = height;
-        backgroundCanvas.height = referenceHeight;
-        backgroundCanvas.width = (backgroundCanvas.height * backgroundCanvasAspectRatio) | 0;
+        if(this.style == 'best-fit') {
+            // cover the page while maintaining the aspect ratio
+            let viewportWidth = 0, viewportHeight = 0;
+            const windowAspectRatio = window.innerWidth / window.innerHeight;
+            const viewportAspectRatio = this._realSize.width / this._realSize.height;
+
+            if(viewportAspectRatio <= windowAspectRatio) {
+                viewportHeight = window.innerHeight;
+                viewportWidth = (viewportHeight * viewportAspectRatio) | 0;
+            }
+            else {
+                viewportWidth = window.innerWidth;
+                viewportHeight = (viewportWidth / viewportAspectRatio) | 0;
+            }
+
+            container.style.left = `calc(50% - ${viewportWidth >>> 1}px)`;
+            container.style.top = `calc(50% - ${viewportHeight >>> 1}px)`;
+            container.style.width = viewportWidth + 'px';
+            container.style.height = viewportHeight + 'px';
+        }
+        else if(this.style == 'stretch') {
+            // stretch to cover the entire page
+            container.style.left = '0px';
+            container.style.top = '0px';
+            container.style.width = window.innerWidth + 'px';
+            container.style.height = window.innerHeight + 'px';
+        }
+        else
+            throw new IllegalOperationError('Invalid immersive viewport style: ' + this.style);
     }
 }
 
@@ -658,18 +762,46 @@ export class ImmersiveViewport extends ResizableViewport
 export class InlineViewport extends ResizableViewport
 {
     /**
-     * Resize the inline viewport
+     * Initialize the viewport
+     * @internal
      */
-    protected _resize(): void
+    _init(): void
     {
-        const { width, height } = this._size;
+        super._init();
+        this.style = 'inline';
 
-        this.container.style.position = 'relative';
-        this.container.style.width = width + 'px';
-        this.container.style.height = height + 'px';
-        //this.container.style.display = 'inline-block';
+        this.container.style.zIndex = String(CONTAINER_ZINDEX);
+        this.container.style.backgroundColor = 'black';
+    }
 
-        this._background.width = width;
-        this._background.height = height;
+    /**
+     * Release the viewport
+     * @internal
+     */
+    _release(): void
+    {
+        this.container.style.cssText = ''; // reset CSS
+        super._release();
+    }
+
+    /**
+     * Resize the inline viewport
+     * (we still take into account orientation changes)
+     */
+    protected _onResize(): void
+    {
+        super._onResize();
+
+        const container = this.container;
+        container.style.position = 'relative';
+
+        if(this.style == 'inline') {
+            container.style.left = '0px';
+            container.style.top = '0px';
+            container.style.width = this._realSize.width + 'px';
+            container.style.height = this._realSize.height + 'px';
+        }
+        else
+            throw new IllegalOperationError('Invalid inline viewport style: ' + this.style);
     }
 }

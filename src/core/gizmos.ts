@@ -84,8 +84,8 @@ export class Gizmos
             return;
 
         // viewport
-        const viewportSize = viewport._size;
-        const canvas = viewport._background;
+        const viewportSize = viewport._realSize;
+        const canvas = viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
         if(!ctx)
             throw new IllegalOperationError();

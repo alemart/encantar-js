@@ -17,6 +17,7 @@ Create a new viewport with the specified `settings`.
     * `hudContainer: HTMLDivElement, optional`. An overlay that will be displayed in front of the augmented scene. It must be a direct child of `container` in the DOM tree.
     * `resolution: Resolution, optional`. The [resolution](resolution.md) of the virtual scene.
     * `canvas: HTMLCanvasElement, optional`. An existing canvas on which the virtual scene will be drawn. The engine automatically creates a canvas. You should only specify an existing canvas if you must. Experimental.
+    * `style: string, optional.` The [viewport style](#style). *Since:* 0.2.1
 
 **Returns**
 
@@ -51,17 +52,31 @@ The [HUD](hud.md).
 
 The [resolution](resolution.md) of the virtual scene.
 
+### virtualSize
+
+`viewport.virtualSize: SpeedySize, read-only`
+
+The size in pixels that matches the [resolution](#resolution) of the virtual scene.
+
 ### canvas
 
 `viewport.canvas: HTMLCanvasElement, read-only`
 
 A `<canvas>` on which the virtual scene is drawn.
 
-### virtualSize
+### style
 
-`viewport.virtualSize: SpeedySize, read-only`
+`viewport.style: string`
 
-The size in pixels that matches the [resolution](#resolution) of the virtual scene.
+The style determines the way the viewport appears on the screen. Different styles are applicable to different [session modes](session.md#mode). The following are valid styles:
+
+* `"best-fit"`: an immersive viewport that is scaled in a way that covers the page while preserving the aspect ratio of the augmented scene.
+* `"stretch"`: an immersive viewport that is scaled in a way that covers the entire page, stretching the augmented scene if necessary.
+* `"inline"`: an inline viewport that follows the typical flow of a web page.
+
+The default style is `"best-fit"` in immersive mode, or `"inline"` in inline mode.
+
+*Since:* 0.2.1
 
 ## Events
 
@@ -69,7 +84,7 @@ A viewport is an [AREventTarget](ar-event-target.md). You can listen to the foll
 
 ### resize
 
-The viewport has been resized. This may happen when the user resizes the window of the web browser or when the mobile device is flipped.
+The viewport has been resized. This will happen when the user resizes the window of the web browser or when the mobile device is flipped.
 
 **Example**
 
