@@ -30,7 +30,7 @@ A promise that resolves to a new Session object.
 
 `session.mode: string, read-only`
 
-Session mode.
+Session mode: either `"immersive"` or `"inline"`.
 
 ### time
 
