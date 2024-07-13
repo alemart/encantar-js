@@ -798,8 +798,8 @@ export class InlineViewport extends ResizableViewport
         if(this.style == 'inline') {
             container.style.left = '0px';
             container.style.top = '0px';
-            container.style.width = this._realSize.width + 'px';
-            container.style.height = this._realSize.height + 'px';
+            container.style.width = this.virtualSize.width + 'px';
+            container.style.height = this.virtualSize.height + 'px';
         }
         else
             throw new IllegalOperationError('Invalid inline viewport style: ' + this.style);
