@@ -1,6 +1,6 @@
 # Viewport
 
-The viewport is the area of the web page in which the augmented scene will be displayed.
+The viewport is the area of the web page in which the augmented scene is displayed.
 
 ## Instantiation
 
@@ -77,6 +77,63 @@ The style determines the way the viewport appears on the screen. Different style
 The default style is `"best-fit"` in immersive mode, or `"inline"` in inline mode.
 
 *Since:* 0.2.1
+
+### fullscreen
+
+`viewport.fullscreen: boolean, read-only`
+
+Whether or not the viewport [container](#container) is being displayed in fullscreen mode.
+
+*Since:* 0.2.1
+
+## Methods
+
+### requestFullscreen
+
+`viewport.requestFullscreen(): SpeedyPromise<void>`
+
+Make a request to the user agent so that the viewport [container](#container) is displayed in fullscreen mode. The user must interact with the page (e.g., tap on a button) in order to comply with [browser policies](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen#security), otherwise the request will not succeed.
+
+!!! info "iPhone support"
+
+    At the time of this writing, the fullscreen mode is [not supported on iPhone](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen#browser_compatibility). An alternative way to create a fullscreen experience is to set the viewport [style](#style) to `"stretch"` in a [web app](https://developer.mozilla.org/en-US/docs/Web/Manifest/display).
+
+*Since:* 0.2.1
+
+**Returns**
+
+A promise that is resolved when the fullscreen mode is activated, or rejected on error.
+
+**Example**
+
+```js
+function toggleFullscreen()
+{
+    if(!viewport.fullscreen) {
+        viewport.requestFullscreen().catch(err => {
+            alert(`Can't enable fullscreen mode. ` + err.toString());
+        });
+    }
+    else {
+        viewport.exitFullscreen();
+    }
+}
+
+// require user interaction
+button.addEventListener('click', toggleFullscreen);
+```
+
+### exitFullscreen
+
+`viewport.exitFullscreen(): SpeedyPromise<void>`
+
+Exit fullscreen mode.
+
+*Since:* 0.2.1
+
+**Returns**
+
+A promise that is resolved once the fullscreen mode is no longer active, or rejected on error. The promise will be rejected if the method is called when not in fullscreen mode.
 
 ## Events
 

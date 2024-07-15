@@ -22,10 +22,11 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
+import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable } from '../utils/utils';
 import { Resolution } from './resolution';
 import { Utils } from '../utils/utils';
-import { IllegalArgumentError, IllegalOperationError } from '../utils/errors';
+import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessDeniedError } from '../utils/errors';
 import { HUD, HUDContainer } from './hud';
 import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
 
@@ -68,11 +69,20 @@ export interface Viewport extends ViewportEventTarget
     /** HUD */
     readonly hud: HUD;
 
+    /** Fullscreen mode */
+    readonly fullscreen: boolean;
+
     /** Canvas on which the virtual scene will be drawn */
     readonly canvas: HTMLCanvasElement;
 
     /** Size of the drawing buffer of the foreground canvas */
     readonly virtualSize: SpeedySize;
+
+    /** Request fullscreen mode */
+    requestFullscreen(): SpeedyPromise<void>;
+
+    /** Exit fullscreen mode */
+    exitFullscreen(): SpeedyPromise<void>;
 
     /** Canvas on which the physical scene will be drawn @internal */
     readonly _backgroundCanvas: HTMLCanvasElement;
@@ -210,6 +220,96 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
     }
 
     /**
+     * Make a request to the user agent so that the viewport container is
+     * displayed in fullscreen mode. The container must be a compatible element[1]
+     * and the user must interact with the page in order to comply with browser
+     * policies[2]. In case of error, the returned promise is rejected.
+     * [1] https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen#compatible_elements
+     * [2] https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen#security
+     */
+    requestFullscreen(): SpeedyPromise<void>
+    {
+        const container = this._container;
+
+        // fallback for older WebKit versions
+        if(container.requestFullscreen === undefined) {
+            if((container as any).webkitRequestFullscreen === undefined)
+                return Speedy.Promise.reject(new NotSupportedError());
+            else if(!(document as any).webkitFullscreenEnabled)
+                return Speedy.Promise.reject(new AccessDeniedError());
+
+            // webkitRequestFullscreen() does not return a value
+            (container as any).webkitRequestFullscreen();
+
+            return new Speedy.Promise<void>((resolve, reject) => {
+                setTimeout(() => {
+                    if(container === (document as any).webkitFullscreenElement)
+                        resolve();
+                    else
+                        reject(new AccessDeniedError());
+                }, 100);
+            });
+        }
+
+        // check if fullscreen is supported
+        if(!document.fullscreenEnabled)
+            return Speedy.Promise.reject(new AccessDeniedError());
+
+        // request fullscreen
+        return new Speedy.Promise<void>((resolve, reject) => {
+            container.requestFullscreen({
+                navigationUI: 'hide'
+            }).then(resolve, reject);
+        });
+    }
+
+    /**
+     * Exit fullscreen mode
+     */
+    exitFullscreen(): SpeedyPromise<void>
+    {
+        // fallback for older WebKit versions
+        if(document.exitFullscreen === undefined) {
+            const doc = document as any;
+
+            if(doc.webkitExitFullscreen === undefined)
+                return Speedy.Promise.reject(new NotSupportedError());
+            else if(doc.webkitFullscreenElement === null)
+                return Speedy.Promise.reject(new TypeError('Not in fullscreen mode'));
+
+            // webkitExitFullscreen() does not return a value
+            doc.webkitExitFullscreen();
+
+            return new Speedy.Promise<void>((resolve, reject) => {
+                setTimeout(() => {
+                    if(doc.webkitFullscreenElement === null)
+                        resolve();
+                    else
+                        reject(new TypeError());
+                }, 100);
+            });
+        }
+
+        // exit fullscreen
+        return new Speedy.Promise<void>((resolve, reject) => {
+            document.exitFullscreen().then(resolve, reject);
+        });
+    }
+
+    /**
+     * True if the viewport is being displayed in fullscreen mode
+     */
+    get fullscreen(): boolean
+    {
+        if(document.fullscreenElement !== undefined)
+            return document.fullscreenElement === this._container;
+        else if((document as any).webkitFullscreenElement !== undefined)
+            return (document as any).webkitFullscreenElement === this._container;
+        else
+            return false;
+    }
+
+    /**
      * Viewport container
      */
     get container(): ViewportContainer
@@ -302,6 +402,8 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
 
         // setup CSS
         this._container.style.touchAction = 'none';
+        this._container.style.backgroundColor = 'black';
+        this._container.style.zIndex = String(CONTAINER_ZINDEX);
 
         // initialize the HUD
         this._hud._init(HUD_ZINDEX);
@@ -485,6 +587,14 @@ abstract class ViewportDecorator extends ViewportEventTarget implements Viewport
     }
 
     /**
+     * Fullscreen mode
+     */
+    get fullscreen(): boolean
+    {
+        return this._base.fullscreen;
+    }
+
+    /**
      * Resolution of the virtual scene
      */
     get resolution(): Resolution
@@ -507,6 +617,22 @@ abstract class ViewportDecorator extends ViewportEventTarget implements Viewport
     get canvas(): HTMLCanvasElement
     {
         return this._base.canvas;
+    }
+
+    /**
+     * Request fullscreen mode
+     */
+    requestFullscreen(): SpeedyPromise<void>
+    {
+        return this._base.requestFullscreen();
+    }
+
+    /**
+     * Exit fullscreen mode
+     */
+    exitFullscreen(): SpeedyPromise<void>
+    {
+        return this._base.exitFullscreen();
     }
 
     /**
@@ -688,18 +814,6 @@ abstract class ResizableViewport extends ViewportDecorator
 export class ImmersiveViewport extends ResizableViewport
 {
     /**
-     * Initialize the viewport
-     * @internal
-     */
-    _init(): void
-    {
-        super._init();
-
-        this.container.style.zIndex = String(CONTAINER_ZINDEX);
-        this.container.style.backgroundColor = 'black';
-    }
-
-    /**
      * Release the viewport
      * @internal
      */
@@ -769,9 +883,6 @@ export class InlineViewport extends ResizableViewport
     {
         super._init();
         this.style = 'inline';
-
-        this.container.style.zIndex = String(CONTAINER_ZINDEX);
-        this.container.style.backgroundColor = 'black';
     }
 
     /**
@@ -786,7 +897,7 @@ export class InlineViewport extends ResizableViewport
 
     /**
      * Resize the inline viewport
-     * (we still take into account orientation changes)
+     * (we still take orientation changes into account)
      */
     protected _onResize(): void
     {
