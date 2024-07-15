@@ -84,6 +84,9 @@ export interface Viewport extends ViewportEventTarget
     /** Exit fullscreen mode */
     exitFullscreen(): SpeedyPromise<void>;
 
+    /** Is the fullscreen mode available? */
+    isFullscreenAvailable(): boolean;
+
     /** Canvas on which the physical scene will be drawn @internal */
     readonly _backgroundCanvas: HTMLCanvasElement;
 
@@ -294,6 +297,13 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         return new Speedy.Promise<void>((resolve, reject) => {
             document.exitFullscreen().then(resolve, reject);
         });
+    }
+
+    /** Is the fullscreen mode available? */
+    isFullscreenAvailable(): boolean
+    {
+        return document.fullscreenEnabled ||
+               !!((document as any).webkitFullscreenEnabled);
     }
 
     /**
@@ -639,6 +649,14 @@ abstract class ViewportDecorator extends ViewportEventTarget implements Viewport
     exitFullscreen(): SpeedyPromise<void>
     {
         return this._base.exitFullscreen();
+    }
+
+    /**
+     * Is the fullscreen mode available?
+     */
+    isFullscreenAvailable(): boolean
+    {
+        return this._base.fullscreenAvailable;
     }
 
     /**

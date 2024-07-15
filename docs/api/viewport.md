@@ -135,6 +135,18 @@ Exit fullscreen mode.
 
 A promise that is resolved once the fullscreen mode is no longer active, or rejected on error. The promise will be rejected if the method is called when not in fullscreen mode.
 
+### isFullscreenAvailable
+
+`viewport.isFullscreenAvailable(): boolean`
+
+Checks the availability of the fullscreen mode on the current platform and page.
+
+*Since:* 0.2.1
+
+**Returns**
+
+Returns `true` if the fullscreen mode can be activated.
+
 ## Events
 
 A viewport is an [AREventTarget](ar-event-target.md). You can listen to the following events:
