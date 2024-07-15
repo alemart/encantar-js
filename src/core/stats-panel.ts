@@ -33,8 +33,8 @@ const UPDATE_INTERVAL = 500;
 /** Icons for different power profiles */
 const POWER_ICON: { readonly [P in PowerPreference]: string } = Object.freeze({
     'default': '',
-    'low-power': '<span style="color:#0f0">&#x1F50B</span>',
-    'high-performance': '<span style="color:#ff0">&#x26A1</span>'
+    'low-power': '&#x1F50B',
+    'high-performance': '&#x26A1'
 });
 
 
@@ -112,38 +112,51 @@ export class StatsPanel
      */
     private _update(trackers: Tracker[], sources: Source[], fps: number, gpu: number): void
     {
-        const trackerStats = trackers.map(tracker => tracker._stats).join(', ');
-        const sourceStats = sources.map(source => source._stats).join(', ');
-        const param = { // sanitzed
-            fps: this._colorize(fps),
-            gpu: this._colorize(gpu),
-            powerIcon: POWER_ICON[Settings.powerPreference]
-        };
+        const get = (className: string) => this._container.getElementsByClassName(className) as HTMLCollectionOf<HTMLElement>;
 
-        this._container.textContent = (
-            `MARTINS.js v${Martins.version}
-            FPS: [fps] | GPU: [gpu] [powerIcon]
-            IN : ${sourceStats}
-            OUT: ${trackerStats}`
-        );
+        // all sanitized
+        const lfps = get('_ar_fps');
+        if(lfps.length > 0) {
+            lfps[0].style.color = this._color(fps);
+            lfps[0].innerText = String(fps);
+        }
 
-        const fn = (_: string, x: 'fps' | 'gpu' | 'powerIcon'): string => param[x];
-        this._container.innerHTML = this._container.innerHTML.replace(/\[(\w+)\]/g, fn);
+        const lgpu = get('_ar_gpu');
+        if(lgpu.length > 0) {
+            lgpu[0].style.color = this._color(gpu);
+            lgpu[0].innerText = String(gpu);
+        }
+
+        const lpower = get('_ar_power');
+        if(lpower.length > 0)
+            lpower[0].innerHTML = POWER_ICON[Settings.powerPreference];
+
+        const lin = get('_ar_in');
+        if(lin.length > 0) {
+            const sourceStats = sources.map(source => source._stats).join(', ');
+            lin[0].innerText = sourceStats;
+        }
+
+        const lout = get('_ar_out');
+        if(lout.length > 0) {
+            const trackerStats = trackers.map(tracker => tracker._stats).join(', ');
+            lout[0].innerText = trackerStats;
+        }
     }
 
     /**
-     * Colorize a frequency number
+     * Associate a color to a frequency number
      * @param f frequency given in cycles per second
      * @returns colorized number (HTML)
      */
-    private _colorize(f: number): string
+    private _color(f: number): string
     {
         const GREEN = '#0f0', YELLOW = '#ff0', RED = '#f33';
         const color3 = f >= 50 ? GREEN : (f >= 30 ? YELLOW : RED);
         const color2 = f >= 30 ? GREEN : RED;
         const color = Settings.powerPreference != 'low-power' ? color3 : color2;
 
-        return `<span style="color:${color}">${Number(f)}</span>`;
+        return color;
     }
 
     /**
@@ -154,6 +167,7 @@ export class StatsPanel
     private _createContainer(parent: HTMLElement): HTMLDivElement
     {
         const container = document.createElement('div') as HTMLDivElement;
+        const print = (html: string) => container.insertAdjacentHTML('beforeend', html);
 
         container.style.position = 'absolute';
         container.style.left = container.style.top = '0px';
@@ -164,6 +178,20 @@ export class StatsPanel
         container.style.color = '#fff';
         container.style.fontFamily = 'monospace';
         container.style.fontSize = '14px';
+
+        // all sanitized
+        container.innerText = 'MARTINS.js ' + Martins.version;
+
+        print('<br>');
+        print('FPS: <span class="_ar_fps"></span> | ');
+        print('GPU: <span class="_ar_gpu"></span> ');
+        print('<span class="_ar_power"></span>');
+
+        print('<br>');
+        print('IN: <span class="_ar_in"></span>');
+
+        print('<br>');
+        print('OUT: <span class="_ar_out"></span>');
 
         parent.appendChild(container);
         return container;
