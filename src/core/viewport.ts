@@ -249,12 +249,12 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
                     if(container === (document as any).webkitFullscreenElement)
                         resolve();
                     else
-                        reject(new AccessDeniedError());
+                        reject(new TypeError());
                 }, 100);
             });
         }
 
-        // check if fullscreen is supported
+        // check if the fullscreen mode is available
         if(!document.fullscreenEnabled)
             return Speedy.Promise.reject(new AccessDeniedError());
 
@@ -278,7 +278,7 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
             if(doc.webkitExitFullscreen === undefined)
                 return Speedy.Promise.reject(new NotSupportedError());
             else if(doc.webkitFullscreenElement === null)
-                return Speedy.Promise.reject(new TypeError('Not in fullscreen mode'));
+                return Speedy.Promise.reject(new IllegalOperationError('Not in fullscreen mode'));
 
             // webkitExitFullscreen() does not return a value
             doc.webkitExitFullscreen();
@@ -656,7 +656,7 @@ abstract class ViewportDecorator extends ViewportEventTarget implements Viewport
      */
     isFullscreenAvailable(): boolean
     {
-        return this._base.fullscreenAvailable;
+        return this._base.isFullscreenAvailable();
     }
 
     /**
@@ -758,9 +758,6 @@ abstract class ResizableViewport extends ViewportDecorator
         super._init();
         this._active = true;
 
-        // bound resize
-        const resize = this._resize.bind(this);
-
         // Configure the resize listener. We want the viewport
         // to adjust itself if the phone/screen is resized or
         // changes orientation
@@ -776,7 +773,7 @@ abstract class ResizableViewport extends ViewportDecorator
 
             timeout = setTimeout(() => {
                 timeout = null;
-                resize();
+                this._resize();
             }, 50);
         };
         window.addEventListener('resize', onWindowResize);
@@ -784,12 +781,12 @@ abstract class ResizableViewport extends ViewportDecorator
         // handle changes of orientation
         // (is this needed? we already listen to resize events)
         if(screen.orientation !== undefined)
-            screen.orientation.addEventListener('change', resize);
+            screen.orientation.addEventListener('change', this._resize.bind(this));
         else
-            window.addEventListener('orientationchange', resize); // deprecated
+            window.addEventListener('orientationchange', this._resize.bind(this)); // deprecated
 
         // trigger a resize to setup the sizes / the CSS
-        resize();
+        this._resize();
     }
 
     /**
