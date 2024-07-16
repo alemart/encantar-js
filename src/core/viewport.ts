@@ -879,8 +879,8 @@ export class ImmersiveViewport extends ResizableViewport
                 viewportHeight = (viewportWidth / viewportAspectRatio) | 0;
             }
 
-            container.style.left = `calc(50% - ${viewportWidth >>> 1}px)`;
-            container.style.top = `calc(50% - ${viewportHeight >>> 1}px)`;
+            container.style.left = `calc(50% - ${(viewportWidth+1) >>> 1}px)`;
+            container.style.top = `calc(50% - ${(viewportHeight+1) >>> 1}px)`;
             container.style.width = viewportWidth + 'px';
             container.style.height = viewportHeight + 'px';
         }
