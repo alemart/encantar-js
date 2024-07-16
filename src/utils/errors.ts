@@ -20,8 +20,6 @@
  * Error classes
  */
 
-type MartinsErrorCause = Error | null;
-
 /**
  * Generic error class
  */
@@ -30,22 +28,33 @@ export abstract class MartinsError extends Error
     /**
      * Constructor
      * @param message error message
-     * @param cause optional error cause
+     * @param cause cause of the error
      */
-    constructor(message = '', public readonly cause: MartinsErrorCause = null)
+    constructor(message = '', public readonly cause: Error | null = null)
     {
-        super([
-            message,
-            cause ? cause.toString() : '[martins-js]'
-        ].join('\n-> '));
+        super(message);
     }
 
     /**
      * Error name
      */
-    public get name(): string
+    public abstract get name(): string;
+    /*{
+        // incorrect when minified
+        //return this.constructor.name;
+    }*/
+
+    /**
+     * Convert to string
+     */
+    public toString(): string
     {
-        return this.constructor.name;
+        const extendedMessage = this.cause ? '\n-> ' + this.cause.toString() : '';
+
+        if(this.message != '')
+            return this.name + ': ' + this.message + extendedMessage;
+        else
+            return this.name + extendedMessage;
     }
 }
 
@@ -54,6 +63,10 @@ export abstract class MartinsError extends Error
  */
 export class IllegalArgumentError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'IllegalArgumentError';
+    }
 }
 
 /**
@@ -62,6 +75,10 @@ export class IllegalArgumentError extends MartinsError
  */
 export class IllegalOperationError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'IllegalOperationError';
+    }
 }
 
 /**
@@ -69,6 +86,10 @@ export class IllegalOperationError extends MartinsError
  */
 export class NotSupportedError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'NotSupportedError';
+    }
 }
 
 /**
@@ -76,6 +97,10 @@ export class NotSupportedError extends MartinsError
  */
 export class AccessDeniedError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'AccessDeniedError';
+    }
 }
 
 /**
@@ -83,6 +108,10 @@ export class AccessDeniedError extends MartinsError
  */
 export class TimeoutError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'TimeoutError';
+    }
 }
 
 /**
@@ -90,6 +119,10 @@ export class TimeoutError extends MartinsError
  */
 export class AssertionError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'AssertionError';
+    }
 }
 
 /**
@@ -97,6 +130,10 @@ export class AssertionError extends MartinsError
  */
 export class TrackingError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'TrackingError';
+    }
 }
 
 /**
@@ -104,6 +141,10 @@ export class TrackingError extends MartinsError
  */
 export class DetectionError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'DetectionError';
+    }
 }
 
 /**
@@ -111,4 +152,8 @@ export class DetectionError extends MartinsError
  */
 export class TrainingError extends MartinsError
 {
+    public get name(): string
+    {
+        return 'TrainingError';
+    }
 }
