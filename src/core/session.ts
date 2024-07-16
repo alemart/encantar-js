@@ -174,7 +174,7 @@ export class Session extends AREventTarget<SessionEventType>
         this._setupRenderLoop();
 
         // setup the stats panel
-        this._statsPanel = new StatsPanel(this._viewport.hud.container);
+        this._statsPanel = new StatsPanel(this._viewport);
         this._statsPanel.visible = stats;
 
         // done!

@@ -22,8 +22,10 @@
 
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { Settings, PowerPreference } from './settings';
+import { Viewport } from './viewport';
 import { Tracker } from '../trackers/tracker';
 import { Source } from '../sources/source';
+import { Utils, Nullable } from '../utils/utils';
 import Martins from '../main';
 
 
@@ -44,6 +46,9 @@ const POWER_ICON: { readonly [P in PowerPreference]: string } = Object.freeze({
  */
 export class StatsPanel
 {
+    /** The viewport associated to this panel */
+    private readonly _viewport: Viewport;
+
     /** A container for the panel */
     private readonly _container: HTMLDivElement;
 
@@ -57,10 +62,13 @@ export class StatsPanel
      * Constructor
      * @param parent parent element of the panel
      */
-    constructor(parent: HTMLElement)
+    constructor(viewport: Viewport)
     {
-        this._container = this._createContainer(parent);
+        this._viewport = viewport;
         this._lastUpdate = 0;
+
+        this._container = this._createContainer();
+        viewport.hud.container.appendChild(this._container);
     }
 
     /**
@@ -112,36 +120,44 @@ export class StatsPanel
      */
     private _update(trackers: Tracker[], sources: Source[], fps: number, gpu: number): void
     {
-        const get = (className: string) => this._container.getElementsByClassName(className) as HTMLCollectionOf<HTMLElement>;
-
         // all sanitized
-        const lfps = get('_ar_fps');
-        if(lfps.length > 0) {
-            lfps[0].style.color = this._color(fps);
-            lfps[0].innerText = String(fps);
+        const lfps = this._label('_ar_fps');
+        if(lfps !== null) {
+            lfps.style.color = this._color(fps);
+            lfps.innerText = String(fps);
         }
 
-        const lgpu = get('_ar_gpu');
-        if(lgpu.length > 0) {
-            lgpu[0].style.color = this._color(gpu);
-            lgpu[0].innerText = String(gpu);
+        const lgpu = this._label('_ar_gpu');
+        if(lgpu !== null) {
+            lgpu.style.color = this._color(gpu);
+            lgpu.innerText = String(gpu);
         }
 
-        const lpower = get('_ar_power');
-        if(lpower.length > 0)
-            lpower[0].innerHTML = POWER_ICON[Settings.powerPreference];
+        const lpower = this._label('_ar_power');
+        if(lpower !== null)
+            lpower.innerHTML = POWER_ICON[Settings.powerPreference];
 
-        const lin = get('_ar_in');
-        if(lin.length > 0) {
+        const lin = this._label('_ar_in');
+        if(lin !== null) {
             const sourceStats = sources.map(source => source._stats).join(', ');
-            lin[0].innerText = sourceStats;
+            lin.innerText = sourceStats;
         }
 
-        const lout = get('_ar_out');
-        if(lout.length > 0) {
+        const lout = this._label('_ar_out');
+        if(lout !== null) {
             const trackerStats = trackers.map(tracker => tracker._stats).join(', ');
-            lout[0].innerText = trackerStats;
+            lout.innerText = trackerStats;
         }
+    }
+
+    /**
+     * Get a label of the panel
+     * @param className
+     * @returns the HTML element, or null if it doesn't exist
+     */
+    private _label(className: string): Nullable<HTMLElement>
+    {
+        return this._container.getElementsByClassName(className).item(0) as Nullable<HTMLElement>;
     }
 
     /**
@@ -161,10 +177,9 @@ export class StatsPanel
 
     /**
      * Create the container for the panel
-     * @param parent parent element
      * @returns a container
      */
-    private _createContainer(parent: HTMLElement): HTMLDivElement
+    private _createContainer(): HTMLDivElement
     {
         const container = document.createElement('div') as HTMLDivElement;
         const print = (html: string) => container.insertAdjacentHTML('beforeend', html);
@@ -175,7 +190,7 @@ export class StatsPanel
         container.style.padding = '4px';
         container.style.whiteSpace = 'pre-line';
         container.style.backgroundColor = 'rgba(0,0,0,0.5)';
-        container.style.color = '#fff';
+        container.style.color = 'white';
         container.style.fontFamily = 'monospace';
         container.style.fontSize = '14px';
 
@@ -193,7 +208,39 @@ export class StatsPanel
         print('<br>');
         print('OUT: <span class="_ar_out"></span>');
 
-        parent.appendChild(container);
+        if(this._viewport.isFullscreenAvailable()) {
+            print('<br>');
+            container.appendChild(this._createFullscreenToggle());
+        }
+
         return container;
+    }
+
+    /**
+     * Create a fullscreen toggle
+     * @returns a fullscreen toggle
+     */
+    private _createFullscreenToggle(): HTMLElement
+    {
+        const toggle = document.createElement('a') as HTMLAnchorElement;
+
+        Utils.assert(this._viewport != null);
+
+        toggle.href = 'javascript:void(0)';
+        toggle.innerText = 'Toggle fullscreen';
+        toggle.style.color = 'white';
+        toggle.setAttribute('role', 'button');
+        toggle.addEventListener('click', () => {
+            if(!this._viewport.fullscreen) {
+                this._viewport.requestFullscreen().catch(err => {
+                    alert(`Can't enable fullscreen mode. ` + err.toString());
+                });
+            }
+            else {
+                this._viewport.exitFullscreen();
+            }
+        });
+
+        return toggle;
     }
 }
