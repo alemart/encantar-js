@@ -246,8 +246,10 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
 
             return new Speedy.Promise<void>((resolve, reject) => {
                 setTimeout(() => {
-                    if(container === (document as any).webkitFullscreenElement)
+                    if(container === (document as any).webkitFullscreenElement) {
+                        Utils.log('Entering fullscreen mode...');
                         resolve();
+                    }
                     else
                         reject(new TypeError());
                 }, 100);
@@ -262,7 +264,10 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         return new Speedy.Promise<void>((resolve, reject) => {
             container.requestFullscreen({
                 navigationUI: 'hide'
-            }).then(resolve, reject);
+            }).then(() => {
+                Utils.log('Entering fullscreen mode...');
+                resolve();
+            }, reject);
         });
     }
 
@@ -285,17 +290,26 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
 
             return new Speedy.Promise<void>((resolve, reject) => {
                 setTimeout(() => {
-                    if(doc.webkitFullscreenElement === null)
+                    if(doc.webkitFullscreenElement === null) {
+                        Utils.log('Exiting fullscreen mode...');
                         resolve();
+                    }
                     else
                         reject(new TypeError());
                 }, 100);
             });
         }
 
+        // error if not in fullscreen mode
+        if(document.fullscreenElement === null)
+            return Speedy.Promise.reject(new IllegalOperationError('Not in fullscreen mode'));
+
         // exit fullscreen
         return new Speedy.Promise<void>((resolve, reject) => {
-            document.exitFullscreen().then(resolve, reject);
+            document.exitFullscreen().then(() => {
+                Utils.log('Exiting fullscreen mode...');
+                resolve();
+            }, reject);
         });
     }
 
