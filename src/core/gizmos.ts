@@ -255,7 +255,7 @@ export class Gizmos
         [ 1  1  1  1 ]
 
         Each column of the resulting matrix will give us the pixel coordinates
-        we're looking for.
+        we're looking for: origin and the axes.
 
         Note: we're working with homogeneous coordinates
 
