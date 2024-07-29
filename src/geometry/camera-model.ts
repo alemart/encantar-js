@@ -30,7 +30,7 @@ import { Nullable, Utils } from '../utils/utils';
 import { Settings } from '../core/settings';
 import { IllegalOperationError, IllegalArgumentError } from '../utils/errors';
 
-/** A guess of the horizontal field-of-view of the camera, in degrees */
+/** A guess of the horizontal field-of-view of a typical camera, in degrees */
 const HFOV_GUESS = 60; // https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html
 
 /** Number of iterations used to refine the estimated pose */
@@ -40,7 +40,7 @@ const POSE_ITERATIONS = 30;
 const ROTATION_FILTER_SAMPLES = 10;
 
 /** Number of samples used in the translation filter */
-const TRANSLATION_FILTER_SAMPLES = 10;
+const TRANSLATION_FILTER_SAMPLES = 5;
 
 /** Convert degrees to radians */
 const DEG2RAD = 0.017453292519943295; // pi / 180
@@ -63,35 +63,7 @@ export const U0 = 6;
 /** Index of the vertical position of the principal point in the camera intrinsics matrix */
 export const V0 = 7;
 
-/** Translation refinement: predefined buffers for efficiency */
-const TRANSLATION_REFINEMENT_BUFFERS = (() => {
-    const l = 1.0;
-    const x = [ 0, l, 0,-l, 0 ];
-    const y = [-l, 0, l, 0, 0 ];
-    const n = x.length;
 
-    return Object.freeze({
-        x, y,
-        a1: new Array(n) as number[],
-        a2: new Array(n) as number[],
-        a3: new Array(n) as number[],
-        m:  new Array(3*n * 3) as number[],
-        v:  new Array(3*n) as number[],
-        t:  new Array(3) as number[],
-        r:  new Array(3*n) as number[],
-        c:  new Array(3) as number[],
-        Mc: new Array(3*n) as number[],
-    });
-})();
-
-/** Translation refinement: number of iterations */
-const TRANSLATION_REFINEMENT_ITERATIONS = 3; // 1; // 5;
-
-/** Translation refinement: number of samples */
-const TRANSLATION_REFINEMENT_SAMPLES = 5; // TRANSLATION_REFINEMENT_BUFFERS.x.length;
-
-/** Translation refinement: the triple of the number of samples */
-const TRANSLATION_REFINEMENT_SAMPLES_3X = 15; //3 * TRANSLATION_REFINEMENT_SAMPLES;
 
 
 /**
@@ -126,8 +98,8 @@ export class CameraModel
     {
         this._screenSize = Speedy.Size(0, 0);
         this._matrix = Speedy.Matrix.Eye(3, 4);
-        this._intrinsics = [1,0,0,0,1,0,0,0,1]; // identity matrix
-        this._extrinsics = [1,0,0,0,1,0,0,0,1,0,0,0]; // no rotation & no translation [ R | t ] = [ I | 0 ]
+        this._intrinsics = [1,0,0,0,1,0,0,0,1]; // 3x3 identity matrix
+        this._extrinsics = [1,0,0,0,1,0,0,0,1,0,0,0]; // 3x4 matrix [ R | t ] = [ I | 0 ] no rotation & no translation
         this._partialRotationBuffer = [];
         this._translationBuffer = [];
     }
@@ -147,8 +119,7 @@ export class CameraModel
         this._screenSize.height = screenSize.height;
 
         // reset the model
-        this._resetIntrinsics();
-        this._resetExtrinsics();
+        this.reset();
 
         // log
         Utils.log(`Initializing the camera model...`);
@@ -206,12 +177,12 @@ export class CameraModel
 
         // estimate the pose
         const pose = this._estimatePose(homography);
-        this._storePose(pose);
+        this._extrinsics = pose.read();
 
         // compute the camera matrix
         const C = this.denormalizer();
         const K = Speedy.Matrix(3, 3, this._intrinsics);
-        const E = Speedy.Matrix(3, 4, this._extrinsics);
+        const E = pose; //Speedy.Matrix(3, 4, this._extrinsics);
         this._matrix.setToSync(K.times(E).times(C));
         //console.log("intrinsics -----------", K.toString());
         //console.log("matrix ----------------",this._matrix.toString());
@@ -360,6 +331,7 @@ export class CameraModel
     private _resetIntrinsics(): void
     {
         const cameraWidth = Math.max(this._screenSize.width, this._screenSize.height); // portrait?
+
         const u0 = this._screenSize.width / 2;
         const v0 = this._screenSize.height / 2;
         const fx = (cameraWidth / 2) / Math.tan(DEG2RAD * HFOV_GUESS / 2);
@@ -372,10 +344,10 @@ export class CameraModel
     }
 
     /**
-     * Compute a normalized homography H' = K^(-1) * H for an
+     * Compute a normalized homography H^ = K^(-1) * H for an
      * ideal pinhole with f = 1 and principal point = (0,0)
      * @param homography homography H to be normalized
-     * @returns normalized homography H'
+     * @returns normalized homography H^
      */
     private _normalizeHomography(homography: SpeedyMatrix): SpeedyMatrix
     {
@@ -384,9 +356,11 @@ export class CameraModel
         const v0 = this._intrinsics[V0];
         const fx = this._intrinsics[FX];
         const fy = this._intrinsics[FY];
+        const u0fx = u0 / fx;
+        const v0fy = v0 / fy;
 
-        const h11 = (h[0] - u0 * h[2]) / fx, h12 = (h[3] - u0 * h[5]) / fx, h13 = (h[6] - u0 * h[8]) / fx;
-        const h21 = (h[1] - v0 * h[2]) / fy, h22 = (h[4] - v0 * h[5]) / fy, h23 = (h[7] - v0 * h[8]) / fy;
+        const h11 = h[0] / fx - u0fx * h[2], h12 = h[3] / fx - u0fx * h[5], h13 = h[6] / fx - u0fx * h[8];
+        const h21 = h[1] / fy - v0fy * h[2], h22 = h[4] / fy - v0fy * h[5], h23 = h[7] / fy - v0fy * h[8];
         const h31 = h[2], h32 = h[5], h33 = h[8];
 
         /*console.log([
@@ -414,10 +388,6 @@ export class CameraModel
         const h21 = h[1], h22 = h[4], h23 = h[7];
         const h31 = h[2], h32 = h[5], h33 = h[8];
 
-        // select the sign so that t3 = tz > 0
-        const sign = h33 >= 0 ? 1 : -1;
-
-        // compute the scale factor
         const h1norm2 = h11 * h11 + h21 * h21 + h31 * h31;
         const h2norm2 = h12 * h12 + h22 * h22 + h32 * h32;
         const h1norm = Math.sqrt(h1norm2);
@@ -425,42 +395,65 @@ export class CameraModel
         //const hnorm = (h1norm + h2norm) / 2;
         //const hnorm = Math.sqrt(h1norm * h2norm);
         const hnorm = Math.max(h1norm, h2norm); // this seems to work. why?
-        const scale = sign / hnorm;
-
-        // invalid homography?
-        if(Number.isNaN(scale))
-            return Speedy.Matrix(3, 3, (new Array(9)).fill(Number.NaN));
 
         // we expect h1norm to be approximately h2norm, but sometimes there is a lot of noise
         // if h1norm is not approximately h2norm, it means that the first two columns of
         // the normalized homography are not really encoding a rotation (up to a scale)
-        // what is causing this? does h3 (and h33) tell us anything about it?
-        // what about the intrinsics matrix? the principal point...? the fov...?
 
         //console.log("h1,h2",h1norm,h2norm);
         //console.log(normalizedHomography.toString());
 
-        // recover the pose
-        const r11 = scale * h11;
-        const r21 = scale * h21;
-        const r31 = scale * h31;
-        const r12 = scale * h12;
-        const r22 = scale * h22;
-        const r32 = scale * h32;
-        const r_ = [r11, r21, r31, r12, r22, r32];
+        // compute a rough estimate for the scale factor
+        // select the sign so that t3 = tz > 0
+        const sign = h33 >= 0 ? 1 : -1;
+        let scale = sign / hnorm;
 
-        const t1 = scale * h13;
-        const t2 = scale * h23;
-        const t3 = scale * h33;
-        const t_ = [t1, t2, t3];
+        // sanity check
+        if(Number.isNaN(scale))
+            return Speedy.Matrix(3, 3, (new Array(9)).fill(Number.NaN));
 
-        // refine the pose
-        const r = this._refineRotation(r_);
-        const t = this._refineTranslation(normalizedHomography, r, t_);
-        //const t = t_; // faster, but less accurate
+        // recover the rotation
+        let r = new Array(6) as number[];
+        r[0] = scale * h11;
+        r[1] = scale * h21;
+        r[2] = scale * h31;
+        r[3] = scale * h12;
+        r[4] = scale * h22;
+        r[5] = scale * h32;
+
+        // refine the rotation
+        r = this._refineRotation(r); // r is initially noisy
+
+        /*
+
+        After refining the rotation vectors, let's adjust the scale factor as
+        follows:
+
+        We know that [ r1 | r2 | t ] is equal to the normalized homography H up
+        to a non-zero scale factor s, i.e., [ r1 | r2 | t ] = s H. Let's call M
+        the first two columns of H, i.e., M = [ h1 | h2 ], and R = [ r1 | r2 ].
+        It follows that R = s M, meaning that M'R = s M'M. The trace of 2x2 M'R
+        is such that tr(M'R) = tr(s M'M) = s tr(M'M), which means:
+
+        s = tr(M'R) / tr(M'M) = (r1'h1 + r2'h2) / (h1'h1 + h2'h2)
+
+        (also: s^2 = det(M'R) / det(M'M))
+
+        */
+
+        // adjust the scale factor
+        scale = r[0] * h11 + r[1] * h21 + r[2] * h31;
+        scale += r[3] * h12 + r[4] * h22 + r[5] * h32;
+        scale /= h1norm2 + h2norm2;
+
+        // recover the translation
+        let t = new Array(3) as number[];
+        t[0] = scale * h13;
+        t[1] = scale * h23;
+        t[2] = scale * h33;
 
         // done!
-        return Speedy.Matrix(3, 3, r.concat(t)); // this is possibly NaN... why? homography...
+        return Speedy.Matrix(3, 3, r.concat(t));
     }
 
     /**
@@ -594,12 +587,6 @@ export class CameraModel
 
         */
 
-        const B = TRANSLATION_REFINEMENT_BUFFERS;
-        const n = TRANSLATION_REFINEMENT_SAMPLES;
-        const n3 = TRANSLATION_REFINEMENT_SAMPLES_3X;
-
-        Utils.assert(B.x.length === n);
-
         const h = normalizedHomography.read();
         const h11 = h[0], h12 = h[3], h13 = h[6];
         const h21 = h[1], h22 = h[4], h23 = h[7];
@@ -609,19 +596,35 @@ export class CameraModel
         const r21 = rot[1], r22 = rot[4];
         const r31 = rot[2], r32 = rot[5];
 
-        // get sample points (xi, yi), 0 <= i < n
-        const x = B.x, y = B.y;
+        // sample points [ xi  yi ]' in AR screen space
+        //const x = [ 0.5, 0.0, 1.0, 1.0, 0.0, 0.5, 1.0, 0.5, 0.0 ];
+        //const y = [ 0.5, 0.0, 0.0, 1.0, 1.0, 0.0, 0.5, 1.0, 0.5 ];
+        const x = [ 0.5, 0.0, 1.0, 1.0, 0.0 ];
+        const y = [ 0.5, 0.0, 0.0, 1.0, 1.0 ];
+        const n = x.length;
+        const n3 = 3*n;
+
+        const width = this._screenSize.width;
+        const height = this._screenSize.height;
+        for(let i = 0; i < n; i++) {
+            x[i] *= width;
+            y[i] *= height;
+        }
 
         // set auxiliary values: ai = H [ xi  yi  1 ]'
-        const a1 = B.a1, a2 = B.a2, a3 = B.a3;
+        const a1 = new Array(n) as number[];
+        const a2 = new Array(n) as number[];
+        const a3 = new Array(n) as number[];
         for(let i = 0; i < n; i++) {
             a1[i] = x[i] * h11 + y[i] * h12 + h13;
             a2[i] = x[i] * h21 + y[i] * h22 + h23;
             a3[i] = x[i] * h31 + y[i] * h32 + h33;
         }
 
-        // solve M t = v for t; M: 3n x 3, v: 3n x 1, t: 3 x 1 (linear least squares)
-        const m = B.m, v = B.v;
+        // we'll solve M t = v for t with linear least squares
+        // M: 3n x 3, v: 3n x 1, t: 3 x 1
+        const m = new Array(3*n * 3) as number[];
+        const v = new Array(3*n) as number[];
         for(let i = 0, k = 0; k < n; i += 3, k++) {
             m[i] = m[i+n3+1] = m[i+n3+n3+2] = 0;
             m[i+n3] = -(m[i+1] = a3[k]);
@@ -681,13 +684,22 @@ export class CameraModel
 
         */
 
-        // initial guess
-        const t = B.t;
-        t[0] = t0[0]; t[1] = t0[1]; t[2] = t0[2];
-
         // gradient descent: super lightweight implementation
-        const r = B.r, c = B.c, Mc = B.Mc;
-        for(let it = 0; it < TRANSLATION_REFINEMENT_ITERATIONS; it++) {
+        const r = new Array(3*n) as number[];
+        const c = new Array(3) as number[];
+        const Mc = new Array(3*n) as number[];
+
+        // initial guess
+        const t = new Array(3) as number[];
+        t[0] = t0[0];
+        t[1] = t0[1];
+        t[2] = t0[2];
+
+        // iterate
+        const MAX_ITERATIONS = 15;
+        const TOLERANCE = 1;
+        for(let it = 0; it < MAX_ITERATIONS; it++) {
+            //console.log("it",it+1);
 
             // compute residual r = Mt - v
             for(let i = 0; i < n3; i++) {
@@ -711,19 +723,25 @@ export class CameraModel
                     Mc[i] += m[j*n3 + i] * c[j];
             }
 
-            // compute num = c'c and den = (Mc)'(Mc)
-            let num = 0, den = 0;
+            // compute c'c
+            let num = 0;
             for(let i = 0; i < 3; i++)
                 num += c[i] * c[i];
+            //console.log("c'c=",num);
+            if(num < TOLERANCE)
+                break;
+
+            // compute (Mc)'(Mc)
+            let den = 0;
             for(let i = 0; i < n3; i++)
                 den += Mc[i] * Mc[i];
 
-            // compute num / den
+            // compute frc = c'c / (Mc)'(Mc)
             const frc = num / den;
-            if(Number.isNaN(frc))
+            if(Number.isNaN(frc)) // this shouldn't happen
                 break;
 
-            // iterate: t = t - (num / den) * c
+            // iterate: t = t - frc * c
             for(let i = 0; i < 3; i++)
                 t[i] -= frc * c[i];
 
@@ -839,7 +857,8 @@ export class CameraModel
         // we want the estimated partial pose [ r1 | r2 | t ] to be as close
         // as possible to the normalized homography, up to a scale factor;
         // i.e., H * [ r1 | r2 | t ]^(-1) = s * I for a non-zero scalar s
-        // it won't be a perfect equality due to noise in the homography
+        // it won't be a perfect equality due to noise in the homography.
+        // remark: composition of homographies
         const residual = Speedy.Matrix(normalizedHomography);
         for(let k = 0; k < POSE_ITERATIONS; k++) {
             // incrementally improve the partial pose
@@ -851,28 +870,19 @@ export class CameraModel
         }
         //console.log('-----------');
 
-        /*
-        // test
-        const result = Speedy.Matrix.Zeros(3);
-        result.setToSync(partialPose.times(normalizedHomography.inverse()));
-        const m11 = result.at(0,0);
-        result.setToSync(result.times(1/m11));
-        console.log("Pose * NORMALIZED HOM^-1", result.toString());
-        */
+        // refine the translation vector
+        const mat = partialPose.read();
+        const r = mat.slice(0, 6);
+        const t0 = mat.slice(6, 9);
+        const t = this._refineTranslation(normalizedHomography, r, t0);
+        const refinedPartialPose = Speedy.Matrix(3, 3, r.concat(t));
 
         // filter the partial pose
-        const filteredPartialPose = this._filterPartialPose(partialPose);
+        const filteredPartialPose = this._filterPartialPose(refinedPartialPose);
 
         // estimate the full pose
-        return this._estimateFullPose(filteredPartialPose);
-    }
-
-    /**
-     * Store an estimated pose
-     * @param pose 3x4 matrix
-     */
-    private _storePose(pose: SpeedyMatrix): void
-    {
-        this._extrinsics = pose.read();
+        //const finalPartialPose = partialPose;
+        const finalPartialPose = filteredPartialPose;
+        return this._estimateFullPose(finalPartialPose);
     }
 }
