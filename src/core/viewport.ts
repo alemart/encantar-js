@@ -93,6 +93,9 @@ export interface Viewport extends ViewportEventTarget
     /** Size of the drawing buffer of the background canvas @internal */
     readonly _realSize: SpeedySize;
 
+    /** Sub-container of the viewport container @internal */
+    readonly _subContainer: HTMLDivElement;
+
     /** Initialize the viewport @internal */
     _init(): void;
 
@@ -108,7 +111,7 @@ export interface ViewportSettings
     /** Viewport container */
     container: Nullable<ViewportContainer>;
 
-    /** HUD container (must be a direct child of container) */
+    /** HUD container */
     hudContainer?: Nullable<HUDContainer>;
 
     /** Resolution of the canvas on which the virtual scene will be drawn */
@@ -130,7 +133,7 @@ const DEFAULT_VIEWPORT_SETTINGS: Readonly<Required<ViewportSettings>> = {
     canvas: null,
 };
 
-/** Z-index of the viewport container */
+/** Z-index of the viewport container in immersive mode */
 const CONTAINER_ZINDEX = 1000000000;
 
 /** Base z-index of the children of the viewport container */
@@ -170,6 +173,9 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
     /** Viewport style */
     protected _style: ViewportStyle;
 
+    /** A container inside the viewport container */
+    private readonly __subContainer: HTMLDivElement;
+
     /** Internal canvas used to render the physical scene */
     private readonly __backgroundCanvas: HTMLCanvasElement;
 
@@ -201,7 +207,8 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         // initialize attributes
         this._resolution = settings.resolution;
         this._container = settings.container;
-        this._hud = new HUD(settings.container, settings.hudContainer);
+        this.__subContainer = this._createSubContainer(this._container);
+        this._hud = new HUD(this.__subContainer, settings.hudContainer);
 
         // make this more elegant?
         // need to initialize this._style and validate settings.style
@@ -209,11 +216,11 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         this.style = settings.style;
 
         // create the background canvas
-        this.__backgroundCanvas = this._createBackgroundCanvas(this._container, size);
+        this.__backgroundCanvas = this._createBackgroundCanvas(this.__subContainer, size);
 
         // create the foreground canvas
         if(settings.canvas == null) {
-            this._foregroundCanvas = this._createForegroundCanvas(this._container, size);
+            this._foregroundCanvas = this._createForegroundCanvas(this.__subContainer, size);
             this._parentOfImportedForegroundCanvas = null;
         }
         else {
@@ -419,6 +426,15 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
     }
 
     /**
+     * Sub-container of the viewport container
+     * @internal
+     */
+    get _subContainer(): HTMLDivElement
+    {
+        return this.__subContainer;
+    }
+
+    /**
      * Initialize the viewport (when the session starts)
      * @internal
      */
@@ -427,13 +443,12 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         // import foreground canvas
         if(this._parentOfImportedForegroundCanvas != null) {
             const size = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
-            this._importForegroundCanvas(this._foregroundCanvas, this._container, size);
+            this._importForegroundCanvas(this._foregroundCanvas, this._subContainer, size);
         }
 
         // setup CSS
         this._container.style.touchAction = 'none';
         this._container.style.backgroundColor = 'black';
-        this._container.style.zIndex = String(CONTAINER_ZINDEX);
 
         // initialize the HUD
         this._hud._init(HUD_ZINDEX);
@@ -455,6 +470,26 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         // restore imported canvas
         if(this._parentOfImportedForegroundCanvas != null)
             this._restoreImportedForegroundCanvas();
+    }
+
+    /**
+     * Create a sub-container
+     * @param parent parent node
+     * @returns the canvas container
+     */
+    private _createSubContainer(parent: ViewportContainer): HTMLDivElement
+    {
+        const container = document.createElement('div') as HTMLDivElement;
+
+        container.style.position = 'absolute';
+        container.style.left = '0px';
+        container.style.top = '0px';
+        container.style.width = '100%';
+        container.style.height = '100%';
+
+        parent.appendChild(container);
+
+        return container;
     }
 
     /**
@@ -480,7 +515,7 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      * @param size size of the drawing buffer
      * @returns a new canvas as a child of parent
      */
-    private _createBackgroundCanvas(parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
+    private _createBackgroundCanvas(parent: HTMLElement, size: SpeedySize): HTMLCanvasElement
     {
         const canvas = this._createCanvas(parent, size);
         return this._styleCanvas(canvas, BACKGROUND_ZINDEX);
@@ -492,7 +527,7 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      * @param size size of the drawing buffer
      * @returns a new canvas as a child of parent
      */
-    private _createForegroundCanvas(parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
+    private _createForegroundCanvas(parent: HTMLElement, size: SpeedySize): HTMLCanvasElement
     {
         const canvas = this._createCanvas(parent, size);
         return this._styleCanvas(canvas, FOREGROUND_ZINDEX);
@@ -692,6 +727,15 @@ abstract class ViewportDecorator extends ViewportEventTarget implements Viewport
     }
 
     /**
+     * Sub-container of the viewport container
+     * @internal
+     */
+    get _subContainer(): HTMLDivElement
+    {
+        return this._base._subContainer;
+    }
+
+    /**
      * Initialize the viewport
      * @internal
      */
@@ -800,7 +844,8 @@ abstract class ResizableViewport extends ViewportDecorator
             window.addEventListener('orientationchange', this._resize.bind(this)); // deprecated
 
         // trigger a resize to setup the sizes / the CSS
-        this._resize();
+        // note: we may adjust this.style after this._init(); see the inline viewport
+        setTimeout(() => this._resize(), 0);
     }
 
     /**
@@ -854,6 +899,24 @@ abstract class ResizableViewport extends ViewportDecorator
 export class ImmersiveViewport extends ResizableViewport
 {
     /**
+     * Initialize the viewport
+     * @internal
+     */
+    _init(): void
+    {
+        const container = this.container;
+
+        container.style.position = 'fixed';
+        container.style.left = '0px';
+        container.style.top = '0px';
+        container.style.width = '100vw';
+        container.style.height = '100vh';
+        container.style.zIndex = String(CONTAINER_ZINDEX);
+
+        super._init();
+    }
+
+    /**
      * Release the viewport
      * @internal
      */
@@ -875,8 +938,8 @@ export class ImmersiveViewport extends ResizableViewport
     {
         super._onResize();
 
-        const container = this.container;
-        container.style.position = 'fixed';
+        const container = this._subContainer;
+        container.style.position = 'absolute';
 
         if(this.style == 'best-fit') {
             // cover the page while maintaining the aspect ratio

@@ -45,14 +45,16 @@ export class HUD
      * @param parent parent of the hud container
      * @param hudContainer an existing hud container (optional)
      */
-    constructor(parent: ViewportContainer, hudContainer: Nullable<HUDContainer>)
+    constructor(parent: HTMLElement, hudContainer: Nullable<HUDContainer>)
     {
         this._container = hudContainer || this._createContainer(parent);
         this._ownContainer = (hudContainer == null);
 
-        // validate
-        if(this._container.parentElement !== parent)
-            throw new IllegalArgumentError('The container of the HUD must be a direct child of the container of the viewport');
+        // move the HUD container to the parent node
+        if(this._container.parentElement !== parent) {
+            this._container.remove();
+            parent.insertAdjacentElement('afterbegin', this._container);
+        }
 
         // the HUD should be hidden initially
         if(!this._container.hidden)
@@ -122,7 +124,7 @@ export class HUD
         const node = document.createElement('div') as HTMLDivElement;
 
         node.hidden = true;
-        parent.appendChild(node);
+        parent.insertAdjacentElement('afterbegin', node);
 
         return node;
     }
