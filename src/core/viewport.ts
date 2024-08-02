@@ -428,11 +428,14 @@ class ViewportResizer
     /** the viewport to be resized */
     private readonly _viewport: Viewport;
 
-    /** is this viewport subject to being resized? */
-    private _active: boolean;
+    /** a helper */
+    private _timeout: Nullable<ReturnType<typeof setTimeout>>;
 
     /** bound resize method */
     private readonly _resize: () => void;
+
+    /** bound event trigger */
+    private readonly _triggerResize: () => void;
 
     /** resize strategy */
     private _resizeStrategy: ViewportResizeStrategy;
@@ -447,13 +450,15 @@ class ViewportResizer
     constructor(viewport: Viewport)
     {
         this._viewport = viewport;
-        this._active = false;
+        this._timeout = null;
         this._resize = this._onResize.bind(this);
+        this._triggerResize = this.triggerResize.bind(this);
         this._resizeStrategy = new InlineResizeStrategy();
 
         // initial setup
         // (the size is yet unknown)
-        this._resize();
+        this._viewport.addEventListener('resize', this._resize);
+        this.triggerResize(0);
     }
 
     /**
@@ -461,39 +466,19 @@ class ViewportResizer
      */
     init(): void
     {
-        // Configure the resize listener. We want the viewport
-        // to adjust itself if the phone/screen is resized or
-        // changes orientation
-        let timeout: Nullable<ReturnType<typeof setTimeout>> = null;
-        const onWindowResize = () => {
-            if(!this._active) {
-                window.removeEventListener('resize', onWindowResize);
-                return;
-            }
-
-            if(timeout !== null)
-                clearTimeout(timeout);
-
-            timeout = setTimeout(() => {
-                timeout = null;
-                this._resize();
-            }, 50);
-        };
-        window.addEventListener('resize', onWindowResize);
+        // Configure the resize listener. We want the viewport to adjust itself
+        // if the phone/screen is resized or changes orientation
+        window.addEventListener('resize', this._triggerResize); // a delay is welcome
 
         // handle changes of orientation
         // (is this needed? we already listen to resize events)
         if(screen.orientation !== undefined)
-            screen.orientation.addEventListener('change', this._resize);
+            screen.orientation.addEventListener('change', this._triggerResize);
         else
-            window.addEventListener('orientationchange', this._resize); // deprecated
-
-        // setup event listener & finish!
-        this._viewport.addEventListener('resize', this._resize);
-        this._active = true;
+            window.addEventListener('orientationchange', this._triggerResize); // deprecated
 
         // trigger a resize to setup the sizes / the CSS
-        this.resize();
+        this.triggerResize(0);
     }
 
     /**
@@ -501,23 +486,37 @@ class ViewportResizer
      */
     release(): void
     {
-        this._resizeStrategy.clear(this._viewport);
-        this._active = false;
-        this._viewport.removeEventListener('resize', this._resize);
-
         if(screen.orientation !== undefined)
-            screen.orientation.removeEventListener('change', this._resize);
+            screen.orientation.removeEventListener('change', this._triggerResize);
         else
-            window.removeEventListener('orientationchange', this._resize); // deprecated
+            window.removeEventListener('orientationchange', this._triggerResize);
+
+        window.removeEventListener('resize', this._triggerResize);
+
+        this._viewport.removeEventListener('resize', this._resize);
+        this._resizeStrategy.clear(this._viewport);
     }
 
     /**
-     * Trigger a resize event
+     * Trigger a resize event after a delay
+     * @param delay in milliseconds
      */
-    resize(): void
+    triggerResize(delay: number = 50): void
     {
         const event = new ViewportEvent('resize');
-        this._viewport.dispatchEvent(event);
+
+        if(delay <= 0) {
+            this._viewport.dispatchEvent(event);
+            return;
+        }
+
+        if(this._timeout !== null)
+            clearTimeout(this._timeout);
+
+        this._timeout = setTimeout(() => {
+            this._timeout = null;
+            this._viewport.dispatchEvent(event);
+        }, delay);
     }
 
     /**
@@ -528,7 +527,31 @@ class ViewportResizer
     {
         this._resizeStrategy.clear(this._viewport);
         this._resizeStrategy = strategy;
-        this.resize();
+        this.triggerResize(0);
+    }
+
+    /**
+     * Change the resize strategy
+     * @param strategyName name of the new strategy
+     */
+    setStrategyByName(strategyName: ViewportStyle): void
+    {
+        switch(strategyName) {
+            case 'best-fit':
+                this.setStrategy(new BestFitResizeStrategy());
+                break;
+
+            case 'stretch':
+                this.setStrategy(new StretchResizeStrategy());
+                break;
+
+            case 'inline':
+                this.setStrategy(new InlineResizeStrategy());
+                break;
+
+            default:
+                throw new IllegalArgumentError('Invalid viewport style: ' + strategyName);
+        }
     }
 
     /**
@@ -714,7 +737,7 @@ export class Viewport extends ViewportEventTarget
     protected readonly _hud: HUD;
 
     /** Viewport style */
-    protected _style: Nullable<ViewportStyle>;
+    protected _style: ViewportStyle;
 
     /** The canvases of the viewport */
     private readonly _canvases: ViewportCanvases;
@@ -746,14 +769,15 @@ export class Viewport extends ViewportEventTarget
         this._mediaSize = () => initialSize;
 
         this._resolution = settings.resolution;
-        this._style = null;
+        this._style = settings.style;
+
         this._containers = new ViewportContainers(settings.container);
         this._hud = new HUD(this._subContainer, settings.hudContainer);
         this._canvases = new ViewportCanvases(this._subContainer, initialSize, settings.canvas);
 
         this._fullscreen = new ViewportFullscreenHelper(this.container);
         this._resizer = new ViewportResizer(this);
-        this.style = settings.style;
+        this._resizer.setStrategyByName(this._style);
     }
 
     /**
@@ -769,9 +793,6 @@ export class Viewport extends ViewportEventTarget
      */
     get style(): ViewportStyle
     {
-        if(this._style === null)
-            throw new IllegalOperationError();
-
         return this._style;
     }
 
@@ -780,31 +801,11 @@ export class Viewport extends ViewportEventTarget
      */
     set style(value: ViewportStyle)
     {
-        // nothing to do
-        if(value === this._style)
-            return;
-
-        // change style
-        switch(value) {
-            case 'best-fit':
-                this._resizer.setStrategy(new BestFitResizeStrategy());
-                break;
-
-            case 'stretch':
-                this._resizer.setStrategy(new StretchResizeStrategy());
-                break;
-
-            case 'inline':
-                this._resizer.setStrategy(new InlineResizeStrategy());
-                break;
-
-            default:
-                throw new IllegalArgumentError('Invalid viewport style: ' + value);
-        }
-
-        this._style = value;
-
         // note: the viewport style is independent of the session mode!
+        if(value !== this._style) {
+            this._resizer.setStrategyByName(value);
+            this._style = value;
+        }
     }
 
     /**
