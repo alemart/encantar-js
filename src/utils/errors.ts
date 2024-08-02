@@ -21,9 +21,9 @@
  */
 
 /**
- * Generic error class
+ * Base error class
  */
-export abstract class MartinsError extends Error
+export abstract class BaseError extends Error
 {
     /**
      * Constructor
@@ -61,7 +61,7 @@ export abstract class MartinsError extends Error
 /**
  * A method has received one or more illegal arguments
  */
-export class IllegalArgumentError extends MartinsError
+export class IllegalArgumentError extends BaseError
 {
     public get name(): string
     {
@@ -73,7 +73,7 @@ export class IllegalArgumentError extends MartinsError
  * The method arguments are valid, but the method can't be called due to the
  * current state of the object
  */
-export class IllegalOperationError extends MartinsError
+export class IllegalOperationError extends BaseError
 {
     public get name(): string
     {
@@ -84,7 +84,7 @@ export class IllegalOperationError extends MartinsError
 /**
  * The requested operation is not supported
  */
-export class NotSupportedError extends MartinsError
+export class NotSupportedError extends BaseError
 {
     public get name(): string
     {
@@ -95,7 +95,7 @@ export class NotSupportedError extends MartinsError
 /**
  * Access denied
  */
-export class AccessDeniedError extends MartinsError
+export class AccessDeniedError extends BaseError
 {
     public get name(): string
     {
@@ -106,7 +106,7 @@ export class AccessDeniedError extends MartinsError
 /**
  * Timeout
  */
-export class TimeoutError extends MartinsError
+export class TimeoutError extends BaseError
 {
     public get name(): string
     {
@@ -117,7 +117,7 @@ export class TimeoutError extends MartinsError
 /**
  * Assertion error
  */
-export class AssertionError extends MartinsError
+export class AssertionError extends BaseError
 {
     public get name(): string
     {
@@ -128,7 +128,7 @@ export class AssertionError extends MartinsError
 /**
  * Tracking error
  */
-export class TrackingError extends MartinsError
+export class TrackingError extends BaseError
 {
     public get name(): string
     {
@@ -139,7 +139,7 @@ export class TrackingError extends MartinsError
 /**
  * Detection error
  */
-export class DetectionError extends MartinsError
+export class DetectionError extends BaseError
 {
     public get name(): string
     {
@@ -150,7 +150,7 @@ export class DetectionError extends MartinsError
 /**
  * Training error
  */
-export class TrainingError extends MartinsError
+export class TrainingError extends BaseError
 {
     public get name(): string
     {
