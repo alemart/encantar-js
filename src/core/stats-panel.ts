@@ -208,7 +208,7 @@ export class StatsPanel
         print('<br>');
         print('OUT: <span class="_ar_out"></span>');
 
-        if(this._viewport.isFullscreenAvailable()) {
+        if(this._viewport.fullscreenAvailable) {
             print('<br>');
             container.appendChild(this._createFullscreenToggle());
         }

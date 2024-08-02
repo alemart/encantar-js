@@ -393,7 +393,7 @@ class ViewportFullscreenHelper
     }
 
     /**
-     * Is the fullscreen mode available?
+     * Is the fullscreen mode available in this platform?
      * @returns true if the fullscreen mode is available in this platform
      */
     isAvailable(): boolean
@@ -826,6 +826,14 @@ export class Viewport extends ViewportEventTarget
     }
 
     /**
+     * Is the fullscreen mode available in this platform?
+     */
+    get fullscreenAvailable(): boolean
+    {
+        return this._fullscreen.isAvailable();
+    }
+
+    /**
      * The canvas on which the virtual scene will be drawn
      */
     get canvas(): HTMLCanvasElement
@@ -876,15 +884,6 @@ export class Viewport extends ViewportEventTarget
     exitFullscreen(): SpeedyPromise<void>
     {
         return this._fullscreen.exit();
-    }
-
-    /**
-     * Is the fullscreen mode available?
-     * @returns true if the fullscreen mode is available in this platform
-     */
-    isFullscreenAvailable(): boolean
-    {
-        return this._fullscreen.isAvailable();
     }
 
     /**
