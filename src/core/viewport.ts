@@ -653,16 +653,18 @@ class BestFitResizeStrategy extends ImmersiveResizeStrategy
 
         if(viewportAspectRatio <= windowAspectRatio) {
             height = window.innerHeight;
-            width = (height * viewportAspectRatio) | 0;
+            width = Math.round(height * viewportAspectRatio);
+            width -= width % 2;
         }
         else {
             width = window.innerWidth;
-            height = (width / viewportAspectRatio) | 0;
+            height = Math.round(width / viewportAspectRatio);
+            height -= height % 2;
         }
 
         subContainer.style.position = 'absolute';
-        subContainer.style.left = `calc(50% - ${(width+1) >>> 1}px)`;
-        subContainer.style.top = `calc(50% - ${(height+1) >>> 1}px)`;
+        subContainer.style.left = `calc(50% - ${width >>> 1}px)`;
+        subContainer.style.top = `calc(50% - ${height >>> 1}px)`;
         subContainer.style.width = width + 'px';
         subContainer.style.height = height + 'px';
 
