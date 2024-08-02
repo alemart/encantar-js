@@ -21,8 +21,6 @@
  */
 
 import { Nullable, Utils } from "../utils/utils";
-import { ViewportContainer } from "./viewport";
-import { IllegalArgumentError } from "../utils/errors";
 
 /** HUD container */
 export type HUDContainer = HTMLDivElement;
@@ -36,7 +34,7 @@ export class HUD
     private _container: HUDContainer;
 
     /** Whether or not we have created our own container */
-    private _ownContainer: boolean;
+    private _isOwnContainer: boolean;
 
 
 
@@ -48,7 +46,7 @@ export class HUD
     constructor(parent: HTMLElement, hudContainer: Nullable<HUDContainer>)
     {
         this._container = hudContainer || this._createContainer(parent);
-        this._ownContainer = (hudContainer == null);
+        this._isOwnContainer = (hudContainer == null);
 
         // move the HUD container to the parent node
         if(this._container.parentElement !== parent) {
@@ -57,8 +55,10 @@ export class HUD
         }
 
         // the HUD should be hidden initially
-        if(!this._container.hidden)
+        if(!this._container.hidden) {
             Utils.warning(`The container of the HUD should have the hidden attribute`);
+            this._container.hidden = true;
+        }
     }
 
     /**
@@ -100,6 +100,8 @@ export class HUD
         container.style.padding = container.style.margin = '0px';
         container.style.zIndex = String(zIndex);
         container.style.userSelect = 'none';
+
+        this.visible = true;
     }
 
     /**
@@ -108,8 +110,8 @@ export class HUD
      */
     _release(): void
     {
-        if(this._ownContainer) {
-            this._ownContainer = false;
+        if(this._isOwnContainer) {
+            this._isOwnContainer = false;
             this._container.remove();
         }
     }

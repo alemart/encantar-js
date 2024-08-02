@@ -26,7 +26,7 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable, Utils } from '../utils/utils';
 import { AREvent, AREventTarget } from '../utils/ar-events';
 import { IllegalArgumentError, IllegalOperationError, NotSupportedError } from '../utils/errors';
-import { Viewport, BaseViewport, ImmersiveViewport, InlineViewport } from './viewport';
+import { Viewport } from './viewport';
 import { Settings } from './settings';
 import { Stats } from './stats';
 import { StatsPanel } from './stats-panel';
@@ -53,7 +53,7 @@ export interface SessionOptions
     sources: Source[];
 
     /** viewport */
-    viewport: Nullable<BaseViewport>;
+    viewport: Nullable<Viewport>;
 
     /** show stats? */
     stats?: boolean;
@@ -141,7 +141,7 @@ export class Session extends AREventTarget<SessionEventType>
      * @param stats render stats panel?
      * @param gizmos render gizmos?
      */
-    private constructor(sources: Source[], mode: SessionMode, viewport: BaseViewport, stats: boolean, gizmos: boolean)
+    private constructor(sources: Source[], mode: SessionMode, viewport: Viewport, stats: boolean, gizmos: boolean)
     {
         super();
 
@@ -157,17 +157,29 @@ export class Session extends AREventTarget<SessionEventType>
         this._gizmos = new Gizmos();
         this._gizmos.visible = gizmos;
 
-        // get media
-        const media = this.media;
-
-        // setup the viewport
-        if(mode == 'immersive')
-            this._viewport = new ImmersiveViewport(viewport, () => media.size);
-        else if(mode == 'inline')
-            this._viewport = new InlineViewport(viewport, () => media.size);
+        // validate the mode
+        if(mode == 'immersive') {
+            if(viewport.style != 'best-fit' && viewport.style != 'stretch') {
+                Utils.warning(`Invalid viewport style \"${viewport.style}\" for the \"${mode}\" mode`);
+                viewport.style = 'best-fit';
+            }
+        }
+        else if(mode == 'inline') {
+            if(viewport.style != 'inline') {
+                Utils.warning(`Invalid viewport style \"${viewport.style}\" for the \"${mode}\" mode`);
+                viewport.style = 'inline';
+            }
+        }
         else
             throw new IllegalArgumentError(`Invalid session mode "${mode}"`);
-        this._viewport._init();
+
+        // get media
+        const media = this.media;
+        const getMediaSize = () => media.size;
+
+        // setup the viewport
+        this._viewport = viewport;
+        this._viewport._init(getMediaSize);
 
         // setup the main loop
         this._setupUpdateLoop();

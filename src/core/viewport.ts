@@ -32,6 +32,7 @@ import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
 
 
 
+
 /** Viewport container */
 export type ViewportContainer = HTMLDivElement;
 
@@ -52,56 +53,6 @@ type ViewportStyle = 'best-fit' | 'stretch' | 'inline';
 
 
 
-/**
- * Viewport interface
- */
-export interface Viewport extends ViewportEventTarget
-{
-    /** Resolution of the virtual scene */
-    readonly resolution: Resolution;
-
-    /** Viewport container */
-    readonly container: ViewportContainer;
-
-    /** Viewport style */
-    style: ViewportStyle;
-
-    /** HUD */
-    readonly hud: HUD;
-
-    /** Fullscreen mode */
-    readonly fullscreen: boolean;
-
-    /** Canvas on which the virtual scene will be drawn */
-    readonly canvas: HTMLCanvasElement;
-
-    /** Size of the drawing buffer of the foreground canvas */
-    readonly virtualSize: SpeedySize;
-
-    /** Request fullscreen mode */
-    requestFullscreen(): SpeedyPromise<void>;
-
-    /** Exit fullscreen mode */
-    exitFullscreen(): SpeedyPromise<void>;
-
-    /** Is the fullscreen mode available? */
-    isFullscreenAvailable(): boolean;
-
-    /** Canvas on which the physical scene will be drawn @internal */
-    readonly _backgroundCanvas: HTMLCanvasElement;
-
-    /** Size of the drawing buffer of the background canvas @internal */
-    readonly _realSize: SpeedySize;
-
-    /** Sub-container of the viewport container @internal */
-    readonly _subContainer: HTMLDivElement;
-
-    /** Initialize the viewport @internal */
-    _init(): void;
-
-    /** Release the viewport @internal */
-    _release(): void;
-}
 
 /**
  * Viewport constructor settings
@@ -133,8 +84,8 @@ const DEFAULT_VIEWPORT_SETTINGS: Readonly<Required<ViewportSettings>> = {
     canvas: null,
 };
 
-/** Z-index of the viewport container in immersive mode */
-const CONTAINER_ZINDEX = 1000000000;
+
+
 
 /** Base z-index of the children of the viewport container */
 const BASE_ZINDEX = 0;
@@ -156,77 +107,203 @@ const DEFAULT_VIEWPORT_HEIGHT = 150;
 
 
 
+
 /**
- * Viewport
+ * Helper class to work with the containers of the viewport
  */
-export class BaseViewport extends ViewportEventTarget implements Viewport
+class ViewportContainers
 {
-    /** Viewport resolution (controls the size of the drawing buffer of the foreground canvas) */
-    private readonly _resolution: Resolution;
+    /** The viewport container */
+    private readonly _container: ViewportContainer;
 
-    /** Viewport container */
-    protected readonly _container: ViewportContainer;
+    /** A direct child of the viewport container */
+    private readonly _subContainer: HTMLDivElement;
 
-    /** An overlay displayed in front of the augmented scene */
-    protected readonly _hud: HUD;
-
-    /** Viewport style */
-    protected _style: ViewportStyle;
-
-    /** A container inside the viewport container */
-    private readonly __subContainer: HTMLDivElement;
-
-    /** Internal canvas used to render the physical scene */
-    private readonly __backgroundCanvas: HTMLCanvasElement;
-
-    /** A canvas used to render the virtual scene */
-    protected readonly _foregroundCanvas: HTMLCanvasElement;
-
-    /** Original parent of the foreground canvas, if it's imported from somewhere */
-    private readonly _parentOfImportedForegroundCanvas: Nullable<Node>;
 
 
 
     /**
      * Constructor
-     * @param viewportSettings
+     * @param container viewport container
      */
-    constructor(viewportSettings: ViewportSettings)
+    constructor(container: Nullable<ViewportContainer>)
     {
-        super();
-
-        const settings = Object.assign({}, DEFAULT_VIEWPORT_SETTINGS, viewportSettings);
-        const size = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
-
-        // validate settings
-        if(settings.container == null)
+        // validate
+        if(container == null)
             throw new IllegalArgumentError('Unspecified viewport container');
-        else if(!(settings.container instanceof HTMLElement))
+        else if(!(container instanceof HTMLElement))
             throw new IllegalArgumentError('Invalid viewport container');
 
-        // initialize attributes
-        this._resolution = settings.resolution;
-        this._container = settings.container;
-        this.__subContainer = this._createSubContainer(this._container);
-        this._hud = new HUD(this.__subContainer, settings.hudContainer);
+        // store the viewport container
+        this._container = container;
 
-        // make this more elegant?
-        // need to initialize this._style and validate settings.style
-        this._style = DEFAULT_VIEWPORT_SETTINGS.style;
-        this.style = settings.style;
+        // create the sub-container
+        this._subContainer = document.createElement('div') as HTMLDivElement;
+        container.appendChild(this._subContainer);
+    }
 
-        // create the background canvas
-        this.__backgroundCanvas = this._createBackgroundCanvas(this.__subContainer, size);
+    /**
+     * The viewport container
+     */
+    get container(): ViewportContainer
+    {
+        return this._container;
+    }
 
-        // create the foreground canvas
-        if(settings.canvas == null) {
-            this._foregroundCanvas = this._createForegroundCanvas(this.__subContainer, size);
-            this._parentOfImportedForegroundCanvas = null;
-        }
-        else {
-            this._foregroundCanvas = settings.canvas;
-            this._parentOfImportedForegroundCanvas = settings.canvas.parentNode;
-        }
+    /**
+     * The sub-container
+     */
+    get subContainer(): HTMLDivElement
+    {
+        return this._subContainer;
+    }
+
+    /**
+     * Initialize
+     */
+    init(): void
+    {
+        this._container.style.touchAction = 'none';
+        this._container.style.backgroundColor = 'black';
+    }
+
+    /**
+     * Release
+     */
+    release(): void
+    {
+        this._container.style.backgroundColor = 'initial';
+        this._container.style.touchAction = 'auto';
+    }
+}
+
+
+
+
+/**
+ * Helper class to work with the canvases of the viewport
+ */
+class ViewportCanvases
+{
+    /** A canvas used to render the physical scene */
+    private readonly _backgroundCanvas: HTMLCanvasElement;
+
+    /** A canvas used to render the virtual scene */
+    private readonly _foregroundCanvas: HTMLCanvasElement;
+
+    /** Original CSS of the foreground canvas */
+    private readonly _originalCSSTextOfForegroundCanvas: string;
+
+
+
+    /**
+     * Constructor
+     * @param parent container for the canvases
+     * @param fgCanvas optional existing foreground canvas
+     */
+    constructor(parent: HTMLElement, fgCanvas: Nullable<HTMLCanvasElement> = null)
+    {
+        const initialSize = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
+
+        if(fgCanvas !== null && !(fgCanvas instanceof HTMLCanvasElement))
+            throw new IllegalArgumentError('Not a canvas: ' + fgCanvas);
+
+        this._originalCSSTextOfForegroundCanvas = fgCanvas ? fgCanvas.style.cssText : '';
+
+        this._foregroundCanvas = this._styleCanvas(
+            fgCanvas || this._createCanvas(initialSize),
+            FOREGROUND_ZINDEX
+        );
+
+        this._backgroundCanvas = this._styleCanvas(
+            this._createCanvas(initialSize),
+            BACKGROUND_ZINDEX
+        );
+
+        parent.appendChild(this._backgroundCanvas);
+        parent.appendChild(this._foregroundCanvas);
+    }
+
+    /**
+     * The background canvas
+     */
+    get backgroundCanvas(): HTMLCanvasElement
+    {
+        return this._backgroundCanvas;
+    }
+
+    /**
+     * The foreground canvas
+     */
+    get foregroundCanvas(): HTMLCanvasElement
+    {
+        return this._foregroundCanvas;
+    }
+
+    /**
+     * Initialize
+     */
+    init(): void
+    {
+    }
+
+    /**
+     * Release
+     */
+    release(): void
+    {
+        this._backgroundCanvas.style.cssText = '';
+        this._foregroundCanvas.style.cssText = this._originalCSSTextOfForegroundCanvas;
+    }
+
+    /**
+     * Create a canvas
+     * @param size size of the drawing buffer
+     * @returns a new canvas
+     */
+    private _createCanvas(size: SpeedySize): HTMLCanvasElement
+    {
+        const canvas = document.createElement('canvas') as HTMLCanvasElement;
+
+        canvas.width = size.width;
+        canvas.height = size.height;
+
+        return canvas;
+    }
+
+    /**
+     * Add suitable CSS rules to a canvas
+     * @param canvas
+     * @param zIndex
+     * @returns canvas
+     */
+    private _styleCanvas(canvas: HTMLCanvasElement, zIndex: number): HTMLCanvasElement
+    {
+        canvas.style.position = 'absolute';
+        canvas.style.left = '0px';
+        canvas.style.top = '0px';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.zIndex = String(zIndex);
+
+        return canvas;
+    }
+}
+
+
+
+
+/**
+ * Fullscreen utilities
+ */
+class ViewportFullscreenHelper
+{
+    /**
+     * Constructor
+     * @param _container the container which will be put in fullscreen
+     */
+    constructor(private readonly _container: HTMLElement)
+    {
     }
 
     /**
@@ -236,8 +313,9 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      * policies[2]. In case of error, the returned promise is rejected.
      * [1] https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen#compatible_elements
      * [2] https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen#security
+     * @returns promise
      */
-    requestFullscreen(): SpeedyPromise<void>
+    request(): SpeedyPromise<void>
     {
         const container = this._container;
 
@@ -280,8 +358,9 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
 
     /**
      * Exit fullscreen mode
+     * @returns promise
      */
-    exitFullscreen(): SpeedyPromise<void>
+    exit(): SpeedyPromise<void>
     {
         // fallback for older WebKit versions
         if(document.exitFullscreen === undefined) {
@@ -320,17 +399,21 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         });
     }
 
-    /** Is the fullscreen mode available? */
-    isFullscreenAvailable(): boolean
+    /**
+     * Is the fullscreen mode available?
+     * @returns true if the fullscreen mode is available in this platform
+     */
+    isAvailable(): boolean
     {
         return document.fullscreenEnabled ||
                !!((document as any).webkitFullscreenEnabled);
     }
 
     /**
-     * True if the viewport is being displayed in fullscreen mode
+     * Is the container currently being displayed in fullscreen mode?
+     * @returns true if the container is currently being displayed in fullscreen mode
      */
-    get fullscreen(): boolean
+    isActivated(): boolean
     {
         if(document.fullscreenElement !== undefined)
             return document.fullscreenElement === this._container;
@@ -339,13 +422,333 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
         else
             return false;
     }
+}
+
+
+
+
+/**
+ * Helper class to resize the viewport
+ */
+class ViewportResizer
+{
+    /** the viewport to be resized */
+    private readonly _viewport: Viewport;
+
+    /** is this viewport subject to being resized? */
+    private _active: boolean;
+
+    /** bound resize method */
+    private readonly _resize: () => void;
+
+    /** resize strategy */
+    private _resizeStrategy: ViewportResizeStrategy;
+
+
+
+
+    /**
+     * Constructor
+     * @param viewport the viewport to be resized
+     */
+    constructor(viewport: Viewport)
+    {
+        this._viewport = viewport;
+        this._active = false;
+        this._resize = this._onResize.bind(this);
+        this._resizeStrategy = new InlineResizeStrategy();
+
+        // initial setup
+        // (the size is yet unknown)
+        this._resize();
+    }
+
+    /**
+     * Initialize
+     */
+    init(): void
+    {
+        // Configure the resize listener. We want the viewport
+        // to adjust itself if the phone/screen is resized or
+        // changes orientation
+        let timeout: Nullable<ReturnType<typeof setTimeout>> = null;
+        const onWindowResize = () => {
+            if(!this._active) {
+                window.removeEventListener('resize', onWindowResize);
+                return;
+            }
+
+            if(timeout !== null)
+                clearTimeout(timeout);
+
+            timeout = setTimeout(() => {
+                timeout = null;
+                this._resize();
+            }, 50);
+        };
+        window.addEventListener('resize', onWindowResize);
+
+        // handle changes of orientation
+        // (is this needed? we already listen to resize events)
+        if(screen.orientation !== undefined)
+            screen.orientation.addEventListener('change', this._resize);
+        else
+            window.addEventListener('orientationchange', this._resize); // deprecated
+
+        // setup event listener & finish!
+        this._viewport.addEventListener('resize', this._resize);
+        this._active = true;
+
+        // trigger a resize to setup the sizes / the CSS
+        this.resize();
+    }
+
+    /**
+     * Release
+     */
+    release(): void
+    {
+        this._resizeStrategy.clear(this._viewport);
+        this._active = false;
+        this._viewport.removeEventListener('resize', this._resize);
+
+        if(screen.orientation !== undefined)
+            screen.orientation.removeEventListener('change', this._resize);
+        else
+            window.removeEventListener('orientationchange', this._resize); // deprecated
+    }
+
+    /**
+     * Trigger a resize event
+     */
+    resize(): void
+    {
+        const event = new ViewportEvent('resize');
+        this._viewport.dispatchEvent(event);
+    }
+
+    /**
+     * Change the resize strategy
+     * @param strategy new strategy
+     */
+    setStrategy(strategy: ViewportResizeStrategy): void
+    {
+        this._resizeStrategy.clear(this._viewport);
+        this._resizeStrategy = strategy;
+        this.resize();
+    }
+
+    /**
+     * Resize callback
+     */
+    private _onResize(): void
+    {
+        const viewport = this._viewport;
+
+        // Resize the drawing buffer of the foreground canvas, so that it
+        // matches the desired resolution, as well as the aspect ratio of the
+        // background canvas
+        const foregroundCanvas = viewport.canvas;
+        const virtualSize = viewport.virtualSize;
+        foregroundCanvas.width = virtualSize.width;
+        foregroundCanvas.height = virtualSize.height;
+
+        // Resize the drawing buffer of the background canvas
+        const backgroundCanvas = viewport._backgroundCanvas;
+        const realSize = viewport._realSize;
+        backgroundCanvas.width = realSize.width;
+        backgroundCanvas.height = realSize.height;
+
+        // Call strategy
+        this._resizeStrategy.resize(viewport);
+    }
+}
+
+
+
+
+/**
+ * Resize strategies
+ */
+abstract class ViewportResizeStrategy
+{
+    /**
+     * Resize the viewport
+     * @param viewport
+     */
+    abstract resize(viewport: Viewport): void;
+
+    /**
+     * Clear CSS rules
+     * @param viewport
+     */
+    clear(viewport: Viewport): void
+    {
+        viewport.container.style.cssText = '';
+        viewport._subContainer.style.cssText = '';
+    }
+}
+
+/**
+ * Inline viewport: it follows the typical flow of a web page
+ */
+class InlineResizeStrategy extends ViewportResizeStrategy
+{
+    resize(viewport: Viewport): void
+    {
+        const container = viewport.container;
+        const subContainer = viewport._subContainer;
+        const virtualSize = viewport.virtualSize;
+
+        container.style.position = 'relative';
+        container.style.left = '0px';
+        container.style.top = '0px';
+        container.style.width = virtualSize.width + 'px';
+        container.style.height = virtualSize.height + 'px';
+
+        subContainer.style.position = 'absolute';
+        subContainer.style.left = '0px';
+        subContainer.style.top = '0px';
+        subContainer.style.width = '100%';
+        subContainer.style.height = '100%';
+    }
+}
+
+/**
+ * Immersive viewport: it occupies the entire page
+ */
+abstract class ImmersiveResizeStrategy extends ViewportResizeStrategy
+{
+    resize(viewport: Viewport): void
+    {
+        const CONTAINER_ZINDEX = 1000000000;
+        const container = viewport.container;
+
+        container.style.position = 'fixed';
+        container.style.left = '0px';
+        container.style.top = '0px';
+        container.style.width = '100vw';
+        container.style.height = '100vh';
+        container.style.zIndex = String(CONTAINER_ZINDEX);
+    }
+}
+
+/**
+ * Immersive viewport with best-fit style: it occupies the entire page and
+ * preserves the aspect ratio of the media
+ */
+class BestFitResizeStrategy extends ImmersiveResizeStrategy
+{
+    resize(viewport: Viewport): void
+    {
+        const subContainer = viewport._subContainer;
+        const windowAspectRatio = window.innerWidth / window.innerHeight;
+        const viewportAspectRatio = viewport._realSize.width / viewport._realSize.height;
+        let width = 1, height = 1;
+
+        if(viewportAspectRatio <= windowAspectRatio) {
+            height = window.innerHeight;
+            width = (height * viewportAspectRatio) | 0;
+        }
+        else {
+            width = window.innerWidth;
+            height = (width / viewportAspectRatio) | 0;
+        }
+
+        subContainer.style.position = 'absolute';
+        subContainer.style.left = `calc(50% - ${(width+1) >>> 1}px)`;
+        subContainer.style.top = `calc(50% - ${(height+1) >>> 1}px)`;
+        subContainer.style.width = width + 'px';
+        subContainer.style.height = height + 'px';
+
+        super.resize(viewport);
+    }
+}
+
+/**
+ * Immersive viewport with stretch style: it occupies the entire page and
+ * fully stretches the media
+ */
+class StretchResizeStrategy extends ImmersiveResizeStrategy
+{
+    resize(viewport: Viewport): void
+    {
+        const subContainer = viewport._subContainer;
+
+        subContainer.style.position = 'absolute';
+        subContainer.style.left = '0px';
+        subContainer.style.top = '0px';
+        subContainer.style.width = window.innerWidth + 'px';
+        subContainer.style.height = window.innerHeight + 'px';
+
+        super.resize(viewport);
+    }
+}
+
+
+
+
+/**
+ * Viewport
+ */
+export class Viewport extends ViewportEventTarget
+{
+    /** Viewport resolution (controls the size of the drawing buffer of the foreground canvas) */
+    private readonly _resolution: Resolution;
+
+    /** The containers */
+    private readonly _containers: ViewportContainers;
+
+    /** An overlay displayed in front of the augmented scene */
+    protected readonly _hud: HUD;
+
+    /** Viewport style */
+    protected _style: Nullable<ViewportStyle>;
+
+    /** The canvases of the viewport */
+    private readonly _canvases: ViewportCanvases;
+
+    /** Fullscreen utilities */
+    private readonly _fullscreen: ViewportFullscreenHelper;
+
+    /** Resize helper */
+    private readonly _resizer: ViewportResizer;
+
+    /** The current size of the underlying SpeedyMedia */
+    private _mediaSize: ViewportSizeGetter;
+
+
+
+
+    /**
+     * Constructor
+     * @param viewportSettings
+     */
+    constructor(viewportSettings: ViewportSettings)
+    {
+        const settings = Object.assign({}, DEFAULT_VIEWPORT_SETTINGS, viewportSettings);
+
+        super();
+
+        this._mediaSize = () => Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
+        this._style = null;
+
+        this._resolution = settings.resolution;
+        this._containers = new ViewportContainers(settings.container);
+        this._hud = new HUD(this._subContainer, settings.hudContainer);
+        this._canvases = new ViewportCanvases(this._subContainer, settings.canvas);
+
+        this._fullscreen = new ViewportFullscreenHelper(this.container);
+        this._resizer = new ViewportResizer(this);
+        this.style = settings.style;
+    }
 
     /**
      * Viewport container
      */
     get container(): ViewportContainer
     {
-        return this._container;
+        return this._containers.container;
     }
 
     /**
@@ -353,6 +756,9 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      */
     get style(): ViewportStyle
     {
+        if(this._style === null)
+            throw new IllegalOperationError();
+
         return this._style;
     }
 
@@ -361,16 +767,31 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      */
     set style(value: ViewportStyle)
     {
-        if(value != 'best-fit' && value != 'stretch' && value != 'inline')
-            throw new IllegalArgumentError('Invalid viewport style: ' + value);
+        // nothing to do
+        if(value === this._style)
+            return;
 
-        const changed = (value != this._style);
+        // change style
+        switch(value) {
+            case 'best-fit':
+                this._resizer.setStrategy(new BestFitResizeStrategy());
+                break;
+
+            case 'stretch':
+                this._resizer.setStrategy(new StretchResizeStrategy());
+                break;
+
+            case 'inline':
+                this._resizer.setStrategy(new InlineResizeStrategy());
+                break;
+
+            default:
+                throw new IllegalArgumentError('Invalid viewport style: ' + value);
+        }
+
         this._style = value;
 
-        if(changed) {
-            const event = new ViewportEvent('resize');
-            this.dispatchEvent(event);
-        }
+        // note: the viewport style is independent of the session mode!
     }
 
     /**
@@ -395,8 +816,18 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      */
     get virtualSize(): SpeedySize
     {
-        const aspectRatio = this._backgroundCanvas.width / this._backgroundCanvas.height;
+        const size = this._realSize;
+        const aspectRatio = size.width / size.height;
+
         return Utils.resolution(this._resolution, aspectRatio);
+    }
+
+    /**
+     * Is the viewport currently being displayed in fullscreen mode?
+     */
+    get fullscreen(): boolean
+    {
+        return this._fullscreen.isActivated();
     }
 
     /**
@@ -404,7 +835,7 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      */
     get canvas(): HTMLCanvasElement
     {
-        return this._foregroundCanvas;
+        return this._canvases.foregroundCanvas;
     }
 
     /**
@@ -413,7 +844,7 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      */
     get _backgroundCanvas(): HTMLCanvasElement
     {
-        return this.__backgroundCanvas;
+        return this._canvases.backgroundCanvas;
     }
 
     /**
@@ -422,7 +853,7 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      */
     get _realSize(): SpeedySize
     {
-        throw new IllegalOperationError();
+        return this._mediaSize();
     }
 
     /**
@@ -431,591 +862,59 @@ export class BaseViewport extends ViewportEventTarget implements Viewport
      */
     get _subContainer(): HTMLDivElement
     {
-        return this.__subContainer;
+        return this._containers.subContainer;
+    }
+
+    /**
+     * Request fullscreen mode
+     * @returns promise
+     */
+    requestFullscreen(): SpeedyPromise<void>
+    {
+        return this._fullscreen.request();
+    }
+
+    /**
+     * Exit fullscreen mode
+     * @returns promise
+     */
+    exitFullscreen(): SpeedyPromise<void>
+    {
+        return this._fullscreen.exit();
+    }
+
+    /**
+     * Is the fullscreen mode available?
+     * @returns true if the fullscreen mode is available in this platform
+     */
+    isFullscreenAvailable(): boolean
+    {
+        return this._fullscreen.isAvailable();
     }
 
     /**
      * Initialize the viewport (when the session starts)
      * @internal
      */
-    _init(): void
+    _init(getMediaSize: ViewportSizeGetter): void
     {
-        // import foreground canvas
-        if(this._parentOfImportedForegroundCanvas != null) {
-            const size = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
-            this._importForegroundCanvas(this._foregroundCanvas, this._subContainer, size);
-        }
+        this._mediaSize = getMediaSize;
 
-        // setup CSS
-        this._container.style.touchAction = 'none';
-        this._container.style.backgroundColor = 'black';
-
-        // initialize the HUD
+        this._containers.init();
         this._hud._init(HUD_ZINDEX);
-        this._hud.visible = true;
+        this._canvases.init();
+        this._resizer.init();
     }
 
     /**
-     * Release the viewport (when the session starts)
+     * Release the viewport (when the session ends)
      * @internal
      */
     _release(): void
     {
-        // release the HUD
+        this._resizer.release();
+        this._canvases.release();
         this._hud._release();
-
-        // reset the CSS
-        this._container.style.touchAction = 'auto';
-
-        // restore imported canvas
-        if(this._parentOfImportedForegroundCanvas != null)
-            this._restoreImportedForegroundCanvas();
-    }
-
-    /**
-     * Create a sub-container
-     * @param parent parent node
-     * @returns the canvas container
-     */
-    private _createSubContainer(parent: ViewportContainer): HTMLDivElement
-    {
-        const container = document.createElement('div') as HTMLDivElement;
-
-        container.style.position = 'absolute';
-        container.style.left = '0px';
-        container.style.top = '0px';
-        container.style.width = '100%';
-        container.style.height = '100%';
-
-        parent.appendChild(container);
-
-        return container;
-    }
-
-    /**
-     * Create a canvas and attach it to another HTML element
-     * @param parent parent container
-     * @param size size of the drawing buffer
-     * @returns a new canvas as a child of parent
-     */
-    private _createCanvas(parent: HTMLElement, size: SpeedySize): HTMLCanvasElement
-    {
-        const canvas = document.createElement('canvas') as HTMLCanvasElement;
-
-        canvas.width = size.width;
-        canvas.height = size.height;
-        parent.appendChild(canvas);
-
-        return canvas;
-    }
-
-    /**
-     * Create the background canvas
-     * @param parent parent container
-     * @param size size of the drawing buffer
-     * @returns a new canvas as a child of parent
-     */
-    private _createBackgroundCanvas(parent: HTMLElement, size: SpeedySize): HTMLCanvasElement
-    {
-        const canvas = this._createCanvas(parent, size);
-        return this._styleCanvas(canvas, BACKGROUND_ZINDEX);
-    }
-
-    /**
-     * Create the foreground canvas
-     * @param parent parent container
-     * @param size size of the drawing buffer
-     * @returns a new canvas as a child of parent
-     */
-    private _createForegroundCanvas(parent: HTMLElement, size: SpeedySize): HTMLCanvasElement
-    {
-        const canvas = this._createCanvas(parent, size);
-        return this._styleCanvas(canvas, FOREGROUND_ZINDEX);
-    }
-
-    /**
-     * Import an existing foreground canvas to the viewport
-     * @param canvas existing canvas
-     * @param parent parent container
-     * @param size size of the drawing buffer
-     * @returns the input canvas
-     */
-    private _importForegroundCanvas(canvas: HTMLCanvasElement, parent: ViewportContainer, size: SpeedySize): HTMLCanvasElement
-    {
-        if(!(canvas instanceof HTMLCanvasElement))
-            throw new IllegalArgumentError('Not a canvas: ' + canvas);
-
-        // borrow the canvas; add it as a child of the viewport container
-        canvas.remove();
-        parent.appendChild(canvas);
-
-        canvas.width = size.width;
-        canvas.height = size.height;
-
-        canvas.dataset.cssText = canvas.style.cssText; // save CSS
-        canvas.style.cssText = ''; // clear CSS
-        this._styleCanvas(canvas, FOREGROUND_ZINDEX);
-
-        return canvas;
-    }
-
-    /**
-     * Restore a previously imported foreground canvas to its original parent
-     */
-    private _restoreImportedForegroundCanvas(): void
-    {
-        // not an imported canvas; nothing to do
-        if(this._parentOfImportedForegroundCanvas == null)
-            throw new IllegalOperationError();
-
-        const canvas = this._foregroundCanvas;
-        canvas.style.cssText = canvas.dataset.cssText || ''; // restore CSS
-        canvas.remove();
-        this._parentOfImportedForegroundCanvas.appendChild(canvas);
-    }
-
-    /**
-     * Add suitable CSS rules to a canvas
-     * @param canvas
-     * @param canvasType
-     * @returns canvas
-     */
-    private _styleCanvas(canvas: HTMLCanvasElement, zIndex: number): HTMLCanvasElement
-    {
-        canvas.style.position = 'absolute';
-        canvas.style.left = '0px';
-        canvas.style.top = '0px';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.zIndex = String(zIndex);
-
-        return canvas;
-    }
-}
-
-/**
- * Viewport decorator
- */
-abstract class ViewportDecorator extends ViewportEventTarget implements Viewport
-{
-    /** The decorated viewport */
-    private _base: Viewport;
-
-    /** Size getter (the size of the viewport may change over time) */
-    private _getSize: ViewportSizeGetter;
-
-
-
-    /**
-     * Constructor
-     * @param base to be decorated
-     * @param getSize size getter
-     */
-    constructor(base: Viewport, getSize: ViewportSizeGetter)
-    {
-        super();
-
-        this._base = base;
-        this._getSize = getSize;
-    }
-
-    /**
-     * Viewport container
-     */
-    get container(): ViewportContainer
-    {
-        return this._base.container;
-    }
-
-    /**
-     * Viewport style
-     */
-    get style(): ViewportStyle
-    {
-        return this._base.style;
-    }
-
-    /**
-     * Set viewport style
-     */
-    set style(value: ViewportStyle)
-    {
-        this._base.style = value;
-    }
-
-    /**
-     * HUD
-     */
-    get hud(): HUD
-    {
-        return this._base.hud;
-    }
-
-    /**
-     * Fullscreen mode
-     */
-    get fullscreen(): boolean
-    {
-        return this._base.fullscreen;
-    }
-
-    /**
-     * Resolution of the virtual scene
-     */
-    get resolution(): Resolution
-    {
-        return this._base.resolution;
-    }
-
-    /**
-     * Size in pixels of the drawing buffer of the canvas
-     * on which the virtual scene will be drawn
-     */
-    get virtualSize(): SpeedySize
-    {
-        return this._base.virtualSize;
-    }
-
-    /**
-     * The canvas on which the virtual scene will be drawn
-     */
-    get canvas(): HTMLCanvasElement
-    {
-        return this._base.canvas;
-    }
-
-    /**
-     * Request fullscreen mode
-     */
-    requestFullscreen(): SpeedyPromise<void>
-    {
-        return this._base.requestFullscreen();
-    }
-
-    /**
-     * Exit fullscreen mode
-     */
-    exitFullscreen(): SpeedyPromise<void>
-    {
-        return this._base.exitFullscreen();
-    }
-
-    /**
-     * Is the fullscreen mode available?
-     */
-    isFullscreenAvailable(): boolean
-    {
-        return this._base.isFullscreenAvailable();
-    }
-
-    /**
-     * Background canvas
-     * @internal
-     */
-    get _backgroundCanvas(): HTMLCanvasElement
-    {
-        return this._base._backgroundCanvas;
-    }
-
-    /**
-     * Size of the drawing buffer of the background canvas, in pixels
-     * @internal
-     */
-    get _realSize(): SpeedySize
-    {
-        return this._getSize();
-    }
-
-    /**
-     * Sub-container of the viewport container
-     * @internal
-     */
-    get _subContainer(): HTMLDivElement
-    {
-        return this._base._subContainer;
-    }
-
-    /**
-     * Initialize the viewport
-     * @internal
-     */
-    _init(): void
-    {
-        this._base._init();
-    }
-
-    /**
-     * Release the viewport
-     * @internal
-     */
-    _release(): void
-    {
-        this._base._release();
-    }
-
-    /**
-     * Add event listener
-     * @param type event type
-     * @param callback
-     */
-    addEventListener(type: ViewportEventType, callback: AREventListener): void
-    {
-        this._base.addEventListener(type, callback);
-    }
-
-    /**
-     * Remove event listener
-     * @param type event type
-     * @param callback
-     */
-    removeEventListener(type: ViewportEventType, callback: AREventListener): void
-    {
-        this._base.removeEventListener(type, callback);
-    }
-
-    /**
-     * Synchronously trigger an event
-     * @param event
-     * @returns same value as a standard event target
-     * @internal
-     */
-    dispatchEvent(event: ViewportEvent): boolean
-    {
-        return this._base.dispatchEvent(event);
-    }
-}
-
-/**
- * A viewport that watches for page resizes
- */
-abstract class ResizableViewport extends ViewportDecorator
-{
-    /** is this viewport subject to being resized? */
-    private _active: boolean;
-
-
-
-    /**
-     * Constructor
-     * @param base to be decorated
-     * @param getSize size getter
-     */
-    constructor(base: BaseViewport, getSize: ViewportSizeGetter)
-    {
-        super(base, getSize);
-        this._active = false;
-        this.addEventListener('resize', this._onResize.bind(this));
-    }
-
-    /**
-     * Initialize the viewport
-     * @internal
-     */
-    _init(): void
-    {
-        super._init();
-        this._active = true;
-
-        // Configure the resize listener. We want the viewport
-        // to adjust itself if the phone/screen is resized or
-        // changes orientation
-        let timeout: Nullable<ReturnType<typeof setTimeout>> = null;
-        const onWindowResize = () => {
-            if(!this._active) {
-                window.removeEventListener('resize', onWindowResize);
-                return;
-            }
-
-            if(timeout !== null)
-                clearTimeout(timeout);
-
-            timeout = setTimeout(() => {
-                timeout = null;
-                this._resize();
-            }, 50);
-        };
-        window.addEventListener('resize', onWindowResize);
-
-        // handle changes of orientation
-        // (is this needed? we already listen to resize events)
-        if(screen.orientation !== undefined)
-            screen.orientation.addEventListener('change', this._resize.bind(this));
-        else
-            window.addEventListener('orientationchange', this._resize.bind(this)); // deprecated
-
-        // trigger a resize to setup the sizes / the CSS
-        // note: we may adjust this.style after this._init(); see the inline viewport
-        setTimeout(() => this._resize(), 0);
-    }
-
-    /**
-     * Release the viewport
-     * @internal
-     */
-    _release(): void
-    {
-        if(screen.orientation !== undefined)
-            screen.orientation.removeEventListener('change', this._resize);
-        else
-            window.removeEventListener('orientationchange', this._resize); // deprecated
-
-        this._active = false;
-        super._release();
-    }
-
-    /**
-     * Trigger a resize event
-     */
-    private _resize(): void
-    {
-        const event = new ViewportEvent('resize');
-        this.dispatchEvent(event);
-    }
-
-    /**
-     * Function to be called when the viewport is resized
-     */
-    protected _onResize(): void
-    {
-        // Resize the drawing buffer of the foreground canvas, so that it
-        // matches the desired resolution, as well as the aspect ratio of the
-        // background canvas
-        const foregroundCanvas = this.canvas;
-        const virtualSize = this.virtualSize;
-        foregroundCanvas.width = virtualSize.width;
-        foregroundCanvas.height = virtualSize.height;
-
-        // Resize the drawing buffer of the background canvas
-        const backgroundCanvas = this._backgroundCanvas;
-        const realSize = this._realSize;
-        backgroundCanvas.width = realSize.width;
-        backgroundCanvas.height = realSize.height;
-    }
-}
-
-/**
- * Immersive viewport: it occupies the entire page
- */
-export class ImmersiveViewport extends ResizableViewport
-{
-    /**
-     * Initialize the viewport
-     * @internal
-     */
-    _init(): void
-    {
-        const container = this.container;
-
-        container.style.position = 'fixed';
-        container.style.left = '0px';
-        container.style.top = '0px';
-        container.style.width = '100vw';
-        container.style.height = '100vh';
-        container.style.zIndex = String(CONTAINER_ZINDEX);
-
-        super._init();
-    }
-
-    /**
-     * Release the viewport
-     * @internal
-     */
-    _release(): void
-    {
-        this.canvas.remove();
-        this._backgroundCanvas.remove();
-        this.hud.visible = false;
-        this.container.style.cssText = ''; // reset CSS
-
-        super._release();
-    }
-
-    /**
-     * Resize the immersive viewport, so that it occupies the entire page.
-     * We respect the aspect ratio of the source media
-     */
-    protected _onResize(): void
-    {
-        super._onResize();
-
-        const container = this._subContainer;
-        container.style.position = 'absolute';
-
-        if(this.style == 'best-fit') {
-            // cover the page while maintaining the aspect ratio
-            let viewportWidth = 0, viewportHeight = 0;
-            const windowAspectRatio = window.innerWidth / window.innerHeight;
-            const viewportAspectRatio = this._realSize.width / this._realSize.height;
-
-            if(viewportAspectRatio <= windowAspectRatio) {
-                viewportHeight = window.innerHeight;
-                viewportWidth = (viewportHeight * viewportAspectRatio) | 0;
-            }
-            else {
-                viewportWidth = window.innerWidth;
-                viewportHeight = (viewportWidth / viewportAspectRatio) | 0;
-            }
-
-            container.style.left = `calc(50% - ${(viewportWidth+1) >>> 1}px)`;
-            container.style.top = `calc(50% - ${(viewportHeight+1) >>> 1}px)`;
-            container.style.width = viewportWidth + 'px';
-            container.style.height = viewportHeight + 'px';
-        }
-        else if(this.style == 'stretch') {
-            // stretch to cover the entire page
-            container.style.left = '0px';
-            container.style.top = '0px';
-            container.style.width = window.innerWidth + 'px';
-            container.style.height = window.innerHeight + 'px';
-        }
-        else
-            throw new IllegalOperationError('Invalid immersive viewport style: ' + this.style);
-    }
-}
-
-/**
- * Inline viewport: it follows the typical flow of a web page
- */
-export class InlineViewport extends ResizableViewport
-{
-    /**
-     * Initialize the viewport
-     * @internal
-     */
-    _init(): void
-    {
-        super._init();
-        this.style = 'inline';
-    }
-
-    /**
-     * Release the viewport
-     * @internal
-     */
-    _release(): void
-    {
-        this.container.style.cssText = ''; // reset CSS
-        super._release();
-    }
-
-    /**
-     * Resize the inline viewport
-     * (we still take orientation changes into account)
-     */
-    protected _onResize(): void
-    {
-        super._onResize();
-
-        const container = this.container;
-        container.style.position = 'relative';
-
-        if(this.style == 'inline') {
-            container.style.left = '0px';
-            container.style.top = '0px';
-            container.style.width = this.virtualSize.width + 'px';
-            container.style.height = this.virtualSize.height + 'px';
-        }
-        else
-            throw new IllegalOperationError('Invalid inline viewport style: ' + this.style);
+        this._containers.release();
     }
 }

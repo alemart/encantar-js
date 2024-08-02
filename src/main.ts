@@ -26,7 +26,7 @@ import { Settings } from './core/settings';
 import { Session, SessionOptions } from './core/session';
 import { TrackerFactory } from './trackers/tracker-factory';
 import { SourceFactory } from './sources/source-factory';
-import { Viewport, ViewportSettings, BaseViewport } from './core/viewport';
+import { Viewport, ViewportSettings } from './core/viewport';
 import { Utils } from './utils/utils';
 declare const __MARTINS_VERSION__: string;
 declare const __MARTINS_DEVELOPMENT_MODE__: string;
@@ -70,7 +70,7 @@ export default class Martins
      */
     static Viewport(settings: ViewportSettings): Viewport
     {
-        return new BaseViewport(settings);
+        return new Viewport(settings);
     }
 
     /**
