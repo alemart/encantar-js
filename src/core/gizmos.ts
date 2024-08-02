@@ -27,7 +27,7 @@ import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { SpeedyKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { Resolution } from './resolution';
+import { Resolution } from '../utils/resolution';
 import { Nullable, Utils } from '../utils/utils';
 import { IllegalArgumentError, IllegalOperationError, TrackingError } from '../utils/errors';
 import { Viewport } from './viewport';

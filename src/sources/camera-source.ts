@@ -24,7 +24,7 @@ import Speedy from 'speedy-vision';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Utils } from '../utils/utils';
-import { Resolution } from '../core/resolution';
+import { Resolution } from '../utils/resolution';
 import { NotSupportedError, AccessDeniedError, IllegalOperationError } from '../utils/errors';
 import { VideoSource } from './video-source';
 

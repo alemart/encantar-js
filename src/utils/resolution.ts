@@ -22,6 +22,7 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
+import { IllegalArgumentError } from './errors';
 
 /** Resolution type */
 export type Resolution = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg+';
@@ -48,6 +49,11 @@ export function computeResolution(resolution: Resolution, aspectRatio: number): 
 {
     const referenceHeight = REFERENCE_HEIGHT[resolution];
     let width = 0, height = 0;
+
+    if(referenceHeight === undefined)
+        throw new IllegalArgumentError('Invalid resolution: ' + resolution);
+    else if(aspectRatio <= 0)
+        throw new IllegalArgumentError('Invalid aspect ratio: ' + aspectRatio);
 
     if(aspectRatio >= 1) {
         // landscape

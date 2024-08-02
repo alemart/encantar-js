@@ -29,7 +29,7 @@ import { SpeedyPipelineNodeImageSource } from 'speedy-vision/types/core/pipeline
 import { SpeedyPipelineNodeResize } from 'speedy-vision/types/core/pipeline/nodes/transforms/resize';
 import { SpeedyPipelineNodeKeypointTransformer } from 'speedy-vision/types/core/pipeline/nodes/keypoints/transformer';
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
-import { Resolution } from '../../../core/resolution';
+import { Resolution } from '../../../utils/resolution';
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName } from '../image-tracker';
 import { ImageTrackerState, ImageTrackerStateOutput } from './state';
 import { ReferenceImage } from '../reference-image';

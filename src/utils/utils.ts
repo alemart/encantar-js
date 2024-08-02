@@ -23,7 +23,7 @@
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { AssertionError, IllegalArgumentError } from './errors';
-import { Resolution, computeResolution } from '../core/resolution';
+import { Resolution, computeResolution } from './resolution';
 
 /**
  * Nullable type
