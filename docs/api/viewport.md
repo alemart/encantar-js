@@ -17,7 +17,7 @@ Create a new viewport with the specified `settings`.
     * `hudContainer: HTMLDivElement, optional`. An overlay that will be displayed in front of the augmented scene. It must be a direct child of `container` in the DOM tree.
     * `resolution: Resolution, optional`. The [resolution](resolution.md) of the virtual scene.
     * `canvas: HTMLCanvasElement, optional`. An existing canvas on which the virtual scene will be drawn. The engine automatically creates a canvas. You should only specify an existing canvas if you must. Experimental.
-    * `style: string, optional.` The [viewport style](#style). *Since:* 0.2.1
+    * `style: string, optional.` The [viewport style](#style). *Since:* 0.3.0
 
 **Returns**
 
@@ -76,7 +76,7 @@ The style determines the way the viewport appears on the screen. Different style
 
 The default style is `"best-fit"` in immersive mode, or `"inline"` in inline mode.
 
-*Since:* 0.2.1
+*Since:* 0.3.0
 
 ### fullscreen
 
@@ -84,7 +84,7 @@ The default style is `"best-fit"` in immersive mode, or `"inline"` in inline mod
 
 Whether or not the viewport [container](#container) is being displayed in fullscreen mode.
 
-*Since:* 0.2.1
+*Since:* 0.3.0
 
 ### fullscreenAvailable
 
@@ -92,7 +92,7 @@ Whether or not the viewport [container](#container) is being displayed in fullsc
 
 Checks the availability of the fullscreen mode on the current platform and page.
 
-*Since:* 0.2.1
+*Since:* 0.3.0
 
 
 
@@ -108,7 +108,7 @@ Make a request to the user agent so that the viewport [container](#container) is
 
     At the time of this writing, the fullscreen mode is [not supported on iPhone](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen#browser_compatibility). An alternative way to create a fullscreen experience is to set the viewport [style](#style) to `"stretch"` in a [web app](https://developer.mozilla.org/en-US/docs/Web/Manifest/display).
 
-*Since:* 0.2.1
+*Since:* 0.3.0
 
 **Returns**
 
@@ -139,7 +139,7 @@ button.addEventListener('click', toggleFullscreen);
 
 Exit fullscreen mode.
 
-*Since:* 0.2.1
+*Since:* 0.3.0
 
 **Returns**
 

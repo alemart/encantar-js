@@ -16,7 +16,7 @@ The number of reference images stored in this database.
 
 The maximum number of reference images that can be stored in this database.
 
-*Note:* this property is writable since version 0.2.1 (experimental).
+*Note:* this property is writable since version 0.3.0 (experimental).
 
 ## Methods
 
