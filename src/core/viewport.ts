@@ -24,7 +24,7 @@ import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable } from '../utils/utils';
-import { Resolution } from './resolution';
+import { Resolution } from '../utils/resolution';
 import { Utils } from '../utils/utils';
 import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessDeniedError } from '../utils/errors';
 import { HUD, HUDContainer } from './hud';
@@ -98,12 +98,6 @@ const FOREGROUND_ZINDEX = BASE_ZINDEX + 1;
 
 /** Z-index of the HUD */
 const HUD_ZINDEX = BASE_ZINDEX + 2;
-
-/** Default viewport width, in pixels */
-const DEFAULT_VIEWPORT_WIDTH = 300;
-
-/** Default viewport height, in pixels */
-const DEFAULT_VIEWPORT_HEIGHT = 150;
 
 
 
@@ -199,12 +193,11 @@ class ViewportCanvases
     /**
      * Constructor
      * @param parent container for the canvases
+     * @param initialSize initial size of the canvases
      * @param fgCanvas optional existing foreground canvas
      */
-    constructor(parent: HTMLElement, fgCanvas: Nullable<HTMLCanvasElement> = null)
+    constructor(parent: HTMLElement, initialSize: SpeedySize, fgCanvas: Nullable<HTMLCanvasElement> = null)
     {
-        const initialSize = Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
-
         if(fgCanvas !== null && !(fgCanvas instanceof HTMLCanvasElement))
             throw new IllegalArgumentError('Not a canvas: ' + fgCanvas);
 
@@ -730,13 +723,15 @@ export class Viewport extends ViewportEventTarget
 
         super();
 
-        this._mediaSize = () => Speedy.Size(DEFAULT_VIEWPORT_WIDTH, DEFAULT_VIEWPORT_HEIGHT);
-        this._style = null;
+        const guessedAspectRatio = window.innerWidth / window.innerHeight;
+        const initialSize = Utils.resolution(settings.resolution, guessedAspectRatio);
+        this._mediaSize = () => initialSize;
 
         this._resolution = settings.resolution;
+        this._style = null;
         this._containers = new ViewportContainers(settings.container);
         this._hud = new HUD(this._subContainer, settings.hudContainer);
-        this._canvases = new ViewportCanvases(this._subContainer, settings.canvas);
+        this._canvases = new ViewportCanvases(this._subContainer, initialSize, settings.canvas);
 
         this._fullscreen = new ViewportFullscreenHelper(this.container);
         this._resizer = new ViewportResizer(this);
