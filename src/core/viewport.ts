@@ -587,6 +587,10 @@ abstract class ViewportResizeStrategy
  */
 class InlineResizeStrategy extends ViewportResizeStrategy
 {
+    /**
+     * Resize the viewport
+     * @param viewport
+     */
     resize(viewport: Viewport): void
     {
         const container = viewport.container;
@@ -612,6 +616,10 @@ class InlineResizeStrategy extends ViewportResizeStrategy
  */
 abstract class ImmersiveResizeStrategy extends ViewportResizeStrategy
 {
+    /**
+     * Resize the viewport
+     * @param viewport
+     */
     resize(viewport: Viewport): void
     {
         const CONTAINER_ZINDEX = 1000000000;
@@ -632,6 +640,10 @@ abstract class ImmersiveResizeStrategy extends ViewportResizeStrategy
  */
 class BestFitResizeStrategy extends ImmersiveResizeStrategy
 {
+    /**
+     * Resize the viewport
+     * @param viewport
+     */
     resize(viewport: Viewport): void
     {
         const subContainer = viewport._subContainer;
@@ -664,6 +676,10 @@ class BestFitResizeStrategy extends ImmersiveResizeStrategy
  */
 class StretchResizeStrategy extends ImmersiveResizeStrategy
 {
+    /**
+     * Resize the viewport
+     * @param viewport
+     */
     resize(viewport: Viewport): void
     {
         const subContainer = viewport._subContainer;
