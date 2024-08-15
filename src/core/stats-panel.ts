@@ -181,23 +181,56 @@ export class StatsPanel
      */
     private _createContainer(): HTMLDivElement
     {
-        const container = document.createElement('div') as HTMLDivElement;
-        const print = (html: string) => container.insertAdjacentHTML('beforeend', html);
+        const container = document.createElement('div');
 
         container.style.position = 'absolute';
         container.style.left = container.style.top = '0px';
         container.style.zIndex = '1000000';
-        container.style.padding = '4px';
-        container.style.whiteSpace = 'pre-line';
-        container.style.backgroundColor = 'rgba(0,0,0,0.5)';
-        container.style.color = 'white';
-        container.style.fontFamily = 'monospace';
-        container.style.fontSize = '14px';
+        container.style.padding = '0px';
+
+        container.appendChild(this._createTitle());
+        container.appendChild(this._createContent());
+
+        return container;
+    }
+
+    /**
+     * Create a title
+     * @returns a title
+     */
+    private _createTitle(): HTMLElement
+    {
+        const title = document.createElement('div');
+
+        title.style.backgroundColor = '#7e56c2';
+        title.style.color = 'white';
+        title.style.fontFamily = 'monospace';
+        title.style.fontSize = '14px';
+        title.style.fontWeight = 'bold';
+        title.style.padding = '2px';
+        title.innerHTML = '&#x2728;';
+        title.innerText += 'encantAR.js ' + AR.version;
+
+        return title;
+    }
+
+    /**
+     * Create a content container
+     * @returns a content container
+     */
+    private _createContent(): HTMLElement
+    {
+        const content = document.createElement('div');
+        const print = (html: string): void => content.insertAdjacentHTML('beforeend', html);
+
+        content.style.backgroundColor = 'rgba(0,0,0,0.5)';
+        content.style.color = 'white';
+        content.style.fontFamily = 'monospace';
+        content.style.fontSize = '14px';
+        content.style.padding = '2px';
+        content.style.whiteSpace = 'pre-line';
 
         // all sanitized
-        container.innerText = 'encantAR.js ' + AR.version;
-
-        print('<br>');
         print('FPS: <span class="_ar_fps"></span> | ');
         print('GPU: <span class="_ar_gpu"></span> ');
         print('<span class="_ar_power"></span>');
@@ -210,10 +243,10 @@ export class StatsPanel
 
         if(this._viewport.fullscreenAvailable) {
             print('<br>');
-            container.appendChild(this._createFullscreenToggle());
+            content.appendChild(this._createFullscreenToggle());
         }
 
-        return container;
+        return content;
     }
 
     /**
@@ -222,7 +255,7 @@ export class StatsPanel
      */
     private _createFullscreenToggle(): HTMLElement
     {
-        const toggle = document.createElement('a') as HTMLAnchorElement;
+        const toggle = document.createElement('a');
 
         Utils.assert(this._viewport != null);
 
