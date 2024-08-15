@@ -14,25 +14,25 @@ Please read the [guidelines](#guidelines) before you play with the demos. Feel f
 
 Create an augmented scene with [A-Frame](https://aframe.io){ ._blank }. This is the easiest demo to edit!
 
-[Launch demo](/martins-js/demos/hello-aframe/README.html){ ._blank .md-button }
+[Launch demo](/encantar-js/demos/hello-aframe/README.html){ ._blank .md-button }
 
 ### WebAR with three.js
 
 Create an augmented scene with [three.js](https://threejs.org){ ._blank }.
 
-[Launch demo](/martins-js/demos/hello-three/README.html){ ._blank .md-button }
+[Launch demo](/encantar-js/demos/hello-three/README.html){ ._blank .md-button }
 
 ### WebAR with WebGL only
 
 Create an augmented scene without additional libraries.
 
-[Launch demo](/martins-js/demos/hello-webgl/README.html){ ._blank .md-button }
+[Launch demo](/encantar-js/demos/hello-webgl/README.html){ ._blank .md-button }
 
 ### Hello, world!
 
 A basic template to help you get started.
 
-[Launch demo](/martins-js/demos/hello-world/README.html){ ._blank .md-button }
+[Launch demo](/encantar-js/demos/hello-world/README.html){ ._blank .md-button }
 
 ## Interactive demos
 
@@ -40,7 +40,7 @@ A basic template to help you get started.
 
 Have virtual elements respond to touch input.
 
-[Launch demo](/martins-js/demos/touch-three/README.html){ ._blank .md-button }
+[Launch demo](/encantar-js/demos/touch-three/README.html){ ._blank .md-button }
 
 ## Guidelines
 
@@ -60,8 +60,8 @@ Try the demos on your own machine:
 * Run on a console:
 
 ```sh
-git clone git@github.com:alemart/martins-js.git
-cd martins-js
+git clone git@github.com:alemart/encantar-js.git
+cd encantar-js
 npm start
 ```
 

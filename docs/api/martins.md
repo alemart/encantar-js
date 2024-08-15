@@ -1,6 +1,6 @@
 # Martins
 
-The `Martins` namespace is the entry point of the features and components of MARTINS.js.
+The `Martins` namespace is the entry point of the features and components of encantAR.js.
 
 I have documented the instantiation of the components of the engine in their respective pages.
 
@@ -16,7 +16,7 @@ The [settings](settings.md) of the engine.
 
 `Martins.version: string, read-only`
 
-The version of MARTINS.js.
+The version of encantAR.js.
 
 ## Methods
 

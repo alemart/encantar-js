@@ -4,9 +4,9 @@ Now that the image is being tracked, the next step is to render a virtual scene 
 
 ## Pick a 3D rendering technology
 
-MARTINS.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with MARTINS.js. Popular solutions include: A-Frame, Babylon.js and Three.js. You can also use other solutions. MARTINS.js lets you pick any 3D rendering technology.
+encantAR.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with encantAR.js. Popular solutions include: A-Frame, Babylon.js and Three.js. You can also use other solutions. encantAR.js lets you pick any 3D rendering technology.
 
-Once you pick a 3D rendering technology, you need to integrate it with MARTINS.js. There is a code that is responsible for that integration. I call it a _glue code_. Among other things, a glue code transports the tracking results from MARTINS.js to the 3D rendering technology of your choice - it really is a "glue" connecting them.
+Once you pick a 3D rendering technology, you need to integrate it with encantAR.js. There is a code that is responsible for that integration. I call it a _glue code_. Among other things, a glue code transports the tracking results from encantAR.js to the 3D rendering technology of your choice - it really is a "glue" connecting them.
 
 ## Write the glue code
 
@@ -32,7 +32,7 @@ Let me tell you a bit more about the 3D rendering technologies I just mentioned.
 
 ### A-Frame
 
-[A-Frame](https://aframe.io){ ._blank } is an open-source framework used to build virtual reality (VR) experiences for the web. When you combine it with MARTINS.js, you become able to use it to create AR experiences too - without the need of special hardware or software.
+[A-Frame](https://aframe.io){ ._blank } is an open-source framework used to build virtual reality (VR) experiences for the web. When you combine it with encantAR.js, you become able to use it to create AR experiences too - without the need of special hardware or software.
 
 A-Frame is built on top of [Three.js](#threejs) and extends it in powerful ways. It introduces a HTML-based declarative approach for [scene graphs](https://en.wikipedia.org/wiki/Scene_graph){ ._blank }, empowering them with the [Entity-Component-System](https://en.wikipedia.org/wiki/Entity_component_system){ ._blank }, a software pattern commonly used in game development. Sounds complicated? It is not!
 
@@ -44,13 +44,13 @@ A-Frame is easy for beginners and pleasing for experts. A simple scene is declar
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo</title>
+        <title>encantAR.js WebAR demo</title>
         <!-- include A-Frame -->
         <script src="aframe-vX.Y.Z.min.js"></script>
-        <script src="martins.js"></script>
+        <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
         <!-- this is my glue code for A-Frame -->
-        <script src="aframe-with-martins.js"></script>
+        <script src="aframe-with-encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
     <body>

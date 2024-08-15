@@ -1,6 +1,6 @@
 # Next steps
 
-Congratulations! You have created your first WebAR experience with MARTINS.js! :sunglasses:
+Congratulations! You have created your first WebAR experience with encantAR.js! :sunglasses:
 
 Let me tell you some of the steps you can take from now on.
 
@@ -84,12 +84,12 @@ So far we've just created a static HTML page. The next step is to make your page
 
 !!! tip "Use the minified code"
 
-    When deploying your WebAR experiences, make sure to include the minified `martins.min.js` file instead of the regular `martins.js`. The latter is suitable for development. The former, for production.
+    When deploying your WebAR experiences, make sure to include the minified `encantar.min.js` file instead of the regular `encantar.js`. The latter is suitable for development. The former, for production.
 
 ## Support my work
 
 If you came this far in the guide, WebAR probably excites you. It is definitely something you want. I know, it is awesome! The possibilities are endless. Even better than getting your creative juices boiling with enthusiasm is the feeling of joy I have for sharing this work with you.
 
-I develop MARTINS.js independently. Creating this WebAR engine required a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
+I develop encantAR.js independently. Creating this WebAR engine required a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
 
 [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }

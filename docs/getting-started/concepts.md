@@ -16,9 +16,9 @@ Let me clarify what I mean by terms such as Augmented Reality and WebAR:
 
 4. A **WebAR experience** is an Augmented Reality experience developed using WebAR technology.
 
-5. **MARTINS.js** is a WebAR technology. I also call it a WebAR engine. Lots of computations have to be performed behind the scenes in order to make an Augmented Reality experience possible. MARTINS.js uses the GPU[^2] to accelerate many of those computations. In fact, the GPU and the CPU[^3] are used together. This approach improves the performance of the WebAR experience and ultimately leads to a better user experience.
+5. **encantAR.js** is a WebAR technology. I also call it a WebAR engine. Lots of computations have to be performed behind the scenes in order to make an Augmented Reality experience possible. encantAR.js uses the GPU[^2] to accelerate many of those computations. In fact, the GPU and the CPU[^3] are used together. This approach improves the performance of the WebAR experience and ultimately leads to a better user experience.
 
-Now that those terms are clarified, I say this: you can use MARTINS.js to create amazing WebAR experiences! :wink:
+Now that those terms are clarified, I say this: you can use encantAR.js to create amazing WebAR experiences! :wink:
 
 [^1]: This definition of AR experience is convenient in different ways. For example, it makes the term "WebAR experience", which is arguably better than "WebAR app" (no apps are downloaded), well-defined. I make a distinction between AR experience and experience of AR. An experience of AR is an event in consciousness in which AR is experienced. I sometimes use the latter definition.
 [^2]: Graphics Processing Unit
@@ -26,7 +26,7 @@ Now that those terms are clarified, I say this: you can use MARTINS.js to create
 
 ## Practical concepts
 
-Let me explain some concepts that you'll see over and over again when developing WebAR experiences with MARTINS.js:
+Let me explain some concepts that you'll see over and over again when developing WebAR experiences with encantAR.js:
 
 1. The experience of Augmented Reality is created by augmenting the physical scene with the virtual scene.
 

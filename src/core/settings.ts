@@ -1,5 +1,5 @@
 /*
- * MARTINS.js
+ * encantar.js
  * GPU-accelerated Augmented Reality for the web
  * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
  *

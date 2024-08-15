@@ -1,17 +1,16 @@
-site_name: "MARTINS.js: GPU-accelerated Augmented Reality for the web"
-site_url: https://alemart.github.io/martins-js
+site_name: "encantAR.js: GPU-accelerated Augmented Reality for the web"
+site_url: https://alemart.github.io/encantar-js
 site_author: Alexandre Martins
 site_description: Open source WebAR engine. Runs everywhere. Easy to get started.
 copyright: Copyright &copy; 2022 - present Alexandre Martins
 
-repo_name: alemart/martins-js
-repo_url: https://github.com/alemart/martins-js
+repo_name: alemart/encantar-js
+repo_url: https://github.com/alemart/encantar-js
 
 theme:
   name: material
   custom_dir: docs_overrides
   features: [ 'navigation.tabs', 'navigation.tabs.sticky' ]
-  logo: img/martins-icon.png
 
 extra_css: [ 'style/extra.css' ]
 extra_javascript: [ 'js/extra.js' ]

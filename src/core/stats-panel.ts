@@ -1,5 +1,5 @@
 /*
- * MARTINS.js
+ * encantar.js
  * GPU-accelerated Augmented Reality for the web
  * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
  *
@@ -195,7 +195,7 @@ export class StatsPanel
         container.style.fontSize = '14px';
 
         // all sanitized
-        container.innerText = 'MARTINS.js ' + Martins.version;
+        container.innerText = 'encantAR.js ' + Martins.version;
 
         print('<br>');
         print('FPS: <span class="_ar_fps"></span> | ');

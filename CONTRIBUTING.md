@@ -1,8 +1,6 @@
 # How to contribute
 
-Thank you for your interest in contributing to MARTINS.js! 👍
-
-In order to contribute to MARTINS.js, you must certify that you have the right to submit your contribution according to the [Developer Certificate of Origin (DCO)](https://developercertificate.org). Each commit must include a `Signed-off-by` line at the end of the commit message, as in the template below:
+Please certify that you have the right to submit your contribution according to the [Developer Certificate of Origin (DCO)](https://developercertificate.org). Each commit must include a `Signed-off-by` line at the end of the commit message, as in the template below:
 
 ```
 Signed-off-by: Your Name <your.email@addr.es>

@@ -1,11 +1,11 @@
 {
-  "name": "martins-js",
+  "name": "encantar-js",
   "version": "0.2.1-wip",
   "description": "GPU-accelerated Augmented Reality for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
-  "homepage": "https://github.com/alemart/martins-js",
+  "homepage": "https://github.com/alemart/encantar-js",
   "license": "LGPL-3.0-or-later",
-  "repository": "github:alemart/martins-js",
+  "repository": "github:alemart/encantar-js",
   "funding": "https://github.com/sponsors/alemart",
   "keywords": [
     "augmented reality",
@@ -21,12 +21,12 @@
     "webgl2",
     "wasm"
   ],
-  "main": "dist/martins.js",
+  "main": "dist/encantar.js",
   "scripts": {
     "start": "webpack serve --mode development --env PORT=8000 --env minimize=1",
     "build-dev": "npm run update && npm run clean && webpack --mode development",
     "build": "npm run update && npm run clean && webpack --mode production && webpack --mode production --env minimize=1",
-    "clean": "rm -rf dist/martins*.js",
+    "clean": "rm -rf dist/encantar*.js",
     "update": "npm update speedy-vision",
     "deploy": "mkdocs gh-deploy",
     "test": "echo \"Error: no test specified\" && exit 1"

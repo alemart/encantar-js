@@ -1,5 +1,5 @@
 /*
- * MARTINS.js
+ * encantar.js
  * GPU-accelerated Augmented Reality for the web
  * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
  *
@@ -28,9 +28,9 @@ import { TrackerFactory } from './trackers/tracker-factory';
 import { SourceFactory } from './sources/source-factory';
 import { Viewport, ViewportSettings } from './core/viewport';
 import { Utils } from './utils/utils';
-declare const __MARTINS_VERSION__: string;
-declare const __MARTINS_DEVELOPMENT_MODE__: string;
-declare const __MARTINS_WEBSITE__: string;
+declare const __AR_VERSION__: string;
+declare const __AR_DEVELOPMENT_MODE__: string;
+declare const __AR_WEBSITE__: string;
 
 /**
  * GPU-accelerated Augmented Reality for the web
@@ -86,10 +86,10 @@ export default class Martins
      */
     static get version(): string
     {
-        if(__MARTINS_DEVELOPMENT_MODE__)
-            return __MARTINS_VERSION__ + '-dev';
+        if(__AR_DEVELOPMENT_MODE__)
+            return __AR_VERSION__ + '-dev';
         else
-            return __MARTINS_VERSION__;
+            return __AR_VERSION__;
     }
 
     /**
@@ -118,7 +118,7 @@ Object.freeze(Martins);
 
 // Display a notice
 Utils.log(
-    `MARTINS.js version ${Martins.version}. ` +
+    `encantAR.js version ${Martins.version}. ` +
     `GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` +
-    __MARTINS_WEBSITE__
+    __AR_WEBSITE__
 );

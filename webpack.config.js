@@ -9,7 +9,7 @@ module.exports = (env, argv) => ({
     devtool: argv.mode == 'development' ? 'source-map' : undefined,
 
     output: {
-        filename: !env.minimize ? 'martins.js' : 'martins.min.js',
+        filename: !env.minimize ? 'encantar.js' : 'encantar.min.js',
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/dist/',
         library: {
@@ -32,7 +32,7 @@ module.exports = (env, argv) => ({
     plugins: [
         new webpack.BannerPlugin({
             banner: ((({ author, version, year, homepage, description, date }) => ([
-                `MARTINS.js version ${version}`,
+                `encantAR.js version ${version}`,
                 `${description}`,
                 `Copyright ${year} ${author}`,
                 `${homepage}`,
@@ -42,14 +42,14 @@ module.exports = (env, argv) => ({
             ].join('\n')))({
                 ...pack,
                 'date': new Date().toISOString(),
-                'year': [ ...(new Set([2022, new Date().getFullYear()])) ].join('-'),
+                'year': [2022, new Date().getFullYear()].join('-'),
                 'author': pack.author.replace('@', '(at)'),
             }))
         }),
         new webpack.DefinePlugin({
-            '__MARTINS_VERSION__': JSON.stringify(pack.version),
-            '__MARTINS_DEVELOPMENT_MODE__': argv.mode == 'development',
-            '__MARTINS_WEBSITE__': JSON.stringify(pack.homepage),
+            '__AR_VERSION__': JSON.stringify(pack.version),
+            '__AR_DEVELOPMENT_MODE__': argv.mode == 'development',
+            '__AR_WEBSITE__': JSON.stringify(pack.homepage),
         }),
         new webpack.IgnorePlugin({
             resourceRegExp: /\.ignore\./i,

@@ -1,5 +1,5 @@
 /*
- * MARTINS.js
+ * encantar.js
  * GPU-accelerated Augmented Reality for the web
  * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
  *
@@ -42,7 +42,7 @@ export class Utils
      */
     static log(message: string, ...args: any[]): void
     {
-        console.log('[martins-js]', message, ...args);
+        console.log('[encantar-js]', message, ...args);
     }
 
     /**
@@ -52,7 +52,7 @@ export class Utils
      */
     static warning(message: string, ...args: any[]): void
     {
-        console.warn('[martins-js]', message, ...args);
+        console.warn('[encantar-js]', message, ...args);
     }
 
     /**
@@ -62,7 +62,7 @@ export class Utils
      */
     static error(message: string, ...args: any[]): void
     {
-        console.error('[martins-js]', message, ...args);
+        console.error('[encantar-js]', message, ...args);
     }
 
     /**

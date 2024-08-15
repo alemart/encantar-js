@@ -1,9 +1,3 @@
-/**
- * @file MARTINS.js WebAR demo with WebGL
- * @author Alexandre Martins (https://github.com/alemart)
- * @license LGPL-3.0-or-later
- */
-
 /*
 
 Note:
@@ -842,7 +836,7 @@ class WingMan extends Sprite
 
 /*
 
-MARTINS.js + WebGL code:
+encantar.js + WebGL code:
 
 */
 

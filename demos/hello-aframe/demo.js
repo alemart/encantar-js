@@ -1,9 +1,3 @@
-/**
- * @file MARTINS.js WebAR demo with A-Frame
- * @author Alexandre Martins (https://github.com/alemart)
- * @license LGPL-3.0-or-later
- */
-
 async function startARSession(canvas)
 {
     if(!Martins.isSupported()) {

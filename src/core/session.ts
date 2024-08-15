@@ -1,5 +1,5 @@
 /*
- * MARTINS.js
+ * encantar.js
  * GPU-accelerated Augmented Reality for the web
  * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
  *
@@ -287,7 +287,7 @@ export class Session extends AREventTarget<SessionEventType>
 
             // is the engine supported?
             if(!Session.isSupported())
-                throw new NotSupportedError('You need a browser/device compatible with WebGL2 and WebAssembly in order to experience Augmented Reality with the MARTINS.js engine');
+                throw new NotSupportedError('You need a browser/device compatible with WebGL2 and WebAssembly in order to experience Augmented Reality with encantar.js');
 
             // block multiple immersive sessions
             if(mode !== 'inline' && Session.count > 0)

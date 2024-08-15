@@ -7,14 +7,14 @@ Let's prepare our local environment in order to create our first WebAR experienc
 Let's create a file structure for our AR experience:
 
 1. Create a new folder called `ar-demo` in your filesystem
-2. Download the [latest release of MARTINS.js](../download.md){ ._blank } and extract `dist/martins.js` to `ar-demo/`
+2. Download the [latest release of encantAR.js](../download.md){ ._blank } and extract `dist/encantar.js` to `ar-demo/`
 3. Create a new empty file called `index.html` and store it in `ar-demo/`
 
 You will have the following file structure:
 
     ar-demo/
     ├── index.html
-    └── martins.js
+    └── encantar.js
 
 ## Add boilerplate code
 
@@ -26,8 +26,8 @@ Use the code editor of your choice to write the following content to `index.html
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo</title>
-        <script src="martins.js"></script>
+        <title>encantAR.js WebAR demo</title>
+        <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
     <body>

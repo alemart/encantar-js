@@ -1,9 +1,3 @@
-/**
- * @file MARTINS.js WebAR demo with three.js and touch interaction
- * @author Alexandre Martins (https://github.com/alemart)
- * @license LGPL-3.0-or-later
- */
-
 window.addEventListener('load', () => {
 
     const my = { };
@@ -187,7 +181,7 @@ window.addEventListener('load', () => {
         return session;
     }
 
-    // link MARTINS.js to THREE.js
-    linkMartinsToTHREE(startARSession, animate, initialize);
+    // enchant!
+    encantar(startARSession, animate, initialize);
 
 });

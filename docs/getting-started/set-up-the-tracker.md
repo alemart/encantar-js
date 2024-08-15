@@ -23,8 +23,8 @@ Next, let's add the reference image to our web page. Add an `<img>` tag to the `
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo</title>
-        <script src="martins.js"></script>
+        <title>encantAR.js WebAR demo</title>
+        <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
     <body>
@@ -50,8 +50,8 @@ Once you see that the image is being properly loaded, there is no need to keep i
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo</title>
-        <script src="martins.js"></script>
+        <title>encantAR.js WebAR demo</title>
+        <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
     <body>
@@ -75,7 +75,7 @@ This is the expected directory structure at this point:
 
     ar-demo/
     ├── index.html
-    ├── martins.js
+    ├── encantar.js
     ├── my-reference-image.webp
     ├── my-video.mp4
     └── my-video.webm
@@ -88,8 +88,8 @@ Let's include the test video in our page. Add a `<video>` tag as follows:
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo</title>
-        <script src="martins.js"></script>
+        <title>encantAR.js WebAR demo</title>
+        <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
     <body>
@@ -108,7 +108,7 @@ In order to track the reference image in our video, we need an Image Tracker. Re
 
 Before we track anything with an Image Tracker, we must tell it what to track. There are two steps to this: first, we instantiate an Image Tracker. Next, we link our reference image to it.
 
-We'll be writing a little bit of JavaScript code now. In order to keep our code clean, we'll be writing the JavaScript code to a new file. Let's add a `<script>` tag below `martins.js` as follows:
+We'll be writing a little bit of JavaScript code now. In order to keep our code clean, we'll be writing the JavaScript code to a new file. Let's add a `<script>` tag below `encantar.js` as follows:
 
 ```html title="index.html" hl_lines="8"
 <!doctype html>
@@ -116,8 +116,8 @@ We'll be writing a little bit of JavaScript code now. In order to keep our code 
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>MARTINS.js WebAR demo</title>
-        <script src="martins.js"></script>
+        <title>encantAR.js WebAR demo</title>
+        <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
@@ -154,14 +154,14 @@ window.onload = async function()
 
 The `Martins` namespace holds the various elements featured by the engine. We'll be using it extensively.
 
-MARTINS.js only requires standard web technologies that have been around for a while. Still, it's a good practice to check if those technologies are supported by the target system. If they are not, we display a message and quit. If they are, we instantiate an Image Tracker.
+encantAR.js only requires standard web technologies that have been around for a while. Still, it's a good practice to check if those technologies are supported by the target system. If they are not, we display a message and quit. If they are, we instantiate an Image Tracker.
 
 Before moving on, make sure that you have the following directory structure at this point:
 
     ar-demo/
     ├── ar-demo.js
     ├── index.html
-    ├── martins.js
+    ├── encantar.js
     ├── my-reference-image.webp
     ├── my-video.mp4
     └── my-video.webm

@@ -1,6 +1,6 @@
 # SpeedyMatrix
 
-[Speedy](speedy.md) includes its own fast implementation of matrices. They are used extensively in MARTINS.js.
+[Speedy](speedy.md) includes its own fast implementation of matrices. They are used extensively in encantAR.js.
 
 ## Properties
 

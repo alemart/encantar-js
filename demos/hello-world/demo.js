@@ -1,9 +1,3 @@
-/**
- * @file MARTINS.js WebAR template: Hello, world!
- * @author Alexandre Martins (https://github.com/alemart)
- * @license LGPL-3.0-or-later
- */
-
 window.addEventListener('load', async function() {
     try {
         const session = await startARSession();
