@@ -64,10 +64,10 @@ nav:
     - 'Demo gallery': 'demos.md'
   - 'API':
     - 'General':
+      - 'AR': 'api/ar.md'
       - 'Session': 'api/session.md'
       - 'Frame': 'api/frame.md'
       - 'Time': 'api/time.md'
-      - 'Martins': 'api/martins.md'
       - 'Settings': 'api/settings.md'
       - 'Resolution': 'api/resolution.md'
     - 'Trackers':

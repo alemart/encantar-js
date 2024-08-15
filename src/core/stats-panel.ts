@@ -26,7 +26,7 @@ import { Viewport } from './viewport';
 import { Tracker } from '../trackers/tracker';
 import { Source } from '../sources/source';
 import { Utils, Nullable } from '../utils/utils';
-import Martins from '../main';
+import AR from '../main';
 
 
 /** Update interval, in ms */
@@ -195,7 +195,7 @@ export class StatsPanel
         container.style.fontSize = '14px';
 
         // all sanitized
-        container.innerText = 'encantAR.js ' + Martins.version;
+        container.innerText = 'encantAR.js ' + AR.version;
 
         print('<br>');
         print('FPS: <span class="_ar_fps"></span> | ');

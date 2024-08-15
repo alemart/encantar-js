@@ -23,7 +23,7 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
  */
 
 /**
- * Connect encantar.js to three.js
+ * Do magic to connect encantar.js to three.js
  * @param {() => Promise<Session> | SpeedyPromise<Session>} startARSession
  * @param {(ar: ARSystem) => void} [animateVirtualScene] animation callback
  * @param {(ar: ARSystem) => void | Promise<void> | SpeedyPromise<Session>} [initializeVirtualScene] initialization callback
@@ -147,8 +147,8 @@ function encantar(startARSession, animateVirtualScene, initializeVirtualScene)
 function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(json)
 {
     window.addEventListener('load', () => {
-    try { Martins, __THREE__;
-    const versionOf = { 'encantar.js': Martins.version.replace(/-.*$/, ''), 'three.js': __THREE__ };
+    try { AR, __THREE__;
+    const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'three.js': __THREE__ };
     const check = (x,v,w) => v !== w ? console.warn(`\n\n\nWARNING\n\nThis plugin has been tested with ${x} version ${v}. The version in use is ${w}. Usage of ${x} version ${v} is recommended instead.\n\n\n`) : void 0;
     for(const [x, expected] of Object.entries(json)) check(x, expected.version, versionOf[x]);
     } catch(e) { alert(e.message); }

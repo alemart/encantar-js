@@ -12,4 +12,4 @@ In this documentation, I provide a quick reference of some of the classes used i
 
 `Speedy: Speedy, read-only`
 
-The `Speedy` namespace is provided in global scope. It's also available as `Martins.Speedy`.
+The `Speedy` namespace is provided in global scope. It's also available as `AR.Speedy`.

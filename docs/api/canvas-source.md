@@ -4,9 +4,9 @@ A [source of data](source.md) linked to a `<canvas>` element.
 
 ## Instantiation
 
-### Martins.Source.Canvas
+### AR.Source.Canvas
 
-`Martins.Source.Canvas(canvas: HTMLCanvasElement): CanvasSource`
+`AR.Source.Canvas(canvas: HTMLCanvasElement): CanvasSource`
 
 Create a new source of data linked to the provided `canvas`.
 

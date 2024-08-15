@@ -9,28 +9,28 @@ Instead of using a video file, we're going to use your webcam. We simply need to
 ```js title="ar-demo.js" hl_lines="20-22"
 async function startARSession()
 {
-    if(!Martins.isSupported()) {
+    if(!AR.isSupported()) {
         throw new Error(
             'This device is not compatible with this AR experience.\n\n' +
             'User agent: ' + navigator.userAgent
         );
     }
 
-    const tracker = Martins.Tracker.ImageTracker();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
     }]);
 
-    const viewport = Martins.Viewport({
+    const viewport = AR.Viewport({
         container: document.getElementById('ar-viewport')
     });
 
     //const video = document.getElementById('my-video'); // comment this line
-    //const source = Martins.Source.Video(video); // comment this line
-    const source = Martins.Source.Camera();
+    //const source = AR.Source.Video(video); // comment this line
+    const source = AR.Source.Camera();
 
-    const session = await Martins.startSession({
+    const session = await AR.startSession({
         mode: 'immersive',
         viewport: viewport,
         trackers: [ tracker ],
@@ -154,29 +154,29 @@ In order to display that scan gimmick, we need to create a HUD (<em>Heads-Up Dis
 ```js title="ar-demo.js" hl_lines="17-18"
 async function startARSession()
 {
-    if(!Martins.isSupported()) {
+    if(!AR.isSupported()) {
         throw new Error(
             'This device is not compatible with this AR experience.\n\n' +
             'User agent: ' + navigator.userAgent
         );
     }
 
-    const tracker = Martins.Tracker.ImageTracker();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
     }]);
 
-    const viewport = Martins.Viewport({
+    const viewport = AR.Viewport({
         container: document.getElementById('ar-viewport'),
         hudContainer: document.getElementById('ar-hud')
     });
 
     //const video = document.getElementById('my-video');
-    //const source = Martins.Source.Video(video);
-    const source = Martins.Source.Camera();
+    //const source = AR.Source.Video(video);
+    const source = AR.Source.Camera();
 
-    const session = await Martins.startSession({
+    const session = await AR.startSession({
         mode: 'immersive',
         viewport: viewport,
         trackers: [ tracker ],
@@ -200,29 +200,29 @@ A simple way to know whether or not we're tracking a target image is to use even
 ```js title="ar-demo.js" hl_lines="34-42"
 async function startARSession()
 {
-    if(!Martins.isSupported()) {
+    if(!AR.isSupported()) {
         throw new Error(
             'This device is not compatible with this AR experience.\n\n' +
             'User agent: ' + navigator.userAgent
         );
     }
 
-    const tracker = Martins.Tracker.ImageTracker();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
     }]);
 
-    const viewport = Martins.Viewport({
+    const viewport = AR.Viewport({
         container: document.getElementById('ar-viewport'),
         hudContainer: document.getElementById('ar-hud')
     });
 
     //const video = document.getElementById('my-video');
-    //const source = Martins.Source.Video(video);
-    const source = Martins.Source.Camera();
+    //const source = AR.Source.Video(video);
+    const source = AR.Source.Camera();
 
-    const session = await Martins.startSession({
+    const session = await AR.startSession({
         mode: 'immersive',
         viewport: viewport,
         trackers: [ tracker ],
@@ -247,36 +247,36 @@ async function startARSession()
 
 ## Hide the gizmos
 
-Let's polish our work even more by hiding the gizmos. You may just set `gizmos` to `false` in `Martins.startSession()` and there will be no more gizmos. Do the same to hide the stats panel.
+Let's polish our work even more by hiding the gizmos. You may just set `gizmos` to `false` in `AR.startSession()` and there will be no more gizmos. Do the same to hide the stats panel.
 
 Let me show you a different approach. Instead of getting rid of the gizmos completely, we're going to hide them partially. They will be displayed when the tracker is scanning the physical scene, but not when the physical scene is being augmented. That's easy to do with the event listeners we have just set up:
 
 ```js title="ar-demo.js" hl_lines="38 43"
 async function startARSession()
 {
-    if(!Martins.isSupported()) {
+    if(!AR.isSupported()) {
         throw new Error(
             'This device is not compatible with this AR experience.\n\n' +
             'User agent: ' + navigator.userAgent
         );
     }
 
-    const tracker = Martins.Tracker.ImageTracker();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
     }]);
 
-    const viewport = Martins.Viewport({
+    const viewport = AR.Viewport({
         container: document.getElementById('ar-viewport'),
         hudContainer: document.getElementById('ar-hud')
     });
 
     //const video = document.getElementById('my-video');
-    //const source = Martins.Source.Video(video);
-    const source = Martins.Source.Camera();
+    //const source = AR.Source.Video(video);
+    const source = AR.Source.Camera();
 
-    const session = await Martins.startSession({
+    const session = await AR.startSession({
         mode: 'immersive',
         viewport: viewport,
         trackers: [ tracker ],

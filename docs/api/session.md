@@ -4,9 +4,9 @@ A central component of a WebAR experience. Read the [concepts](../getting-starte
 
 ## Instantiation
 
-### Martins.startSession
+### AR.startSession
 
-`Martins.startSession(options: object): SpeedyPromise<Session>`
+`AR.startSession(options: object): SpeedyPromise<Session>`
 
 Start a new session.
 

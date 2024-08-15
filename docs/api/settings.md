@@ -6,7 +6,7 @@ Engine settings.
 
 ### powerPreference
 
-`Martins.Settings.powerPreference: string`
+`AR.Settings.powerPreference: string`
 
 Power profile. One of the following: `"default"`, `"low-power"`, `"high-performance"`.
 

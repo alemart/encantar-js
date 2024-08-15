@@ -32,20 +32,20 @@ We begin by creating the viewport. Remember that the viewport is the area in whi
 window.onload = async function()
 {
     try {
-        if(!Martins.isSupported()) {
+        if(!AR.isSupported()) {
             throw new Error(
                 'This device is not compatible with this AR experience.\n\n' +
                 'User agent: ' + navigator.userAgent
             );
         }
 
-        const tracker = Martins.Tracker.ImageTracker();
+        const tracker = AR.Tracker.ImageTracker();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')
         }]);
 
-        const viewport = Martins.Viewport({
+        const viewport = AR.Viewport({
             container: document.getElementById('ar-viewport')
         });
     }
@@ -63,25 +63,25 @@ Let's set up our source of data. We get the `HTMLVideoElement` corresponding to 
 window.onload = async function()
 {
     try {
-        if(!Martins.isSupported()) {
+        if(!AR.isSupported()) {
             throw new Error(
                 'This device is not compatible with this AR experience.\n\n' +
                 'User agent: ' + navigator.userAgent
             );
         }
 
-        const tracker = Martins.Tracker.ImageTracker();
+        const tracker = AR.Tracker.ImageTracker();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')
         }]);
 
-        const viewport = Martins.Viewport({
+        const viewport = AR.Viewport({
             container: document.getElementById('ar-viewport')
         });
 
         const video = document.getElementById('my-video');
-        const source = Martins.Source.Video(video);
+        const source = AR.Source.Video(video);
     }
     catch(error) {
         alert(error.message);
@@ -91,33 +91,33 @@ window.onload = async function()
 
 ## Start the session
 
-The session is a central component of a WebAR experience. The `Martins` namespace has a very special method called `startSession`. It receives a settings dictionary that lets us configure the new session in different ways. Add the following code to `ar-demo.js`:
+The session is a central component of a WebAR experience. The `AR` namespace has a very special method called `startSession`. It receives a settings dictionary that lets us configure the new session in different ways. Add the following code to `ar-demo.js`:
 
 ```js title="ar-demo.js" hl_lines="24-31"
 window.onload = async function()
 {
     try {
-        if(!Martins.isSupported()) {
+        if(!AR.isSupported()) {
             throw new Error(
                 'This device is not compatible with this AR experience.\n\n' +
                 'User agent: ' + navigator.userAgent
             );
         }
 
-        const tracker = Martins.Tracker.ImageTracker();
+        const tracker = AR.Tracker.ImageTracker();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')
         }]);
 
-        const viewport = Martins.Viewport({
+        const viewport = AR.Viewport({
             container: document.getElementById('ar-viewport')
         });
 
         const video = document.getElementById('my-video');
-        const source = Martins.Source.Video(video);
+        const source = AR.Source.Video(video);
 
-        const session = await Martins.startSession({
+        const session = await AR.startSession({
             mode: 'immersive',
             viewport: viewport,
             trackers: [ tracker ],
@@ -160,27 +160,27 @@ window.onload = async function()
 
 async function startARSession()
 {
-    if(!Martins.isSupported()) {
+    if(!AR.isSupported()) {
         throw new Error(
             'This device is not compatible with this AR experience.\n\n' +
             'User agent: ' + navigator.userAgent
         );
     }
 
-    const tracker = Martins.Tracker.ImageTracker();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
     }]);
 
-    const viewport = Martins.Viewport({
+    const viewport = AR.Viewport({
         container: document.getElementById('ar-viewport')
     });
 
     const video = document.getElementById('my-video');
-    const source = Martins.Source.Video(video);
+    const source = AR.Source.Video(video);
 
-    const session = await Martins.startSession({
+    const session = await AR.startSession({
         mode: 'immersive',
         viewport: viewport,
         trackers: [ tracker ],

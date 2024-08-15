@@ -35,7 +35,7 @@ declare const __AR_WEBSITE__: string;
 /**
  * GPU-accelerated Augmented Reality for the web
  */
-export default class Martins
+export default class AR
 {
     /**
      * Start a new session
@@ -111,14 +111,14 @@ export default class Martins
 }
 
 // Freeze the namespace
-Object.freeze(Martins);
+Object.freeze(AR);
 
 // Add Speedy Vision to global scope
 ((window: any) => window.Speedy = window.Speedy || Speedy)(window);
 
 // Display a notice
 Utils.log(
-    `encantAR.js version ${Martins.version}. ` +
+    `encantAR.js version ${AR.version}. ` +
     `GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` +
     __AR_WEBSITE__
 );

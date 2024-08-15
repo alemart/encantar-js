@@ -4,9 +4,9 @@ The viewport is the area of the web page in which the augmented scene is display
 
 ## Instantiation
 
-### Martins.Viewport
+### AR.Viewport
 
-`Martins.Viewport(settings: object): Viewport`
+`AR.Viewport(settings: object): Viewport`
 
 Create a new viewport with the specified `settings`.
 
@@ -26,7 +26,7 @@ A new viewport.
 **Example**
 
 ```js
-const viewport = Martins.Viewport({
+const viewport = AR.Viewport({
     container: document.getElementById('ar-viewport'),
     resolution: 'lg'
 });

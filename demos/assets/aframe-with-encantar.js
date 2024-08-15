@@ -11,7 +11,7 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
 });
 
 /**
- * Connect encantar.js to aframe
+ * Do magic to connect encantar.js to aframe
  * @param {(canvas: HTMLCanvasElement) => Promise<Session> | SpeedyPromise<Session>} startARSession
  */
 function encantar(startARSession)
@@ -228,8 +228,8 @@ else
  */
 function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(json)
 {
-    try { Martins, AFRAME;
-    const versionOf = { 'encantar.js': Martins.version.replace(/-.*$/, ''), 'aframe': AFRAME.version };
+    try { AR, AFRAME;
+    const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'aframe': AFRAME.version };
     const check = (x,v,w) => v !== w ? console.warn(`\n\n\nWARNING\n\nThis plugin has been tested with ${x} version ${v}. The version in use is ${w}. Usage of ${x} version ${v} is recommended instead.\n\n\n`) : void 0;
     for(const [x, expected] of Object.entries(json)) check(x, expected.version, versionOf[x]);
     } catch(e) { alert(e.message); }

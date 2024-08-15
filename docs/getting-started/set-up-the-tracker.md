@@ -137,14 +137,14 @@ Create a new file called `ar-demo.js` and store it in the `ar-demo/` folder. Wri
 window.onload = async function()
 {
     try {
-        if(!Martins.isSupported()) {
+        if(!AR.isSupported()) {
             throw new Error(
                 'This device is not compatible with this AR experience.\n\n' +
                 'User agent: ' + navigator.userAgent
             );
         }
 
-        const tracker = Martins.Tracker.ImageTracker();
+        const tracker = AR.Tracker.ImageTracker();
     }
     catch(error) {
         alert(error.message);
@@ -152,7 +152,7 @@ window.onload = async function()
 };
 ```
 
-The `Martins` namespace holds the various elements featured by the engine. We'll be using it extensively.
+The `AR` namespace holds the various elements featured by the engine. We'll be using it extensively.
 
 encantAR.js only requires standard web technologies that have been around for a while. Still, it's a good practice to check if those technologies are supported by the target system. If they are not, we display a message and quit. If they are, we instantiate an Image Tracker.
 
@@ -178,14 +178,14 @@ Let's link the image to the tracker. Add the following code to `ar-demo.js`:
 window.onload = async function()
 {
     try {
-        if(!Martins.isSupported()) {
+        if(!AR.isSupported()) {
             throw new Error(
                 'This device is not compatible with this AR experience.\n\n' +
                 'User agent: ' + navigator.userAgent
             );
         }
 
-        const tracker = Martins.Tracker.ImageTracker();
+        const tracker = AR.Tracker.ImageTracker();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')

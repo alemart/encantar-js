@@ -6,36 +6,36 @@ Let me tell you some of the steps you can take from now on.
 
 ## Change the power preference
 
-Image tracking is no trivial task: lots of computations are being performed behind the scenes. The WebAR engine prioritizes processing performance over power consumption by default. You may reduce power consumption by reducing processing performance. This is simple to do: just set `Martins.Settings.powerPreference` to `"low-power"`.
+Image tracking is no trivial task: lots of computations are being performed behind the scenes. The WebAR engine prioritizes processing performance over power consumption by default. You may reduce power consumption by reducing processing performance. This is simple to do: just set `AR.Settings.powerPreference` to `"low-power"`.
 
 ```js title="ar-demo.js" hl_lines="10"
 async function startARSession()
 {
-    if(!Martins.isSupported()) {
+    if(!AR.isSupported()) {
         throw new Error(
             'This device is not compatible with this AR experience.\n\n' +
             'User agent: ' + navigator.userAgent
         );
     }
 
-    Martins.Settings.powerPreference = 'low-power'; // OPTIONAL
+    AR.Settings.powerPreference = 'low-power'; // OPTIONAL
 
-    const tracker = Martins.Tracker.ImageTracker();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
     }]);
 
-    const viewport = Martins.Viewport({
+    const viewport = AR.Viewport({
         container: document.getElementById('ar-viewport'),
         hudContainer: document.getElementById('ar-hud')
     });
 
     //const video = document.getElementById('my-video');
-    //const source = Martins.Source.Video(video);
-    const source = Martins.Source.Camera();
+    //const source = AR.Source.Video(video);
+    const source = AR.Source.Camera();
 
-    const session = await Martins.startSession({
+    const session = await AR.startSession({
         mode: 'immersive',
         viewport: viewport,
         trackers: [ tracker ],

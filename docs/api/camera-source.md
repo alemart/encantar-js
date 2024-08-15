@@ -4,9 +4,9 @@ A [source of data](source.md) linked to a webcam.
 
 ## Instantiation
 
-### Martins.Source.Camera
+### AR.Source.Camera
 
-`Martins.Source.Camera(settings: object): CameraSource`
+`AR.Source.Camera(settings: object): CameraSource`
 
 Create a new webcam-based source of data with the specified `settings`.
 
@@ -24,7 +24,7 @@ A new webcam-based source of data.
 **Example**
 
 ```js
-const webcam = Martins.Source.Camera({
+const webcam = AR.Source.Camera({
     resolution: 'md+',
     constraints: {
         facingMode: 'environment' // will prefer the rear camera on mobile devices

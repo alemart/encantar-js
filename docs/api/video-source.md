@@ -4,9 +4,9 @@ A [source of data](source.md) linked to a `<video>` element.
 
 ## Instantiation
 
-### Martins.Source.Video
+### AR.Source.Video
 
-`Martins.Source.Video(video: HTMLVideoElement): VideoSource`
+`AR.Source.Video(video: HTMLVideoElement): VideoSource`
 
 Create a new source of data linked to the provided `video`.
 

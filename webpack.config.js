@@ -13,7 +13,7 @@ module.exports = (env, argv) => ({
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/dist/',
         library: {
-            name: 'Martins',
+            name: 'AR',
             type: 'umd',
             export: 'default',
         },
