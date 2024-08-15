@@ -89,7 +89,6 @@ You should see a blue screen in your web browser:
 
 <figure markdown>
 [![Expected web page](../img/page-with-nothing.webp)](../img/page-with-nothing.webp){ ._blank }
-<figcaption>Blue Screen of Success</figcaption>
 </figure>
 
 If you see that blue screen, you're ready to proceed. If not, review your settings.

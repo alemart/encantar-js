@@ -17,14 +17,12 @@
 }
 
 :root {
-    --md-secondary-fg-color: #8ef;
+    --md-secondary-fg-color: var(--md-accent-fg-color);
 }
 
 .md-button {
-    --md-primary-bg-color: #4051b5;
-    --md-primary-fg-color: var(--md-secondary-fg-color);
-    --md-accent-fg-color: var(--md-secondary-fg-color);
-    --md-accent-bg-color: var(--md-primary-fg-color--light);
+    --md-primary-bg-color: var(--md-primary-fg-color);
+    --md-primary-fg-color: var(--md-primary-bg-color);
     margin-top: 8px;
     margin-bottom: 8px;
 }
@@ -59,7 +57,7 @@
 
 .splash-text em {
     font-style: normal;
-    color: var(--md-secondary-fg-color);
+    color: var(--md-accent-fg-color);
 }
 
 .splash-text h2 {
@@ -110,13 +108,12 @@
 }
 </style>
 
-<section id="splash" data-md-color-primary="indigo">
+<section id="splash">
     <div class="splash-container md-grid">
         <div class="splash-text md-typeset appear text-center">
-            <h2><em>Create Augmented Reality experiences for the web.</em></h2>
-            <p>Open source WebAR engine. Runs everywhere. Easy to get started.</p>
-            <a href="{{ './getting-started' | url }}" class="md-button md-button--primary">Get started</a>
-            <a href="{{ './demo' | url }}" class="md-button" target="_blank">Try a demo</a>
+            <h2>&#x2728; encantAR.js &#x2728;</h2>
+            <p>Enchant your users with Augmented Reality experiences that run everywhere!</p>
+            <a href="{{ './getting-started' | url }}" class="md-button">Get started</a>
         </div>
         <!--
         <div class="splash-image">

@@ -11,6 +11,9 @@ theme:
   name: material
   custom_dir: docs_overrides
   features: [ 'navigation.tabs', 'navigation.tabs.sticky' ]
+  palette:
+    primary: deep purple
+    accent: yellow
 
 extra_css: [ 'style/extra.css' ]
 extra_javascript: [ 'js/extra.js' ]

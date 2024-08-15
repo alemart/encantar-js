@@ -2,8 +2,6 @@
 
 The `AR` namespace is the entry point of the features and components of encantAR.js.
 
-I have documented the instantiation of the components of the engine in their respective pages.
-
 ## Properties
 
 ### Settings

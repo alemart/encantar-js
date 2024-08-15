@@ -2,7 +2,7 @@
 
 ## What is encantAR.js?
 
-encantAR.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name derives from the Portuguese and Spanish word _encantar_, which means: to enchant, to delight, to love, to fascinate, to put a magical spell.
+encantAR.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name derives from the Portuguese and Spanish word _encantar_, which means: to enchant, to delight, to love, to fascinate, to put a magical spell on someone or something. :sparkles:
 
 ## What is WebAR?
 

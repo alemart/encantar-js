@@ -6,7 +6,16 @@ title: WebAR Demo gallery
 
 # Demo gallery
 
-Please read the [guidelines](#guidelines) before you play with the demos. Feel free to remix them.
+!!! info "Guidelines"
+
+    For a good experience:
+
+    * Don't move the camera nor the target image too quickly. This produces motion blur.
+    * The target image should appear clearly in the video.
+    * The physical environment should be properly illuminated.
+    * If you're scanning the image on a screen, make sure to adjust the brightness. If the screen is too bright (too dark), it will cause overexposure (underexposure) in the video and tracking difficulties - details of the images will be lost. Screen reflections are also undesirable.
+    * If you print the image, avoid shiny materials (e.g., glossy paper). They may generate artifacts in the image and interfere with the tracking. Prefer non-reflective materials.
+    * Avoid low-quality cameras. Cameras of common smartphones are okay.
 
 ## Basic demos
 
@@ -42,20 +51,7 @@ Have virtual elements respond to touch input.
 
 [Launch demo](/encantar-js/demos/touch-three/README.html){ ._blank .md-button }
 
-## Guidelines
-
-For a good experience:
-
-* Don't move the camera nor the target image too quickly. This produces motion blur.
-* The target image should appear clearly in the video.
-* The physical environment should be properly illuminated.
-* If you're scanning the image on a screen, make sure to adjust the brightness. If the screen is too bright (too dark), it will cause overexposure (underexposure) in the video and tracking difficulties - details of the images will be lost. Screen reflections are also undesirable.
-* If you print the image, avoid shiny materials (e.g., glossy paper). They may generate artifacts in the image and interfere with the tracking. Prefer non-reflective materials.
-* Avoid low-quality cameras. Cameras of common smartphones are okay.
-
 ## Try locally
-
-Try the demos on your own machine:
 
 * Run on a console:
 

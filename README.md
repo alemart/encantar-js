@@ -8,8 +8,8 @@ Create amazing Augmented Reality experiences with **encantAR.js**, a GPU-acceler
 
 ## Features
 
-* **Runs everywhere**: on Android, on iOS, and even on Desktop computers. No need of AR-capable devices.
-* **Image tracking**. Use it to track detailed images such as: book covers, cartoons and photos.
+* **Runs everywhere**: on Android, on iOS, and even on Desktop computers.
+* **Image tracking**: track detailed images such as book covers, cartoons and photos.
 
 ## Try a demo
 
@@ -25,11 +25,10 @@ Create amazing Augmented Reality experiences with **encantAR.js**, a GPU-acceler
 
 ## Why use encantAR.js?
 
-* **No need to download apps!** encantAR.js is a WebAR engine: it runs in web browsers. Users can access the AR experiences immediately.
-* **Easy to get started!** encantAR.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
-* **Fast and powerful!** encantAR.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
-* **Fully standalone!** encantAR.js is built from scratch using standard web technologies. No need for additional hardware or software!
-* **Free and open-source!** Get started right away!
+* **Wide compatibility:** encantAR.js runs in all modern web browsers. It's built from scratch using standard web technologies. No need of AR-capable devices.
+* **Fast and powerful:** encantAR.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
+* **No need to download apps:** encantAR.js is a WebAR engine. Users can access the AR experiences immediately.
+* **Easy to get started:** encantAR.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
 
 ## Browser compatibility
 
