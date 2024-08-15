@@ -1,6 +1,6 @@
 {
   "name": "encantar-js",
-  "version": "0.2.1-wip",
+  "version": "0.3.0",
   "description": "GPU-accelerated Augmented Reality for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
   "homepage": "https://github.com/alemart/encantar-js",
@@ -19,7 +19,8 @@
     "webvr",
     "webgl",
     "webgl2",
-    "wasm"
+    "wasm",
+    "magic"
   ],
   "main": "dist/encantar.js",
   "scripts": {
