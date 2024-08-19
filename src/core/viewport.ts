@@ -166,8 +166,8 @@ class ViewportContainers
      */
     release(): void
     {
-        this._container.style.backgroundColor = 'initial';
-        this._container.style.touchAction = 'auto';
+        this._container.style.removeProperty('background-color');
+        this._container.style.removeProperty('touch-action');
     }
 }
 
@@ -215,6 +215,9 @@ class ViewportCanvases
 
         parent.appendChild(this._backgroundCanvas);
         parent.appendChild(this._foregroundCanvas);
+
+        this._backgroundCanvas.hidden = true;
+        this._foregroundCanvas.hidden = true;
     }
 
     /**
@@ -238,6 +241,8 @@ class ViewportCanvases
      */
     init(): void
     {
+        this._backgroundCanvas.hidden = false;
+        this._foregroundCanvas.hidden = false;
     }
 
     /**
@@ -734,10 +739,10 @@ export class Viewport extends ViewportEventTarget
     private readonly _containers: ViewportContainers;
 
     /** An overlay displayed in front of the augmented scene */
-    protected readonly _hud: HUD;
+    private readonly _hud: HUD;
 
     /** Viewport style */
-    protected _style: ViewportStyle;
+    private _style: ViewportStyle;
 
     /** The canvases of the viewport */
     private readonly _canvases: ViewportCanvases;
