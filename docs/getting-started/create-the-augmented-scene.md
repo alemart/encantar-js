@@ -6,19 +6,19 @@ Now that the image is being tracked, the next step is to render a virtual scene 
 
 encantAR.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with encantAR.js. Popular solutions include: A-Frame, Babylon.js and Three.js. You can also use other solutions. encantAR.js lets you pick any 3D rendering technology.
 
-Once you pick a 3D rendering technology, you need to integrate it with encantAR.js. There is a code that is responsible for that integration. I call it a _glue code_. Among other things, a glue code transports the tracking results from encantAR.js to the 3D rendering technology of your choice - it really is a "glue" connecting them.
+Once you pick a 3D rendering technology, you need to integrate it with encantAR.js. There is a code that is responsible for that integration. I call it a _plugin_. Among other things, a plugin transports the tracking results from encantAR.js to the 3D rendering technology of your choice.
 
-## Write the glue code
+## Use a plugin
 
-Writing a glue code is a task of moderate complexity. It requires dealing with matrices, with performance issues, and with some idiosyncrasies of the 3D rendering technologies in order to make sure it all works as intended. It is advisable to have specialized knowledge of computer graphics programming in order to write a glue code that works correctly.
+Writing a plugin is a task of moderate complexity. It requires dealing with matrices, with performance issues, and with some idiosyncrasies of the 3D rendering technologies in order to make sure it all works as intended. It is advisable to have specialized knowledge of computer graphics programming in order to write a plugin that works correctly.
 
-I provide easy-to-use glue codes that work with different 3D rendering technologies in my demos, so that you don't need to deal with the complexity. Those glue codes are JavaScript (.js) files. You just need to add a glue code to your web page (e.g., via a `<script>` tag) and then the integration will be done for you. It's really that simple!
+I provide easy-to-use plugins that work with different 3D rendering technologies in my demos, so that you don't need to deal with the complexity. Those plugins are JavaScript (.js) files. You just need to add a plugin to your web page (e.g., via a `<script>` tag) and then the integration will be done for you. It's really that simple!
 
-[Find the glue codes in my demos](../demos.md){ .md-button ._blank }
+[Find the plugins in my demos](../demos.md){ .md-button ._blank }
 
 ## Create the virtual scene
 
-Once you plug in the glue code, you'll be using the 3D rendering technology of your choice to create the virtual scene. The physical scene will be automatically augmented with the virtual scene, thus creating the augmented scene.
+You will create the virtual scene using the 3D rendering technology of your choice. As soon as you combine it with a plugin, the physical scene will be automatically augmented with the virtual scene, thus creating the augmented scene.
 
 <figure markdown>
 <video poster="../../img/demo-cool2.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
@@ -45,11 +45,11 @@ A-Frame is easy for beginners and pleasing for experts. A simple scene is declar
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>encantAR.js WebAR demo</title>
-        <!-- include A-Frame -->
+        <!-- include aframe -->
         <script src="aframe-vX.Y.Z.min.js"></script>
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
-        <!-- this is my glue code for A-Frame -->
+        <!-- include the aframe plugin for encantar.js -->
         <script src="aframe-with-encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
@@ -80,7 +80,7 @@ A-Frame is easy for beginners and pleasing for experts. A simple scene is declar
 </html>
 ```
 
-`<ar-root>` is not part of A-Frame, but it becomes available as soon as you plug in my glue code.
+`<ar-root>` is not part of A-Frame, but it becomes available as soon as you use my plugin.
 
 A-Frame lets you create animated scenes with special effects simply by declaring things, like in the above example. In many cases, writing new JavaScript code is not needed. A-Frame also includes a visual inspector that makes things really easy for non-coders.
 
