@@ -17,7 +17,7 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
  * @property {Frame} frame current Frame
  * @property {ReferenceImage | null} referenceImage corresponds to the target being tracked (if any)
  * @property {THREE.Scene} scene three.js Scene
- * @property {THREE.Group} root a 3D object that is automatically aligned with the physical target
+ * @property {THREE.Group} root a 3D object that is automatically aligned to the physical target
  * @property {THREE.Camera} camera a camera adjusted for AR
  * @property {THREE.WebGLRenderer} renderer three.js renderer
  */
@@ -25,7 +25,7 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
 /**
  * Do magic to connect encantar.js to three.js
  * @param {() => Promise<Session> | SpeedyPromise<Session>} startARSession
- * @param {(ar: ARSystem) => void} [animateVirtualScene] animation callback
+ * @param {(ar: ARSystem, deltaSeconds?: number) => void} [animateVirtualScene] animation callback
  * @param {(ar: ARSystem) => void | Promise<void> | SpeedyPromise<Session>} [initializeVirtualScene] initialization callback
  * @returns {Promise<ARSystem> | SpeedyPromise<ARSystem>}
  */
@@ -78,7 +78,7 @@ function encantar(startARSession, animateVirtualScene, initializeVirtualScene)
         ar.frame = frame;
         mix(ar.frame);
 
-        animateVirtualScene.call(undefined, ar);
+        animateVirtualScene.call(undefined, ar, ar.session.time.delta);
 
         ar.renderer.render(ar.scene, ar.camera);
         ar.session.requestAnimationFrame(animate);
