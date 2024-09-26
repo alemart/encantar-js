@@ -2,99 +2,113 @@ window.addEventListener('load', () => {
 
     const my = { };
 
-    async function initialize(ar)
+    // initialize the virtual scene
+    async function init(ar)
     {
         // add lights
-        const ambientLight = new THREE.AmbientLight(0xb7b7b7);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
-        directionalLight.position.set(0, 0, -1);
-        directionalLight.target.position.set(0, 0, 0);
-        ar.scene.add(directionalLight);
+        const ambientLight = new THREE.AmbientLight(0xffffff);
         ar.scene.add(ambientLight);
 
-        // create a group of objects as a child of ar.root
-        const group = createGroup('in-front');
-        //const group = createGroup('on-top'); // try this option!
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        directionalLight.position.set(0, 1, 0);
+        ar.root.add(directionalLight);
+
+        //const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.5);
+        //ar.scene.add(directionalLightHelper);
+
+        // create a group as a child of ar.root, which is aligned to the physical scene
+        const group = createMainGroup(true);
+        group.position.set(0, -0.5, 0);
+        group.scale.set(0.7, 0.7, 0.7);
         ar.root.add(group);
 
-        // create cubes
-        const cubeA = createCube(-0.75, 0, 0xffff00);
-        const cubeB = createCube(0.75, 0, 0x00ff00);
-        group.add(cubeA, cubeB);
+        // create the magic circle
+        const magicCircle = createPlane('../assets/magic-circle.png');
+        magicCircle.material.transparent = true;
+        magicCircle.material.opacity = 0.85;
+        magicCircle.material.color = new THREE.Color(0xbeefff);
+        magicCircle.scale.set(6, 6, 1);
+        group.add(magicCircle);
 
-        // create the ground
-        const ground = createGround(0x3d5afe);
-        group.add(ground);
+        // load the mage
+        const gltf = await loadGLTF('../assets/mage.glb');
+        const mage = gltf.scene;
+        group.add(mage);
 
-        // load a 3D model
-        const modelURL = '../assets/my-3d-model.glb';
-        const model = await loadModel(modelURL);
-        group.add(model);
+        // prepare the animation of the mage
+        const animationAction = createAnimationAction(gltf, 'Idle');
+        animationAction.loop = THREE.LoopRepeat;
+        animationAction.play();
 
         // export objects
-        my.cubes = [ cubeA, cubeB ];
         my.group = group;
-        my.model = model;
-        my.ground = ground;
+        my.magicCircle = magicCircle;
+        my.mage = mage;
+        my.animationAction = animationAction;
     }
 
-    function animate(ar)
+    // animate the virtual scene
+    function animate(ar, deltaSeconds)
     {
-        const ROTATION_CYCLES_PER_SECOND = 1.0;
         const TWO_PI = 2.0 * Math.PI;
-        const delta = ar.session.time.delta;
+        const ROTATIONS_PER_SECOND = 0.25;
 
-        // rotate the cubes
-        for(const cube of my.cubes)
-            cube.rotateY(TWO_PI * ROTATION_CYCLES_PER_SECOND * delta);
+        // animate the mage
+        const mixer = my.animationAction.getMixer();
+        mixer.update(deltaSeconds);
+
+        // animate the magic circle
+        my.magicCircle.rotateZ(TWO_PI * ROTATIONS_PER_SECOND * deltaSeconds);
     }
 
-    function createGroup(mode = 'in-front')
+    function createMainGroup(frontView = false)
     {
         const group = new THREE.Group();
 
-        if(mode == 'in-front') {
-            group.rotation.set(-Math.PI/2, 0, 0);
-            group.position.set(0, -0.5, 0.5);
-        }
-        else if(mode == 'on-top') {
-            group.rotation.set(0, 0, 0);
-            group.position.set(0, 0, 0);
-        }
+        // top view is the default
+        if(frontView)
+            group.rotateX(-Math.PI / 2);
 
         return group;
     }
 
-    function createCube(x, y, color, length = 0.25)
-    {
-        const geometry = new THREE.BoxGeometry(length, length, length);
-        const material = new THREE.MeshPhongMaterial({ color });
-        const cube = new THREE.Mesh(geometry, material);
-
-        cube.position.set(x, y, 1.25);
-
-        return cube;
-    }
-
-    function createGround(color)
-    {
-        const geometry = new THREE.RingGeometry(0.001, 1, 8);
-        const material = new THREE.MeshPhongMaterial({ color: color, side: THREE.DoubleSide });
-        const ground = new THREE.Mesh(geometry, material);
-
-        material.transparent = true;
-        material.opacity = 0.75;
-
-        return ground;
-    }
-
-    async function loadModel(filepath)
+    async function loadGLTF(filepath, yAxisIsUp = true)
     {
         const loader = new THREE.GLTFLoader();
         const gltf = await loader.loadAsync(filepath);
-        const model = gltf.scene;
 
-        return model;
+        // glTF defines +y as up. We expect +z to be up.
+        if(yAxisIsUp)
+            gltf.scene.rotateX(Math.PI / 2);
+
+        return gltf;
+    }
+
+    function createAnimationAction(gltf, name = null)
+    {
+        const mixer = new THREE.AnimationMixer(gltf.scene);
+        const clips = gltf.animations;
+
+        if(clips.length == 0)
+            throw new Error('No animation clips');
+
+        const clip = (name !== null) ? THREE.AnimationClip.findByName(clips, name) : clips[0];
+        const action = mixer.clipAction(clip);
+
+        return action;
+    }
+
+    function createPlane(imagepath)
+    {
+        const texture = new THREE.TextureLoader().load(imagepath);
+        const geometry = new THREE.PlaneGeometry(1, 1);
+        const material = new THREE.MeshBasicMaterial({
+            map: texture,
+            side: THREE.DoubleSide,
+        });
+        const mesh = new THREE.Mesh(geometry, material);
+
+        return mesh;
     }
 
     async function startARSession()
@@ -152,6 +166,6 @@ window.addEventListener('load', () => {
     }
 
     // enchant!
-    encantar(startARSession, animate, initialize);
+    encantar(startARSession, animate, init);
 
 });
