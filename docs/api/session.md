@@ -66,9 +66,11 @@ A reference to the [Gizmos](gizmos.md) object.
 
 Schedules a call to the `callback` function, which is intended to update and render the virtual scene. Your `callback` function must itself call `session.requestAnimationFrame()` again in order to continue to update and render the virtual scene.
 
-!!! info "Note"
+!!! info "Notes"
 
     `session.requestAnimationFrame()` is analogous to `window.requestAnimationFrame()`, but they are not the same! The former is a call to the WebAR engine, whereas the latter is a standard call to the web browser.
+
+    This call will be ignored and an invalid handle will be returned if the session has been [ended](#ended) (*since 0.3.0*). Previously, it would raise an exception.
 
 **Arguments**
 
@@ -83,15 +85,20 @@ A handle.
 **Example**
 
 ```js
+//
+// This is the animation loop:
+//
+
 function animate(time, frame)
 {
     // update and render the virtual scene
     // ...
 
-    // repeat the call
+    // repeat
     session.requestAnimationFrame(animate);
 }
 
+// start the animation loop
 session.requestAnimationFrame(animate);
 ```
 
@@ -103,7 +110,7 @@ Cancels an animation frame request.
 
 **Arguments**
 
-* `handle: SessionRequestAnimationFrameHandle`. A handle returned by `session.requestAnimationFrame()`.
+* `handle: SessionRequestAnimationFrameHandle`. A handle returned by `session.requestAnimationFrame()`. If the handle is invalid, this method does nothing.
 
 ### end
 

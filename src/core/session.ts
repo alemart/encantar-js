@@ -418,10 +418,13 @@ export class Session extends AREventTarget<SessionEventType>
     {
         const handle: SessionRequestAnimationFrameHandle = Symbol('raf-handle');
 
-        if(this._active)
+        if(this._active) {
             this._rafQueue.push([ handle, callback ]);
-        else
-            throw new IllegalOperationError(`Can't requestAnimationFrame(): session ended.`);
+        }
+        else {
+            // if the session is inactive, we simply ignore this call
+            // this is friendly behavior, since RAF is used in animation loops
+        }
 
         return handle;
     }
