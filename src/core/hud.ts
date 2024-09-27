@@ -110,6 +110,8 @@ export class HUD
      */
     _release(): void
     {
+        this.visible = false;
+
         if(this._isOwnContainer) {
             this._isOwnContainer = false;
             this._container.remove();

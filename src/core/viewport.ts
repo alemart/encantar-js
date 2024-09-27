@@ -250,6 +250,9 @@ class ViewportCanvases
      */
     release(): void
     {
+        this._backgroundCanvas.hidden = true;
+        this._foregroundCanvas.hidden = true;
+
         this._backgroundCanvas.style.cssText = '';
         this._foregroundCanvas.style.cssText = this._originalCSSTextOfForegroundCanvas;
     }
