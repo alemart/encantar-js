@@ -28,12 +28,6 @@ class DemoUtils
         return gltf;
     }
 
-    switchToFrontView(root)
-    {
-        // top view is the default
-        root.rotateX(-Math.PI / 2);
-    }
-
     createAnimationAction(gltf, name = null)
     {
         const mixer = new THREE.AnimationMixer(gltf.scene);
@@ -59,6 +53,12 @@ class DemoUtils
         const mesh = new THREE.Mesh(geometry, material);
 
         return mesh;
+    }
+
+    switchToFrontView(ar)
+    {
+        // top view is the default
+        ar.root.rotation.set(-Math.PI / 2, 0, 0);
     }
 
     referenceImage(ar)
@@ -165,7 +165,7 @@ class DemoScene extends ARScene
         // Change the point of view. All virtual objects are descendants of
         // ar.root, a node that is automatically aligned to the physical scene.
         // Adjusting ar.root will adjust all virtual objects.
-        this._utils.switchToFrontView(ar.root);
+        this._utils.switchToFrontView(ar);
         ar.root.position.set(0, -0.5, 0);
         ar.root.scale.set(0.7, 0.7, 0.7);
 
@@ -179,9 +179,9 @@ class DemoScene extends ARScene
 
         // create the magic circle
         const magicCircle = this._utils.createImagePlane('../assets/magic-circle.png');
+        magicCircle.material.color = new THREE.Color(0xbeefff);
         magicCircle.material.transparent = true;
         magicCircle.material.opacity = 0.85;
-        magicCircle.material.color = new THREE.Color(0xbeefff);
         magicCircle.scale.set(6, 6, 1);
         ar.root.add(magicCircle);
 
@@ -191,7 +191,7 @@ class DemoScene extends ARScene
         ar.root.add(mage);
 
         // prepare the animation of the mage
-        const animationAction = this._utils.createAnimationAction(gltf, 'Idle');
+        const animationAction = this._utils.createAnimationAction(gltf);
         animationAction.loop = THREE.LoopRepeat;
         animationAction.play();
 
@@ -220,16 +220,6 @@ class DemoScene extends ARScene
         // animate the magic circle
         const magicCircle = this._objects.magicCircle;
         magicCircle.rotateZ(TWO_PI * ROTATIONS_PER_SECOND * delta);
-    }
-
-    /**
-     * Release the augmented scene
-     * @param {ARPluginSystem} ar
-     * @returns {void}
-     */
-    release(ar)
-    {
-        // nothing to do
     }
 }
 
