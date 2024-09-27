@@ -464,11 +464,11 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
-     * Rendering viewport
+     * Whether or not the session has been ended
      */
-    get viewport(): Viewport
+    get ended(): boolean
     {
-        return this._viewport;
+        return !this._active;
     }
 
     /**
@@ -477,6 +477,14 @@ export class Session extends AREventTarget<SessionEventType>
     get time(): Time
     {
         return this._time;
+    }
+
+    /**
+     * Rendering viewport
+     */
+    get viewport(): Viewport
+    {
+        return this._viewport;
     }
 
     /**

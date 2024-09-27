@@ -32,6 +32,14 @@ A promise that resolves to a new Session object.
 
 Session mode: either `"immersive"` or `"inline"`.
 
+### ended
+
+`session.ended: boolean, read-only`
+
+Whether or not the session has been ended. See also: [end](#end).
+
+*Since:* 0.3.0
+
 ### time
 
 `session.time: Time, read-only`
