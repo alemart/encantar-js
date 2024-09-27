@@ -1,78 +1,15 @@
-window.addEventListener('load', () => {
+/**
+ * Augmented Reality demo with three.js and encantar.js
+ */
 
-    const my = { };
+(function() {
 
-    // initialize the virtual scene
-    async function init(ar)
-    {
-        // add lights
-        const ambientLight = new THREE.AmbientLight(0xffffff);
-        ar.scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        directionalLight.position.set(0, 1, 0);
-        ar.root.add(directionalLight);
-
-        //const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.5);
-        //ar.scene.add(directionalLightHelper);
-
-        // create a group as a child of ar.root, which is aligned to the physical scene
-        const group = createMainGroup(true);
-        group.position.set(0, -0.5, 0);
-        group.scale.set(0.7, 0.7, 0.7);
-        ar.root.add(group);
-
-        // create the magic circle
-        const magicCircle = createPlane('../assets/magic-circle.png');
-        magicCircle.material.transparent = true;
-        magicCircle.material.opacity = 0.85;
-        magicCircle.material.color = new THREE.Color(0xbeefff);
-        magicCircle.scale.set(6, 6, 1);
-        group.add(magicCircle);
-
-        // load the mage
-        const gltf = await loadGLTF('../assets/mage.glb');
-        const mage = gltf.scene;
-        group.add(mage);
-
-        // prepare the animation of the mage
-        const animationAction = createAnimationAction(gltf, 'Idle');
-        animationAction.loop = THREE.LoopRepeat;
-        animationAction.play();
-
-        // export objects
-        my.group = group;
-        my.magicCircle = magicCircle;
-        my.mage = mage;
-        my.animationAction = animationAction;
-    }
-
-    // animate the virtual scene
-    function animate(ar, deltaSeconds)
-    {
-        const TWO_PI = 2.0 * Math.PI;
-        const ROTATIONS_PER_SECOND = 0.25;
-
-        // animate the mage
-        const mixer = my.animationAction.getMixer();
-        mixer.update(deltaSeconds);
-
-        // animate the magic circle
-        my.magicCircle.rotateZ(TWO_PI * ROTATIONS_PER_SECOND * deltaSeconds);
-    }
-
-    function createMainGroup(frontView = false)
-    {
-        const group = new THREE.Group();
-
-        // top view is the default
-        if(frontView)
-            group.rotateX(-Math.PI / 2);
-
-        return group;
-    }
-
-    async function loadGLTF(filepath, yAxisIsUp = true)
+/**
+ * Utilities for the Demo scene
+ */
+class DemoUtils
+{
+    async loadGLTF(filepath, yAxisIsUp = true)
     {
         const loader = new THREE.GLTFLoader();
         const gltf = await loader.loadAsync(filepath);
@@ -84,7 +21,13 @@ window.addEventListener('load', () => {
         return gltf;
     }
 
-    function createAnimationAction(gltf, name = null)
+    switchToFrontView(root)
+    {
+        // top view is the default
+        root.rotateX(-Math.PI / 2);
+    }
+
+    createAnimationAction(gltf, name = null)
     {
         const mixer = new THREE.AnimationMixer(gltf.scene);
         const clips = gltf.animations;
@@ -98,7 +41,7 @@ window.addEventListener('load', () => {
         return action;
     }
 
-    function createPlane(imagepath)
+    createImagePlane(imagepath)
     {
         const texture = new THREE.TextureLoader().load(imagepath);
         const geometry = new THREE.PlaneGeometry(1, 1);
@@ -111,7 +54,47 @@ window.addEventListener('load', () => {
         return mesh;
     }
 
-    async function startARSession()
+    referenceImage(ar)
+    {
+        if(ar.frame === null)
+            return null;
+
+        for(const result of ar.frame.results) {
+            if(result.tracker.type == 'image-tracker') {
+                if(result.trackables.length > 0) {
+                    const trackable = result.trackables[0];
+                    return trackable.referenceImage;
+                }
+            }
+        }
+
+        return null;
+    }
+}
+
+
+
+/**
+ * Demo scene
+ */
+class DemoScene extends ARScene
+{
+    /**
+     * Constructor
+     */
+    constructor()
+    {
+        super();
+
+        this._utils = new DemoUtils();
+        this._objects = { };
+    }
+
+    /**
+     * Start the AR session
+     * @returns {Promise<Session>}
+     */
+    async startSession()
     {
         if(!AR.isSupported()) {
             throw new Error(
@@ -165,7 +148,95 @@ window.addEventListener('load', () => {
         return session;
     }
 
-    // enchant!
-    encantar(startARSession, animate, init);
+    /**
+     * Initialize the augmented scene
+     * @param {ARPluginSystem} ar
+     * @returns {Promise<void>}
+     */
+    async init(ar)
+    {
+        // Change the point of view. All virtual objects are descendants of
+        // ar.root, a node that is automatically aligned to the physical scene.
+        // Adjusting ar.root will adjust all virtual objects.
+        this._utils.switchToFrontView(ar.root);
+        ar.root.position.set(0, -0.5, 0);
+        ar.root.scale.set(0.7, 0.7, 0.7);
+
+        // add lights
+        const ambientLight = new THREE.AmbientLight(0xffffff);
+        ar.scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff);
+        directionalLight.position.set(0, 0, 3);
+        ar.root.add(directionalLight);
+
+        // create the magic circle
+        const magicCircle = this._utils.createImagePlane('../assets/magic-circle.png');
+        magicCircle.material.transparent = true;
+        magicCircle.material.opacity = 0.85;
+        magicCircle.material.color = new THREE.Color(0xbeefff);
+        magicCircle.scale.set(6, 6, 1);
+        ar.root.add(magicCircle);
+
+        // load the mage
+        const gltf = await this._utils.loadGLTF('../assets/mage.glb');
+        const mage = gltf.scene;
+        ar.root.add(mage);
+
+        // prepare the animation of the mage
+        const animationAction = this._utils.createAnimationAction(gltf, 'Idle');
+        animationAction.loop = THREE.LoopRepeat;
+        animationAction.play();
+
+        // save objects
+        this._objects.mage = mage;
+        this._objects.magicCircle = magicCircle;
+        this._objects.animationAction = animationAction;
+    }
+
+    /**
+     * Update / animate the augmented scene
+     * @param {ARPluginSystem} ar
+     * @returns {void}
+     */
+    update(ar)
+    {
+        const TWO_PI = 2.0 * Math.PI;
+        const ROTATIONS_PER_SECOND = 0.25;
+        const delta = ar.session.time.delta; // given in seconds
+
+        // animate the mage
+        const animationAction = this._objects.animationAction;
+        const mixer = animationAction.getMixer();
+        mixer.update(delta);
+
+        // animate the magic circle
+        const magicCircle = this._objects.magicCircle;
+        magicCircle.rotateZ(TWO_PI * ROTATIONS_PER_SECOND * delta);
+    }
+
+    /**
+     * Release the augmented scene
+     * @param {ARPluginSystem} ar
+     * @returns {void}
+     */
+    release(ar)
+    {
+        // nothing to do
+    }
+}
+
+
+
+/**
+ * Enchant the Demo scene
+ */
+window.addEventListener('load', () => {
+
+    const scene = new DemoScene();
+
+    encantar(scene);
 
 });
+
+})();
