@@ -138,7 +138,7 @@ class ARPluginSystem
 /**
  * Do magic to connect encantar.js to three.js
  * @param {ARScene} scene
- * @returns {Promise<ARPluginSystem> | SpeedyPromise<ARPluginSystem>}
+ * @returns {Promise<ARPluginSystem>}
  */
 function encantar(scene)
 {
@@ -186,7 +186,11 @@ function encantar(scene)
         ar._session.requestAnimationFrame(animate);
     }
 
-    return scene.startSession().then(session => {
+    return Promise.resolve()
+    .then(() => {
+        return scene.startSession(); // Promise or SpeedyPromise
+    })
+    .then(session => {
 
         ar._session = session;
 
@@ -209,7 +213,6 @@ function encantar(scene)
 
         session.addEventListener('end', event => {
             ar._root.visible = false;
-            scene.release(ar);
             ar._frame = null;
         });
 
@@ -219,19 +222,24 @@ function encantar(scene)
             ar._renderer.setSize(size.width, size.height, false);
         });
 
-        let init = scene.init(ar);
-        if(!(typeof init === 'object' && 'then' in init))
-            init = Promise.resolve();
-
-        return init.then(() => {
-            ar.session.requestAnimationFrame(animate);
+        return Promise.resolve()
+        .then(() => {
+            return scene.init(ar);
+        })
+        .then(() => {
+            session.addEventListener('end', event => { scene.release(ar); });
+            session.requestAnimationFrame(animate);
             return ar;
+        })
+        .catch(error => {
+            session.end();
+            throw error;
         });
 
-    }).catch(error => {
+    })
+    .catch(error => {
         
         console.error(error);
-        alert(error.message);
         throw error;
    
     });

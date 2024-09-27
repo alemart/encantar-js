@@ -110,8 +110,6 @@ class DemoScene extends ARScene
             );
         }
 
-        //AR.Settings.powerPreference = 'low-power';
-
         const tracker = AR.Tracker.ImageTracker();
         await tracker.database.add([{
             name: 'my-reference-image',
@@ -232,7 +230,10 @@ class DemoScene extends ARScene
 function main()
 {
     const scene = new DemoScene();
-    encantar(scene);
+
+    encantar(scene).catch(error => {
+        alert(error.message);
+    });
 }
 
 document.addEventListener('DOMContentLoaded', main);
