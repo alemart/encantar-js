@@ -218,7 +218,7 @@ class DemoScene extends ARScene
 
         // animate the magic circle
         const magicCircle = this._objects.magicCircle;
-        magicCircle.rotateZ(TWO_PI * ROTATIONS_PER_SECOND * delta);
+        magicCircle.rotateZ(-TWO_PI * ROTATIONS_PER_SECOND * delta);
     }
 }
 
