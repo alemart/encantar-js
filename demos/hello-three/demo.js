@@ -1,5 +1,6 @@
 /**
  * Augmented Reality demo using the three.js plugin for encantar.js
+ * @author Alexandre Martins (https://github.com/alemart)
  * https://alemart.github.io/encantar-js/
  */
 
