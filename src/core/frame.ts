@@ -58,7 +58,7 @@ export class Frame
     private readonly _session: Session;
 
     /** Results of all trackers (in the current frame) */
-    private readonly _results: IterableTrackerResults;
+    private readonly _results: TrackerResult[];
 
 
 
@@ -70,7 +70,7 @@ export class Frame
     constructor(session: Session, results: TrackerResult[])
     {
         this._session = session;
-        this._results = new IterableTrackerResults(results);
+        this._results = results;
     }
 
     /**
@@ -86,6 +86,7 @@ export class Frame
      */
     get results(): Iterable<TrackerResult>
     {
-        return this._results;
+        // we want to be able to iterate over the results of a frame multiple times
+        return new IterableTrackerResults(this._results);
     }
 }
