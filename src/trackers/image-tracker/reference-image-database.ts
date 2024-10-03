@@ -61,6 +61,9 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
     /** Is the database locked? */
     private _locked: boolean;
 
+    /** Are we busy loading an image? */
+    private _busy: boolean;
+
 
 
     /**
@@ -71,6 +74,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
         this._capacity = DEFAULT_CAPACITY;
         this._database = [];
         this._locked = false;
+        this._busy = false;
     }
 
     /**
@@ -139,6 +143,10 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
         if(this._locked)
             throw new IllegalOperationError(`Can't add reference image to the database: it's locked`);
 
+        // busy loading another image?
+        if(this._busy)
+            throw new IllegalOperationError(`Can't add reference image to the database: we're busy loading another image`);
+
         // reached full capacity?
         if(this.count >= this.capacity)
             throw new IllegalOperationError(`Can't add reference image to the database: the capacity of ${this.capacity} images has been exceeded.`);
@@ -148,7 +156,9 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
             throw new IllegalArgumentError(`Can't add reference image to the database: found duplicated name "${referenceImage.name}"`);
 
         // load the media and add the reference image to the database
+        this._busy = true;
         return Speedy.load(referenceImage.image).then(media => {
+            this._busy = false;
             this._database.push({
                 referenceImage: Object.freeze({
                     ...referenceImage,
@@ -165,6 +175,9 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     _lock(): void
     {
+        if(this._busy)
+            throw new IllegalOperationError(`Can't lock the reference image database: we're busy loading an image`);
+
         this._locked = true;
     }
 
