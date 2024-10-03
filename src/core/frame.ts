@@ -22,32 +22,6 @@
 
 import { Session } from './session';
 import { TrackerResult } from '../trackers/tracker';
-import { IllegalArgumentError } from '../utils/errors';
-
-/**
- * Iterable frame results (helper class)
- */
-class IterableTrackerResults implements IterableIterator<TrackerResult>
-{
-    private _index = 0;
-
-    constructor(private readonly _results: TrackerResult[])
-    {
-    }
-
-    next(): IteratorResult<TrackerResult>
-    {
-        const i = this._index++;
-        return i < this._results.length ?
-            { done: false, value: this._results[i] } :
-            { done: true,  value: undefined };
-    }
-
-    [Symbol.iterator](): IterableIterator<TrackerResult>
-    {
-        return this;
-    }
-}
 
 /**
  * A Frame holds information used to render a single animation frame of a Session
@@ -87,6 +61,6 @@ export class Frame
     get results(): Iterable<TrackerResult>
     {
         // we want to be able to iterate over the results of a frame multiple times
-        return new IterableTrackerResults(this._results);
+        return this._results[Symbol.iterator]();
     }
 }
