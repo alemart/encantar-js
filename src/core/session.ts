@@ -483,6 +483,14 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
+     * Visual cues for testing & debugging
+     */
+    get gizmos(): Gizmos
+    {
+        return this._gizmos;
+    }
+
+    /**
      * Rendering viewport
      */
     get viewport(): Viewport
@@ -491,11 +499,19 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
-     * Visual cues for testing & debugging
+     * Attached trackers
      */
-    get gizmos(): Gizmos
+    get trackers(): Iterable<Tracker>
     {
-        return this._gizmos;
+        return this._trackers[Symbol.iterator]();
+    }
+
+    /**
+     * Sources of data
+     */
+    get sources(): Iterable<Source>
+    {
+        return this._sources[Symbol.iterator]();
     }
 
     /**

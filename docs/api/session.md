@@ -46,17 +46,33 @@ Whether or not the session has been ended. See also: [end](#end).
 
 A reference to the [Time](time.md) utilities of this session.
 
+### gizmos
+
+`session.gizmos: Gizmos, read-only`
+
+A reference to the [Gizmos](gizmos.md) object.
+
 ### viewport
 
 `session.viewport: Viewport, read-only`
 
 A reference to the [Viewport](viewport.md) linked to this session.
 
-### gizmos
+### trackers
 
-`session.gizmos: Gizmos, read-only`
+`session.trackers: Iterable<Tracker>, read-only`
 
-A reference to the [Gizmos](gizmos.md) object.
+The [trackers](tracker.md) that are attached to the session.
+
+*Since:* 0.3.0
+
+### sources
+
+`session.sources: Iterable<Source>, read-only`
+
+The [sources of data](source.md) that are linked to the session.
+
+*Since:* 0.3.0
 
 ## Methods
 
