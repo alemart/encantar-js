@@ -1,7 +1,6 @@
 /**
  * Augmented Reality demo using the three.js plugin for encantar.js
- * @author Alexandre Martins (https://github.com/alemart)
- * https://alemart.github.io/encantar-js/
+ * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
  */
 
 (function() {
@@ -37,7 +36,12 @@ class DemoUtils
         if(clips.length == 0)
             throw new Error('No animation clips');
 
-        const clip = (name !== null) ? THREE.AnimationClip.findByName(clips, name) : clips[0];
+        if(name === null) {
+            const sortedNames = clips.map(clip => clip.name).sort();
+            name = sortedNames[0];
+        }
+
+        const clip = THREE.AnimationClip.findByName(clips, name);
         const action = mixer.clipAction(clip);
 
         return action;
@@ -156,7 +160,7 @@ class DemoScene extends ARScene
 
     /**
      * Initialize the augmented scene
-     * @param {ARPluginSystem} ar
+     * @param {ARSystem} ar
      * @returns {Promise<void>}
      */
     async init(ar)
@@ -168,19 +172,16 @@ class DemoScene extends ARScene
         ar.root.position.set(0, -0.5, 0);
         ar.root.scale.set(0.7, 0.7, 0.7);
 
-        // add lights
+        // add light
         const ambientLight = new THREE.AmbientLight(0xffffff);
+        ambientLight.intensity = 1.4;
         ar.scene.add(ambientLight);
-
-        const directionalLight = new THREE.DirectionalLight(0xffffff);
-        directionalLight.position.set(0, 0, 3);
-        ar.root.add(directionalLight);
 
         // create the magic circle
         const magicCircle = this._utils.createImagePlane('../assets/magic-circle.png');
         magicCircle.material.color = new THREE.Color(0xbeefff);
         magicCircle.material.transparent = true;
-        magicCircle.material.opacity = 0.85;
+        magicCircle.material.opacity = 1;
         magicCircle.scale.set(6, 6, 1);
         ar.root.add(magicCircle);
 
@@ -190,7 +191,7 @@ class DemoScene extends ARScene
         ar.root.add(mage);
 
         // prepare the animation of the mage
-        const animationAction = this._utils.createAnimationAction(gltf);
+        const animationAction = this._utils.createAnimationAction(gltf, 'Idle');
         animationAction.loop = THREE.LoopRepeat;
         animationAction.play();
 
@@ -202,7 +203,7 @@ class DemoScene extends ARScene
 
     /**
      * Update / animate the augmented scene
-     * @param {ARPluginSystem} ar
+     * @param {ARSystem} ar
      * @returns {void}
      */
     update(ar)
