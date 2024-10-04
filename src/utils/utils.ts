@@ -22,6 +22,7 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
+import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { AssertionError, IllegalArgumentError } from './errors';
 import { Resolution, computeResolution } from './resolution';
 
@@ -88,6 +89,18 @@ export class Utils
             throw new IllegalArgumentError();
 
         return Array.from({ length: n }, (_, i) => i);
+    }
+
+    /**
+     * Wait a few milliseconds
+     * @param milliseconds how long should we wait?
+     * @returns a promise that resolves soon after the specified time
+     */
+    static wait(milliseconds: number): SpeedyPromise<void>
+    {
+        return new Speedy.Promise<void>(resolve => {
+            setTimeout(resolve, milliseconds);
+        });
     }
 
     /**

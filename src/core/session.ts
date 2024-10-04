@@ -370,12 +370,8 @@ export class Session extends AREventTarget<SessionEventType>
         this._active = false; // set before wait()
 
         // wait a few ms, so that the GPU is no longer sending any data
-        const wait = (ms: number) => new Speedy.Promise<void>(resolve => {
-            setTimeout(resolve, ms);
-        });
-
-        // release resources
-        return wait(100).then(() => Speedy.Promise.all(
+        // then, release resources
+        return Utils.wait(100).then(() => Speedy.Promise.all(
 
             // release trackers
             this._trackers.map(tracker => tracker._release())
