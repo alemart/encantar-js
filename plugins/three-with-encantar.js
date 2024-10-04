@@ -1,6 +1,6 @@
 /**
- * @file three.js plugin for encantar.js
- * @author Alexandre Martins (https://github.com/alemart)
+ * three.js plugin for encantar.js
+ * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
  * @license LGPL-3.0-or-later
  */
 
@@ -28,7 +28,7 @@ class ARScene
     /**
      * Initialize the augmented scene
      * @abstract
-     * @param {ARPluginSystem} ar
+     * @param {ARSystem} ar
      * @returns {void | Promise<void> | SpeedyPromise<void>}
      */
     init(ar)
@@ -39,7 +39,7 @@ class ARScene
     /**
      * Update / animate the augmented scene
      * @abstract
-     * @param {ARPluginSystem} ar
+     * @param {ARSystem} ar
      * @returns {void}
      */
     update(ar)
@@ -49,7 +49,7 @@ class ARScene
 
     /**
      * Release the augmented scene
-     * @param {ARPluginSystem} ar
+     * @param {ARSystem} ar
      * @returns {void}
      */
     release(ar)
@@ -61,7 +61,7 @@ class ARScene
 /**
  * Helper for augmenting the scenes with three.js
  */
-class ARPluginSystem
+class ARSystem
 {
     /**
      * AR Session
@@ -138,11 +138,11 @@ class ARPluginSystem
 /**
  * Do magic to connect encantar.js to three.js
  * @param {ARScene} scene
- * @returns {Promise<ARPluginSystem>}
+ * @returns {Promise<ARSystem>}
  */
 function encantar(scene)
 {
-    const ar = new ARPluginSystem();
+    const ar = new ARSystem();
 
     function mix(frame)
     {
@@ -247,16 +247,16 @@ function encantar(scene)
 
 /**
  * Version check
- * @param {object} json
+ * @param {object} libs
  */
-function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(json)
+function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(libs)
 {
     window.addEventListener('load', () => {
         try { AR, __THREE__;
             const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'three.js': __THREE__ };
-            const check = (x,v,w) => v !== w ? console.warn(`\n\n\nWARNING\n\nThis plugin has been tested with ${x} version ${v}. The version in use is ${w}. Usage of ${x} version ${v} is recommended instead.\n\n\n`) : void 0;
-            for(const [x, expected] of Object.entries(json))
-                check(x, expected.version, versionOf[x]);
+            const check = (x,v,w) => v != w ? console.warn(`\n\n\nWARNING\n\nThis plugin has been tested with ${x} version ${v}. The version in use is ${w}. Usage of ${x} version ${v} is recommended instead.\n\n\n`) : void 0;
+            for(const [lib, expected] of Object.entries(libs))
+                check(lib, expected.version, versionOf[lib]);
         }
         catch(e) {
             alert(e.message);
