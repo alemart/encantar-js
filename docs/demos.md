@@ -43,14 +43,6 @@ A basic template to help you get started.
 
 [Launch demo](/encantar-js/demos/hello-world/README.html){ ._blank .md-button }
 
-## Interactive demos
-
-### Touch interaction
-
-Have virtual elements respond to touch input.
-
-[Launch demo](/encantar-js/demos/touch-three/README.html){ ._blank .md-button }
-
 ## Try locally
 
 * Run on a console:
