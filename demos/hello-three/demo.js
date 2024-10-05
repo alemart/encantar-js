@@ -82,6 +82,16 @@ class DemoUtils
 
         return null;
     }
+
+    referenceImageName(ar)
+    {
+        const referenceImage = this.referenceImage(ar);
+
+        if(referenceImage === null)
+            return null;
+
+        return referenceImage.name;
+    }
 }
 
 
@@ -174,7 +184,7 @@ class DemoScene extends ARScene
 
         // add light
         const ambientLight = new THREE.AmbientLight(0xffffff);
-        ambientLight.intensity = 1.4;
+        ambientLight.intensity = 1.5;
         ar.scene.add(ambientLight);
 
         // create the magic circle
