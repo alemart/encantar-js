@@ -24,6 +24,7 @@ import Speedy from 'speedy-vision';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { ReferenceImage } from './reference-image';
+import { Utils } from '../../utils/utils';
 import { IllegalArgumentError, IllegalOperationError } from '../../utils/errors';
 
 /** Default capacity of a Reference Image Database */
@@ -133,7 +134,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
         // handle multiple images as input
         if(referenceImages.length > 1) {
             const promises = referenceImages.map(image => this.add([ image ]));
-            return Speedy.Promise.all(promises).then(() => void(0));
+            return Utils.runInSequence(promises);
         }
 
         // handle a single image as input
@@ -145,7 +146,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
 
         // busy loading another image?
         if(this._busy)
-            throw new IllegalOperationError(`Can't add reference image to the database: we're busy loading another image`);
+            return Utils.wait(4).then(() => this.add(referenceImages)); // try again later
 
         // reached full capacity?
         if(this.count >= this.capacity)
