@@ -94,13 +94,27 @@ export class Utils
     /**
      * Wait a few milliseconds
      * @param milliseconds how long should we wait?
-     * @returns a promise that resolves soon after the specified time
+     * @returns a promise that is resolved soon after the specified time
      */
     static wait(milliseconds: number): SpeedyPromise<void>
     {
         return new Speedy.Promise<void>(resolve => {
             setTimeout(resolve, milliseconds);
         });
+    }
+
+    /**
+     * Run SpeedyPromises sequentially
+     * @param promises an array of SpeedyPromises
+     * @returns a promise that is resolved as soon as all input promises are
+     * resolved, or that is rejected as soon as an input promise is rejected
+     */
+    static runInSequence<T>(promises: SpeedyPromise<T>[]): SpeedyPromise<T>
+    {
+        return promises.reduce(
+            (prev, curr) => prev.then(() => curr),
+            Speedy.Promise.resolve()
+        );
     }
 
     /**
