@@ -53,6 +53,9 @@ export class PerspectiveView implements View
     /** A 4x4 matrix that projects the viewer space into the clip space, i.e., [-1,1]^3 */
     private readonly _projectionMatrix: SpeedyMatrix;
 
+    /** Tangent of the half of the horizontal field-of-view */
+    private readonly _tanOfHalfFovx: number;
+
     /** Tangent of the half of the vertical field-of-view */
     private readonly _tanOfHalfFovy: number;
 
@@ -86,6 +89,7 @@ export class PerspectiveView implements View
             throw new IllegalArgumentError(`View expects near < far (found near = ${this._near} and far = ${this._far})`);
 
         this._aspect = screenSize.width / screenSize.height;
+        this._tanOfHalfFovx = intrinsics[U0] / intrinsics[FX];
         this._tanOfHalfFovy = intrinsics[V0] / intrinsics[FY];
         this._projectionMatrix = PerspectiveView._computeProjectionMatrix(intrinsics, this._near, this._far);
     }
@@ -104,6 +108,14 @@ export class PerspectiveView implements View
     get aspect(): number
     {
         return this._aspect;
+    }
+
+    /**
+     * Horizontal field-of-view of the frustum, measured in radians
+     */
+    get fovx(): number
+    {
+        return 2 * Math.atan(this._tanOfHalfFovx);
     }
 
     /**

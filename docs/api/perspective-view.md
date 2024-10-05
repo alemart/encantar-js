@@ -10,6 +10,14 @@ A [View](view.md) that models a perspective projection.
 
 Aspect ratio of the viewing frustum.
 
+### fovx
+
+`view.fovx: number, read-only`
+
+Horizontal field-of-view of the viewing frustum, measured in radians.
+
+*Since:* 0.3.0
+
 ### fovy
 
 `view.fovy: number, read-only`
