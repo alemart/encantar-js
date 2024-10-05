@@ -628,6 +628,7 @@ class InlineResizeStrategy extends ViewportResizeStrategy
         const subContainer = viewport._subContainer;
         const virtualSize = viewport.virtualSize;
 
+        container.style.display = 'inline-block'; // fixes a potential issue of the viewport not showing up
         container.style.position = 'relative';
         container.style.left = '0px';
         container.style.top = '0px';
