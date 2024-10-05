@@ -72,7 +72,7 @@ I emphasize that you are **not** required to enable low-power mode. Enable it if
 
 You can add multiple reference images to the reference image database. Each of those images can correspond to a different virtual scene. The virtual scene that shows up depends on the target image that is being tracked.
 
-Explore the API to see how you can have multiple virtual scenes in a single web page. Don't go overboard with this, though: the web page should load fast. Too much content may impact loading times. Keep your media files small and load your models asynchronously if possible.
+Explore the API to see how you can have multiple virtual scenes in a single web page. Don't go overboard with this, though: the web page should load fast. Too much content may impact loading times. Keep your media files small and load your content asynchronously if possible.
 
 ## Publish your WebAR experiences
 
