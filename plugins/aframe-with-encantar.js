@@ -495,20 +495,20 @@ AFRAME.registerComponent('ar-root', ARComponent({
 
     play()
     {
-        const root = this.el.object3D;
-        root.visible = true;
+        const origin = this._origin;
+        origin.visible = true;
 
         if(this._firstRun) {
             this._firstRun = false;
-            root.visible = false;
+            origin.visible = false;
             this.el.pause();
         }
     },
 
     pause()
     {
-        const root = this.el.object3D;
-        root.visible = false;
+        const origin = this._origin;
+        origin.visible = false;
     },
 
     teek()

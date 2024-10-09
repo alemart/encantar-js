@@ -1,5 +1,5 @@
 /**
- * three.js plugin for encantar.js
+ * babylon.js plugin for encantar.js
  * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
  * @license LGPL-3.0-or-later
  */
@@ -7,7 +7,7 @@
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
     'encantar.js': { version: '0.3.0' },
-       'three.js': { version: '147' }
+     'babylon.js': { version: '7.29.0' }
 });
 
 /**
@@ -85,7 +85,7 @@ class ARSystem
     /**
      * The root is a node that is automatically aligned to the physical scene.
      * Objects of your virtual scene should be descendants of this node.
-     * @returns {THREE.Group}
+     * @returns {BABYLON.TransformNode}
      */
     get root()
     {
@@ -93,8 +93,8 @@ class ARSystem
     }
 
     /**
-     * The three.js scene
-     * @returns {THREE.Scene}
+     * The babylon.js scene
+     * @returns {BABYLON.Scene}
      */
     get scene()
     {
@@ -103,7 +103,7 @@ class ARSystem
 
     /**
      * A camera that is automatically adjusted for AR
-     * @returns {THREE.Camera}
+     * @returns {BABYLON.Camera}
      */
     get camera()
     {
@@ -111,12 +111,12 @@ class ARSystem
     }
 
     /**
-     * The three.js renderer
-     * @returns {THREE.WebGLRenderer}
+     * The babylon.js engine
+     * @returns {BABYLON.Engine}
      */
-    get renderer()
+    get engine()
     {
-        return this._renderer;
+        return this._engine;
     }
 
     /**
@@ -130,18 +130,24 @@ class ARSystem
         this._root = null;
         this._scene = null;
         this._camera = null;
-        this._renderer = null;
+        this._engine = null;
     }
 }
 
 /**
- * Enchant three.js with encantar.js!
+ * Enchant babylon.js with encantar.js!
  * @param {ARDemo} demo
  * @returns {Promise<ARSystem>}
  */
 function encantar(demo)
 {
     const ar = new ARSystem();
+    const flipZAxis = new BABYLON.Matrix().copyFromFloats(
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0,-1, 0,
+        0, 0, 0, 1
+    );
 
     function animate(time, frame)
     {
@@ -150,7 +156,7 @@ function encantar(demo)
 
         demo.update(ar);
 
-        ar._renderer.render(ar._scene, ar._camera);
+        ar._scene.render(false);
         ar._session.requestAnimationFrame(animate);
     }
 
@@ -161,28 +167,38 @@ function encantar(demo)
                 if(result.trackables.length > 0) {
                     const trackable = result.trackables[0];
                     const projectionMatrix = result.viewer.view.projectionMatrix;
-                    const viewMatrixInverse = result.viewer.pose.transform.matrix;
+                    const viewMatrix = result.viewer.pose.viewMatrix;
                     const modelMatrix = trackable.pose.transform.matrix;
 
-                    align(projectionMatrix, viewMatrixInverse, modelMatrix);
-                    ar._origin.visible = true;
+                    align(projectionMatrix, viewMatrix, modelMatrix);
+                    ar._origin.setEnabled(true);
 
                     return;
                 }
             }
         }
 
-        ar._origin.visible = false;
+        ar._origin.setEnabled(false);
     }
 
-    function align(projectionMatrix, viewMatrixInverse, modelMatrix)
+    function align(projectionMatrix, viewMatrix, modelMatrix)
     {
-        ar._camera.projectionMatrix.fromArray(projectionMatrix.read());
-        ar._camera.projectionMatrixInverse.copy(ar._camera.projectionMatrix).invert();
-        ar._camera.matrix.fromArray(viewMatrixInverse.read());
-        ar._camera.updateMatrixWorld(true);
-        ar._origin.matrix.fromArray(modelMatrix.read());
-        ar._origin.updateMatrixWorld(true);
+        if(ar._scene.useRightHandedSystem)
+            ar._camera.freezeProjectionMatrix(convert(projectionMatrix));
+        else
+            ar._camera.freezeProjectionMatrix(convert(projectionMatrix).multiply(flipZAxis));
+
+        ar._camera.setViewMatrix(convert(viewMatrix));
+
+        convert(modelMatrix).decomposeToTransformNode(ar._origin);
+    }
+
+    function convert(matrix)
+    {
+        // encantar.js uses column vectors stored in column-major format,
+        // whereas babylon.js uses row vectors stored in row-major format
+        // (y = Ax vs y = xA). So, we return the transpose of the transpose.
+        return new BABYLON.Matrix().fromArray(matrix.read());
     }
 
     return Promise.resolve()
@@ -193,33 +209,43 @@ function encantar(demo)
 
         ar._session = session;
 
-        ar._scene = new THREE.Scene();
-
-        ar._origin = new THREE.Group();
-        ar._origin.matrixAutoUpdate = false;
-        ar._origin.visible = false;
-        ar._scene.add(ar._origin);
-
-        ar._root = new THREE.Group();
-        ar._origin.add(ar._root);
-
-        ar._camera = new THREE.PerspectiveCamera();
-        ar._camera.matrixAutoUpdate = false;
-
-        ar._renderer = new THREE.WebGLRenderer({
-            canvas: session.viewport.canvas,
-            alpha: true,
+        ar._engine = new BABYLON.Engine(session.viewport.canvas, false, {
+            premultipliedAlpha: true
         });
+        ar._engine.resize = function(forceSetSize = false) {
+            // make babylon.js respect the resolution of the viewport
+            const size = session.viewport.virtualSize;
+            this.setSize(size.width, size.height, forceSetSize);
+        };
+
+        ar._scene = new BABYLON.Scene(ar._engine);
+        ar._scene.useRightHandedSystem = true;
+        ar._scene.clearColor.set(0, 0, 0, 0);
+
+        ar._origin = new BABYLON.TransformNode('ar-origin', ar._scene);
+        ar._root = new BABYLON.TransformNode('ar-root', ar._scene);
+        ar._root.parent = ar._origin;
+        ar._origin.setEnabled(false);
+
+        ar._camera = new BABYLON.Camera('ar-camera', BABYLON.Vector3.Zero(), ar._scene);
+        ar._camera._tmpQuaternion = BABYLON.Quaternion.Identity();
+        ar._camera._customViewMatrix = BABYLON.Matrix.Identity();
+        ar._camera._getViewMatrix = function() { return this._customViewMatrix; };
+        ar._camera.setViewMatrix = function(matrix) {
+            this._customViewMatrix = matrix;
+            this.getViewMatrix(true);
+            this.getWorldMatrix().decompose(undefined, this._tmpQuaternion, this.position);
+            BABYLON.Axis.Y.rotateByQuaternionToRef(this._tmpQuaternion, this.upVector);
+            this._globalPosition.copyFrom(this.position);
+        };
 
         session.addEventListener('end', event => {
-            ar._origin.visible = false;
+            ar._origin.setEnabled(false);
             ar._frame = null;
         });
 
         session.viewport.addEventListener('resize', event => {
-            const size = session.viewport.virtualSize;
-            ar._renderer.setPixelRatio(1.0);
-            ar._renderer.setSize(size.width, size.height, false);
+            ar._engine.resize();
         });
 
         return Promise.resolve()
@@ -252,8 +278,8 @@ function encantar(demo)
 function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(libs)
 {
     window.addEventListener('load', () => {
-        try { AR, __THREE__;
-            const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'three.js': __THREE__ };
+        try { AR, BABYLON;
+            const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'babylon.js': BABYLON.Engine.Version };
             const check = (x,v,w) => v != w ? console.warn(`\n\n\nWARNING\n\nThis plugin has been tested with ${x} version ${v}. The version in use is ${w}. Usage of ${x} version ${v} is recommended instead.\n\n\n`) : void 0;
             for(const [lib, expected] of Object.entries(libs))
                 check(lib, expected.version, versionOf[lib]);
