@@ -4,11 +4,11 @@
 
 Enchant your users with **encantAR.js**, a GPU-accelerated Augmented Reality engine for the web.
 
-[Learn now](./introduction.md){ .md-button .md-button--primary } [Try a demo](../demo.md){ .md-button .md-button } [:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
+[:sparkles: Demos](../demos.md){ .md-button .md-button } [:books: Learn](./introduction.md){ .md-button } [:heart:{ .heart } Sponsor](../support-my-work.md){ .md-button }
 
 ## Features
 
-* **Runs everywhere**: on Android, on iOS, and even on Desktop computers.
+* **Runs everywhere**: on Android, on iOS, and even on Desktop computers!
 * **Image tracking**: track detailed images such as book covers, cartoons and photos.
 
 ## Why use encantAR.js?

@@ -2,26 +2,14 @@
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/encantar-js)](https://github.com/alemart/encantar-js/releases/) ![GitHub file size in bytes on a specified ref (branch/commit/tag)](https://img.shields.io/github/size/alemart/encantar-js/dist/encantar.min.js?branch=master&label=minified%20js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
 
-Create amazing Augmented Reality experiences with **encantAR.js**, a GPU-accelerated Augmented Reality engine for the web.
+Enchant your users with **encantAR.js**, a GPU-accelerated Augmented Reality engine for the web.
 
-:books: Documentation: <https://alemart.github.io/encantar-js/>
+:magic_wand: **[Demos](https://alemart.github.io/encantar-js/demos/)** | :books: **[Learn](https://alemart.github.io/encantar-js/)** | :heart: **[Sponsor](https://github.com/sponsors/alemart)**
 
 ## Features
 
-* **Runs everywhere**: on Android, on iOS, and even on Desktop computers.
+* **Runs everywhere**: on Android, on iOS, and even on Desktop computers!
 * **Image tracking**: track detailed images such as book covers, cartoons and photos.
-
-## Try a demo
-
-:arrow_right: [Launch now!](https://alemart.github.io/encantar-js/demo)
-
->
-> **Guidelines:**
->
-> * Don't move the camera too quickly. This produces motion blur.
-> * The target image should appear clearly in the video.
-> * The physical environment should be properly illuminated.
->
 
 ## Why use encantAR.js?
 
