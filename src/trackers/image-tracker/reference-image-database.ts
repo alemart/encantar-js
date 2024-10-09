@@ -142,7 +142,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
 
         // locked database?
         if(this._locked)
-            throw new IllegalOperationError(`Can't add reference image to the database: it's locked`);
+            throw new IllegalOperationError(`Can't add reference image "${referenceImage.name}" to the database: it's locked`);
 
         // busy loading another image?
         if(this._busy)
@@ -150,11 +150,15 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
 
         // reached full capacity?
         if(this.count >= this.capacity)
-            throw new IllegalOperationError(`Can't add reference image to the database: the capacity of ${this.capacity} images has been exceeded.`);
+            throw new IllegalOperationError(`Can't add reference image "${referenceImage.name}" to the database: the capacity of ${this.capacity} images has been exceeded.`);
+
+        // check if the image is valid
+        if(!(referenceImage.image instanceof HTMLImageElement) && !(referenceImage.image instanceof HTMLCanvasElement) && !(referenceImage.image instanceof ImageBitmap))
+            throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: invalid image`);
 
         // check for duplicate names
         if(this._database.find(entry => entry.referenceImage.name === referenceImage.name) !== undefined)
-            throw new IllegalArgumentError(`Can't add reference image to the database: found duplicated name "${referenceImage.name}"`);
+            throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: found duplicated name`);
 
         // load the media and add the reference image to the database
         this._busy = true;
