@@ -20,6 +20,7 @@
  * Viewport
  */
 
+import AR from '../main';
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
@@ -208,16 +209,22 @@ class ViewportCanvases
             FOREGROUND_ZINDEX
         );
 
+        this._foregroundCanvas.style.background = 'transparent';
+
         this._backgroundCanvas = this._styleCanvas(
             this._createCanvas(initialSize),
             BACKGROUND_ZINDEX
         );
 
-        parent.appendChild(this._backgroundCanvas);
-        parent.appendChild(this._foregroundCanvas);
-
         this._backgroundCanvas.hidden = true;
         this._foregroundCanvas.hidden = true;
+
+        const engineInfo = 'encantar.js ' + AR.version;
+        this._backgroundCanvas.dataset.arEngine = engineInfo;
+        this._foregroundCanvas.dataset.arEngine = engineInfo;
+
+        parent.appendChild(this._backgroundCanvas);
+        parent.appendChild(this._foregroundCanvas);
     }
 
     /**
