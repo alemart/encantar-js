@@ -5,12 +5,6 @@
 
 (function() {
 
-// Validate
-if(typeof encantar === 'undefined')
-    throw new Error(`Can't find the three.js plugin for encantar.js`);
-
-
-
 /**
  * Utilities for the Demo scene
  */
@@ -84,8 +78,6 @@ class DemoUtils
         return null;
     }
 }
-
-
 
 /**
  * Demo scene
@@ -330,8 +322,6 @@ class DemoScene extends ARScene
     }
 }
 
-
-
 /**
  * Enchant the scene
  * @returns {void}
@@ -339,6 +329,9 @@ class DemoScene extends ARScene
 function main()
 {
     const scene = new DemoScene();
+
+    if(typeof encantar === 'undefined')
+        throw new Error(`Can't find the three.js plugin for encantar.js`);
 
     encantar(scene).catch(error => {
         alert(error.message);
