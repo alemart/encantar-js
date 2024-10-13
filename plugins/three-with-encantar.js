@@ -83,9 +83,8 @@ class ARSystem
     }
 
     /**
-     * The root is a 3D object that is automatically aligned to the physical
-     * scene. Objects of your virtual scene should be descendants of this node.
-     * The root is only visible if something is being tracked.
+     * The root is a node that is automatically aligned to the physical scene.
+     * Objects of your virtual scene should be descendants of this node.
      * @returns {THREE.Group}
      */
     get root()
@@ -136,7 +135,7 @@ class ARSystem
 }
 
 /**
- * Do magic to connect encantar.js to three.js
+ * Enchant three.js with encantar.js!
  * @param {ARScene} scene
  * @returns {Promise<ARSystem>}
  */
@@ -144,9 +143,20 @@ function encantar(scene)
 {
     const ar = new ARSystem();
 
+    function animate(time, frame)
+    {
+        ar._frame = frame;
+        mix(frame);
+
+        scene.update(ar);
+
+        ar._renderer.render(ar._scene, ar._camera);
+        ar._session.requestAnimationFrame(animate);
+    }
+
     function mix(frame)
     {
-        ar._root.visible = false;
+        ar._origin.visible = false;
 
         for(const result of frame.results) {
             if(result.tracker.type == 'image-tracker') {
@@ -157,7 +167,7 @@ function encantar(scene)
                     const modelMatrix = trackable.pose.transform.matrix;
 
                     align(projectionMatrix, viewMatrixInverse, modelMatrix);
-                    ar._root.visible = true;
+                    ar._origin.visible = true;
 
                     return;
                 }
@@ -173,17 +183,6 @@ function encantar(scene)
         ar._camera.updateMatrixWorld(true);
         ar._origin.matrix.fromArray(modelMatrix.read());
         ar._origin.updateMatrixWorld(true);
-    }
-
-    function animate(time, frame)
-    {
-        ar._frame = frame;
-        mix(frame);
-
-        scene.update(ar);
-
-        ar._renderer.render(ar._scene, ar._camera);
-        ar._session.requestAnimationFrame(animate);
     }
 
     return Promise.resolve()
@@ -212,7 +211,7 @@ function encantar(scene)
         });
 
         session.addEventListener('end', event => {
-            ar._root.visible = false;
+            ar._origin.visible = false;
             ar._frame = null;
         });
 
