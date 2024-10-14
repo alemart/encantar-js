@@ -11,9 +11,9 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
 });
 
 /**
- * Base class for augmented scenes
+ * Base class for Augmented Reality experiences
  */
-class ARScene
+class ARDemo
 {
     /**
      * Start the AR session
@@ -26,7 +26,7 @@ class ARScene
     }
 
     /**
-     * Initialize the augmented scene
+     * Initialization
      * @abstract
      * @param {ARSystem} ar
      * @returns {void | Promise<void> | SpeedyPromise<void>}
@@ -37,7 +37,7 @@ class ARScene
     }
 
     /**
-     * Update / animate the augmented scene
+     * Animation loop
      * @abstract
      * @param {ARSystem} ar
      * @returns {void}
@@ -48,7 +48,7 @@ class ARScene
     }
 
     /**
-     * Release the augmented scene
+     * Release resources
      * @param {ARSystem} ar
      * @returns {void}
      */
@@ -59,7 +59,7 @@ class ARScene
 }
 
 /**
- * Helper for augmenting the scenes with three.js
+ * Helper for creating Augmented Reality experiences
  */
 class ARSystem
 {
@@ -136,10 +136,10 @@ class ARSystem
 
 /**
  * Enchant three.js with encantar.js!
- * @param {ARScene} scene
+ * @param {ARDemo} demo
  * @returns {Promise<ARSystem>}
  */
-function encantar(scene)
+function encantar(demo)
 {
     const ar = new ARSystem();
 
@@ -148,7 +148,7 @@ function encantar(scene)
         ar._frame = frame;
         mix(frame);
 
-        scene.update(ar);
+        demo.update(ar);
 
         ar._renderer.render(ar._scene, ar._camera);
         ar._session.requestAnimationFrame(animate);
@@ -156,8 +156,6 @@ function encantar(scene)
 
     function mix(frame)
     {
-        ar._origin.visible = false;
-
         for(const result of frame.results) {
             if(result.tracker.type == 'image-tracker') {
                 if(result.trackables.length > 0) {
@@ -173,6 +171,8 @@ function encantar(scene)
                 }
             }
         }
+
+        ar._origin.visible = false;
     }
 
     function align(projectionMatrix, viewMatrixInverse, modelMatrix)
@@ -187,7 +187,7 @@ function encantar(scene)
 
     return Promise.resolve()
     .then(() => {
-        return scene.startSession(); // Promise or SpeedyPromise
+        return demo.startSession(); // Promise or SpeedyPromise
     })
     .then(session => {
 
@@ -197,6 +197,7 @@ function encantar(scene)
 
         ar._origin = new THREE.Group();
         ar._origin.matrixAutoUpdate = false;
+        ar._origin.visible = false;
         ar._scene.add(ar._origin);
 
         ar._root = new THREE.Group();
@@ -223,10 +224,10 @@ function encantar(scene)
 
         return Promise.resolve()
         .then(() => {
-            return scene.init(ar);
+            return demo.init(ar);
         })
         .then(() => {
-            session.addEventListener('end', event => { scene.release(ar); });
+            session.addEventListener('end', event => { demo.release(ar); });
             session.requestAnimationFrame(animate);
             return ar;
         })

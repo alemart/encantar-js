@@ -6,11 +6,11 @@
 (function() {
 
 /**
- * Utilities for the Demo scene
+ * Utilities for the Demo
  */
-class DemoUtils
+class Utils
 {
-    async loadGLTF(filepath, yAxisIsUp = true)
+    static async loadGLTF(filepath, yAxisIsUp = true)
     {
         const loader = new THREE.GLTFLoader();
         const gltf = await loader.loadAsync(filepath);
@@ -22,7 +22,7 @@ class DemoUtils
         return gltf;
     }
 
-    createAnimationAction(gltf, name = null, loop = THREE.LoopRepeat)
+    static createAnimationAction(gltf, name = null, loop = THREE.LoopRepeat)
     {
         const mixer = new THREE.AnimationMixer(gltf.scene);
         const clips = gltf.animations;
@@ -42,7 +42,7 @@ class DemoUtils
         return action;
     }
 
-    createImagePlane(imagepath)
+    static createImagePlane(imagepath)
     {
         const texture = new THREE.TextureLoader().load(imagepath);
         const geometry = new THREE.PlaneGeometry(1, 1);
@@ -55,13 +55,13 @@ class DemoUtils
         return mesh;
     }
 
-    switchToFrontView(ar)
+    static switchToFrontView(ar)
     {
         // top view is the default
         ar.root.rotation.set(-Math.PI / 2, 0, 0);
     }
 
-    referenceImageName(ar)
+    static referenceImageName(ar)
     {
         if(ar.frame === null)
             return null;
@@ -80,9 +80,9 @@ class DemoUtils
 }
 
 /**
- * Demo scene
+ * Augmented Reality Demo
  */
-class DemoScene extends ARScene
+class EnchantedDemo extends ARDemo
 {
     /**
      * Constructor
@@ -91,7 +91,6 @@ class DemoScene extends ARScene
     {
         super();
 
-        this._utils = new DemoUtils();
         this._objects = { };
     }
 
@@ -160,7 +159,7 @@ class DemoScene extends ARScene
     }
 
     /**
-     * Initialize the augmented scene
+     * Initialization
      * @param {ARSystem} ar
      * @returns {Promise<void>}
      */
@@ -169,7 +168,7 @@ class DemoScene extends ARScene
         // Change the point of view. All virtual objects are descendants of
         // ar.root, a node that is automatically aligned to the physical scene.
         // Adjusting ar.root will adjust all virtual objects.
-        this._utils.switchToFrontView(ar);
+        Utils.switchToFrontView(ar);
         ar.root.position.set(0, -0.5, 0);
 
         // initialize objects
@@ -184,7 +183,7 @@ class DemoScene extends ARScene
     }
 
     /**
-     * Update / animate the augmented scene
+     * Animation loop
      * @param {ARSystem} ar
      * @returns {void}
      */
@@ -212,13 +211,13 @@ class DemoScene extends ARScene
 
     _initMagicCircle(ar)
     {
-        // load the object
-        const magicCircle = this._utils.createImagePlane('../assets/magic-circle.png');
+        // create a magic circle
+        const magicCircle = Utils.createImagePlane('../assets/magic-circle.png');
         magicCircle.material.transparent = true;
         magicCircle.material.opacity = 1;
         magicCircle.scale.set(4, 4, 1);
 
-        // add the object to the scene
+        // make it a child of ar.root
         ar.root.add(magicCircle);
 
         // save a reference
@@ -227,7 +226,7 @@ class DemoScene extends ARScene
 
     _initText(ar)
     {
-        const text = this._utils.createImagePlane('../assets/it-works.png');
+        const text = Utils.createImagePlane('../assets/it-works.png');
         text.material.transparent = true;
         text.material.opacity = 1;
         text.position.set(0, -0.5, 2);
@@ -242,15 +241,15 @@ class DemoScene extends ARScene
     async _initMage(ar)
     {
         // load the mage
-        const gltf = await this._utils.loadGLTF('../assets/mage.glb');
+        const gltf = await Utils.loadGLTF('../assets/mage.glb');
         const mage = gltf.scene;
         mage.scale.set(0.7, 0.7, 0.7);
 
         // prepare the animation of the mage
-        const mageAction = this._utils.createAnimationAction(gltf, 'Idle');
+        const mageAction = Utils.createAnimationAction(gltf, 'Idle');
         mageAction.play();
 
-        // add the mage to the scene
+        // make the mage a child of ar.root
         ar.root.add(mage);
 
         // save references
@@ -260,11 +259,11 @@ class DemoScene extends ARScene
 
     async _initCat(ar)
     {
-        const gltf = await this._utils.loadGLTF('../assets/cat.glb');
+        const gltf = await Utils.loadGLTF('../assets/cat.glb');
         const cat = gltf.scene;
         cat.scale.set(0.7, 0.7, 0.7);
 
-        const catAction = this._utils.createAnimationAction(gltf, 'Cheer');
+        const catAction = Utils.createAnimationAction(gltf, 'Cheer');
         catAction.play();
 
         ar.root.add(cat);
@@ -299,7 +298,7 @@ class DemoScene extends ARScene
 
     _onTargetFound(referenceImage)
     {
-        // change the scene based on the scanned image
+        // change the scene based on the tracked image
         switch(referenceImage.name) {
             case 'mage':
                 this._objects.mage.visible = true;
@@ -323,17 +322,17 @@ class DemoScene extends ARScene
 }
 
 /**
- * Enchant the scene
+ * Start the Demo
  * @returns {void}
  */
 function main()
 {
-    const scene = new DemoScene();
+    const demo = new EnchantedDemo();
 
     if(typeof encantar === 'undefined')
         throw new Error(`Can't find the three.js plugin for encantar.js`);
 
-    encantar(scene).catch(error => {
+    encantar(demo).catch(error => {
         alert(error.message);
     });
 }
