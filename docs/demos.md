@@ -37,17 +37,17 @@ Create an augmented scene with [three.js](https://threejs.org){ ._blank }.
 
 [Launch demo](/encantar-js/demos/hello-three/README.html){ ._blank .md-button }
 
-### WebAR with WebGL only
+### WebAR template
 
-Create an augmented scene without additional libraries.
-
-[Launch demo](/encantar-js/demos/hello-webgl/README.html){ ._blank .md-button }
-
-### Hello, world!
-
-A basic template to help you get started.
+A template to help you create an augmented scene with any 3D framework.
 
 [Launch demo](/encantar-js/demos/hello-world/README.html){ ._blank .md-button }
+
+### WebAR with pure WebGL
+
+Create an augmented scene without a 3D framework.
+
+[Launch demo](/encantar-js/demos/hello-webgl/README.html){ ._blank .md-button }
 
 ## Try locally
 
