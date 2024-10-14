@@ -21,7 +21,7 @@ title: WebAR Demo gallery
 
 ### WebAR with A-Frame
 
-Create an augmented scene with [A-Frame](https://aframe.io){ ._blank }. This is the easiest demo to edit!
+Create an augmented scene with [A-Frame](https://aframe.io){ ._blank }. No knowledge of JavaScript is required!
 
 [Launch demo](/encantar-js/demos/hello-aframe/README.html){ ._blank .md-button }
 
