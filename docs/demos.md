@@ -25,6 +25,12 @@ Create an augmented scene with [A-Frame](https://aframe.io){ ._blank }. No knowl
 
 [Launch demo](/encantar-js/demos/hello-aframe/README.html){ ._blank .md-button }
 
+### WebAR with babylon.js
+
+Create an augmented scene with [babylon.js](https://www.babylonjs.com){ ._blank }.
+
+[Launch demo](/encantar-js/demos/hello-babylon/README.html){ ._blank .md-button }
+
 ### WebAR with three.js
 
 Create an augmented scene with [three.js](https://threejs.org){ ._blank }.
