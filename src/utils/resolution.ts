@@ -25,7 +25,7 @@ import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { IllegalArgumentError } from './errors';
 
 /** Resolution type */
-export type Resolution = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg+';
+export type Resolution = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg+' | 'xl' | 'xl+' | 'xxl' | 'xxl+';
 
 /** Reference heights when in landscape mode, measured in pixels */
 const REFERENCE_HEIGHT: { readonly [R in Resolution]: number } = {
@@ -37,6 +37,13 @@ const REFERENCE_HEIGHT: { readonly [R in Resolution]: number } = {
     'md+': 360,
     'lg' : 480,
     'lg+': 600,
+    'xl' : 720, // should we define an alias, "hd"?
+    'xl+': 768,
+    'xxl': 900,
+    'xxl+':960,
+    //'ul-': 1024,
+    //'ul': 1080, // what should we call this? xxxl? ul? (ultra large?)
+    //'ul+': 1200,
 };
 
 /**

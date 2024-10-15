@@ -592,7 +592,7 @@ AFRAME.registerComponent('ar-camera-source', ARComponent({
 
     schema: {
 
-        /** video resolution: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" */
+        /** video resolution: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" | "xl" | "xl+" | "xxl" | "xxl+" */
         'resolution': { type: 'string', default: 'md' },
 
         /** facing mode: "environment" | "user" */
@@ -741,7 +741,7 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
 
     schema: {
 
-        /** resolution of the tracker: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" */
+        /** resolution of the tracker: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" | "xl" | "xl+" | "xxl" | "xxl+" */
         'resolution': { type: 'string', default: 'sm+' },
 
     },
@@ -836,7 +836,7 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
 
     schema: {
 
-        /** viewport resolution: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" */
+        /** viewport resolution: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" | "xl" | "xl+" | "xxl" | "xxl+" */
         'resolution': { type: 'string', default: 'lg' },
 
         /** viewport style: "best-fit" | "stretch" | "inline" */
