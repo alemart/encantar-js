@@ -24,11 +24,21 @@ import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { IllegalArgumentError } from './errors';
 
-/** Resolution type */
-export type Resolution = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg+' | 'xl' | 'xl+' | 'xxl' | 'xxl+';
+type Digit = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+type EvenDigit = '0' | '2' | '4' | '6' | '8';
+type PositiveDigit = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+type OptionalDigit = Digit | '';
+type CustomResolution = `${PositiveDigit}${OptionalDigit}${Digit}${EvenDigit}p`;
+type ResolutionAlias = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg+' | 'xl' | 'xl+' | 'xxl' | 'xxl+';
 
-/** Reference heights when in landscape mode, measured in pixels */
-const REFERENCE_HEIGHT: { readonly [R in Resolution]: number } = {
+/** Resolution type */
+export type Resolution = ResolutionAlias | CustomResolution;
+
+/** A regex that identifies custom resolutions */
+const CUSTOM_RESOLUTION_REGEX = /^[1-9][0-9]?[0-9][02468]p$/;
+
+/** Reference heights when in landscape mode, measured in pixels, for all aliases */
+const ALIAS_TO_HEIGHT: { readonly [R in ResolutionAlias]: number } = {
     'xs' : 120,
     'xs+': 144,
     'sm' : 240,
@@ -44,7 +54,6 @@ const REFERENCE_HEIGHT: { readonly [R in Resolution]: number } = {
     //'ul-': 1024,
     //'ul': 1080, // what should we call this? xxxl? ul? (ultra large?)
     //'ul+': 1200,
-    // instead of defining xxxl, what if we accept custom resolution names such as "720p" and "1080p"?
 };
 
 /**
@@ -55,10 +64,10 @@ const REFERENCE_HEIGHT: { readonly [R in Resolution]: number } = {
  */
 export function computeResolution(resolution: Resolution, aspectRatio: number): SpeedySize
 {
-    const referenceHeight = REFERENCE_HEIGHT[resolution];
+    const referenceHeight = parseHeight(resolution);
     let width = 0, height = 0;
 
-    if(referenceHeight === undefined)
+    if(Number.isNaN(referenceHeight))
         throw new IllegalArgumentError('Invalid resolution: ' + resolution);
     else if(aspectRatio <= 0)
         throw new IllegalArgumentError('Invalid aspect ratio: ' + aspectRatio);
@@ -77,4 +86,20 @@ export function computeResolution(resolution: Resolution, aspectRatio: number): 
     }
 
     return Speedy.Size(width, height);
+}
+
+/**
+ * Get the height in pixels of a resolution
+ * @param resolution resolution type
+ * @returns the height in pixels, or NaN on error
+ */
+function parseHeight(resolution: Resolution): number
+{
+    if(ALIAS_TO_HEIGHT.hasOwnProperty(resolution))
+        return ALIAS_TO_HEIGHT[resolution as ResolutionAlias];
+
+    if(CUSTOM_RESOLUTION_REGEX.test(resolution))
+        return parseInt(resolution);
+
+    return Number.NaN;
 }
