@@ -65,14 +65,14 @@ export function computeResolution(resolution: Resolution, aspectRatio: number): 
     if(aspectRatio >= 1) {
         // landscape
         height = referenceHeight;
-        width = Math.round(height * aspectRatio);
-        width -= width % 2;
+        width = Math.floor(height * aspectRatio);
+        width += width % 2;
     }
     else {
         // portrait
         width = referenceHeight;
-        height = Math.round(width / aspectRatio);
-        height -= height % 2;
+        height = Math.floor(width / aspectRatio);
+        height += height % 2;
     }
 
     return Speedy.Size(width, height);
