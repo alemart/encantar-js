@@ -13,7 +13,7 @@ Create a new webcam-based source of data with the specified `settings`.
 **Arguments**
 
 * `settings: object, optional`. An object with the following keys (all are optional):
-    * `resolution: Resolution`. The desired [resolution](resolution.md) of the video. The higher the resolution, the longer it takes for the video to be uploaded to the GPU, which impacts performance. The lower the resolution, the less accurate the tracking will be. Suggested values: `"md+"`, `"md"`, `"sm+"`.
+    * `resolution: Resolution`. The desired [resolution](resolution.md) of the video. The higher the resolution, the longer it takes for the video to be uploaded to the GPU, which impacts performance. The lower the resolution, the less accurate the tracking will be. Suggested values: `"md+"`, `"md"`, `"sm+"`, `"sm"`.
     * `aspectRatio: number`. A hint specifying the preferred aspect ratio of the video.
     * `constraints: MediaTrackConstraints`. Additional video constraints that will be passed to `navigator.mediaDevices.getUserMedia()`.
 

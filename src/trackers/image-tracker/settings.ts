@@ -21,7 +21,7 @@
  */
 
 /** Default tracking resolution */
-export const DEFAULT_TRACKING_RESOLUTION = 'sm+';
+export const DEFAULT_TRACKING_RESOLUTION = 'sm';
 
 /** Maximum number of keypoints to be stored for each reference image when in the training state */
 export const TRAIN_MAX_KEYPOINTS = 1024; //512;

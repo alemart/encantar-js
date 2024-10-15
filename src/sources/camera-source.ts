@@ -46,7 +46,7 @@ export interface CameraSourceOptions
 
 /** Default options for camera sources */
 const DEFAULT_CAMERA_OPTIONS: Readonly<Required<CameraSourceOptions>> = {
-    resolution: 'md', //'sm+',
+    resolution: 'md',
     aspectRatio: 16/9,
     constraints: { facingMode: 'environment' },
 };

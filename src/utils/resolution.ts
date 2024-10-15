@@ -30,20 +30,21 @@ export type Resolution = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg
 /** Reference heights when in landscape mode, measured in pixels */
 const REFERENCE_HEIGHT: { readonly [R in Resolution]: number } = {
     'xs' : 120,
-    'xs+': 160,
-    'sm' : 200,
-    'sm+': 240,
+    'xs+': 144,
+    'sm' : 240,
+    'sm+': 288,
     'md' : 320,
     'md+': 360,
     'lg' : 480,
     'lg+': 600,
-    'xl' : 720, // should we define an alias, "hd"?
+    'xl' : 720,
     'xl+': 768,
     'xxl': 900,
     'xxl+':960,
     //'ul-': 1024,
     //'ul': 1080, // what should we call this? xxxl? ul? (ultra large?)
     //'ul+': 1200,
+    // instead of defining xxxl, what if we accept custom resolution names such as "720p" and "1080p"?
 };
 
 /**

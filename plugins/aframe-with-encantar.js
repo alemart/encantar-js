@@ -742,7 +742,7 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
     schema: {
 
         /** resolution of the tracker: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" | "xl" | "xl+" | "xxl" | "xxl+" */
-        'resolution': { type: 'string', default: 'sm+' },
+        'resolution': { type: 'string', default: 'sm' },
 
     },
 
