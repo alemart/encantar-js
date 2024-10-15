@@ -29,7 +29,7 @@ type EvenDigit = '0' | '2' | '4' | '6' | '8';
 type PositiveDigit = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
 type OptionalDigit = Digit | '';
 type CustomResolution = `${PositiveDigit}${OptionalDigit}${Digit}${EvenDigit}p`;
-type ResolutionAlias = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg+' | 'xl' | 'xl+' | 'xxl' | 'xxl+';
+type ResolutionAlias = 'xs' | 'xs+' | 'sm' | 'sm+' | 'md' | 'md+' | 'lg' | 'lg+' | 'xl' | 'xl+' | 'xxl';
 
 /** Resolution type */
 export type Resolution = ResolutionAlias | CustomResolution;
@@ -48,12 +48,8 @@ const ALIAS_TO_HEIGHT: { readonly [R in ResolutionAlias]: number } = {
     'lg' : 480,
     'lg+': 600,
     'xl' : 720,
-    'xl+': 768,
-    'xxl': 900,
-    'xxl+':960,
-    //'ul-': 1024,
-    //'ul': 1080, // what should we call this? xxxl? ul? (ultra large?)
-    //'ul+': 1200,
+    'xl+': 900,
+    'xxl': 1080,
 };
 
 /**
