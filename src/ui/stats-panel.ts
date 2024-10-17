@@ -208,8 +208,7 @@ export class StatsPanel
         title.style.fontSize = '14px';
         title.style.fontWeight = 'bold';
         title.style.padding = '2px';
-        title.innerHTML = '&#x2728;';
-        title.innerText += 'encantar.js ' + AR.version;
+        title.innerText = 'encantar.js ' + AR.version;
 
         return title;
     }
