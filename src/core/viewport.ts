@@ -41,7 +41,7 @@ export type ViewportContainer = HTMLDivElement;
 type ViewportSizeGetter = () => SpeedySize;
 
 /** All possible event types emitted by a Viewport */
-type ViewportEventType = 'resize';
+type ViewportEventType = 'resize' | 'fullscreenchange';
 
 /** An event emitted by a Viewport */
 class ViewportEvent extends AREvent<ViewportEventType> { }
@@ -306,12 +306,18 @@ class ViewportCanvases
  */
 class ViewportFullscreenHelper
 {
+    /** The container to be put in fullscreen */
+    private readonly _container: HTMLElement;
+
+
+
     /**
      * Constructor
-     * @param _container the container which will be put in fullscreen
+     * @param _viewport Viewport
      */
-    constructor(private readonly _container: HTMLElement)
+    constructor(private readonly _viewport: Viewport)
     {
+        this._container = _viewport.container;
     }
 
     /**
@@ -342,6 +348,7 @@ class ViewportFullscreenHelper
                     if(container === (document as any).webkitFullscreenElement) {
                         Utils.log('Entering fullscreen mode...');
                         resolve();
+                        this._triggerEvent();
                     }
                     else
                         reject(new TypeError());
@@ -360,6 +367,7 @@ class ViewportFullscreenHelper
             }).then(() => {
                 Utils.log('Entering fullscreen mode...');
                 resolve();
+                this._triggerEvent();
             }, reject);
         });
     }
@@ -387,6 +395,7 @@ class ViewportFullscreenHelper
                     if(doc.webkitFullscreenElement === null) {
                         Utils.log('Exiting fullscreen mode...');
                         resolve();
+                        this._triggerEvent();
                     }
                     else
                         reject(new TypeError());
@@ -403,6 +412,7 @@ class ViewportFullscreenHelper
             document.exitFullscreen().then(() => {
                 Utils.log('Exiting fullscreen mode...');
                 resolve();
+                this._triggerEvent();
             }, reject);
         });
     }
@@ -429,6 +439,15 @@ class ViewportFullscreenHelper
             return (document as any).webkitFullscreenElement === this._container;
         else
             return false;
+    }
+
+    /**
+     * Trigger a fullscreenchange event
+     */
+    _triggerEvent(): void
+    {
+        const event = new ViewportEvent('fullscreenchange');
+        this._viewport.dispatchEvent(event);
     }
 }
 
@@ -794,7 +813,7 @@ export class Viewport extends ViewportEventTarget
         this._resizer = new ViewportResizer(this);
         this._resizer.setStrategyByName(this._style);
 
-        this._fullscreen = new ViewportFullscreenHelper(this.container);
+        this._fullscreen = new ViewportFullscreenHelper(this);
     }
 
     /**

@@ -156,7 +156,24 @@ The viewport has been resized. This will happen when the user resizes the window
 **Example**
 
 ```js
-viewport.addEventListener('resize', event => {
+viewport.addEventListener('resize', () => {
     console.log('The viewport has been resized.');
+});
+```
+
+### fullscreenchange
+
+The viewport has been switched into or out of fullscreen mode.
+
+*Since:* 0.3.0
+
+**Example**
+
+```js
+viewport.addEventListener('fullscreenchange', () => {
+    if(viewport.fullscreen)
+        console.log('Switched into fullscreen mode');
+    else
+        console.log('Switched out of fullscreen mode');
 });
 ```
