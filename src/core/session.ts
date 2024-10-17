@@ -29,11 +29,11 @@ import { IllegalArgumentError, IllegalOperationError, NotSupportedError } from '
 import { Viewport } from './viewport';
 import { Settings } from './settings';
 import { Stats } from './stats';
-import { StatsPanel } from './stats-panel';
+import { StatsPanel } from '../ui/stats-panel';
+import { Gizmos } from '../ui/gizmos';
 import { Frame } from './frame';
 import { Tracker } from '../trackers/tracker';
 import { Time } from './time';
-import { Gizmos } from './gizmos';
 import { Source } from '../sources/source';
 import { asap } from '../utils/asap';
 

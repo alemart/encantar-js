@@ -30,7 +30,7 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Resolution } from '../utils/resolution';
 import { Nullable, Utils } from '../utils/utils';
 import { IllegalArgumentError, IllegalOperationError, TrackingError } from '../utils/errors';
-import { Viewport } from './viewport';
+import { Viewport } from '../core/viewport';
 import { Tracker } from '../trackers/tracker';
 import { ImageTrackerOutput } from '../trackers/image-tracker/image-tracker';
 

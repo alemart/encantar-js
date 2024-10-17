@@ -27,9 +27,9 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable } from '../utils/utils';
 import { Resolution } from '../utils/resolution';
 import { Utils } from '../utils/utils';
-import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessDeniedError } from '../utils/errors';
 import { HUD, HUDContainer } from './hud';
 import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
+import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessDeniedError } from '../utils/errors';
 
 
 
@@ -758,14 +758,14 @@ export class Viewport extends ViewportEventTarget
     /** The canvases of the viewport */
     private readonly _canvases: ViewportCanvases;
 
-    /** Fullscreen utilities */
-    private readonly _fullscreen: ViewportFullscreenHelper;
-
     /** Resize helper */
     private readonly _resizer: ViewportResizer;
 
     /** The current size of the underlying SpeedyMedia */
     private _mediaSize: ViewportSizeGetter;
+
+    /** Fullscreen utilities */
+    private readonly _fullscreen: ViewportFullscreenHelper;
 
 
 
@@ -791,9 +791,10 @@ export class Viewport extends ViewportEventTarget
         this._hud = new HUD(this._subContainer, settings.hudContainer);
         this._canvases = new ViewportCanvases(this._subContainer, initialSize, settings.canvas);
 
-        this._fullscreen = new ViewportFullscreenHelper(this.container);
         this._resizer = new ViewportResizer(this);
         this._resizer.setStrategyByName(this._style);
+
+        this._fullscreen = new ViewportFullscreenHelper(this.container);
     }
 
     /**

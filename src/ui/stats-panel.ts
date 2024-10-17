@@ -21,8 +21,8 @@
  */
 
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
-import { Settings, PowerPreference } from './settings';
-import { Viewport } from './viewport';
+import { Settings, PowerPreference } from '../core/settings';
+import { Viewport } from '../core/viewport';
 import { Tracker } from '../trackers/tracker';
 import { Source } from '../sources/source';
 import { Utils, Nullable } from '../utils/utils';
@@ -60,7 +60,7 @@ export class StatsPanel
 
     /**
      * Constructor
-     * @param parent parent element of the panel
+     * @param viewport Viewport
      */
     constructor(viewport: Viewport)
     {
