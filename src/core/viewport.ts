@@ -28,6 +28,7 @@ import { Nullable } from '../utils/utils';
 import { Resolution } from '../utils/resolution';
 import { Utils } from '../utils/utils';
 import { HUD, HUDContainer } from './hud';
+import { FullscreenButton } from '../ui/fullscreen-button';
 import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
 import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessDeniedError } from '../utils/errors';
 
@@ -74,6 +75,9 @@ export interface ViewportSettings
 
     /** An existing <canvas> on which the virtual scene will be drawn */
     canvas?: Nullable<HTMLCanvasElement>;
+
+    /** Whether or not to include the built-in fullscreen button */
+    fullscreenUI?: boolean;
 }
 
 /** Default viewport constructor settings */
@@ -83,6 +87,7 @@ const DEFAULT_VIEWPORT_SETTINGS: Readonly<Required<ViewportSettings>> = {
     resolution: 'lg',
     style: 'best-fit',
     canvas: null,
+    fullscreenUI: true,
 };
 
 
@@ -786,6 +791,9 @@ export class Viewport extends ViewportEventTarget
     /** Fullscreen utilities */
     private readonly _fullscreen: ViewportFullscreenHelper;
 
+    /** Built-in fullscreen button */
+    private readonly _fullscreenButton: Nullable<FullscreenButton>;
+
 
 
 
@@ -814,6 +822,10 @@ export class Viewport extends ViewportEventTarget
         this._resizer.setStrategyByName(this._style);
 
         this._fullscreen = new ViewportFullscreenHelper(this);
+        this._fullscreenButton = null;
+
+        if(settings.fullscreenUI && this.fullscreenAvailable)
+            this._fullscreenButton = new FullscreenButton(this);
     }
 
     /**
@@ -953,6 +965,7 @@ export class Viewport extends ViewportEventTarget
         this._hud._init(HUD_ZINDEX);
         this._canvases.init();
         this._resizer.init();
+        this._fullscreenButton?.init();
     }
 
     /**
@@ -965,5 +978,6 @@ export class Viewport extends ViewportEventTarget
         this._canvases.release();
         this._hud._release();
         this._containers.release();
+        this._fullscreenButton?.release();
     }
 }

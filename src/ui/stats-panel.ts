@@ -240,39 +240,6 @@ export class StatsPanel
         print('<br>');
         print('OUT: <span class="_ar_out"></span>');
 
-        if(this._viewport.fullscreenAvailable) {
-            print('<br>');
-            content.appendChild(this._createFullscreenToggle());
-        }
-
         return content;
-    }
-
-    /**
-     * Create a fullscreen toggle
-     * @returns a fullscreen toggle
-     */
-    private _createFullscreenToggle(): HTMLElement
-    {
-        const toggle = document.createElement('a');
-
-        Utils.assert(this._viewport != null);
-
-        toggle.href = 'javascript:void(0)';
-        toggle.innerText = 'Toggle fullscreen';
-        toggle.style.color = 'white';
-        toggle.setAttribute('role', 'button');
-        toggle.addEventListener('click', () => {
-            if(!this._viewport.fullscreen) {
-                this._viewport.requestFullscreen().catch(err => {
-                    alert(`Can't enable fullscreen mode. ` + err.toString());
-                });
-            }
-            else {
-                this._viewport.exitFullscreen();
-            }
-        });
-
-        return toggle;
     }
 }

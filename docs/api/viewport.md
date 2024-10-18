@@ -17,7 +17,8 @@ Create a new viewport with the specified `settings`.
     * `hudContainer: HTMLDivElement, optional`. An overlay that will be displayed in front of the augmented scene. It must be a direct child of `container` in the DOM tree.
     * `resolution: Resolution, optional`. The [resolution](resolution.md) of the virtual scene.
     * `canvas: HTMLCanvasElement, optional`. An existing canvas on which the virtual scene will be drawn. The engine automatically creates a canvas. You should only specify an existing canvas if you must. Experimental.
-    * `style: string, optional.` The [viewport style](#style). *Since:* 0.3.0
+    * `style: string, optional`. The [viewport style](#style). *Since:* 0.3.0
+    * `fullscreenUI: boolean, optional`. Whether or not to include, as a convenience, the built-in fullscreen button on platforms in which the fullscreen mode is [available](#fullscreenavailable). Defaults to `true`. *Since:* 0.3.0
 
 **Returns**
 
@@ -82,7 +83,7 @@ The default style is `"best-fit"` in immersive mode, or `"inline"` in inline mod
 
 `viewport.fullscreen: boolean, read-only`
 
-Whether or not the viewport [container](#container) is being displayed in fullscreen mode.
+Whether or not the viewport [container](#container) is being displayed in fullscreen mode. See also: [requestFullscreen](#requestfullscreen).
 
 *Since:* 0.3.0
 
@@ -90,7 +91,7 @@ Whether or not the viewport [container](#container) is being displayed in fullsc
 
 `viewport.fullscreenAvailable: boolean, read-only`
 
-Checks the availability of the fullscreen mode on the current platform and page.
+Used to check the availability of the fullscreen mode on the current platform and page.
 
 *Since:* 0.3.0
 
