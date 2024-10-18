@@ -312,18 +312,42 @@ class ViewportCanvases
  */
 class ViewportFullscreenHelper
 {
+    /** The viewport */
+    private readonly _viewport: Viewport;
+
     /** The container to be put in fullscreen */
     private readonly _container: HTMLElement;
+
+    /** Event handler */
+    private _boundEventHandler: EventListener;
 
 
 
     /**
      * Constructor
-     * @param _viewport Viewport
+     * @param viewport Viewport
      */
-    constructor(private readonly _viewport: Viewport)
+    constructor(viewport: Viewport)
     {
-        this._container = _viewport.container;
+        this._viewport = viewport;
+        this._container = viewport.container;
+        this._boundEventHandler = this._triggerEvent.bind(this);
+    }
+
+    /**
+     * Initialize
+     */
+    init(): void
+    {
+        this._container.addEventListener('fullscreenchange', this._boundEventHandler);
+    }
+
+    /**
+     * Release
+     */
+    release(): void
+    {
+        this._container.removeEventListener('fullscreenchange', this._boundEventHandler);
     }
 
     /**
@@ -354,7 +378,6 @@ class ViewportFullscreenHelper
                     if(container === (document as any).webkitFullscreenElement) {
                         Utils.log('Entering fullscreen mode...');
                         resolve();
-                        this._triggerEvent();
                     }
                     else
                         reject(new TypeError());
@@ -373,7 +396,6 @@ class ViewportFullscreenHelper
             }).then(() => {
                 Utils.log('Entering fullscreen mode...');
                 resolve();
-                this._triggerEvent();
             }, reject);
         });
     }
@@ -401,7 +423,6 @@ class ViewportFullscreenHelper
                     if(doc.webkitFullscreenElement === null) {
                         Utils.log('Exiting fullscreen mode...');
                         resolve();
-                        this._triggerEvent();
                     }
                     else
                         reject(new TypeError());
@@ -418,7 +439,6 @@ class ViewportFullscreenHelper
             document.exitFullscreen().then(() => {
                 Utils.log('Exiting fullscreen mode...');
                 resolve();
-                this._triggerEvent();
             }, reject);
         });
     }
@@ -988,6 +1008,7 @@ export class Viewport extends ViewportEventTarget
         this._hud._init(HUD_ZINDEX);
         this._canvases.init();
         this._resizer.init();
+        this._fullscreen.init();
         this._fullscreenButton?.init();
     }
 
@@ -997,10 +1018,11 @@ export class Viewport extends ViewportEventTarget
      */
     _release(): void
     {
+        this._fullscreenButton?.release();
+        this._fullscreen.release();
         this._resizer.release();
         this._canvases.release();
         this._hud._release();
         this._containers.release();
-        this._fullscreenButton?.release();
     }
 }
