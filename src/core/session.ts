@@ -158,28 +158,12 @@ export class Session extends AREventTarget<SessionEventType>
         this._gizmos.visible = gizmos;
 
         // validate the mode
-        if(mode == 'immersive') {
-            if(viewport.style != 'best-fit' && viewport.style != 'stretch') {
-                Utils.warning(`Invalid viewport style \"${viewport.style}\" for the \"${mode}\" mode`);
-                viewport.style = 'best-fit';
-            }
-        }
-        else if(mode == 'inline') {
-            if(viewport.style != 'inline') {
-                Utils.warning(`Invalid viewport style \"${viewport.style}\" for the \"${mode}\" mode`);
-                viewport.style = 'inline';
-            }
-        }
-        else
+        if(mode != 'immersive' && mode != 'inline')
             throw new IllegalArgumentError(`Invalid session mode "${mode}"`);
-
-        // get media
-        const media = this.media;
-        const getMediaSize = () => media.size;
 
         // setup the viewport
         this._viewport = viewport;
-        this._viewport._init(getMediaSize);
+        this._viewport._init(() => this.media.size, mode);
 
         // setup the main loop
         this._setupUpdateLoop();

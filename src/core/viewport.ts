@@ -27,6 +27,7 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable } from '../utils/utils';
 import { Resolution } from '../utils/resolution';
 import { Utils } from '../utils/utils';
+import { SessionMode } from './session';
 import { HUD, HUDContainer } from './hud';
 import { FullscreenButton } from '../ui/fullscreen-button';
 import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
@@ -847,6 +848,7 @@ export class Viewport extends ViewportEventTarget
     /**
      * Set viewport style
      */
+    /*
     set style(value: ViewportStyle)
     {
         // note: the viewport style is independent of the session mode!
@@ -855,6 +857,7 @@ export class Viewport extends ViewportEventTarget
             this._style = value;
         }
     }
+    */
 
     /**
      * HUD
@@ -955,12 +958,32 @@ export class Viewport extends ViewportEventTarget
 
     /**
      * Initialize the viewport (when the session starts)
+     * @param getMediaSize
+     * @param sessionMode
      * @internal
      */
-    _init(getMediaSize: ViewportSizeGetter): void
+    _init(getMediaSize: ViewportSizeGetter, sessionMode: SessionMode): void
     {
+        // validate if the viewport style matches the session mode
+        if(sessionMode == 'immersive') {
+            if(this._style != 'best-fit' && this._style != 'stretch') {
+                Utils.warning(`Invalid viewport style \"${this._style}\" for the \"${sessionMode}\" mode`);
+                this._style = 'best-fit';
+                this._resizer.setStrategyByName(this._style);
+            }
+        }
+        else if(sessionMode == 'inline') {
+            if(this._style != 'inline') {
+                Utils.warning(`Invalid viewport style \"${this._style}\" for the \"${sessionMode}\" mode`);
+                this._style = 'inline';
+                this._resizer.setStrategyByName(this._style);
+            }
+        }
+
+        // set the media size getter
         this._mediaSize = getMediaSize;
 
+        // initialize the components
         this._containers.init();
         this._hud._init(HUD_ZINDEX);
         this._canvases.init();

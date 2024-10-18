@@ -67,7 +67,7 @@ A `<canvas>` on which the virtual scene is drawn.
 
 ### style
 
-`viewport.style: string`
+`viewport.style: string, read-only`
 
 The style determines the way the viewport appears on the screen. Different styles are applicable to different [session modes](session.md#mode). The following are valid styles:
 
