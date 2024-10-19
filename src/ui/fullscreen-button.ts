@@ -89,25 +89,29 @@ export class FullscreenButton
         const button = document.createElement('button');
         const icon = document.createElement('img');
 
-        button.style.display = 'inline-block';
         button.style.position = 'absolute';
         button.style.bottom = BUTTON_MARGIN + 'px';
         button.style.right = BUTTON_MARGIN + 'px';
         button.style.width = BUTTON_SIZE + 'px';
         button.style.height = BUTTON_SIZE + 'px';
-        button.style.padding = '2px';
 
-        button.style.backgroundColor = '#7c5ec2';
-        button.style.borderColor = '#5c3ba3';
-        button.style.borderStyle = 'solid';
-        button.style.borderWidth = '2px';
-        button.style.borderRadius = '8px';
+        button.style.display = 'flex';
+        button.style.alignItems = 'center';
+        button.style.padding = '2px';
+        button.style.opacity = '0.5';
+        button.style.outline = 'none';
         button.style.cursor = 'pointer';
         button.draggable = false;
 
+        button.style.backgroundColor = 'transparent';
+        button.style.borderColor = 'white';
+        button.style.borderStyle = 'solid';
+        button.style.borderWidth = '2px';
+        button.style.borderRadius = '8px';
+
         icon.src = BUTTON_ICON_OFF;
         icon.draggable = false;
-        icon.style.display = 'inline';
+        icon.style.display = 'inline-block';
         icon.style.width = '100%';
         icon.style.height = '100%';
         icon.style.imageRendering = 'pixelated';
@@ -115,17 +119,19 @@ export class FullscreenButton
 
         const highlight = () => {
             button.style.backgroundColor = '#ffd500';
-            button.style.borderColor = '#bb9100';
+            button.style.borderColor = '#ffd500';
+            button.style.opacity = '1.0';
         };
 
         const dehighlight = () => {
-            button.style.backgroundColor = '#7e56c2';
-            button.style.borderColor = '#5c3ba3';
+            button.style.backgroundColor = 'transparent';
+            button.style.borderColor = 'white';
+            button.style.opacity = '0.5';
         };
 
         button.addEventListener('pointerdown', highlight);
         button.addEventListener('pointerup', dehighlight);
-        button.addEventListener('pointermove', dehighlight);
+        button.addEventListener('pointerleave', dehighlight);
 
         button.addEventListener('click', () => {
             if(!this._viewport.fullscreen) {
