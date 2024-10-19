@@ -115,6 +115,7 @@ AFRAME.registerComponent('ar-scan-gimmick', {
         const img = document.createElement('img');
 
         img.src = this.data.src;
+        img.draggable = false;
         img.style.width = '100%';
         img.style.height = '100%';
         img.style.objectFit = 'contain';

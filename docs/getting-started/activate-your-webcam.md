@@ -137,7 +137,7 @@ In order to display that scan gimmick, we need to create a HUD (<em>Heads-Up Dis
     <body>
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
-                <img id="scan" src="scan.png">
+                <img id="scan" src="scan.png" draggable="false">
             </div>
         </div>
         <img id="my-reference-image" src="my-reference-image.webp" hidden>
