@@ -471,20 +471,6 @@
               
   
   
-  
-    <li class="md-nav__item">
-      <a href="../create-the-augmented-scene/" class="md-nav__link">
-        Create the augmented scene
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -552,6 +538,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../augment-the-scene/" class="md-nav__link">
+        Augment the scene
+      </a>
     </li>
   
 
@@ -1567,7 +1567,7 @@
 <h1 id="activate-your-webcam">Activate your webcam</h1>
 <p>In this section we're going to learn how to use your webcam to capture the video. We're also going to polish our work and make it presentable to users.</p>
 <h2 id="change-the-source-of-data">Change the source of data</h2>
-<p>Instead of using a video file, we're going to use your webcam. We simply need to change the source of data and instruct encantar.js to use your webcam. We'll do it with 1 new line of code!</p>
+<p>Instead of using a video file, we're going to use your webcam. We simply need to change the source of data and instruct encantar.js to use your webcam. We'll do it with one new line of code!</p>
 <div class="highlight"><span class="filename">ar-demo.js</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">async</span> <span class="kd">function</span> <span class="nx">startARSession</span><span class="p">()</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">AR</span><span class="p">.</span><span class="nx">isSupported</span><span class="p">())</span> <span class="p">{</span>
@@ -1656,12 +1656,11 @@
 <p><a class="_blank" href="../../assets/my-reference-image.webp"><img alt="/assets/my-reference-image.webp" src="../../assets/my-reference-image.webp" title="Based on free image by ArtRose from https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/" width="512" /></a></p>
 <figcaption>Reference Image</figcaption>
 </figure>
-</figure>
 <h2 id="create-a-scan-gimmick">Create a scan gimmick</h2>
 <p>Let's polish our work. When the tracker is scanning the physical scene, we'll display a visual cue suggesting the user to frame the target image. I'll call that a scan gimmick.</p>
 <p>Save the image below as <a class="_blank" href="../../assets/scan.png">scan.png</a>:</p>
 <figure>
-<p><span class="transparent-background" style="display:inline-block">
+<p><span class="transparent-grid">
 <a class="_blank" href="../../assets/scan.png"><img alt="scan.png" src="../../assets/scan.png" /></a>
 </span></p>
 <figcaption>Scan gimmick</figcaption>
@@ -1673,29 +1672,28 @@
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">&quot;utf-8&quot;</span><span class="p">&gt;</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;viewport&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&quot;width=device-width,initial-scale=1&quot;</span><span class="p">&gt;</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>encantar.js WebAR demo<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="cm">&lt;!-- &lt;script&gt; tags of the rendering engine of your choice --&gt;</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;encantar.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;ar-demo.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span><span class="w"></span>
-</span><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="hll"><span class="w">        </span><span class="nt">body</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#3d5afe</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-</span><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="hll"><span class="w">        </span><span class="p">#</span><span class="nn">scan</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">object-fit</span><span class="p">:</span><span class="w"> </span><span class="kc">contain</span><span class="p">;</span><span class="w"> </span><span class="k">opacity</span><span class="p">:</span><span class="w"> </span><span class="mf">0.75</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
-</span><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="hll"><span class="w">        </span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
-</span><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;ar-viewport&quot;</span><span class="p">&gt;</span>
-</span><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;ar-hud&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
-</span><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="hll">                <span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;scan&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;scan.png&quot;</span> <span class="na">draggable</span><span class="o">=</span><span class="s">&quot;false&quot;</span><span class="p">&gt;</span>
-</span><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="hll">            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="hll">        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-</span><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-reference-image&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-reference-image.webp&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
-<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>        <span class="cm">&lt;!--</span>
-<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="cm">        &lt;video id=&quot;my-video&quot; hidden muted loop playsinline autoplay&gt;</span>
-<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="cm">            &lt;source src=&quot;my-video.webm&quot; type=&quot;video/webm&quot; /&gt;</span>
-<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="cm">            &lt;source src=&quot;my-video.mp4&quot; type=&quot;video/mp4&quot; /&gt;</span>
-<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="cm">        &lt;/video&gt;</span>
-<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="cm">        --&gt;</span>
-<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;encantar.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;ar-demo.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span><span class="w"></span>
+</span><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="hll"><span class="w">        </span><span class="nt">body</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#3d5afe</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</span><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="hll"><span class="w">        </span><span class="p">#</span><span class="nn">scan</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">height</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span><span class="w"> </span><span class="k">object-fit</span><span class="p">:</span><span class="w"> </span><span class="kc">contain</span><span class="p">;</span><span class="w"> </span><span class="k">opacity</span><span class="p">:</span><span class="w"> </span><span class="mf">0.75</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</span><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="hll"><span class="w">        </span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+</span><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="hll">        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;ar-viewport&quot;</span><span class="p">&gt;</span>
+</span><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="hll">            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;ar-hud&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
+</span><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="hll">                <span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;scan&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;scan.png&quot;</span> <span class="na">draggable</span><span class="o">=</span><span class="s">&quot;false&quot;</span><span class="p">&gt;</span>
+</span><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="hll">            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="hll">        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-reference-image&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-reference-image.webp&quot;</span> <span class="na">hidden</span><span class="p">&gt;</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>        <span class="cm">&lt;!--</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="cm">        &lt;video id=&quot;my-video&quot; hidden muted loop playsinline autoplay&gt;</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="cm">            &lt;source src=&quot;my-video.webm&quot; type=&quot;video/webm&quot; /&gt;</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="cm">            &lt;source src=&quot;my-video.mp4&quot; type=&quot;video/mp4&quot; /&gt;</span>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="cm">        &lt;/video&gt;</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="cm">        --&gt;</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>    <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
 <div class="highlight"><span class="filename">ar-demo.js</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">async</span> <span class="kd">function</span> <span class="nx">startARSession</span><span class="p">()</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
@@ -1834,7 +1832,7 @@
 <a id="__codelineno-5-46" name="__codelineno-5-46" href="#__codelineno-5-46"></a>    <span class="k">return</span> <span class="nx">session</span><span class="p">;</span>
 <a id="__codelineno-5-47" name="__codelineno-5-47" href="#__codelineno-5-47"></a><span class="p">}</span>
 </code></pre></div>
-<p>Open <a class="_blank" href="http://localhost:8000">http://localhost:8000</a> again. Enjoy your WebAR experience! <img alt="😉" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f609.png" title=":wink:" /></p>
+<p>Open <a class="_blank" href="http://localhost:8000">http://localhost:8000</a> again. Now we're ready to create the augmented scene! <img alt="😉" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f609.png" title=":wink:" /></p>
 
               
 
@@ -1849,7 +1847,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../create-the-augmented-scene/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Create the augmented scene" rel="prev">
+        <a href="../set-up-the-session/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Set up the session" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1858,20 +1856,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Create the augmented scene
+              Set up the session
             </div>
           </div>
         </a>
       
       
         
-        <a href="../next-steps/" class="md-footer__link md-footer__link--next" aria-label="Next: Next steps" rel="next">
+        <a href="../augment-the-scene/" class="md-footer__link md-footer__link--next" aria-label="Next: Augment the scene" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Next steps
+              Augment the scene
             </div>
           </div>
           <div class="md-footer__button md-icon">

@@ -14,13 +14,15 @@
     animation: heart 1000ms infinite;
 }
 
-/* Buttons */
-
 .md-button {
     border-radius: 100px !important;
 }
 
-/* Responsive videos */
+.transparent-grid {
+    display: inline-block;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAABlBMVEWZmZlmZmZYfKrVAAAAE0lEQVQI12P4/5+BgZoEA3VNBADtvT/BrQ+bEwAAAABJRU5ErkJggg==);
+    background-repeat: repeat;
+}
 
 .md-typeset video {
     height: auto;

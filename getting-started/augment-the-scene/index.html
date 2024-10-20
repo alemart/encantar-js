@@ -12,14 +12,14 @@
         <meta name="author" content="Alexandre Martins">
       
       
-        <link rel="canonical" href="https://alemart.github.io/encantar-js/getting-started/create-the-augmented-scene/">
+        <link rel="canonical" href="https://alemart.github.io/encantar-js/getting-started/augment-the-scene/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
     
     
       
-        <title>Create the augmented scene - encantar.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>Augment the scene - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
@@ -56,7 +56,7 @@
 
     
     
-<meta property="og:title" content="Create the augmented scene - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:title" content="Augment the scene - encantar.js: GPU-accelerated Augmented Reality for the web">
 <meta property="og:description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
 <meta property="og:url" content="https://alemart.github.io/encantar-js/">
 <meta property="og:type" content="website">
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#create-the-augmented-scene" class="md-skip">
+        <a href="#augment-the-scene" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Create the augmented scene
+              Augment the scene
             
           </span>
         </div>
@@ -471,6 +471,20 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../activate-your-webcam/" class="md-nav__link">
+        Activate your webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -483,12 +497,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Create the augmented scene
+          Augment the scene
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Create the augmented scene
+        Augment the scene
       </a>
       
         
@@ -558,20 +572,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../activate-your-webcam/" class="md-nav__link">
-        Activate your webcam
-      </a>
     </li>
   
 
@@ -1598,34 +1598,33 @@
               
 
                 
-<a href="https://github.com/alemart/encantar-js/edit/master/docs/getting-started/create-the-augmented-scene.md" title="Edit this page" class="md-content__button md-icon">
+<a href="https://github.com/alemart/encantar-js/edit/master/docs/getting-started/augment-the-scene.md" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
 
 
 
-<h1 id="create-the-augmented-scene">Create the augmented scene</h1>
-<p>Now that the image is being tracked, the next step is to render a virtual scene on top of it. You need a 3D rendering technology to do that.</p>
+<h1 id="augment-the-scene">Augment the scene</h1>
+<p>We're already tracking an image of the physical world. The next step is to augment it with computer graphics. You'll use a different technology to render the graphics.</p>
 <h2 id="pick-a-3d-rendering-technology">Pick a 3D rendering technology</h2>
-<p>encantar.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with encantar.js. Popular solutions include: <a href="#a-frame">A-Frame</a>, <a href="#babylonjs">Babylon.js</a> and <a href="#threejs">Three.js</a>. You can also use other solutions. encantar.js lets you pick any 3D rendering technology.</p>
+<p>encantar.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies that you can use with encantar.js. Popular solutions include: <a href="#a-frame">A-Frame</a>, <a href="#babylonjs">Babylon.js</a> and <a href="#threejs">Three.js</a>. You can also use other solutions. encantar.js lets you pick any web-based 3D rendering technology.</p>
 <p>Once you pick a 3D rendering technology, you need to integrate it with encantar.js. There is a code that is responsible for that integration. I call it a <em>plugin</em>. Among other things, a plugin transports the tracking results from encantar.js to the 3D rendering technology of your choice.</p>
 <h2 id="use-a-plugin">Use a plugin</h2>
-<p>Writing a plugin is a task of moderate complexity. It requires dealing with matrices, with performance issues, and with some idiosyncrasies of the 3D rendering technologies in order to make sure that it all works as intended. It is advisable to have specialized knowledge of computer graphics programming in order to write a plugin that works correctly.</p>
-<p>I provide easy-to-use plugins that work with different 3D rendering technologies, so that you don't need to deal with the complexity. Those plugins are JavaScript (.js) files. You just need to add a plugin to your web page, via a <code>&lt;script&gt;</code> tag, and then the integration will be done for you. It's really that simple!</p>
+<p>Writing a plugin is a task of moderate complexity. It requires dealing with maths and with some idiosyncrasies of the 3D rendering technologies in order to make sure that it all works as intended. I provide easy-to-use plugins that work with different 3D rendering technologies, so that you don't need to deal with that complexity yourself. Plugins are shipped as JavaScript (.js) files. You just need to add a plugin to your web page, and then the integration will be done for you!</p>
 <p><a class="md-button md-button--primary _blank" href="https://github.com/alemart/encantar-js/tree/master/plugins">Get the plugins</a></p>
 <h2 id="create-the-virtual-scene">Create the virtual scene</h2>
-<p>You will create the virtual scene using the 3D rendering technology of your choice. As soon as you combine it with a plugin, the physical scene will be automagically augmented with the virtual scene, thus creating the augmented scene.</p>
-<p>Let me tell you a bit more about the 3D rendering technologies I just mentioned.</p>
+<p>You will create the virtual scene using the 3D rendering technology of your choice. As soon as you combine it with an appropriate plugin, the physical scene will be automagically augmented with the virtual scene, thus creating the augmented scene.</p>
+<p>Let me tell you more about the 3D rendering technologies I just mentioned.</p>
 <h3 id="a-frame">A-Frame</h3>
 <p><a class="_blank" href="https://aframe.io">A-Frame</a> is an open-source framework used to build virtual reality (VR) experiences for the web. When you combine it with encantar.js, you become able to use it to create AR experiences too - without the need of special hardware or software.</p>
 <p>A-Frame is built on top of <a href="#threejs">Three.js</a> and extends it in powerful ways. It introduces a HTML-based declarative approach for <a class="_blank" href="https://en.wikipedia.org/wiki/Scene_graph">scene graphs</a>, empowering them with the <a class="_blank" href="https://en.wikipedia.org/wiki/Entity_component_system">Entity-Component-System</a>, a software pattern commonly used in game development. A-Frame is easy for beginners and pleasing for experts. In many cases, writing JavaScript code is not needed.</p>
 <p><a class="_blank md-button" href="/encantar-js/demos/hello-aframe/README.html">Launch an A-Frame demo</a></p>
 <h3 id="babylonjs">Babylon.js</h3>
-<p><a class="_blank" href="https://www.babylonjs.com">Babylon.js</a> is a powerful open-source game and 3D rendering engine for the web. It includes pretty much all features you commonly find in 3D rendering engines (scene graphs, lights, materials, meshes, etc.), plus systems that are specific to game engines (animation engine, audio engine, collision system, physics system, support for sprites, etc.), plus all kinds of sophisticated features for various applications.</p>
-<p>Babylon.js has an amazing documentation with plenty of learning resources. Even though it can be used by beginners, it's recommended to have JavaScript experience before creating projects with it.</p>
+<p><a class="_blank" href="https://www.babylonjs.com">Babylon.js</a> is a powerful open-source game and 3D rendering engine for the web. It includes pretty much all features you commonly find in 3D rendering engines (scene graphs, lights, materials, meshes, animations, etc.), plus systems that are specific to game engines (audio engine, collision system, physics system, support for sprites, etc.), plus all kinds of sophisticated features for various applications.</p>
+<p>Babylon.js has an amazing documentation with plenty of learning resources, as well as a helpful and friendly community! Even though it can be used by beginners, it's recommended to have experience with JavaScript before creating projects with it.</p>
 <p><a class="_blank md-button" href="/encantar-js/demos/hello-babylon/README.html">Launch a Babylon.js demo</a></p>
 <h3 id="threejs">Three.js</h3>
-<p><a class="_blank" href="https://threejs.org">Three.js</a> is a popular open-source JavaScript library used to render 3D graphics in web browsers. It supports many features, including: scene graphs, cameras, animations, lights, materials, loading of 3D models, mathematical utilities, special effects, and more. It has an active and vibrant community. Many community-made extensions are available.</p>
+<p><a class="_blank" href="https://threejs.org">Three.js</a> is a popular open-source JavaScript library used to render 3D graphics in web browsers. It has many features, including: scene graphs, cameras, animations, lights, materials, loading of 3D models, mathematical utilities, special effects, and more. It has an active and vibrant community. Many community-made extensions are available.</p>
 <p>Using Three.js requires more JavaScript experience than using A-Frame in most cases, but it's also a great choice if you're comfortable with coding. Compared to A-Frame, Three.js offers you additional freedom on how you can organize your code, because it's a library, not a framework.</p>
 <p><a class="_blank md-button" href="/encantar-js/demos/hello-three/README.html">Launch a Three.js demo</a></p>
 
@@ -1642,7 +1641,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../set-up-the-session/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Set up the session" rel="prev">
+        <a href="../activate-your-webcam/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Activate your webcam" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1651,20 +1650,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Set up the session
+              Activate your webcam
             </div>
           </div>
         </a>
       
       
         
-        <a href="../activate-your-webcam/" class="md-footer__link md-footer__link--next" aria-label="Next: Activate your webcam" rel="next">
+        <a href="../next-steps/" class="md-footer__link md-footer__link--next" aria-label="Next: Next steps" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Activate your webcam
+              Next steps
             </div>
           </div>
           <div class="md-footer__button md-icon">

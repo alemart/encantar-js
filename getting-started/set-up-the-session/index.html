@@ -514,8 +514,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#write-the-user-callback" class="md-nav__link">
-    Write the user callback
+  <a href="#start-the-animation-loop" class="md-nav__link">
+    Start the animation loop
   </a>
   
 </li>
@@ -535,8 +535,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../create-the-augmented-scene/" class="md-nav__link">
-        Create the augmented scene
+      <a href="../activate-your-webcam/" class="md-nav__link">
+        Activate your webcam
       </a>
     </li>
   
@@ -549,8 +549,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../activate-your-webcam/" class="md-nav__link">
-        Activate your webcam
+      <a href="../augment-the-scene/" class="md-nav__link">
+        Augment the scene
       </a>
     </li>
   
@@ -1539,8 +1539,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#write-the-user-callback" class="md-nav__link">
-    Write the user callback
+  <a href="#start-the-animation-loop" class="md-nav__link">
+    Start the animation loop
   </a>
   
 </li>
@@ -1742,8 +1742,8 @@
 </span><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a><span class="hll"><span class="p">}</span>
 </span></code></pre></div>
 <p>Now all you have to do to start a new session is call <code>startARSession()</code>!</p>
-<h2 id="write-the-user-callback">Write the user callback</h2>
-<p>The user callback is a function responsible for updating and rendering the virtual scene. We have no virtual scene at the moment, but we can already set up that function. In order to do this, we must call <code>session.requestAnimationFrame()</code> and pass the user callback as an argument.</p>
+<h2 id="start-the-animation-loop">Start the animation loop</h2>
+<p>The animation loop repeatedly calls the user callback. The user callback is a function responsible for updating and rendering the virtual scene. We have no virtual scene at the moment, but we'll already set up that function. Let's call <code>session.requestAnimationFrame()</code> and pass the user callback as an argument:</p>
 <div class="highlight"><span class="filename">ar-demo.js</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="k">async</span> <span class="kd">function</span><span class="p">()</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">try</span> <span class="p">{</span>
@@ -1766,6 +1766,7 @@
 <a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>    <span class="c1">// ...</span>
 <a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="p">}</span>
 </code></pre></div>
+<p>Calling <code>session.requestAnimationFrame()</code> inside the user callback, <code>animate()</code> in this example, makes it loop until the session ends. Making that call outside the user callback starts the loop.</p>
 <div class="admonition info">
 <p class="admonition-title">requestAnimationFrame</p>
 <p>Note that <code>session.requestAnimationFrame()</code> is different from <code>window.requestAnimationFrame()</code>. The former is a call to the WebAR engine, whereas the latter is a standard call to the web browser.</p>
@@ -1800,13 +1801,13 @@
       
       
         
-        <a href="../create-the-augmented-scene/" class="md-footer__link md-footer__link--next" aria-label="Next: Create the augmented scene" rel="next">
+        <a href="../activate-your-webcam/" class="md-footer__link md-footer__link--next" aria-label="Next: Activate your webcam" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Create the augmented scene
+              Activate your webcam
             </div>
           </div>
           <div class="md-footer__button md-icon">
