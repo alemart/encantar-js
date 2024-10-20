@@ -87,7 +87,6 @@ export class FullscreenButton
     private _createButton(): HTMLButtonElement
     {
         const button = document.createElement('button');
-        const icon = document.createElement('img');
 
         button.style.position = 'absolute';
         button.style.bottom = BUTTON_MARGIN + 'px';
@@ -99,23 +98,19 @@ export class FullscreenButton
         button.style.alignItems = 'center';
         button.style.padding = '2px';
         button.style.opacity = '0.5';
-        button.style.outline = 'none';
         button.style.cursor = 'pointer';
+        button.style.outline = 'none';
+        (button.style as any)['-webkit-tap-highlight-color'] = 'transparent';
         button.draggable = false;
 
         button.style.backgroundColor = 'transparent';
+        button.style.backgroundImage = 'url(' + BUTTON_ICON_OFF + ')';
+        button.style.backgroundSize = 'cover';
+        button.style.imageRendering = 'pixelated';
         button.style.borderColor = 'white';
         button.style.borderStyle = 'solid';
         button.style.borderWidth = '2px';
         button.style.borderRadius = '8px';
-
-        icon.src = BUTTON_ICON_OFF;
-        icon.draggable = false;
-        icon.style.display = 'inline-block';
-        icon.style.width = '100%';
-        icon.style.height = '100%';
-        icon.style.imageRendering = 'pixelated';
-        button.appendChild(icon);
 
         const highlight = () => {
             button.style.backgroundColor = '#ffd500';
@@ -152,7 +147,7 @@ export class FullscreenButton
      */
     private _handleFullscreenEvent(event: Event): void
     {
-        const icon = this._button.querySelector('img') as HTMLImageElement;
-        icon.src = this._viewport.fullscreen ? BUTTON_ICON_ON : BUTTON_ICON_OFF;
+        const img = this._viewport.fullscreen ? BUTTON_ICON_ON : BUTTON_ICON_OFF;
+        this._button.style.backgroundImage = 'url(' + img + ')';
     }
 }
