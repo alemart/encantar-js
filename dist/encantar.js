@@ -5,7 +5,7 @@
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-10-20T01:13:15.146Z
+ * Date: 2024-10-20T05:43:39.143Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25836,7 +25836,7 @@ class ViewportResizer {
      * Trigger a resize event after a delay
      * @param delay in milliseconds
      */
-    triggerResize(delay = 50) {
+    triggerResize(delay = 100) {
         const event = new ViewportEvent('resize');
         if (delay <= 0) {
             this._viewport.dispatchEvent(event);
@@ -25968,20 +25968,22 @@ class BestFitResizeStrategy extends ImmersiveResizeStrategy {
         const subContainer = viewport._subContainer;
         const windowAspectRatio = window.innerWidth / window.innerHeight;
         const viewportAspectRatio = viewport._realSize.width / viewport._realSize.height;
-        let width = 1, height = 1;
+        let width = 1, height = 1, left = '0px', top = '0px';
         if (viewportAspectRatio <= windowAspectRatio) {
             height = window.innerHeight;
             width = Math.round(height * viewportAspectRatio);
             width -= width % 2;
+            left = `calc(50% - ${width >>> 1}px)`;
         }
         else {
             width = window.innerWidth;
             height = Math.round(width / viewportAspectRatio);
             height -= height % 2;
+            top = `calc(50% - ${height >>> 1}px)`;
         }
         subContainer.style.position = 'absolute';
-        subContainer.style.left = `calc(50% - ${width >>> 1}px)`;
-        subContainer.style.top = `calc(50% - ${height >>> 1}px)`;
+        subContainer.style.left = left;
+        subContainer.style.top = top;
         subContainer.style.width = width + 'px';
         subContainer.style.height = height + 'px';
         super.resize(viewport);
