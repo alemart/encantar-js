@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Enchant your users with WebAR experiences that run everywhere!">
+        <meta name="description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
       
       
         <meta name="author" content="Alexandre Martins">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Create the augmented scene - encantAR.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>Create the augmented scene - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
@@ -56,8 +56,8 @@
 
     
     
-<meta property="og:title" content="Create the augmented scene - encantAR.js: GPU-accelerated Augmented Reality for the web">
-<meta property="og:description" content="Enchant your users with WebAR experiences that run everywhere!">
+<meta property="og:title" content="Create the augmented scene - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
 <meta property="og:url" content="https://alemart.github.io/encantar-js/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -97,7 +97,7 @@
 
 <header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -110,7 +110,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            encantAR.js: GPU-accelerated Augmented Reality for the web
+            encantar.js: GPU-accelerated Augmented Reality for the web
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -287,13 +287,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    encantAR.js: GPU-accelerated Augmented Reality for the web
+    encantar.js: GPU-accelerated Augmented Reality for the web
   </label>
   
     <div class="md-nav__source">
@@ -1607,8 +1607,8 @@
 <h1 id="create-the-augmented-scene">Create the augmented scene</h1>
 <p>Now that the image is being tracked, the next step is to render a virtual scene on top of it. You need a 3D rendering technology to do that.</p>
 <h2 id="pick-a-3d-rendering-technology">Pick a 3D rendering technology</h2>
-<p>encantAR.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with encantAR.js. Popular solutions include: <a href="#a-frame">A-Frame</a>, <a href="#babylonjs">Babylon.js</a> and <a href="#threejs">Three.js</a>. You can also use other solutions. encantAR.js lets you pick any 3D rendering technology.</p>
-<p>Once you pick a 3D rendering technology, you need to integrate it with encantAR.js. There is a code that is responsible for that integration. I call it a <em>plugin</em>. Among other things, a plugin transports the tracking results from encantAR.js to the 3D rendering technology of your choice.</p>
+<p>encantar.js is not a 3D rendering technology. It is an Augmented Reality technology that provides the data you need in order to augment your physical scenes. There are free and open-source 3D rendering technologies for the web that you can find online and use with encantar.js. Popular solutions include: <a href="#a-frame">A-Frame</a>, <a href="#babylonjs">Babylon.js</a> and <a href="#threejs">Three.js</a>. You can also use other solutions. encantar.js lets you pick any 3D rendering technology.</p>
+<p>Once you pick a 3D rendering technology, you need to integrate it with encantar.js. There is a code that is responsible for that integration. I call it a <em>plugin</em>. Among other things, a plugin transports the tracking results from encantar.js to the 3D rendering technology of your choice.</p>
 <h2 id="use-a-plugin">Use a plugin</h2>
 <p>Writing a plugin is a task of moderate complexity. It requires dealing with matrices, with performance issues, and with some idiosyncrasies of the 3D rendering technologies in order to make sure that it all works as intended. It is advisable to have specialized knowledge of computer graphics programming in order to write a plugin that works correctly.</p>
 <p>I provide easy-to-use plugins that work with different 3D rendering technologies, so that you don't need to deal with the complexity. Those plugins are JavaScript (.js) files. You just need to add a plugin to your web page, via a <code>&lt;script&gt;</code> tag, and then the integration will be done for you. It's really that simple!</p>
@@ -1617,7 +1617,7 @@
 <p>You will create the virtual scene using the 3D rendering technology of your choice. As soon as you combine it with a plugin, the physical scene will be automagically augmented with the virtual scene, thus creating the augmented scene.</p>
 <p>Let me tell you a bit more about the 3D rendering technologies I just mentioned.</p>
 <h3 id="a-frame">A-Frame</h3>
-<p><a class="_blank" href="https://aframe.io">A-Frame</a> is an open-source framework used to build virtual reality (VR) experiences for the web. When you combine it with encantAR.js, you become able to use it to create AR experiences too - without the need of special hardware or software.</p>
+<p><a class="_blank" href="https://aframe.io">A-Frame</a> is an open-source framework used to build virtual reality (VR) experiences for the web. When you combine it with encantar.js, you become able to use it to create AR experiences too - without the need of special hardware or software.</p>
 <p>A-Frame is built on top of <a href="#threejs">Three.js</a> and extends it in powerful ways. It introduces a HTML-based declarative approach for <a class="_blank" href="https://en.wikipedia.org/wiki/Scene_graph">scene graphs</a>, empowering them with the <a class="_blank" href="https://en.wikipedia.org/wiki/Entity_component_system">Entity-Component-System</a>, a software pattern commonly used in game development. A-Frame is easy for beginners and pleasing for experts. In many cases, writing JavaScript code is not needed.</p>
 <p><a class="_blank md-button" href="/encantar-js/demos/hello-aframe/README.html">Launch an A-Frame demo</a></p>
 <h3 id="babylonjs">Babylon.js</h3>
@@ -1701,7 +1701,7 @@
 <!-- Copyright and theme information - modified by Alexandre -->
 <div class="md-copyright">
     <div class="md-copyright__highlight">
-      encantAR.js: GPU-accelerated Augmented Reality for the web.
+      encantar.js: GPU-accelerated Augmented Reality for the web.
       Copyright &copy; 2022 - present Alexandre Martins.
     </div>
   

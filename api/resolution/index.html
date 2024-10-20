@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Enchant your users with WebAR experiences that run everywhere!">
+        <meta name="description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
       
       
         <meta name="author" content="Alexandre Martins">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Resolution - encantAR.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>Resolution - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
@@ -56,8 +56,8 @@
 
     
     
-<meta property="og:title" content="Resolution - encantAR.js: GPU-accelerated Augmented Reality for the web">
-<meta property="og:description" content="Enchant your users with WebAR experiences that run everywhere!">
+<meta property="og:title" content="Resolution - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
 <meta property="og:url" content="https://alemart.github.io/encantar-js/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -97,7 +97,7 @@
 
 <header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -110,7 +110,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            encantAR.js: GPU-accelerated Augmented Reality for the web
+            encantar.js: GPU-accelerated Augmented Reality for the web
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -287,13 +287,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    encantAR.js: GPU-accelerated Augmented Reality for the web
+    encantar.js: GPU-accelerated Augmented Reality for the web
   </label>
   
     <div class="md-nav__source">
@@ -1477,65 +1477,123 @@
 
 
 <h1 id="resolution">Resolution</h1>
-<p>A <code>Resolution</code> is a setting defined by a string. It is mapped to a size measured in pixels according to special rules. You may use it to change the resolution in pixels of a video captured by a webcam, or to adjust the resolution in pixels of the videos that are processed by a tracker for example.</p>
+<p>A <code>Resolution</code> is a setting defined by a string. It is mapped to a size measured in pixels according to special rules. You may use it, for example, to change the resolution of a video captured by a webcam, to adjust the resolution of a video when it is processed by a tracker, or to set the rendering resolution of a virtual scene.</p>
 <p>The table below shows examples of how resolution strings are converted to pixels:</p>
 <table>
 <thead>
 <tr>
-<th>Resolution string</th>
-<th>16:9 landscape</th>
-<th>16:10 landscape</th>
-<th>4:3 landscape</th>
+<th>Resolution</th>
+<th>Alias</th>
+<th>16:9</th>
+<th>16:10</th>
+<th>4:3</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td><code>"120p"</code></td>
 <td><code>"xs"</code></td>
-<td>212x120</td>
+<td>214x120</td>
 <td>192x120</td>
 <td>160x120</td>
+<td></td>
 </tr>
 <tr>
+<td><code>"144p"</code></td>
 <td><code>"xs+"</code></td>
-<td>284x160</td>
-<td>256x160</td>
-<td>212x160</td>
+<td>256x144</td>
+<td>230x144</td>
+<td>192x144</td>
+<td></td>
 </tr>
 <tr>
+<td><code>"240p"</code></td>
 <td><code>"sm"</code></td>
-<td>356x200</td>
-<td>320x200</td>
-<td>266x200</td>
-</tr>
-<tr>
-<td><code>"sm+"</code></td>
 <td>426x240</td>
 <td>384x240</td>
 <td>320x240</td>
+<td>SD</td>
 </tr>
 <tr>
+<td><code>"288p"</code></td>
+<td><code>"sm+"</code></td>
+<td>512x288</td>
+<td>460x288</td>
+<td>384x288</td>
+<td></td>
+</tr>
+<tr>
+<td><code>"320p"</code></td>
 <td><code>"md"</code></td>
 <td>568x320</td>
 <td>512x320</td>
 <td>426x320</td>
+<td></td>
 </tr>
 <tr>
+<td><code>"360p"</code></td>
 <td><code>"md+"</code></td>
 <td>640x360</td>
 <td>576x360</td>
 <td>480x360</td>
+<td>SD</td>
 </tr>
 <tr>
+<td><code>"480p"</code></td>
 <td><code>"lg"</code></td>
-<td>852x480</td>
+<td>854x480</td>
 <td>768x480</td>
 <td>640x480</td>
+<td>SD</td>
 </tr>
 <tr>
+<td><code>"600p"</code></td>
 <td><code>"lg+"</code></td>
 <td>1066x600</td>
 <td>960x600</td>
 <td>800x600</td>
+<td></td>
+</tr>
+<tr>
+<td><code>"720p"</code></td>
+<td><code>"xl"</code></td>
+<td>1280x720</td>
+<td>1152x720</td>
+<td>960x720</td>
+<td>HD</td>
+</tr>
+<tr>
+<td><code>"768p"</code></td>
+<td></td>
+<td>1366x768</td>
+<td>1228x768</td>
+<td>1024x768</td>
+<td></td>
+</tr>
+<tr>
+<td><code>"900p"</code></td>
+<td><code>"xl+"</code></td>
+<td>1600x900</td>
+<td>1440x900</td>
+<td>1200x900</td>
+<td></td>
+</tr>
+<tr>
+<td><code>"960p"</code></td>
+<td></td>
+<td>1706x960</td>
+<td>1536x960</td>
+<td>1280x960</td>
+<td></td>
+</tr>
+<tr>
+<td><code>"1080p"</code></td>
+<td><code>"xxl"</code></td>
+<td>1920x1080</td>
+<td>1728x1080</td>
+<td>1440x1080</td>
+<td>Full HD</td>
 </tr>
 </tbody>
 </table>
@@ -1612,7 +1670,7 @@
 <!-- Copyright and theme information - modified by Alexandre -->
 <div class="md-copyright">
     <div class="md-copyright__highlight">
-      encantAR.js: GPU-accelerated Augmented Reality for the web.
+      encantar.js: GPU-accelerated Augmented Reality for the web.
       Copyright &copy; 2022 - present Alexandre Martins.
     </div>
   

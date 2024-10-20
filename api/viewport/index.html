@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Enchant your users with WebAR experiences that run everywhere!">
+        <meta name="description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
       
       
         <meta name="author" content="Alexandre Martins">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Viewport - encantAR.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>Viewport - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
@@ -56,8 +56,8 @@
 
     
     
-<meta property="og:title" content="Viewport - encantAR.js: GPU-accelerated Augmented Reality for the web">
-<meta property="og:description" content="Enchant your users with WebAR experiences that run everywhere!">
+<meta property="og:title" content="Viewport - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
 <meta property="og:url" content="https://alemart.github.io/encantar-js/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -97,7 +97,7 @@
 
 <header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -110,7 +110,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            encantAR.js: GPU-accelerated Augmented Reality for the web
+            encantar.js: GPU-accelerated Augmented Reality for the web
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -287,13 +287,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    encantAR.js: GPU-accelerated Augmented Reality for the web
+    encantar.js: GPU-accelerated Augmented Reality for the web
   </label>
   
     <div class="md-nav__source">
@@ -1366,6 +1366,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fullscreenchange" class="md-nav__link">
+    fullscreenchange
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1756,6 +1763,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fullscreenchange" class="md-nav__link">
+    fullscreenchange
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1793,7 +1807,8 @@
 <li><code>hudContainer: HTMLDivElement, optional</code>. An overlay that will be displayed in front of the augmented scene. It must be a direct child of <code>container</code> in the DOM tree.</li>
 <li><code>resolution: Resolution, optional</code>. The <a href="../resolution/">resolution</a> of the virtual scene.</li>
 <li><code>canvas: HTMLCanvasElement, optional</code>. An existing canvas on which the virtual scene will be drawn. The engine automatically creates a canvas. You should only specify an existing canvas if you must. Experimental.</li>
-<li><code>style: string, optional.</code> The <a href="#style">viewport style</a>. <em>Since:</em> 0.3.0</li>
+<li><code>style: string, optional</code>. The <a href="#style">viewport style</a>. <em>Since:</em> 0.3.0</li>
+<li><code>fullscreenUI: boolean, optional</code>. Whether or not to include, as a convenience, the built-in fullscreen button on platforms in which the fullscreen mode is <a href="#fullscreenavailable">available</a>. Defaults to <code>true</code>. <em>Since:</em> 0.3.0</li>
 </ul>
 </li>
 </ul>
@@ -1822,7 +1837,7 @@
 <p><code>viewport.canvas: HTMLCanvasElement, read-only</code></p>
 <p>A <code>&lt;canvas&gt;</code> on which the virtual scene is drawn.</p>
 <h3 id="style">style</h3>
-<p><code>viewport.style: string</code></p>
+<p><code>viewport.style: string, read-only</code></p>
 <p>The style determines the way the viewport appears on the screen. Different styles are applicable to different <a href="../session/#mode">session modes</a>. The following are valid styles:</p>
 <ul>
 <li><code>"best-fit"</code>: an immersive viewport that is scaled in a way that covers the page while preserving the aspect ratio of the augmented scene.</li>
@@ -1833,11 +1848,11 @@
 <p><em>Since:</em> 0.3.0</p>
 <h3 id="fullscreen">fullscreen</h3>
 <p><code>viewport.fullscreen: boolean, read-only</code></p>
-<p>Whether or not the viewport <a href="#container">container</a> is being displayed in fullscreen mode.</p>
+<p>Whether or not the viewport <a href="#container">container</a> is being displayed in fullscreen mode. See also: <a href="#requestfullscreen">requestFullscreen</a>.</p>
 <p><em>Since:</em> 0.3.0</p>
 <h3 id="fullscreenavailable">fullscreenAvailable</h3>
 <p><code>viewport.fullscreenAvailable: boolean, read-only</code></p>
-<p>Checks the availability of the fullscreen mode on the current platform and page.</p>
+<p>Used to check the availability of the fullscreen mode on the current platform and page.</p>
 <p><em>Since:</em> 0.3.0</p>
 <h2 id="methods">Methods</h2>
 <h3 id="requestfullscreen">requestFullscreen</h3>
@@ -1877,9 +1892,20 @@
 <h3 id="resize">resize</h3>
 <p>The viewport has been resized. This will happen when the user resizes the window of the web browser or when the mobile device is flipped.</p>
 <p><strong>Example</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">viewport</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">,</span> <span class="nx">event</span> <span class="p">=&gt;</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">viewport</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;resize&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;The viewport has been resized.&#39;</span><span class="p">);</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">});</span>
+</code></pre></div>
+<h3 id="fullscreenchange">fullscreenchange</h3>
+<p>The viewport has been switched into or out of fullscreen mode.</p>
+<p><em>Since:</em> 0.3.0</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">viewport</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;fullscreenchange&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="k">if</span><span class="p">(</span><span class="nx">viewport</span><span class="p">.</span><span class="nx">fullscreen</span><span class="p">)</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Switched into fullscreen mode&#39;</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">else</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Switched out of fullscreen mode&#39;</span><span class="p">);</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">});</span>
 </code></pre></div>
 
               
@@ -1954,7 +1980,7 @@
 <!-- Copyright and theme information - modified by Alexandre -->
 <div class="md-copyright">
     <div class="md-copyright__highlight">
-      encantAR.js: GPU-accelerated Augmented Reality for the web.
+      encantar.js: GPU-accelerated Augmented Reality for the web.
       Copyright &copy; 2022 - present Alexandre Martins.
     </div>
   

@@ -592,7 +592,7 @@ AFRAME.registerComponent('ar-camera-source', ARComponent({
 
     schema: {
 
-        /** video resolution: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" */
+        /** video resolution */
         'resolution': { type: 'string', default: 'md' },
 
         /** facing mode: "environment" | "user" */
@@ -741,8 +741,8 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
 
     schema: {
 
-        /** resolution of the tracker: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" */
-        'resolution': { type: 'string', default: 'sm+' },
+        /** resolution of the tracker */
+        'resolution': { type: 'string', default: 'sm' },
 
     },
 
@@ -836,7 +836,7 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
 
     schema: {
 
-        /** viewport resolution: "xs" | "xs+" | "sm" | "sm+" | "md" | "md+" | "lg" | "lg+" */
+        /** viewport resolution */
         'resolution': { type: 'string', default: 'lg' },
 
         /** viewport style: "best-fit" | "stretch" | "inline" */
@@ -854,6 +854,7 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
     {
         const scene = this.el.sceneEl;
         const huds = [];
+        const fullscreenUI = this.el.components['ar-viewport-fullscreen-ui'];
 
         for(const child of this.el.children) {
             if(child.components !== undefined) {
@@ -870,13 +871,16 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
         else if(huds.length == 0)
             huds.push(undefined);
 
-        return AR.Viewport({
-            container: this.el,
-            hudContainer: huds[0],
-            canvas: scene.canvas,
-            resolution: this.data.resolution,
-            style: this.data.style
-        });
+        return AR.Viewport(Object.assign(
+            {
+                container: this.el,
+                hudContainer: huds[0],
+                canvas: scene.canvas,
+                resolution: this.data.resolution,
+                style: this.data.style,
+            },
+            !fullscreenUI ? {} : { fullscreenUI: fullscreenUI.data.enabled }
+        ));
     },
 
 }));
@@ -887,9 +891,21 @@ AFRAME.registerPrimitive('ar-viewport', {
     },
     mappings: {
         'resolution': 'ar-viewport.resolution',
-        'style': 'ar-viewport.style'
+        'style': 'ar-viewport.style',
+        'fullscreen-ui': 'ar-viewport-fullscreen-ui'
     }
 });
+
+AFRAME.registerComponent('ar-viewport-fullscreen-ui', ARComponent({
+
+    schema: {
+
+        /** whether or not to include the built-in fullscreen button */
+        'enabled': { type: 'boolean', default: true },
+
+    }
+
+}));
 
 /**
  * AR Heads-Up Display

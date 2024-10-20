@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Enchant your users with WebAR experiences that run everywhere!">
+        <meta name="description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
       
       
         <meta name="author" content="Alexandre Martins">
@@ -19,7 +19,7 @@
     
     
       
-        <title>Introduction - encantAR.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>Introduction - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
@@ -56,8 +56,8 @@
 
     
     
-<meta property="og:title" content="Introduction - encantAR.js: GPU-accelerated Augmented Reality for the web">
-<meta property="og:description" content="Enchant your users with WebAR experiences that run everywhere!">
+<meta property="og:title" content="Introduction - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
 <meta property="og:url" content="https://alemart.github.io/encantar-js/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -97,7 +97,7 @@
 
 <header class="md-header md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -110,7 +110,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            encantAR.js: GPU-accelerated Augmented Reality for the web
+            encantar.js: GPU-accelerated Augmented Reality for the web
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -287,13 +287,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="encantAR.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantAR.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
     </a>
-    encantAR.js: GPU-accelerated Augmented Reality for the web
+    encantar.js: GPU-accelerated Augmented Reality for the web
   </label>
   
     <div class="md-nav__source">
@@ -1526,15 +1526,23 @@
 <p>Augmented Reality (AR) has applications in many fields, including: games, marketing, commerce, education, arts, tourism, sports, healthcare, and so on. AR brings many exciting possibilities for creative projects - and you too can get into it!</p>
 <p>Traditionally, users were required to download (sometimes large) apps to experience AR. That was an obstacle for adoption. What if we dropped the need for apps and just required a web browser instead? Users already have web browsers! That's where WebAR comes in.</p>
 <figure>
-<video autoplay="autoplay" controls="controls" loop="loop" muted="muted" oncanplay="this.muted=true;this.play()" playsinline="playsinline" poster="../../img/demo-cool3.webp" style="width:600px">
+<!--
+<video poster="../../img/demo-cool3.webp" style="width:600px" controls muted loop playsinline autoplay oncanplay="this.muted=true;this.play()">
     <source src="../../img/demo-cool3.webm" type="video/webm" />
     <source src="../../img/demo-cool3.mp4" type="video/mp4" />
 </video>
+-->
+<p><img alt="Demo" src="../../img/mage.gif" /></p>
 <figcaption>Image Tracking</figcaption>
 </figure>
+<div class="admonition tip">
+<p class="admonition-title">In a hurry?</p>
+<p>This guide is an in-depth introduction to web-based Augmented Reality with encantar.js. If you're in a hurry, skip straight to the <a href="../../demos/">Demos</a> section.</p>
+</div>
 <h2 id="what-to-expect-from-this-guide">What to expect from this guide</h2>
 <p>We will create together an Augmented Reality experience that runs in web browsers. You will learn how to track an image in real-time. This is a common use case of Augmented Reality technology.</p>
 <p>No matter if you are a beginner, an expert, or somewhere in-between, set yourself at ease: this step-by-step guide can be followed by you.</p>
+<p><a class="md-button" href="../concepts/">Get started</a></p>
 
               
 
@@ -1608,7 +1616,7 @@
 <!-- Copyright and theme information - modified by Alexandre -->
 <div class="md-copyright">
     <div class="md-copyright__highlight">
-      encantAR.js: GPU-accelerated Augmented Reality for the web.
+      encantar.js: GPU-accelerated Augmented Reality for the web.
       Copyright &copy; 2022 - present Alexandre Martins.
     </div>
   

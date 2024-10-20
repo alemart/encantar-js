@@ -1,6 +1,6 @@
 body {
-    background-color: black;
-    background-image: url("../assets/poster.svg"), linear-gradient(black, 20%, #46346a);
+    background-color: #46346a;
+    background-image: url("../assets/poster.svg");
     background-position: center;
     background-repeat: no-repeat;
     height: 100vh;
@@ -17,23 +17,28 @@ body {
 
 #about {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 0px;
+    top: 0px;
+    width: 80px;
+    height: 80px;
 
-    display: inline-block;
+    display: flex;
+    align-items: center;
     margin: 0;
-    padding: 0 0.25em;
+    padding: 0;
 
     color: #fff;
-    font-size: 48px;
+    font-size: 56px;
     font-weight: bold;
     font-family: monospace;
     text-decoration: none;
     text-align: center;
 
-    border-bottom: 4px solid;
-    border-color: #5c3ba3;
-    background: linear-gradient(0deg, #7b5ec4 0%, #bb7aff 100%);
+    border-width: 0 0 2px 2px;
+    border-radius: 0 0 0 8px;
+    border-style: solid;
+    border-color: #673ab6;
+    background: linear-gradient(0deg, #7e56c2 0%, #9574cd 100%);
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -43,12 +48,14 @@ body {
 }
 
 #about:active {
-    border-color: #a5a500;
-    background: linear-gradient(0deg, #cccc00 0%, #ffff00 100%);
+    border-color: #ddc300;
+    background: linear-gradient(0deg, #ffd500 0%, #ffff00 100%);
 }
 
 #about::before {
     content: '\24D8';
+    width: 100%;
+    text-align: center;
 }
 
 #about:focus {

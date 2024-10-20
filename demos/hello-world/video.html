@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR template</title>
+        <title>encantar.js WebAR template</title>
         <link href="demo.css" rel="stylesheet">
         <script src="../../dist/encantar.min.js"></script>
         <script src="demo.js"></script>
@@ -11,11 +11,12 @@
     <body>
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
-                <img id="scan" src="../assets/scan.png">
+                <img id="scan" src="../assets/scan.png" draggable="false">
                 <a id="about" href="NOTICE.html"></a>
             </div>
         </div>
-        <img id="my-reference-image" src="../assets/my-reference-image.webp" hidden>
+        <img id="mage" src="../assets/mage.webp" hidden>
+        <img id="cat" src="../assets/cat.webp" hidden>
         <video id="my-video" hidden muted loop playsinline autoplay>
             <source src="../assets/my-video.webm" type="video/webm" />
             <source src="../assets/my-video.mp4" type="video/mp4" />

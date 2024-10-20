@@ -14,9 +14,10 @@
     animation: heart 1000ms infinite;
 }
 
-.transparent-background {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAABlBMVEWZmZlmZmZYfKrVAAAAE0lEQVQI12P4/5+BgZoEA3VNBADtvT/BrQ+bEwAAAABJRU5ErkJggg==);
-    background-repeat: repeat;
+/* Buttons */
+
+.md-button {
+    border-radius: 100px !important;
 }
 
 /* Responsive videos */
@@ -24,101 +25,4 @@
 .md-typeset video {
     height: auto;
     max-width: 100%;
-}
-
-/* Share buttons */
-
-.share-buttons {
-  font-size: .5rem;
-  margin: 8px 0 8px 0;
-}
-
-@media screen and (min-width: 1220px) {
-  .share-buttons {
-    float: right;
-    margin-left: 16px;
-  }
-}
-
-.resp-sharing-button__link,
-.resp-sharing-button__icon {
-  display: inline-block
-}
-
-.resp-sharing-button__link {
-  text-decoration: none;
-  color: #fff;
-  /*margin: 0.5em*/
-}
-
-.resp-sharing-button {
-  color: #fff;
-  margin: 0.5em
-  border-radius: 5px;
-  transition: 25ms ease-out;
-  padding: 0.5em 0.75em;
-  font-family: Helvetica Neue,Helvetica,Arial,sans-serif
-}
-
-.resp-sharing-button__icon svg {
-  width: 1em;
-  height: 1em;
-  margin-right: 0.4em;
-  vertical-align: top
-}
-
-.resp-sharing-button--small svg {
-  margin: 0;
-  vertical-align: middle
-}
-
-/* Non solid icons get a stroke */
-.resp-sharing-button__icon {
-  stroke: #fff;
-  fill: none
-}
-
-/* Solid icons get a fill */
-.resp-sharing-button__icon--solid,
-.resp-sharing-button__icon--solidcircle {
-  fill: #fff;
-  stroke: none
-}
-
-.resp-sharing-button--twitter {
-  background-color: #55acee
-}
-
-.resp-sharing-button--twitter:hover {
-  background-color: #2795e9
-}
-
-.resp-sharing-button--facebook {
-  background-color: #3b5998
-}
-
-.resp-sharing-button--facebook:hover {
-  background-color: #2d4373
-}
-
-.resp-sharing-button--facebook {
-  background-color: #3b5998;
-  border-color: #3b5998;
-}
-
-.resp-sharing-button--facebook:hover,
-.resp-sharing-button--facebook:active {
-  background-color: #2d4373;
-  border-color: #2d4373;
-}
-
-.resp-sharing-button--twitter {
-  background-color: #55acee;
-  border-color: #55acee;
-}
-
-.resp-sharing-button--twitter:hover,
-.resp-sharing-button--twitter:active {
-  background-color: #2795e9;
-  border-color: #2795e9;
 }

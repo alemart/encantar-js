@@ -15,7 +15,7 @@ class Utils
         const loader = new THREE.GLTFLoader();
         const gltf = await loader.loadAsync(filepath);
 
-        // glTF defines +y as up. We expect +z to be up.
+        // glTF defines +y as up. We expect +z to be up (when XY is the ground plane)
         if(yAxisIsUp)
             gltf.scene.rotateX(Math.PI / 2);
 
