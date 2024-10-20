@@ -4,7 +4,7 @@ In this section we're going to learn how to use your webcam to capture the video
 
 ## Change the source of data
 
-Instead of using a video file, we're going to use your webcam. We simply need to change the source of data and instruct encantar.js to use your webcam. We'll do it with 1 new line of code!
+Instead of using a video file, we're going to use your webcam. We simply need to change the source of data and instruct encantar.js to use your webcam. We'll do it with one new line of code!
 
 ```js title="ar-demo.js" hl_lines="20-22"
 async function startARSession()
@@ -100,7 +100,7 @@ Here is the reference image in case you need it again:
 
 <figure markdown>
 [![/assets/my-reference-image.webp](../assets/my-reference-image.webp "Based on free image by ArtRose from https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/"){ width=512 }](../assets/my-reference-image.webp){ ._blank }
-<figcaption>Reference Image</figure>
+<figcaption>Reference Image</figcaption>
 </figure>
 
 
@@ -111,7 +111,7 @@ Let's polish our work. When the tracker is scanning the physical scene, we'll di
 Save the image below as [scan.png](../assets/scan.png){ ._blank }:
 
 <figure markdown>
-<span class="transparent-background" style="display:inline-block">
+<span class="transparent-grid">
 [![scan.png](../assets/scan.png)](../assets/scan.png){ ._blank }
 </span>
 <figcaption>Scan gimmick</figcaption>
@@ -119,14 +119,13 @@ Save the image below as [scan.png](../assets/scan.png){ ._blank }:
 
 In order to display that scan gimmick, we need to create a HUD (<em>Heads-Up Display</em>). A HUD is an overlay used to display 2D content in front of the augmented scene. It's part of the viewport. Modify `index.html` and `ar-demo.js` as follows:
 
-```html title="index.html" hl_lines="10-13 16-20"
+```html title="index.html" hl_lines="9-12 15-19"
 <!doctype html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>encantar.js WebAR demo</title>
-        <!-- <script> tags of the rendering engine of your choice -->
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
         <style>
@@ -301,4 +300,4 @@ async function startARSession()
 }
 ```
 
-Open <http://localhost:8000>{ ._blank } again. Enjoy your WebAR experience! :wink:
+Open <http://localhost:8000>{ ._blank } again. Now we're ready to create the augmented scene! :wink:

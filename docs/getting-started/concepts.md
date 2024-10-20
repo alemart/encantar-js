@@ -2,7 +2,7 @@
 
 Before diving into AR with you, I need to introduce a few concepts. Please take the time to read them all. Feel free to come back to this page at any time.
 
-## Fundamental concepts
+## What is Augmented Reality?
 
 Let me clarify what I mean by terms such as Augmented Reality and WebAR:
 
@@ -10,7 +10,7 @@ Let me clarify what I mean by terms such as Augmented Reality and WebAR:
 
     1.1. **AR** is an abbreviation of Augmented Reality.
 
-2. An **Augmented Reality experience** is a computer program designed to let users directly experience Augmented Reality[^1]. Augmented Reality experiences come in different shapes. Some are designed for smartphones and tablets, others for special headsets, and so on.
+2. An **Augmented Reality experience**, or Augmented Reality program, is a computer program designed to let users experience Augmented Reality[^1]. Augmented Reality experiences come in different shapes. Some are designed for smartphones and tablets, others for special headsets, and so on.
 
 3. **WebAR** is a set of technologies used to create Augmented Reality experiences that run in web browsers. WebAR makes it easy for users to experience AR, because they can have immediate access to the AR experiences. All they have to do is open a web page. They are not tied to specific platforms and they also don't need to download apps.
 
@@ -18,17 +18,17 @@ Let me clarify what I mean by terms such as Augmented Reality and WebAR:
 
 5. **encantar.js** is a WebAR technology. I also call it a WebAR engine. Lots of computations have to be performed behind the scenes in order to make an Augmented Reality experience possible. encantar.js uses the GPU[^2] to accelerate many of those computations. In fact, the GPU and the CPU[^3] are used together. This approach improves the performance of the WebAR experience and ultimately leads to a better user experience.
 
-Now that those terms are clarified, I say this: you can use encantar.js to create amazing WebAR experiences! :wink:
+You can use encantar.js to create amazing WebAR experiences! :wink:
 
-[^1]: This definition of AR experience is convenient in different ways. For example, it makes the term "WebAR experience", which is arguably better than "WebAR app" (no apps are downloaded), well-defined. I make a distinction between AR experience and experience of AR. An experience of AR is an event in consciousness in which AR is experienced. I sometimes use the latter definition.
+[^1]: An experience of AR is an event in consciousness in which AR is experienced. I sometimes use the latter definition.
 [^2]: Graphics Processing Unit
 [^3]: Central Processing Unit
 
-## Practical concepts
+## Basic concepts
 
 Let me explain some concepts that you'll see over and over again when developing WebAR experiences with encantar.js:
 
-1. The experience of Augmented Reality is created by augmenting the physical scene with the virtual scene.
+1. An Augmented Reality experience augments a physical scene with a virtual scene.
 
     1.1. The **physical scene** is a scene of the physical world.
 
@@ -38,7 +38,7 @@ Let me explain some concepts that you'll see over and over again when developing
 
 2. A **session** is a central component of a WebAR experience. It handles the **main loop**. The main loop performs two central tasks: it analyzes the input data and then passes the result of that analysis to the user callback.
 
-    2.1. The **user callback** is a function that updates and renders the virtual scene.
+    2.1. The **user callback** is a function that updates and renders the virtual scene. It is repeated in an **animation loop**, which is part of the main loop.
     
     2.2. The main loop is repeated until the session ends. The session ends when the user closes the web page, or by deliberate command.
 
@@ -56,8 +56,8 @@ Let me explain some concepts that you'll see over and over again when developing
 
 7. A session has a **mode**. The mode can be either immersive or inline.
 
-    7.1. In immersive mode, the augmented scene is displayed in such a way that it occupies, in a best-fit manner, the entire area of the screen in which the web page is shown. Think of it as a kind of fullscreen. The immersive mode is what is typically wanted.
+    7.1. In immersive mode, the augmented scene is displayed in such a way that it occupies the entire area of the screen in which the web page is shown. Think of it as a kind of fullscreen. The immersive mode is what is typically wanted.
     
     7.2. In inline mode, the augmented scene is displayed in a way that is consistent with the typical flow of a web page. We can display the augmented scene in a web page such as this one - in the middle of text, links and other elements.
 
-Did you read it all? Cool, so let's create our first WebAR experience! It gets to be fun, I promise! :wink:
+Now let's create our first WebAR experience! It gets to be fun, I promise! :wink:

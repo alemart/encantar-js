@@ -26,37 +26,7 @@ async function startARSession()
         image: document.getElementById('my-reference-image')
     }]);
 
-    const viewport = AR.Viewport({
-        container: document.getElementById('ar-viewport'),
-        hudContainer: document.getElementById('ar-hud')
-    });
-
-    //const video = document.getElementById('my-video');
-    //const source = AR.Source.Video(video);
-    const source = AR.Source.Camera();
-
-    const session = await AR.startSession({
-        mode: 'immersive',
-        viewport: viewport,
-        trackers: [ tracker ],
-        sources: [ source ],
-        stats: true,
-        gizmos: true,
-    });
-
-    const scan = document.getElementById('scan');
-
-    tracker.addEventListener('targetfound', event => {
-        scan.hidden = true;
-        session.gizmos.visible = false;
-    });
-
-    tracker.addEventListener('targetlost', event => {
-        scan.hidden = false;
-        session.gizmos.visible = true;
-    });
-
-    return session;
+    // ...
 }
 ```
 

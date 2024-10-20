@@ -10,7 +10,7 @@ Not all images are suitable for tracking. Images should be distinct, detailed an
 
 <figure markdown>
 [![../assets/my-reference-image.webp](../assets/my-reference-image.webp "Based on free image by ArtRose from https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/"){ width=512 }](../assets/my-reference-image.webp){ ._blank }
-<figcaption>Reference Image</figure>
+<figcaption>Reference Image</figcaption>
 </figure>
 
 Download the image to the `ar-demo/` folder. Save it as [my-reference-image.webp](../assets/my-reference-image.webp){ ._blank }.

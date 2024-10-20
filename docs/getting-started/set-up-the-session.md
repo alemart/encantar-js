@@ -195,9 +195,9 @@ async function startARSession()
 
 Now all you have to do to start a new session is call `startARSession()`!
 
-## Write the user callback
+## Start the animation loop
 
-The user callback is a function responsible for updating and rendering the virtual scene. We have no virtual scene at the moment, but we can already set up that function. In order to do this, we must call `session.requestAnimationFrame()` and pass the user callback as an argument.
+The animation loop repeatedly calls the user callback. The user callback is a function responsible for updating and rendering the virtual scene. We have no virtual scene at the moment, but we'll already set up that function. Let's call `session.requestAnimationFrame()` and pass the user callback as an argument:
 
 ```js title="ar-demo.js" hl_lines="6-11"
 window.onload = async function()
@@ -222,6 +222,8 @@ async function startARSession()
     // ...
 }
 ```
+
+Calling `session.requestAnimationFrame()` inside the user callback, `animate()` in this example, makes it loop until the session ends. Making that call outside the user callback starts the loop.
 
 !!! info "requestAnimationFrame"
 
