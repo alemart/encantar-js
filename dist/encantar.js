@@ -1,11 +1,11 @@
 /*!
- * encantAR.js version 0.3.0
+ * encantar.js version 0.3.0
  * GPU-accelerated Augmented Reality for the web
  * Copyright 2022-2024 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-10-05T04:17:49.391Z
+ * Date: 2024-10-20T01:13:15.146Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -19538,16 +19538,21 @@ class TrainingError extends BaseError {
  */
 
 
-/** Reference heights when in landscape mode, measured in pixels */
-const REFERENCE_HEIGHT = {
+/** A regex that identifies custom resolutions */
+const CUSTOM_RESOLUTION_REGEX = /^[1-9][0-9]?[0-9][02468]p$/;
+/** Reference heights when in landscape mode, measured in pixels, for all aliases */
+const ALIAS_TO_HEIGHT = {
     'xs': 120,
-    'xs+': 160,
-    'sm': 200,
-    'sm+': 240,
+    'xs+': 144,
+    'sm': 240,
+    'sm+': 288,
     'md': 320,
     'md+': 360,
     'lg': 480,
     'lg+': 600,
+    'xl': 720,
+    'xl+': 900,
+    'xxl': 1080,
 };
 /**
  * Convert a resolution type to a (width, height) pair
@@ -19556,25 +19561,37 @@ const REFERENCE_HEIGHT = {
  * @returns size in pixels
  */
 function computeResolution(resolution, aspectRatio) {
-    const referenceHeight = REFERENCE_HEIGHT[resolution];
+    const referenceHeight = parseHeight(resolution);
     let width = 0, height = 0;
-    if (referenceHeight === undefined)
+    if (Number.isNaN(referenceHeight))
         throw new IllegalArgumentError('Invalid resolution: ' + resolution);
     else if (aspectRatio <= 0)
         throw new IllegalArgumentError('Invalid aspect ratio: ' + aspectRatio);
     if (aspectRatio >= 1) {
         // landscape
         height = referenceHeight;
-        width = Math.round(height * aspectRatio);
-        width -= width % 2;
+        width = Math.floor(height * aspectRatio);
+        width += width % 2;
     }
     else {
         // portrait
         width = referenceHeight;
-        height = Math.round(width / aspectRatio);
-        height -= height % 2;
+        height = Math.floor(width / aspectRatio);
+        height += height % 2;
     }
     return speedy_vision_default().Size(width, height);
+}
+/**
+ * Get the height in pixels of a resolution
+ * @param resolution resolution type
+ * @returns the height in pixels, or NaN on error
+ */
+function parseHeight(resolution) {
+    if (ALIAS_TO_HEIGHT.hasOwnProperty(resolution))
+        return ALIAS_TO_HEIGHT[resolution];
+    if (CUSTOM_RESOLUTION_REGEX.test(resolution))
+        return parseInt(resolution);
+    return Number.NaN;
 }
 
 ;// CONCATENATED MODULE: ./src/utils/utils.ts
@@ -19891,7 +19908,7 @@ class Stats {
     }
 }
 
-;// CONCATENATED MODULE: ./src/core/stats-panel.ts
+;// CONCATENATED MODULE: ./src/ui/stats-panel.ts
 /*
  * encantar.js
  * GPU-accelerated Augmented Reality for the web
@@ -19915,7 +19932,6 @@ class Stats {
  */
 
 
-
 /** Update interval, in ms */
 const stats_panel_UPDATE_INTERVAL = 500;
 /** Icons for different power profiles */
@@ -19930,7 +19946,7 @@ const POWER_ICON = Object.freeze({
 class StatsPanel {
     /**
      * Constructor
-     * @param parent parent element of the panel
+     * @param viewport Viewport
      */
     constructor(viewport) {
         this._viewport = viewport;
@@ -20049,8 +20065,7 @@ class StatsPanel {
         title.style.fontSize = '14px';
         title.style.fontWeight = 'bold';
         title.style.padding = '2px';
-        title.innerHTML = '&#x2728;';
-        title.innerText += 'encantar.js ' + AR.version;
+        title.innerText = 'encantar.js ' + AR.version;
         return title;
     }
     /**
@@ -20074,179 +20089,11 @@ class StatsPanel {
         print('IN: <span class="_ar_in"></span>');
         print('<br>');
         print('OUT: <span class="_ar_out"></span>');
-        if (this._viewport.fullscreenAvailable) {
-            print('<br>');
-            content.appendChild(this._createFullscreenToggle());
-        }
         return content;
     }
-    /**
-     * Create a fullscreen toggle
-     * @returns a fullscreen toggle
-     */
-    _createFullscreenToggle() {
-        const toggle = document.createElement('a');
-        Utils.assert(this._viewport != null);
-        toggle.href = 'javascript:void(0)';
-        toggle.innerText = 'Toggle fullscreen';
-        toggle.style.color = 'white';
-        toggle.setAttribute('role', 'button');
-        toggle.addEventListener('click', () => {
-            if (!this._viewport.fullscreen) {
-                this._viewport.requestFullscreen().catch(err => {
-                    alert(`Can't enable fullscreen mode. ` + err.toString());
-                });
-            }
-            else {
-                this._viewport.exitFullscreen();
-            }
-        });
-        return toggle;
-    }
 }
 
-;// CONCATENATED MODULE: ./src/core/frame.ts
-/*
- * encantar.js
- * GPU-accelerated Augmented Reality for the web
- * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- * frame.ts
- * A Frame holds information used to render a single animation frame of a Session
- */
-/**
- * A Frame holds information used to render a single animation frame of a Session
- */
-class Frame {
-    /**
-     * Constructor
-     * @param session
-     * @param results
-     */
-    constructor(session, results) {
-        this._session = session;
-        this._results = results;
-    }
-    /**
-     * The session of which this frame holds data
-     */
-    get session() {
-        return this._session;
-    }
-    /**
-     * The results of all trackers in this frame
-     */
-    get results() {
-        // we want to be able to iterate over the results of a frame multiple times
-        return this._results[Symbol.iterator]();
-    }
-}
-
-;// CONCATENATED MODULE: ./src/core/time.ts
-/*
- * encantar.js
- * GPU-accelerated Augmented Reality for the web
- * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- * time.ts
- * Time utilities
- */
-/**
- * Time Manager
- */
-class Time {
-    constructor() {
-        /** time scale */
-        this._scale = 1;
-        /** time since the start of the session, in milliseconds */
-        this._time = 0;
-        /** unscaled time since the start of the session, in milliseconds */
-        this._unscaledTime = 0;
-        /** elapsed time between the current and the previous frame, in milliseconds */
-        this._delta = 0;
-        /** time of the first update call, in milliseconds */
-        this._firstUpdate = 0;
-        /** time of the last update call, in milliseconds */
-        this._lastUpdate = Number.POSITIVE_INFINITY;
-    }
-    /**
-     * Update the Time Manager
-     * @param timestamp in milliseconds
-     * @internal
-     */
-    _update(timestamp) {
-        if (timestamp < this._lastUpdate) {
-            this._firstUpdate = this._lastUpdate = timestamp;
-            return;
-        }
-        this._delta = (timestamp - this._lastUpdate) * this._scale;
-        this._time += this._delta;
-        this._unscaledTime = timestamp - this._firstUpdate;
-        this._lastUpdate = timestamp;
-    }
-    /**
-     * Elapsed time since the start of the session, measured at the
-     * beginning of the current animation frame and given in seconds
-     */
-    get elapsed() {
-        return this._time * 0.001;
-    }
-    /**
-     * Elapsed time between the current and the previous animation
-     * frame, given in seconds
-     */
-    get delta() {
-        return this._delta * 0.001;
-    }
-    /**
-     * Time scale (defaults to 1)
-     */
-    get scale() {
-        return this._scale;
-    }
-    /**
-     * Time scale (defaults to 1)
-     */
-    set scale(scale) {
-        this._scale = Math.max(0, +scale);
-    }
-    /**
-     * Time scale independent elapsed time since the start of the session,
-     * measured at the beginning of the current animation frame and given
-     * in seconds
-     */
-    get unscaled() {
-        return this._unscaledTime * 0.001;
-    }
-}
-
-;// CONCATENATED MODULE: ./src/core/gizmos.ts
+;// CONCATENATED MODULE: ./src/ui/gizmos.ts
 /*
  * encantar.js
  * GPU-accelerated Augmented Reality for the web
@@ -20470,6 +20317,147 @@ class Gizmos {
     }
 }
 
+;// CONCATENATED MODULE: ./src/core/frame.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * frame.ts
+ * A Frame holds information used to render a single animation frame of a Session
+ */
+/**
+ * A Frame holds information used to render a single animation frame of a Session
+ */
+class Frame {
+    /**
+     * Constructor
+     * @param session
+     * @param results
+     */
+    constructor(session, results) {
+        this._session = session;
+        this._results = results;
+    }
+    /**
+     * The session of which this frame holds data
+     */
+    get session() {
+        return this._session;
+    }
+    /**
+     * The results of all trackers in this frame
+     */
+    get results() {
+        // we want to be able to iterate over the results of a frame multiple times
+        return this._results[Symbol.iterator]();
+    }
+}
+
+;// CONCATENATED MODULE: ./src/core/time.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * time.ts
+ * Time utilities
+ */
+/**
+ * Time Manager
+ */
+class Time {
+    constructor() {
+        /** time scale */
+        this._scale = 1;
+        /** time since the start of the session, in milliseconds */
+        this._time = 0;
+        /** unscaled time since the start of the session, in milliseconds */
+        this._unscaledTime = 0;
+        /** elapsed time between the current and the previous frame, in milliseconds */
+        this._delta = 0;
+        /** time of the first update call, in milliseconds */
+        this._firstUpdate = 0;
+        /** time of the last update call, in milliseconds */
+        this._lastUpdate = Number.POSITIVE_INFINITY;
+    }
+    /**
+     * Update the Time Manager
+     * @param timestamp in milliseconds
+     * @internal
+     */
+    _update(timestamp) {
+        if (timestamp < this._lastUpdate) {
+            this._firstUpdate = this._lastUpdate = timestamp;
+            return;
+        }
+        this._delta = (timestamp - this._lastUpdate) * this._scale;
+        this._time += this._delta;
+        this._unscaledTime = timestamp - this._firstUpdate;
+        this._lastUpdate = timestamp;
+    }
+    /**
+     * Elapsed time since the start of the session, measured at the
+     * beginning of the current animation frame and given in seconds
+     */
+    get elapsed() {
+        return this._time * 0.001;
+    }
+    /**
+     * Elapsed time between the current and the previous animation
+     * frame, given in seconds
+     */
+    get delta() {
+        return this._delta * 0.001;
+    }
+    /**
+     * Time scale (defaults to 1)
+     */
+    get scale() {
+        return this._scale;
+    }
+    /**
+     * Time scale (defaults to 1)
+     */
+    set scale(scale) {
+        this._scale = Math.max(0, +scale);
+    }
+    /**
+     * Time scale independent elapsed time since the start of the session,
+     * measured at the beginning of the current animation frame and given
+     * in seconds
+     */
+    get unscaled() {
+        return this._unscaledTime * 0.001;
+    }
+}
+
 ;// CONCATENATED MODULE: ./src/utils/asap.ts
 /*
  * encantar.js
@@ -20592,26 +20580,11 @@ class Session extends AREventTarget {
         this._gizmos = new Gizmos();
         this._gizmos.visible = gizmos;
         // validate the mode
-        if (mode == 'immersive') {
-            if (viewport.style != 'best-fit' && viewport.style != 'stretch') {
-                Utils.warning(`Invalid viewport style \"${viewport.style}\" for the \"${mode}\" mode`);
-                viewport.style = 'best-fit';
-            }
-        }
-        else if (mode == 'inline') {
-            if (viewport.style != 'inline') {
-                Utils.warning(`Invalid viewport style \"${viewport.style}\" for the \"${mode}\" mode`);
-                viewport.style = 'inline';
-            }
-        }
-        else
+        if (mode != 'immersive' && mode != 'inline')
             throw new IllegalArgumentError(`Invalid session mode "${mode}"`);
-        // get media
-        const media = this.media;
-        const getMediaSize = () => media.size;
         // setup the viewport
         this._viewport = viewport;
-        this._viewport._init(getMediaSize);
+        this._viewport._init(() => this.media.size, mode);
         // setup the main loop
         this._setupUpdateLoop();
         this._setupRenderLoop();
@@ -21184,16 +21157,19 @@ class ReferenceImageDatabase {
         const referenceImage = referenceImages[0];
         // locked database?
         if (this._locked)
-            throw new IllegalOperationError(`Can't add reference image to the database: it's locked`);
+            throw new IllegalOperationError(`Can't add reference image "${referenceImage.name}" to the database: it's locked`);
         // busy loading another image?
         if (this._busy)
             return Utils.wait(4).then(() => this.add(referenceImages)); // try again later
         // reached full capacity?
         if (this.count >= this.capacity)
-            throw new IllegalOperationError(`Can't add reference image to the database: the capacity of ${this.capacity} images has been exceeded.`);
+            throw new IllegalOperationError(`Can't add reference image "${referenceImage.name}" to the database: the capacity of ${this.capacity} images has been exceeded.`);
+        // check if the image is valid
+        if (!(referenceImage.image instanceof HTMLImageElement) && !(referenceImage.image instanceof HTMLCanvasElement) && !(referenceImage.image instanceof ImageBitmap))
+            throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: invalid image`);
         // check for duplicate names
         if (this._database.find(entry => entry.referenceImage.name === referenceImage.name) !== undefined)
-            throw new IllegalArgumentError(`Can't add reference image to the database: found duplicated name "${referenceImage.name}"`);
+            throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: found duplicated name`);
         // load the media and add the reference image to the database
         this._busy = true;
         return speedy_vision_default().load(referenceImage.image).then(media => {
@@ -21251,7 +21227,7 @@ class ReferenceImageDatabase {
  * Settings of the Image Tracker
  */
 /** Default tracking resolution */
-const DEFAULT_TRACKING_RESOLUTION = 'sm+';
+const DEFAULT_TRACKING_RESOLUTION = 'sm';
 /** Maximum number of keypoints to be stored for each reference image when in the training state */
 const TRAIN_MAX_KEYPOINTS = 1024; //512;
 /** Percentage relative to the screen size adjusted to the aspect ratio of the reference image */
@@ -25377,6 +25353,127 @@ class HUD {
     }
 }
 
+;// CONCATENATED MODULE: ./src/ui/fullscreen-button.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * fullscreen-button.ts
+ * A built-in fullscreen button introduced as a convenience
+ */
+/** Button icon to be displayed when the fullscreen mode is disabled */
+const BUTTON_ICON_OFF = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAbUlEQVRYR+2WOQ4AIAgE5f+PVhobDZANBZAsraAwXMoqFil+f9GBj8BW8dIiKt45at/XgShStHgvmfdekwAdIIEyAmh1Z/U5ikmABPoRsLZWtt+5DUlgHgGr6qM1Pf9XnO131L7fJEQjyOqXEzjP1YAhNmUTrgAAAABJRU5ErkJggg==';
+/** Button icon to be displayed when the fullscreen mode is enabled */
+const BUTTON_ICON_ON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAZElEQVRYR+2WwRIAEAhE9f8fTQ5OhtkLxbzOyc5rJSvBYcH3FwTIBKpHb5d57Nqm5o0aCIBAPgLDxSunq69APT8RCBdwezTLHjglDAEQgEC+QZR2EqqbjprHRgSB9wjwHX9LoAHP1YAhXF4Z/QAAAABJRU5ErkJggg==';
+/** Button size, in pixels */
+const BUTTON_SIZE = 64;
+/** Button margin, in pixels */
+const BUTTON_MARGIN = 24;
+/**
+ * Built-in fullscreen button
+ */
+class FullscreenButton {
+    /**
+     * Constructor
+     * @param viewport Viewport
+     */
+    constructor(viewport) {
+        this._viewport = viewport;
+        this._button = this._createButton();
+        this._boundEventHandler = this._handleFullscreenEvent.bind(this);
+    }
+    /**
+     * Initialize
+     */
+    init() {
+        this._viewport.hud.container.appendChild(this._button);
+        this._viewport.addEventListener('fullscreenchange', this._boundEventHandler);
+    }
+    /**
+     * Release
+     */
+    release() {
+        this._viewport.removeEventListener('fullscreenchange', this._boundEventHandler);
+        this._button.remove();
+    }
+    /**
+     * Create the <button> element
+     */
+    _createButton() {
+        const button = document.createElement('button');
+        const icon = document.createElement('img');
+        button.style.position = 'absolute';
+        button.style.bottom = BUTTON_MARGIN + 'px';
+        button.style.right = BUTTON_MARGIN + 'px';
+        button.style.width = BUTTON_SIZE + 'px';
+        button.style.height = BUTTON_SIZE + 'px';
+        button.style.display = 'flex';
+        button.style.alignItems = 'center';
+        button.style.padding = '2px';
+        button.style.opacity = '0.5';
+        button.style.outline = 'none';
+        button.style.cursor = 'pointer';
+        button.draggable = false;
+        button.style.backgroundColor = 'transparent';
+        button.style.borderColor = 'white';
+        button.style.borderStyle = 'solid';
+        button.style.borderWidth = '2px';
+        button.style.borderRadius = '8px';
+        icon.src = BUTTON_ICON_OFF;
+        icon.draggable = false;
+        icon.style.display = 'inline-block';
+        icon.style.width = '100%';
+        icon.style.height = '100%';
+        icon.style.imageRendering = 'pixelated';
+        button.appendChild(icon);
+        const highlight = () => {
+            button.style.backgroundColor = '#ffd500';
+            button.style.borderColor = '#ffd500';
+            button.style.opacity = '1.0';
+        };
+        const dehighlight = () => {
+            button.style.backgroundColor = 'transparent';
+            button.style.borderColor = 'white';
+            button.style.opacity = '0.5';
+        };
+        button.addEventListener('pointerdown', highlight);
+        button.addEventListener('pointerup', dehighlight);
+        button.addEventListener('pointerleave', dehighlight);
+        button.addEventListener('click', () => {
+            if (!this._viewport.fullscreen) {
+                this._viewport.requestFullscreen().catch(err => {
+                    alert(`Can't enable the fullscreen mode. ` + err.toString());
+                });
+            }
+            else {
+                this._viewport.exitFullscreen();
+            }
+        });
+        return button;
+    }
+    /**
+     * Handle a fullscreenchange event
+     */
+    _handleFullscreenEvent(event) {
+        const icon = this._button.querySelector('img');
+        icon.src = this._viewport.fullscreen ? BUTTON_ICON_ON : BUTTON_ICON_OFF;
+    }
+}
+
 ;// CONCATENATED MODULE: ./src/core/viewport.ts
 /*
  * encantar.js
@@ -25404,6 +25501,8 @@ class HUD {
 
 
 
+
+
 /** An event emitted by a Viewport */
 class ViewportEvent extends AREvent {
 }
@@ -25417,6 +25516,7 @@ const DEFAULT_VIEWPORT_SETTINGS = {
     resolution: 'lg',
     style: 'best-fit',
     canvas: null,
+    fullscreenUI: true,
 };
 /** Base z-index of the children of the viewport container */
 const BASE_ZINDEX = 0;
@@ -25488,11 +25588,15 @@ class ViewportCanvases {
             throw new IllegalArgumentError('Not a canvas: ' + fgCanvas);
         this._originalCSSTextOfForegroundCanvas = fgCanvas ? fgCanvas.style.cssText : '';
         this._foregroundCanvas = this._styleCanvas(fgCanvas || this._createCanvas(initialSize), FOREGROUND_ZINDEX);
+        this._foregroundCanvas.style.background = 'transparent';
         this._backgroundCanvas = this._styleCanvas(this._createCanvas(initialSize), BACKGROUND_ZINDEX);
-        parent.appendChild(this._backgroundCanvas);
-        parent.appendChild(this._foregroundCanvas);
         this._backgroundCanvas.hidden = true;
         this._foregroundCanvas.hidden = true;
+        const engineInfo = 'encantar.js ' + AR.version;
+        this._backgroundCanvas.dataset.arEngine = engineInfo;
+        this._foregroundCanvas.dataset.arEngine = engineInfo;
+        parent.appendChild(this._backgroundCanvas);
+        parent.appendChild(this._foregroundCanvas);
     }
     /**
      * The background canvas
@@ -25555,10 +25659,24 @@ class ViewportCanvases {
 class ViewportFullscreenHelper {
     /**
      * Constructor
-     * @param _container the container which will be put in fullscreen
+     * @param viewport Viewport
      */
-    constructor(_container) {
-        this._container = _container;
+    constructor(viewport) {
+        this._viewport = viewport;
+        this._container = viewport.container;
+        this._boundEventHandler = this._triggerEvent.bind(this);
+    }
+    /**
+     * Initialize
+     */
+    init() {
+        this._container.addEventListener('fullscreenchange', this._boundEventHandler);
+    }
+    /**
+     * Release
+     */
+    release() {
+        this._container.removeEventListener('fullscreenchange', this._boundEventHandler);
     }
     /**
      * Make a request to the user agent so that the viewport container is
@@ -25658,6 +25776,13 @@ class ViewportFullscreenHelper {
             return document.webkitFullscreenElement === this._container;
         else
             return false;
+    }
+    /**
+     * Trigger a fullscreenchange event
+     */
+    _triggerEvent() {
+        const event = new ViewportEvent('fullscreenchange');
+        this._viewport.dispatchEvent(event);
     }
 }
 /**
@@ -25900,9 +26025,12 @@ class Viewport extends ViewportEventTarget {
         this._containers = new ViewportContainers(settings.container);
         this._hud = new HUD(this._subContainer, settings.hudContainer);
         this._canvases = new ViewportCanvases(this._subContainer, initialSize, settings.canvas);
-        this._fullscreen = new ViewportFullscreenHelper(this.container);
         this._resizer = new ViewportResizer(this);
         this._resizer.setStrategyByName(this._style);
+        this._fullscreen = new ViewportFullscreenHelper(this);
+        this._fullscreenButton = null;
+        if (settings.fullscreenUI && this.fullscreenAvailable)
+            this._fullscreenButton = new FullscreenButton(this);
     }
     /**
      * Viewport container
@@ -25919,13 +26047,16 @@ class Viewport extends ViewportEventTarget {
     /**
      * Set viewport style
      */
-    set style(value) {
+    /*
+    set style(value: ViewportStyle)
+    {
         // note: the viewport style is independent of the session mode!
-        if (value !== this._style) {
+        if(value !== this._style) {
             this._resizer.setStrategyByName(value);
             this._style = value;
         }
     }
+    */
     /**
      * HUD
      */
@@ -26002,20 +26133,45 @@ class Viewport extends ViewportEventTarget {
     }
     /**
      * Initialize the viewport (when the session starts)
+     * @param getMediaSize
+     * @param sessionMode
      * @internal
      */
-    _init(getMediaSize) {
+    _init(getMediaSize, sessionMode) {
+        var _a;
+        // validate if the viewport style matches the session mode
+        if (sessionMode == 'immersive') {
+            if (this._style != 'best-fit' && this._style != 'stretch') {
+                Utils.warning(`Invalid viewport style \"${this._style}\" for the \"${sessionMode}\" mode`);
+                this._style = 'best-fit';
+                this._resizer.setStrategyByName(this._style);
+            }
+        }
+        else if (sessionMode == 'inline') {
+            if (this._style != 'inline') {
+                Utils.warning(`Invalid viewport style \"${this._style}\" for the \"${sessionMode}\" mode`);
+                this._style = 'inline';
+                this._resizer.setStrategyByName(this._style);
+            }
+        }
+        // set the media size getter
         this._mediaSize = getMediaSize;
+        // initialize the components
         this._containers.init();
         this._hud._init(HUD_ZINDEX);
         this._canvases.init();
         this._resizer.init();
+        this._fullscreen.init();
+        (_a = this._fullscreenButton) === null || _a === void 0 ? void 0 : _a.init();
     }
     /**
      * Release the viewport (when the session ends)
      * @internal
      */
     _release() {
+        var _a;
+        (_a = this._fullscreenButton) === null || _a === void 0 ? void 0 : _a.release();
+        this._fullscreen.release();
         this._resizer.release();
         this._canvases.release();
         this._hud._release();
@@ -26118,7 +26274,7 @@ Object.freeze(AR);
 // Add Speedy Vision to global scope
 ((window) => window.Speedy = window.Speedy || (speedy_vision_default()))(window);
 // Display a notice
-Utils.log(`encantAR.js version ${AR.version}. ` +
+Utils.log(`encantar.js version ${AR.version}. ` +
     `GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` +
     "https://github.com/alemart/encantar-js");
 
