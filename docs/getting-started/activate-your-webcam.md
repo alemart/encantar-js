@@ -4,7 +4,7 @@ In this section we're going to learn how to use your webcam to capture the video
 
 ## Change the source of data
 
-Instead of using a video file, we're going to use your webcam. We simply need to change the source of data and instruct encantAR.js to use your webcam. We'll do it with 1 new line of code!
+Instead of using a video file, we're going to use your webcam. We simply need to change the source of data and instruct encantar.js to use your webcam. We'll do it with 1 new line of code!
 
 ```js title="ar-demo.js" hl_lines="20-22"
 async function startARSession()
@@ -51,7 +51,7 @@ Let's also comment (or remove) the `<video>` tag from the HTML file - we no long
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR demo</title>
+        <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
         <style>body { background-color: #3d5afe; }</style>
@@ -81,7 +81,7 @@ Open <http://localhost:8000>{ ._blank } and... ta-da! The web browser will ask f
 
 !!! tip "Check your physical scene"
 
-    Good lighting conditions are important for a good user experience. Even though the encantAR.js can handle various lighting conditions, you should get your physical scene appropriately illuminated.
+    Good lighting conditions are important for a good user experience. Even though the encantar.js can handle various lighting conditions, you should get your physical scene appropriately illuminated.
 
     When developing your own WebAR experiences, ask yourself:
     
@@ -125,7 +125,7 @@ In order to display that scan gimmick, we need to create a HUD (<em>Heads-Up Dis
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR demo</title>
+        <title>encantar.js WebAR demo</title>
         <!-- <script> tags of the rendering engine of your choice -->
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>

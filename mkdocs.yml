@@ -1,7 +1,7 @@
-site_name: "encantAR.js: GPU-accelerated Augmented Reality for the web"
+site_name: "encantar.js: GPU-accelerated Augmented Reality for the web"
 site_url: https://alemart.github.io/encantar-js
 site_author: Alexandre Martins
-site_description: Enchant your users with WebAR experiences that run everywhere!
+site_description: Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web
 copyright: Copyright &copy; 2022 - present Alexandre Martins
 
 repo_name: alemart/encantar-js

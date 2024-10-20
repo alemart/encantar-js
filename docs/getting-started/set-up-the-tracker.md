@@ -23,7 +23,7 @@ Next, let's add the reference image to our web page. Add an `<img>` tag to the `
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR demo</title>
+        <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
@@ -50,7 +50,7 @@ Once you see that the image is being properly loaded, there is no need to keep i
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR demo</title>
+        <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
@@ -88,7 +88,7 @@ Let's include the test video in our page. Add a `<video>` tag as follows:
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR demo</title>
+        <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
     </head>
@@ -116,7 +116,7 @@ We'll be writing a little bit of JavaScript code now. In order to keep our code 
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR demo</title>
+        <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
         <style>body { background-color: #3d5afe; }</style>
@@ -154,7 +154,7 @@ window.onload = async function()
 
 The `AR` namespace holds the various elements featured by the engine. We'll be using it extensively.
 
-encantAR.js only requires standard web technologies that have been around for a while. Still, it's a good practice to check if those technologies are supported by the target system. If they are not, we display a message and quit. If they are, we instantiate an Image Tracker.
+encantar.js only requires standard web technologies that have been around for a while. Still, it's a good practice to check if those technologies are supported by the target system. If they are not, we display a message and quit. If they are, we instantiate an Image Tracker.
 
 Before moving on, make sure that you have the following directory structure at this point:
 

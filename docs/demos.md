@@ -21,7 +21,7 @@ title: WebAR Demo gallery
 
 ### WebAR with A-Frame
 
-Create an augmented scene with [A-Frame](https://aframe.io){ ._blank }. No knowledge of JavaScript is required!
+Create an augmented scene with [A-Frame](https://aframe.io){ ._blank }. For beginners - no knowledge of JavaScript is required!
 
 [Launch demo](/encantar-js/demos/hello-aframe/README.html){ ._blank .md-button }
 
@@ -54,7 +54,9 @@ Create an augmented scene without a 3D framework.
 * Run on a console:
 
 ```sh
-git clone git@github.com:alemart/encantar-js.git
+repo=https://github.com/alemart/encantar-js.git
+tag=$(git ls-remote --refs --tags $repo | cut -d/ -f3 | sort -V | tail -n1)
+git clone $repo --branch $tag --depth 1
 cd encantar-js
 npm start
 ```

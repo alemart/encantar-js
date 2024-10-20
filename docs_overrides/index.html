@@ -37,6 +37,21 @@
     padding-right: 16px;
 }
 
+#splash::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/mage.gif);
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+    opacity: 0.05;
+}
+
 .splash-container {
     display: flex;
     align-items: stretch;
@@ -60,11 +75,13 @@
     color: var(--md-accent-fg-color);
 }
 
-.splash-text h2 {
+.splash-text h1 {
     margin: 0.5em 0 0.5em 0;
+    color: var(--md-primary-bg-color);
+    font-size: 1.8em;
 }
 
-.splash-image > video {
+.splash-image > * {
     width: 80%;
     border-radius: 32px;
     border: 4px solid var(--md-primary-fg-color--light);
@@ -88,7 +105,7 @@
         margin-bottom: 0;
     }
 
-    .splash-image > video {
+    .splash-image > * {
         width: 100%;
     }
 }
@@ -111,9 +128,9 @@
 <section id="splash">
     <div class="splash-container md-grid">
         <div class="splash-text md-typeset appear text-center">
-            <h2>&#x2728; encantAR.js &#x2728;</h2>
-            <p>Enchant your users with Augmented Reality experiences that run everywhere!</p>
-            <a href="{{ './getting-started' | url }}" class="md-button">Get started</a>
+            <h1>&#x2728; encant<span style="color: #ffd500">ar</span>.js &#x2728;</h1>
+            <p>GPU-accelerated Augmented Reality for the web</p>
+            <a href="{{ './getting-started' | url }}" class="md-button">Get enchanted</a>
         </div>
         <!--
         <div class="splash-image">

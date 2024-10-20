@@ -1,6 +1,6 @@
 # AR
 
-The `AR` namespace is the entry point of the features and components of encantAR.js.
+The `AR` namespace is the entry point of the features and components of encantar.js.
 
 ## Properties
 
@@ -14,7 +14,7 @@ The [settings](settings.md) of the engine.
 
 `AR.version: string, read-only`
 
-The version of encantAR.js.
+The version of encantar.js.
 
 ## Methods
 

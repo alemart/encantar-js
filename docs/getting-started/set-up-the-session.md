@@ -12,7 +12,7 @@ We begin by creating the viewport. Remember that the viewport is the area in whi
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <title>encantAR.js WebAR demo</title>
+        <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
         <style>body { background-color: #3d5afe; }</style>

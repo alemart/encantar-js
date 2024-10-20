@@ -118,7 +118,7 @@ Object.freeze(AR);
 
 // Display a notice
 Utils.log(
-    `encantAR.js version ${AR.version}. ` +
+    `encantar.js version ${AR.version}. ` +
     `GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` +
     __AR_WEBSITE__
 );
