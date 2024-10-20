@@ -5,7 +5,7 @@
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-10-20T05:43:39.143Z
+ * Date: 2024-10-20T06:24:13.488Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -25415,7 +25415,6 @@ class FullscreenButton {
      */
     _createButton() {
         const button = document.createElement('button');
-        const icon = document.createElement('img');
         button.style.position = 'absolute';
         button.style.bottom = BUTTON_MARGIN + 'px';
         button.style.right = BUTTON_MARGIN + 'px';
@@ -25425,21 +25424,18 @@ class FullscreenButton {
         button.style.alignItems = 'center';
         button.style.padding = '2px';
         button.style.opacity = '0.5';
-        button.style.outline = 'none';
         button.style.cursor = 'pointer';
+        button.style.outline = 'none';
+        button.style['-webkit-tap-highlight-color'] = 'transparent';
         button.draggable = false;
         button.style.backgroundColor = 'transparent';
+        button.style.backgroundImage = 'url(' + BUTTON_ICON_OFF + ')';
+        button.style.backgroundSize = 'cover';
+        button.style.imageRendering = 'pixelated';
         button.style.borderColor = 'white';
         button.style.borderStyle = 'solid';
         button.style.borderWidth = '2px';
         button.style.borderRadius = '8px';
-        icon.src = BUTTON_ICON_OFF;
-        icon.draggable = false;
-        icon.style.display = 'inline-block';
-        icon.style.width = '100%';
-        icon.style.height = '100%';
-        icon.style.imageRendering = 'pixelated';
-        button.appendChild(icon);
         const highlight = () => {
             button.style.backgroundColor = '#ffd500';
             button.style.borderColor = '#ffd500';
@@ -25469,8 +25465,8 @@ class FullscreenButton {
      * Handle a fullscreenchange event
      */
     _handleFullscreenEvent(event) {
-        const icon = this._button.querySelector('img');
-        icon.src = this._viewport.fullscreen ? BUTTON_ICON_ON : BUTTON_ICON_OFF;
+        const img = this._viewport.fullscreen ? BUTTON_ICON_ON : BUTTON_ICON_OFF;
+        this._button.style.backgroundImage = 'url(' + img + ')';
     }
 }
 
