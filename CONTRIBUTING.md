@@ -1,6 +1,8 @@
 # How to contribute
 
-Please certify that you have the right to submit your contribution according to the [Developer Certificate of Origin (DCO)](https://developercertificate.org). Each commit must include a `Signed-off-by` line at the end of the commit message, as in the template below:
+Thanks for your interest in contributing!
+
+In order to contribute to the project, please certify that you have the right to submit your contribution according to the [Developer Certificate of Origin (DCO)](https://developercertificate.org). Each commit must include a `Signed-off-by` line at the end of the commit message, as in the template below:
 
 ```
 Signed-off-by: Your Name <your.email@addr.es>
