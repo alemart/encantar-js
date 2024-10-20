@@ -32,7 +32,7 @@ module.exports = (env, argv) => ({
     plugins: [
         new webpack.BannerPlugin({
             banner: ((({ author, version, year, homepage, description, date }) => ([
-                `encantAR.js version ${version}`,
+                `encantar.js version ${version}`,
                 `${description}`,
                 `Copyright ${year} ${author}`,
                 `${homepage}`,
