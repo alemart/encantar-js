@@ -20,7 +20,11 @@
     "webgl",
     "webgl2",
     "wasm",
-    "magic"
+    "magic",
+    "aframe",
+    "babylonjs",
+    "threejs",
+    "3d"
   ],
   "main": "dist/encantar.js",
   "scripts": {
