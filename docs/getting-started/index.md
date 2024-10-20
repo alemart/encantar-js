@@ -4,7 +4,7 @@
 
 Enchant your users with **encantar.js**, a GPU-accelerated Augmented Reality engine for the web.
 
-[:sparkles: Demos](../demos.md){ .md-button .md-button } [:books: Learn](./introduction.md){ .md-button } [:heart: Sponsor](../support-my-work.md){ .md-button }
+[:sparkles: Demos](../demos.md){ .md-button .md-button } [:books: Learn](./introduction.md){ .md-button } [:heart:{ .heart } Sponsor](../support-my-work.md){ .md-button }
 
 ## Features
 
