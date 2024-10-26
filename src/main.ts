@@ -28,6 +28,7 @@ import { TrackerFactory } from './trackers/tracker-factory';
 import { SourceFactory } from './sources/source-factory';
 import { Viewport, ViewportSettings } from './core/viewport';
 import { Utils } from './utils/utils';
+
 declare const __AR_VERSION__: string;
 declare const __AR_DEVELOPMENT_MODE__: string;
 declare const __AR_WEBSITE__: string;
@@ -45,6 +46,34 @@ export default class AR
     static startSession(options?: SessionOptions): SpeedyPromise<Session>
     {
         return Session.instantiate(options);
+    }
+
+    /**
+     * Checks if the engine can be run in the browser the client is using
+     * @returns true if the engine is compatible with the browser
+     */
+    static isSupported(): boolean
+    {
+        return Session.isSupported();
+    }
+
+    /**
+     * Engine version
+     */
+    static get version(): string
+    {
+        if(__AR_DEVELOPMENT_MODE__)
+            return __AR_VERSION__ + '-dev';
+        else
+            return __AR_VERSION__;
+    }
+
+    /**
+     * Speedy Vision
+     */
+    static get Speedy(): typeof Speedy
+    {
+        return Speedy;
     }
 
     /**
@@ -79,34 +108,6 @@ export default class AR
     static get Settings(): typeof Settings
     {
         return Settings;
-    }
-
-    /**
-     * Engine version
-     */
-    static get version(): string
-    {
-        if(__AR_DEVELOPMENT_MODE__)
-            return __AR_VERSION__ + '-dev';
-        else
-            return __AR_VERSION__;
-    }
-
-    /**
-     * Speedy Vision
-     */
-    static get Speedy(): typeof Speedy
-    {
-        return Speedy;
-    }
-
-    /**
-     * Checks if the engine can be run in the browser the client is using
-     * @returns true if the engine is compatible with the browser
-     */
-    static isSupported(): boolean
-    {
-        return Session.isSupported();
     }
 }
 
