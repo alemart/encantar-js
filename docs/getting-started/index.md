@@ -14,7 +14,7 @@ Enchant your users with **encantar.js**, a GPU-accelerated Augmented Reality eng
 
 ## Why use encantar.js?
 
-* **Device-agnostic**: no need of AR-capable devices. encantar.js runs in all modern web browsers. It's AR built from scratch.
+* **Device-agnostic**: no need of AR-capable devices. encantar.js runs in all modern web browsers. It's AR built from scratch with computer vision.
 * **Fast and powerful**: encantar.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
 * **No need to download apps**: encantar.js is a WebAR engine. Users can access the AR experiences immediately.
 * **Easy to get started**: encantar.js can be used with a `<script>` tag in your page. A static HTML page is enough to get started.
