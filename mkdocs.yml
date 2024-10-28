@@ -96,6 +96,7 @@ nav:
       - 'PerspectiveView': 'api/perspective-view.md'
       - 'RigidTransform': 'api/rigid-transform.md'
       - 'Quaternion': 'api/quaternion.md'
+      - 'Vector3': 'api/vector3.md'
     - 'Visualization':
       - 'Viewport': 'api/viewport.md'
       - 'HUD': 'api/hud.md'
