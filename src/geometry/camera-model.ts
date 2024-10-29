@@ -28,6 +28,7 @@ import { SpeedyVector2 } from 'speedy-vision/types/core/speedy-vector';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable, Utils } from '../utils/utils';
 import { Settings } from '../core/settings';
+import { PoseFilter } from './pose-filter';
 import { IllegalOperationError, IllegalArgumentError } from '../utils/errors';
 
 /** A guess of the horizontal field-of-view of a typical camera, in degrees */
@@ -35,12 +36,6 @@ const HFOV_GUESS = 60; // https://developer.apple.com/library/archive/documentat
 
 /** Number of iterations used to refine the estimated pose */
 const POSE_ITERATIONS = 30;
-
-/** Number of samples used in the rotation filter */
-const ROTATION_FILTER_SAMPLES = 10;
-
-/** Number of samples used in the translation filter */
-const TRANSLATION_FILTER_SAMPLES = 5;
 
 /** Convert degrees to radians */
 const DEG2RAD = 0.017453292519943295; // pi / 180
@@ -83,11 +78,8 @@ export class CameraModel
     /** extrinsics matrix, in column-major format */
     private _extrinsics: number[];
 
-    /** filter: samples of partial rotation matrix [ r1 | r2 ] */
-    private _partialRotationBuffer: number[][];
-
-    /** filter: samples of translation vector t */
-    private _translationBuffer: number[][];
+    /** smoothing filter */
+    private _filter: PoseFilter;
 
 
 
@@ -100,8 +92,7 @@ export class CameraModel
         this._matrix = Speedy.Matrix.Eye(3, 4);
         this._intrinsics = [1,0,0,0,1,0,0,0,1]; // 3x3 identity matrix
         this._extrinsics = [1,0,0,0,1,0,0,0,1,0,0,0]; // 3x4 matrix [ R | t ] = [ I | 0 ] no rotation & no translation
-        this._partialRotationBuffer = [];
-        this._translationBuffer = [];
+        this._filter = new PoseFilter();
     }
 
     /**
@@ -177,12 +168,13 @@ export class CameraModel
 
         // estimate the pose
         const pose = this._estimatePose(homography);
-        this._extrinsics = pose.read();
+        if(this._filter.feed(pose))
+            this._extrinsics = this._filter.run().read();
 
         // compute the camera matrix
         const C = this.denormalizer();
         const K = Speedy.Matrix(3, 3, this._intrinsics);
-        const E = pose; //Speedy.Matrix(3, 4, this._extrinsics);
+        const E = Speedy.Matrix(3, 4, this._extrinsics);
         this._matrix.setToSync(K.times(E).times(C));
         //console.log("intrinsics -----------", K.toString());
         //console.log("matrix ----------------",this._matrix.toString());
@@ -320,9 +312,8 @@ export class CameraModel
         this._extrinsics.fill(0);
         this._extrinsics[0] = this._extrinsics[4] = this._extrinsics[8] = 1;
 
-        // reset filters
-        this._partialRotationBuffer.length = 0;
-        this._translationBuffer.length = 0;
+        // reset filter
+        this._filter.reset();
     }
 
     /**
@@ -755,72 +746,15 @@ export class CameraModel
     }
 
     /**
-     * Apply a smoothing filter to the partial pose
-     * @param partialPose 3x3 [ r1 | r2 | t ]
-     * @returns filtered partial pose
+     * Find a 3x3 rotation matrix R given two orthonormal vectors [ r1 | r2 ]
+     * @param partialRotation partial rotation matrix [ r1 | r2 ] in column-major format
+     * @returns a rotation matrix R in column-major format
      */
-    private _filterPartialPose(partialPose: SpeedyMatrix): SpeedyMatrix
+    private _computeFullRotation(partialRotation: number[]): number[]
     {
-        const avg: number[] = new Array(9).fill(0);
-        const entries = partialPose.read();
-        const rotationBlock = entries.slice(0, 6);
-        const translationBlock = entries.slice(6, 9);
-
-        // how many samples should we store, at most?
-        const div = (Settings.powerPreference == 'low-power') ? 1.5 : 1; // low-power ~ half the fps
-        const N = Math.ceil(ROTATION_FILTER_SAMPLES / div);
-        const M = Math.ceil(TRANSLATION_FILTER_SAMPLES / div);
-
-        // is it a valid partial pose?
-        if(!Number.isNaN(entries[0])) {
-            // store samples
-            this._partialRotationBuffer.unshift(rotationBlock);
-            if(this._partialRotationBuffer.length > N)
-                this._partialRotationBuffer.length = N;
-
-            this._translationBuffer.unshift(translationBlock);
-            if(this._translationBuffer.length > M)
-                this._translationBuffer.length = M;
-        }
-        else if(this._partialRotationBuffer.length == 0) {
-            // invalid pose, no samples
-            return Speedy.Matrix.Eye(3);
-        }
-
-        // average *nearby* rotations
-        const n = this._partialRotationBuffer.length;
-        for(let i = 0; i < n; i++) {
-            const r = this._partialRotationBuffer[i];
-            for(let j = 0; j < 6; j++)
-                avg[j] += r[j] / n;
-        }
-        const r = this._refineRotation(avg);
-
-        // average translations
-        const m = this._translationBuffer.length;
-        for(let i = 0; i < m; i++) {
-            const t = this._translationBuffer[i];
-            for(let j = 0; j < 3; j++)
-                avg[6 + j] += (m - i) * t[j] / ((m * m + m) / 2);
-                //avg[6 + j] += t[j] / m;
-        }
-        const t = [ avg[6], avg[7], avg[8] ];
-
-        // done!
-        return Speedy.Matrix(3, 3, r.concat(t));
-    }
-
-    /**
-     * Estimate extrinsics [ R | t ] given a partial pose [ r1 | r2 | t ]
-     * @param partialPose
-     * @returns 3x4 matrix
-     */
-    private _estimateFullPose(partialPose: SpeedyMatrix): SpeedyMatrix
-    {
-        const p = partialPose.read();
-        const r11 = p[0], r12 = p[3], t1 = p[6];
-        const r21 = p[1], r22 = p[4], t2 = p[7];
-        const r31 = p[2], r32 = p[5], t3 = p[8];
+        const r11 = partialRotation[0], r12 = partialRotation[3];
+        const r21 = partialRotation[1], r22 = partialRotation[4];
+        const r31 = partialRotation[2], r32 = partialRotation[5];
 
         // r3 = +- ( r1 x r2 )
         let r13 = r21 * r32 - r31 * r22;
@@ -836,12 +770,11 @@ export class CameraModel
         }
 
         // done!
-        return Speedy.Matrix(3, 4, [
+        return [
             r11, r21, r31,
             r12, r22, r32,
-            r13, r23, r33,
-            t1, t2, t3,           
-        ]);
+            r13, r23, r33
+        ];
     }
 
     /**
@@ -870,19 +803,16 @@ export class CameraModel
         }
         //console.log('-----------');
 
-        // refine the translation vector
+        // read the partial pose
         const mat = partialPose.read();
-        const r = mat.slice(0, 6);
+        const r0 = mat.slice(0, 6);
         const t0 = mat.slice(6, 9);
-        const t = this._refineTranslation(normalizedHomography, r, t0);
-        const refinedPartialPose = Speedy.Matrix(3, 3, r.concat(t));
 
-        // filter the partial pose
-        const filteredPartialPose = this._filterPartialPose(refinedPartialPose);
+        // refine the translation vector and compute the full rotation matrix
+        const t = this._refineTranslation(normalizedHomography, r0, t0);
+        const r = this._computeFullRotation(r0);
 
-        // estimate the full pose
-        //const finalPartialPose = partialPose;
-        const finalPartialPose = filteredPartialPose;
-        return this._estimateFullPose(finalPartialPose);
+        // done!
+        return Speedy.Matrix(3, 4, r.concat(t));
     }
 }
