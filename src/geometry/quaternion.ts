@@ -133,6 +133,20 @@ export class Quaternion
     }
 
     /**
+     * Conjugate this quaternion
+     * @returns this quaternion, conjugated
+     * @internal
+     */
+    _conjugate(): Quaternion
+    {
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+
+        return this;
+    }
+
+    /**
      * Copy q to this
      * @param q a quaternion
      * @returns this quaternion
