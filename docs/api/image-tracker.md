@@ -2,6 +2,24 @@
 
 A [tracker](tracker.md) that tracks images in a video. Images are tracked using templates known as [reference images](reference-image.md).
 
+## Instantiation
+
+### AR.Tracker.ImageTracker
+
+`AR.Tracker.ImageTracker(): ImageTracker`
+
+Instantiate an image tracker.
+
+**Returns**
+
+A new image tracker.
+
+**Example**
+
+```js
+const imageTracker = AR.Tracker.ImageTracker();
+```
+
 ## Properties
 
 ### state
@@ -20,7 +38,7 @@ A [database](reference-image-database.md) of [reference images](reference-image.
 
 `tracker.resolution: Resolution`
 
-The [resolution](resolution.md) adopted by the computer vision algorithms implemented in the tracker. Higher resolutions improve the tracking quality, but are computationally more expensive.
+The [resolution](resolution.md) adopted by the computer vision algorithms implemented in the tracker. Higher resolutions improve the tracking quality, but are computationally more expensive. Note that this resolution is different from, and should not be larger than, the [resolution of the camera](camera-source.md#resolution)!
 
 ## Events
 
