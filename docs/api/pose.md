@@ -6,6 +6,6 @@ A pose represents a position and an orientation in 3D space.
 
 ### transform
 
-`pose.transform: RigidTransform, read-only`
+`pose.transform: Transform, read-only`
 
-The underlying [rigid transform](rigid-transform.md).
+The underlying [transform](transform.md).

@@ -23,7 +23,7 @@
 import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { Pose } from './pose';
-import { RigidTransform } from './transform';
+import { Transform } from './transform';
 import { CameraModel } from './camera-model';
 
 
@@ -46,14 +46,15 @@ export class ViewerPose extends Pose
     {
         // compute the view matrix and its inverse in AR screen space
         const viewMatrix = ViewerPose._computeViewMatrix(camera);
-        const inverseTransform = new RigidTransform(viewMatrix);
+        const inverseTransform = new Transform(viewMatrix); // from world space to view space
+        const transform = inverseTransform.inverse; // from view space to world space
 
-        super(inverseTransform.inverse);
+        super(transform);
         this._viewMatrix = viewMatrix;
     }
 
     /**
-     * This 4x4 matrix moves 3D points from world space to viewer space. We
+     * This 4x4 matrix moves 3D points from world space to view space. We
      * assume that the camera is looking in the direction of the negative
      * z-axis (WebGL-friendly)
      */

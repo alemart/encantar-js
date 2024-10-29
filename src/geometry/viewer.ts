@@ -21,13 +21,11 @@
  */
 
 import Speedy from 'speedy-vision';
-import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { CameraModel } from './camera-model';
 import { Pose } from './pose';
 import { ViewerPose } from './viewer-pose';
 import { View, PerspectiveView } from './view';
-import { StandardTransform } from './transform';
-import { IllegalOperationError } from '../utils/errors';
+import { Transform } from './transform';
 
 
 
@@ -97,7 +95,7 @@ export class Viewer
         const viewMatrix = this._pose.viewMatrix;
         const modelViewMatrix = Speedy.Matrix(viewMatrix.times(modelMatrix));
 
-        const transform = new StandardTransform(modelViewMatrix);
+        const transform = new Transform(modelViewMatrix);
         return new Pose(transform);
     }
 }

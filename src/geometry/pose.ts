@@ -17,23 +17,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * pose.ts
- * A pose represents a position and an orientation in a 3D space
+ * A pose represents a position and an orientation in 3D space
  */
 
-import Speedy from 'speedy-vision';
-import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
-import { RigidTransform, StandardTransform } from './transform';
+import { Transform } from './transform';
 
 
 
 /**
- * A pose represents a position and an orientation in a 3D space
- * (and sometimes a scale, too...)
+ * A pose represents a position and an orientation in 3D space
  */
 export class Pose
 {
-    /** A transform in 3D world space */
-    private _transform: StandardTransform;
+    /** Internal transform */
+    private _transform: Transform;
 
 
 
@@ -41,7 +38,7 @@ export class Pose
      * Constructor
      * @param transform usually a rigid transform in a 3D space (e.g., world space, viewer space or other)
      */
-    constructor(transform: StandardTransform)
+    constructor(transform: Transform)
     {
         this._transform = transform;
     }
@@ -50,7 +47,7 @@ export class Pose
      * A transform describing the position and the orientation
      * of the pose relative to the 3D space to which it belongs
      */
-    get transform(): StandardTransform
+    get transform(): Transform
     {
         return this._transform;
     }

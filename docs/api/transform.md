@@ -1,6 +1,6 @@
-# RigidTransform
+# Transform
 
-A RigidTransform represents a rotation and a translation in 3D space.
+A Transform represents a rotation and a translation in 3D space.
 
 ## Properties
 
@@ -12,6 +12,6 @@ A 4x4 matrix encoding the transform.
 
 ### inverse
 
-`transform.inverse: RigidTransform, read-only`
+`transform.inverse: Transform, read-only`
 
 The inverse transform.

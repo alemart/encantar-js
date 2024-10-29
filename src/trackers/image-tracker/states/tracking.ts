@@ -46,7 +46,7 @@ import { ReferenceImage } from '../reference-image';
 import { CameraModel } from '../../../geometry/camera-model';
 import { Viewer } from '../../../geometry/viewer';
 import { Pose } from '../../../geometry/pose';
-import { RigidTransform, StandardTransform } from '../../../geometry/transform';
+import { Transform } from '../../../geometry/transform';
 import { IllegalOperationError, IllegalArgumentError, TrackingError } from '../../../utils/errors';
 import {
     TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_MIN_MATCHES, TRACK_LOST_TOLERANCE,
@@ -386,7 +386,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // (identity transform). We also perform a change of coordinates,
             // so that we move out from pixel space and into normalized space
             const modelMatrix = this._camera.denormalizer(); // ~ "identity matrix"
-            const transform = new StandardTransform(modelMatrix);
+            const transform = new Transform(modelMatrix);
             const pose = new Pose(transform);
 
             // given the current state of the camera model, we get a viewer

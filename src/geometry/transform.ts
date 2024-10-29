@@ -17,160 +17,81 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * transform.ts
- * 3D geometrical transforms
+ * 3D transforms
  */
 
 import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
-import { IllegalArgumentError, IllegalOperationError } from '../utils/errors';
+import { Nullable } from '../utils/utils';
+import { IllegalArgumentError } from '../utils/errors';
+
 
 /**
- * A 3D transformation
+ * A Transform represents a position, a rotation and a scale in 3D space
  */
-abstract class BaseTransform
+export class Transform
 {
-    /** 4x4 matrix describing the transformation */
-    protected readonly _matrix: SpeedyMatrix;
+    /** transformation matrix */
+    private readonly _matrix: SpeedyMatrix;
+
+    /** inverse transform, computed lazily */
+    private _inverse: Nullable<Transform>;
 
 
 
     /**
      * Constructor
-     * @param matrix a 4x4 matrix
+     * @param matrix a 4x4 transformation matrix. You should ensure that its form is T * R * S (translation * rotation * scale).
      */
     constructor(matrix: SpeedyMatrix)
     {
         if(matrix.rows != 4 || matrix.columns != 4)
-            throw new IllegalArgumentError('A 3D transform expects a 4x4 matrix');
+            throw new IllegalArgumentError('A Transform expects a 4x4 transformation matrix');
 
         this._matrix = matrix;
+        this._inverse = null;
     }
 
     /**
-     * The 4x4 transformation matrix (read-only)
+     * The 4x4 transformation matrix
      */
     get matrix(): SpeedyMatrix
     {
         return this._matrix;
     }
-}
 
-/**
- * An invertible 3D transformation
- */
-class InvertibleTransform extends BaseTransform
-{
     /**
-     * Constructor
-     * @param matrix a 4x4 matrix
+     * The inverse transform
      */
-    constructor(matrix: SpeedyMatrix)
+    get inverse(): Transform
     {
-        // WARNING: we do not check if the matrix actually encodes an invertible transform!
-        super(matrix);
+        if(this._inverse === null)
+            this._inverse = new Transform(Transform._invert(this._matrix));
+
+        return this._inverse;
     }
 
     /**
-     * The inverse of the transform
+     * Compute the inverse of a transformation matrix
+     * @param matrix the transformation matrix to invert
+     * @returns the inverse matrix
      */
-    get inverse(): InvertibleTransform
-    {
-        const inverseMatrix = Speedy.Matrix(this._matrix.inverse());
-        return new InvertibleTransform(inverseMatrix);
-    }
-}
-
-/**
- * A 3D transformation described by translation, rotation and scale
- */
-export class StandardTransform extends InvertibleTransform
-{
-    // TODO: position, rotation and scale attributes
-
-    /**
-     * Constructor
-     * @param matrix a 4x4 matrix
-     */
-    constructor(matrix: SpeedyMatrix)
-    {
-        // WARNING: we do not check if the matrix actually encodes a standard transform!
-        super(matrix);
-    }
-
-    /**
-     * The inverse of the transform
-     */
-    get inverse(): StandardTransform
+    private static _invert(matrix: SpeedyMatrix): SpeedyMatrix
     {
         /*
 
-        The inverse of a 4x4 standard transform T * R * S...
+        The inverse of a 4x4 transform T * R * S
 
         [  RS  t  ]    is    [  ZR' -ZR't ]
         [  0'  1  ]          [  0'    1   ]
 
         where S is 3x3, R is 3x3, t is 3x1, 0' is 1x3 and Z is the inverse of S
 
-        */
-
-        return super.inverse as StandardTransform;
-    }
-}
-
-/**
- * A 3D transformation described by position and orientation
- */
-export class RigidTransform extends StandardTransform
-{
-    // TODO: position and rotation attributes (need to decompose the matrix)
-
-    /**
-     * Constructor
-     * @param matrix a 4x4 matrix
-     */
-    constructor(matrix: SpeedyMatrix)
-    {
-        // WARNING: we do not check if the matrix actually encodes a rigid transform!
-        super(matrix);
-    }
-
-    /**
-     * The inverse of the transform
-     */
-    get inverse(): RigidTransform
-    {
-        /*
-
-        The inverse of a 4x4 rigid transform
-
-        [  R   t  ]    is    [  R'  -R't  ]
-        [  0'  1  ]          [  0'    1   ]
-
-        where R is 3x3, t is 3x1 and 0' is 1x3
+        R is a rotation matrix; S is a diagonal matrix
 
         */
 
-        const m = this._matrix.read();
-        if(m[15] == 0) // error? abs()??
-            throw new IllegalOperationError('Not a rigid transform');
-        const s = 1 / m[15]; // should be 1 (normalize homogeneous coordinates)
-
-        const r11 = m[0] * s, r12 = m[4] * s, r13 = m[8] * s;
-        const r21 = m[1] * s, r22 = m[5] * s, r23 = m[9] * s;
-        const r31 = m[2] * s, r32 = m[6] * s, r33 = m[10] * s;
-        const t1 = m[12] * s, t2 = m[13] * s, t3 = m[14] * s;
-
-        const rt1 = r11 * t1 + r21 * t2 + r31 * t3;
-        const rt2 = r12 * t1 + r22 * t2 + r32 * t3;
-        const rt3 = r13 * t1 + r23 * t2 + r33 * t3;
-
-        const inverseMatrix = Speedy.Matrix(4, 4, [
-            r11, r12, r13, 0,
-            r21, r22, r23, 0,
-            r31, r32, r33, 0,
-            -rt1, -rt2, -rt3, 1
-        ]);
-
-        return new RigidTransform(inverseMatrix);
+        // this works, but this inverse is straightforward
+        return Speedy.Matrix(matrix.inverse());
     }
 }

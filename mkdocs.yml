@@ -94,7 +94,7 @@ nav:
       - 'ViewerPose': 'api/viewer-pose.md'
       - 'View': 'api/view.md'
       - 'PerspectiveView': 'api/perspective-view.md'
-      - 'RigidTransform': 'api/rigid-transform.md'
+      - 'Transform': 'api/transform.md'
       - 'Quaternion': 'api/quaternion.md'
       - 'Vector3': 'api/vector3.md'
     - 'Visualization':
