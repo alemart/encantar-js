@@ -157,6 +157,8 @@ export class PoseFilter
 
         // average *nearby* rotations
         // based on https://web.archive.org/web/20130514122622/http://wiki.unity3d.com/index.php/Averaging_Quaternions_and_Vectors
+        // reminder: a unit quaternion q may be expressed as
+        // cos t + u sin t, where 2t is a rotation angle and u is a rotation axis
         for(let i = 0; i < R; i++) {
             const qi = this._rotationSample[i];
             const w = 1 / R; //(R - (i - i%2)) / R;
