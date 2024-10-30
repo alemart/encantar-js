@@ -23,7 +23,13 @@
 import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { Nullable } from '../utils/utils';
-import { IllegalArgumentError } from '../utils/errors';
+import { IllegalArgumentError, IllegalOperationError } from '../utils/errors';
+import { Vector3 } from './vector3';
+import { Quaternion } from './quaternion';
+
+/** Small number */
+const EPSILON = 1e-6;
+
 
 
 /**
@@ -36,6 +42,18 @@ export class Transform
 
     /** inverse transform, computed lazily */
     private _inverse: Nullable<Transform>;
+
+    /** position component, computed lazily */
+    private _position: Vector3;
+
+    /** orientation component, computed lazily */
+    private _orientation: Quaternion;
+
+    /** scale component, computed lazily */
+    private _scale: Vector3;
+
+    /** whether or not this transformation has been decomposed */
+    private _isDecomposed: boolean;
 
 
 
@@ -50,6 +68,11 @@ export class Transform
 
         this._matrix = matrix;
         this._inverse = null;
+
+        this._position = Vector3.Zero();
+        this._orientation = Quaternion.Identity();
+        this._scale = new Vector3(1, 1, 1);
+        this._isDecomposed = false;
     }
 
     /**
@@ -66,19 +89,160 @@ export class Transform
     get inverse(): Transform
     {
         if(this._inverse === null)
-            this._inverse = new Transform(Transform._invert(this._matrix));
+            this._inverse = new Transform(this._inverseMatrix());
 
         return this._inverse;
     }
 
     /**
-     * Compute the inverse of a transformation matrix
-     * @param matrix the transformation matrix to invert
-     * @returns the inverse matrix
+     * The 3D position encoded by the transform
      */
-    private static _invert(matrix: SpeedyMatrix): SpeedyMatrix
+    get position(): Vector3
+    {
+        if(!this._isDecomposed)
+            this._decompose();
+
+        return this._position;
+    }
+
+    /**
+     * A unit quaternion describing the rotational component of the transform
+     */
+    get orientation(): Quaternion
+    {
+        if(!this._isDecomposed)
+            this._decompose();
+
+        return this._orientation;
+    }
+
+    /**
+     * The scale encoded by the transform
+     */
+    get scale(): Vector3
+    {
+        if(!this._isDecomposed)
+            this._decompose();
+
+        return this._scale;
+    }
+
+    /**
+     * Decompose this transform
+     */
+    private _decompose(): void
     {
         /*
+
+        The shape of a 4x4 transform T * R * S is
+
+        [  RS  t  ]
+        [  0'  1  ]
+
+        where S is a 3x3 diagonal matrix, R is a 3x3 rotation matrix, t is a
+        3x1 translation vector and 0' is a 1x3 zero vector.
+
+        How do we decompose it?
+
+        1) Decomposing the translation vector t is trivial
+
+        2) Decomposing matrices R (rotation) and S (scale) can be done by
+           noticing that (RS)'(RS) = (S'R')(RS) = S'(R'R) S = S'S is diagonal
+
+        3) Since R is a rotation matrix, we have det R = +1. This means that
+           det RS = det R * det S = det S. If det RS < 0, then we have a change
+           of handedness (i.e., a negative scale). We may flip the forward axis
+           (Z) and let the rotation matrix encode the rest of the transformation
+
+        4) Use 2) and 3) to find a suitable S
+
+        5) Compute R = (RS) * S^(-1)
+
+        */
+        const m = this._matrix.read();
+        const h = Math.abs(m[15]) < EPSILON ? Number.NaN : 1 / m[15]; // usually h = 1
+
+        // find t
+        const tx = m[12] * h;
+        const ty = m[13] * h;
+        const tz = m[14] * h;
+
+        // find RS
+        const rs11 = m[0] * h;
+        const rs21 = m[1] * h;
+        const rs31 = m[2] * h;
+        const rs12 = m[4] * h;
+        const rs22 = m[5] * h;
+        const rs32 = m[6] * h;
+        const rs13 = m[8] * h;
+        const rs23 = m[9] * h;
+        const rs33 = m[10] * h;
+
+        // do we have a change of handedness?
+        const det = rs13 * (rs21 * rs32 - rs22 * rs31) + rs33 * (rs11 * rs22 - rs12 * rs21) - rs23 * (rs11 * rs32 - rs12 * rs31);
+        const sign = +(det >= 0) - +(det < 0);
+
+        // if det = 0, RS is not invertible!
+
+        // find S
+        const sx = Math.sqrt(rs11 * rs11 + rs12 * rs12 + rs13 * rs13);
+        const sy = Math.sqrt(rs21 * rs21 + rs22 * rs22 + rs23 * rs23);
+        const sz = Math.sqrt(rs31 * rs31 + rs32 * rs32 + rs33 * rs33) * sign;
+
+        // zero scale?
+        if(sx < EPSILON || sy < EPSILON || sz * sign < EPSILON) {
+            this._position._set(tx, ty, tz);
+            this._scale._set(sx, sy, sz);
+            this._orientation._copyFrom(Quaternion.Identity());
+            this._isDecomposed = true;
+            return;
+        }
+
+        // find S^(-1)
+        const zx = 1 / sx;
+        const zy = 1 / sy;
+        const zz = 1 / sz;
+
+        // find R
+        const r11 = rs11 * zx;
+        const r21 = rs21 * zx;
+        const r31 = rs31 * zx;
+        const r12 = rs12 * zy;
+        const r22 = rs22 * zy;
+        const r32 = rs32 * zy;
+        const r13 = rs13 * zz;
+        const r23 = rs23 * zz;
+        const r33 = rs33 * zz;
+
+        // set the components
+        this._position._set(tx, ty, tz);
+        this._scale._set(sx, sy, sz);
+        this._orientation._fromRotationMatrix(Speedy.Matrix(3, 3, [
+            r11, r21, r31,
+            r12, r22, r32,
+            r13, r23, r33
+        ]));
+
+        // done!
+        this._isDecomposed = true;
+    }
+
+    /**
+     * Compute the inverse matrix of this transform
+     * @returns the inverse matrix
+     */
+    private _inverseMatrix(): SpeedyMatrix
+    {
+        // test
+        //console.log(Speedy.Matrix(this._matrix.inverse().times(this._matrix)).toString());
+
+        // this works, but this inverse is straightforward
+        return Speedy.Matrix(this._matrix.inverse());
+
+        /*
+
+        Simple analytic method
+        ----------------------
 
         The inverse of a 4x4 transform T * R * S
 
@@ -91,7 +255,81 @@ export class Transform
 
         */
 
-        // this works, but this inverse is straightforward
-        return Speedy.Matrix(matrix.inverse());
+        /*
+        // decompose the transform
+        if(!this._isDecomposed)
+            this._decompose();
+
+        // find t
+        const tx = this._position.x;
+        const ty = this._position.y;
+        const tz = this._position.z;
+
+        // find S (typically 1, but not very accurate)
+        const sx = this._scale.x;
+        const sy = this._scale.y;
+        const sz = this._scale.z;
+
+        // sanity check
+        if(Math.abs(sx) < EPSILON || Math.abs(sy) < EPSILON || Math.abs(sz) < EPSILON) {
+            //throw new IllegalOperationError('Not an invertible transform: ' + this._matrix.toString());
+            return Speedy.Matrix(4, 4, new Array(16).fill(Number.NaN)); // more friendly behavior
+        }
+
+        // find R
+        const r = this._rotation.read();
+        const r11 = r[0];
+        const r21 = r[1];
+        const r31 = r[2];
+        const r12 = r[3];
+        const r22 = r[4];
+        const r32 = r[5];
+        const r13 = r[6];
+        const r23 = r[7];
+        const r33 = r[8];
+
+        // find Z = S^(-1)
+        const zx = 1 / sx;
+        const zy = 1 / sy;
+        const zz = 1 / sz;
+
+        // compute Z R'
+        const zr11 = zx * r11;
+        const zr21 = zy * r12;
+        const zr31 = zz * r13;
+        const zr12 = zx * r21;
+        const zr22 = zy * r22;
+        const zr32 = zz * r23;
+        const zr13 = zx * r31;
+        const zr23 = zy * r32;
+        const zr33 = zz * r33;
+
+        // compute -Z R't
+        const zrt1 = -(tx * zr11 + ty * zr12 + tz * zr13);
+        const zrt2 = -(tx * zr21 + ty * zr22 + tz * zr23);
+        const zrt3 = -(tx * zr31 + ty * zr32 + tz * zr33);
+
+        // test
+        console.log('inverse', Speedy.Matrix(Speedy.Matrix(4, 4, [
+            zr11, zr21, zr31, 0,
+            zr12, zr22, zr32, 0,
+            zr13, zr23, zr33, 0,
+            zrt1, zrt2, zrt3, 1
+        ]).times(this._matrix)).toString());
+
+        console.log('rotation', Speedy.Matrix(
+            this._rotation.transpose().times(this._rotation)
+        ).toString());
+
+        console.log('scale', this._scale);
+
+        // done!
+        return Speedy.Matrix(4, 4, [
+            zr11, zr21, zr31, 0,
+            zr12, zr22, zr32, 0,
+            zr13, zr23, zr33, 0,
+            zrt1, zrt2, zrt3, 1
+        ]);
+        */
     }
 }
