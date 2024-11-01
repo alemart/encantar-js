@@ -31,6 +31,8 @@ import { SpeedyPipelineNodeImageSource } from 'speedy-vision/types/core/pipeline
 import { SpeedyPipelineNodeResize } from 'speedy-vision/types/core/pipeline/nodes/transforms/resize';
 import { SpeedyPipelineNodeFASTKeypointDetector } from 'speedy-vision/types/core/pipeline/nodes/keypoints/detectors/fast';
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
+import { VideoSource } from '../../sources/video-source';
+import { CanvasSource } from '../../sources/canvas-source';
 import { Tracker, TrackerOutput, TrackerResult, Trackable } from '../tracker';
 import { Session } from '../../core/session';
 import { IllegalOperationError, IllegalArgumentError } from '../../utils/errors';
@@ -129,6 +131,9 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
     /** session */
     private _session: Nullable<Session>;
 
+    /** source of data */
+    private _source: Nullable<VideoSource | CanvasSource>;
+
     /** all states */
     private readonly _state: Record<ImageTrackerStateName, ImageTrackerState>;
 
@@ -164,6 +169,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
 
         // initial setup
         this._session = null;
+        this._source = null;
         this._activeStateName = 'initial';
         this._lastOutput = { };
         this._database = new ReferenceImageDatabase();
@@ -251,6 +257,20 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
         // store the session
         this._session = session;
 
+        // find a suitable source of data
+        // XXX also let the user specify a source manually?
+        for(const source of session.sources) {
+            // prefer video sources
+            if(source._type == 'video') {
+                this._source = source as VideoSource;
+                break;
+            }
+            else if(source._type == 'canvas')
+                this._source = source as CanvasSource;
+        }
+        if(this._source === null)
+            throw new IllegalOperationError('The image tracker requires a suitable source of data');
+
         // initialize states
         for(const state of Object.values(this._state))
             state.init();
@@ -290,7 +310,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
 
         // compute the screen size for image processing purposes
         // note: this may change over time...!
-        const media = this._session.media;
+        const media = this._source!._data;
         const aspectRatio = media.width / media.height;
         const screenSize = Utils.resolution(this._resolution, aspectRatio);
 

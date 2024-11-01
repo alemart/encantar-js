@@ -35,6 +35,8 @@ import { Frame } from './frame';
 import { Tracker } from '../trackers/tracker';
 import { Time } from './time';
 import { Source } from '../sources/source';
+import { VideoSource } from '../sources/video-source';
+import { CanvasSource } from '../sources/canvas-source';
 import { asap } from '../utils/asap';
 
 /** Session mode */
@@ -107,6 +109,9 @@ export class Session extends AREventTarget<SessionEventType>
     /** Rendering viewport */
     private readonly _viewport: Viewport;
 
+    /** Primary source of data */
+    private readonly _primarySource: VideoSource | CanvasSource;
+
     /** Time Manager */
     private _time: Time;
 
@@ -161,9 +166,12 @@ export class Session extends AREventTarget<SessionEventType>
         if(mode != 'immersive' && mode != 'inline')
             throw new IllegalArgumentError(`Invalid session mode "${mode}"`);
 
+        // find the primary source of data
+        this._primarySource = this._findPrimarySource(sources);
+
         // setup the viewport
         this._viewport = viewport;
-        this._viewport._init(() => this.media.size, mode);
+        this._viewport._init(() => this._media.size, mode);
 
         // setup the main loop
         this._setupUpdateLoop();
@@ -283,10 +291,6 @@ export class Session extends AREventTarget<SessionEventType>
         }).then(() => {
 
             // validate sources of data
-            const videoSources = sources.filter(source => source._type == 'video');
-            if(videoSources.length != 1)
-                throw new IllegalArgumentError(`One video source of data must be provided`);
-
             for(let i = sources.length - 1; i >= 0; i--) {
                 if(sources.indexOf(sources[i]) < i)
                     throw new IllegalArgumentError(`Found repeated sources of data`);
@@ -424,21 +428,6 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
-     * The underlying media (generally a camera stream)
-     * @internal
-     */
-    get media(): SpeedyMedia
-    {
-        for(let i = this._sources.length - 1; i >= 0; i--) {
-            if(this._sources[i]._type == 'video')
-                return this._sources[i]._data as SpeedyMedia;
-        }
-
-        // this shouldn't happen
-        throw new IllegalOperationError(`Invalid input source`);
-    }
-
-    /**
      * Session mode
      */
     get mode(): SessionMode
@@ -495,6 +484,35 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
+     * Find the primary source of data (generally a camera stream)
+     * @param sources
+     * @returns the primary source
+     */
+    private _findPrimarySource(sources: Source[]): VideoSource | CanvasSource
+    {
+        // prefer video sources
+        for(let i = 0; i < sources.length; i++) {
+            if(sources[i]._type == 'video')
+                return sources[i] as VideoSource;
+        }
+        for(let i = 0; i < sources.length; i++) {
+            if(sources[i]._type == 'canvas')
+                return sources[i] as CanvasSource;
+        }
+
+        // this shouldn't happen
+        throw new IllegalOperationError(`No primary source of data was found!`);
+    }
+
+    /**
+     * The media of the primary source of data
+     */
+    private get _media(): SpeedyMedia
+    {
+        return this._primarySource._data;
+    }
+
+    /**
      * Attach a tracker to the session
      * @param tracker
      */
@@ -517,11 +535,11 @@ export class Session extends AREventTarget<SessionEventType>
         const canvas = this._viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
         
-        if(ctx && this.media.type != 'data') {
+        if(ctx && this._media.type != 'data') {
             ctx.imageSmoothingEnabled = false;
 
             // draw user media
-            const image = this.media.source as CanvasImageSource;
+            const image = this._media.source as CanvasImageSource;
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
             // render output image(s)
