@@ -97,6 +97,7 @@ nav:
       - 'Transform': 'api/transform.md'
       - 'Quaternion': 'api/quaternion.md'
       - 'Vector3': 'api/vector3.md'
+      - 'Vector2': 'api/vector2.md'
     - 'Visualization':
       - 'Viewport': 'api/viewport.md'
       - 'HUD': 'api/hud.md'
