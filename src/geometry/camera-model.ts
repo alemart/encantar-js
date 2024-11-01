@@ -169,7 +169,7 @@ export class CameraModel
         // estimate the pose
         const pose = this._estimatePose(homography);
         if(this._filter.feed(pose))
-            this._extrinsics = this._filter.run().read();
+            this._extrinsics = this._filter.output().read();
 
         // compute the camera matrix
         const C = this.denormalizer();
@@ -182,7 +182,7 @@ export class CameraModel
     }
 
     /**
-     * Reset camera model
+     * Reset the camera model
      */
     reset(): void
     {
@@ -321,7 +321,7 @@ export class CameraModel
      */
     private _resetIntrinsics(): void
     {
-        const cameraWidth = Math.max(this._screenSize.width, this._screenSize.height); // portrait?
+        const cameraWidth = Math.max(this._screenSize.width, this._screenSize.height); // portrait or landscape?
 
         const u0 = this._screenSize.width / 2;
         const v0 = this._screenSize.height / 2;

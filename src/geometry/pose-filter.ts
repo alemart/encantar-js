@@ -133,7 +133,7 @@ export class PoseFilter
      * Run the filter
      * @returns a 3x4 [ R | t ] matrix
      */
-    run(): SpeedyMatrix
+    output(): SpeedyMatrix
     {
         // how many samples should we use, at most?
         const div = (Settings.powerPreference == 'low-power') ? 1.5 : 1; // low-power ~ half the fps
