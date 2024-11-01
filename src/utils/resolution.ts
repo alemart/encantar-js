@@ -94,8 +94,12 @@ function parseHeight(resolution: Resolution): number
     if(ALIAS_TO_HEIGHT.hasOwnProperty(resolution))
         return ALIAS_TO_HEIGHT[resolution as ResolutionAlias];
 
-    if(CUSTOM_RESOLUTION_REGEX.test(resolution))
-        return parseInt(resolution);
+    //if(CUSTOM_RESOLUTION_REGEX.test(resolution)) // really needed? is it fast?
+    if(resolution.endsWith('p')) {
+        const r = resolution[0];
+        if(r >= '1' && r <= '9')
+            return parseInt(resolution);
+    }
 
     return Number.NaN;
 }
