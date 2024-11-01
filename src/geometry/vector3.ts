@@ -23,7 +23,7 @@
 /** Small number */
 const EPSILON = 1e-6;
 
-// public / non-internal methods do not change the contents of the quaternion
+// public / non-internal methods do not change the contents of the vector
 
 
 
