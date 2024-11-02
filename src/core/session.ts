@@ -324,7 +324,7 @@ export class Session extends AREventTarget<SessionEventType>
             // attach trackers and return the session
             return Speedy.Promise.all(
                 trackers.map(tracker => session._attachTracker(tracker))
-            ).then(() => session);
+            ).then(() => session).catch(err => { throw err; });
 
         }).catch(err => {
 
@@ -515,13 +515,14 @@ export class Session extends AREventTarget<SessionEventType>
     /**
      * Attach a tracker to the session
      * @param tracker
+     * @returns a promise that resolves as soon as the tracker is attached and initialized
      */
     private _attachTracker(tracker: Tracker): SpeedyPromise<void>
     {
         if(this._trackers.indexOf(tracker) >= 0)
-            throw new IllegalArgumentError(`Duplicate tracker attached to the session`);
+            return Speedy.Promise.reject(new IllegalArgumentError(`Duplicate tracker attached to the session`));
         else if(!this._active)
-            throw new IllegalOperationError(`Inactive session`);
+            return Speedy.Promise.reject(new IllegalOperationError(`Inactive session`));
 
         this._trackers.push(tracker);
         return tracker._init(this);
