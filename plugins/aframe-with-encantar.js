@@ -54,7 +54,7 @@ AFRAME.registerSystem('ar', {
 
     session: null,
     frame: null,
-    utils: ARUtils(),
+    _utils: ARUtils(),
     _started: false,
     _components: [],
     _roots: [],
@@ -419,7 +419,7 @@ AFRAME.registerComponent('ar-camera', ARComponent({
         const ar = this.ar;
         const el = this.el;
 
-        const tracked = ar.utils.findTrackedImage(ar.frame);
+        const tracked = ar._utils.findTrackedImage(ar.frame);
         if(tracked === null)
             return;
 
@@ -516,7 +516,7 @@ AFRAME.registerComponent('ar-root', ARComponent({
         const ar = this.ar;
         const targetName = this.data.referenceImage;
 
-        const tracked = ar.utils.findTrackedImage(ar.frame, targetName);
+        const tracked = ar._utils.findTrackedImage(ar.frame, targetName);
         if(tracked === null) {
             this.el.pause();
             return;
