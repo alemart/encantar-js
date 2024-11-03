@@ -23,6 +23,7 @@
 import { VideoSource } from './video-source';
 import { CanvasSource } from './canvas-source';
 import { CameraSource, CameraSourceOptions } from './camera-source';
+import { PointerSource } from './pointer-source';
 
 
 /**
@@ -33,6 +34,7 @@ export class SourceFactory
     /**
      * Create a <video>-based source of data
      * @param video video element
+     * @returns a video source
      */
     static Video(video: HTMLVideoElement): VideoSource
     {
@@ -42,6 +44,7 @@ export class SourceFactory
     /**
      * Create a <canvas>-based source of data
      * @param canvas canvas element
+     * @returns a canvas source
      */
     static Canvas(canvas: HTMLCanvasElement): CanvasSource
     {
@@ -51,9 +54,19 @@ export class SourceFactory
     /**
      * Create a Webcam-based source of data
      * @param options optional options object
+     * @returns a camera source
      */
     static Camera(options: CameraSourceOptions = {}): CameraSource
     {
         return new CameraSource(options);
+    }
+
+    /**
+     * Create a source of pointer-based input
+     * @returns a pointer source
+    */
+    static Pointer(): PointerSource
+    {
+        return new PointerSource();
     }
 }
