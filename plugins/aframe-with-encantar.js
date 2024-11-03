@@ -110,14 +110,6 @@ AFRAME.registerSystem('ar', {
     {
         const scene = this.el;
 
-        // read trackable pointers
-        this.pointers.length = 0;
-        if(this.frame) {
-            const newPointers = this._utils.getTrackablePointers(this.frame);
-            if(newPointers.length > 0)
-                this.pointers.push.apply(this.pointers, newPointers);
-        }
-
         // we take control of the rendering
         scene.renderer.setAnimationLoop(null);
 
@@ -216,6 +208,7 @@ AFRAME.registerSystem('ar', {
 
         session.addEventListener('end', () => {
             this.frame = null;
+            this.pointers.length = 0;
         });
 
         session.viewport.addEventListener('resize', () => {
@@ -234,9 +227,13 @@ AFRAME.registerSystem('ar', {
 
         scene.object3D.background = null;
 
+        // animation loop
         const animate = (time, frame) => {
             this.frame = frame;
+            this._updateTrackablePointers();
+
             scene.render();
+
             session.requestAnimationFrame(animate);
         };
 
@@ -309,6 +306,15 @@ AFRAME.registerSystem('ar', {
             throw new Error('Missing ar-session in a-scene');
 
         return sessionComponent.preferences();
+    },
+
+    _updateTrackablePointers()
+    {
+        this.pointers.length = 0;
+
+        const newPointers = this._utils.getTrackablePointers(this.frame);
+        if(newPointers.length > 0)
+            this.pointers.push.apply(this.pointers, newPointers);
     },
 
 });
