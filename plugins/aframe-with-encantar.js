@@ -39,6 +39,19 @@ const ARUtils = () => ({
         return null;
     },
 
+    getTrackablePointers(frame)
+    {
+        if(frame === null)
+            return [];
+
+        for(const result of frame.results) {
+            if(result.tracker.type == 'pointer-tracker')
+                return result.trackables;
+        }
+
+        return [];
+    },
+
 });
 
 /* ========================================================================= */
@@ -52,8 +65,10 @@ AFRAME.registerSystem('ar', {
     // data;
     // schema;
 
-    session: null,
-    frame: null,
+    session: /** @type {Session | null} */ (null),
+    frame: /** @type {Frame | null} */ (null),
+    pointers: /** @type {TrackablePointer[]} */ ([]),
+
     _utils: ARUtils(),
     _started: false,
     _components: [],
@@ -94,6 +109,14 @@ AFRAME.registerSystem('ar', {
     tick()
     {
         const scene = this.el;
+
+        // read trackable pointers
+        this.pointers.length = 0;
+        if(this.frame) {
+            const newPointers = this._utils.getTrackablePointers(this.frame);
+            if(newPointers.length > 0)
+                this.pointers.push.apply(this.pointers, newPointers);
+        }
 
         // we take control of the rendering
         scene.renderer.setAnimationLoop(null);
@@ -696,6 +719,35 @@ AFRAME.registerPrimitive('ar-canvas-source', {
     }
 });
 
+/**
+ * AR Pointer Source
+ */
+AFRAME.registerComponent('ar-pointer-source', ARComponent({
+
+    schema: {
+    },
+
+    validate()
+    {
+        if(!this.el.parentNode.getAttribute('ar-sources'))
+            throw new Error('ar-pointer-source must be a direct child of ar-sources');
+    },
+
+    source()
+    {
+        return AR.Source.Pointer();
+    },
+
+}));
+
+AFRAME.registerPrimitive('ar-pointer-source', {
+    defaultComponents: {
+        'ar-pointer-source': {}
+    },
+    mappings: {
+    }
+});
+
 /* ========================================================================= */
 
 /**
@@ -824,6 +876,33 @@ AFRAME.registerPrimitive('ar-reference-image', {
     mappings: {
         'name': 'ar-reference-image.name',
         'src': 'ar-reference-image.src'
+    }
+});
+
+/**
+ * AR Pointer Tracker
+ */
+AFRAME.registerComponent('ar-pointer-tracker', ARComponent({
+
+    schema: {
+    },
+
+    validate()
+    {
+        if(!this.el.parentNode.getAttribute('ar-trackers'))
+            throw new Error('ar-pointer-tracker must be a direct child of ar-trackers');
+    },
+
+    tracker()
+    {
+        return AR.Tracker.Pointer();
+    },
+
+}));
+
+AFRAME.registerPrimitive('ar-pointer-tracker', {
+    defaultComponents: {
+        'ar-pointer-tracker': {}
     }
 });
 
