@@ -44,7 +44,7 @@ export interface TrackablePointer extends Trackable
     /** the phase of the pointer */
     readonly phase: TrackablePointerPhase;
 
-    /** current position in normalized coordinates [-1,1]x[-1,1] */
+    /** current position in normalized units [-1,1]x[-1,1] */
     readonly position: Vector2;
 
     /** the difference between the position of the pointer in this and in the previous frame */
@@ -53,7 +53,7 @@ export interface TrackablePointer extends Trackable
     /** the position of the pointer when its tracking began */
     readonly initialPosition: Vector2;
 
-    /** current velocity, given in normalized coordinates per second */
+    /** current velocity, given in normalized units per second */
     readonly velocity: Vector2;
 
     /** whether or not this is the primary pointer for this type */
