@@ -72,6 +72,29 @@ export class Vector2
     }
 
     /**
+     * Compute the dot product of this and v
+     * @param v a vector
+     * @returns the dot product of the vectors
+     */
+    dot(v: Vector2): number
+    {
+        return this.x * v.x + this.y * v.y;
+    }
+
+    /**
+     * Compute the distance between points this and v
+     * @param v a vector / point
+     * @returns the distance between the points
+     */
+    distanceTo(v: Vector2): number
+    {
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+
+        return Math.sqrt(dx*dx + dy*dy);
+    }
+
+    /**
      * Compute the direction from this to v
      * @param v a vector
      * @returns a new unit vector pointing to v from this

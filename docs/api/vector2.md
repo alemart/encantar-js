@@ -30,6 +30,34 @@ Compute the length of the vector: `sqrt(x^2 + y^2)`.
 
 The length of the vector.
 
+### dot
+
+`vector.dot(v: Vector2): number`
+
+Compute the dot product of `this` and `v`.
+
+**Arguments**
+
+* `v: Vector2`. A vector.
+
+**Returns**
+
+The dot product of the vectors.
+
+### distanceTo
+
+`vector.distanceTo(v: Vector2): number`
+
+Compute the distance between points `this` and `v`.
+
+**Arguments**
+
+* `v: Vector2`. A vector / point.
+
+**Returns**
+
+The distance between the points.
+
 ### directionTo
 
 `vector.directionTo(v: Vector2): Vector2`
