@@ -22,49 +22,14 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { Trackable, TrackerResult, TrackerOutput, Tracker } from '../tracker';
+import { TrackerResult, TrackerOutput, Tracker } from '../tracker';
+import { TrackablePointer, TrackablePointerPhase } from './trackable-pointer';
 import { PointerSource } from '../../sources/pointer-source';
 import { Vector2 } from '../../geometry/vector2';
 import { Utils, Nullable } from '../../utils/utils';
 import { IllegalOperationError } from '../../utils/errors';
 import { Session } from '../../core/session';
 import { Viewport } from '../../core/viewport';
-
-/**
- * The possible phases of a TrackablePointer
- */
-export type TrackablePointerPhase = 'began' | 'moved' | 'stationary' | 'ended' | 'canceled';
-
-/**
- * A trackable representing an instance of pointer-based input such as a mouse
- * click or a touch on the screen
- */
-export interface TrackablePointer extends Trackable
-{
-    /** a unique identifier assigned to this trackable */
-    readonly id: number;
-
-    /** the phase of the trackable */
-    readonly phase: TrackablePointerPhase;
-
-    /** current position in normalized coordinates [-1,1]x[-1,1] */
-    readonly position: Vector2;
-
-    /** the position delta since the last frame */
-    readonly deltaPosition: Vector2;
-
-    /** the first position of this trackable, given in normalized coordinates */
-    readonly initialPosition: Vector2;
-
-    /** the current velocity, given in normalized coordinates per second */
-    readonly velocity: Vector2;
-
-    /** whether or not this is the primary pointer for this type */
-    readonly isPrimary: boolean;
-
-    /** the type of the originating device; typically "mouse", "touch" or "pen" */
-    readonly type: string;
-}
 
 /**
  * A result of a PointerTracker. It's meant to be consumed by the user/application
@@ -117,11 +82,11 @@ export class PointerTracker implements Tracker
     /** new pointers */
     private _newPointers: Map<number, TrackablePointer>;
 
-    /** last output */
-    private _lastOutput: PointerTrackerOutput;
+    /** previous output */
+    private _previousOutput: PointerTrackerOutput;
 
-    /** time of the last update */
-    private _lastUpdateTime: DOMHighResTimeStamp;
+    /** time of the previous update */
+    private _previousUpdateTime: DOMHighResTimeStamp;
 
 
 
@@ -134,8 +99,8 @@ export class PointerTracker implements Tracker
         this._viewport = null;
         this._activePointers = new Map();
         this._newPointers = new Map();
-        this._lastOutput = this._generateOutput();
-        this._lastUpdateTime = Number.POSITIVE_INFINITY;
+        this._previousOutput = this._generateOutput();
+        this._previousUpdateTime = Number.POSITIVE_INFINITY;
     }
 
     /**
@@ -202,7 +167,7 @@ export class PointerTracker implements Tracker
         const canvas = this._viewport!.canvas;
         const rect = canvas.getBoundingClientRect(); // may be different in different frames!
 
-        // find the time between this and the last update of this tracker
+        // find the time between this and the previous update of this tracker
         const deltaTime = this._updateTime();
         const inverseDeltaTime = (deltaTime > 1e-5) ? 1 / deltaTime : 60; // 1/dt = 1 / (1/60) with 60 fps
 
@@ -321,22 +286,22 @@ export class PointerTracker implements Tracker
         this._newPointers.clear();
 
         // generate output
-        this._lastOutput = this._generateOutput();
+        this._previousOutput = this._generateOutput();
 
         // test
-        //console.log(JSON.stringify(this._lastOutput.exports.trackables, null, 4));
+        //console.log(JSON.stringify(this._prevOutput.exports.trackables, null, 4));
 
         // done!
         return Speedy.Promise.resolve();
     }
 
     /**
-     * Output of the last frame
+     * Output of the previous frame
      * @internal
      */
     get _output(): PointerTrackerOutput
     {
-        return this._lastOutput;
+        return this._previousOutput;
     }
 
     /**
@@ -392,11 +357,11 @@ export class PointerTracker implements Tracker
     {
         const now = performance.now() * 0.001;
 
-        if(this._lastUpdateTime > now)
-            this._lastUpdateTime = now;
+        if(this._previousUpdateTime > now)
+            this._previousUpdateTime = now;
 
-        const prev = this._lastUpdateTime;
-        this._lastUpdateTime = now;
+        const prev = this._previousUpdateTime;
+        this._previousUpdateTime = now;
 
         return now - prev;
     }
