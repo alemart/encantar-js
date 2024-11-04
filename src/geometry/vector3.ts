@@ -99,20 +99,18 @@ export class Vector3
     }
 
     /**
-     * Normalize this vector
-     * @returns this vector, normalized
+     * Set the coordinates of this vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param z z-coordinate
+     * @returns this vector
      * @internal
      */
-    _normalize(): Vector3
+    _set(x: number, y: number, z: number): Vector3
     {
-        const length = this.length();
-
-        if(length < EPSILON) // zero?
-            return this;
-
-        this.x /= length;
-        this.y /= length;
-        this.z /= length;
+        this.x = +x;
+        this.y = +y;
+        this.z = +z;
 
         return this;
     }
@@ -133,18 +131,65 @@ export class Vector3
     }
 
     /**
-     * Set the coordinates of this vector
-     * @param x x-coordinate
-     * @param y y-coordinate
-     * @param z z-coordinate
+     * Normalize this vector
+     * @returns this vector, normalized
+     * @internal
+     */
+    _normalize(): Vector3
+    {
+        const length = this.length();
+
+        if(length < EPSILON) // zero?
+            return this;
+
+        this.x /= length;
+        this.y /= length;
+        this.z /= length;
+
+        return this;
+    }
+
+    /**
+     * Add v to this vector
+     * @param v a vector
      * @returns this vector
      * @internal
      */
-    _set(x: number, y: number, z: number): Vector3
+    _add(v: Vector3): Vector3
     {
-        this.x = +x;
-        this.y = +y;
-        this.z = +z;
+        this.x += v.x;
+        this.y += v.y;
+        this.z += v.z;
+
+        return this;
+    }
+
+    /**
+     * Subtract v from this vector
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _subtract(v: Vector3): Vector3
+    {
+        this.x -= v.x;
+        this.y -= v.y;
+        this.z -= v.z;
+
+        return this;
+    }
+
+    /**
+     * Scale this vector by a scalar
+     * @param s scalar
+     * @returns this vector
+     * @internal
+     */
+    _scale(s: number): Vector3
+    {
+        this.x *= s;
+        this.y *= s;
+        this.z *= s;
 
         return this;
     }

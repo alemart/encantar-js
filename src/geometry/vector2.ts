@@ -94,6 +94,35 @@ export class Vector2
     }
 
     /**
+     * Set the coordinates of this vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @returns this vector
+     * @internal
+     */
+    _set(x: number, y: number): Vector2
+    {
+        this.x = +x;
+        this.y = +y;
+
+        return this;
+    }
+
+    /**
+     * Copy v to this vector
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _copyFrom(v: Vector2): Vector2
+    {
+        this.x = v.x;
+        this.y = v.y;
+
+        return this;
+    }
+
+    /**
      * Normalize this vector
      * @returns this vector, normalized
      * @internal
@@ -112,30 +141,43 @@ export class Vector2
     }
 
     /**
-     * Copy v to this
+     * Add v to this vector
      * @param v a vector
      * @returns this vector
      * @internal
      */
-    _copyFrom(v: Vector2): Vector2
+    _add(v: Vector2): Vector2
     {
-        this.x = v.x;
-        this.y = v.y;
+        this.x += v.x;
+        this.y += v.y;
 
         return this;
     }
 
     /**
-     * Set the coordinates of this vector
-     * @param x x-coordinate
-     * @param y y-coordinate
+     * Subtract v from this vector
+     * @param v a vector
      * @returns this vector
      * @internal
      */
-    _set(x: number, y: number): Vector2
+    _subtract(v: Vector2): Vector2
     {
-        this.x = +x;
-        this.y = +y;
+        this.x -= v.x;
+        this.y -= v.y;
+
+        return this;
+    }
+
+    /**
+     * Scale this vector by a scalar
+     * @param s scalar
+     * @returns this vector
+     * @internal
+     */
+    _scale(s: number): Vector2
+    {
+        this.x *= s;
+        this.y *= s;
 
         return this;
     }
