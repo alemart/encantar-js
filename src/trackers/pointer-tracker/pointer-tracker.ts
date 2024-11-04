@@ -50,7 +50,10 @@ export interface TrackablePointer extends Trackable
     /** current position in normalized coordinates [-1,1]x[-1,1] */
     readonly position: Vector2;
 
-    /** the first position, given in normalized coordinates */
+    /** the position delta since the last frame */
+    readonly deltaPosition: Vector2;
+
+    /** the first position of this trackable, given in normalized coordinates */
     readonly initialPosition: Vector2;
 
     /** whether or not this is the primary pointer for this type */
@@ -279,19 +282,23 @@ export class PointerTracker implements Tracker
             const relY = -(2 * absY / rect.height - 1); // flip Y axis
             const position = new Vector2(relX, relY);
 
+            // determine the position delta
+            const deltaPosition = !previous ? Vector2.Zero() :
+                                  new Vector2(position.x, position.y)._subtract(previous.position);
+
             // determine the initial position
             const initialPosition = previous ? previous.initialPosition :
-                                    Object.freeze(new Vector2()._copyFrom(position));
-
-            // determine the type of the originating device
-            const type = event.pointerType;
+                                    Object.freeze(new Vector2(position.x, position.y));
 
             // determine whether or not this is the primary pointer for this type
             const isPrimary = event.isPrimary;
 
+            // determine the type of the originating device
+            const type = event.pointerType;
+
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, initialPosition, isPrimary, type });
+            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, isPrimary, type });
 
         }
 
