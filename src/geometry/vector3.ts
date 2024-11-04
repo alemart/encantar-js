@@ -76,6 +76,16 @@ export class Vector3
     }
 
     /**
+     * Compute the direction from this to v
+     * @param v a vector
+     * @returns a new unit vector pointing to v from this
+     */
+    directionTo(v: Vector3): Vector3
+    {
+        return v._clone()._subtract(this)._normalize();
+    }
+
+    /**
      * Check if this and v have the same coordinates
      * @param v a vector
      * @returns true if this and v have the same coordinates
@@ -96,6 +106,16 @@ export class Vector3
         const z = this.z.toFixed(5);
 
         return `Vector3(${x},${y},${z})`;
+    }
+
+    /**
+     * Clone this vector
+     * @returns a clone of this vector
+     * @internal
+     */
+    _clone(): Vector3
+    {
+        return new Vector3(this.x, this.y, this.z);
     }
 
     /**
@@ -128,16 +148,6 @@ export class Vector3
         this.z = v.z;
 
         return this;
-    }
-
-    /**
-     * Clone this vector
-     * @returns a clone of this vector
-     * @internal
-     */
-    _clone(): Vector3
-    {
-        return new Vector3(this.x, this.y, this.z);
     }
 
     /**

@@ -36,6 +36,20 @@ Compute the length of the vector: `sqrt(x^2 + y^2 + z^2)`.
 
 The length of the vector.
 
+### directionTo
+
+`vector.directionTo(v: Vector3): Vector3`
+
+Compute a unit vector pointing to `v` from `this`.
+
+**Arguments**
+
+* `v: Vector3`. A vector.
+
+**Returns**
+
+A new unit vector pointing to `v` from `this`.
+
 ### equals
 
 `vector.equals(v: Vector3): boolean`
