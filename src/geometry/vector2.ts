@@ -123,6 +123,16 @@ export class Vector2
     }
 
     /**
+     * Clone this vector
+     * @returns a clone of this vector
+     * @internal
+     */
+    _clone(): Vector2
+    {
+        return new Vector2(this.x, this.y);
+    }
+
+    /**
      * Normalize this vector
      * @returns this vector, normalized
      * @internal
