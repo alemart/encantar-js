@@ -22,6 +22,12 @@ const imageTracker = AR.Tracker.ImageTracker();
 
 ## Properties
 
+### type
+
+`tracker.type: string, read-only`
+
+The string `"image-tracker"`.
+
 ### state
 
 `tracker.state: string, read-only`
