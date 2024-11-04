@@ -56,6 +56,9 @@ export interface TrackablePointer extends Trackable
     /** current velocity, given in normalized units per second */
     readonly velocity: Vector2;
 
+    /** elapsed time, in seconds, since the tracking of this pointer began */
+    readonly elapsedTime: number;
+
     /** whether or not this is the primary pointer for this type */
     readonly isPrimary: boolean;
 

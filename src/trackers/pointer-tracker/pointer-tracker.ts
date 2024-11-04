@@ -269,6 +269,9 @@ export class PointerTracker implements Tracker
             // determine the velocity
             const velocity = deltaPosition._clone()._scale(inverseDeltaTime);
 
+            // determine the elapsed time since the tracking began
+            const elapsedTime = previous ? previous.elapsedTime + deltaTime : 0;
+
             // determine whether or not this is the primary pointer for this type
             const isPrimary = event.isPrimary;
 
@@ -277,7 +280,7 @@ export class PointerTracker implements Tracker
 
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, isPrimary, type });
+            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, isPrimary, type });
 
         }
 
