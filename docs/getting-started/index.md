@@ -11,6 +11,7 @@ Enchant your users with **encantar.js**, a GPU-accelerated Augmented Reality eng
 * **AR everywhere**: encantar.js runs on Android, on iOS, and even on Desktop computers! Only a modern web browser is required.
 * **Plugins**: use encantar.js with the 3D framework of your choice, including A-Frame, Babylon.js, Three.js and more!
 * **Image tracking**: track detailed images such as book covers, cartoons and photos. No need of manual training!
+* **Pointer tracking**: create interactive experiences based on touch, mouse and pen input with an easy-to-use interface.
 
 ## Why use encantar.js?
 
