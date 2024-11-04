@@ -24,12 +24,13 @@ import AR from '../main';
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { Nullable } from '../utils/utils';
-import { Resolution } from '../utils/resolution';
-import { Utils } from '../utils/utils';
 import { SessionMode } from './session';
 import { HUD, HUDContainer } from './hud';
 import { FullscreenButton } from '../ui/fullscreen-button';
+import { Vector2 } from '../geometry/vector2';
+import { Resolution } from '../utils/resolution';
+import { Nullable } from '../utils/utils';
+import { Utils } from '../utils/utils';
 import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
 import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessDeniedError } from '../utils/errors';
 
@@ -976,6 +977,23 @@ export class Viewport extends ViewportEventTarget
     exitFullscreen(): SpeedyPromise<void>
     {
         return this._fullscreen.exit();
+    }
+
+    /**
+     * Convert a position given in normalized units to a corresponding pixel
+     * position in canvas space. Normalized units range from -1 to +1. The
+     * center of the canvas is at (0,0). The top right corner is at (1,1).
+     * The bottom left corner is at (-1,-1).
+     * @param position in normalized units
+     * @returns an equivalent pixel position in canvas space
+     */
+    convertToPixels(position: Vector2): Vector2
+    {
+        const canvas = this.canvas;
+        const x = 0.5 * (1 + position.x) * canvas.width;
+        const y = -0.5 * (1 + position.y) * canvas.height;
+
+        return new Vector2(x, y);
     }
 
     /**
