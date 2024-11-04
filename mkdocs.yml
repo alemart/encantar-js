@@ -80,6 +80,10 @@ nav:
         - 'ReferenceImageDatabase': 'api/reference-image-database.md'
         - 'ImageTrackerResult': 'api/image-tracker-result.md'
         - 'TrackableImage': 'api/trackable-image.md'
+      - 'Pointer tracker':
+        - 'PointerTracker': 'api/pointer-tracker.md'
+        - 'PointerTrackerResult': 'api/pointer-tracker-result.md'
+        - 'TrackablePointer': 'api/trackable-pointer.md'
       - 'Tracker': 'api/tracker.md'
       - 'TrackerResult': 'api/tracker-result.md'
       - 'Trackable': 'api/trackable.md'
@@ -87,6 +91,7 @@ nav:
       - 'CameraSource': 'api/camera-source.md'
       - 'CanvasSource': 'api/canvas-source.md'
       - 'VideoSource': 'api/video-source.md'
+      - 'PointerSource': 'api/pointer-source.md'
       - 'Source': 'api/source.md'
     - 'Geometry':
       - 'Pose': 'api/pose.md'
@@ -95,9 +100,9 @@ nav:
       - 'View': 'api/view.md'
       - 'PerspectiveView': 'api/perspective-view.md'
       - 'Transform': 'api/transform.md'
-      - 'Quaternion': 'api/quaternion.md'
-      - 'Vector3': 'api/vector3.md'
       - 'Vector2': 'api/vector2.md'
+      - 'Vector3': 'api/vector3.md'
+      - 'Quaternion': 'api/quaternion.md'
     - 'Visualization':
       - 'Viewport': 'api/viewport.md'
       - 'HUD': 'api/hud.md'
