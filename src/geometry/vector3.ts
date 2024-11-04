@@ -110,6 +110,20 @@ export class Vector3
     }
 
     /**
+     * The cross product of this and v
+     * @param v a vector
+     * @returns the cross product this x v
+     */
+    cross(v: Vector3): Vector3
+    {
+        const x = this.y * v.z - this.z * v.y;
+        const y = this.z * v.x - this.x * v.z;
+        const z = this.x * v.y - this.y * v.x;
+
+        return new Vector3(x, y, z);
+    }
+
+    /**
      * Check if this and v have the same coordinates
      * @param v a vector
      * @returns true if this and v have the same coordinates

@@ -78,6 +78,20 @@ Compute a unit vector pointing to `v` from `this`.
 
 A new unit vector pointing to `v` from `this`.
 
+### cross
+
+`vector.cross(v: Vector3): Vector3`
+
+Compute the cross product of `this` and `v`.
+
+**Arguments**
+
+* `v: Vector3`. A vector.
+
+**Returns**
+
+The cross product `this` x `v`.
+
 ### equals
 
 `vector.equals(v: Vector3): boolean`
