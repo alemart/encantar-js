@@ -295,15 +295,14 @@ export class PointerTracker implements Tracker
 
             // determine the position delta
             const deltaPosition = !previous ? Vector2.Zero() :
-                                  new Vector2(position.x, position.y)._subtract(previous.position);
+                                  position._clone()._subtract(previous.position);
 
             // determine the initial position
             const initialPosition = previous ? previous.initialPosition :
-                                    Object.freeze(new Vector2(position.x, position.y));
+                                    Object.freeze(position._clone());
 
             // determine the velocity
-            const velocity = new Vector2(deltaPosition.x, deltaPosition.y)
-                             ._scale(inverseDeltaTime);
+            const velocity = deltaPosition._clone()._scale(inverseDeltaTime);
 
             // determine whether or not this is the primary pointer for this type
             const isPrimary = event.isPrimary;
