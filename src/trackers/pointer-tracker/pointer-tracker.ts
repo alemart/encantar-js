@@ -56,6 +56,9 @@ export interface TrackablePointer extends Trackable
     /** the first position of this trackable, given in normalized coordinates */
     readonly initialPosition: Vector2;
 
+    /** the current velocity, given in normalized coordinates per second */
+    readonly velocity: Vector2;
+
     /** whether or not this is the primary pointer for this type */
     readonly isPrimary: boolean;
 
@@ -117,6 +120,9 @@ export class PointerTracker implements Tracker
     /** last output */
     private _lastOutput: PointerTrackerOutput;
 
+    /** time of the last update */
+    private _lastUpdateTime: DOMHighResTimeStamp;
+
 
 
     /**
@@ -129,6 +135,7 @@ export class PointerTracker implements Tracker
         this._activePointers = new Map();
         this._newPointers = new Map();
         this._lastOutput = this._generateOutput();
+        this._lastUpdateTime = Number.POSITIVE_INFINITY;
     }
 
     /**
@@ -194,6 +201,10 @@ export class PointerTracker implements Tracker
     {
         const canvas = this._viewport!.canvas;
         const rect = canvas.getBoundingClientRect(); // may be different in different frames!
+
+        // find the time between this and the last update of this tracker
+        const deltaTime = this._updateTime();
+        const inverseDeltaTime = (deltaTime > 1e-5) ? 1 / deltaTime : 60; // 1/dt = 1 / (1/60) with 60 fps
 
         // remove inactive trackables from the previous frame (update cycle)
         const inactiveTrackables = this._findUnwantedTrackables();
@@ -290,6 +301,10 @@ export class PointerTracker implements Tracker
             const initialPosition = previous ? previous.initialPosition :
                                     Object.freeze(new Vector2(position.x, position.y));
 
+            // determine the velocity
+            const velocity = new Vector2(deltaPosition.x, deltaPosition.y)
+                             ._scale(inverseDeltaTime);
+
             // determine whether or not this is the primary pointer for this type
             const isPrimary = event.isPrimary;
 
@@ -298,7 +313,7 @@ export class PointerTracker implements Tracker
 
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, isPrimary, type });
+            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, isPrimary, type });
 
         }
 
@@ -368,5 +383,22 @@ export class PointerTracker implements Tracker
         });
 
         return trackables;
+    }
+
+    /**
+     * Update the time
+     * @returns delta time in seconds
+     */
+    private _updateTime(): DOMHighResTimeStamp
+    {
+        const now = performance.now() * 0.001;
+
+        if(this._lastUpdateTime > now)
+            this._lastUpdateTime = now;
+
+        const prev = this._lastUpdateTime;
+        this._lastUpdateTime = now;
+
+        return now - prev;
     }
 }
