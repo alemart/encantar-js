@@ -53,6 +53,9 @@ export interface TrackablePointer extends Trackable
     /** the first position, given in normalized coordinates */
     readonly initialPosition: Vector2;
 
+    /** whether or not this is the primary pointer for this type */
+    readonly isPrimary: boolean;
+
     /** the type of the originating device; typically "mouse", "touch" or "pen" */
     readonly type: string;
 }
@@ -283,9 +286,12 @@ export class PointerTracker implements Tracker
             // determine the type of the originating device
             const type = event.pointerType;
 
+            // determine whether or not this is the primary pointer for this type
+            const isPrimary = event.isPrimary;
+
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, initialPosition, type });
+            this._newPointers.set(id, { id, phase, position, initialPosition, isPrimary, type });
 
         }
 
