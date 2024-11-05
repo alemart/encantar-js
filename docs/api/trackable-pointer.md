@@ -64,8 +64,8 @@ The elapsed time, in seconds, since the tracking of this pointer began.
 
 Whether or not this is the primary pointer among all pointers of this [type](#type). A typical primary pointer is that of a finger that touches the screen when no other fingers are touching it.
 
-### type
+### kind
 
-`pointer.type: string, read-only`
+`pointer.kind: string, read-only`
 
 The type of device that originated this pointer. Typically `"touch"`, `"mouse"` or `"pen"`.

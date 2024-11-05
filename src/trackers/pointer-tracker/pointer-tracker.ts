@@ -276,11 +276,11 @@ export class PointerTracker implements Tracker
             const isPrimary = event.isPrimary;
 
             // determine the type of the originating device
-            const type = event.pointerType;
+            const kind = event.pointerType;
 
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, isPrimary, type });
+            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, isPrimary, kind });
 
         }
 

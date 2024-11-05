@@ -63,5 +63,5 @@ export interface TrackablePointer extends Trackable
     readonly isPrimary: boolean;
 
     /** the type of the originating device; typically "mouse", "touch" or "pen" */
-    readonly type: string;
+    readonly kind: string;
 }
