@@ -310,7 +310,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
 
         // compute the screen size for image processing purposes
         // note: this may change over time...!
-        const media = this._source!._data;
+        const media = this._source!._internalMedia;
         const aspectRatio = media.width / media.height;
         const screenSize = Utils.resolution(this._resolution, aspectRatio);
 

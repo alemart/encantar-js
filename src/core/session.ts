@@ -172,7 +172,7 @@ export class Session extends AREventTarget<SessionEventType>
         // setup the viewport
         this._viewport = viewport;
         if(this._primarySource !== null)
-            this._viewport._init(() => this._primarySource!._data.size, mode);
+            this._viewport._init(() => this._primarySource!._internalMedia.size, mode);
         else
             this._viewport._init(() => Utils.resolution('sm', window.innerWidth / window.innerHeight), mode);
 
@@ -529,7 +529,7 @@ export class Session extends AREventTarget<SessionEventType>
      */
     private _renderUserMedia(): void
     {
-        const media = this._primarySource?._data;
+        const media = this._primarySource?._internalMedia;
         const canvas = this._viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
 

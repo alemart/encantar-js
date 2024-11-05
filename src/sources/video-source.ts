@@ -71,7 +71,7 @@ export class VideoSource implements Source
      * Get media
      * @internal
      */
-    get _data(): SpeedyMedia
+    get _internalMedia(): SpeedyMedia
     {
         if(this._media == null)
             throw new IllegalOperationError(`The media of the source of data isn't loaded`);
