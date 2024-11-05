@@ -331,9 +331,35 @@ export class PointerTracker implements Tracker
         return {
             exports: {
                 tracker: this,
-                trackables: trackables
+                trackables: this._sortTrackables(trackables)
             }
         };
+    }
+
+    /**
+     * As a convenience, let's make sure that a primary pointer, if any exists,
+     * is at the beginning of the trackables array
+     * @param trackables
+     * @returns sorted trackables
+     */
+    private _sortTrackables(trackables: TrackablePointer[]): TrackablePointer[]
+    {
+        // nothing to do
+        if(trackables.length <= 1 || trackables[0].isPrimary)
+            return trackables;
+
+        // find a primary pointer and swap
+        for(let j = 1; j < trackables.length; j++) {
+            if(trackables[j].isPrimary) {
+                const primary = trackables[j];
+                trackables[j] = trackables[0];
+                trackables[0] = primary;
+                break;
+            }
+        }
+
+        // done!
+        return trackables;
     }
 
     /**
