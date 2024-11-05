@@ -42,9 +42,9 @@ Whether or not the session has been ended. See also: [end](#end).
 
 ### time
 
-`session.time: Time, read-only`
+`session.time: TimeManager, read-only`
 
-A reference to the [Time](time.md) utilities of this session.
+A reference to the [TimeManager](time-manager.md) of this session.
 
 ### gizmos
 
@@ -91,7 +91,7 @@ Schedules a call to the `callback` function, which is intended to update and ren
 **Arguments**
 
 * `callback: function`. A function that receives two parameters:
-    * `time: DOMHighResTimeStamp`. Elapsed time, in milliseconds, since an arbitrary reference. This parameter is kept to mimic web standards, but its usage is discouraged. Prefer using `frame.session.time.elapsed` and `frame.session.time.delta` instead. These are especially useful for creating animations. See also: [Time](time.md).
+    * `time: DOMHighResTimeStamp`. Elapsed time, in milliseconds, since an arbitrary reference. This parameter is kept to mimic web standards, but its usage is discouraged. Prefer using `frame.session.time.elapsed` and `frame.session.time.delta` instead. These are especially useful for creating animations. See also: [TimeManager](time-manager.md).
     * `frame: Frame`. A [Frame](frame.md) holding the data you need to create the augmented scene.
 
 **Returns**

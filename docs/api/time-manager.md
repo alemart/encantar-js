@@ -1,4 +1,4 @@
-# Time
+# TimeManager
 
 Time-related utilities. They are useful for animating virtual scenes.
 

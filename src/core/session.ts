@@ -33,7 +33,7 @@ import { StatsPanel } from '../ui/stats-panel';
 import { Gizmos } from '../ui/gizmos';
 import { Frame } from './frame';
 import { Tracker } from '../trackers/tracker';
-import { Time } from './time';
+import { TimeManager } from './time-manager';
 import { Source } from '../sources/source';
 import { VideoSource } from '../sources/video-source';
 import { CanvasSource } from '../sources/canvas-source';
@@ -113,7 +113,7 @@ export class Session extends AREventTarget<SessionEventType>
     private readonly _primarySource: VideoSource | CanvasSource;
 
     /** Time Manager */
-    private _time: Time;
+    private _time: TimeManager;
 
     /** Is the session currently active? */
     private _active: boolean;
@@ -158,7 +158,7 @@ export class Session extends AREventTarget<SessionEventType>
         this._active = true;
         this._frameReady = true; // no trackers at the moment
         this._rafQueue = [];
-        this._time = new Time();
+        this._time = new TimeManager();
         this._gizmos = new Gizmos();
         this._gizmos.visible = gizmos;
 
@@ -444,9 +444,9 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
-     * Time utilities
+     * Time Manager
      */
-    get time(): Time
+    get time(): TimeManager
     {
         return this._time;
     }

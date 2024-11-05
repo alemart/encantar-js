@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * time.ts
- * Time utilities
+ * time-manager.ts
+ * Time Manager
  */
 
 /**
  * Time Manager
  */
-export class Time
+export class TimeManager
 {
     /** time scale */
     private _scale: number = 1;
