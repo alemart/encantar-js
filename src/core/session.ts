@@ -22,6 +22,7 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
+import { SpeedyMediaSourceNativeElement } from 'speedy-vision/types/core/speedy-media-source';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable, Utils } from '../utils/utils';
 import { AREvent, AREventTarget } from '../utils/ar-events';
@@ -525,33 +526,51 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
-     * Render the user media to the background canvas
+     * Render content to the background canvas
      */
-    private _renderUserMedia(): void
+    private _renderBackground(): void
     {
-        const media = this._primarySource?._internalMedia;
         const canvas = this._viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
 
-        if(ctx && media && media.type != 'data') {
-            ctx.imageSmoothingEnabled = false;
+        // error?
+        if(!ctx)
+            return;
+        ctx.imageSmoothingEnabled = false;
 
-            // draw user media
-            const image = media.source as CanvasImageSource;
+        // render user media
+        if(this._primarySource !== null) {
+            const media = this._primarySource._internalMedia;
+            this._renderMedia(ctx, media);
+        }
+
+        // render output image(s)
+        for(let i = 0; i < this._trackers.length; i++) {
+            const media = this._trackers[i]._output.image;
+            if(media !== undefined)
+                this._renderMedia(ctx, media);
+        }
+
+        // render gizmos
+        this._gizmos._render(this._viewport, this._trackers);
+    }
+
+    /**
+     * Render a SpeedyMedia
+     * @param ctx rendering context
+     * @param media
+     */
+    private _renderMedia(ctx: CanvasRenderingContext2D, media: SpeedyMedia): void
+    {
+        const canvas = ctx.canvas;
+
+        if(media.type != 'data') {
+            const image = media.source as Exclude<SpeedyMediaSourceNativeElement, ImageData>;
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-            // render output image(s)
-            for(let i = 0; i < this._trackers.length; i++) {
-                const media = this._trackers[i]._output.image;
-                if(media !== undefined) {
-                    const image = media.source as CanvasImageSource;
-                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-                    //ctx.drawImage(image, canvas.width - media.width, canvas.height - media.height, media.width, media.height);
-                }
-            }
-
-            // render gizmos
-            this._gizmos._render(this._viewport, this._trackers);
+        }
+        else {
+            const image = media.source as ImageData;
+            ctx.putImageData(image, 0, 0, 0, 0, canvas.width, canvas.height);
         }
     }
 
@@ -676,9 +695,9 @@ export class Session extends AREventTarget<SessionEventType>
                 const rafQueue = this._rafQueue.slice(0);
                 this._rafQueue.length = 0;
 
-                // render user media
+                // render content to the background canvas
                 if(!skipUserMedia)
-                    this._renderUserMedia();
+                    this._renderBackground();
 
                 // render frame
                 for(let i = 0; i < rafQueue.length; i++)

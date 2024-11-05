@@ -88,7 +88,7 @@ export class Gizmos
         const canvas = viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
         if(!ctx)
-            throw new IllegalOperationError();
+            return;
 
         // debug
         //ctx.fillStyle = '#000';
