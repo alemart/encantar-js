@@ -110,7 +110,7 @@ export class Session extends AREventTarget<SessionEventType>
     private readonly _viewport: Viewport;
 
     /** Primary source of data */
-    private readonly _primarySource: VideoSource | CanvasSource;
+    private readonly _primarySource: Nullable<VideoSource | CanvasSource>;
 
     /** Time Manager */
     private _time: TimeManager;
@@ -171,7 +171,10 @@ export class Session extends AREventTarget<SessionEventType>
 
         // setup the viewport
         this._viewport = viewport;
-        this._viewport._init(() => this._media.size, mode);
+        if(this._primarySource !== null)
+            this._viewport._init(() => this._primarySource!._data.size, mode);
+        else
+            this._viewport._init(() => Utils.resolution('sm', window.innerWidth / window.innerHeight), mode);
 
         // setup the main loop
         this._setupUpdateLoop();
@@ -486,9 +489,9 @@ export class Session extends AREventTarget<SessionEventType>
     /**
      * Find the primary source of data (generally a camera stream)
      * @param sources
-     * @returns the primary source
+     * @returns the primary source, or null if there isn't any
      */
-    private _findPrimarySource(sources: Source[]): VideoSource | CanvasSource
+    private _findPrimarySource(sources: Source[]): Nullable<VideoSource | CanvasSource>
     {
         // prefer video sources
         for(let i = 0; i < sources.length; i++) {
@@ -500,16 +503,9 @@ export class Session extends AREventTarget<SessionEventType>
                 return sources[i] as CanvasSource;
         }
 
-        // this shouldn't happen
-        throw new IllegalOperationError(`No primary source of data was found!`);
-    }
-
-    /**
-     * The media of the primary source of data
-     */
-    private get _media(): SpeedyMedia
-    {
-        return this._primarySource._data;
+        // emit warning
+        Utils.warning(`No primary source of data was found!`);
+        return null;
     }
 
     /**
@@ -533,14 +529,15 @@ export class Session extends AREventTarget<SessionEventType>
      */
     private _renderUserMedia(): void
     {
+        const media = this._primarySource?._data;
         const canvas = this._viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
-        
-        if(ctx && this._media.type != 'data') {
+
+        if(ctx && media && media.type != 'data') {
             ctx.imageSmoothingEnabled = false;
 
             // draw user media
-            const image = this._media.source as CanvasImageSource;
+            const image = media.source as CanvasImageSource;
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
             // render output image(s)
