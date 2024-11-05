@@ -21,21 +21,13 @@
  */
 
 import Speedy from 'speedy-vision';
-import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPoint2 } from 'speedy-vision/types/core/speedy-point';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { SpeedyKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
-import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { Resolution } from '../utils/resolution';
-import { Nullable, Utils } from '../utils/utils';
-import { IllegalArgumentError, IllegalOperationError, TrackingError } from '../utils/errors';
 import { Viewport } from '../core/viewport';
-import { Tracker } from '../trackers/tracker';
+import { Tracker, TrackerOutput } from '../trackers/tracker';
 import { ImageTrackerOutput } from '../trackers/image-tracker/image-tracker';
-
-/** The maximum match distance ratio we'll consider to be "good" */
-const GOOD_MATCH_THRESHOLD = 0.7;
 
 
 
@@ -47,12 +39,18 @@ export class Gizmos
     /** Should we render the gizmos? */
     private _visible: boolean;
 
+    /** Gizmos renderer of Image Trackers */
+    private _imageTrackerGizmos: ImageTrackerGizmos;
+
+
+
     /**
      * Constructor
      */
     constructor()
     {
         this._visible = false;
+        this._imageTrackerGizmos = new ImageTrackerGizmos();
     }
 
     /**
@@ -83,12 +81,51 @@ export class Gizmos
         if(!this._visible)
             return;
 
-        // viewport
-        const viewportSize = viewport._realSize;
+        // render the gizmos of each tracker
+        for(let i = 0; i < trackers.length; i++) {
+            if(trackers[i].type == 'image-tracker') {
+                const output = trackers[i]._output as ImageTrackerOutput;
+                this._imageTrackerGizmos.render(viewport, output);
+            }
+        }
+    }
+}
+
+
+
+/**
+ * Gizmos renderer
+ */
+interface GizmosRenderer
+{
+    render(viewport: Viewport, output: TrackerOutput): void;
+}
+
+
+
+/**
+ * Gizmos renderer of Image Trackers
+ */
+class ImageTrackerGizmos implements GizmosRenderer
+{
+    /**
+     * Render gizmos
+     * @param viewport viewport
+     * @param output tracker output
+     */
+    render(viewport: Viewport, output: ImageTrackerOutput): void
+    {
         const canvas = viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
+
         if(!ctx)
             return;
+
+        const viewportSize = viewport._realSize;
+        const screenSize = output.screenSize;
+        const keypoints = output.keypoints;
+        const polyline = output.polyline;
+        const cameraMatrix = output.cameraMatrix;
 
         // debug
         //ctx.fillStyle = '#000';
@@ -96,43 +133,16 @@ export class Gizmos
         //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // render keypoints
-        for(let i = 0; i < trackers.length; i++) {
-            if(trackers[i].type != 'image-tracker')
-                continue;
-
-            const output = trackers[i]._output as ImageTrackerOutput;
-            const keypoints = output.keypoints;
-            const screenSize = output.screenSize;
-
-            if(keypoints !== undefined && screenSize !== undefined)
-                this._splitAndRenderKeypoints(ctx, keypoints, screenSize, viewportSize);
-        }
+        if(keypoints !== undefined && screenSize !== undefined)
+            this._splitAndRenderKeypoints(ctx, keypoints, screenSize, viewportSize);
 
         // render polylines
-        for(let i = 0; i < trackers.length; i++) {
-            if(trackers[i].type != 'image-tracker')
-                continue;
-
-            const output = trackers[i]._output as ImageTrackerOutput;
-            const polyline = output.polyline;
-            const screenSize = output.screenSize;
-
-            if(polyline !== undefined && screenSize !== undefined)
-                this._renderPolyline(ctx, polyline, screenSize, viewportSize);
-        }
+        if(polyline !== undefined && screenSize !== undefined)
+            this._renderPolyline(ctx, polyline, screenSize, viewportSize);
 
         // render the axes of the 3D coordinate system
-        for(let i = 0; i < trackers.length; i++) {
-            if(trackers[i].type != 'image-tracker')
-                continue;
-
-            const output = trackers[i]._output as ImageTrackerOutput;
-            const cameraMatrix = output.cameraMatrix;
-            const screenSize = output.screenSize;
-
-            if(cameraMatrix !== undefined && screenSize !== undefined)
-                this._renderAxes(ctx, cameraMatrix, screenSize, viewportSize);
-        }
+        if(cameraMatrix !== undefined && screenSize !== undefined)
+            this._renderAxes(ctx, cameraMatrix, screenSize, viewportSize);
     }
 
     /**
@@ -154,19 +164,35 @@ export class Gizmos
             return;
         }
 
-        const isGoodMatch = (keypoint: SpeedyMatchedKeypoint) =>
-            (keypoint.matches.length == 1 && keypoint.matches[0].index >= 0) ||
-            (keypoint.matches.length > 1 &&
-                keypoint.matches[0].index >= 0 && keypoint.matches[1].index >= 0 &&
-                keypoint.matches[0].distance <= GOOD_MATCH_THRESHOLD * keypoint.matches[1].distance
-            );
-
         const matchedKeypoints = keypoints as SpeedyMatchedKeypoint[];
-        const goodMatches = matchedKeypoints.filter(keypoint => isGoodMatch(keypoint));
-        const badMatches = matchedKeypoints.filter(keypoint => !isGoodMatch(keypoint));
+        const goodMatches = matchedKeypoints.filter(keypoint => this._isGoodMatch(keypoint));
+        const badMatches = matchedKeypoints.filter(keypoint => !this._isGoodMatch(keypoint));
 
         this._renderKeypoints(ctx, badMatches, screenSize, viewportSize, '#f00', size);
         this._renderKeypoints(ctx, goodMatches, screenSize, viewportSize, '#0f0', size);
+    }
+
+    /**
+     * Check if a matched keypoint is "good enough"
+     * @param keypoint matched keypoint
+     * @returns a boolean
+     */
+    private _isGoodMatch(keypoint: SpeedyMatchedKeypoint): boolean
+    {
+        const GOOD_MATCH_THRESHOLD = 0.7; // the maximum match distance ratio we'll consider to be "good"
+        const n = keypoint.matches.length;
+
+        if(n > 1) {
+            return (
+                keypoint.matches[0].index >= 0 &&
+                keypoint.matches[1].index >= 0 &&
+                keypoint.matches[0].distance <= GOOD_MATCH_THRESHOLD * keypoint.matches[1].distance
+            );
+        }
+        else if(n == 1)
+            return keypoint.matches[0].index >= 0;
+
+        return false;
     }
 
     /**
