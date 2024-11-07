@@ -70,7 +70,7 @@ nav:
       - 'AR': 'api/ar.md'
       - 'Session': 'api/session.md'
       - 'Frame': 'api/frame.md'
-      - 'Time': 'api/time.md'
+      - 'Time': 'api/time-manager.md'
       - 'Settings': 'api/settings.md'
       - 'Resolution': 'api/resolution.md'
     - 'Trackers':
