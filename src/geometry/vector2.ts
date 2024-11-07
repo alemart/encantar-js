@@ -20,8 +20,13 @@
  * 2D vectors
  */
 
+import { Nullable } from '../utils/utils';
+
 /** Small number */
 const EPSILON = 1e-6;
+
+/** Immutable zero vector */
+let ZERO: Nullable<Vector2> = null;
 
 // public / non-internal methods do not change the contents of the vector
 
@@ -37,6 +42,7 @@ export class Vector2
 
     /** y coordinate */
     public y: number;
+
 
 
 
@@ -57,6 +63,15 @@ export class Vector2
     static Zero(): Vector2
     {
         return new Vector2(0, 0);
+    }
+
+    /**
+     * Immutable zero vector
+     * @returns an immutable zero vector
+     */
+    static get ZERO(): Vector2
+    {
+        return ZERO || (ZERO = Object.freeze(Vector2.Zero()));
     }
 
     /**

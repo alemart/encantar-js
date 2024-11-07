@@ -189,8 +189,8 @@ export class PointerTracker implements Tracker
         // make all active trackables stationary
         this._updateAllTrackables({
             phase: 'stationary',
-            velocity: Vector2.Zero(),
-            deltaPosition: Vector2.Zero()
+            velocity: Vector2.ZERO,
+            deltaPosition: Vector2.ZERO
         });
 
         // want to reset?
@@ -284,7 +284,7 @@ export class PointerTracker implements Tracker
             const position = new Vector2(relX, relY);
 
             // determine the position delta
-            const deltaPosition = !previous ? Vector2.Zero() :
+            const deltaPosition = !previous ? Vector2.ZERO :
                                   position._clone()._subtract(previous.position);
 
             // determine the initial position
@@ -400,8 +400,8 @@ export class PointerTracker implements Tracker
         // cancel all active pointers
         this._updateAllTrackables({
             phase: 'canceled',
-            deltaPosition: Vector2.Zero(),
-            velocity: Vector2.Zero(),
+            velocity: Vector2.ZERO,
+            deltaPosition: Vector2.ZERO
         });
 
         // consume all events

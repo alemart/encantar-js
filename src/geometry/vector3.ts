@@ -20,8 +20,13 @@
  * 3D vectors
  */
 
+import { Nullable } from '../utils/utils';
+
 /** Small number */
 const EPSILON = 1e-6;
+
+/** Immutable zero vector */
+let ZERO: Nullable<Vector3> = null;
 
 // public / non-internal methods do not change the contents of the vector
 
@@ -60,6 +65,15 @@ export class Vector3
     static Zero(): Vector3
     {
         return new Vector3(0, 0, 0);
+    }
+
+    /**
+     * Immutable zero vector
+     * @returns an immutable zero vector
+     */
+    static get ZERO(): Vector3
+    {
+        return ZERO || (ZERO = Object.freeze(Vector3.Zero()));
     }
 
     /**
