@@ -49,6 +49,14 @@ Create an augmented scene without a 3D framework.
 
 [Launch demo](/encantar-js/demos/hello-webgl/README.html){ ._blank .md-button }
 
+## Miscellaneous
+
+### Pointer-based input
+
+Learn how to work with pointer-based input such as touch and mouse.
+
+[Launch demo](/encantar-js/demos/pointer-demo/README.html){ ._blank .md-button }
+
 ## Try locally
 
 * Run on a console:
