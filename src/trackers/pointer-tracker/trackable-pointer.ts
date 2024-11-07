@@ -29,7 +29,7 @@ import { Vector2 } from '../../geometry/vector2';
  * - "stationary": the user did not move the pointer in this frame
  * - "moved": the user moved the pointer in this frame
  * - "ended": the tracking ended in this frame (e.g., a finger has just been lifted from the screen)
- * - "canceled": the tracking was canceled in this frame (e.g., the screen orientation of the device has just been changed)
+ * - "canceled": the tracking was canceled in this frame (e.g., the page has just lost focus)
  */
 export type TrackablePointerPhase = 'began' | 'moved' | 'stationary' | 'ended' | 'canceled';
 

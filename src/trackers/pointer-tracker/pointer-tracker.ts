@@ -88,6 +88,9 @@ export class PointerTracker implements Tracker
     /** time of the previous update */
     private _previousUpdateTime: DOMHighResTimeStamp;
 
+    /** helper flag */
+    private _wantToReset: boolean;
+
 
 
     /**
@@ -101,6 +104,8 @@ export class PointerTracker implements Tracker
         this._newPointers = new Map();
         this._previousOutput = this._generateOutput();
         this._previousUpdateTime = Number.POSITIVE_INFINITY;
+        this._wantToReset = false;
+        this._resetInTheNextUpdate = this._resetInTheNextUpdate.bind(this);
     }
 
     /**
@@ -138,6 +143,9 @@ export class PointerTracker implements Tracker
         // link the pointer source to the viewport
         this._source._setViewport(this._viewport);
 
+        // reset trackables
+        document.addEventListener('visibilitychange', this._resetInTheNextUpdate);
+
         // done!
         return Speedy.Promise.resolve();
     }
@@ -153,6 +161,8 @@ export class PointerTracker implements Tracker
         this._viewport = null;
         this._activePointers.clear();
         this._newPointers.clear();
+
+        document.removeEventListener('visibilitychange', this._resetInTheNextUpdate);
 
         return Speedy.Promise.resolve();
     }
@@ -172,16 +182,22 @@ export class PointerTracker implements Tracker
         const inverseDeltaTime = (deltaTime > 1e-5) ? 1 / deltaTime : 60; // 1/dt = 1 / (1/60) with 60 fps
 
         // remove inactive trackables from the previous frame (update cycle)
-        const inactiveTrackables = this._findUnwantedTrackables();
+        const inactiveTrackables = this._findInactiveTrackables();
         for(let i = inactiveTrackables.length - 1; i >= 0; i--)
             this._activePointers.delete(inactiveTrackables[i].id);
 
         // make all active trackables stationary
-        this._activePointers.forEach((trackable, id) => {
-            this._activePointers.set(id, Object.assign({}, trackable, {
-                phase: 'stationary'
-            }));
+        this._updateAllTrackables({
+            phase: 'stationary',
+            velocity: Vector2.Zero(),
+            deltaPosition: Vector2.Zero()
         });
+
+        // want to reset?
+        if(this._wantToReset) {
+            this._reset();
+            this._wantToReset = false;
+        }
 
         // consume events
         let event: Nullable<PointerEvent>;
@@ -238,6 +254,10 @@ export class PointerTracker implements Tracker
                 }
             }
 
+            // discard previously canceled pointers (e.g., with a visibilitychange event)
+            if(previous?.phase == 'canceled')
+                continue;
+
             // more special rules
             switch(event.type) {
                 case 'pointermove':
@@ -249,6 +269,11 @@ export class PointerTracker implements Tracker
                     if(event.buttons == 0 || previous?.phase == 'began' || current?.phase == 'began')
                         continue;
                     break;
+
+                case 'pointercancel': // purge everything
+                    this._reset();
+                    this._newPointers.clear();
+                    continue;
             }
 
             // determine the current position
@@ -287,6 +312,7 @@ export class PointerTracker implements Tracker
         // update trackables
         this._newPointers.forEach((trackable, id) => this._activePointers.set(id, trackable));
         this._newPointers.clear();
+        this._advanceAllStationaryTrackables(deltaTime);
 
         // generate output
         this._previousOutput = this._generateOutput();
@@ -337,6 +363,60 @@ export class PointerTracker implements Tracker
     }
 
     /**
+     * Update all active pointers
+     * @param fields
+     */
+    private _updateAllTrackables(fields: Partial<TrackablePointer>): void
+    {
+        this._activePointers.forEach((trackable, id) => {
+            this._activePointers.set(id, Object.assign({}, trackable, fields));
+        });
+    }
+
+    /**
+     * Advance the elapsed time of all stationary pointers
+     * @param deltaTime
+     */
+    private _advanceAllStationaryTrackables(deltaTime: number): void
+    {
+        this._activePointers.forEach((trackable, id) => {
+            if(trackable.phase == 'stationary') {
+                (trackable as any).elapsedTime += deltaTime;
+                /*
+                this._activePointers.set(id, Object.assign({}, trackable, {
+                    elapsedTime: trackable.elapsedTime + deltaTime
+                }));
+                */
+            }
+        });
+    }
+
+    /**
+     * Cancel all active pointers and consume all events
+     * @param deltaTime
+     */
+    private _reset(): void
+    {
+        // cancel all active pointers
+        this._updateAllTrackables({
+            phase: 'canceled',
+            deltaPosition: Vector2.Zero(),
+            velocity: Vector2.Zero(),
+        });
+
+        // consume all events
+        while(this._source!._consume() !== null);
+    }
+
+    /**
+     * Reset in the next update of the tracker
+     */
+    private _resetInTheNextUpdate(): void
+    {
+        this._wantToReset = true;
+    }
+
+    /**
      * As a convenience, let's make sure that a primary pointer, if any exists,
      * is at the beginning of the trackables array
      * @param trackables
@@ -344,6 +424,20 @@ export class PointerTracker implements Tracker
      */
     private _sortTrackables(trackables: TrackablePointer[]): TrackablePointer[]
     {
+        /*
+
+        Note: the browser may not report a new unique pointer (phase: "began")
+        as primary. This logic makes trackables[0] primary, or sort of primary.
+
+        Behavior on Chrome 130 on Android: when moving multiple touch points,
+        remove focus from the browser. Touch points will be canceled as
+        expected. When touching the screen again with a single finger, the
+        (only one) registered pointer will not be primary. That's undesirable.
+        Touching the screen again with multiple fingers (none will be primary),
+        and then releasing them, will restore the desired behavior.
+
+        */
+
         // nothing to do
         if(trackables.length <= 1 || trackables[0].isPrimary)
             return trackables;
@@ -366,7 +460,7 @@ export class PointerTracker implements Tracker
      * Find trackables to remove
      * @returns a list of trackables to remove
      */
-    private _findUnwantedTrackables(): TrackablePointer[]
+    private _findInactiveTrackables(): TrackablePointer[]
     {
         const trackables: TrackablePointer[] = [];
 

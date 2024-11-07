@@ -48,6 +48,7 @@ export class PointerSource implements Source
         this._queue = [];
         this._viewport = null;
         this._onPointerEvent = this._onPointerEvent.bind(this);
+        this._cancelEvent = this._cancelEvent.bind(this);
     }
 
     /**
@@ -143,6 +144,17 @@ export class PointerSource implements Source
     private _onPointerEvent(event: PointerEvent): void
     {
         this._queue.push(event);
+        event.preventDefault();
+    }
+
+    /**
+     * Cancel event
+     * @param event
+     */
+    private _cancelEvent(event: Event): void
+    {
+        if(event.cancelable)
+            event.preventDefault();
     }
 
     /**
@@ -157,6 +169,7 @@ export class PointerSource implements Source
         canvas.addEventListener('pointercancel', this._onPointerEvent);
         canvas.addEventListener('pointerleave', this._onPointerEvent);
         canvas.addEventListener('pointerenter', this._onPointerEvent);
+        canvas.addEventListener('touchstart', this._cancelEvent, { passive: false });
     }
 
     /**
@@ -165,6 +178,7 @@ export class PointerSource implements Source
      */
     private _removeEventListeners(canvas: HTMLCanvasElement): void
     {
+        canvas.removeEventListener('touchstart', this._cancelEvent);
         canvas.removeEventListener('pointerenter', this._onPointerEvent);
         canvas.removeEventListener('pointerleave', this._onPointerEvent);
         canvas.removeEventListener('pointercancel', this._onPointerEvent);
