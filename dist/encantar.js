@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.3.0
+ * encantar.js version 0.4.0
  * GPU-accelerated Augmented Reality for the web
  * Copyright 2022-2024 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-10-20T06:24:13.488Z
+ * Date: 2024-11-07T02:54:27.693Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -19589,8 +19589,12 @@ function computeResolution(resolution, aspectRatio) {
 function parseHeight(resolution) {
     if (ALIAS_TO_HEIGHT.hasOwnProperty(resolution))
         return ALIAS_TO_HEIGHT[resolution];
-    if (CUSTOM_RESOLUTION_REGEX.test(resolution))
-        return parseInt(resolution);
+    //if(CUSTOM_RESOLUTION_REGEX.test(resolution)) // really needed? is it fast?
+    if (resolution.endsWith('p')) {
+        const r = resolution[0];
+        if (r >= '1' && r <= '9')
+            return parseInt(resolution);
+    }
     return Number.NaN;
 }
 
@@ -20115,9 +20119,6 @@ class StatsPanel {
  * gizmos.ts
  * Visual cues for testing & debugging
  */
-
-/** The maximum match distance ratio we'll consider to be "good" */
-const GOOD_MATCH_THRESHOLD = 0.7;
 /**
  * Visual cues for testing & debugging
  */
@@ -20127,6 +20128,7 @@ class Gizmos {
      */
     constructor() {
         this._visible = false;
+        this._imageTrackerGizmos = new ImageTrackerGizmos();
     }
     /**
      * Whether or not the gizmos will be rendered
@@ -20150,46 +20152,47 @@ class Gizmos {
         // no need to render?
         if (!this._visible)
             return;
-        // viewport
-        const viewportSize = viewport._realSize;
+        // render the gizmos of each tracker
+        for (let i = 0; i < trackers.length; i++) {
+            if (trackers[i].type == 'image-tracker') {
+                const output = trackers[i]._output;
+                this._imageTrackerGizmos.render(viewport, output);
+            }
+        }
+    }
+}
+/**
+ * Gizmos renderer of Image Trackers
+ */
+class ImageTrackerGizmos {
+    /**
+     * Render gizmos
+     * @param viewport viewport
+     * @param output tracker output
+     */
+    render(viewport, output) {
         const canvas = viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
         if (!ctx)
-            throw new IllegalOperationError();
+            return;
+        const viewportSize = viewport._realSize;
+        const screenSize = output.screenSize;
+        const keypoints = output.keypoints;
+        const polyline = output.polyline;
+        const cameraMatrix = output.cameraMatrix;
         // debug
         //ctx.fillStyle = '#000';
         //ctx.fillRect(0, 0, canvas.width, canvas.height);
         //ctx.clearRect(0, 0, canvas.width, canvas.height);
         // render keypoints
-        for (let i = 0; i < trackers.length; i++) {
-            if (trackers[i].type != 'image-tracker')
-                continue;
-            const output = trackers[i]._output;
-            const keypoints = output.keypoints;
-            const screenSize = output.screenSize;
-            if (keypoints !== undefined && screenSize !== undefined)
-                this._splitAndRenderKeypoints(ctx, keypoints, screenSize, viewportSize);
-        }
+        if (keypoints !== undefined && screenSize !== undefined)
+            this._splitAndRenderKeypoints(ctx, keypoints, screenSize, viewportSize);
         // render polylines
-        for (let i = 0; i < trackers.length; i++) {
-            if (trackers[i].type != 'image-tracker')
-                continue;
-            const output = trackers[i]._output;
-            const polyline = output.polyline;
-            const screenSize = output.screenSize;
-            if (polyline !== undefined && screenSize !== undefined)
-                this._renderPolyline(ctx, polyline, screenSize, viewportSize);
-        }
+        if (polyline !== undefined && screenSize !== undefined)
+            this._renderPolyline(ctx, polyline, screenSize, viewportSize);
         // render the axes of the 3D coordinate system
-        for (let i = 0; i < trackers.length; i++) {
-            if (trackers[i].type != 'image-tracker')
-                continue;
-            const output = trackers[i]._output;
-            const cameraMatrix = output.cameraMatrix;
-            const screenSize = output.screenSize;
-            if (cameraMatrix !== undefined && screenSize !== undefined)
-                this._renderAxes(ctx, cameraMatrix, screenSize, viewportSize);
-        }
+        if (cameraMatrix !== undefined && screenSize !== undefined)
+            this._renderAxes(ctx, cameraMatrix, screenSize, viewportSize);
     }
     /**
      * Split keypoints in matched/unmatched categories and
@@ -20207,15 +20210,28 @@ class Gizmos {
             this._renderKeypoints(ctx, keypoints, screenSize, viewportSize, '#f00', size);
             return;
         }
-        const isGoodMatch = (keypoint) => (keypoint.matches.length == 1 && keypoint.matches[0].index >= 0) ||
-            (keypoint.matches.length > 1 &&
-                keypoint.matches[0].index >= 0 && keypoint.matches[1].index >= 0 &&
-                keypoint.matches[0].distance <= GOOD_MATCH_THRESHOLD * keypoint.matches[1].distance);
         const matchedKeypoints = keypoints;
-        const goodMatches = matchedKeypoints.filter(keypoint => isGoodMatch(keypoint));
-        const badMatches = matchedKeypoints.filter(keypoint => !isGoodMatch(keypoint));
+        const goodMatches = matchedKeypoints.filter(keypoint => this._isGoodMatch(keypoint));
+        const badMatches = matchedKeypoints.filter(keypoint => !this._isGoodMatch(keypoint));
         this._renderKeypoints(ctx, badMatches, screenSize, viewportSize, '#f00', size);
         this._renderKeypoints(ctx, goodMatches, screenSize, viewportSize, '#0f0', size);
+    }
+    /**
+     * Check if a matched keypoint is "good enough"
+     * @param keypoint matched keypoint
+     * @returns a boolean
+     */
+    _isGoodMatch(keypoint) {
+        const GOOD_MATCH_THRESHOLD = 0.7; // the maximum match distance ratio we'll consider to be "good"
+        const n = keypoint.matches.length;
+        if (n > 1) {
+            return (keypoint.matches[0].index >= 0 &&
+                keypoint.matches[1].index >= 0 &&
+                keypoint.matches[0].distance <= GOOD_MATCH_THRESHOLD * keypoint.matches[1].distance);
+        }
+        else if (n == 1)
+            return keypoint.matches[0].index >= 0;
+        return false;
     }
     /**
      * Render keypoints for testing & development purposes
@@ -20367,7 +20383,7 @@ class Frame {
     }
 }
 
-;// CONCATENATED MODULE: ./src/core/time.ts
+;// CONCATENATED MODULE: ./src/core/time-manager.ts
 /*
  * encantar.js
  * GPU-accelerated Augmented Reality for the web
@@ -20386,13 +20402,13 @@ class Frame {
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * time.ts
- * Time utilities
+ * time-manager.ts
+ * Time Manager
  */
 /**
  * Time Manager
  */
-class Time {
+class TimeManager {
     constructor() {
         /** time scale */
         this._scale = 1;
@@ -20576,15 +20592,20 @@ class Session extends AREventTarget {
         this._active = true;
         this._frameReady = true; // no trackers at the moment
         this._rafQueue = [];
-        this._time = new Time();
+        this._time = new TimeManager();
         this._gizmos = new Gizmos();
         this._gizmos.visible = gizmos;
         // validate the mode
         if (mode != 'immersive' && mode != 'inline')
             throw new IllegalArgumentError(`Invalid session mode "${mode}"`);
+        // find the primary source of data
+        this._primarySource = this._findPrimarySource(sources);
         // setup the viewport
         this._viewport = viewport;
-        this._viewport._init(() => this.media.size, mode);
+        if (this._primarySource !== null)
+            this._viewport._init(() => this._primarySource._internalMedia.size, mode);
+        else
+            this._viewport._init(() => Utils.resolution('sm', window.innerWidth / window.innerHeight), mode);
         // setup the main loop
         this._setupUpdateLoop();
         this._setupRenderLoop();
@@ -20675,9 +20696,6 @@ class Session extends AREventTarget {
             return speedy_vision_default().Matrix.ready();
         }).then(() => {
             // validate sources of data
-            const videoSources = sources.filter(source => source._type == 'video');
-            if (videoSources.length != 1)
-                throw new IllegalArgumentError(`One video source of data must be provided`);
             for (let i = sources.length - 1; i >= 0; i--) {
                 if (sources.indexOf(sources[i]) < i)
                     throw new IllegalArgumentError(`Found repeated sources of data`);
@@ -20699,7 +20717,7 @@ class Session extends AREventTarget {
                     throw new IllegalArgumentError(`Found repeated trackers`);
             }
             // attach trackers and return the session
-            return speedy_vision_default().Promise.all(trackers.map(tracker => session._attachTracker(tracker))).then(() => session);
+            return speedy_vision_default().Promise.all(trackers.map(tracker => session._attachTracker(tracker))).then(() => session).catch(err => { throw err; });
         }).catch(err => {
             // log errors, if any
             Utils.error(`Can't start session: ${err.message}`);
@@ -20775,18 +20793,6 @@ class Session extends AREventTarget {
         }
     }
     /**
-     * The underlying media (generally a camera stream)
-     * @internal
-     */
-    get media() {
-        for (let i = this._sources.length - 1; i >= 0; i--) {
-            if (this._sources[i]._type == 'video')
-                return this._sources[i]._data;
-        }
-        // this shouldn't happen
-        throw new IllegalOperationError(`Invalid input source`);
-    }
-    /**
      * Session mode
      */
     get mode() {
@@ -20799,7 +20805,7 @@ class Session extends AREventTarget {
         return !this._active;
     }
     /**
-     * Time utilities
+     * Time Manager
      */
     get time() {
         return this._time;
@@ -20829,39 +20835,75 @@ class Session extends AREventTarget {
         return this._sources[Symbol.iterator]();
     }
     /**
+     * Find the primary source of data (generally a camera stream)
+     * @param sources
+     * @returns the primary source, or null if there isn't any
+     */
+    _findPrimarySource(sources) {
+        // prefer video sources
+        for (let i = 0; i < sources.length; i++) {
+            if (sources[i]._type == 'video')
+                return sources[i];
+        }
+        for (let i = 0; i < sources.length; i++) {
+            if (sources[i]._type == 'canvas')
+                return sources[i];
+        }
+        // emit warning
+        Utils.warning(`No primary source of data was found!`);
+        return null;
+    }
+    /**
      * Attach a tracker to the session
      * @param tracker
+     * @returns a promise that resolves as soon as the tracker is attached and initialized
      */
     _attachTracker(tracker) {
         if (this._trackers.indexOf(tracker) >= 0)
-            throw new IllegalArgumentError(`Duplicate tracker attached to the session`);
+            return speedy_vision_default().Promise.reject(new IllegalArgumentError(`Duplicate tracker attached to the session`));
         else if (!this._active)
-            throw new IllegalOperationError(`Inactive session`);
+            return speedy_vision_default().Promise.reject(new IllegalOperationError(`Inactive session`));
         this._trackers.push(tracker);
         return tracker._init(this);
     }
     /**
-     * Render the user media to the background canvas
+     * Render content to the background canvas
      */
-    _renderUserMedia() {
+    _renderBackground() {
         const canvas = this._viewport._backgroundCanvas;
         const ctx = canvas.getContext('2d', { alpha: false });
-        if (ctx && this.media.type != 'data') {
-            ctx.imageSmoothingEnabled = false;
-            // draw user media
-            const image = this.media.source;
+        // error?
+        if (!ctx)
+            return;
+        ctx.imageSmoothingEnabled = false;
+        // render user media
+        if (this._primarySource !== null) {
+            const media = this._primarySource._internalMedia;
+            this._renderMedia(ctx, media);
+        }
+        // render output image(s)
+        for (let i = 0; i < this._trackers.length; i++) {
+            const media = this._trackers[i]._output.image;
+            if (media !== undefined)
+                this._renderMedia(ctx, media);
+        }
+        // render gizmos
+        this._gizmos._render(this._viewport, this._trackers);
+    }
+    /**
+     * Render a SpeedyMedia
+     * @param ctx rendering context
+     * @param media
+     */
+    _renderMedia(ctx, media) {
+        const canvas = ctx.canvas;
+        if (media.type != 'data') {
+            const image = media.source;
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-            // render output image(s)
-            for (let i = 0; i < this._trackers.length; i++) {
-                const media = this._trackers[i]._output.image;
-                if (media !== undefined) {
-                    const image = media.source;
-                    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-                    //ctx.drawImage(image, canvas.width - media.width, canvas.height - media.height, media.width, media.height);
-                }
-            }
-            // render gizmos
-            this._gizmos._render(this._viewport, this._trackers);
+        }
+        else {
+            const image = media.source;
+            ctx.putImageData(image, 0, 0, 0, 0, canvas.width, canvas.height);
         }
     }
     /**
@@ -20962,9 +21004,9 @@ class Session extends AREventTarget {
                 // clone & clear the RAF queue
                 const rafQueue = this._rafQueue.slice(0);
                 this._rafQueue.length = 0;
-                // render user media
+                // render content to the background canvas
                 if (!skipUserMedia)
-                    this._renderUserMedia();
+                    this._renderBackground();
                 // render frame
                 for (let i = 0; i < rafQueue.length; i++)
                     rafQueue[i][1].call(undefined, time, frame);
@@ -22682,6 +22724,629 @@ class ImageTrackerEvent extends AREvent {
     }
 }
 
+;// CONCATENATED MODULE: ./src/geometry/quaternion.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * quaternion.ts
+ * Quaternions
+ */
+
+
+/** Small number */
+const EPSILON = 1e-6;
+// public / non-internal methods do not change the contents of the quaternion
+/**
+ * Quaternion q = x i + y j + z k + w
+ */
+class Quaternion {
+    /**
+     * Constructor
+     * @param x x coordinate (imaginary)
+     * @param y y coordinate (imaginary)
+     * @param z z coordinate (imaginary)
+     * @param w w coordinate (real)
+     */
+    constructor(x = 0, y = 0, z = 0, w = 1) {
+        this.x = +x;
+        this.y = +y;
+        this.z = +z;
+        this.w = +w;
+    }
+    /**
+     * Instantiate an identity quaternion q = 1
+     * @returns a new identity quaternion
+     */
+    static Identity() {
+        return new Quaternion(0, 0, 0, 1);
+    }
+    /**
+     * The length of this quaternion
+     * @returns sqrt(x^2 + y^2 + z^2 + w^2)
+     */
+    length() {
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+        const w = this.w;
+        return Math.sqrt(x * x + y * y + z * z + w * w);
+    }
+    /**
+     * Check if this and q have the same coordinates
+     * @param q a quaternion
+     * @returns true if this and q have the same coordinates
+     */
+    equals(q) {
+        return this.w === q.w && this.x === q.x && this.y === q.y && this.z === q.z;
+    }
+    /**
+     * Convert to string
+     * @returns a string
+     */
+    toString() {
+        const x = this.x.toFixed(4);
+        const y = this.y.toFixed(4);
+        const z = this.z.toFixed(4);
+        const w = this.w.toFixed(4);
+        return `Quaternion(${x},${y},${z},${w})`;
+    }
+    /**
+     * Normalize this quaternion
+     * @returns this quaternion, normalized
+     * @internal
+     */
+    _normalize() {
+        const length = this.length();
+        if (length < EPSILON) // zero?
+            return this;
+        this.x /= length;
+        this.y /= length;
+        this.z /= length;
+        this.w /= length;
+        return this;
+    }
+    /**
+     * Conjugate this quaternion
+     * @returns this quaternion, conjugated
+     * @internal
+     */
+    _conjugate() {
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+        return this;
+    }
+    /**
+     * Copy q to this
+     * @param q a quaternion
+     * @returns this quaternion
+     * @internal
+     */
+    _copyFrom(q) {
+        this.x = q.x;
+        this.y = q.y;
+        this.z = q.z;
+        this.w = q.w;
+        return this;
+    }
+    /**
+     * Convert a quaternion to a 3x3 rotation matrix
+     * @returns a 3x3 rotation matrix
+     * @internal
+     */
+    _toRotationMatrix() {
+        const length = this.length(); // should be ~ 1
+        // sanity check
+        if (length < EPSILON)
+            return speedy_vision_default().Matrix.Eye(3);
+        // let q = (x,y,z,w) be a unit quaternion
+        const x = this.x / length;
+        const y = this.y / length;
+        const z = this.z / length;
+        const w = this.w / length;
+        /*
+
+        Let q = x i + y j + z k + w be a unit quaternion and
+        p = x_p i + y_p j + z_p k be a purely imaginary quaternion (w_p = 0)
+        representing a vector or point P = (x_p, y_p, z_p) in 3D space.
+
+        Let's rewrite q as q = v + w, where v = x i + y j + z k, and then
+        substitute v by the unit vector u = v / |v|, so that q = |v| u + w.
+        Since q is a unit quaternion, it follows that:
+
+        1 = |q|^2 = x^2 + y^2 + z^2 + w^2 = |v|^2 + w^2.
+
+        Given that cos(t~)^2 + sin(t~)^2 = 1 for all real t~, there is a real t
+        such that cos(t) = w and sin(t) = |v|. Let's rewrite q as:
+
+        q = cos(t) + u sin(t)
+
+        (since 0 <= |v| = sin(t), it follows that 0 <= t <= pi)
+
+        A rotation of P, of 2t radians around axis u, can be computed as:
+
+        r_q(p) = q p q*
+
+        where q* is the conjugate of q. (note: since |q| = 1, q q* = q* q = 1)
+
+        ---
+
+        Let h = x_h i + y_h j + z_h k + w_h be a quaternion. The multplication
+        q h can be performed by pre-multiplying h, written as a column vector,
+        by the following L_q matrix:
+
+                      [  w  -z   y   x  ] [ x_h ]
+        q h = L_q h = [  z   w  -x   y  ] [ y_h ]
+                      [ -y   x   w   z  ] [ z_h ]
+                      [ -x  -y  -z   w  ] [ w_h ]
+
+        (expand q h = (x i + y j + z k + w) (x_h i + y_h j + z_h k + w_h) to see)
+
+        Similarly, the product h q* can be expressed by pre-multiplying h by the
+        following R_q* matrix:
+
+                        [  w  -z   y  -x ] [ x_h ]
+        h q* = R_q* h = [  z   w  -x  -y ] [ y_h ]
+                        [ -y   x   w  -z ] [ z_h ]
+                        [  x   y   z   w ] [ w_h ]
+
+        (expand h q* = (x_h i + y_h j + z_h k + w_h) (-x i - y j - z k + w) to see)
+
+        ---
+
+        Although quaternion multiplication is not commutative, it is associative,
+        i.e., r_q(p) = (q p)q* = q(p q*). From the matrix equations above, it
+        follows that r_q(p) can be expressed as R_q* L_q p = L_q R_q* p. If we
+        define M_q = L_q R_q* = R_q* L_q, we can write r_q(p) = M_q p. Matrix M_q
+        has the following form:
+
+              [ w^2 + x^2 - y^2 - z^2  2xy - 2wz              2xz + 2wy              0 ]
+        M_q = [ 2xy + 2wz              w^2 - x^2 + y^2 - z^2  2yz - 2wx              0 ]
+              [ 2xz - 2wy              2yz + 2wx              w^2 - x^2 - y^2 + z^2  0 ]
+              [ 0                      0                      0                      1 ]
+
+        Note: the bottom-right entry is x^2 + y^2 + z^2 + w^2 = |q|^2 = 1.
+
+        Let M be the top-left 3x3 submatrix of M_q. A direct, but boring,
+        computation shows that M'M = M M' = I, where M' is the transpose of M.
+        In addition, det M = |q|^6 = +1. Therefore, M is a 3x3 rotation matrix.
+
+        */
+        const x2 = x * x, y2 = y * y, z2 = z * z; //, w2 = w*w;
+        const xy = 2 * x * y, xz = 2 * x * z, yz = 2 * y * z;
+        const wx = 2 * w * x, wy = 2 * w * y, wz = 2 * w * z;
+        return speedy_vision_default().Matrix(3, 3, [
+            1 - 2 * (y2 + z2), xy + wz, xz - wy,
+            xy - wz, 1 - 2 * (x2 + z2), yz + wx,
+            xz + wy, yz - wx, 1 - 2 * (x2 + y2)
+        ]);
+    }
+    /**
+     * Convert a 3x3 rotation matrix to a unit quaternion
+     * @param m a 3x3 rotation matrix. You should ensure that it is a rotation matrix
+     * @returns this quaternion
+     * @internal
+     */
+    _fromRotationMatrix(m) {
+        if (m.rows != 3 || m.columns != 3)
+            throw new IllegalArgumentError();
+        /*
+
+        Let M be the rotation matrix defined above. We're going to find a
+        unit quaternion q associated with M.
+
+        Before we begin, note that q and (-q) encode the same rotation, for
+        r_(-q)(p) = (-q)p(-q)* = (-1)q p (-1)q* = (-1)(-1)q p q* = = r_q(p).
+        Quaternion multiplication is commutative when a factor is a scalar, i.e.,
+        d p = p d for a real d and a quaternion p (check: distributive operation).
+
+        The trace of M, denoted as tr M, is 3w^2 - x^2 - y^2 - z^2. Since |q| = 1,
+        it follows that tr M = 3w^2 - (1 - w^2), which means that 4w^2 = 1 + tr M.
+        That being the case, we can write:
+
+        |w| = sqrt(1 + tr M) / 2
+
+        We'll arbitrarily pick w >= 0, for q and (-q) encode the same rotation.
+
+        Let mij denote the element at the i-th row and at the j-th column of M.
+        A direct verification shows that m21 - m12 = 4wz. Since w >= 0, it follows
+        that sign(z) = sign(m21 - m12). Similarly, sign(y) = sign(m13 - m31) and
+        sign(x) = sign(m32 - m23).
+
+        The quantity m11 + m22 is equal to 2w^2 - 2z^2, which means that 4z^2 =
+        4w^2 - 2(m11 + m22) = (1 + tr M) - 2(m11 + m22). Therefore, let's write:
+
+        |z| = sqrt((1 + tr M) - 2(m11 + m22)) / 2
+
+        Of course, z = |z| sign(z). Similarly,
+
+        |y| = sqrt((1 + tr M) - 2(m11 + m33)) / 2
+
+        |x| = sqrt((1 + tr M) - 2(m22 + m33)) / 2
+
+        This gives (x, y, z, w).
+
+        ---
+
+        We quickly verify that (1 + tr M) - 2(m11 + m22) >= 0 if M is (really)
+        a rotation matrix: (1 + tr M) - 2(m11 + m22) = 1 + tr M - 2(tr M - m33) =
+        1 - tr M + 2 m33 = 1 - (3w^2 - x^2 - y^2 - z^2) + 2(w^2 - x^2 - y^2 + z^2) =
+        1 - w^2 + z^2 = (x^2 + y^2 + z^2 + w^2) - w^2 + z^2 = x^2 + y^2 + 2 z^2 >= 0.
+        Similarly, (1 + tr M) - 2(m11 + m33) >= 0 and (1 + tr M) - 2(m22 + m33) >= 0.
+
+        */
+        const data = m.read();
+        const m11 = data[0], m21 = data[1], m31 = data[2], m12 = data[3], m22 = data[4], m32 = data[5], m13 = data[6], m23 = data[7], m33 = data[8];
+        const tr = 1 + m11 + m22 + m33; // 1 + tr M
+        const sx = +(m32 >= m23) - +(m32 < m23); // sign(x)
+        const sy = +(m13 >= m31) - +(m13 < m31); // sign(y)
+        const sz = +(m21 >= m12) - +(m21 < m12); // sign(z)
+        const w = 0.5 * Math.sqrt(Math.max(0, tr)); // |w| = w
+        const x = 0.5 * Math.sqrt(Math.max(0, tr - 2 * (m22 + m33))); // |x|
+        const y = 0.5 * Math.sqrt(Math.max(0, tr - 2 * (m11 + m33))); // |y|
+        const z = 0.5 * Math.sqrt(Math.max(0, tr - 2 * (m11 + m22))); // |z|
+        const length = Math.sqrt(x * x + y * y + z * z + w * w); // should be ~ 1
+        this.x = (x * sx) / length;
+        this.y = (y * sy) / length;
+        this.z = (z * sz) / length;
+        this.w = w / length;
+        return this;
+    }
+}
+
+;// CONCATENATED MODULE: ./src/geometry/vector3.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * vector3.ts
+ * 3D vectors
+ */
+/** Small number */
+const vector3_EPSILON = 1e-6;
+// public / non-internal methods do not change the contents of the vector
+/**
+ * A vector in 3D space
+ */
+class Vector3 {
+    /**
+     * Constructor
+     */
+    constructor(x = 0, y = 0, z = 0) {
+        this.x = +x;
+        this.y = +y;
+        this.z = +z;
+    }
+    /**
+     * Instantiate a zero vector
+     * @returns a new zero vector
+     */
+    static Zero() {
+        return new Vector3(0, 0, 0);
+    }
+    /**
+     * The length of this vector
+     * @returns sqrt(x^2 + y^2 + z^2)
+     */
+    length() {
+        const x = this.x;
+        const y = this.y;
+        const z = this.z;
+        return Math.sqrt(x * x + y * y + z * z);
+    }
+    /**
+     * Compute the dot product of this and v
+     * @param v a vector
+     * @returns the dot product of the vectors
+     */
+    dot(v) {
+        return this.x * v.x + this.y * v.y + this.z * v.z;
+    }
+    /**
+     * Compute the distance between points this and v
+     * @param v a vector / point
+     * @returns the distance between the points
+     */
+    distanceTo(v) {
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+        const dz = this.z - v.z;
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
+    /**
+     * Compute the direction from this to v
+     * @param v a vector
+     * @returns a new unit vector pointing to v from this
+     */
+    directionTo(v) {
+        return v._clone()._subtract(this)._normalize();
+    }
+    /**
+     * The cross product of this and v
+     * @param v a vector
+     * @returns the cross product this x v
+     */
+    cross(v) {
+        const x = this.y * v.z - this.z * v.y;
+        const y = this.z * v.x - this.x * v.z;
+        const z = this.x * v.y - this.y * v.x;
+        return new Vector3(x, y, z);
+    }
+    /**
+     * Check if this and v have the same coordinates
+     * @param v a vector
+     * @returns true if this and v have the same coordinates
+     */
+    equals(v) {
+        return this.x === v.x && this.y === v.y && this.z === v.z;
+    }
+    /**
+     * Convert to string
+     * @returns a string
+     */
+    toString() {
+        const x = this.x.toFixed(5);
+        const y = this.y.toFixed(5);
+        const z = this.z.toFixed(5);
+        return `Vector3(${x},${y},${z})`;
+    }
+    /**
+     * Clone this vector
+     * @returns a clone of this vector
+     * @internal
+     */
+    _clone() {
+        return new Vector3(this.x, this.y, this.z);
+    }
+    /**
+     * Set the coordinates of this vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param z z-coordinate
+     * @returns this vector
+     * @internal
+     */
+    _set(x, y, z) {
+        this.x = +x;
+        this.y = +y;
+        this.z = +z;
+        return this;
+    }
+    /**
+     * Copy v to this
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _copyFrom(v) {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+        return this;
+    }
+    /**
+     * Normalize this vector
+     * @returns this vector, normalized
+     * @internal
+     */
+    _normalize() {
+        const length = this.length();
+        if (length < vector3_EPSILON) // zero?
+            return this;
+        this.x /= length;
+        this.y /= length;
+        this.z /= length;
+        return this;
+    }
+    /**
+     * Add v to this vector
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _add(v) {
+        this.x += v.x;
+        this.y += v.y;
+        this.z += v.z;
+        return this;
+    }
+    /**
+     * Subtract v from this vector
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _subtract(v) {
+        this.x -= v.x;
+        this.y -= v.y;
+        this.z -= v.z;
+        return this;
+    }
+    /**
+     * Scale this vector by a scalar
+     * @param s scalar
+     * @returns this vector
+     * @internal
+     */
+    _scale(s) {
+        this.x *= s;
+        this.y *= s;
+        this.z *= s;
+        return this;
+    }
+}
+
+;// CONCATENATED MODULE: ./src/geometry/pose-filter.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * pose-filter.ts
+ * Smoothing filter for a pose
+ */
+
+
+
+
+
+/** Number of translation samples */
+const TRANSLATION_SAMPLES = 5;
+/** Number of rotation samples */
+const ROTATION_SAMPLES = 12;
+/** A vector representing "no translation" */
+const NO_TRANSLATION = Vector3.Zero();
+/** A quaternion representing "no rotation" */
+const NO_ROTATION = Quaternion.Identity();
+/** The zero quaternion */
+const ZERO_QUATERNION = new Quaternion(0, 0, 0, 0);
+/**
+ * Smoothing filter for a pose
+ */
+class PoseFilter {
+    /**
+     * Constructor
+     */
+    constructor() {
+        this._smoothRotation = Quaternion.Identity();
+        this._smoothTranslation = Vector3.Zero();
+        this._rotationSample = Array.from({ length: ROTATION_SAMPLES }, () => Quaternion.Identity());
+        this._translationSample = Array.from({ length: TRANSLATION_SAMPLES }, () => Vector3.Zero());
+        this._isEmpty = true;
+    }
+    /**
+     * Reset the filter
+     */
+    reset() {
+        this._rotationSample.forEach(q => q._copyFrom(NO_ROTATION));
+        this._translationSample.forEach(t => t._copyFrom(NO_TRANSLATION));
+        this._isEmpty = true;
+    }
+    /**
+     * Feed the filter with a sample
+     * @param sample 3x4 [ R | t ] matrix
+     * @returns true on success
+     */
+    feed(sample) {
+        const data = sample.read();
+        // sanity check
+        if (sample.rows != 3 || sample.columns != 4)
+            throw new IllegalArgumentError();
+        // discard invalid samples
+        if (Number.isNaN(data[0] * data[9])) // rotation, translation
+            return false;
+        // store sample
+        const q = this._rotationSample[ROTATION_SAMPLES - 1];
+        for (let i = ROTATION_SAMPLES - 1; i > 0; i--)
+            this._rotationSample[i] = this._rotationSample[i - 1];
+        this._rotationSample[0] = q._fromRotationMatrix(sample.block(0, 2, 0, 2));
+        const t = this._translationSample[TRANSLATION_SAMPLES - 1];
+        for (let i = TRANSLATION_SAMPLES - 1; i > 0; i--)
+            this._translationSample[i] = this._translationSample[i - 1];
+        this._translationSample[0] = t._set(data[9], data[10], data[11]);
+        // empty buffers?
+        if (this._isEmpty) {
+            this._rotationSample.forEach((q, i) => i > 0 && q._copyFrom(this._rotationSample[0]));
+            this._translationSample.forEach((t, i) => i > 0 && t._copyFrom(this._translationSample[0]));
+            this._isEmpty = false;
+        }
+        // done!
+        return true;
+    }
+    /**
+     * Run the filter
+     * @returns a 3x4 [ R | t ] matrix
+     */
+    output() {
+        // how many samples should we use, at most?
+        const div = (Settings.powerPreference == 'low-power') ? 1.5 : 1; // low-power ~ half the fps
+        const T = Math.ceil(TRANSLATION_SAMPLES / div);
+        const R = Math.ceil(ROTATION_SAMPLES / div);
+        // clear the output of the filter
+        const t = this._smoothTranslation._copyFrom(NO_TRANSLATION);
+        const q = this._smoothRotation._copyFrom(ZERO_QUATERNION);
+        // average translations
+        for (let i = 0, d = 2 / (T * T + T); i < T; i++) {
+            const ti = this._translationSample[i];
+            const w = (T - i) * d;
+            // weighted avg: sum from i=0 to T-1 { (T-i) * t[i] } * (2/(T^2+T))
+            t.x += ti.x * w;
+            t.y += ti.y * w;
+            t.z += ti.z * w;
+        }
+        // average *nearby* rotations
+        // based on https://web.archive.org/web/20130514122622/http://wiki.unity3d.com/index.php/Averaging_Quaternions_and_Vectors
+        // reminder: a unit quaternion q may be expressed as
+        // cos t + u sin t, where 2t is a rotation angle and u is a rotation axis
+        for (let i = 0; i < R; i++) {
+            const qi = this._rotationSample[i];
+            const w = 1 / R; //(R - (i - i%2)) / R;
+            // since unit quaternions qi and -qi encode the same rotation
+            // (see quaternion.ts), let's enforce dot(qi, 1) = qi.w >= 0
+            if (qi.w < 0) {
+                // XXX since Quaternion._fromRotationMatrix() computes w >= 0,
+                // this will never happen. Leave this here for extra safety
+                // in case anything changes?
+                qi.x = -qi.x;
+                qi.y = -qi.y;
+                qi.z = -qi.z;
+                qi.w = -qi.w;
+            }
+            q.x += qi.x * w;
+            q.y += qi.y * w;
+            q.z += qi.z * w;
+            q.w += qi.w * w;
+        }
+        //q._normalize();
+        // convert to matrix form and return
+        const entries = q._toRotationMatrix().read();
+        entries.push(t.x, t.y, t.z);
+        return speedy_vision_default().Matrix(3, 4, entries);
+    }
+}
+
 ;// CONCATENATED MODULE: ./src/geometry/camera-model.ts
 /*
  * encantar.js
@@ -22712,16 +23377,12 @@ class ImageTrackerEvent extends AREvent {
 const HFOV_GUESS = 60; // https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html
 /** Number of iterations used to refine the estimated pose */
 const POSE_ITERATIONS = 30;
-/** Number of samples used in the rotation filter */
-const ROTATION_FILTER_SAMPLES = 10;
-/** Number of samples used in the translation filter */
-const TRANSLATION_FILTER_SAMPLES = 5;
 /** Convert degrees to radians */
 const DEG2RAD = 0.017453292519943295; // pi / 180
 /** Convert radians to degrees */
 const RAD2DEG = 57.29577951308232; // 180 / pi
 /** Numerical tolerance */
-const EPSILON = 1e-6;
+const camera_model_EPSILON = 1e-6;
 /** Index of the horizontal focal length in the camera intrinsics matrix (column-major format) */
 const FX = 0;
 /** Index of the vertical focal length in the camera intrinsics matrix */
@@ -22742,8 +23403,7 @@ class CameraModel {
         this._matrix = speedy_vision_default().Matrix.Eye(3, 4);
         this._intrinsics = [1, 0, 0, 0, 1, 0, 0, 0, 1]; // 3x3 identity matrix
         this._extrinsics = [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0]; // 3x4 matrix [ R | t ] = [ I | 0 ] no rotation & no translation
-        this._partialRotationBuffer = [];
-        this._translationBuffer = [];
+        this._filter = new PoseFilter();
     }
     /**
      * Initialize the model
@@ -22795,24 +23455,25 @@ class CameraModel {
         const h11 = h[0], h12 = h[3], h13 = h[6], h21 = h[1], h22 = h[4], h23 = h[7], h31 = h[2], h32 = h[5], h33 = h[8];
         // validate the homography (homography matrices aren't singular)
         const det = h13 * (h21 * h32 - h22 * h31) - h23 * (h11 * h32 - h12 * h31) + h33 * (h11 * h22 - h12 * h21);
-        if (Math.abs(det) < EPSILON) {
+        if (Math.abs(det) < camera_model_EPSILON) {
             Utils.warning(`Can't update the camera model using an invalid homography matrix`);
             return speedy_vision_default().Promise.resolve(this._matrix);
         }
         // estimate the pose
         const pose = this._estimatePose(homography);
-        this._extrinsics = pose.read();
+        if (this._filter.feed(pose))
+            this._extrinsics = this._filter.output().read();
         // compute the camera matrix
         const C = this.denormalizer();
         const K = speedy_vision_default().Matrix(3, 3, this._intrinsics);
-        const E = pose; //Speedy.Matrix(3, 4, this._extrinsics);
+        const E = speedy_vision_default().Matrix(3, 4, this._extrinsics);
         this._matrix.setToSync(K.times(E).times(C));
         //console.log("intrinsics -----------", K.toString());
         //console.log("matrix ----------------",this._matrix.toString());
         return speedy_vision_default().Promise.resolve(this._matrix);
     }
     /**
-     * Reset camera model
+     * Reset the camera model
      */
     reset() {
         this._resetIntrinsics();
@@ -22918,15 +23579,14 @@ class CameraModel {
         // set the rotation matrix to the identity
         this._extrinsics.fill(0);
         this._extrinsics[0] = this._extrinsics[4] = this._extrinsics[8] = 1;
-        // reset filters
-        this._partialRotationBuffer.length = 0;
-        this._translationBuffer.length = 0;
+        // reset filter
+        this._filter.reset();
     }
     /**
      * Reset camera intrinsics
      */
     _resetIntrinsics() {
-        const cameraWidth = Math.max(this._screenSize.width, this._screenSize.height); // portrait?
+        const cameraWidth = Math.max(this._screenSize.width, this._screenSize.height); // portrait or landscape?
         const u0 = this._screenSize.width / 2;
         const v0 = this._screenSize.height / 2;
         const fx = (cameraWidth / 2) / Math.tan(DEG2RAD * HFOV_GUESS / 2);
@@ -23297,63 +23957,14 @@ class CameraModel {
         return t;
     }
     /**
-     * Apply a smoothing filter to the partial pose
-     * @param partialPose 3x3 [ r1 | r2 | t ]
-     * @returns filtered partial pose
+     * Find a 3x3 rotation matrix R given two orthonormal vectors [ r1 | r2 ]
+     * @param partialRotation partial rotation matrix [ r1 | r2 ] in column-major format
+     * @returns a rotation matrix R in column-major format
      */
-    _filterPartialPose(partialPose) {
-        const avg = new Array(9).fill(0);
-        const entries = partialPose.read();
-        const rotationBlock = entries.slice(0, 6);
-        const translationBlock = entries.slice(6, 9);
-        // how many samples should we store, at most?
-        const div = (Settings.powerPreference == 'low-power') ? 1.5 : 1; // low-power ~ half the fps
-        const N = Math.ceil(ROTATION_FILTER_SAMPLES / div);
-        const M = Math.ceil(TRANSLATION_FILTER_SAMPLES / div);
-        // is it a valid partial pose?
-        if (!Number.isNaN(entries[0])) {
-            // store samples
-            this._partialRotationBuffer.unshift(rotationBlock);
-            if (this._partialRotationBuffer.length > N)
-                this._partialRotationBuffer.length = N;
-            this._translationBuffer.unshift(translationBlock);
-            if (this._translationBuffer.length > M)
-                this._translationBuffer.length = M;
-        }
-        else if (this._partialRotationBuffer.length == 0) {
-            // invalid pose, no samples
-            return speedy_vision_default().Matrix.Eye(3);
-        }
-        // average *nearby* rotations
-        const n = this._partialRotationBuffer.length;
-        for (let i = 0; i < n; i++) {
-            const r = this._partialRotationBuffer[i];
-            for (let j = 0; j < 6; j++)
-                avg[j] += r[j] / n;
-        }
-        const r = this._refineRotation(avg);
-        // average translations
-        const m = this._translationBuffer.length;
-        for (let i = 0; i < m; i++) {
-            const t = this._translationBuffer[i];
-            for (let j = 0; j < 3; j++)
-                avg[6 + j] += (m - i) * t[j] / ((m * m + m) / 2);
-            //avg[6 + j] += t[j] / m;
-        }
-        const t = [avg[6], avg[7], avg[8]];
-        // done!
-        return speedy_vision_default().Matrix(3, 3, r.concat(t));
-    }
-    /**
-     * Estimate extrinsics [ R | t ] given a partial pose [ r1 | r2 | t ]
-     * @param partialPose
-     * @returns 3x4 matrix
-     */
-    _estimateFullPose(partialPose) {
-        const p = partialPose.read();
-        const r11 = p[0], r12 = p[3], t1 = p[6];
-        const r21 = p[1], r22 = p[4], t2 = p[7];
-        const r31 = p[2], r32 = p[5], t3 = p[8];
+    _computeFullRotation(partialRotation) {
+        const r11 = partialRotation[0], r12 = partialRotation[3];
+        const r21 = partialRotation[1], r22 = partialRotation[4];
+        const r31 = partialRotation[2], r32 = partialRotation[5];
         // r3 = +- ( r1 x r2 )
         let r13 = r21 * r32 - r31 * r22;
         let r23 = r31 * r12 - r11 * r32;
@@ -23366,12 +23977,11 @@ class CameraModel {
             r33 = -r33;
         }
         // done!
-        return speedy_vision_default().Matrix(3, 4, [
+        return [
             r11, r21, r31,
             r12, r22, r32,
-            r13, r23, r33,
-            t1, t2, t3,
-        ]);
+            r13, r23, r33
+        ];
     }
     /**
      * Estimate the pose [ R | t ] given a homography in AR screen space
@@ -23396,18 +24006,15 @@ class CameraModel {
             //console.log("residual",residual.toString());
         }
         //console.log('-----------');
-        // refine the translation vector
+        // read the partial pose
         const mat = partialPose.read();
-        const r = mat.slice(0, 6);
+        const r0 = mat.slice(0, 6);
         const t0 = mat.slice(6, 9);
-        const t = this._refineTranslation(normalizedHomography, r, t0);
-        const refinedPartialPose = speedy_vision_default().Matrix(3, 3, r.concat(t));
-        // filter the partial pose
-        const filteredPartialPose = this._filterPartialPose(refinedPartialPose);
-        // estimate the full pose
-        //const finalPartialPose = partialPose;
-        const finalPartialPose = filteredPartialPose;
-        return this._estimateFullPose(finalPartialPose);
+        // refine the translation vector and compute the full rotation matrix
+        const t = this._refineTranslation(normalizedHomography, r0, t0);
+        const r = this._computeFullRotation(r0);
+        // done!
+        return speedy_vision_default().Matrix(3, 4, r.concat(t));
     }
 }
 
@@ -23431,11 +24038,10 @@ class CameraModel {
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * pose.ts
- * A pose represents a position and an orientation in a 3D space
+ * A pose represents a position and an orientation in 3D space
  */
 /**
- * A pose represents a position and an orientation in a 3D space
- * (and sometimes a scale, too...)
+ * A pose represents a position and an orientation in 3D space
  */
 class Pose {
     /**
@@ -23474,125 +24080,258 @@ class Pose {
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * transform.ts
- * 3D geometrical transforms
+ * 3D transforms
  */
 
 
+
+
+/** Small number */
+const transform_EPSILON = 1e-6;
 /**
- * A 3D transformation
+ * A Transform represents a position, a rotation and a scale in 3D space
  */
-class BaseTransform {
+class Transform {
     /**
      * Constructor
-     * @param matrix a 4x4 matrix
+     * @param matrix a 4x4 transformation matrix. You should ensure that its form is T * R * S (translation * rotation * scale).
      */
     constructor(matrix) {
         if (matrix.rows != 4 || matrix.columns != 4)
-            throw new IllegalArgumentError('A 3D transform expects a 4x4 matrix');
+            throw new IllegalArgumentError('A Transform expects a 4x4 transformation matrix');
         this._matrix = matrix;
+        this._inverse = null;
+        this._position = Vector3.Zero();
+        this._orientation = Quaternion.Identity();
+        this._scale = new Vector3(1, 1, 1);
+        this._isDecomposed = false;
     }
     /**
-     * The 4x4 transformation matrix (read-only)
+     * The 4x4 transformation matrix
      */
     get matrix() {
         return this._matrix;
     }
-}
-/**
- * An invertible 3D transformation
- */
-class InvertibleTransform extends BaseTransform {
     /**
-     * Constructor
-     * @param matrix a 4x4 matrix
-     */
-    constructor(matrix) {
-        // WARNING: we do not check if the matrix actually encodes an invertible transform!
-        super(matrix);
-    }
-    /**
-     * The inverse of the transform
+     * The inverse transform
      */
     get inverse() {
-        const inverseMatrix = speedy_vision_default().Matrix(this._matrix.inverse());
-        return new InvertibleTransform(inverseMatrix);
-    }
-}
-/**
- * A 3D transformation described by translation, rotation and scale
- */
-class StandardTransform extends InvertibleTransform {
-    // TODO: position, rotation and scale attributes
-    /**
-     * Constructor
-     * @param matrix a 4x4 matrix
-     */
-    constructor(matrix) {
-        // WARNING: we do not check if the matrix actually encodes a standard transform!
-        super(matrix);
+        if (this._inverse === null)
+            this._inverse = new Transform(this._inverseMatrix());
+        return this._inverse;
     }
     /**
-     * The inverse of the transform
+     * The 3D position encoded by the transform
      */
-    get inverse() {
+    get position() {
+        if (!this._isDecomposed)
+            this._decompose();
+        return this._position;
+    }
+    /**
+     * A unit quaternion describing the rotational component of the transform
+     */
+    get orientation() {
+        if (!this._isDecomposed)
+            this._decompose();
+        return this._orientation;
+    }
+    /**
+     * The scale encoded by the transform
+     */
+    get scale() {
+        if (!this._isDecomposed)
+            this._decompose();
+        return this._scale;
+    }
+    /**
+     * Decompose this transform
+     */
+    _decompose() {
         /*
 
-        The inverse of a 4x4 standard transform T * R * S...
+        The shape of a 4x4 transform T * R * S is
+
+        [  RS  t  ]
+        [  0'  1  ]
+
+        where S is a 3x3 diagonal matrix, R is a 3x3 rotation matrix, t is a
+        3x1 translation vector and 0' is a 1x3 zero vector.
+
+        How do we decompose it?
+
+        1) Decomposing the translation vector t is trivial
+
+        2) Decomposing matrices R (rotation) and S (scale) can be done by
+           noticing that (RS)'(RS) = (S'R')(RS) = S'(R'R) S = S'S is diagonal
+
+        3) Since R is a rotation matrix, we have det R = +1. This means that
+           det RS = det R * det S = det S. If det RS < 0, then we have a change
+           of handedness (i.e., a negative scale). We may flip the forward axis
+           (Z) and let the rotation matrix encode the rest of the transformation
+
+        4) Use 2) and 3) to find a suitable S
+
+        5) Compute R = (RS) * S^(-1)
+
+        */
+        const m = this._matrix.read();
+        const h = Math.abs(m[15]) < transform_EPSILON ? Number.NaN : 1 / m[15]; // usually h = 1
+        // find t
+        const tx = m[12] * h;
+        const ty = m[13] * h;
+        const tz = m[14] * h;
+        // find RS
+        const rs11 = m[0] * h;
+        const rs21 = m[1] * h;
+        const rs31 = m[2] * h;
+        const rs12 = m[4] * h;
+        const rs22 = m[5] * h;
+        const rs32 = m[6] * h;
+        const rs13 = m[8] * h;
+        const rs23 = m[9] * h;
+        const rs33 = m[10] * h;
+        // do we have a change of handedness?
+        const det = rs13 * (rs21 * rs32 - rs22 * rs31) + rs33 * (rs11 * rs22 - rs12 * rs21) - rs23 * (rs11 * rs32 - rs12 * rs31);
+        const sign = +(det >= 0) - +(det < 0);
+        // if det = 0, RS is not invertible!
+        // find S
+        const sx = Math.sqrt(rs11 * rs11 + rs12 * rs12 + rs13 * rs13);
+        const sy = Math.sqrt(rs21 * rs21 + rs22 * rs22 + rs23 * rs23);
+        const sz = Math.sqrt(rs31 * rs31 + rs32 * rs32 + rs33 * rs33) * sign;
+        // zero scale?
+        if (sx < transform_EPSILON || sy < transform_EPSILON || sz * sign < transform_EPSILON) {
+            this._position._set(tx, ty, tz);
+            this._scale._set(sx, sy, sz);
+            this._orientation._copyFrom(Quaternion.Identity());
+            this._isDecomposed = true;
+            return;
+        }
+        // find S^(-1)
+        const zx = 1 / sx;
+        const zy = 1 / sy;
+        const zz = 1 / sz;
+        // find R
+        const r11 = rs11 * zx;
+        const r21 = rs21 * zx;
+        const r31 = rs31 * zx;
+        const r12 = rs12 * zy;
+        const r22 = rs22 * zy;
+        const r32 = rs32 * zy;
+        const r13 = rs13 * zz;
+        const r23 = rs23 * zz;
+        const r33 = rs33 * zz;
+        // set the components
+        this._position._set(tx, ty, tz);
+        this._scale._set(sx, sy, sz);
+        this._orientation._fromRotationMatrix(speedy_vision_default().Matrix(3, 3, [
+            r11, r21, r31,
+            r12, r22, r32,
+            r13, r23, r33
+        ]));
+        // done!
+        this._isDecomposed = true;
+    }
+    /**
+     * Compute the inverse matrix of this transform
+     * @returns the inverse matrix
+     */
+    _inverseMatrix() {
+        // test
+        //console.log(Speedy.Matrix(this._matrix.inverse().times(this._matrix)).toString());
+        // this works, but this inverse is straightforward
+        return speedy_vision_default().Matrix(this._matrix.inverse());
+        /*
+
+        Simple analytic method
+        ----------------------
+
+        The inverse of a 4x4 transform T * R * S
 
         [  RS  t  ]    is    [  ZR' -ZR't ]
         [  0'  1  ]          [  0'    1   ]
 
         where S is 3x3, R is 3x3, t is 3x1, 0' is 1x3 and Z is the inverse of S
 
+        R is a rotation matrix; S is a diagonal matrix
+
         */
-        return super.inverse;
-    }
-}
-/**
- * A 3D transformation described by position and orientation
- */
-class RigidTransform extends StandardTransform {
-    // TODO: position and rotation attributes (need to decompose the matrix)
-    /**
-     * Constructor
-     * @param matrix a 4x4 matrix
-     */
-    constructor(matrix) {
-        // WARNING: we do not check if the matrix actually encodes a rigid transform!
-        super(matrix);
-    }
-    /**
-     * The inverse of the transform
-     */
-    get inverse() {
         /*
+        // decompose the transform
+        if(!this._isDecomposed)
+            this._decompose();
 
-        The inverse of a 4x4 rigid transform
+        // find t
+        const tx = this._position.x;
+        const ty = this._position.y;
+        const tz = this._position.z;
 
-        [  R   t  ]    is    [  R'  -R't  ]
-        [  0'  1  ]          [  0'    1   ]
+        // find S (typically 1, but not very accurate)
+        const sx = this._scale.x;
+        const sy = this._scale.y;
+        const sz = this._scale.z;
 
-        where R is 3x3, t is 3x1 and 0' is 1x3
+        // sanity check
+        if(Math.abs(sx) < EPSILON || Math.abs(sy) < EPSILON || Math.abs(sz) < EPSILON) {
+            //throw new IllegalOperationError('Not an invertible transform: ' + this._matrix.toString());
+            return Speedy.Matrix(4, 4, new Array(16).fill(Number.NaN)); // more friendly behavior
+        }
 
-        */
-        const m = this._matrix.read();
-        if (m[15] == 0) // error? abs()??
-            throw new IllegalOperationError('Not a rigid transform');
-        const s = 1 / m[15]; // should be 1 (normalize homogeneous coordinates)
-        const r11 = m[0] * s, r12 = m[4] * s, r13 = m[8] * s;
-        const r21 = m[1] * s, r22 = m[5] * s, r23 = m[9] * s;
-        const r31 = m[2] * s, r32 = m[6] * s, r33 = m[10] * s;
-        const t1 = m[12] * s, t2 = m[13] * s, t3 = m[14] * s;
-        const rt1 = r11 * t1 + r21 * t2 + r31 * t3;
-        const rt2 = r12 * t1 + r22 * t2 + r32 * t3;
-        const rt3 = r13 * t1 + r23 * t2 + r33 * t3;
-        const inverseMatrix = speedy_vision_default().Matrix(4, 4, [
-            r11, r12, r13, 0,
-            r21, r22, r23, 0,
-            r31, r32, r33, 0,
-            -rt1, -rt2, -rt3, 1
+        // find R
+        const r = this._rotation.read();
+        const r11 = r[0];
+        const r21 = r[1];
+        const r31 = r[2];
+        const r12 = r[3];
+        const r22 = r[4];
+        const r32 = r[5];
+        const r13 = r[6];
+        const r23 = r[7];
+        const r33 = r[8];
+
+        // find Z = S^(-1)
+        const zx = 1 / sx;
+        const zy = 1 / sy;
+        const zz = 1 / sz;
+
+        // compute Z R'
+        const zr11 = zx * r11;
+        const zr21 = zy * r12;
+        const zr31 = zz * r13;
+        const zr12 = zx * r21;
+        const zr22 = zy * r22;
+        const zr32 = zz * r23;
+        const zr13 = zx * r31;
+        const zr23 = zy * r32;
+        const zr33 = zz * r33;
+
+        // compute -Z R't
+        const zrt1 = -(tx * zr11 + ty * zr12 + tz * zr13);
+        const zrt2 = -(tx * zr21 + ty * zr22 + tz * zr23);
+        const zrt3 = -(tx * zr31 + ty * zr32 + tz * zr33);
+
+        // test
+        console.log('inverse', Speedy.Matrix(Speedy.Matrix(4, 4, [
+            zr11, zr21, zr31, 0,
+            zr12, zr22, zr32, 0,
+            zr13, zr23, zr33, 0,
+            zrt1, zrt2, zrt3, 1
+        ]).times(this._matrix)).toString());
+
+        console.log('rotation', Speedy.Matrix(
+            this._rotation.transpose().times(this._rotation)
+        ).toString());
+
+        console.log('scale', this._scale);
+
+        // done!
+        return Speedy.Matrix(4, 4, [
+            zr11, zr21, zr31, 0,
+            zr12, zr22, zr32, 0,
+            zr13, zr23, zr33, 0,
+            zrt1, zrt2, zrt3, 1
         ]);
-        return new RigidTransform(inverseMatrix);
+        */
     }
 }
 
@@ -23632,12 +24371,13 @@ class ViewerPose extends Pose {
     constructor(camera) {
         // compute the view matrix and its inverse in AR screen space
         const viewMatrix = ViewerPose._computeViewMatrix(camera);
-        const inverseTransform = new RigidTransform(viewMatrix);
-        super(inverseTransform.inverse);
+        const inverseTransform = new Transform(viewMatrix); // from world space to view space
+        const transform = inverseTransform.inverse; // from view space to world space
+        super(transform);
         this._viewMatrix = viewMatrix;
     }
     /**
-     * This 4x4 matrix moves 3D points from world space to viewer space. We
+     * This 4x4 matrix moves 3D points from world space to view space. We
      * assume that the camera is looking in the direction of the negative
      * z-axis (WebGL-friendly)
      */
@@ -23870,7 +24610,7 @@ class Viewer {
         const modelMatrix = pose.transform.matrix;
         const viewMatrix = this._pose.viewMatrix;
         const modelViewMatrix = speedy_vision_default().Matrix(viewMatrix.times(modelMatrix));
-        const transform = new StandardTransform(modelViewMatrix);
+        const transform = new Transform(modelViewMatrix);
         return new Pose(transform);
     }
 }
@@ -24128,7 +24868,7 @@ class ImageTrackerTrackingState extends ImageTrackerState {
             // (identity transform). We also perform a change of coordinates,
             // so that we move out from pixel space and into normalized space
             const modelMatrix = this._camera.denormalizer(); // ~ "identity matrix"
-            const transform = new StandardTransform(modelMatrix);
+            const transform = new Transform(modelMatrix);
             const pose = new Pose(transform);
             // given the current state of the camera model, we get a viewer
             // compatible with the pose of the target
@@ -24594,6 +25334,7 @@ class ImageTracker extends AREventTarget {
         };
         // initial setup
         this._session = null;
+        this._source = null;
         this._activeStateName = 'initial';
         this._lastOutput = {};
         this._database = new ReferenceImageDatabase();
@@ -24661,6 +25402,19 @@ class ImageTracker extends AREventTarget {
     _init(session) {
         // store the session
         this._session = session;
+        // find a suitable source of data
+        // XXX also let the user specify a source manually?
+        for (const source of session.sources) {
+            // prefer video sources
+            if (source._type == 'video') {
+                this._source = source;
+                break;
+            }
+            else if (source._type == 'canvas')
+                this._source = source;
+        }
+        if (this._source === null)
+            throw new IllegalOperationError('The image tracker requires a suitable source of data');
         // initialize states
         for (const state of Object.values(this._state))
             state.init();
@@ -24692,7 +25446,7 @@ class ImageTracker extends AREventTarget {
             return speedy_vision_default().Promise.reject(new IllegalOperationError(`Uninitialized tracker`));
         // compute the screen size for image processing purposes
         // note: this may change over time...!
-        const media = this._session.media;
+        const media = this._source._internalMedia;
         const aspectRatio = media.width / media.height;
         const screenSize = Utils.resolution(this._resolution, aspectRatio);
         // run the active state
@@ -24740,6 +25494,540 @@ class ImageTracker extends AREventTarget {
     }
 }
 
+;// CONCATENATED MODULE: ./src/geometry/vector2.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * vector2.ts
+ * 2D vectors
+ */
+/** Small number */
+const vector2_EPSILON = 1e-6;
+// public / non-internal methods do not change the contents of the vector
+/**
+ * A vector in 2D space
+ */
+class Vector2 {
+    /**
+     * Constructor
+     */
+    constructor(x = 0, y = 0) {
+        this.x = +x;
+        this.y = +y;
+    }
+    /**
+     * Instantiate a zero vector
+     * @returns a new zero vector
+     */
+    static Zero() {
+        return new Vector2(0, 0);
+    }
+    /**
+     * The length of this vector
+     * @returns sqrt(x^2 + y^2)
+     */
+    length() {
+        const x = this.x;
+        const y = this.y;
+        return Math.sqrt(x * x + y * y);
+    }
+    /**
+     * Compute the dot product of this and v
+     * @param v a vector
+     * @returns the dot product of the vectors
+     */
+    dot(v) {
+        return this.x * v.x + this.y * v.y;
+    }
+    /**
+     * Compute the distance between points this and v
+     * @param v a vector / point
+     * @returns the distance between the points
+     */
+    distanceTo(v) {
+        const dx = this.x - v.x;
+        const dy = this.y - v.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+    /**
+     * Compute the direction from this to v
+     * @param v a vector
+     * @returns a new unit vector pointing to v from this
+     */
+    directionTo(v) {
+        return v._clone()._subtract(this)._normalize();
+    }
+    /**
+     * Check if this and v have the same coordinates
+     * @param v a vector
+     * @returns true if this and v have the same coordinates
+     */
+    equals(v) {
+        return this.x === v.x && this.y === v.y;
+    }
+    /**
+     * Convert to string
+     * @returns a string
+     */
+    toString() {
+        const x = this.x.toFixed(5);
+        const y = this.y.toFixed(5);
+        return `Vector2(${x},${y})`;
+    }
+    /**
+     * Clone this vector
+     * @returns a clone of this vector
+     * @internal
+     */
+    _clone() {
+        return new Vector2(this.x, this.y);
+    }
+    /**
+     * Set the coordinates of this vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @returns this vector
+     * @internal
+     */
+    _set(x, y) {
+        this.x = +x;
+        this.y = +y;
+        return this;
+    }
+    /**
+     * Copy v to this vector
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _copyFrom(v) {
+        this.x = v.x;
+        this.y = v.y;
+        return this;
+    }
+    /**
+     * Normalize this vector
+     * @returns this vector, normalized
+     * @internal
+     */
+    _normalize() {
+        const length = this.length();
+        if (length < vector2_EPSILON) // zero?
+            return this;
+        this.x /= length;
+        this.y /= length;
+        return this;
+    }
+    /**
+     * Add v to this vector
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _add(v) {
+        this.x += v.x;
+        this.y += v.y;
+        return this;
+    }
+    /**
+     * Subtract v from this vector
+     * @param v a vector
+     * @returns this vector
+     * @internal
+     */
+    _subtract(v) {
+        this.x -= v.x;
+        this.y -= v.y;
+        return this;
+    }
+    /**
+     * Scale this vector by a scalar
+     * @param s scalar
+     * @returns this vector
+     * @internal
+     */
+    _scale(s) {
+        this.x *= s;
+        this.y *= s;
+        return this;
+    }
+}
+
+;// CONCATENATED MODULE: ./src/trackers/pointer-tracker/pointer-tracker.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * pointer-tracker.ts
+ * Tracker of pointer-based input
+ */
+
+
+
+
+/** Convert event type to trackable pointer phase */
+const EVENTTYPE2PHASE = {
+    'pointerdown': 'began',
+    'pointerup': 'ended',
+    'pointermove': 'moved',
+    'pointercancel': 'canceled',
+    'pointerleave': 'ended',
+    'pointerenter': 'began',
+};
+/**
+ * A tracker of pointer-based input such as mouse, touch or pen
+ */
+class PointerTracker {
+    /**
+     * Constructor
+     */
+    constructor() {
+        this._source = null;
+        this._viewport = null;
+        this._activePointers = new Map();
+        this._newPointers = new Map();
+        this._previousOutput = this._generateOutput();
+        this._previousUpdateTime = Number.POSITIVE_INFINITY;
+        this._wantToReset = false;
+        this._resetInTheNextUpdate = this._resetInTheNextUpdate.bind(this);
+    }
+    /**
+     * The type of the tracker
+     */
+    get type() {
+        return 'pointer-tracker';
+    }
+    /**
+     * Initialize the tracker
+     * @param session
+     * @returns a promise that is resolved as soon as the tracker is initialized
+     * @internal
+     */
+    _init(session) {
+        Utils.log('Initializing PointerTracker...');
+        // set the viewport
+        this._viewport = session.viewport;
+        // find the pointer source
+        for (const source of session.sources) {
+            if (source._type == 'pointer-source') {
+                this._source = source;
+                break;
+            }
+        }
+        if (this._source === null)
+            return speedy_vision_default().Promise.reject(new IllegalOperationError('A PointerTracker expects a PointerSource'));
+        // link the pointer source to the viewport
+        this._source._setViewport(this._viewport);
+        // reset trackables
+        document.addEventListener('visibilitychange', this._resetInTheNextUpdate);
+        // done!
+        return speedy_vision_default().Promise.resolve();
+    }
+    /**
+     * Release the tracker
+     * @returns a promise that is resolved as soon as the tracker is released
+     * @internal
+     */
+    _release() {
+        this._source = null;
+        this._viewport = null;
+        this._activePointers.clear();
+        this._newPointers.clear();
+        document.removeEventListener('visibilitychange', this._resetInTheNextUpdate);
+        return speedy_vision_default().Promise.resolve();
+    }
+    /**
+     * Update the tracker (update cycle)
+     * @returns a promise that is resolved as soon as the tracker is updated
+     * @internal
+     */
+    _update() {
+        const canvas = this._viewport.canvas;
+        const rect = canvas.getBoundingClientRect(); // may be different in different frames!
+        // find the time between this and the previous update of this tracker
+        const deltaTime = this._updateTime();
+        const inverseDeltaTime = (deltaTime > 1e-5) ? 1 / deltaTime : 60; // 1/dt = 1 / (1/60) with 60 fps
+        // remove inactive trackables from the previous frame (update cycle)
+        const inactiveTrackables = this._findInactiveTrackables();
+        for (let i = inactiveTrackables.length - 1; i >= 0; i--)
+            this._activePointers.delete(inactiveTrackables[i].id);
+        // make all active trackables stationary
+        this._updateAllTrackables({
+            phase: 'stationary',
+            velocity: Vector2.Zero(),
+            deltaPosition: Vector2.Zero()
+        });
+        // want to reset?
+        if (this._wantToReset) {
+            this._reset();
+            this._wantToReset = false;
+        }
+        // consume events
+        let event;
+        while ((event = this._source._consume()) !== null) {
+            // sanity check
+            if (event.target !== canvas)
+                return speedy_vision_default().Promise.reject(new IllegalOperationError('Invalid PointerEvent target ' + event.target));
+            else if (!EVENTTYPE2PHASE.hasOwnProperty(event.type))
+                return speedy_vision_default().Promise.reject(new IllegalOperationError('Invalid PointerEvent type ' + event.type));
+            // determine the ID
+            // XXX different hardware devices acting simultaneously may produce
+            // events with the same pointerId - handling this seems overkill?
+            const id = event.pointerId;
+            // determine the previous states, if any, of the trackable
+            const previous = this._activePointers.get(id); // state in the previous frame
+            const current = this._newPointers.get(id); // previous state in the current frame
+            // determine the phase
+            const phase = EVENTTYPE2PHASE[event.type];
+            // new trackables always begin with a pointerdown event,
+            // or with a pointerenter event having buttons pressed
+            // (example: a mousemove without a previous mousedown isn't tracked)
+            if (!(event.type == 'pointerdown' || (event.type == 'pointerenter' && event.buttons > 0))) {
+                if (!previous && !current)
+                    continue; // discard event
+            }
+            else if (previous) {
+                // discard a 'began' after another 'began'
+                continue;
+            }
+            else if (event.button != 0 && event.pointerType == 'mouse') {
+                // require left mouse click
+                continue;
+            }
+            // discard event if 'began' and 'ended' happened in the same frame
+            // (difficult to reproduce, but it can be done ;)
+            if (!previous) {
+                if (phase == 'ended' || phase == 'canceled') {
+                    this._newPointers.delete(id);
+                    continue;
+                }
+            }
+            // what if we receive 'began' after 'ended' in the same frame?
+            else if (phase == 'began' && current) {
+                if (current.phase == 'ended' || current.phase == 'canceled') {
+                    this._newPointers.delete(id);
+                    continue;
+                }
+            }
+            // discard previously canceled pointers (e.g., with a visibilitychange event)
+            if ((previous === null || previous === void 0 ? void 0 : previous.phase) == 'canceled')
+                continue;
+            // more special rules
+            switch (event.type) {
+                case 'pointermove':
+                    if (event.buttons == 0 || (current === null || current === void 0 ? void 0 : current.phase) == 'began')
+                        continue;
+                    break;
+                case 'pointerenter':
+                    if (event.buttons == 0 || (previous === null || previous === void 0 ? void 0 : previous.phase) == 'began' || (current === null || current === void 0 ? void 0 : current.phase) == 'began')
+                        continue;
+                    break;
+                case 'pointercancel': // purge everything
+                    this._reset();
+                    this._newPointers.clear();
+                    continue;
+            }
+            // determine the current position
+            const absX = event.pageX - (rect.left + window.scrollX);
+            const absY = event.pageY - (rect.top + window.scrollY);
+            const relX = 2 * absX / rect.width - 1; // convert to [-1,1]
+            const relY = -(2 * absY / rect.height - 1); // flip Y axis
+            const position = new Vector2(relX, relY);
+            // determine the position delta
+            const deltaPosition = !previous ? Vector2.Zero() :
+                position._clone()._subtract(previous.position);
+            // determine the initial position
+            const initialPosition = previous ? previous.initialPosition :
+                Object.freeze(position._clone());
+            // determine the velocity
+            const velocity = deltaPosition._clone()._scale(inverseDeltaTime);
+            // determine the elapsed time since the tracking began
+            const elapsedTime = previous ? previous.elapsedTime + deltaTime : 0;
+            // determine whether or not this is the primary pointer for this type
+            const isPrimary = event.isPrimary;
+            // determine the type of the originating device
+            const kind = event.pointerType;
+            // we create new trackable instances on each frame;
+            // these will be exported and consumed by the user
+            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, isPrimary, kind });
+        }
+        // update trackables
+        this._newPointers.forEach((trackable, id) => this._activePointers.set(id, trackable));
+        this._newPointers.clear();
+        this._advanceAllStationaryTrackables(deltaTime);
+        // generate output
+        this._previousOutput = this._generateOutput();
+        // test
+        //console.log(JSON.stringify(this._prevOutput.exports.trackables, null, 4));
+        // done!
+        return speedy_vision_default().Promise.resolve();
+    }
+    /**
+     * Output of the previous frame
+     * @internal
+     */
+    get _output() {
+        return this._previousOutput;
+    }
+    /**
+     * Stats info
+     * @internal
+     */
+    get _stats() {
+        const n = this._activePointers.size;
+        const s = n != 1 ? 's' : '';
+        return n + ' pointer' + s;
+    }
+    /**
+     * Generate tracker output
+     * @returns a new PointerTrackerOutput object
+     */
+    _generateOutput() {
+        const trackables = [];
+        this._activePointers.forEach(trackable => trackables.push(trackable));
+        return {
+            exports: {
+                tracker: this,
+                trackables: this._sortTrackables(trackables)
+            }
+        };
+    }
+    /**
+     * Update all active pointers
+     * @param fields
+     */
+    _updateAllTrackables(fields) {
+        this._activePointers.forEach((trackable, id) => {
+            this._activePointers.set(id, Object.assign({}, trackable, fields));
+        });
+    }
+    /**
+     * Advance the elapsed time of all stationary pointers
+     * @param deltaTime
+     */
+    _advanceAllStationaryTrackables(deltaTime) {
+        this._activePointers.forEach((trackable, id) => {
+            if (trackable.phase == 'stationary') {
+                trackable.elapsedTime += deltaTime;
+                /*
+                this._activePointers.set(id, Object.assign({}, trackable, {
+                    elapsedTime: trackable.elapsedTime + deltaTime
+                }));
+                */
+            }
+        });
+    }
+    /**
+     * Cancel all active pointers and consume all events
+     * @param deltaTime
+     */
+    _reset() {
+        // cancel all active pointers
+        this._updateAllTrackables({
+            phase: 'canceled',
+            deltaPosition: Vector2.Zero(),
+            velocity: Vector2.Zero(),
+        });
+        // consume all events
+        while (this._source._consume() !== null)
+            ;
+    }
+    /**
+     * Reset in the next update of the tracker
+     */
+    _resetInTheNextUpdate() {
+        this._wantToReset = true;
+    }
+    /**
+     * As a convenience, let's make sure that a primary pointer, if any exists,
+     * is at the beginning of the trackables array
+     * @param trackables
+     * @returns sorted trackables
+     */
+    _sortTrackables(trackables) {
+        /*
+
+        Note: the browser may not report a new unique pointer (phase: "began")
+        as primary. This logic makes trackables[0] primary, or sort of primary.
+
+        Behavior on Chrome 130 on Android: when moving multiple touch points,
+        remove focus from the browser. Touch points will be canceled as
+        expected. When touching the screen again with a single finger, the
+        (only one) registered pointer will not be primary. That's undesirable.
+        Touching the screen again with multiple fingers (none will be primary),
+        and then releasing them, will restore the desired behavior.
+
+        */
+        // nothing to do
+        if (trackables.length <= 1 || trackables[0].isPrimary)
+            return trackables;
+        // find a primary pointer and swap
+        for (let j = 1; j < trackables.length; j++) {
+            if (trackables[j].isPrimary) {
+                const primary = trackables[j];
+                trackables[j] = trackables[0];
+                trackables[0] = primary;
+                break;
+            }
+        }
+        // done!
+        return trackables;
+    }
+    /**
+     * Find trackables to remove
+     * @returns a list of trackables to remove
+     */
+    _findInactiveTrackables() {
+        const trackables = [];
+        this._activePointers.forEach(trackable => {
+            if (trackable.phase == 'ended' || trackable.phase == 'canceled')
+                trackables.push(trackable);
+        });
+        return trackables;
+    }
+    /**
+     * Update the time
+     * @returns delta time in seconds
+     */
+    _updateTime() {
+        const now = performance.now() * 0.001;
+        if (this._previousUpdateTime > now)
+            this._previousUpdateTime = now;
+        const prev = this._previousUpdateTime;
+        this._previousUpdateTime = now;
+        return now - prev;
+    }
+}
+
 ;// CONCATENATED MODULE: ./src/trackers/tracker-factory.ts
 /*
  * encantar.js
@@ -24763,6 +26051,7 @@ class ImageTracker extends AREventTarget {
  * Tracker factory
  */
 
+
 /**
  * Tracker factory
  */
@@ -24772,6 +26061,12 @@ class TrackerFactory {
      */
     static ImageTracker() {
         return new ImageTracker();
+    }
+    /**
+     * Create a Pointer Tracker
+     */
+    static Pointer() {
+        return new PointerTracker();
     }
 }
 
@@ -24827,7 +26122,7 @@ class VideoSource {
      * Get media
      * @internal
      */
-    get _data() {
+    get _internalMedia() {
         if (this._media == null)
             throw new IllegalOperationError(`The media of the source of data isn't loaded`);
         return this._media;
@@ -25043,7 +26338,7 @@ class CanvasSource {
      * Get media
      * @internal
      */
-    get _data() {
+    get _internalMedia() {
         if (this._media == null)
             throw new IllegalOperationError(`The media of the source of data isn't loaded`);
         return this._media;
@@ -25198,6 +26493,158 @@ class CameraSource extends VideoSource {
     }
 }
 
+;// CONCATENATED MODULE: ./src/sources/pointer-source.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * pointer-source.ts
+ * Source of data of pointer-based input: mouse, touch, pen...
+ */
+
+
+/**
+ * Source of data of pointer-based input: mouse, touch, pen...
+ */
+class PointerSource {
+    /**
+     * Constructor
+     */
+    constructor() {
+        this._queue = [];
+        this._viewport = null;
+        this._onPointerEvent = this._onPointerEvent.bind(this);
+        this._cancelEvent = this._cancelEvent.bind(this);
+    }
+    /**
+     * A type-identifier of the source of data
+     * @internal
+     */
+    get _type() {
+        return 'pointer-source';
+    }
+    /**
+     * Consume a pointer event
+     * @returns the next pointer event to be consumed, or null if there are none
+     * @internal
+     */
+    _consume() {
+        // producer-consumer mechanism
+        return this._queue.shift() || null;
+    }
+    /**
+     * Stats related to this source of data
+     * @internal
+     */
+    get _stats() {
+        return 'pointer input';
+    }
+    /**
+     * Initialize this source of data
+     * @returns a promise that resolves as soon as this source of data is initialized
+     * @internal
+     */
+    _init() {
+        Utils.log('Initializing PointerSource...');
+        // nothing to do yet; we need the viewport
+        return speedy_vision_default().Promise.resolve();
+    }
+    /**
+     * Release this source of data
+     * @returns a promise that resolves as soon as this source of data is released
+     * @internal
+     */
+    _release() {
+        this._setViewport(null);
+        return speedy_vision_default().Promise.resolve();
+    }
+    /**
+     * Link a viewport to this source of data
+     * @param viewport possibly null
+     * @internal
+     */
+    _setViewport(viewport) {
+        // unlink previous viewport, if any
+        if (this._viewport !== null) {
+            this._viewport.hud.container.style.removeProperty('pointer-events');
+            this._viewport._subContainer.style.removeProperty('pointer-events');
+            this._viewport.container.style.removeProperty('pointer-events');
+            this._viewport.canvas.style.removeProperty('pointer-events');
+            this._removeEventListeners(this._viewport.canvas);
+        }
+        // link new viewport, if any
+        if ((this._viewport = viewport) !== null) {
+            this._addEventListeners(this._viewport.canvas);
+            this._viewport.canvas.style.pointerEvents = 'auto';
+            this._viewport.container.style.pointerEvents = 'none';
+            this._viewport._subContainer.style.pointerEvents = 'none';
+            this._viewport.hud.container.style.pointerEvents = 'none';
+            // Make HUD elements accept pointer events
+            for (const element of this._viewport.hud.container.children) {
+                const el = element;
+                if (el.style.getPropertyValue('pointer-events') == '')
+                    el.style.pointerEvents = 'auto';
+            }
+        }
+    }
+    /**
+     * Event handler
+     * @param event
+     */
+    _onPointerEvent(event) {
+        this._queue.push(event);
+        event.preventDefault();
+    }
+    /**
+     * Cancel event
+     * @param event
+     */
+    _cancelEvent(event) {
+        if (event.cancelable)
+            event.preventDefault();
+    }
+    /**
+     * Add event listeners
+     * @param canvas
+     */
+    _addEventListeners(canvas) {
+        canvas.addEventListener('pointerdown', this._onPointerEvent);
+        canvas.addEventListener('pointerup', this._onPointerEvent);
+        canvas.addEventListener('pointermove', this._onPointerEvent);
+        canvas.addEventListener('pointercancel', this._onPointerEvent);
+        canvas.addEventListener('pointerleave', this._onPointerEvent);
+        canvas.addEventListener('pointerenter', this._onPointerEvent);
+        canvas.addEventListener('touchstart', this._cancelEvent, { passive: false });
+    }
+    /**
+     * Remove event listeners
+     * @param canvas
+     */
+    _removeEventListeners(canvas) {
+        canvas.removeEventListener('touchstart', this._cancelEvent);
+        canvas.removeEventListener('pointerenter', this._onPointerEvent);
+        canvas.removeEventListener('pointerleave', this._onPointerEvent);
+        canvas.removeEventListener('pointercancel', this._onPointerEvent);
+        canvas.removeEventListener('pointermove', this._onPointerEvent);
+        canvas.removeEventListener('pointerup', this._onPointerEvent);
+        canvas.removeEventListener('pointerdown', this._onPointerEvent);
+    }
+}
+
 ;// CONCATENATED MODULE: ./src/sources/source-factory.ts
 /*
  * encantar.js
@@ -25223,6 +26670,7 @@ class CameraSource extends VideoSource {
 
 
 
+
 /**
  * Factory of sources of data
  */
@@ -25230,6 +26678,7 @@ class SourceFactory {
     /**
      * Create a <video>-based source of data
      * @param video video element
+     * @returns a video source
      */
     static Video(video) {
         return new VideoSource(video);
@@ -25237,6 +26686,7 @@ class SourceFactory {
     /**
      * Create a <canvas>-based source of data
      * @param canvas canvas element
+     * @returns a canvas source
      */
     static Canvas(canvas) {
         return new CanvasSource(canvas);
@@ -25244,9 +26694,17 @@ class SourceFactory {
     /**
      * Create a Webcam-based source of data
      * @param options optional options object
+     * @returns a camera source
      */
     static Camera(options = {}) {
         return new CameraSource(options);
+    }
+    /**
+     * Create a source of pointer-based input
+     * @returns a pointer source
+    */
+    static Pointer() {
+        return new PointerSource();
     }
 }
 
@@ -25492,6 +26950,7 @@ class FullscreenButton {
  * viewport.ts
  * Viewport
  */
+
 
 
 
@@ -26130,6 +27589,20 @@ class Viewport extends ViewportEventTarget {
         return this._fullscreen.exit();
     }
     /**
+     * Convert a position given in normalized units to a corresponding pixel
+     * position in canvas space. Normalized units range from -1 to +1. The
+     * center of the canvas is at (0,0). The top right corner is at (1,1).
+     * The bottom left corner is at (-1,-1).
+     * @param position in normalized units
+     * @returns an equivalent pixel position in canvas space
+     */
+    convertToPixels(position) {
+        const canvas = this.canvas;
+        const x = 0.5 * (1 + position.x) * canvas.width;
+        const y = 0.5 * (1 - position.y) * canvas.height;
+        return new Vector2(x, y);
+    }
+    /**
      * Initialize the viewport (when the session starts)
      * @param getMediaSize
      * @param sessionMode
@@ -26219,6 +27692,28 @@ class AR {
         return Session.instantiate(options);
     }
     /**
+     * Checks if the engine can be run in the browser the client is using
+     * @returns true if the engine is compatible with the browser
+     */
+    static isSupported() {
+        return Session.isSupported();
+    }
+    /**
+     * Engine version
+     */
+    static get version() {
+        if (false)
+            {}
+        else
+            return "0.4.0";
+    }
+    /**
+     * Speedy Vision
+     */
+    static get Speedy() {
+        return (speedy_vision_default());
+    }
+    /**
      * Trackers
      */
     static get Tracker() {
@@ -26243,28 +27738,6 @@ class AR {
      */
     static get Settings() {
         return Settings;
-    }
-    /**
-     * Engine version
-     */
-    static get version() {
-        if (false)
-            {}
-        else
-            return "0.3.0";
-    }
-    /**
-     * Speedy Vision
-     */
-    static get Speedy() {
-        return (speedy_vision_default());
-    }
-    /**
-     * Checks if the engine can be run in the browser the client is using
-     * @returns true if the engine is compatible with the browser
-     */
-    static isSupported() {
-        return Session.isSupported();
     }
 }
 // Freeze the namespace
