@@ -596,6 +596,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#can-i-increase-the-resolution-of-the-tracking" class="md-nav__link">
+    Can I increase the resolution of the tracking?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#i-am-enchanted" class="md-nav__link">
     I am enchanted!
   </a>
@@ -810,7 +817,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/time/" class="md-nav__link">
+      <a href="../api/time.md" class="md-nav__link">
         Time
       </a>
     </li>
@@ -987,6 +994,81 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2_2" type="checkbox" id="__nav_5_2_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_2_2">
+          Pointer tracker
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pointer tracker" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Pointer tracker
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pointer-tracker/" class="md-nav__link">
+        PointerTracker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pointer-tracker-result/" class="md-nav__link">
+        PointerTrackerResult
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/trackable-pointer/" class="md-nav__link">
+        TrackablePointer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
       <a href="../api/tracker/" class="md-nav__link">
         Tracker
@@ -1093,6 +1175,20 @@
     <li class="md-nav__item">
       <a href="../api/video-source/" class="md-nav__link">
         VideoSource
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pointer-source/" class="md-nav__link">
+        PointerSource
       </a>
     </li>
   
@@ -1222,8 +1318,50 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/rigid-transform/" class="md-nav__link">
-        RigidTransform
+      <a href="../api/transform/" class="md-nav__link">
+        Transform
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/vector2/" class="md-nav__link">
+        Vector2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/vector3/" class="md-nav__link">
+        Vector3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/quaternion/" class="md-nav__link">
+        Quaternion
       </a>
     </li>
   
@@ -1551,6 +1689,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#can-i-increase-the-resolution-of-the-tracking" class="md-nav__link">
+    Can I increase the resolution of the tracking?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#i-am-enchanted" class="md-nav__link">
     I am enchanted!
   </a>
@@ -1578,7 +1723,7 @@
 
 <h1 id="questions-answers">Questions &amp; Answers</h1>
 <h2 id="what-is-encantarjs">What is encantar.js?</h2>
-<p>encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name derives from the Portuguese and Spanish word <em>encantar</em>, which means: to enchant, to delight, to love, to fascinate, to put a magical spell on someone or something. <img alt="✨" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" title=":sparkles:" /></p>
+<p>encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name is derived from the Portuguese and Spanish word <em>encantar</em>, which means: to enchant, to delight, to love, to fascinate, to put a magical spell on someone or something. <img alt="✨" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" title=":sparkles:" /></p>
 <h2 id="what-is-webar">What is WebAR?</h2>
 <p>Refer to the <a href="../getting-started/concepts/">concepts</a>.</p>
 <h2 id="is-this-webxr">Is this WebXR?</h2>
@@ -1589,6 +1734,8 @@
 <p class="admonition-title">Fix with code</p>
 <p>Fixing the orientation of the model is the preferred solution. However, you can also fix the issue with code: add a node (entity) to the scene graph and make it rotate its children by 90 degrees around the x-axis.</p>
 </div>
+<h2 id="can-i-increase-the-resolution-of-the-tracking">Can I increase the resolution of the tracking?</h2>
+<p>Yes. You can increase the <a href="../api/image-tracker/#instantiation">resolution of the tracker</a>, as well as the <a href="../api/camera-source/#instantiation">resolution of the camera</a>, using the API. You can also increase the resolution of the rendered virtual scene by setting the <a href="../api/viewport/#instantiation">resolution of the viewport</a>. Performance is affected by various factors such as upload times (GPU). Test your AR experience on your target devices to find a good balance between performance and increased resolution.</p>
 <h2 id="i-am-enchanted">I am enchanted!</h2>
 <p>I know! <img alt="😉" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f609.png" title=":wink:" /></p>
 

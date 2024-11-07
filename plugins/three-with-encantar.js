@@ -6,7 +6,7 @@
 
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
-    'encantar.js': { version: '0.3.0' },
+    'encantar.js': { version: '0.4.0' },
        'three.js': { version: '147' }
 });
 
@@ -83,6 +83,16 @@ class ARSystem
     }
 
     /**
+     * Pointer-based input in the current frame (touch, mouse, pen...)
+     * You need a PointerTracker in your session in order to use these
+     * @returns {TrackablePointer[]}
+     */
+    get pointers()
+    {
+        return this._pointers;
+    }
+
+    /**
      * The root is a node that is automatically aligned to the physical scene.
      * Objects of your virtual scene should be descendants of this node.
      * @returns {THREE.Group}
@@ -126,6 +136,7 @@ class ARSystem
     {
         this._session = null;
         this._frame = null;
+        this._pointers = [];
         this._origin = null;
         this._root = null;
         this._scene = null;
@@ -156,6 +167,9 @@ function encantar(demo)
 
     function mix(frame)
     {
+        let found = false;
+        ar._pointers.length = 0;
+
         for(const result of frame.results) {
             if(result.tracker.type == 'image-tracker') {
                 if(result.trackables.length > 0) {
@@ -167,12 +181,17 @@ function encantar(demo)
                     align(projectionMatrix, viewMatrixInverse, modelMatrix);
                     ar._origin.visible = true;
 
-                    return;
+                    found = true;
                 }
+            }
+            else if(result.tracker.type == 'pointer-tracker') {
+                if(result.trackables.length > 0)
+                    ar._pointers.push.apply(ar._pointers, result.trackables);
             }
         }
 
-        ar._origin.visible = false;
+        if(!found)
+            ar._origin.visible = false;
     }
 
     function align(projectionMatrix, viewMatrixInverse, modelMatrix)

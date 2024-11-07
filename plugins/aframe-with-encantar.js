@@ -8,7 +8,7 @@
 
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
-    'encantar.js': { version: '0.3.0' },
+    'encantar.js': { version: '0.4.0' },
         'A-Frame': { version: '1.4.2' }
 });
 
@@ -39,6 +39,19 @@ const ARUtils = () => ({
         return null;
     },
 
+    getTrackablePointers(frame)
+    {
+        if(frame === null)
+            return [];
+
+        for(const result of frame.results) {
+            if(result.tracker.type == 'pointer-tracker')
+                return result.trackables;
+        }
+
+        return [];
+    },
+
 });
 
 /* ========================================================================= */
@@ -52,9 +65,11 @@ AFRAME.registerSystem('ar', {
     // data;
     // schema;
 
-    session: null,
-    frame: null,
-    utils: ARUtils(),
+    session: /** @type {Session | null} */ (null),
+    frame: /** @type {Frame | null} */ (null),
+    pointers: /** @type {TrackablePointer[]} */ ([]),
+
+    _utils: ARUtils(),
     _started: false,
     _components: [],
     _roots: [],
@@ -193,6 +208,7 @@ AFRAME.registerSystem('ar', {
 
         session.addEventListener('end', () => {
             this.frame = null;
+            this.pointers.length = 0;
         });
 
         session.viewport.addEventListener('resize', () => {
@@ -211,9 +227,13 @@ AFRAME.registerSystem('ar', {
 
         scene.object3D.background = null;
 
+        // animation loop
         const animate = (time, frame) => {
             this.frame = frame;
+            this._updateTrackablePointers();
+
             scene.render();
+
             session.requestAnimationFrame(animate);
         };
 
@@ -286,6 +306,15 @@ AFRAME.registerSystem('ar', {
             throw new Error('Missing ar-session in a-scene');
 
         return sessionComponent.preferences();
+    },
+
+    _updateTrackablePointers()
+    {
+        this.pointers.length = 0;
+
+        const newPointers = this._utils.getTrackablePointers(this.frame);
+        if(newPointers.length > 0)
+            this.pointers.push.apply(this.pointers, newPointers);
     },
 
 });
@@ -419,7 +448,7 @@ AFRAME.registerComponent('ar-camera', ARComponent({
         const ar = this.ar;
         const el = this.el;
 
-        const tracked = ar.utils.findTrackedImage(ar.frame);
+        const tracked = ar._utils.findTrackedImage(ar.frame);
         if(tracked === null)
             return;
 
@@ -516,7 +545,7 @@ AFRAME.registerComponent('ar-root', ARComponent({
         const ar = this.ar;
         const targetName = this.data.referenceImage;
 
-        const tracked = ar.utils.findTrackedImage(ar.frame, targetName);
+        const tracked = ar._utils.findTrackedImage(ar.frame, targetName);
         if(tracked === null) {
             this.el.pause();
             return;
@@ -696,6 +725,35 @@ AFRAME.registerPrimitive('ar-canvas-source', {
     }
 });
 
+/**
+ * AR Pointer Source
+ */
+AFRAME.registerComponent('ar-pointer-source', ARComponent({
+
+    schema: {
+    },
+
+    validate()
+    {
+        if(!this.el.parentNode.getAttribute('ar-sources'))
+            throw new Error('ar-pointer-source must be a direct child of ar-sources');
+    },
+
+    source()
+    {
+        return AR.Source.Pointer();
+    },
+
+}));
+
+AFRAME.registerPrimitive('ar-pointer-source', {
+    defaultComponents: {
+        'ar-pointer-source': {}
+    },
+    mappings: {
+    }
+});
+
 /* ========================================================================= */
 
 /**
@@ -824,6 +882,33 @@ AFRAME.registerPrimitive('ar-reference-image', {
     mappings: {
         'name': 'ar-reference-image.name',
         'src': 'ar-reference-image.src'
+    }
+});
+
+/**
+ * AR Pointer Tracker
+ */
+AFRAME.registerComponent('ar-pointer-tracker', ARComponent({
+
+    schema: {
+    },
+
+    validate()
+    {
+        if(!this.el.parentNode.getAttribute('ar-trackers'))
+            throw new Error('ar-pointer-tracker must be a direct child of ar-trackers');
+    },
+
+    tracker()
+    {
+        return AR.Tracker.Pointer();
+    },
+
+}));
+
+AFRAME.registerPrimitive('ar-pointer-tracker', {
+    defaultComponents: {
+        'ar-pointer-tracker': {}
     }
 });
 

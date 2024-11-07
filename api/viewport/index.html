@@ -741,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../time/" class="md-nav__link">
+      <a href="../time.md" class="md-nav__link">
         Time
       </a>
     </li>
@@ -918,6 +918,81 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2_2" type="checkbox" id="__nav_5_2_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_2_2">
+          Pointer tracker
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pointer tracker" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Pointer tracker
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointer-tracker/" class="md-nav__link">
+        PointerTracker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointer-tracker-result/" class="md-nav__link">
+        PointerTrackerResult
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trackable-pointer/" class="md-nav__link">
+        TrackablePointer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
       <a href="../tracker/" class="md-nav__link">
         Tracker
@@ -1024,6 +1099,20 @@
     <li class="md-nav__item">
       <a href="../video-source/" class="md-nav__link">
         VideoSource
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointer-source/" class="md-nav__link">
+        PointerSource
       </a>
     </li>
   
@@ -1153,8 +1242,50 @@
   
   
     <li class="md-nav__item">
-      <a href="../rigid-transform/" class="md-nav__link">
-        RigidTransform
+      <a href="../transform/" class="md-nav__link">
+        Transform
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector2/" class="md-nav__link">
+        Vector2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector3/" class="md-nav__link">
+        Vector3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quaternion/" class="md-nav__link">
+        Quaternion
       </a>
     </li>
   
@@ -1342,6 +1473,13 @@
           <li class="md-nav__item">
   <a href="#exitfullscreen" class="md-nav__link">
     exitFullscreen
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converttopixels" class="md-nav__link">
+    convertToPixels
   </a>
   
 </li>
@@ -1743,6 +1881,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#converttopixels" class="md-nav__link">
+    convertToPixels
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1835,7 +1980,7 @@
 <p>The size in pixels that matches the <a href="#resolution">resolution</a> of the virtual scene.</p>
 <h3 id="canvas">canvas</h3>
 <p><code>viewport.canvas: HTMLCanvasElement, read-only</code></p>
-<p>A <code>&lt;canvas&gt;</code> on which the virtual scene is drawn.</p>
+<p>The <code>&lt;canvas&gt;</code> on which the virtual scene is drawn.</p>
 <h3 id="style">style</h3>
 <p><code>viewport.style: string, read-only</code></p>
 <p>The style determines the way the viewport appears on the screen. Different styles are applicable to different <a href="../session/#mode">session modes</a>. The following are valid styles:</p>
@@ -1887,6 +2032,14 @@
 <p><em>Since:</em> 0.3.0</p>
 <p><strong>Returns</strong></p>
 <p>A promise that is resolved once the fullscreen mode is no longer active, or rejected on error. The promise will be rejected if the method is called when not in fullscreen mode.</p>
+<h3 id="converttopixels">convertToPixels</h3>
+<p><code>viewport.convertToPixels(position: Vector2): Vector2</code></p>
+<p>Convert a <code>position</code> given in normalized units to a corresponding pixel position in <a href="#canvas">canvas</a> space. Normalized units range from -1 to +1. The center of the canvas is at (0,0). The top right corner is at (1,1). The bottom left corner is at (-1,-1).</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Arguments</strong></p>
+<p><code>position: Vector2</code>. A position in normalized units.</p>
+<p><strong>Returns</strong></p>
+<p>An equivalent pixel position in canvas space.</p>
 <h2 id="events">Events</h2>
 <p>A viewport is an <a href="../ar-event-target/">AREventTarget</a>. You can listen to the following events:</p>
 <h3 id="resize">resize</h3>
@@ -1897,12 +2050,12 @@
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">});</span>
 </code></pre></div>
 <h3 id="fullscreenchange">fullscreenchange</h3>
-<p>The viewport has been switched into or out of fullscreen mode.</p>
+<p>The viewport has been switched to or out of fullscreen mode.</p>
 <p><em>Since:</em> 0.3.0</p>
 <p><strong>Example</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">viewport</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;fullscreenchange&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="k">if</span><span class="p">(</span><span class="nx">viewport</span><span class="p">.</span><span class="nx">fullscreen</span><span class="p">)</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Switched into fullscreen mode&#39;</span><span class="p">);</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Switched to fullscreen mode&#39;</span><span class="p">);</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">else</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Switched out of fullscreen mode&#39;</span><span class="p">);</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">});</span>
@@ -1921,7 +2074,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../rigid-transform/" class="md-footer__link md-footer__link--prev" aria-label="Previous: RigidTransform" rel="prev">
+        <a href="../quaternion/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quaternion" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1930,7 +2083,7 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              RigidTransform
+              Quaternion
             </div>
           </div>
         </a>
