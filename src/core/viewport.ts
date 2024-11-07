@@ -991,7 +991,7 @@ export class Viewport extends ViewportEventTarget
     {
         const canvas = this.canvas;
         const x = 0.5 * (1 + position.x) * canvas.width;
-        const y = -0.5 * (1 + position.y) * canvas.height;
+        const y = 0.5 * (1 - position.y) * canvas.height;
 
         return new Vector2(x, y);
     }
