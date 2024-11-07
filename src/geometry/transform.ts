@@ -55,6 +55,9 @@ export class Transform
     /** whether or not this transformation has been decomposed */
     private _isDecomposed: boolean;
 
+    /** whether or not we have extracted the position from the matrix */
+    private _isPositionComputed: boolean;
+
 
 
     /**
@@ -73,6 +76,7 @@ export class Transform
         this._orientation = Quaternion.Identity();
         this._scale = new Vector3(1, 1, 1);
         this._isDecomposed = false;
+        this._isPositionComputed = false;
     }
 
     /**
@@ -99,8 +103,8 @@ export class Transform
      */
     get position(): Vector3
     {
-        if(!this._isDecomposed)
-            this._decompose();
+        if(!this._isPositionComputed)
+            this._computePosition();
 
         return this._position;
     }
@@ -195,6 +199,7 @@ export class Transform
             this._scale._set(sx, sy, sz);
             this._orientation._copyFrom(Quaternion.Identity());
             this._isDecomposed = true;
+            this._isPositionComputed = true;
             return;
         }
 
@@ -225,6 +230,23 @@ export class Transform
 
         // done!
         this._isDecomposed = true;
+        this._isPositionComputed = true;
+    }
+
+    /**
+     * A simpler decomposition routine.
+     * Sometimes we just need the position.
+     */
+    private _computePosition(): void
+    {
+        const m = this._matrix.read();
+        const h = Math.abs(m[15]) < EPSILON ? Number.NaN : 1 / m[15]; // usually h = 1
+
+        // find t
+        this._position._set(m[12] * h, m[13] * h, m[14] * h);
+
+        // done!
+        this._isPositionComputed = true;
     }
 
     /**
