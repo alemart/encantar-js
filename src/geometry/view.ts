@@ -25,6 +25,7 @@ import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { CameraModel, FX, FY, U0, V0 } from './camera-model';
 import { IllegalArgumentError } from '../utils/errors';
+import { Nullable } from '../utils/utils';
 
 /** Default distance in pixels of the near plane to the optical center of the camera */
 const DEFAULT_NEAR = 1;
@@ -42,6 +43,9 @@ export interface View
 {
     /** A 4x4 matrix that projects the viewer space into the clip space, i.e., [-1,1]^3 */
     readonly projectionMatrix: SpeedyMatrix;
+
+    /** @internal The inverse of the projection matrix */
+    readonly _projectionMatrixInverse: SpeedyMatrix;
 }
 
 /**
@@ -52,6 +56,9 @@ export class PerspectiveView implements View
 {
     /** A 4x4 matrix that projects the viewer space into the clip space, i.e., [-1,1]^3 */
     private readonly _projectionMatrix: SpeedyMatrix;
+
+    /** The inverse of the projection matrix, computed lazily */
+    private _inverseProjection: Nullable<SpeedyMatrix>;
 
     /** Tangent of the half of the horizontal field-of-view */
     private readonly _tanOfHalfFovx: number;
@@ -92,6 +99,7 @@ export class PerspectiveView implements View
         this._tanOfHalfFovx = intrinsics[U0] / intrinsics[FX];
         this._tanOfHalfFovy = intrinsics[V0] / intrinsics[FY];
         this._projectionMatrix = PerspectiveView._computeProjectionMatrix(intrinsics, this._near, this._far);
+        this._inverseProjection = null;
     }
 
     /**
@@ -140,6 +148,18 @@ export class PerspectiveView implements View
     get far(): number
     {
         return this._far;
+    }
+
+    /**
+     * The inverse of the projection matrix
+     * @internal
+     */
+    get _projectionMatrixInverse(): SpeedyMatrix
+    {
+        if(this._inverseProjection === null)
+            this._inverseProjection = Speedy.Matrix(this._projectionMatrix.inverse());
+
+        return this._inverseProjection;
     }
 
     /**
