@@ -103,6 +103,7 @@ nav:
       - 'Vector2': 'api/vector2.md'
       - 'Vector3': 'api/vector3.md'
       - 'Quaternion': 'api/quaternion.md'
+      - 'Ray': 'api/ray.md'
     - 'Visualization':
       - 'Viewport': 'api/viewport.md'
       - 'HUD': 'api/hud.md'
