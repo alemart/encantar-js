@@ -13,6 +13,40 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
 });
 
 /**
+ * AR Base System
+ * @mixin ARBaseSystem
+ */
+const ARBaseSystem = () => ({
+
+    /**
+     * AR Session
+     * @type {Session | null}
+     */
+    session: null,
+
+    /**
+     * Current frame: an object holding data to augment the physical scene.
+     * If the AR scene is not initialized, this will be null.
+     * @type {Frame | null}
+     */
+    frame: null,
+
+    /**
+     * AR Viewer
+     * @type {Viewer | null}
+     */
+    viewer: null,
+
+    /**
+     * Pointer-based input in the current frame (touch, mouse, pen...)
+     * You need a PointerTracker in your session in order to use these
+     * @type {TrackablePointer[]}
+     */
+    pointers: [],
+
+});
+
+/**
  * AR Utilities
  */
 const ARUtils = () => ({
@@ -73,17 +107,15 @@ const ARUtils = () => ({
 
 /**
  * AR System
+ * @name ARSystem
+ * @type {object}
+ * @mixes ARBaseSystem
  */
-AFRAME.registerSystem('ar', {
+AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
 
     // el;
     // data;
     // schema;
-
-    session: /** @type {Session | null} */ (null),
-    frame: /** @type {Frame | null} */ (null),
-    viewer: /** @type {Viewer | null} */ (null),
-    pointers: /** @type {TrackablePointer[]} */ ([]),
 
     _utils: ARUtils(),
     _started: false,
@@ -335,10 +367,11 @@ AFRAME.registerSystem('ar', {
             this.pointers.push.apply(this.pointers, newPointers);
     },
 
-});
+}));
 
 /**
  * AR Component
+ * @mixin ARComponent
  */
 const ARComponent = obj => Object.assign({}, obj, {
 
