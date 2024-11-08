@@ -39,7 +39,22 @@ const ARUtils = () => ({
         return null;
     },
 
-    getTrackablePointers(frame)
+    findViewer(frame)
+    {
+        if(frame === null)
+            return null;
+
+        for(const result of frame.results) {
+            if(result.tracker.type == 'image-tracker') {
+                if(result.trackables.length > 0)
+                    return result.viewer;
+            }
+        }
+
+        return null;
+    },
+
+    findTrackablePointers(frame)
     {
         if(frame === null)
             return [];
@@ -67,6 +82,7 @@ AFRAME.registerSystem('ar', {
 
     session: /** @type {Session | null} */ (null),
     frame: /** @type {Frame | null} */ (null),
+    viewer: /** @type {Viewer | null} */ (null),
     pointers: /** @type {TrackablePointer[]} */ ([]),
 
     _utils: ARUtils(),
@@ -207,6 +223,7 @@ AFRAME.registerSystem('ar', {
         }
 
         session.addEventListener('end', () => {
+            this.viewer = null;
             this.frame = null;
             this.pointers.length = 0;
         });
@@ -230,6 +247,7 @@ AFRAME.registerSystem('ar', {
         // animation loop
         const animate = (time, frame) => {
             this.frame = frame;
+            this.viewer = this._utils.findViewer(frame);
             this._updateTrackablePointers();
 
             scene.render();
@@ -312,7 +330,7 @@ AFRAME.registerSystem('ar', {
     {
         this.pointers.length = 0;
 
-        const newPointers = this._utils.getTrackablePointers(this.frame);
+        const newPointers = this._utils.findTrackablePointers(this.frame);
         if(newPointers.length > 0)
             this.pointers.push.apply(this.pointers, newPointers);
     },
