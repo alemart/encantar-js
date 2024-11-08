@@ -37,3 +37,19 @@ The input `pose` converted to viewer space.
 ```js
 const modelViewMatrix = viewer.convertToViewerSpace(pose).transform.matrix;
 ```
+
+### raycast
+
+`viewer.raycast(position: Vector2): Ray`
+
+Cast a [ray](ray.md) from a point in the image space associated with this viewer.
+
+*Since:* 0.4.0
+
+**Arguments**
+
+* `position: Vector2`. A point in image space, given in [normalized units](trackable-pointer.md).
+
+**Returns**
+
+A ray in world space that corresponds to the given point.

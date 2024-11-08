@@ -26,6 +26,9 @@ import { Pose } from './pose';
 import { ViewerPose } from './viewer-pose';
 import { View, PerspectiveView } from './view';
 import { Transform } from './transform';
+import { Vector2 } from './vector2';
+import { Vector3 } from './vector3';
+import { Ray } from './ray';
 
 
 
@@ -97,5 +100,40 @@ export class Viewer
 
         const transform = new Transform(modelViewMatrix);
         return new Pose(transform);
+    }
+
+    /**
+     * Cast a ray from a point in the image space associated with this Viewer
+     * @param position a point in image space, given in normalized units [-1,1]x[-1,1]
+     * @returns a ray in world space that corresponds to the given point
+     */
+    raycast(position: Vector2): Ray
+    {
+        const projectionMatrixInverse = this.view._projectionMatrixInverse;
+        const viewMatrixInverse = this._pose.transform.matrix;
+        const pointInClipSpace = Speedy.Matrix(4, 1, [
+            // Normalized Device Coordinates (NDC)
+            position.x,
+            position.y,
+            0, // (*)
+            1  // homogeneous coordinates
+        ]);
+
+        const pointInViewSpace = projectionMatrixInverse.times(pointInClipSpace);
+        const pointInWorldSpace = viewMatrixInverse.times(pointInViewSpace);
+        const p = Speedy.Matrix(pointInWorldSpace).read();
+
+        /*
+
+        (*) since we're just interested in the direction, any z coordinate in
+            clip space [-1,1] will give us a suitable point p in world space.
+
+        */
+
+        const origin = this._pose.transform.position;
+        const direction = new Vector3(p[0] / p[3], p[1] / p[3], p[2] / p[3])
+                          ._subtract(origin)._normalize();
+
+        return new Ray(origin, direction);
     }
 }

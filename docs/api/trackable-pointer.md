@@ -32,7 +32,7 @@ The phase of the pointer. It's one of the following strings:
 
 `pointer.position: Vector2, read-only`
 
-The current position of the pointer, given in normalized units. See also: [Viewport.convertToPixels](viewport.md#converttopixels).
+The current position of the pointer, given in normalized units. See also: [Viewer.raycast](viewer.md#raycast), [Viewport.convertToPixels](viewport.md#converttopixels).
 
 ### initialPosition
 
