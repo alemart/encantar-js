@@ -27,6 +27,8 @@ import { Session, SessionOptions } from './core/session';
 import { TrackerFactory } from './trackers/tracker-factory';
 import { SourceFactory } from './sources/source-factory';
 import { Viewport, ViewportSettings } from './core/viewport';
+import { Vector2 } from './geometry/vector2';
+import { Vector3 } from './geometry/vector3';
 import { Utils } from './utils/utils';
 
 declare const __AR_VERSION__: string;
@@ -100,6 +102,29 @@ export default class AR
     static Viewport(settings: ViewportSettings): Viewport
     {
         return new Viewport(settings);
+    }
+
+    /**
+     * Create a new 2D vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @returns a new 2D vector with the provided coordinates
+     */
+    static Vector2(x: number, y: number): Vector2
+    {
+        return new Vector2(x, y);
+    }
+
+    /**
+     * Create a new 3D vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param z z-coordinate
+     * @returns a new 3D vector with the provided coordinates
+     */
+    static Vector3(x: number, y: number, z: number): Vector3
+    {
+        return new Vector3(x, y, z);
     }
 
     /**

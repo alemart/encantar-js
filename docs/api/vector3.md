@@ -4,6 +4,30 @@ A vector in 3D space.
 
 *Since:* 0.4.0
 
+## Instantiation
+
+### AR.Vector3
+
+`AR.Vector3(x: number, y: number, z: number): Vector3`
+
+Create a new vector with the provided coordinates.
+
+**Arguments**
+
+* `x: number`. x coordinate.
+* `y: number`. y coordinate.
+* `z: number`. z coordinate.
+
+**Returns**
+
+A new vector.
+
+**Example**
+
+```js
+const zero = AR.Vector3(0, 0, 0);
+```
+
 ## Properties
 
 ### x

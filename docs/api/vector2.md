@@ -4,6 +4,29 @@ A vector in 2D space.
 
 *Since:* 0.4.0
 
+## Instantiation
+
+### AR.Vector2
+
+`AR.Vector2(x: number, y: number): Vector2`
+
+Create a new vector with the provided coordinates.
+
+**Arguments**
+
+* `x: number`. x coordinate.
+* `y: number`. y coordinate.
+
+**Returns**
+
+A new vector.
+
+**Example**
+
+```js
+const zero = AR.Vector2(0, 0);
+```
+
 ## Properties
 
 ### x
