@@ -58,6 +58,15 @@ export class Transform
     /** whether or not we have extracted the position from the matrix */
     private _isPositionComputed: boolean;
 
+    /** unit right vector of the local space, computed lazily */
+    private _right: Vector3;
+
+    /** unit up vector of the local space, computed lazily */
+    private _up: Vector3;
+
+    /** unit forward vector of the local space, computed lazily */
+    private _forward: Vector3;
+
 
 
     /**
@@ -75,12 +84,19 @@ export class Transform
         this._position = Vector3.Zero();
         this._orientation = Quaternion.Identity();
         this._scale = new Vector3(1, 1, 1);
+
         this._isDecomposed = false;
         this._isPositionComputed = false;
+
+        this._right = Vector3.ZERO;
+        this._up = Vector3.ZERO;
+        this._forward = Vector3.ZERO;
     }
 
     /**
      * The 4x4 transformation matrix
+     * This matrix is not meant to be changed. Changing it will not update the
+     * previously computed components of the transform!
      */
     get matrix(): SpeedyMatrix
     {
@@ -129,6 +145,55 @@ export class Transform
             this._decompose();
 
         return this._scale;
+    }
+
+    /**
+     * Unit right vector of the local space
+     */
+    get right(): Vector3
+    {
+        if(this._right === Vector3.ZERO) {
+            const rotationMatrix = this.orientation._toRotationMatrix(); // R
+            const u = rotationMatrix.block(0, 2, 0, 0).read(); // R * [1 0 0]'
+            this._right = new Vector3(u[0], u[1], u[2]);
+        }
+
+        return this._right;
+    }
+
+    /**
+     * Unit up vector of the local space
+     */
+    get up(): Vector3
+    {
+        if(this._up === Vector3.ZERO) {
+            const rotationMatrix = this.orientation._toRotationMatrix(); // R
+            const v = rotationMatrix.block(0, 2, 1, 1).read(); // R * [0 1 0]'
+            this._up = new Vector3(v[0], v[1], v[2]);
+        }
+
+        return this._up;
+    }
+
+    /**
+     * Unit forward vector of the local space
+     */
+    get forward(): Vector3
+    {
+        if(this._forward === Vector3.ZERO) {
+            const rotationMatrix = this.orientation._toRotationMatrix(); // R
+            const w = rotationMatrix.block(0, 2, 2, 2).read(); // R * [0 0 1]'
+            this._forward = new Vector3(-w[0], -w[1], -w[2]); // (*)
+
+            /*
+
+            (*) in a right-handed system, the unit forward vector is (0,0,-1)
+                in a left-handed system, it is (0,0,1)
+
+            */
+        }
+
+        return this._forward;
     }
 
     /**

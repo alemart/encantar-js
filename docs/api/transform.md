@@ -39,3 +39,27 @@ A unit [quaternion](quaternion.md) describing the rotational component of the tr
 The scale encoded by the transform.
 
 *Since:* 0.4.0
+
+## right
+
+`transform.right: Vector3, read-only`
+
+The unit right vector of the local space.
+
+*Since:* 0.4.0
+
+## up
+
+`transform.up: Vector3, read-only`
+
+The unit up vector of the local space.
+
+*Since:* 0.4.0
+
+## forward
+
+`transform.forward: Vector3, read-only`
+
+The unit forward vector of the local space.
+
+*Since:* 0.4.0
