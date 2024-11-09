@@ -92,8 +92,8 @@ class ARSystem
     }
 
     /**
-     * Pointer-based input in the current frame (touch, mouse, pen...)
-     * You need a PointerTracker in your session in order to use these
+     * Pointer-based input (current frame)
+     * Make sure to add a PointerTracker to your session in order to use these
      * @returns {TrackablePointer[]}
      */
     get pointers()
@@ -136,6 +136,48 @@ class ARSystem
     get engine()
     {
         return this._engine;
+    }
+
+    /**
+     * Convert an AR Vector2 to a BABYLON Vector2
+     * @param {Vector2} v
+     * @returns {BABYLON.Vector2}
+     */
+    convertVector2(v)
+    {
+        return new BABYLON.Vector2(v.x, v.y);
+    }
+
+    /**
+     * Convert an AR Vector3 to a BABYLON Vector3
+     * @param {Vector3} v
+     * @returns {BABYLON.Vector3}
+     */
+    convertVector3(v)
+    {
+        return new BABYLON.Vector3(v.x, v.y, v.z);
+    }
+
+    /**
+     * Convert an AR Quaternion to a BABYLON Quaternion
+     * @param {Quaternion} q
+     * @returns {BABYLON.Quaternion}
+     */
+    convertQuaternion(q)
+    {
+        return new BABYLON.Quaternion(q.x, q.y, q.z, q.w);
+    }
+
+    /**
+     * Convert an AR Ray to a BABYLON Ray
+     * @param {Ray} r
+     * @returns {BABYLON.Ray}
+     */
+    convertRay(r)
+    {
+        const origin = this.convertVector3(r.origin);
+        const direction = this.convertVector3(r.direction);
+        return new BABYLON.Ray(origin, direction);
     }
 
     /**
