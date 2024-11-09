@@ -285,14 +285,14 @@ export class PointerTracker implements Tracker
 
             // determine the position delta
             const deltaPosition = !previous ? Vector2.ZERO :
-                                  position._clone()._subtract(previous.position);
+                                  position.clone()._subtract(previous.position);
 
             // determine the initial position
             const initialPosition = previous ? previous.initialPosition :
-                                    Object.freeze(position._clone());
+                                    Object.freeze(position.clone());
 
             // determine the velocity
-            const velocity = deltaPosition._clone()._scale(inverseDeltaTime);
+            const velocity = deltaPosition.clone()._scale(inverseDeltaTime);
 
             // determine the elapsed time since the tracking began
             const elapsedTime = previous ? previous.elapsedTime + deltaTime : 0;

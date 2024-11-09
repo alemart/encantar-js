@@ -144,7 +144,7 @@ export class Vector3
      */
     directionTo(v: Vector3): Vector3
     {
-        return v._clone()._subtract(this)._normalize();
+        return v.clone()._subtract(this)._normalize();
     }
 
     /**
@@ -159,6 +159,15 @@ export class Vector3
         const z = this._x * v._y - this._y * v._x;
 
         return new Vector3(x, y, z);
+    }
+
+    /**
+     * Clone this vector
+     * @returns a clone of this vector
+     */
+    clone(): Vector3
+    {
+        return new Vector3(this._x, this._y, this._z);
     }
 
     /**
@@ -182,16 +191,6 @@ export class Vector3
         const z = this._z.toFixed(5);
 
         return `Vector3(${x},${y},${z})`;
-    }
-
-    /**
-     * Clone this vector
-     * @returns a clone of this vector
-     * @internal
-     */
-    _clone(): Vector3
-    {
-        return new Vector3(this._x, this._y, this._z);
     }
 
     /**

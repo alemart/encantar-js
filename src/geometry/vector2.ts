@@ -132,7 +132,16 @@ export class Vector2
      */
     directionTo(v: Vector2): Vector2
     {
-        return v._clone()._subtract(this)._normalize();
+        return v.clone()._subtract(this)._normalize();
+    }
+
+    /**
+     * Clone this vector
+     * @returns a clone of this vector
+     */
+    clone(): Vector2
+    {
+        return new Vector2(this._x, this._y);
     }
 
     /**
@@ -155,16 +164,6 @@ export class Vector2
         const y = this._y.toFixed(5);
 
         return `Vector2(${x},${y})`;
-    }
-
-    /**
-     * Clone this vector
-     * @returns a clone of this vector
-     * @internal
-     */
-    _clone(): Vector2
-    {
-        return new Vector2(this._x, this._y);
     }
 
     /**
