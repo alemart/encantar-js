@@ -8,13 +8,13 @@ A vector in 2D space.
 
 ### x
 
-`vector.x: number`
+`vector.x: number, read-only`
 
 The x coordinate of the vector.
 
 ### y
 
-`vector.y: number`
+`vector.y: number, read-only`
 
 The y coordinate of the vector.
 
@@ -24,11 +24,11 @@ The y coordinate of the vector.
 
 `vector.length(): number`
 
-Compute the length of the vector: `sqrt(x^2 + y^2)`.
+Compute the magnitude of the vector.
 
 **Returns**
 
-The length of the vector.
+The magnitude of the vector.
 
 ### dot
 

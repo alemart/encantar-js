@@ -8,25 +8,25 @@ A number system used in encantar.js to represent rotations in 3D space.
 
 ### x
 
-`quaternion.x: number`
+`quaternion.x: number, read-only`
 
 The x coordinate of the quaternion (imaginary).
 
 ### y
 
-`quaternion.y: number`
+`quaternion.y: number, read-only`
 
 The y coordinate of the quaternion (imaginary).
 
 ### z
 
-`quaternion.z: number`
+`quaternion.z: number, read-only`
 
 The z coordinate of the quaternion (imaginary).
 
 ### w
 
-`quaternion.w: number`
+`quaternion.w: number, read-only`
 
 The w coordinate of the quaternion (real).
 
@@ -36,11 +36,11 @@ The w coordinate of the quaternion (real).
 
 `quaternion.length(): number`
 
-Compute the length of the quaternion: `sqrt(x^2 + y^2 + z^2 + w^2)`.
+Compute the magnitude of the quaternion.
 
 **Returns**
 
-The length of the quaternion.
+The magnitude of the quaternion.
 
 ### equals
 

@@ -38,10 +38,10 @@ let ZERO: Nullable<Vector2> = null;
 export class Vector2
 {
     /** x coordinate */
-    public x: number;
+    private _x: number;
 
     /** y coordinate */
-    public y: number;
+    private _y: number;
 
 
 
@@ -52,8 +52,8 @@ export class Vector2
      */
     constructor(x: number = 0, y: number = 0)
     {
-        this.x = +x;
-        this.y = +y;
+        this._x = +x;
+        this._y = +y;
     }
 
     /**
@@ -71,7 +71,23 @@ export class Vector2
      */
     static get ZERO(): Vector2
     {
-        return ZERO || (ZERO = Object.freeze(Vector2.Zero()));
+        return ZERO || (ZERO = Object.freeze(Vector2.Zero()) as Vector2);
+    }
+
+    /**
+     * The x coordinate of the vector
+     */
+    get x(): number
+    {
+        return this._x;
+    }
+
+    /**
+     * The y coordinate of the vector
+     */
+    get y(): number
+    {
+        return this._y;
     }
 
     /**
@@ -80,8 +96,8 @@ export class Vector2
      */
     length(): number
     {
-        const x = this.x;
-        const y = this.y;
+        const x = this._x;
+        const y = this._y;
 
         return Math.sqrt(x*x + y*y);
     }
@@ -93,7 +109,7 @@ export class Vector2
      */
     dot(v: Vector2): number
     {
-        return this.x * v.x + this.y * v.y;
+        return this._x * v._x + this._y * v._y;
     }
 
     /**
@@ -103,8 +119,8 @@ export class Vector2
      */
     distanceTo(v: Vector2): number
     {
-        const dx = this.x - v.x;
-        const dy = this.y - v.y;
+        const dx = this._x - v._x;
+        const dy = this._y - v._y;
 
         return Math.sqrt(dx*dx + dy*dy);
     }
@@ -126,7 +142,7 @@ export class Vector2
      */
     equals(v: Vector2): boolean
     {
-        return this.x === v.x && this.y === v.y;
+        return this._x === v._x && this._y === v._y;
     }
 
     /**
@@ -135,8 +151,8 @@ export class Vector2
      */
     toString(): string
     {
-        const x = this.x.toFixed(5);
-        const y = this.y.toFixed(5);
+        const x = this._x.toFixed(5);
+        const y = this._y.toFixed(5);
 
         return `Vector2(${x},${y})`;
     }
@@ -148,7 +164,7 @@ export class Vector2
      */
     _clone(): Vector2
     {
-        return new Vector2(this.x, this.y);
+        return new Vector2(this._x, this._y);
     }
 
     /**
@@ -160,8 +176,8 @@ export class Vector2
      */
     _set(x: number, y: number): Vector2
     {
-        this.x = +x;
-        this.y = +y;
+        this._x = +x;
+        this._y = +y;
 
         return this;
     }
@@ -174,8 +190,8 @@ export class Vector2
      */
     _copyFrom(v: Vector2): Vector2
     {
-        this.x = v.x;
-        this.y = v.y;
+        this._x = v._x;
+        this._y = v._y;
 
         return this;
     }
@@ -192,8 +208,8 @@ export class Vector2
         if(length < EPSILON) // zero?
             return this;
 
-        this.x /= length;
-        this.y /= length;
+        this._x /= length;
+        this._y /= length;
 
         return this;
     }
@@ -206,8 +222,8 @@ export class Vector2
      */
     _add(v: Vector2): Vector2
     {
-        this.x += v.x;
-        this.y += v.y;
+        this._x += v._x;
+        this._y += v._y;
 
         return this;
     }
@@ -220,8 +236,8 @@ export class Vector2
      */
     _subtract(v: Vector2): Vector2
     {
-        this.x -= v.x;
-        this.y -= v.y;
+        this._x -= v._x;
+        this._y -= v._y;
 
         return this;
     }
@@ -234,8 +250,8 @@ export class Vector2
      */
     _scale(s: number): Vector2
     {
-        this.x *= s;
-        this.y *= s;
+        this._x *= s;
+        this._y *= s;
 
         return this;
     }

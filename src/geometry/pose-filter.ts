@@ -150,9 +150,11 @@ export class PoseFilter
             const w = (T - i) * d;
 
             // weighted avg: sum from i=0 to T-1 { (T-i) * t[i] } * (2/(T^2+T))
-            t.x += ti.x * w;
-            t.y += ti.y * w;
-            t.z += ti.z * w;
+            t._set(
+                t.x + ti.x * w,
+                t.y + ti.y * w,
+                t.z + ti.z * w
+            );
         }
 
         // average *nearby* rotations
@@ -169,16 +171,20 @@ export class PoseFilter
                 // XXX since Quaternion._fromRotationMatrix() computes w >= 0,
                 // this will never happen. Leave this here for extra safety
                 // in case anything changes?
-                qi.x = -qi.x;
-                qi.y = -qi.y;
-                qi.z = -qi.z;
-                qi.w = -qi.w;
+                qi._set(
+                    -qi.x,
+                    -qi.y,
+                    -qi.z,
+                    -qi.w
+                );
             }
 
-            q.x += qi.x * w;
-            q.y += qi.y * w;
-            q.z += qi.z * w;
-            q.w += qi.w * w;
+            q._set(
+                q.x + qi.x * w,
+                q.y + qi.y * w,
+                q.z + qi.z * w,
+                q.w + qi.w * w
+            );
         }
         //q._normalize();
 

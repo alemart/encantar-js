@@ -38,13 +38,13 @@ let ZERO: Nullable<Vector3> = null;
 export class Vector3
 {
     /** x coordinate */
-    public x: number;
+    private _x: number;
 
     /** y coordinate */
-    public y: number;
+    private _y: number;
 
     /** z coordinate */
-    public z: number;
+    private _z: number;
 
 
 
@@ -53,9 +53,9 @@ export class Vector3
      */
     constructor(x: number = 0, y: number = 0, z: number = 0)
     {
-        this.x = +x;
-        this.y = +y;
-        this.z = +z;
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
     }
 
     /**
@@ -73,7 +73,31 @@ export class Vector3
      */
     static get ZERO(): Vector3
     {
-        return ZERO || (ZERO = Object.freeze(Vector3.Zero()));
+        return ZERO || (ZERO = Object.freeze(Vector3.Zero()) as Vector3);
+    }
+
+    /**
+     * The x coordinate of the vector
+     */
+    get x(): number
+    {
+        return this._x;
+    }
+
+    /**
+     * The y coordinate of the vector
+     */
+    get y(): number
+    {
+        return this._y;
+    }
+
+    /**
+     * The z coordinate of the vector
+     */
+    get z(): number
+    {
+        return this._z;
     }
 
     /**
@@ -82,9 +106,9 @@ export class Vector3
      */
     length(): number
     {
-        const x = this.x;
-        const y = this.y;
-        const z = this.z;
+        const x = this._x;
+        const y = this._y;
+        const z = this._z;
 
         return Math.sqrt(x*x + y*y + z*z);
     }
@@ -96,7 +120,7 @@ export class Vector3
      */
     dot(v: Vector3): number
     {
-        return this.x * v.x + this.y * v.y + this.z * v.z;
+        return this._x * v._x + this._y * v._y + this._z * v._z;
     }
 
     /**
@@ -106,9 +130,9 @@ export class Vector3
      */
     distanceTo(v: Vector3): number
     {
-        const dx = this.x - v.x;
-        const dy = this.y - v.y;
-        const dz = this.z - v.z;
+        const dx = this._x - v._x;
+        const dy = this._y - v._y;
+        const dz = this._z - v._z;
 
         return Math.sqrt(dx*dx + dy*dy + dz*dz);
     }
@@ -130,9 +154,9 @@ export class Vector3
      */
     cross(v: Vector3): Vector3
     {
-        const x = this.y * v.z - this.z * v.y;
-        const y = this.z * v.x - this.x * v.z;
-        const z = this.x * v.y - this.y * v.x;
+        const x = this._y * v._z - this._z * v._y;
+        const y = this._z * v._x - this._x * v._z;
+        const z = this._x * v._y - this._y * v._x;
 
         return new Vector3(x, y, z);
     }
@@ -144,7 +168,7 @@ export class Vector3
      */
     equals(v: Vector3): boolean
     {
-        return this.x === v.x && this.y === v.y && this.z === v.z;
+        return this._x === v._x && this._y === v._y && this._z === v._z;
     }
 
     /**
@@ -153,9 +177,9 @@ export class Vector3
      */
     toString(): string
     {
-        const x = this.x.toFixed(5);
-        const y = this.y.toFixed(5);
-        const z = this.z.toFixed(5);
+        const x = this._x.toFixed(5);
+        const y = this._y.toFixed(5);
+        const z = this._z.toFixed(5);
 
         return `Vector3(${x},${y},${z})`;
     }
@@ -167,7 +191,7 @@ export class Vector3
      */
     _clone(): Vector3
     {
-        return new Vector3(this.x, this.y, this.z);
+        return new Vector3(this._x, this._y, this._z);
     }
 
     /**
@@ -180,9 +204,9 @@ export class Vector3
      */
     _set(x: number, y: number, z: number): Vector3
     {
-        this.x = +x;
-        this.y = +y;
-        this.z = +z;
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
 
         return this;
     }
@@ -195,9 +219,9 @@ export class Vector3
      */
     _copyFrom(v: Vector3): Vector3
     {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+        this._x = v._x;
+        this._y = v._y;
+        this._z = v._z;
 
         return this;
     }
@@ -214,9 +238,9 @@ export class Vector3
         if(length < EPSILON) // zero?
             return this;
 
-        this.x /= length;
-        this.y /= length;
-        this.z /= length;
+        this._x /= length;
+        this._y /= length;
+        this._z /= length;
 
         return this;
     }
@@ -229,9 +253,9 @@ export class Vector3
      */
     _add(v: Vector3): Vector3
     {
-        this.x += v.x;
-        this.y += v.y;
-        this.z += v.z;
+        this._x += v._x;
+        this._y += v._y;
+        this._z += v._z;
 
         return this;
     }
@@ -244,9 +268,9 @@ export class Vector3
      */
     _subtract(v: Vector3): Vector3
     {
-        this.x -= v.x;
-        this.y -= v.y;
-        this.z -= v.z;
+        this._x -= v._x;
+        this._y -= v._y;
+        this._z -= v._z;
 
         return this;
     }
@@ -259,9 +283,9 @@ export class Vector3
      */
     _scale(s: number): Vector3
     {
-        this.x *= s;
-        this.y *= s;
-        this.z *= s;
+        this._x *= s;
+        this._y *= s;
+        this._z *= s;
 
         return this;
     }

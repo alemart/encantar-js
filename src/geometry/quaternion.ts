@@ -37,16 +37,16 @@ const EPSILON = 1e-6;
 export class Quaternion
 {
     /** x coordinate (imaginary) */
-    public x: number;
+    private _x: number;
 
     /** y coordinate (imaginary) */
-    public y: number;
+    private _y: number;
 
     /** z coordinate (imaginary) */
-    public z: number;
+    private _z: number;
 
     /** w coordinate (real) */
-    public w: number;
+    private _w: number;
 
 
 
@@ -59,10 +59,10 @@ export class Quaternion
      */
     constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 1)
     {
-        this.x = +x;
-        this.y = +y;
-        this.z = +z;
-        this.w = +w;
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
+        this._w = +w;
     }
 
     /**
@@ -75,15 +75,47 @@ export class Quaternion
     }
 
     /**
+     * The x coordinate of the quaternion (imaginary)
+     */
+    get x(): number
+    {
+        return this._x;
+    }
+
+    /**
+     * The y coordinate of the quaternion (imaginary)
+     */
+    get y(): number
+    {
+        return this._y;
+    }
+
+    /**
+     * The z coordinate of the quaternion (imaginary)
+     */
+    get z(): number
+    {
+        return this._z;
+    }
+
+    /**
+     * The w coordinate of the quaternion (real)
+     */
+    get w(): number
+    {
+        return this._w;
+    }
+
+    /**
      * The length of this quaternion
      * @returns sqrt(x^2 + y^2 + z^2 + w^2)
      */
     length(): number
     {
-        const x = this.x;
-        const y = this.y;
-        const z = this.z;
-        const w = this.w;
+        const x = this._x;
+        const y = this._y;
+        const z = this._z;
+        const w = this._w;
 
         return Math.sqrt(x*x + y*y + z*z + w*w);
     }
@@ -95,7 +127,7 @@ export class Quaternion
      */
     equals(q: Quaternion): boolean
     {
-        return this.w === q.w && this.x === q.x && this.y === q.y && this.z === q.z;
+        return this._w === q._w && this._x === q._x && this._y === q._y && this._z === q._z;
     }
 
     /**
@@ -104,10 +136,10 @@ export class Quaternion
      */
     toString(): string
     {
-        const x = this.x.toFixed(4);
-        const y = this.y.toFixed(4);
-        const z = this.z.toFixed(4);
-        const w = this.w.toFixed(4);
+        const x = this._x.toFixed(4);
+        const y = this._y.toFixed(4);
+        const z = this._z.toFixed(4);
+        const w = this._w.toFixed(4);
 
         return `Quaternion(${x},${y},${z},${w})`;
     }
@@ -124,10 +156,10 @@ export class Quaternion
         if(length < EPSILON) // zero?
             return this;
 
-        this.x /= length;
-        this.y /= length;
-        this.z /= length;
-        this.w /= length;
+        this._x /= length;
+        this._y /= length;
+        this._z /= length;
+        this._w /= length;
 
         return this;
     }
@@ -139,9 +171,28 @@ export class Quaternion
      */
     _conjugate(): Quaternion
     {
-        this.x = -this.x;
-        this.y = -this.y;
-        this.z = -this.z;
+        this._x = -this._x;
+        this._y = -this._y;
+        this._z = -this._z;
+
+        return this;
+    }
+
+    /**
+     * Set the coordinates of this quaternion
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param z z-coordinate
+     * @param w w-coordinate
+     * @returns this quaternion
+     * @internal
+     */
+    _set(x: number, y: number, z: number, w: number): Quaternion
+    {
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
+        this._w = +w;
 
         return this;
     }
@@ -154,10 +205,10 @@ export class Quaternion
      */
     _copyFrom(q: Quaternion): Quaternion
     {
-        this.x = q.x;
-        this.y = q.y;
-        this.z = q.z;
-        this.w = q.w;
+        this._x = q._x;
+        this._y = q._y;
+        this._z = q._z;
+        this._w = q._w;
 
         return this;
     }
@@ -176,10 +227,10 @@ export class Quaternion
             return Speedy.Matrix.Eye(3);
 
         // let q = (x,y,z,w) be a unit quaternion
-        const x = this.x / length;
-        const y = this.y / length;
-        const z = this.z / length;
-        const w = this.w / length;
+        const x = this._x / length;
+        const y = this._y / length;
+        const z = this._z / length;
+        const w = this._w / length;
 
         /*
 
@@ -334,10 +385,10 @@ export class Quaternion
         const z = 0.5 * Math.sqrt(Math.max(0, tr - 2 * (m11 + m22))); // |z|
 
         const length = Math.sqrt(x*x + y*y + z*z + w*w); // should be ~ 1
-        this.x = (x * sx) / length;
-        this.y = (y * sy) / length;
-        this.z = (z * sz) / length;
-        this.w = w / length;
+        this._x = (x * sx) / length;
+        this._y = (y * sy) / length;
+        this._z = (z * sz) / length;
+        this._w = w / length;
 
         return this;
     }
