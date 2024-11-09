@@ -40,58 +40,66 @@ const ARBaseSystem = () => ({
     /**
      * Pointer-based input (current frame)
      * Make sure to add a PointerTracker to your session in order to use these
-     * @returns {TrackablePointer[]}
+     * @type {TrackablePointer[]}
      */
     pointers: [],
 
     /**
-     * Convert an AR Vector2 to a THREE Vector2
-     * @param {Vector2} v
-     * @returns {THREE.Vector2}
+     * AR Utilities
+     * @type {object}
      */
-    convertVector2(v)
-    {
-        return new THREE.Vector2(v.x, v.y);
-    },
+    utils: {
 
-    /**
-     * Convert an AR Vector3 to a THREE Vector3
-     * @param {Vector3} v
-     * @returns {THREE.Vector3}
-     */
-    convertVector3(v)
-    {
-        return new THREE.Vector3(v.x, v.y, v.z);
-    },
+        /**
+         * Convert an AR Vector2 to a THREE Vector2
+         * @param {Vector2} v
+         * @returns {THREE.Vector2}
+         */
+        convertVector2(v)
+        {
+            return new THREE.Vector2(v.x, v.y);
+        },
 
-    /**
-     * Convert an AR Quaternion to a THREE Quaternion
-     * @param {Quaternion} q
-     * @returns {THREE.Quaternion}
-     */
-    convertQuaternion(q)
-    {
-        return new THREE.Quaternion(q.x, q.y, q.z, q.w);
-    },
+        /**
+         * Convert an AR Vector3 to a THREE Vector3
+         * @param {Vector3} v
+         * @returns {THREE.Vector3}
+         */
+        convertVector3(v)
+        {
+            return new THREE.Vector3(v.x, v.y, v.z);
+        },
 
-    /**
-     * Convert an AR Ray to a THREE Ray
-     * @param {Ray} r
-     * @returns {THREE.Ray}
-     */
-    convertRay(r)
-    {
-        const origin = this.convertVector3(r.origin);
-        const direction = this.convertVector3(r.direction);
-        return new THREE.Ray(origin, direction);
-    },
+        /**
+         * Convert an AR Quaternion to a THREE Quaternion
+         * @param {Quaternion} q
+         * @returns {THREE.Quaternion}
+         */
+        convertQuaternion(q)
+        {
+            return new THREE.Quaternion(q.x, q.y, q.z, q.w);
+        },
+
+        /**
+         * Convert an AR Ray to a THREE Ray
+         * @param {Ray} r
+         * @returns {THREE.Ray}
+         */
+        convertRay(r)
+        {
+            const origin = this.convertVector3(r.origin);
+            const direction = this.convertVector3(r.direction);
+            return new THREE.Ray(origin, direction);
+        },
+
+    }
 
 });
 
 /**
- * AR Utilities
+ * Internal Utilities
  */
-const ARUtils = () => ({
+const Utils = () => ({
 
     findTrackedImage(frame, name = '')
     {
@@ -159,7 +167,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
     // data;
     // schema;
 
-    _utils: ARUtils(),
+    _utils: Utils(),
     _started: false,
     _components: [],
     _roots: [],
