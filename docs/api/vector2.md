@@ -95,16 +95,6 @@ Compute a unit vector pointing to `v` from `this`.
 
 A new unit vector pointing to `v` from `this`.
 
-### clone
-
-`vector.clone(): Vector2`
-
-Clone the vector.
-
-**Returns**
-
-A new vector object with the same coordinates as `this`.
-
 ### equals
 
 `vector.equals(v: Vector2): boolean`

@@ -121,15 +121,6 @@ export class Quaternion
     }
 
     /**
-     * Clone this quaternion
-     * @returns a clone of this quaternion
-     */
-    clone(): Quaternion
-    {
-        return new Quaternion(this._x, this._y, this._z, this._w);
-    }
-
-    /**
      * Check if this and q have the same coordinates
      * @param q a quaternion
      * @returns true if this and q have the same coordinates
@@ -400,5 +391,15 @@ export class Quaternion
         this._w = w / length;
 
         return this;
+    }
+
+    /**
+     * Clone this quaternion
+     * @returns a clone of this quaternion
+     * @internal
+     */
+    _clone(): Quaternion
+    {
+        return new Quaternion(this._x, this._y, this._z, this._w);
     }
 }

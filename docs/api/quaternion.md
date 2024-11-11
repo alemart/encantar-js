@@ -42,16 +42,6 @@ Compute the magnitude of the quaternion.
 
 The magnitude of the quaternion.
 
-### clone
-
-`quaternion.clone(): Quaternion`
-
-Clone the quaternion.
-
-**Returns**
-
-A new quaternion object with the same coordinates as `this`.
-
 ### equals
 
 `quaternion.equals(q: Quaternion): boolean`
