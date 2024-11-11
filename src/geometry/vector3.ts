@@ -21,6 +21,7 @@
  */
 
 import { Nullable } from '../utils/utils';
+import { Quaternion } from './quaternion';
 
 /** Small number */
 const EPSILON = 1e-6;
@@ -285,6 +286,30 @@ export class Vector3
         this._x *= s;
         this._y *= s;
         this._z *= s;
+
+        return this;
+    }
+
+    /**
+     * Compute the rotation q p q* in place, where q is a unit quaternion,
+     * q* is its conjugate and multiplicative inverse, and p is this vector
+     * @param q unit quaternion
+     * @returns this vector
+     * @internal
+     */
+    _applyRotationQuaternion(q: Quaternion): Vector3
+    {
+        // based on Quaternion._toRotationMatrix()
+        const x = q.x, y = q.y, z = q.z, w = q.w;
+        const vx = this._x, vy = this._y, vz = this._z;
+
+        const x2 = x*x, y2 = y*y, z2 = z*z;
+        const xy = 2*x*y, xz = 2*x*z, yz = 2*y*z;
+        const wx = 2*w*x, wy = 2*w*y, wz = 2*w*z;
+
+        this._x = (1-2*(y2+z2)) * vx + (xy-wz) * vy + (xz+wy) * vz;
+        this._y = (xy+wz) * vx + (1-2*(x2+z2)) * vy + (yz-wx) * vz;
+        this._z = (xz-wy) * vx + (yz+wx) * vy + (1-2*(x2+y2)) * vz;
 
         return this;
     }

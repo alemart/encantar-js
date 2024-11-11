@@ -153,9 +153,8 @@ export class Transform
     get right(): Vector3
     {
         if(this._right === Vector3.ZERO) {
-            const rotationMatrix = this.orientation._toRotationMatrix(); // R
-            const u = rotationMatrix.block(0, 2, 0, 0).read(); // R * [1 0 0]'
-            this._right = new Vector3(u[0], u[1], u[2]);
+            this._right = new Vector3(1, 0, 0)
+                          ._applyRotationQuaternion(this.orientation);
         }
 
         return this._right;
@@ -167,9 +166,8 @@ export class Transform
     get up(): Vector3
     {
         if(this._up === Vector3.ZERO) {
-            const rotationMatrix = this.orientation._toRotationMatrix(); // R
-            const v = rotationMatrix.block(0, 2, 1, 1).read(); // R * [0 1 0]'
-            this._up = new Vector3(v[0], v[1], v[2]);
+            this._up = new Vector3(0, 1, 0)
+                       ._applyRotationQuaternion(this.orientation);
         }
 
         return this._up;
@@ -181,16 +179,10 @@ export class Transform
     get forward(): Vector3
     {
         if(this._forward === Vector3.ZERO) {
-            const rotationMatrix = this.orientation._toRotationMatrix(); // R
-            const w = rotationMatrix.block(0, 2, 2, 2).read(); // R * [0 0 1]'
-            this._forward = new Vector3(-w[0], -w[1], -w[2]); // (*)
-
-            /*
-
-            (*) in a right-handed system, the unit forward vector is (0,0,-1)
-                in a left-handed system, it is (0,0,1)
-
-            */
+            // in a right-handed system, the unit forward vector is (0, 0, -1)
+            // in a left-handed system, it is (0, 0, 1)
+            this._forward = new Vector3(0, 0, -1)
+                            ._applyRotationQuaternion(this.orientation);
         }
 
         return this._forward;

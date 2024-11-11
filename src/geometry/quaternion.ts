@@ -338,7 +338,7 @@ export class Quaternion
         unit quaternion q associated with M.
 
         Before we begin, note that q and (-q) encode the same rotation, for
-        r_(-q)(p) = (-q)p(-q)* = (-1)q p (-1)q* = (-1)(-1)q p q* = = r_q(p).
+        r_(-q)(p) = (-q)p(-q)* = (-1)q p (-1)q* = (-1)(-1)q p q* = q p q* = r_q(p).
         Quaternion multiplication is commutative when a factor is a scalar, i.e.,
         d p = p d for a real d and a quaternion p (check: distributive operation).
 
