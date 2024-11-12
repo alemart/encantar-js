@@ -61,3 +61,15 @@ Cast a [ray](ray.md) from a point in the image space associated with this viewer
 **Returns**
 
 A ray in world space that corresponds to the given point.
+
+### forwardRay
+
+`viewer.forwardRay(): Ray`
+
+Compute a [ray](ray.md) in the forward direction from the viewer.
+
+*Since:* 0.4.0
+
+**Returns**
+
+A new ray in world space.

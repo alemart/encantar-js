@@ -145,4 +145,16 @@ export class Viewer
 
         return new Ray(origin, direction);
     }
+
+    /**
+     * Compute a ray in the forward direction from the viewer
+     * @returns a new ray in world space
+     */
+    forwardRay(): Ray
+    {
+        const origin = this._pose.transform.position;
+        const direction = this._pose.transform.forward;
+
+        return new Ray(origin, direction);
+    }
 }
