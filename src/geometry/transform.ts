@@ -152,10 +152,8 @@ export class Transform
      */
     get right(): Vector3
     {
-        if(this._right === Vector3.ZERO) {
-            this._right = new Vector3(1, 0, 0)
-                          ._applyRotationQuaternion(this.orientation);
-        }
+        if(this._right === Vector3.ZERO)
+            this._right = this._scaleAndRotate(new Vector3(1, 0, 0))._normalize();
 
         return this._right;
     }
@@ -165,10 +163,8 @@ export class Transform
      */
     get up(): Vector3
     {
-        if(this._up === Vector3.ZERO) {
-            this._up = new Vector3(0, 1, 0)
-                       ._applyRotationQuaternion(this.orientation);
-        }
+        if(this._up === Vector3.ZERO)
+            this._up = this._scaleAndRotate(new Vector3(0, 1, 0))._normalize();
 
         return this._up;
     }
@@ -181,11 +177,29 @@ export class Transform
         if(this._forward === Vector3.ZERO) {
             // in a right-handed system, the unit forward vector is (0, 0, -1)
             // in a left-handed system, it is (0, 0, 1)
-            this._forward = new Vector3(0, 0, -1)
-                            ._applyRotationQuaternion(this.orientation);
+            this._forward = this._scaleAndRotate(new Vector3(0, 0, -1))._normalize();
         }
 
         return this._forward;
+    }
+
+    /**
+     * Use this transform to scale and rotate a vector
+     * The translation component of the transform is ignored
+     * @param v a vector
+     * @returns input vector v
+     */
+    private _scaleAndRotate(v: Vector3): Vector3
+    {
+        const m = this._matrix.read();
+        const h = Math.abs(m[15]) < EPSILON ? Number.NaN : 1 / m[15]; // usually h = 1
+        const vx = v.x, vy = v.y, vz = v.z;
+
+        const x = m[0] * vx + m[4] * vy + m[8] * vz;
+        const y = m[1] * vx + m[5] * vy + m[9] * vz;
+        const z = m[2] * vx + m[6] * vy + m[10] * vz;
+
+        return v._set(x * h, y * h, z * h);
     }
 
     /**
