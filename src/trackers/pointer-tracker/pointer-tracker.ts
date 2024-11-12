@@ -82,6 +82,9 @@ export class PointerTracker implements Tracker
     /** new pointers */
     private _newPointers: Map<number, TrackablePointer>;
 
+    /** helper map for normalizing IDs */
+    private _idMap: Map<number, number>;
+
     /** previous output */
     private _previousOutput: PointerTrackerOutput;
 
@@ -90,6 +93,9 @@ export class PointerTracker implements Tracker
 
     /** helper flag */
     private _wantToReset: boolean;
+
+    /** auto-increment ID */
+    private _nextId: number;
 
 
 
@@ -102,6 +108,8 @@ export class PointerTracker implements Tracker
         this._viewport = null;
         this._activePointers = new Map();
         this._newPointers = new Map();
+        this._idMap = new Map();
+        this._nextId = 1;
         this._previousOutput = this._generateOutput();
         this._previousUpdateTime = Number.POSITIVE_INFINITY;
         this._wantToReset = false;
@@ -161,6 +169,7 @@ export class PointerTracker implements Tracker
         this._viewport = null;
         this._activePointers.clear();
         this._newPointers.clear();
+        this._idMap.clear();
 
         document.removeEventListener('visibilitychange', this._resetInTheNextUpdate);
 
@@ -210,9 +219,7 @@ export class PointerTracker implements Tracker
                 return Speedy.Promise.reject(new IllegalOperationError('Invalid PointerEvent type ' + event.type));
 
             // determine the ID
-            // XXX different hardware devices acting simultaneously may produce
-            // events with the same pointerId - handling this seems overkill?
-            const id = event.pointerId;
+            const id = this._normalizeId(event.pointerId, event.pointerType);
 
             // determine the previous states, if any, of the trackable
             const previous = this._activePointers.get(id); // state in the previous frame
@@ -289,7 +296,7 @@ export class PointerTracker implements Tracker
 
             // determine the initial position
             const initialPosition = previous ? previous.initialPosition :
-                                    Object.freeze(position._clone());
+                                    Object.freeze(position._clone()) as Vector2;
 
             // determine the velocity
             const velocity = deltaPosition._clone()._scale(inverseDeltaTime);
@@ -313,6 +320,10 @@ export class PointerTracker implements Tracker
         this._newPointers.forEach((trackable, id) => this._activePointers.set(id, trackable));
         this._newPointers.clear();
         this._advanceAllStationaryTrackables(deltaTime);
+
+        // discard unused IDs
+        if(this._activePointers.size == 0 && this._idMap.size > 0)
+            this._idMap.clear();
 
         // generate output
         this._previousOutput = this._generateOutput();
@@ -389,6 +400,25 @@ export class PointerTracker implements Tracker
                 */
             }
         });
+    }
+
+    /**
+     * Normalize pointer IDs across browsers
+     * @param pointerId browser-provided pointer ID
+     * @param pointerType pointer type
+     * @returns a normalized pointer ID
+     */
+    private _normalizeId(pointerId: number, pointerType: string): number
+    {
+        // XXX different hardware devices acting simultaneously may produce
+        // events with the same pointerId - handling this seems overkill?
+        if(pointerType == 'mouse')
+            return 0;
+
+        if(!this._idMap.has(pointerId))
+            this._idMap.set(pointerId, this._nextId++);
+
+        return this._idMap.get(pointerId)!;
     }
 
     /**
