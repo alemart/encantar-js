@@ -65,6 +65,15 @@ export class Viewer
     }
 
     /**
+     * The Transform of this viewer
+     * A shortcut to pose.transform
+     */
+    get transform(): Transform
+    {
+        return this._pose.transform;
+    }
+
+    /**
      * The view of this viewer (only for monoscopic rendering)
      */
     get view(): View
