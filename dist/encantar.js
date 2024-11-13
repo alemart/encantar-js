@@ -5,7 +5,7 @@
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-11-07T02:54:27.693Z
+ * Date: 2024-11-13T01:29:16.285Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -22763,10 +22763,10 @@ class Quaternion {
      * @param w w coordinate (real)
      */
     constructor(x = 0, y = 0, z = 0, w = 1) {
-        this.x = +x;
-        this.y = +y;
-        this.z = +z;
-        this.w = +w;
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
+        this._w = +w;
     }
     /**
      * Instantiate an identity quaternion q = 1
@@ -22776,14 +22776,38 @@ class Quaternion {
         return new Quaternion(0, 0, 0, 1);
     }
     /**
+     * The x coordinate of the quaternion (imaginary)
+     */
+    get x() {
+        return this._x;
+    }
+    /**
+     * The y coordinate of the quaternion (imaginary)
+     */
+    get y() {
+        return this._y;
+    }
+    /**
+     * The z coordinate of the quaternion (imaginary)
+     */
+    get z() {
+        return this._z;
+    }
+    /**
+     * The w coordinate of the quaternion (real)
+     */
+    get w() {
+        return this._w;
+    }
+    /**
      * The length of this quaternion
      * @returns sqrt(x^2 + y^2 + z^2 + w^2)
      */
     length() {
-        const x = this.x;
-        const y = this.y;
-        const z = this.z;
-        const w = this.w;
+        const x = this._x;
+        const y = this._y;
+        const z = this._z;
+        const w = this._w;
         return Math.sqrt(x * x + y * y + z * z + w * w);
     }
     /**
@@ -22792,17 +22816,17 @@ class Quaternion {
      * @returns true if this and q have the same coordinates
      */
     equals(q) {
-        return this.w === q.w && this.x === q.x && this.y === q.y && this.z === q.z;
+        return this._w === q._w && this._x === q._x && this._y === q._y && this._z === q._z;
     }
     /**
      * Convert to string
      * @returns a string
      */
     toString() {
-        const x = this.x.toFixed(4);
-        const y = this.y.toFixed(4);
-        const z = this.z.toFixed(4);
-        const w = this.w.toFixed(4);
+        const x = this._x.toFixed(4);
+        const y = this._y.toFixed(4);
+        const z = this._z.toFixed(4);
+        const w = this._w.toFixed(4);
         return `Quaternion(${x},${y},${z},${w})`;
     }
     /**
@@ -22814,10 +22838,10 @@ class Quaternion {
         const length = this.length();
         if (length < EPSILON) // zero?
             return this;
-        this.x /= length;
-        this.y /= length;
-        this.z /= length;
-        this.w /= length;
+        this._x /= length;
+        this._y /= length;
+        this._z /= length;
+        this._w /= length;
         return this;
     }
     /**
@@ -22826,9 +22850,25 @@ class Quaternion {
      * @internal
      */
     _conjugate() {
-        this.x = -this.x;
-        this.y = -this.y;
-        this.z = -this.z;
+        this._x = -this._x;
+        this._y = -this._y;
+        this._z = -this._z;
+        return this;
+    }
+    /**
+     * Set the coordinates of this quaternion
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param z z-coordinate
+     * @param w w-coordinate
+     * @returns this quaternion
+     * @internal
+     */
+    _set(x, y, z, w) {
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
+        this._w = +w;
         return this;
     }
     /**
@@ -22838,10 +22878,10 @@ class Quaternion {
      * @internal
      */
     _copyFrom(q) {
-        this.x = q.x;
-        this.y = q.y;
-        this.z = q.z;
-        this.w = q.w;
+        this._x = q._x;
+        this._y = q._y;
+        this._z = q._z;
+        this._w = q._w;
         return this;
     }
     /**
@@ -22855,10 +22895,10 @@ class Quaternion {
         if (length < EPSILON)
             return speedy_vision_default().Matrix.Eye(3);
         // let q = (x,y,z,w) be a unit quaternion
-        const x = this.x / length;
-        const y = this.y / length;
-        const z = this.z / length;
-        const w = this.w / length;
+        const x = this._x / length;
+        const y = this._y / length;
+        const z = this._z / length;
+        const w = this._w / length;
         /*
 
         Let q = x i + y j + z k + w be a unit quaternion and
@@ -22951,7 +22991,7 @@ class Quaternion {
         unit quaternion q associated with M.
 
         Before we begin, note that q and (-q) encode the same rotation, for
-        r_(-q)(p) = (-q)p(-q)* = (-1)q p (-1)q* = (-1)(-1)q p q* = = r_q(p).
+        r_(-q)(p) = (-q)p(-q)* = (-1)q p (-1)q* = (-1)(-1)q p q* = q p q* = r_q(p).
         Quaternion multiplication is commutative when a factor is a scalar, i.e.,
         d p = p d for a real d and a quaternion p (check: distributive operation).
 
@@ -23001,11 +23041,19 @@ class Quaternion {
         const y = 0.5 * Math.sqrt(Math.max(0, tr - 2 * (m11 + m33))); // |y|
         const z = 0.5 * Math.sqrt(Math.max(0, tr - 2 * (m11 + m22))); // |z|
         const length = Math.sqrt(x * x + y * y + z * z + w * w); // should be ~ 1
-        this.x = (x * sx) / length;
-        this.y = (y * sy) / length;
-        this.z = (z * sz) / length;
-        this.w = w / length;
+        this._x = (x * sx) / length;
+        this._y = (y * sy) / length;
+        this._z = (z * sz) / length;
+        this._w = w / length;
         return this;
+    }
+    /**
+     * Clone this quaternion
+     * @returns a clone of this quaternion
+     * @internal
+     */
+    _clone() {
+        return new Quaternion(this._x, this._y, this._z, this._w);
     }
 }
 
@@ -23033,6 +23081,8 @@ class Quaternion {
  */
 /** Small number */
 const vector3_EPSILON = 1e-6;
+/** Immutable zero vector */
+let ZERO = null;
 // public / non-internal methods do not change the contents of the vector
 /**
  * A vector in 3D space
@@ -23042,9 +23092,9 @@ class Vector3 {
      * Constructor
      */
     constructor(x = 0, y = 0, z = 0) {
-        this.x = +x;
-        this.y = +y;
-        this.z = +z;
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
     }
     /**
      * Instantiate a zero vector
@@ -23054,13 +23104,38 @@ class Vector3 {
         return new Vector3(0, 0, 0);
     }
     /**
+     * Immutable zero vector
+     * @returns an immutable zero vector
+     */
+    static get ZERO() {
+        return ZERO || (ZERO = Object.freeze(Vector3.Zero()));
+    }
+    /**
+     * The x coordinate of the vector
+     */
+    get x() {
+        return this._x;
+    }
+    /**
+     * The y coordinate of the vector
+     */
+    get y() {
+        return this._y;
+    }
+    /**
+     * The z coordinate of the vector
+     */
+    get z() {
+        return this._z;
+    }
+    /**
      * The length of this vector
      * @returns sqrt(x^2 + y^2 + z^2)
      */
     length() {
-        const x = this.x;
-        const y = this.y;
-        const z = this.z;
+        const x = this._x;
+        const y = this._y;
+        const z = this._z;
         return Math.sqrt(x * x + y * y + z * z);
     }
     /**
@@ -23069,7 +23144,7 @@ class Vector3 {
      * @returns the dot product of the vectors
      */
     dot(v) {
-        return this.x * v.x + this.y * v.y + this.z * v.z;
+        return this._x * v._x + this._y * v._y + this._z * v._z;
     }
     /**
      * Compute the distance between points this and v
@@ -23077,9 +23152,9 @@ class Vector3 {
      * @returns the distance between the points
      */
     distanceTo(v) {
-        const dx = this.x - v.x;
-        const dy = this.y - v.y;
-        const dz = this.z - v.z;
+        const dx = this._x - v._x;
+        const dy = this._y - v._y;
+        const dz = this._z - v._z;
         return Math.sqrt(dx * dx + dy * dy + dz * dz);
     }
     /**
@@ -23096,9 +23171,9 @@ class Vector3 {
      * @returns the cross product this x v
      */
     cross(v) {
-        const x = this.y * v.z - this.z * v.y;
-        const y = this.z * v.x - this.x * v.z;
-        const z = this.x * v.y - this.y * v.x;
+        const x = this._y * v._z - this._z * v._y;
+        const y = this._z * v._x - this._x * v._z;
+        const z = this._x * v._y - this._y * v._x;
         return new Vector3(x, y, z);
     }
     /**
@@ -23107,25 +23182,17 @@ class Vector3 {
      * @returns true if this and v have the same coordinates
      */
     equals(v) {
-        return this.x === v.x && this.y === v.y && this.z === v.z;
+        return this._x === v._x && this._y === v._y && this._z === v._z;
     }
     /**
      * Convert to string
      * @returns a string
      */
     toString() {
-        const x = this.x.toFixed(5);
-        const y = this.y.toFixed(5);
-        const z = this.z.toFixed(5);
+        const x = this._x.toFixed(5);
+        const y = this._y.toFixed(5);
+        const z = this._z.toFixed(5);
         return `Vector3(${x},${y},${z})`;
-    }
-    /**
-     * Clone this vector
-     * @returns a clone of this vector
-     * @internal
-     */
-    _clone() {
-        return new Vector3(this.x, this.y, this.z);
     }
     /**
      * Set the coordinates of this vector
@@ -23136,9 +23203,9 @@ class Vector3 {
      * @internal
      */
     _set(x, y, z) {
-        this.x = +x;
-        this.y = +y;
-        this.z = +z;
+        this._x = +x;
+        this._y = +y;
+        this._z = +z;
         return this;
     }
     /**
@@ -23148,9 +23215,9 @@ class Vector3 {
      * @internal
      */
     _copyFrom(v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+        this._x = v._x;
+        this._y = v._y;
+        this._z = v._z;
         return this;
     }
     /**
@@ -23162,9 +23229,9 @@ class Vector3 {
         const length = this.length();
         if (length < vector3_EPSILON) // zero?
             return this;
-        this.x /= length;
-        this.y /= length;
-        this.z /= length;
+        this._x /= length;
+        this._y /= length;
+        this._z /= length;
         return this;
     }
     /**
@@ -23174,9 +23241,9 @@ class Vector3 {
      * @internal
      */
     _add(v) {
-        this.x += v.x;
-        this.y += v.y;
-        this.z += v.z;
+        this._x += v._x;
+        this._y += v._y;
+        this._z += v._z;
         return this;
     }
     /**
@@ -23186,9 +23253,9 @@ class Vector3 {
      * @internal
      */
     _subtract(v) {
-        this.x -= v.x;
-        this.y -= v.y;
-        this.z -= v.z;
+        this._x -= v._x;
+        this._y -= v._y;
+        this._z -= v._z;
         return this;
     }
     /**
@@ -23198,10 +23265,37 @@ class Vector3 {
      * @internal
      */
     _scale(s) {
-        this.x *= s;
-        this.y *= s;
-        this.z *= s;
+        this._x *= s;
+        this._y *= s;
+        this._z *= s;
         return this;
+    }
+    /**
+     * Compute the rotation q p q* in place, where q is a unit quaternion,
+     * q* is its conjugate and multiplicative inverse, and p is this vector
+     * @param q unit quaternion
+     * @returns this vector
+     * @internal
+     */
+    _applyRotationQuaternion(q) {
+        // based on Quaternion._toRotationMatrix()
+        const x = q.x, y = q.y, z = q.z, w = q.w;
+        const vx = this._x, vy = this._y, vz = this._z;
+        const x2 = x * x, y2 = y * y, z2 = z * z;
+        const xy = 2 * x * y, xz = 2 * x * z, yz = 2 * y * z;
+        const wx = 2 * w * x, wy = 2 * w * y, wz = 2 * w * z;
+        this._x = (1 - 2 * (y2 + z2)) * vx + (xy - wz) * vy + (xz + wy) * vz;
+        this._y = (xy + wz) * vx + (1 - 2 * (x2 + z2)) * vy + (yz - wx) * vz;
+        this._z = (xz - wy) * vx + (yz + wx) * vy + (1 - 2 * (x2 + y2)) * vz;
+        return this;
+    }
+    /**
+     * Clone this vector
+     * @returns a clone of this vector
+     * @internal
+     */
+    _clone() {
+        return new Vector3(this._x, this._y, this._z);
     }
 }
 
@@ -23312,9 +23406,7 @@ class PoseFilter {
             const ti = this._translationSample[i];
             const w = (T - i) * d;
             // weighted avg: sum from i=0 to T-1 { (T-i) * t[i] } * (2/(T^2+T))
-            t.x += ti.x * w;
-            t.y += ti.y * w;
-            t.z += ti.z * w;
+            t._set(t.x + ti.x * w, t.y + ti.y * w, t.z + ti.z * w);
         }
         // average *nearby* rotations
         // based on https://web.archive.org/web/20130514122622/http://wiki.unity3d.com/index.php/Averaging_Quaternions_and_Vectors
@@ -23329,15 +23421,9 @@ class PoseFilter {
                 // XXX since Quaternion._fromRotationMatrix() computes w >= 0,
                 // this will never happen. Leave this here for extra safety
                 // in case anything changes?
-                qi.x = -qi.x;
-                qi.y = -qi.y;
-                qi.z = -qi.z;
-                qi.w = -qi.w;
+                qi._set(-qi.x, -qi.y, -qi.z, -qi.w);
             }
-            q.x += qi.x * w;
-            q.y += qi.y * w;
-            q.z += qi.z * w;
-            q.w += qi.w * w;
+            q._set(q.x + qi.x * w, q.y + qi.y * w, q.z + qi.z * w, q.w + qi.w * w);
         }
         //q._normalize();
         // convert to matrix form and return
@@ -24105,9 +24191,15 @@ class Transform {
         this._orientation = Quaternion.Identity();
         this._scale = new Vector3(1, 1, 1);
         this._isDecomposed = false;
+        this._isPositionComputed = false;
+        this._right = Vector3.ZERO;
+        this._up = Vector3.ZERO;
+        this._forward = Vector3.ZERO;
     }
     /**
      * The 4x4 transformation matrix
+     * This matrix is not meant to be changed. Changing it will not update the
+     * previously computed components of the transform!
      */
     get matrix() {
         return this._matrix;
@@ -24124,8 +24216,8 @@ class Transform {
      * The 3D position encoded by the transform
      */
     get position() {
-        if (!this._isDecomposed)
-            this._decompose();
+        if (!this._isPositionComputed)
+            this._computePosition();
         return this._position;
     }
     /**
@@ -24143,6 +24235,48 @@ class Transform {
         if (!this._isDecomposed)
             this._decompose();
         return this._scale;
+    }
+    /**
+     * Unit right vector of the local space
+     */
+    get right() {
+        if (this._right === Vector3.ZERO)
+            this._right = this._scaleAndRotate(new Vector3(1, 0, 0))._normalize();
+        return this._right;
+    }
+    /**
+     * Unit up vector of the local space
+     */
+    get up() {
+        if (this._up === Vector3.ZERO)
+            this._up = this._scaleAndRotate(new Vector3(0, 1, 0))._normalize();
+        return this._up;
+    }
+    /**
+     * Unit forward vector of the local space
+     */
+    get forward() {
+        if (this._forward === Vector3.ZERO) {
+            // in a right-handed system, the unit forward vector is (0, 0, -1)
+            // in a left-handed system, it is (0, 0, 1)
+            this._forward = this._scaleAndRotate(new Vector3(0, 0, -1))._normalize();
+        }
+        return this._forward;
+    }
+    /**
+     * Use this transform to scale and rotate a vector
+     * The translation component of the transform is ignored
+     * @param v a vector
+     * @returns input vector v
+     */
+    _scaleAndRotate(v) {
+        const m = this._matrix.read();
+        const h = Math.abs(m[15]) < transform_EPSILON ? Number.NaN : 1 / m[15]; // usually h = 1
+        const vx = v.x, vy = v.y, vz = v.z;
+        const x = m[0] * vx + m[4] * vy + m[8] * vz;
+        const y = m[1] * vx + m[5] * vy + m[9] * vz;
+        const z = m[2] * vx + m[6] * vy + m[10] * vz;
+        return v._set(x * h, y * h, z * h);
     }
     /**
      * Decompose this transform
@@ -24205,6 +24339,7 @@ class Transform {
             this._scale._set(sx, sy, sz);
             this._orientation._copyFrom(Quaternion.Identity());
             this._isDecomposed = true;
+            this._isPositionComputed = true;
             return;
         }
         // find S^(-1)
@@ -24231,6 +24366,19 @@ class Transform {
         ]));
         // done!
         this._isDecomposed = true;
+        this._isPositionComputed = true;
+    }
+    /**
+     * A simpler decomposition routine.
+     * Sometimes we just need the position.
+     */
+    _computePosition() {
+        const m = this._matrix.read();
+        const h = Math.abs(m[15]) < transform_EPSILON ? Number.NaN : 1 / m[15]; // usually h = 1
+        // find t
+        this._position._set(m[12] * h, m[13] * h, m[14] * h);
+        // done!
+        this._isPositionComputed = true;
     }
     /**
      * Compute the inverse matrix of this transform
@@ -24477,6 +24625,7 @@ class PerspectiveView {
         this._tanOfHalfFovx = intrinsics[U0] / intrinsics[FX];
         this._tanOfHalfFovy = intrinsics[V0] / intrinsics[FY];
         this._projectionMatrix = PerspectiveView._computeProjectionMatrix(intrinsics, this._near, this._far);
+        this._inverseProjection = null;
     }
     /**
      * A 4x4 projection matrix for WebGL
@@ -24515,6 +24664,15 @@ class PerspectiveView {
         return this._far;
     }
     /**
+     * The inverse of the projection matrix
+     * @internal
+     */
+    get _projectionMatrixInverse() {
+        if (this._inverseProjection === null)
+            this._inverseProjection = speedy_vision_default().Matrix(this._projectionMatrix.inverse());
+        return this._inverseProjection;
+    }
+    /**
      * Compute a perspective projection matrix for WebGL
      * @param K camera intrinsics
      * @param near distance of the near plane
@@ -24534,6 +24692,55 @@ class PerspectiveView {
             (right + left) / (right - left), (top + bottom) / (top - bottom), -(far + near) / (far - near), -1,
             0, 0, -2 * far * near / (far - near), 0
         ]);
+    }
+}
+
+;// CONCATENATED MODULE: ./src/geometry/ray.ts
+/*
+ * encantar.js
+ * GPU-accelerated Augmented Reality for the web
+ * Copyright (C) 2022-2024 Alexandre Martins <alemartf(at)gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * ray.ts
+ * Rays
+ */
+/**
+ * A ray with origin and direction
+ */
+class Ray {
+    /**
+     * Constructor
+     * @param origin a point
+     * @param direction a unit vector
+     */
+    constructor(origin, direction) {
+        this._origin = origin;
+        this._direction = direction;
+    }
+    /**
+     * The origin point of the ray
+     */
+    get origin() {
+        return this._origin;
+    }
+    /**
+     * The direction of the ray, a unit vector
+     */
+    get direction() {
+        return this._direction;
     }
 }
 
@@ -24564,6 +24771,8 @@ class PerspectiveView {
 
 
 
+
+
 /**
  * A viewer represents a virtual camera in 3D world space
  */
@@ -24581,6 +24790,13 @@ class Viewer {
      */
     get pose() {
         return this._pose;
+    }
+    /**
+     * The Transform of this viewer
+     * A shortcut to pose.transform
+     */
+    get transform() {
+        return this._pose.transform;
     }
     /**
      * The view of this viewer (only for monoscopic rendering)
@@ -24612,6 +24828,44 @@ class Viewer {
         const modelViewMatrix = speedy_vision_default().Matrix(viewMatrix.times(modelMatrix));
         const transform = new Transform(modelViewMatrix);
         return new Pose(transform);
+    }
+    /**
+     * Cast a ray from a point in the image space associated with this Viewer
+     * @param position a point in image space, given in normalized units [-1,1]x[-1,1]
+     * @returns a ray in world space that corresponds to the given point
+     */
+    raycast(position) {
+        const projectionMatrixInverse = this.view._projectionMatrixInverse;
+        const viewMatrixInverse = this._pose.transform.matrix;
+        const pointInClipSpace = speedy_vision_default().Matrix(4, 1, [
+            // Normalized Device Coordinates (NDC)
+            position.x,
+            position.y,
+            0,
+            1 // homogeneous coordinates
+        ]);
+        const pointInViewSpace = projectionMatrixInverse.times(pointInClipSpace);
+        const pointInWorldSpace = viewMatrixInverse.times(pointInViewSpace);
+        const p = speedy_vision_default().Matrix(pointInWorldSpace).read();
+        /*
+
+        (*) since we're just interested in the direction, any z coordinate in
+            clip space [-1,1] will give us a suitable point p in world space.
+
+        */
+        const origin = this._pose.transform.position;
+        const direction = new Vector3(p[0] / p[3], p[1] / p[3], p[2] / p[3])
+            ._subtract(origin)._normalize();
+        return new Ray(origin, direction);
+    }
+    /**
+     * Compute a ray in the forward direction from the viewer
+     * @returns a new ray in world space
+     */
+    forwardRay() {
+        const origin = this._pose.transform.position;
+        const direction = this._pose.transform.forward;
+        return new Ray(origin, direction);
     }
 }
 
@@ -25518,6 +25772,8 @@ class ImageTracker extends AREventTarget {
  */
 /** Small number */
 const vector2_EPSILON = 1e-6;
+/** Immutable zero vector */
+let vector2_ZERO = null;
 // public / non-internal methods do not change the contents of the vector
 /**
  * A vector in 2D space
@@ -25527,8 +25783,8 @@ class Vector2 {
      * Constructor
      */
     constructor(x = 0, y = 0) {
-        this.x = +x;
-        this.y = +y;
+        this._x = +x;
+        this._y = +y;
     }
     /**
      * Instantiate a zero vector
@@ -25538,12 +25794,31 @@ class Vector2 {
         return new Vector2(0, 0);
     }
     /**
+     * Immutable zero vector
+     * @returns an immutable zero vector
+     */
+    static get ZERO() {
+        return vector2_ZERO || (vector2_ZERO = Object.freeze(Vector2.Zero()));
+    }
+    /**
+     * The x coordinate of the vector
+     */
+    get x() {
+        return this._x;
+    }
+    /**
+     * The y coordinate of the vector
+     */
+    get y() {
+        return this._y;
+    }
+    /**
      * The length of this vector
      * @returns sqrt(x^2 + y^2)
      */
     length() {
-        const x = this.x;
-        const y = this.y;
+        const x = this._x;
+        const y = this._y;
         return Math.sqrt(x * x + y * y);
     }
     /**
@@ -25552,7 +25827,7 @@ class Vector2 {
      * @returns the dot product of the vectors
      */
     dot(v) {
-        return this.x * v.x + this.y * v.y;
+        return this._x * v._x + this._y * v._y;
     }
     /**
      * Compute the distance between points this and v
@@ -25560,8 +25835,8 @@ class Vector2 {
      * @returns the distance between the points
      */
     distanceTo(v) {
-        const dx = this.x - v.x;
-        const dy = this.y - v.y;
+        const dx = this._x - v._x;
+        const dy = this._y - v._y;
         return Math.sqrt(dx * dx + dy * dy);
     }
     /**
@@ -25578,24 +25853,16 @@ class Vector2 {
      * @returns true if this and v have the same coordinates
      */
     equals(v) {
-        return this.x === v.x && this.y === v.y;
+        return this._x === v._x && this._y === v._y;
     }
     /**
      * Convert to string
      * @returns a string
      */
     toString() {
-        const x = this.x.toFixed(5);
-        const y = this.y.toFixed(5);
+        const x = this._x.toFixed(5);
+        const y = this._y.toFixed(5);
         return `Vector2(${x},${y})`;
-    }
-    /**
-     * Clone this vector
-     * @returns a clone of this vector
-     * @internal
-     */
-    _clone() {
-        return new Vector2(this.x, this.y);
     }
     /**
      * Set the coordinates of this vector
@@ -25605,8 +25872,8 @@ class Vector2 {
      * @internal
      */
     _set(x, y) {
-        this.x = +x;
-        this.y = +y;
+        this._x = +x;
+        this._y = +y;
         return this;
     }
     /**
@@ -25616,8 +25883,8 @@ class Vector2 {
      * @internal
      */
     _copyFrom(v) {
-        this.x = v.x;
-        this.y = v.y;
+        this._x = v._x;
+        this._y = v._y;
         return this;
     }
     /**
@@ -25629,8 +25896,8 @@ class Vector2 {
         const length = this.length();
         if (length < vector2_EPSILON) // zero?
             return this;
-        this.x /= length;
-        this.y /= length;
+        this._x /= length;
+        this._y /= length;
         return this;
     }
     /**
@@ -25640,8 +25907,8 @@ class Vector2 {
      * @internal
      */
     _add(v) {
-        this.x += v.x;
-        this.y += v.y;
+        this._x += v._x;
+        this._y += v._y;
         return this;
     }
     /**
@@ -25651,8 +25918,8 @@ class Vector2 {
      * @internal
      */
     _subtract(v) {
-        this.x -= v.x;
-        this.y -= v.y;
+        this._x -= v._x;
+        this._y -= v._y;
         return this;
     }
     /**
@@ -25662,9 +25929,17 @@ class Vector2 {
      * @internal
      */
     _scale(s) {
-        this.x *= s;
-        this.y *= s;
+        this._x *= s;
+        this._y *= s;
         return this;
+    }
+    /**
+     * Clone this vector
+     * @returns a clone of this vector
+     * @internal
+     */
+    _clone() {
+        return new Vector2(this._x, this._y);
     }
 }
 
@@ -25715,6 +25990,8 @@ class PointerTracker {
         this._viewport = null;
         this._activePointers = new Map();
         this._newPointers = new Map();
+        this._idMap = new Map();
+        this._nextId = 1;
         this._previousOutput = this._generateOutput();
         this._previousUpdateTime = Number.POSITIVE_INFINITY;
         this._wantToReset = false;
@@ -25762,6 +26039,7 @@ class PointerTracker {
         this._viewport = null;
         this._activePointers.clear();
         this._newPointers.clear();
+        this._idMap.clear();
         document.removeEventListener('visibilitychange', this._resetInTheNextUpdate);
         return speedy_vision_default().Promise.resolve();
     }
@@ -25783,8 +26061,8 @@ class PointerTracker {
         // make all active trackables stationary
         this._updateAllTrackables({
             phase: 'stationary',
-            velocity: Vector2.Zero(),
-            deltaPosition: Vector2.Zero()
+            velocity: Vector2.ZERO,
+            deltaPosition: Vector2.ZERO
         });
         // want to reset?
         if (this._wantToReset) {
@@ -25800,9 +26078,7 @@ class PointerTracker {
             else if (!EVENTTYPE2PHASE.hasOwnProperty(event.type))
                 return speedy_vision_default().Promise.reject(new IllegalOperationError('Invalid PointerEvent type ' + event.type));
             // determine the ID
-            // XXX different hardware devices acting simultaneously may produce
-            // events with the same pointerId - handling this seems overkill?
-            const id = event.pointerId;
+            const id = this._normalizeId(event.pointerId, event.pointerType);
             // determine the previous states, if any, of the trackable
             const previous = this._activePointers.get(id); // state in the previous frame
             const current = this._newPointers.get(id); // previous state in the current frame
@@ -25863,7 +26139,7 @@ class PointerTracker {
             const relY = -(2 * absY / rect.height - 1); // flip Y axis
             const position = new Vector2(relX, relY);
             // determine the position delta
-            const deltaPosition = !previous ? Vector2.Zero() :
+            const deltaPosition = !previous ? Vector2.ZERO :
                 position._clone()._subtract(previous.position);
             // determine the initial position
             const initialPosition = previous ? previous.initialPosition :
@@ -25884,6 +26160,9 @@ class PointerTracker {
         this._newPointers.forEach((trackable, id) => this._activePointers.set(id, trackable));
         this._newPointers.clear();
         this._advanceAllStationaryTrackables(deltaTime);
+        // discard unused IDs
+        if (this._activePointers.size == 0 && this._idMap.size > 0)
+            this._idMap.clear();
         // generate output
         this._previousOutput = this._generateOutput();
         // test
@@ -25947,6 +26226,21 @@ class PointerTracker {
         });
     }
     /**
+     * Normalize pointer IDs across browsers
+     * @param pointerId browser-provided pointer ID
+     * @param pointerType pointer type
+     * @returns a normalized pointer ID
+     */
+    _normalizeId(pointerId, pointerType) {
+        // XXX different hardware devices acting simultaneously may produce
+        // events with the same pointerId - handling this seems overkill?
+        if (pointerType == 'mouse')
+            return 0;
+        if (!this._idMap.has(pointerId))
+            this._idMap.set(pointerId, this._nextId++);
+        return this._idMap.get(pointerId);
+    }
+    /**
      * Cancel all active pointers and consume all events
      * @param deltaTime
      */
@@ -25954,8 +26248,8 @@ class PointerTracker {
         // cancel all active pointers
         this._updateAllTrackables({
             phase: 'canceled',
-            deltaPosition: Vector2.Zero(),
-            velocity: Vector2.Zero(),
+            velocity: Vector2.ZERO,
+            deltaPosition: Vector2.ZERO
         });
         // consume all events
         while (this._source._consume() !== null)
@@ -27679,6 +27973,8 @@ class Viewport extends ViewportEventTarget {
 
 
 
+
+
 /**
  * GPU-accelerated Augmented Reality for the web
  */
@@ -27732,6 +28028,25 @@ class AR {
      */
     static Viewport(settings) {
         return new Viewport(settings);
+    }
+    /**
+     * Create a new 2D vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @returns a new 2D vector with the provided coordinates
+     */
+    static Vector2(x, y) {
+        return new Vector2(x, y);
+    }
+    /**
+     * Create a new 3D vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param z z-coordinate
+     * @returns a new 3D vector with the provided coordinates
+     */
+    static Vector3(x, y, z) {
+        return new Vector3(x, y, z);
     }
     /**
      * Global Settings
