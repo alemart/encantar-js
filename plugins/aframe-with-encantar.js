@@ -13,9 +13,93 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
 });
 
 /**
- * AR Utilities
+ * AR Base System
+ * @mixin ARBaseSystem
  */
-const ARUtils = () => ({
+const ARBaseSystem = () => ({
+
+    /**
+     * AR Session
+     * @type {Session | null}
+     */
+    session: null,
+
+    /**
+     * Current frame: an object holding data to augment the physical scene.
+     * If the AR scene is not initialized, this will be null.
+     * @type {Frame | null}
+     */
+    frame: null,
+
+    /**
+     * AR Viewer
+     * @type {Viewer | null}
+     */
+    viewer: null,
+
+    /**
+     * Pointer-based input (current frame)
+     * Make sure to add a PointerTracker to your session in order to use these
+     * @type {TrackablePointer[]}
+     */
+    pointers: [],
+
+    /**
+     * AR Utilities
+     * @type {object}
+     */
+    utils: {
+
+        /**
+         * Convert an AR Vector2 to a THREE Vector2
+         * @param {Vector2} v
+         * @returns {THREE.Vector2}
+         */
+        convertVector2(v)
+        {
+            return new THREE.Vector2(v.x, v.y);
+        },
+
+        /**
+         * Convert an AR Vector3 to a THREE Vector3
+         * @param {Vector3} v
+         * @returns {THREE.Vector3}
+         */
+        convertVector3(v)
+        {
+            return new THREE.Vector3(v.x, v.y, v.z);
+        },
+
+        /**
+         * Convert an AR Quaternion to a THREE Quaternion
+         * @param {Quaternion} q
+         * @returns {THREE.Quaternion}
+         */
+        convertQuaternion(q)
+        {
+            return new THREE.Quaternion(q.x, q.y, q.z, q.w);
+        },
+
+        /**
+         * Convert an AR Ray to a THREE Ray
+         * @param {Ray} r
+         * @returns {THREE.Ray}
+         */
+        convertRay(r)
+        {
+            const origin = this.convertVector3(r.origin);
+            const direction = this.convertVector3(r.direction);
+            return new THREE.Ray(origin, direction);
+        },
+
+    }
+
+});
+
+/**
+ * Internal Utilities
+ */
+const Utils = () => ({
 
     findTrackedImage(frame, name = '')
     {
@@ -39,7 +123,22 @@ const ARUtils = () => ({
         return null;
     },
 
-    getTrackablePointers(frame)
+    findViewer(frame)
+    {
+        if(frame === null)
+            return null;
+
+        for(const result of frame.results) {
+            if(result.tracker.type == 'image-tracker') {
+                if(result.trackables.length > 0)
+                    return result.viewer;
+            }
+        }
+
+        return null;
+    },
+
+    findTrackablePointers(frame)
     {
         if(frame === null)
             return [];
@@ -58,18 +157,17 @@ const ARUtils = () => ({
 
 /**
  * AR System
+ * @name ARSystem
+ * @type {object}
+ * @mixes ARBaseSystem
  */
-AFRAME.registerSystem('ar', {
+AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
 
     // el;
     // data;
     // schema;
 
-    session: /** @type {Session | null} */ (null),
-    frame: /** @type {Frame | null} */ (null),
-    pointers: /** @type {TrackablePointer[]} */ ([]),
-
-    _utils: ARUtils(),
+    _utils: Utils(),
     _started: false,
     _components: [],
     _roots: [],
@@ -207,6 +305,7 @@ AFRAME.registerSystem('ar', {
         }
 
         session.addEventListener('end', () => {
+            this.viewer = null;
             this.frame = null;
             this.pointers.length = 0;
         });
@@ -230,6 +329,7 @@ AFRAME.registerSystem('ar', {
         // animation loop
         const animate = (time, frame) => {
             this.frame = frame;
+            this.viewer = this._utils.findViewer(frame);
             this._updateTrackablePointers();
 
             scene.render();
@@ -312,15 +412,16 @@ AFRAME.registerSystem('ar', {
     {
         this.pointers.length = 0;
 
-        const newPointers = this._utils.getTrackablePointers(this.frame);
+        const newPointers = this._utils.findTrackablePointers(this.frame);
         if(newPointers.length > 0)
             this.pointers.push.apply(this.pointers, newPointers);
     },
 
-});
+}));
 
 /**
  * AR Component
+ * @mixin ARComponent
  */
 const ARComponent = obj => Object.assign({}, obj, {
 

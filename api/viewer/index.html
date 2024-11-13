@@ -1237,6 +1237,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#transform" class="md-nav__link">
+    transform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#view" class="md-nav__link">
     view
   </a>
@@ -1259,6 +1266,20 @@
           <li class="md-nav__item">
   <a href="#converttoviewerspace" class="md-nav__link">
     convertToViewerSpace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raycast" class="md-nav__link">
+    raycast
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forwardray" class="md-nav__link">
+    forwardRay
   </a>
   
 </li>
@@ -1369,6 +1390,20 @@
     <li class="md-nav__item">
       <a href="../quaternion/" class="md-nav__link">
         Quaternion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ray/" class="md-nav__link">
+        Ray
       </a>
     </li>
   
@@ -1683,6 +1718,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#transform" class="md-nav__link">
+    transform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#view" class="md-nav__link">
     view
   </a>
@@ -1705,6 +1747,20 @@
           <li class="md-nav__item">
   <a href="#converttoviewerspace" class="md-nav__link">
     convertToViewerSpace
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raycast" class="md-nav__link">
+    raycast
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forwardray" class="md-nav__link">
+    forwardRay
   </a>
   
 </li>
@@ -1739,6 +1795,10 @@
 <h3 id="pose">pose</h3>
 <p><code>viewer.pose: ViewerPose, read-only</code></p>
 <p>The <a href="../viewer-pose/">pose</a> of the viewer.</p>
+<h3 id="transform">transform</h3>
+<p><code>viewer.transform: Transform, read-only</code></p>
+<p>The <a href="../transform/">Transform</a> of the viewer. The same as <code>pose.transform</code>.</p>
+<p><em>Since:</em> 0.4.0</p>
 <h3 id="view">view</h3>
 <p><code>viewer.view: View, read-only</code></p>
 <p>A <a href="../view/">view</a> of the viewer (monoscopic rendering).</p>
@@ -1755,6 +1815,22 @@
 <p><strong>Example</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span> <span class="nx">modelViewMatrix</span> <span class="o">=</span> <span class="nx">viewer</span><span class="p">.</span><span class="nx">convertToViewerSpace</span><span class="p">(</span><span class="nx">pose</span><span class="p">).</span><span class="nx">transform</span><span class="p">.</span><span class="nx">matrix</span><span class="p">;</span>
 </code></pre></div>
+<h3 id="raycast">raycast</h3>
+<p><code>viewer.raycast(position: Vector2): Ray</code></p>
+<p>Cast a <a href="../ray/">ray</a> from a point in the image space associated with this viewer.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>position: Vector2</code>. A point in image space, given in <a href="../trackable-pointer/">normalized units</a>.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A ray in world space that corresponds to the given point.</p>
+<h3 id="forwardray">forwardRay</h3>
+<p><code>viewer.forwardRay(): Ray</code></p>
+<p>Compute a <a href="../ray/">ray</a> in the forward direction from the viewer.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Returns</strong></p>
+<p>A new ray in world space.</p>
 
               
 

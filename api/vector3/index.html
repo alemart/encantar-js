@@ -1306,6 +1306,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#instantiation" class="md-nav__link">
+    Instantiation
+  </a>
+  
+    <nav class="md-nav" aria-label="Instantiation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arvector3" class="md-nav__link">
+    AR.Vector3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#properties" class="md-nav__link">
     Properties
   </a>
@@ -1418,6 +1438,20 @@
     <li class="md-nav__item">
       <a href="../quaternion/" class="md-nav__link">
         Quaternion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ray/" class="md-nav__link">
+        Ray
       </a>
     </li>
   
@@ -1717,6 +1751,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#instantiation" class="md-nav__link">
+    Instantiation
+  </a>
+  
+    <nav class="md-nav" aria-label="Instantiation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#arvector3" class="md-nav__link">
+    AR.Vector3
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#properties" class="md-nav__link">
     Properties
   </a>
@@ -1834,22 +1888,37 @@
 <h1 id="vector3">Vector3</h1>
 <p>A vector in 3D space.</p>
 <p><em>Since:</em> 0.4.0</p>
+<h2 id="instantiation">Instantiation</h2>
+<h3 id="arvector3">AR.Vector3</h3>
+<p><code>AR.Vector3(x: number, y: number, z: number): Vector3</code></p>
+<p>Create a new vector with the provided coordinates.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>x: number</code>. x coordinate.</li>
+<li><code>y: number</code>. y coordinate.</li>
+<li><code>z: number</code>. z coordinate.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A new vector.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span> <span class="nx">zero</span> <span class="o">=</span> <span class="nx">AR</span><span class="p">.</span><span class="nx">Vector3</span><span class="p">(</span><span class="mf">0</span><span class="p">,</span> <span class="mf">0</span><span class="p">,</span> <span class="mf">0</span><span class="p">);</span>
+</code></pre></div>
 <h2 id="properties">Properties</h2>
 <h3 id="x">x</h3>
-<p><code>vector.x: number</code></p>
+<p><code>vector.x: number, read-only</code></p>
 <p>The x coordinate of the vector.</p>
 <h3 id="y">y</h3>
-<p><code>vector.y: number</code></p>
+<p><code>vector.y: number, read-only</code></p>
 <p>The y coordinate of the vector.</p>
 <h3 id="z">z</h3>
-<p><code>vector.z: number</code></p>
+<p><code>vector.z: number, read-only</code></p>
 <p>The z coordinate of the vector.</p>
 <h2 id="methods">Methods</h2>
 <h3 id="length">length</h3>
 <p><code>vector.length(): number</code></p>
-<p>Compute the length of the vector: <code>sqrt(x^2 + y^2 + z^2)</code>.</p>
+<p>Compute the magnitude of the vector.</p>
 <p><strong>Returns</strong></p>
-<p>The length of the vector.</p>
+<p>The magnitude of the vector.</p>
 <h3 id="dot">dot</h3>
 <p><code>vector.dot(v: Vector3): number</code></p>
 <p>Compute the dot product of <code>this</code> and <code>v</code>.</p>

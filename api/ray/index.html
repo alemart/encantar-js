@@ -12,14 +12,14 @@
         <meta name="author" content="Alexandre Martins">
       
       
-        <link rel="canonical" href="https://alemart.github.io/encantar-js/api/view/">
+        <link rel="canonical" href="https://alemart.github.io/encantar-js/api/ray/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
     
     
       
-        <title>View - encantar.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>Ray - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
@@ -56,7 +56,7 @@
 
     
     
-<meta property="og:title" content="View - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:title" content="Ray - encantar.js: GPU-accelerated Augmented Reality for the web">
 <meta property="og:description" content="Home of encantar.js, a GPU-accelerated Augmented Reality engine for the web">
 <meta property="og:url" content="https://alemart.github.io/encantar-js/">
 <meta property="og:type" content="website">
@@ -81,7 +81,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#view" class="md-skip">
+        <a href="#ray" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              View
+              Ray
             
           </span>
         </div>
@@ -1214,65 +1214,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          View
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../view/" class="md-nav__link">
         View
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#properties" class="md-nav__link">
-    Properties
-  </a>
-  
-    <nav class="md-nav" aria-label="Properties">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#projectionmatrix" class="md-nav__link">
-    projectionMatrix
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1352,11 +1298,72 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../ray/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Ray
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Ray
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    Properties
+  </a>
+  
+    <nav class="md-nav" aria-label="Properties">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#origin" class="md-nav__link">
+    origin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direction" class="md-nav__link">
+    direction
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1663,8 +1670,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#projectionmatrix" class="md-nav__link">
-    projectionMatrix
+  <a href="#origin" class="md-nav__link">
+    origin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#direction" class="md-nav__link">
+    direction
   </a>
   
 </li>
@@ -1687,18 +1701,22 @@
               
 
                 
-<a href="https://github.com/alemart/encantar-js/edit/master/docs/api/view.md" title="Edit this page" class="md-content__button md-icon">
+<a href="https://github.com/alemart/encantar-js/edit/master/docs/api/ray.md" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
 
 
 
-<h1 id="view">View</h1>
-<p>An interface that represents a view of the 3D world at a moment in time. A <a href="../perspective-view/">PerspectiveView</a> is an implementation of a View.</p>
+<h1 id="ray">Ray</h1>
+<p>A ray with origin and direction.</p>
+<p><em>Since:</em> 0.4.0</p>
 <h2 id="properties">Properties</h2>
-<h3 id="projectionmatrix">projectionMatrix</h3>
-<p><code>view.projectionMatrix: SpeedyMatrix, read-only</code></p>
-<p>A 4x4 matrix that projects viewer space onto clip space.</p>
+<h3 id="origin">origin</h3>
+<p><code>ray.origin: Vector3</code></p>
+<p>The origin point of the ray.</p>
+<h3 id="direction">direction</h3>
+<p><code>ray.direction: Vector3</code></p>
+<p>The direction of the ray, a unit vector.</p>
 
               
 
@@ -1713,7 +1731,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../viewer-pose/" class="md-footer__link md-footer__link--prev" aria-label="Previous: ViewerPose" rel="prev">
+        <a href="../quaternion/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quaternion" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1722,20 +1740,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              ViewerPose
+              Quaternion
             </div>
           </div>
         </a>
       
       
         
-        <a href="../perspective-view/" class="md-footer__link md-footer__link--next" aria-label="Next: PerspectiveView" rel="next">
+        <a href="../viewport/" class="md-footer__link md-footer__link--next" aria-label="Next: Viewport" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              PerspectiveView
+              Viewport
             </div>
           </div>
           <div class="md-footer__button md-icon">

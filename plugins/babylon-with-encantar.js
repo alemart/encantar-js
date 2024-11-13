@@ -59,6 +59,54 @@ class ARDemo
 }
 
 /**
+ * AR Utilities
+ */
+class ARUtils
+{
+    /**
+     * Convert an AR Vector2 to a BABYLON Vector2
+     * @param {Vector2} v
+     * @returns {BABYLON.Vector2}
+     */
+    convertVector2(v)
+    {
+        return new BABYLON.Vector2(v.x, v.y);
+    }
+
+    /**
+     * Convert an AR Vector3 to a BABYLON Vector3
+     * @param {Vector3} v
+     * @returns {BABYLON.Vector3}
+     */
+    convertVector3(v)
+    {
+        return new BABYLON.Vector3(v.x, v.y, v.z);
+    }
+
+    /**
+     * Convert an AR Quaternion to a BABYLON Quaternion
+     * @param {Quaternion} q
+     * @returns {BABYLON.Quaternion}
+     */
+    convertQuaternion(q)
+    {
+        return new BABYLON.Quaternion(q.x, q.y, q.z, q.w);
+    }
+
+    /**
+     * Convert an AR Ray to a BABYLON Ray
+     * @param {Ray} r
+     * @returns {BABYLON.Ray}
+     */
+    convertRay(r)
+    {
+        const origin = this.convertVector3(r.origin);
+        const direction = this.convertVector3(r.direction);
+        return new BABYLON.Ray(origin, direction);
+    }
+}
+
+/**
  * Helper for creating Augmented Reality experiences
  */
 class ARSystem
@@ -83,8 +131,17 @@ class ARSystem
     }
 
     /**
-     * Pointer-based input in the current frame (touch, mouse, pen...)
-     * You need a PointerTracker in your session in order to use these
+     * AR Viewer
+     * @returns {Viewer | null}
+     */
+    get viewer()
+    {
+        return this._viewer;
+    }
+
+    /**
+     * Pointer-based input (current frame)
+     * Make sure to add a PointerTracker to your session in order to use these
      * @returns {TrackablePointer[]}
      */
     get pointers()
@@ -130,18 +187,29 @@ class ARSystem
     }
 
     /**
+     * AR Utilities
+     * @returns {ARUtils}
+     */
+    get utils()
+    {
+        return this._utils;
+    }
+
+    /**
      * Constructor
      */
     constructor()
     {
         this._session = null;
         this._frame = null;
+        this._viewer = null;
         this._pointers = [];
         this._origin = null;
         this._root = null;
         this._scene = null;
         this._camera = null;
         this._engine = null;
+        this._utils = new ARUtils();
     }
 }
 
@@ -174,6 +242,7 @@ function encantar(demo)
     function mix(frame)
     {
         let found = false;
+        ar._viewer = null;
         ar._pointers.length = 0;
 
         for(const result of frame.results) {
@@ -186,6 +255,7 @@ function encantar(demo)
 
                     align(projectionMatrix, viewMatrix, modelMatrix);
                     ar._origin.setEnabled(true);
+                    ar._viewer = result.viewer;
 
                     found = true;
                 }
@@ -260,7 +330,9 @@ function encantar(demo)
 
         session.addEventListener('end', event => {
             ar._origin.setEnabled(false);
+            ar._viewer = null;
             ar._frame = null;
+            ar._pointers.length = 0;
         });
 
         session.viewport.addEventListener('resize', event => {
