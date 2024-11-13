@@ -53,8 +53,8 @@ interface ReferenceImageDatabaseEntry
  */
 export class ReferenceImageDatabase implements Iterable<ReferenceImage>
 {
-    /** Image database */
-    private _database: ReferenceImageDatabaseEntry[];
+    /** Entries */
+    private _entries: ReferenceImageDatabaseEntry[];
 
     /** Maximum number of entries */
     private _capacity: number;
@@ -73,7 +73,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
     constructor()
     {
         this._capacity = DEFAULT_CAPACITY;
-        this._database = [];
+        this._entries = [];
         this._locked = false;
         this._busy = false;
     }
@@ -83,7 +83,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     get count(): number
     {
-        return this._database.length;
+        return this._entries.length;
     }
 
     /**
@@ -113,7 +113,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     *[Symbol.iterator](): Iterator<ReferenceImage>
     {
-        const ref = this._database.map(entry => entry.referenceImage);
+        const ref = this._entries.map(entry => entry.referenceImage);
         yield* ref;
     }
 
@@ -157,14 +157,15 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
             throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: invalid image`);
 
         // check for duplicate names
-        if(this._database.find(entry => entry.referenceImage.name === referenceImage.name) !== undefined)
+        if(this._entries.find(entry => entry.referenceImage.name === referenceImage.name) !== undefined)
             throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: found duplicated name`);
 
         // load the media and add the reference image to the database
+        Utils.log(`Loading reference image "${referenceImage.name}"...`);
         this._busy = true;
         return Speedy.load(referenceImage.image).then(media => {
             this._busy = false;
-            this._database.push({
+            this._entries.push({
                 referenceImage: Object.freeze({
                     ...referenceImage,
                     name: referenceImage.name || generateUniqueName()
@@ -194,9 +195,9 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     _findMedia(name: string): SpeedyMedia
     {
-        for(let i = 0; i < this._database.length; i++) {
-            if(this._database[i].referenceImage.name === name)
-                return this._database[i].media;
+        for(let i = 0; i < this._entries.length; i++) {
+            if(this._entries[i].referenceImage.name === name)
+                return this._entries[i].media;
         }
 
         throw new IllegalArgumentError(`Can't find reference image "${name}"`);
