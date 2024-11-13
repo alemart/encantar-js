@@ -53,14 +53,11 @@ import {
 /** The training map maps keypoints to reference images */
 interface TrainingMap
 {
-    /** maps a keypoint index to an image index */
-    readonly referenceImageIndex: number[];
-
-    /** maps an image index to a reference image */
-    readonly referenceImage: ReferenceImage[];
-
     /** the collection of all keypoints (of all images) */
     readonly keypoints: SpeedyKeypoint[];
+
+    /** maps a keypoint index to an image index */
+    readonly referenceImageIndex: number[];
 }
 
 
@@ -70,8 +67,13 @@ interface TrainingMap
  */
 export class ImageTrackerTrainingState extends ImageTrackerState
 {
+    /** index of the image being used to train the tracker */
     private _currentImageIndex = 0;
+
+    /** reference images */
     private _image: ReferenceImage[] = [];
+
+    /** training map */
     private _trainingMap: TrainingMap;
 
 
@@ -86,9 +88,8 @@ export class ImageTrackerTrainingState extends ImageTrackerState
 
         // initialize the training map
         this._trainingMap = {
-            referenceImageIndex: [],
-            referenceImage: [],
-            keypoints: []
+            keypoints: [],
+            referenceImageIndex: []
         };
     }
 
@@ -108,7 +109,6 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         this._currentImageIndex = 0;
         this._image.length = 0;
         this._trainingMap.referenceImageIndex.length = 0;
-        this._trainingMap.referenceImage.length = 0;
         this._trainingMap.keypoints.length = 0;
 
         // lock the database
@@ -209,7 +209,6 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         Utils.log(`Image Tracker: found ${keypoints.length} keypoints in reference image "${referenceImage.name}"`);
 
         // set the training map, so that we can map all keypoints of the current image to the current image
-        this._trainingMap.referenceImage.push(referenceImage);
         for(let i = 0; i < keypoints.length; i++) {
             this._trainingMap.keypoints.push(keypoints[i]);
             this._trainingMap.referenceImageIndex.push(this._currentImageIndex);
@@ -313,7 +312,7 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         // keypoint description
         greyscale.output().connectTo(blur.input());
         blur.output().connectTo(descriptor.input('image'));
-        clipper.output().connectTo(descriptor.input('keypoints'));
+        subpixel.output().connectTo(descriptor.input('keypoints'));
 
         // prepare output
         descriptor.output().connectTo(keypointScaler.input());
@@ -343,7 +342,7 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         if(imageIndex < 0)
             return null;
 
-        return this._trainingMap.referenceImage[imageIndex];
+        return this._image[imageIndex];
     }
 
     /**
@@ -358,7 +357,7 @@ export class ImageTrackerTrainingState extends ImageTrackerState
             return -1;
 
         const imageIndex = this._trainingMap.referenceImageIndex[keypointIndex];
-        if(imageIndex < 0 || imageIndex >= this._trainingMap.referenceImage.length)
+        if(imageIndex < 0 || imageIndex >= this._image.length)
             return -1;
 
         return imageIndex;
