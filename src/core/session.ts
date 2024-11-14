@@ -541,14 +541,14 @@ export class Session extends AREventTarget<SessionEventType>
         // render user media
         if(this._primarySource !== null) {
             const media = this._primarySource._internalMedia;
-            this._renderMedia(ctx, media);
+            this._renderMedia(ctx, media, true);
         }
 
-        // render output image(s)
+        // render output image(s) for debugging
         for(let i = 0; i < this._trackers.length; i++) {
             const media = this._trackers[i]._output.image;
             if(media !== undefined)
-                this._renderMedia(ctx, media);
+                this._renderMedia(ctx, media, false);
         }
 
         // render gizmos
@@ -559,18 +559,21 @@ export class Session extends AREventTarget<SessionEventType>
      * Render a SpeedyMedia
      * @param ctx rendering context
      * @param media
+     * @param stretch
      */
-    private _renderMedia(ctx: CanvasRenderingContext2D, media: SpeedyMedia): void
+    private _renderMedia(ctx: CanvasRenderingContext2D, media: SpeedyMedia, stretch: boolean): void
     {
         const canvas = ctx.canvas;
+        const width = stretch ? canvas.width : media.width;
+        const height = stretch ? canvas.height : media.height;
 
         if(media.type != 'data') {
             const image = media.source as Exclude<SpeedyMediaSourceNativeElement, ImageData>;
-            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, 0, 0, width, height);
         }
         else {
             const image = media.source as ImageData;
-            ctx.putImageData(image, 0, 0, 0, 0, canvas.width, canvas.height);
+            ctx.putImageData(image, 0, 0, 0, 0, width, height);
         }
     }
 
