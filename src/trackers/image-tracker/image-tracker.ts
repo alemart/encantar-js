@@ -58,12 +58,26 @@ import { Pose } from '../../geometry/pose';
 A few definitions:
 
 1. Viewport size:
-    size of the drawing buffer of the background canvas = size of the input
-    media, in pixels
+   size of the drawing buffer of the background canvas, which is the same as
+   the size in pixels of the input media (typically a video).
 
 2. AR screen size:
-    size for image processing operations, determined by the resolution of the
-    tracker and by the aspect ratio of the input media
+   size in pixels used for image processing operations. It's determined by the
+   resolution of the tracker and by the aspect ratio of the input media.
+
+3. Raster space:
+   an image space whose top-left coordinate is (0,0) and whose bottom-right
+   coordinate is (w-1,h-1), where (w,h) is its size. The y-axis grows downwards.
+
+4. AR Screen Space (ASS):
+   a raster space whose size is the AR screen size.
+
+5. Normalized Image Space (NIS):
+   a raster space whose size is N x N, where N = NIS_SIZE.
+
+6. Normalized Device Coordinates (NDC):
+   the normalized 2D space [-1,1]x[-1,1]. The origin is at the center. Also,
+   the y-axis grows upwards.
 
 */
 
@@ -102,8 +116,14 @@ export interface ImageTrackerOutput extends TrackerOutput
     /** optional keypoints */
     readonly keypoints?: SpeedyKeypoint[];
 
+    /** optional keypoints */
+    readonly keypointsNIS?: SpeedyKeypoint[];
+
     /** optional polyline for testing */
     readonly polyline?: SpeedyPoint2[];
+
+    /** optional polyline for testing */
+    readonly polylineNDC?: SpeedyPoint2[];
 
     /** optional 3x4 camera matrix in AR screen space */
     readonly cameraMatrix?: SpeedyMatrix;
@@ -311,8 +331,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
         // compute the screen size for image processing purposes
         // note: this may change over time...!
         const media = this._source!._internalMedia;
-        const aspectRatio = media.width / media.height;
-        const screenSize = Utils.resolution(this._resolution, aspectRatio);
+        const screenSize = this._computeScreenSize();
 
         // run the active state
         const activeState = this._state[this._activeStateName];
@@ -327,6 +346,21 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
                 this._state[nextState].onEnterState(nextStateSettings || {});
             }
         });
+    }
+
+    /**
+     * Compute the current size of the AR screen space
+     * Note that this may change over time
+     * @returns size
+     * @internal
+     */
+    _computeScreenSize(): SpeedySize
+    {
+        const media = this._source!._internalMedia;
+        const aspectRatio = media.width / media.height;
+        const screenSize = Utils.resolution(this._resolution, aspectRatio);
+
+        return screenSize;
     }
 
     /**

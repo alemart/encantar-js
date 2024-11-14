@@ -29,8 +29,11 @@ export const TRAIN_MAX_KEYPOINTS = 1024; //512;
 /** Percentage relative to the screen size adjusted to the aspect ratio of the reference image */
 export const TRAIN_IMAGE_SCALE = 0.8; // ORB is not scale invariant
 
+/** Width and height of the Normalized Image Space (NIS) */
+export const NIS_SIZE = 1024; // keypoint positions are stored as fixed point
+
 /** Normalized width & height of an image target, in pixels */
-export const TRAIN_TARGET_NORMALIZED_SIZE = 1024; // keypoint positions are stored as fixed point
+export const TRAIN_TARGET_NORMALIZED_SIZE = NIS_SIZE; // keypoint positions are stored as fixed point
 
 /** Used to identify the best maches */
 export const SCAN_MATCH_RATIO = 0.7; // usually a value in [0.6, 0.8]
@@ -54,7 +57,13 @@ export const SCAN_MIN_MATCHES = 20; //30;
 export const SCAN_CONSECUTIVE_FRAMES = 30;//15;//45;
 
 /** Reprojection error, in pixels, used when estimating a motion model (scanning state) */
-export const SCAN_RANSAC_REPROJECTIONERROR = 5;
+//export const SCAN_RANSAC_REPROJECTIONERROR = 5;
+
+/** Reprojection error, in NIS pixels, used when estimating a motion model (scanning state) */
+export const SCAN_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.02) | 0;
+
+/** Reprojection error, in NDC, used when estimating a motion model (scanning state) */
+export const SCAN_RANSAC_REPROJECTIONERROR_NDC = SCAN_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
 
 /** Number of tables used in the LSH-based keypoint matching */
 export const SCAN_LSH_TABLES = 8; // up to 32
@@ -118,6 +127,14 @@ export const TRACK_REFINEMENT_ITERATIONS = 3;
 
 /** Reprojection error, in pixels, used when estimating a motion model (tracking state) */
 export const TRACK_RANSAC_REPROJECTIONERROR = 3; //2.5;
+
+// FIXME
+
+/** Reprojection error, in NIS pixels, used when estimating a motion model (tracking state) */
+export const TRACK_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125) | 0;
+
+/** Reprojection error, in NDC, used when estimating a motion model (tracking state) */
+export const TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
 
 /** We use a N x N grid to spatially distribute the keypoints in order to compute a better homography */
 export const TRACK_GRID_GRANULARITY = 10; //20; // the value of N
