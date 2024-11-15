@@ -126,6 +126,17 @@ export class AssertionError extends BaseError
 }
 
 /**
+ * Numerical error
+ */
+export class NumericalError extends BaseError
+{
+    public get name(): string
+    {
+        return 'NumericalError';
+    }
+}
+
+/**
  * Tracking error
  */
 export class TrackingError extends BaseError
