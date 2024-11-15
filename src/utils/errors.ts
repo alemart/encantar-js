@@ -23,7 +23,7 @@
 /**
  * Base error class
  */
-export abstract class BaseError extends Error
+export abstract class ARError extends Error
 {
     /**
      * Constructor
@@ -61,7 +61,7 @@ export abstract class BaseError extends Error
 /**
  * A method has received one or more illegal arguments
  */
-export class IllegalArgumentError extends BaseError
+export class IllegalArgumentError extends ARError
 {
     public get name(): string
     {
@@ -73,7 +73,7 @@ export class IllegalArgumentError extends BaseError
  * The method arguments are valid, but the method can't be called due to the
  * current state of the object
  */
-export class IllegalOperationError extends BaseError
+export class IllegalOperationError extends ARError
 {
     public get name(): string
     {
@@ -84,7 +84,7 @@ export class IllegalOperationError extends BaseError
 /**
  * The requested operation is not supported
  */
-export class NotSupportedError extends BaseError
+export class NotSupportedError extends ARError
 {
     public get name(): string
     {
@@ -95,7 +95,7 @@ export class NotSupportedError extends BaseError
 /**
  * Access denied
  */
-export class AccessDeniedError extends BaseError
+export class AccessDeniedError extends ARError
 {
     public get name(): string
     {
@@ -106,7 +106,7 @@ export class AccessDeniedError extends BaseError
 /**
  * Timeout
  */
-export class TimeoutError extends BaseError
+export class TimeoutError extends ARError
 {
     public get name(): string
     {
@@ -117,7 +117,7 @@ export class TimeoutError extends BaseError
 /**
  * Assertion error
  */
-export class AssertionError extends BaseError
+export class AssertionError extends ARError
 {
     public get name(): string
     {
@@ -128,7 +128,7 @@ export class AssertionError extends BaseError
 /**
  * Numerical error
  */
-export class NumericalError extends BaseError
+export class NumericalError extends ARError
 {
     public get name(): string
     {
@@ -139,7 +139,7 @@ export class NumericalError extends BaseError
 /**
  * Tracking error
  */
-export class TrackingError extends BaseError
+export class TrackingError extends ARError
 {
     public get name(): string
     {
@@ -150,7 +150,7 @@ export class TrackingError extends BaseError
 /**
  * Detection error
  */
-export class DetectionError extends BaseError
+export class DetectionError extends ARError
 {
     public get name(): string
     {
@@ -161,7 +161,7 @@ export class DetectionError extends BaseError
 /**
  * Training error
  */
-export class TrainingError extends BaseError
+export class TrainingError extends ARError
 {
     public get name(): string
     {
