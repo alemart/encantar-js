@@ -123,12 +123,10 @@ class ImageTrackerGizmos implements GizmosRenderer
             return;
 
         const viewportSize = viewport._realSize;
-        const screenSize = output.screenSize;
-        const keypoints = output.keypoints;
         const keypointsNIS = output.keypointsNIS;
-        const polyline = output.polyline;
         const polylineNDC = output.polylineNDC;
         const cameraMatrix = output.cameraMatrix;
+        const screenSize = output.screenSize;
 
         // debug
         //ctx.fillStyle = '#000';
@@ -136,51 +134,16 @@ class ImageTrackerGizmos implements GizmosRenderer
         //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // render keypoints
-        if(keypoints !== undefined && screenSize !== undefined)
-            this._splitAndRenderKeypoints(ctx, keypoints, screenSize, viewportSize);
-
-        // render keypoints
         if(keypointsNIS !== undefined)
             this._splitAndRenderKeypointsNIS(ctx, keypointsNIS, viewportSize);
 
         // render polylines
-        if(polyline !== undefined && screenSize !== undefined)
-            this._renderPolyline(ctx, polyline, screenSize, viewportSize);
-
-        // render polylines
         if(polylineNDC !== undefined)
-            this._renderPolylineNDC(ctx, polylineNDC, viewportSize, '#f8f');
+            this._renderPolylineNDC(ctx, polylineNDC, viewportSize);
 
         // render the axes of the 3D coordinate system
         if(cameraMatrix !== undefined && screenSize !== undefined)
             this._renderAxes(ctx, cameraMatrix, screenSize, viewportSize);
-    }
-
-    /**
-     * Split keypoints in matched/unmatched categories and
-     * render them for testing & development purposes
-     * @param ctx canvas 2D context
-     * @param keypoints keypoints to render
-     * @param screenSize AR screen size
-     * @param viewportSize viewport size
-     * @param size base keypoint rendering size
-     */
-    private _splitAndRenderKeypoints(ctx: CanvasRenderingContext2D, keypoints: SpeedyKeypoint[], screenSize: SpeedySize, viewportSize: SpeedySize, size = 1): void
-    {
-        if(keypoints.length == 0)
-            return;
-
-        if(!Object.prototype.hasOwnProperty.call(keypoints[0], '_matches')) { // hack...
-            this._renderKeypoints(ctx, keypoints, screenSize, viewportSize, '#f00', size);
-            return;
-        }
-
-        const matchedKeypoints = keypoints as SpeedyMatchedKeypoint[];
-        const goodMatches = matchedKeypoints.filter(keypoint => this._isGoodMatch(keypoint));
-        const badMatches = matchedKeypoints.filter(keypoint => !this._isGoodMatch(keypoint));
-
-        this._renderKeypoints(ctx, badMatches, screenSize, viewportSize, '#f00', size);
-        this._renderKeypoints(ctx, goodMatches, screenSize, viewportSize, '#0f0', size);
     }
 
     /**
@@ -241,36 +204,6 @@ class ImageTrackerGizmos implements GizmosRenderer
     /**
      * Render keypoints for testing & development purposes
      * @param ctx canvas 2D context
-     * @param keypoints keypoints to render
-     * @param screenSize AR screen size
-     * @param viewportSize viewport size
-     * @param color color of the rendered keypoints
-     * @param size base keypoint rendering size
-     */
-    private _renderKeypoints(ctx: CanvasRenderingContext2D, keypoints: SpeedyKeypoint[], screenSize: SpeedySize, viewportSize: SpeedySize, color = 'red', size = 1): void
-    {
-        const sx = viewportSize.width / screenSize.width;
-        const sy = viewportSize.height / screenSize.height;
-
-        ctx.beginPath();
-
-        for(let i = keypoints.length - 1; i >= 0; i--) {
-            const keypoint = keypoints[i];
-            const x = (keypoint.x * sx + 0.5) | 0;
-            const y = (keypoint.y * sy + 0.5) | 0;
-            const r = (size * keypoint.scale + 0.5) | 0;
-
-            ctx.rect(x-r, y-r, 2*r, 2*r);
-        }
-
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-    }
-
-    /**
-     * Render keypoints for testing & development purposes
-     * @param ctx canvas 2D context
      * @param keypoints keypoints in Normalized Image Space (NIS)
      * @param viewportSize viewport size
      * @param color color of the rendered keypoints
@@ -294,36 +227,6 @@ class ImageTrackerGizmos implements GizmosRenderer
 
         ctx.strokeStyle = color;
         ctx.lineWidth = 1;
-        ctx.stroke();
-    }
-
-    /**
-     * Render polyline for testing & development purposes
-     * @param ctx canvas 2D context
-     * @param polyline vertices
-     * @param screenSize AR screen size
-     * @param viewportSize viewport size
-     * @param color color of the rendered polyline
-     * @param lineWidth
-     */
-    private _renderPolyline(ctx: CanvasRenderingContext2D, polyline: SpeedyPoint2[], screenSize: SpeedySize, viewportSize: SpeedySize, color = '#0f0', lineWidth = 2): void
-    {
-        if(polyline.length == 0)
-            return;
-
-        const n = polyline.length;
-        const sx = viewportSize.width / screenSize.width;
-        const sy = viewportSize.height / screenSize.height;
-
-        // render polyline
-        ctx.beginPath();
-
-        ctx.moveTo(polyline[n - 1].x * sx, polyline[n - 1].y * sy);
-        for(let j = 0; j < n; j++)
-            ctx.lineTo(polyline[j].x * sx, polyline[j].y * sy);
-
-        ctx.strokeStyle = color;
-        ctx.lineWidth = lineWidth;
         ctx.stroke();
     }
 
