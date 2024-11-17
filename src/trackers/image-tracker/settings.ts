@@ -32,9 +32,6 @@ export const TRAIN_IMAGE_SCALE = 0.8; // ORB is not scale invariant
 /** Width and height of the Normalized Image Space (NIS) */
 export const NIS_SIZE = 1024; // keypoint positions are stored as fixed point
 
-/** Normalized width & height of an image target, in pixels */
-export const TRAIN_TARGET_NORMALIZED_SIZE = NIS_SIZE; // keypoint positions are stored as fixed point
-
 /** Used to identify the best maches */
 export const SCAN_MATCH_RATIO = 0.7; // usually a value in [0.6, 0.8]
 
@@ -50,14 +47,11 @@ export const SCAN_PYRAMID_SCALEFACTOR = 1.19; // 2 ^ 0.25
 /** Threshold of the FAST corner detector used in the scanning/training states */
 export const SCAN_FAST_THRESHOLD = 60;
 
-/** Minimum number of accepted matches for us to move out from the scanning state */
+/** Minimum number of accepted matches for us to move out of the scanning state */
 export const SCAN_MIN_MATCHES = 20; //30;
 
 /** When in the scanning state, we require the image to be matched during a few consecutive frames before accepting it */
 export const SCAN_CONSECUTIVE_FRAMES = 30;//15;//45;
-
-/** Reprojection error, in pixels, used when estimating a motion model (scanning state) */
-//export const SCAN_RANSAC_REPROJECTIONERROR = 5;
 
 /** Reprojection error, in NIS pixels, used when estimating a motion model (scanning state) */
 export const SCAN_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.02) | 0;
@@ -101,6 +95,9 @@ export const SUBPIXEL_GAUSSIAN_SIGMA = 1.0;
 /** Subpixel refinement method */
 export const SUBPIXEL_METHOD = 'bilinear-upsample'; // 'quadratic1d';
 
+/** Minimum acceptable number of matched keypoints when in a pre-tracking state */
+export const PRE_TRACK_MIN_MATCHES = 4;
+
 /** Minimum acceptable number of matched keypoints when in the tracking state */
 export const TRACK_MIN_MATCHES = 4;//10; //20;
 
@@ -122,13 +119,8 @@ export const TRACK_RECTIFIED_BORDER = 0.15; //0.20;
 /** Relative size (%) used to clip keypoints from the borders of the rectified image */
 export const TRACK_CLIPPING_BORDER = TRACK_RECTIFIED_BORDER * 1.20; //1.25; //1.15;
 
-/** Number of iterations used to refine the target image before tracking */
-export const TRACK_REFINEMENT_ITERATIONS = 3;
-
-/** Reprojection error, in pixels, used when estimating a motion model (tracking state) */
-export const TRACK_RANSAC_REPROJECTIONERROR = 3; //2.5;
-
-// FIXME
+/** Scale of the rectified image in NDC, without taking the aspect ratio into consideration */
+export const TRACK_RECTIFIED_SCALE = 1 - 2 * TRACK_RECTIFIED_BORDER;
 
 /** Reprojection error, in NIS pixels, used when estimating a motion model (tracking state) */
 export const TRACK_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125) | 0;
@@ -143,4 +135,4 @@ export const TRACK_GRID_GRANULARITY = 10; //20; // the value of N
 export const TRACK_MATCH_RATIO = 0.75; // usually a value in [0.6, 0.8] - low values => strict tracking
 
 /** Number of consecutive frames in which we tolerate a  "target lost" situation */
-export const TRACK_LOST_TOLERANCE = 10;
+export const TRACK_LOST_TOLERANCE = 15;

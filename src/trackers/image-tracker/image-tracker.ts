@@ -43,7 +43,8 @@ import { ImageTrackerState } from './states/state';
 import { ImageTrackerInitialState } from './states/initial';
 import { ImageTrackerTrainingState } from './states/training';
 import { ImageTrackerScanningState } from './states/scanning';
-import { ImageTrackerPreTrackingState } from './states/pre-tracking';
+import { ImageTrackerPreTrackingAState } from './states/pre-tracking-a';
+import { ImageTrackerPreTrackingBState } from './states/pre-tracking-b';
 import { ImageTrackerTrackingState } from './states/tracking';
 import { Nullable, Utils } from '../../utils/utils';
 import { AREventTarget } from '../../utils/ar-events';
@@ -52,34 +53,6 @@ import { ImageTrackerEvent, ImageTrackerEventType } from './image-tracker-event'
 import { SpeedyPoint2 } from 'speedy-vision/types/core/speedy-point';
 import { Viewer } from '../../geometry/viewer';
 import { Pose } from '../../geometry/pose';
-
-/*
-
-A few definitions:
-
-1. Viewport size:
-   size of the drawing buffer of the background canvas, which is the same as
-   the size in pixels of the input media (typically a video).
-
-2. AR screen size:
-   size in pixels used for image processing operations. It's determined by the
-   resolution of the tracker and by the aspect ratio of the input media.
-
-3. Raster space:
-   an image space whose top-left coordinate is (0,0) and whose bottom-right
-   coordinate is (w-1,h-1), where (w,h) is its size. The y-axis grows downwards.
-
-4. AR Screen Space (ASS):
-   a raster space whose size is the AR screen size.
-
-5. Normalized Image Space (NIS):
-   a raster space whose size is N x N, where N = NIS_SIZE.
-
-6. Normalized Device Coordinates (NDC):
-   the normalized 2D space [-1,1]x[-1,1]. The origin is at the center. Also,
-   the y-axis grows upwards.
-
-*/
 
 /** A trackable target */
 export interface TrackableImage extends Trackable
@@ -133,7 +106,7 @@ export interface ImageTrackerOutput extends TrackerOutput
 }
 
 /** All possible states of an Image Tracker */
-export type ImageTrackerStateName = 'initial' | 'training' | 'scanning' | 'pre-tracking' | 'tracking';
+export type ImageTrackerStateName = 'initial' | 'training' | 'scanning' | 'pre-tracking-a' | 'pre-tracking-b' | 'tracking';
 
 /** A helper */
 const formatSize = (size: SpeedySize) => `${size.width}x${size.height}`;
@@ -183,7 +156,8 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
             'initial': new ImageTrackerInitialState(this),
             'training': new ImageTrackerTrainingState(this),
             'scanning': new ImageTrackerScanningState(this),
-            'pre-tracking': new ImageTrackerPreTrackingState(this),
+            'pre-tracking-a': new ImageTrackerPreTrackingAState(this),
+            'pre-tracking-b': new ImageTrackerPreTrackingBState(this),
             'tracking': new ImageTrackerTrackingState(this),
         };
 
@@ -349,21 +323,6 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
     }
 
     /**
-     * Compute the current size of the AR screen space
-     * Note that this may change over time
-     * @returns size
-     * @internal
-     */
-    _computeScreenSize(): SpeedySize
-    {
-        const media = this._source!._internalMedia;
-        const aspectRatio = media.width / media.height;
-        const screenSize = Utils.resolution(this._resolution, aspectRatio);
-
-        return screenSize;
-    }
-
-    /**
      * Get reference image
      * @param keypointIndex -1 if not found
      * @returns reference image
@@ -397,5 +356,19 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
     {
         const training = this._state.training as ImageTrackerTrainingState;
         return training.referenceKeypoint(keypointIndex);
+    }
+
+    /**
+     * Compute the current size of the AR screen space
+     * Note that this may change over time
+     * @returns size
+     */
+    private _computeScreenSize(): SpeedySize
+    {
+        const media = this._source!._internalMedia;
+        const aspectRatio = media.width / media.height;
+        const screenSize = Utils.resolution(this._resolution, aspectRatio);
+
+        return screenSize;
     }
 }
