@@ -165,7 +165,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         keypointPortalSource.source = templateKeypointPortalSink;
 
         // setup camera
-        this._camera.init(initialScreenSize);
+        this._camera.init(this._initialScreenSize);
 
         // emit event
         const ev = new ImageTrackerEvent('targetfound', referenceImage);
@@ -326,7 +326,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             //console.log("> AF ", Speedy.Matrix(affineMotion).toString());
             //console.log("> PF ", Speedy.Matrix(perspectiveMotion).toString());
 
-            return this._camera.update(homography, screenSize);
+            return this._camera.update(homography);
         })
         .then(() => {
 

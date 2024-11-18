@@ -34,9 +34,6 @@ import { IllegalOperationError, IllegalArgumentError } from '../utils/errors';
 /** A guess of the horizontal field-of-view of a typical camera, in degrees */
 const HFOV_GUESS = 60; // https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html
 
-/** Number of iterations used to refine the estimated pose */
-const POSE_ITERATIONS = 30;
-
 /** Convert degrees to radians */
 const DEG2RAD = 0.017453292519943295; // pi / 180
 
@@ -47,17 +44,26 @@ const RAD2DEG = 57.29577951308232; // 180 / pi
 const EPSILON = 1e-6;
 
 /** Index of the horizontal focal length in the camera intrinsics matrix (column-major format) */
-export const FX = 0;
+const FX = 0;
 
 /** Index of the vertical focal length in the camera intrinsics matrix */
-export const FY = 4;
+const FY = 4;
 
 /** Index of the horizontal position of the principal point in the camera intrinsics matrix */
-export const U0 = 6;
+const U0 = 6;
 
 /** Index of the vertical position of the principal point in the camera intrinsics matrix */
-export const V0 = 7;
+const V0 = 7;
 
+/** Number of iterations used to refine the estimated pose */
+const POSE_ITERATIONS = 30;
+
+/** Maximum number of iterations used when refining the translation vector */
+const REFINE_TRANSLATION_ITERATIONS = 15;
+
+/** Tolerance used to exit early when refining the translation vector */
+const REFINE_TRANSLATION_TOLERANCE = 1; // in units compatible with the size of the image sensor
+//FIXME make it a percentage?
 
 
 
@@ -66,8 +72,8 @@ export const V0 = 7;
  */
 export class CameraModel
 {
-    /** size of the image sensor, in pixels */
-    private _screenSize: SpeedySize;
+    /** size of the image */
+    private _imageSize: SpeedySize;
 
     /** 3x4 camera matrix */
     private _matrix: SpeedyMatrix;
@@ -88,7 +94,7 @@ export class CameraModel
      */
     constructor()
     {
-        this._screenSize = Speedy.Size(0, 0);
+        this._imageSize = Speedy.Size(0, 0);
         this._matrix = Speedy.Matrix.Eye(3, 4);
         this._intrinsics = [1,0,0,0,1,0,0,0,1]; // 3x3 identity matrix
         this._extrinsics = [1,0,0,0,1,0,0,0,1,0,0,0]; // 3x4 matrix [ R | t ] = [ I | 0 ] no rotation & no translation
@@ -97,23 +103,19 @@ export class CameraModel
 
     /**
      * Initialize the model
-     * @param screenSize
+     * @param imageSize
      */
-    init(screenSize: SpeedySize): void
+    init(imageSize: SpeedySize): void
     {
-        // validate
-        if(screenSize.area() == 0)
-            throw new IllegalArgumentError(`Can't initialize the camera model with screenSize = ${screenSize.toString()}`);
+        // log
+        Utils.log(`Initializing the camera model...`);
 
-        // set the screen size
-        this._screenSize.width = screenSize.width;
-        this._screenSize.height = screenSize.height;
+        // set the imageSize
+        this._imageSize.width = imageSize.width;
+        this._imageSize.height = imageSize.height;
 
         // reset the model
         this.reset();
-
-        // log
-        Utils.log(`Initializing the camera model...`);
     }
 
     /**
@@ -128,30 +130,13 @@ export class CameraModel
     /**
      * Update the camera model
      * @param homography 3x3 perspective transform
-     * @param screenSize may change over time (e.g., when going from portrait to landscape or vice-versa)
      * @returns promise that resolves to a camera matrix
      */
-    update(homography: SpeedyMatrix, screenSize: SpeedySize): SpeedyPromise<SpeedyMatrix>
+    update(homography: SpeedyMatrix): SpeedyPromise<SpeedyMatrix>
     {
         // validate the shape of the homography
         if(homography.rows != 3 || homography.columns != 3)
             throw new IllegalArgumentError(`Camera model: provide a homography matrix`);
-
-        // validate screenSize
-        if(screenSize.area() == 0)
-            throw new IllegalArgumentError(`Camera model: invalid screenSize = ${screenSize.toString()}`);
-
-        // changed screen size?
-        if(!this._screenSize.equals(screenSize)) {
-            Utils.log(`Camera model: detected a change in screen size...`);
-
-            // update the screen size
-            this._screenSize.width = screenSize.width;
-            this._screenSize.height = screenSize.height;
-
-            // reset camera
-            this.reset();
-        }
 
         // read the entries of the homography
         const h = homography.read();
@@ -191,9 +176,7 @@ export class CameraModel
     }
 
     /**
-     * The camera matrix that maps the 3D normalized space [-1,1]^3 to the
-     * 2D AR screen space (measured in pixels)
-     * @returns 3x4 camera matrix
+     * The 3x4 camera matrix
      */
     get matrix(): SpeedyMatrix
     {
@@ -201,26 +184,52 @@ export class CameraModel
     }
 
     /**
-     * Camera intrinsics matrix
-     * @returns 3x3 intrinsics matrix in column-major format
+     * The aspect ratio of the image
      */
-    get intrinsics(): number[]
+    get aspectRatio(): number
     {
-        return this._intrinsics;
+        return this._imageSize.width / this._imageSize.height;
     }
 
     /**
-     * Camera extrinsics matrix
-     * @returns 3x4 extrinsics matrix [ R | t ] in column-major format
+     * Focal length in pixels (projection distance in the pinhole camera model)
+     * same as (focal length in mm) * (number of pixels per world unit in pixels/mm)
      */
-    get extrinsics(): number[]
+    get focalLength(): number
     {
-        return this._extrinsics;
+        return this._intrinsics[FX]; // fx == fy
     }
+
+    /**
+     * Horizontal field-of-view, given in radians
+     */
+    get fovx(): number
+    {
+        return 2 * Math.atan(this._intrinsics[U0] / this._intrinsics[FX]);
+    }
+
+    /**
+     * Vertical field-of-view, given in radians
+     */
+    get fovy(): number
+    {
+        return 2 * Math.atan(this._intrinsics[V0] / this._intrinsics[FY]);
+    }
+
+    /**
+     * Principal point
+     * @returns principal point
+     */
+    /*
+    principalPoint(): SpeedyPoint2
+    {
+        return Speedy.Point2(this._intrinsics[U0], this._intrinsics[V0]);
+    }
+    */
 
     /**
      * Convert coordinates from normalized space [-1,1]^3 to a
-     * "3D pixel space" based on the dimensions of the AR screen.
+     * "3D pixel space" based on the dimensions of the image sensor.
      *
      * We perform a 180-degrees rotation around the x-axis so that
      * it looks nicer (the y-axis grows downwards in image space).
@@ -236,8 +245,8 @@ export class CameraModel
      */
     denormalizer(): SpeedyMatrix
     {
-        const w = this._screenSize.width / 2; // half width, in pixels
-        const h = this._screenSize.height / 2; // half height, in pixels
+        const w = this._imageSize.width / 2; // half width, in pixels
+        const h = this._imageSize.height / 2; // half height, in pixels
         const d = Math.min(w, h); // virtual unit length, in pixels
 
         /*
@@ -258,49 +267,74 @@ export class CameraModel
     }
 
     /**
-     * Size of the AR screen space, in pixels
-     * @returns size in pixels
+     * Compute the view matrix in AR screen space, measured in pixels.
+     * This 4x4 matrix moves 3D points from world space to view space.
+     * We assume that the camera is looking in the direction of the
+     * negative z-axis (WebGL-friendly)
+     * @param camera
+     * @returns a 4x4 matrix describing a rotation and a translation
      */
-    get screenSize(): SpeedySize
+    computeViewMatrix(): SpeedyMatrix
     {
-        return this._screenSize;
+        const E = this._extrinsics;
+
+        /*
+
+        // this is the view matrix in AR screen space, measured in pixels
+        // we augment the extrinsics matrix, making it 4x4 by adding a
+        // [ 0  0  0  1 ] row. Below, E is a 3x4 extrinsics matrix
+        const V = Speedy.Matrix(4, 4, [
+            E[0], E[1], E[2], 0,
+            E[3], E[4], E[5], 0,
+            E[6], E[7], E[8], 0,
+            E[9], E[10], E[11], 1
+        ]);
+
+        // we premultiply V by F, which performs a rotation around the
+        // x-axis by 180 degrees, so that we get the 3D objects in front
+        // of the camera pointing in the direction of the negative z-axis
+        const F = Speedy.Matrix(4, 4, [
+            1, 0, 0, 0,
+            0,-1, 0, 0,
+            0, 0,-1, 0,
+            0, 0, 0, 1
+        ]);
+
+        Matrix F * V is matrix V with the second and third rows negated
+
+        */
+
+        return Speedy.Matrix(4, 4, [
+            E[0],-E[1],-E[2], 0,
+            E[3],-E[4],-E[5], 0,
+            E[6],-E[7],-E[8], 0,
+            E[9],-E[10],-E[11], 1
+        ]);
     }
 
     /**
-     * Focal length in pixel units (projection distance in the pinhole camera model)
-     * same as (focal length in mm) * (number of pixels per world unit in pixels/mm)
-     * @returns focal length
+     * Compute a perspective projection matrix for WebGL
+     * @param near distance of the near plane
+     * @param far distance of the far plane
      */
-    get focalLength(): number
+    computeProjectionMatrix(near: number, far: number): SpeedyMatrix
     {
-        return this._intrinsics[FY]; // fx == fy
-    }
+        const K = this._intrinsics;
 
-    /**
-     * Horizontal field-of-view, given in radians
-     * @returns vertical field-of-view
-     */
-    get fovx(): number
-    {
-        return 2 * Math.atan(this._intrinsics[U0] / this._intrinsics[FX]);
-    }
+        // we assume that the principal point is at the center of the image
+        const top = near * (K[V0] / K[FY]);
+        const right = near * (K[U0] / K[FX]);
+        const bottom = -top, left = -right; // symmetric frustum
 
-    /**
-     * Vertical field-of-view, given in radians
-     * @returns vertical field-of-view
-     */
-    get fovy(): number
-    {
-        return 2 * Math.atan(this._intrinsics[V0] / this._intrinsics[FY]);
-    }
-
-    /**
-     * Principal point
-     * @returns principal point, in pixel coordinates
-     */
-    principalPoint(): SpeedyPoint2
-    {
-        return Speedy.Point2(this._intrinsics[U0], this._intrinsics[V0]);
+        // a derivation of this projection matrix can be found at
+        // https://www.songho.ca/opengl/gl_projectionmatrix.html
+        // http://learnwebgl.brown37.net/08_projections/projections_perspective.html
+        return Speedy.Matrix(4, 4, [
+            2 * near / (right - left), 0, 0, 0,
+            0, 2 * near / (top - bottom), 0, 0,
+            (right + left) / (right - left), (top + bottom) / (top - bottom), -(far + near) / (far - near), -1,
+            0, 0, -2 * far * near / (far - near), 0
+        ]);
     }
 
     /**
@@ -321,10 +355,10 @@ export class CameraModel
      */
     private _resetIntrinsics(): void
     {
-        const cameraWidth = Math.max(this._screenSize.width, this._screenSize.height); // portrait or landscape?
+        const cameraWidth = Math.max(this._imageSize.width, this._imageSize.height); // portrait or landscape?
 
-        const u0 = this._screenSize.width / 2;
-        const v0 = this._screenSize.height / 2;
+        const u0 = this._imageSize.width / 2;
+        const v0 = this._imageSize.height / 2;
         const fx = (cameraWidth / 2) / Math.tan(DEG2RAD * HFOV_GUESS / 2);
         const fy = fx;
 
@@ -401,10 +435,10 @@ export class CameraModel
 
         // sanity check
         if(Number.isNaN(scale))
-            return Speedy.Matrix(3, 3, (new Array(9)).fill(Number.NaN));
+            return Speedy.Matrix(3, 3, (new Array<number>(9)).fill(Number.NaN));
 
         // recover the rotation
-        let r = new Array(6) as number[];
+        let r = new Array<number>(6);
         r[0] = scale * h11;
         r[1] = scale * h21;
         r[2] = scale * h31;
@@ -412,8 +446,8 @@ export class CameraModel
         r[4] = scale * h22;
         r[5] = scale * h32;
 
-        // refine the rotation
-        r = this._refineRotation(r); // r is initially noisy
+        // refine the rotation (r is initially noisy)
+        r = this._refineRotation(r);
 
         /*
 
@@ -438,7 +472,7 @@ export class CameraModel
         scale /= h1norm2 + h2norm2;
 
         // recover the translation
-        let t = new Array(3) as number[];
+        let t = new Array<number>(3);
         t[0] = scale * h13;
         t[1] = scale * h23;
         t[2] = scale * h33;
@@ -539,6 +573,8 @@ export class CameraModel
         // compute the Cholesky decomposition LL' of the diagonal matrix D
         // whose entries are the two eigenvalues of R'R and then invert L
         const s1 = Math.sqrt(eigval1), s2 = Math.sqrt(eigval2); // singular values of R (pick s1 >= s2)
+
+        /*
         const Linv = Speedy.Matrix(2, 2, [1/s1, 0, 0, 1/s2]); // L inverse
 
         // compute the correction matrix C = Q * Linv * Q', where Q = [q1|q2]
@@ -550,6 +586,25 @@ export class CameraModel
         // correct the rotation vectors r1 and r2 using C
         const R = Speedy.Matrix(3, 2, [r11, r21, r31, r12, r22, r32]);
         return Speedy.Matrix(R.times(C)).read();
+        */
+
+        // find C = Q * Linv * Q' manually
+        // [ a  b ] is symmetric
+        // [ b  c ]
+        const a = x1*x1/s1 + x2*x2/s2;
+        const b = x1*y1/s1 + x2*y2/s2;
+        const c = y1*y1/s1 + y2*y2/s2;
+
+        // find RC manually
+        return [
+            a*r11 + b*r12,
+            a*r21 + b*r22,
+            a*r31 + b*r32,
+
+            b*r11 + c*r12,
+            b*r21 + c*r22,
+            b*r31 + c*r32
+        ];
     }
 
     /**
@@ -587,7 +642,7 @@ export class CameraModel
         const r21 = rot[1], r22 = rot[4];
         const r31 = rot[2], r32 = rot[5];
 
-        // sample points [ xi  yi ]' in AR screen space
+        // sample points [ xi  yi ]' in screen space
         //const x = [ 0.5, 0.0, 1.0, 1.0, 0.0, 0.5, 1.0, 0.5, 0.0 ];
         //const y = [ 0.5, 0.0, 0.0, 1.0, 1.0, 0.0, 0.5, 1.0, 0.5 ];
         const x = [ 0.5, 0.0, 1.0, 1.0, 0.0 ];
@@ -595,17 +650,17 @@ export class CameraModel
         const n = x.length;
         const n3 = 3*n;
 
-        const width = this._screenSize.width;
-        const height = this._screenSize.height;
+        const width = this._imageSize.width;
+        const height = this._imageSize.height;
         for(let i = 0; i < n; i++) {
             x[i] *= width;
             y[i] *= height;
         }
 
         // set auxiliary values: ai = H [ xi  yi  1 ]'
-        const a1 = new Array(n) as number[];
-        const a2 = new Array(n) as number[];
-        const a3 = new Array(n) as number[];
+        const a1 = new Array<number>(n);
+        const a2 = new Array<number>(n);
+        const a3 = new Array<number>(n);
         for(let i = 0; i < n; i++) {
             a1[i] = x[i] * h11 + y[i] * h12 + h13;
             a2[i] = x[i] * h21 + y[i] * h22 + h23;
@@ -614,8 +669,8 @@ export class CameraModel
 
         // we'll solve M t = v for t with linear least squares
         // M: 3n x 3, v: 3n x 1, t: 3 x 1
-        const m = new Array(3*n * 3) as number[];
-        const v = new Array(3*n) as number[];
+        const m = new Array<number>(3*n * 3);
+        const v = new Array<number>(3*n);
         for(let i = 0, k = 0; k < n; i += 3, k++) {
             m[i] = m[i+n3+1] = m[i+n3+n3+2] = 0;
             m[i+n3] = -(m[i+1] = a3[k]);
@@ -676,20 +731,18 @@ export class CameraModel
         */
 
         // gradient descent: super lightweight implementation
-        const r = new Array(3*n) as number[];
-        const c = new Array(3) as number[];
-        const Mc = new Array(3*n) as number[];
+        const r = new Array<number>(3*n);
+        const c = new Array<number>(3);
+        const Mc = new Array<number>(3*n);
 
         // initial guess
-        const t = new Array(3) as number[];
+        const t = new Array<number>(3);
         t[0] = t0[0];
         t[1] = t0[1];
         t[2] = t0[2];
 
         // iterate
-        const MAX_ITERATIONS = 15;
-        const TOLERANCE = 1;
-        for(let it = 0; it < MAX_ITERATIONS; it++) {
+        for(let it = 0; it < REFINE_TRANSLATION_ITERATIONS; it++) {
             //console.log("it",it+1);
 
             // compute residual r = Mt - v
@@ -719,7 +772,7 @@ export class CameraModel
             for(let i = 0; i < 3; i++)
                 num += c[i] * c[i];
             //console.log("c'c=",num);
-            if(num < TOLERANCE)
+            if(num < REFINE_TRANSLATION_TOLERANCE)
                 break;
 
             // compute (Mc)'(Mc)
@@ -778,7 +831,7 @@ export class CameraModel
     }
 
     /**
-     * Estimate the pose [ R | t ] given a homography in AR screen space
+     * Estimate the pose [ R | t ] given a homography in sensor space
      * @param homography must be valid
      * @returns 3x4 matrix
      */
