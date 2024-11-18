@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg954"
+   version="1.1"
+   fill="none"
+   viewBox="0 0 24 24"
+   height="800px"
+   width="800px">
+  <metadata
+     id="metadata960">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs958">
+    <marker
+       style="overflow:visible"
+       id="marker2126"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:none;stroke-width:1pt;stroke-opacity:1;fill:#c6afe9;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path2124" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:none;stroke-width:1pt;stroke-opacity:1;fill:#c6afe9;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path1842" />
+    </marker>
+  </defs>
+  <path
+     id="rect1653"
+     d="M 5.4894119,7.1116441 C 3.6899104,8.9111456 3.6871183,11.825949 5.4832538,13.622102 l 8.56e-5,8.6e-5 1.8101979,1.810199 0.6074449,0.607444 2.2888548,2.288855 c 1.002844,1.002845 2.617552,1.002845 3.620396,0 l 2.288856,-2.288856 0.607443,-0.607443 1.810198,-1.810198 c 1.796135,-1.796138 1.793381,-4.7110079 -0.0062,-6.5105418 -1.799519,-1.7995183 -4.714355,-1.8022905 -6.5105,-0.00616 v 0 C 10.203932,5.3093536 7.2890638,5.312107 5.4895299,7.1115428 Z"
+     style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.00199676;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal" />
+</svg>

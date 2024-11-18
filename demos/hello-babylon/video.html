@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>encantar.js WebAR demo with babylon.js</title>
-        <link href="demo.css" rel="stylesheet">
+        <link href="../assets/demo.css" rel="stylesheet">
         <script src="../../dist/encantar.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/babylonjs@7.29.0/babylon.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders@7.29.0/babylonjs.loaders.min.js"></script>
@@ -14,8 +14,9 @@
     <body>
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
-                <img id="scan" src="../assets/scan.png" draggable="false">
                 <a id="about" href="NOTICE.html" draggable="false"></a>
+                <a id="sponsor" href="https://github.com/sponsors/alemart" draggable="false"></a>
+                <img id="scan" src="../assets/scan.png" draggable="false">
             </div>
         </div>
         <img id="mage" src="../assets/mage.webp" hidden>

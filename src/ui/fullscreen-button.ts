@@ -94,9 +94,6 @@ export class FullscreenButton
         button.style.width = BUTTON_SIZE + 'px';
         button.style.height = BUTTON_SIZE + 'px';
 
-        button.style.display = 'flex';
-        button.style.alignItems = 'center';
-        button.style.padding = '2px';
         button.style.opacity = '0.5';
         button.style.cursor = 'pointer';
         button.style.outline = 'none';
