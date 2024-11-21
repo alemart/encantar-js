@@ -29,10 +29,13 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Nullable, Utils } from '../utils/utils';
 import { Settings } from '../core/settings';
 import { PoseFilter } from './pose-filter';
-import { IllegalOperationError, IllegalArgumentError } from '../utils/errors';
+import { NumericalError } from '../utils/errors';
 
 /** A guess of the horizontal field-of-view of a typical camera, in degrees */
 const HFOV_GUESS = 60; // https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Cameras/Cameras.html
+
+/** The default scale of the image plane. The scale affects the focal length */
+const DEFAULT_SCALE = 2; // the length of the [-1,+1] interval
 
 /** Convert degrees to radians */
 const DEG2RAD = 0.017453292519943295; // pi / 180
@@ -56,14 +59,16 @@ const U0 = 6;
 const V0 = 7;
 
 /** Number of iterations used to refine the estimated pose */
-const POSE_ITERATIONS = 30;
+const POSE_REFINEMENT_ITERATIONS = 30;
 
 /** Maximum number of iterations used when refining the translation vector */
-const REFINE_TRANSLATION_ITERATIONS = 15;
+const TRANSLATION_REFINEMENT_ITERATIONS = 15;
 
 /** Tolerance used to exit early when refining the translation vector */
-const REFINE_TRANSLATION_TOLERANCE = 1; // in units compatible with the size of the image sensor
-//FIXME make it a percentage?
+const TRANSLATION_REFINEMENT_TOLERANCE = DEFAULT_SCALE * 0.01;
+
+/** Size of the grid used to refine the translation vector */
+const TRANSLATION_REFINEMENT_GRIDSIZE = 5; //3;
 
 
 
@@ -72,16 +77,19 @@ const REFINE_TRANSLATION_TOLERANCE = 1; // in units compatible with the size of 
  */
 export class CameraModel
 {
-    /** size of the image */
+    /** size of the image plane */
     private _imageSize: SpeedySize;
 
     /** 3x4 camera matrix */
     private _matrix: SpeedyMatrix;
 
-    /** intrinsics matrix, in column-major format */
+    /** a helper to switch the handedness of a coordinate system */
+    private _flipZ: SpeedyMatrix;
+
+    /** entries of the intrinsics matrix in column-major format */
     private _intrinsics: number[];
 
-    /** extrinsics matrix, in column-major format */
+    /** entries of the extrinsics matrix in column-major format */
     private _extrinsics: number[];
 
     /** smoothing filter */
@@ -99,20 +107,35 @@ export class CameraModel
         this._intrinsics = [1,0,0,0,1,0,0,0,1]; // 3x3 identity matrix
         this._extrinsics = [1,0,0,0,1,0,0,0,1,0,0,0]; // 3x4 matrix [ R | t ] = [ I | 0 ] no rotation & no translation
         this._filter = new PoseFilter();
+        this._flipZ = Speedy.Matrix(4, 4, [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0,-1, 0,
+            0, 0, 0, 1
+        ]);
     }
 
     /**
      * Initialize the model
-     * @param imageSize
+     * @param aspectRatio aspect ratio of the image plane
+     * @param scale optional scale factor of the image plane
      */
-    init(imageSize: SpeedySize): void
+    init(aspectRatio: number, scale: number = DEFAULT_SCALE): void
     {
         // log
         Utils.log(`Initializing the camera model...`);
+        Utils.assert(aspectRatio > 0 && scale > 1e-5);
 
-        // set the imageSize
-        this._imageSize.width = imageSize.width;
-        this._imageSize.height = imageSize.height;
+        // set the size of the image plane
+        // this rule is conceived so that min(w,h) = s and w/h = a
+        if(aspectRatio >= 1) {
+            this._imageSize.width = aspectRatio * scale;
+            this._imageSize.height = scale;
+        }
+        else {
+            this._imageSize.width = scale;
+            this._imageSize.height = scale / aspectRatio;
+        }
 
         // reset the model
         this.reset();
@@ -129,14 +152,15 @@ export class CameraModel
 
     /**
      * Update the camera model
-     * @param homography 3x3 perspective transform
-     * @returns promise that resolves to a camera matrix
+     * @param homographyNDC 3x3 perspective transform
+     * @returns a promise that resolves to a camera matrix
      */
-    update(homography: SpeedyMatrix): SpeedyPromise<SpeedyMatrix>
+    update(homographyNDC: SpeedyMatrix): SpeedyPromise<SpeedyMatrix>
     {
-        // validate the shape of the homography
-        if(homography.rows != 3 || homography.columns != 3)
-            throw new IllegalArgumentError(`Camera model: provide a homography matrix`);
+        Utils.assert(homographyNDC.rows == 3 && homographyNDC.columns == 3);
+
+        // convert to image space
+        const homography = this._convertToImageSpace(homographyNDC);
 
         // read the entries of the homography
         const h = homography.read();
@@ -146,10 +170,8 @@ export class CameraModel
 
         // validate the homography (homography matrices aren't singular)
         const det = h13 * (h21 * h32 - h22 * h31) - h23 * (h11 * h32 - h12 * h31) + h33 * (h11 * h22 - h12 * h21);
-        if(Math.abs(det) < EPSILON) {
-            Utils.warning(`Can't update the camera model using an invalid homography matrix`);
-            return Speedy.Promise.resolve(this._matrix);
-        }
+        if(Math.abs(det) < EPSILON || Number.isNaN(det))
+            return Speedy.Promise.reject(new NumericalError(`Can't update the camera model using an invalid homography matrix`));
 
         // estimate the pose
         const pose = this._estimatePose(homography);
@@ -157,12 +179,22 @@ export class CameraModel
             this._extrinsics = this._filter.output().read();
 
         // compute the camera matrix
-        const C = this.denormalizer();
+        const Z = this._flipZ; // switch to a right handed system
         const K = Speedy.Matrix(3, 3, this._intrinsics);
         const E = Speedy.Matrix(3, 4, this._extrinsics);
-        this._matrix.setToSync(K.times(E).times(C));
-        //console.log("intrinsics -----------", K.toString());
-        //console.log("matrix ----------------",this._matrix.toString());
+        this._matrix.setToSync(K.times(E).times(Z));
+
+        /*
+        // test
+        console.log("homography ------------", homography.toString());
+        console.log("intrinsics ------------", K.toString());
+        console.log("extrinsics ------------", E.toString());
+        console.log("extrinsicsINV ---------", Speedy.Matrix(this.computeViewMatrix().inverse()).toString());
+        console.log("matrix ----------------", this._matrix.toString());
+        console.log("projectionMatrix ----- ", this.computeProjectionMatrix(0.1,100).toString());
+        */
+
+        // done!
         return Speedy.Promise.resolve(this._matrix);
     }
 
@@ -184,6 +216,14 @@ export class CameraModel
     }
 
     /**
+     * The size of the image plane
+     */
+    get imageSize(): SpeedySize
+    {
+        return this._imageSize;
+    }
+
+    /**
      * The aspect ratio of the image
      */
     get aspectRatio(): number
@@ -192,8 +232,9 @@ export class CameraModel
     }
 
     /**
-     * Focal length in pixels (projection distance in the pinhole camera model)
-     * same as (focal length in mm) * (number of pixels per world unit in pixels/mm)
+     * Focal length in "pixels" (projection distance in the pinhole camera model)
+     * same as (focal length in mm) * (number of "pixels" per world unit in "pixels"/mm)
+     * "pixels" means image plane units
      */
     get focalLength(): number
     {
@@ -205,7 +246,8 @@ export class CameraModel
      */
     get fovx(): number
     {
-        return 2 * Math.atan(this._intrinsics[U0] / this._intrinsics[FX]);
+        const halfWidth = this._imageSize.width / 2;
+        return 2 * Math.atan(halfWidth / this._intrinsics[FX]);
     }
 
     /**
@@ -213,102 +255,30 @@ export class CameraModel
      */
     get fovy(): number
     {
-        return 2 * Math.atan(this._intrinsics[V0] / this._intrinsics[FY]);
+        const halfHeight = this._imageSize.height / 2;
+        return 2 * Math.atan(halfHeight / this._intrinsics[FY]);
     }
 
     /**
-     * Principal point
-     * @returns principal point
-     */
-    /*
-    principalPoint(): SpeedyPoint2
-    {
-        return Speedy.Point2(this._intrinsics[U0], this._intrinsics[V0]);
-    }
-    */
-
-    /**
-     * Convert coordinates from normalized space [-1,1]^3 to a
-     * "3D pixel space" based on the dimensions of the image sensor.
-     *
-     * We perform a 180-degrees rotation around the x-axis so that
-     * it looks nicer (the y-axis grows downwards in image space).
-     *
-     * The final camera matrix is P = K * [ R | t ] * C, where
-     * C is this conversion matrix. The intent behind this is to
-     * make tracking independent of target and screen sizes.
-     *
-     * Reminder: we use a right-handed coordinate system in 3D!
-     * In 2D image space the coordinate system is left-handed.
-     *
-     * @returns 4x4 conversion matrix C
-     */
-    denormalizer(): SpeedyMatrix
-    {
-        const w = this._imageSize.width / 2; // half width, in pixels
-        const h = this._imageSize.height / 2; // half height, in pixels
-        const d = Math.min(w, h); // virtual unit length, in pixels
-
-        /*
-        return Speedy.Matrix(4, 4, [
-            1, 0, 0, 0,
-            0,-1, 0, 0,
-            0, 0,-1, 0,
-            w/d, h/d, 0, 1/d
-        ]);
-        */
-
-        return Speedy.Matrix(4, 4, [
-            d, 0, 0, 0,
-            0,-d, 0, 0,
-            0, 0,-d, 0,
-            w, h, 0, 1,
-        ]);
-    }
-
-    /**
-     * Compute the view matrix in AR screen space, measured in pixels.
-     * This 4x4 matrix moves 3D points from world space to view space.
-     * We assume that the camera is looking in the direction of the
-     * negative z-axis (WebGL-friendly)
-     * @param camera
-     * @returns a 4x4 matrix describing a rotation and a translation
+     * Compute the view matrix. This 4x4 matrix moves 3D points from
+     * world space to view space. We want the camera looking in the
+     * direction of the negative z-axis (WebGL-friendly)
+     * @returns a view matrix
      */
     computeViewMatrix(): SpeedyMatrix
     {
         const E = this._extrinsics;
 
-        /*
-
-        // this is the view matrix in AR screen space, measured in pixels
-        // we augment the extrinsics matrix, making it 4x4 by adding a
-        // [ 0  0  0  1 ] row. Below, E is a 3x4 extrinsics matrix
-        const V = Speedy.Matrix(4, 4, [
-            E[0], E[1], E[2], 0,
-            E[3], E[4], E[5], 0,
-            E[6], E[7], E[8], 0,
-            E[9], E[10], E[11], 1
-        ]);
-
-        // we premultiply V by F, which performs a rotation around the
-        // x-axis by 180 degrees, so that we get the 3D objects in front
-        // of the camera pointing in the direction of the negative z-axis
-        const F = Speedy.Matrix(4, 4, [
-            1, 0, 0, 0,
-            0,-1, 0, 0,
-            0, 0,-1, 0,
-            0, 0, 0, 1
-        ]);
-
-        Matrix F * V is matrix V with the second and third rows negated
-
-        */
-
+        // We augment the 3x4 extrinsics matrix E with the [ 0  0  0  1 ] row
+        // and get E+. Let Z be 4x4 flipZ, the identity matrix with the third
+        // column negated. The following matrix is View = Z * E+ * Z. We get
+        // the camera looking in the direction of the negative z-axis in a
+        // right handed system!
         return Speedy.Matrix(4, 4, [
-            E[0],-E[1],-E[2], 0,
-            E[3],-E[4],-E[5], 0,
-            E[6],-E[7],-E[8], 0,
-            E[9],-E[10],-E[11], 1
+            E[0], E[1],-E[2], 0, // r1
+            E[3], E[4],-E[5], 0, // r2
+           -E[6],-E[7],+E[8], 0, // r3
+            E[9], E[10],-E[11], 1 // t
         ]);
     }
 
@@ -319,11 +289,15 @@ export class CameraModel
      */
     computeProjectionMatrix(near: number, far: number): SpeedyMatrix
     {
-        const K = this._intrinsics;
+        const fx = this._intrinsics[FX];
+        const fy = this._intrinsics[FY];
+        const halfWidth = this._imageSize.width / 2;
+        const halfHeight = this._imageSize.height / 2;
 
-        // we assume that the principal point is at the center of the image
-        const top = near * (K[V0] / K[FY]);
-        const right = near * (K[U0] / K[FX]);
+        // we assume that the principal point is at the center of the image plane
+        const right = near * (halfWidth / fx);
+        const top = near * (halfHeight / fy);
+        //const top = right * (halfHeight / halfWidth); // same thing
         const bottom = -top, left = -right; // symmetric frustum
 
         // a derivation of this projection matrix can be found at
@@ -357,8 +331,8 @@ export class CameraModel
     {
         const cameraWidth = Math.max(this._imageSize.width, this._imageSize.height); // portrait or landscape?
 
-        const u0 = this._imageSize.width / 2;
-        const v0 = this._imageSize.height / 2;
+        const u0 = 0; // principal point at the center of the image plane
+        const v0 = 0;
         const fx = (cameraWidth / 2) / Math.tan(DEG2RAD * HFOV_GUESS / 2);
         const fy = fx;
 
@@ -366,6 +340,34 @@ export class CameraModel
         this._intrinsics[FY] = fy;
         this._intrinsics[U0] = u0;
         this._intrinsics[V0] = v0;
+    }
+
+    /**
+     * Convert a homography from NDC to image space
+     * @param homographyNDC
+     * @returns a new homography
+     */
+    private _convertToImageSpace(homographyNDC: SpeedyMatrix): SpeedyMatrix
+    {
+        const w = this._imageSize.width / 2;
+        const h = this._imageSize.height / 2;
+
+        // fromNDC converts points from NDC to image space
+        const fromNDC = Speedy.Matrix(3, 3, [
+            w, 0, 0,
+            0, h, 0,
+            0, 0, 1
+        ]);
+
+        /*
+        // make h33 = 1 (wanted?)
+        const data = homographyNDC.read();
+        const h33 = data[8];
+        const hom = homographyNDC.times(1/h33);
+        */
+
+        // convert homography
+        return Speedy.Matrix(fromNDC.times(homographyNDC));
     }
 
     /**
@@ -642,22 +644,30 @@ export class CameraModel
         const r21 = rot[1], r22 = rot[4];
         const r31 = rot[2], r32 = rot[5];
 
-        // sample points [ xi  yi ]' in screen space
-        //const x = [ 0.5, 0.0, 1.0, 1.0, 0.0, 0.5, 1.0, 0.5, 0.0 ];
-        //const y = [ 0.5, 0.0, 0.0, 1.0, 1.0, 0.0, 0.5, 1.0, 0.5 ];
-        const x = [ 0.5, 0.0, 1.0, 1.0, 0.0 ];
-        const y = [ 0.5, 0.0, 0.0, 1.0, 1.0 ];
-        const n = x.length;
-        const n3 = 3*n;
+        // generate a grid of sample points [ xi  yi ]' in the image
+        //const x = [ 0, -1, +1, +1, -1 ];
+        //const y = [ 0, -1, -1, +1, +1 ];
+        const g = TRANSLATION_REFINEMENT_GRIDSIZE;
+        const x = new Array<number>(g*g);
+        const y = new Array<number>(g*g);
+        const halfWidth = this._imageSize.width / 2;
+        const halfHeight = this._imageSize.height / 2;
 
-        const width = this._imageSize.width;
-        const height = this._imageSize.height;
-        for(let i = 0; i < n; i++) {
-            x[i] *= width;
-            y[i] *= height;
+        for(let k = 0, i = 0; i < g; i++) {
+            for(let j = 0; j < g; j++, k++) {
+                // in [-1,+1]
+                x[k] = (i/(g-1)) * 2 - 1;
+                y[k] = (j/(g-1)) * 2 - 1;
+
+                // in [-s/2,+s/2], where s = w,h
+                x[k] *= halfWidth;
+                y[k] *= halfHeight;
+            }
         }
+        //console.log(x.toString(), y.toString());
 
         // set auxiliary values: ai = H [ xi  yi  1 ]'
+        const n = x.length;
         const a1 = new Array<number>(n);
         const a2 = new Array<number>(n);
         const a3 = new Array<number>(n);
@@ -669,8 +679,9 @@ export class CameraModel
 
         // we'll solve M t = v for t with linear least squares
         // M: 3n x 3, v: 3n x 1, t: 3 x 1
-        const m = new Array<number>(3*n * 3);
-        const v = new Array<number>(3*n);
+        const n3 = 3*n;
+        const m = new Array<number>(n3 * 3);
+        const v = new Array<number>(n3);
         for(let i = 0, k = 0; k < n; i += 3, k++) {
             m[i] = m[i+n3+1] = m[i+n3+n3+2] = 0;
             m[i+n3] = -(m[i+1] = a3[k]);
@@ -742,7 +753,7 @@ export class CameraModel
         t[2] = t0[2];
 
         // iterate
-        for(let it = 0; it < REFINE_TRANSLATION_ITERATIONS; it++) {
+        for(let it = 0; it < TRANSLATION_REFINEMENT_ITERATIONS; it++) {
             //console.log("it",it+1);
 
             // compute residual r = Mt - v
@@ -771,8 +782,8 @@ export class CameraModel
             let num = 0;
             for(let i = 0; i < 3; i++)
                 num += c[i] * c[i];
-            //console.log("c'c=",num);
-            if(num < REFINE_TRANSLATION_TOLERANCE)
+            //console.log("c'c=",num," at #",it+1);
+            if(num < TRANSLATION_REFINEMENT_TOLERANCE)
                 break;
 
             // compute (Mc)'(Mc)
@@ -846,7 +857,7 @@ export class CameraModel
         // it won't be a perfect equality due to noise in the homography.
         // remark: composition of homographies
         const residual = Speedy.Matrix(normalizedHomography);
-        for(let k = 0; k < POSE_ITERATIONS; k++) {
+        for(let k = 0; k < POSE_REFINEMENT_ITERATIONS; k++) {
             // incrementally improve the partial pose
             const rt = this._estimatePartialPose(residual); // rt should converge to the identity matrix
             partialPose.setToSync(rt.times(partialPose));

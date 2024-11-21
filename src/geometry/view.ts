@@ -27,11 +27,11 @@ import { CameraModel } from './camera-model';
 import { IllegalArgumentError } from '../utils/errors';
 import { Nullable } from '../utils/utils';
 
-/** Default distance in pixels of the near plane to the optical center of the camera */
-const DEFAULT_NEAR = 1;
+/** Default distance of the near plane to the optical center of the camera */
+const DEFAULT_NEAR = 0.1;
 
-/** Default distance in pixels of the far plane to the optical center of the camera */
-const DEFAULT_FAR = 20000;
+/** Default distance of the far plane to the optical center of the camera */
+const DEFAULT_FAR = 10000 * DEFAULT_NEAR;
 
 
 /**
@@ -57,13 +57,13 @@ export class PerspectiveView implements View
     /** Camera model */
     private readonly _camera: CameraModel;
 
-    /** Distance of the near plane to the Z = 0 plane in viewer space */
+    /** Distance of the near plane to the optical center of the camera */
     private readonly _near: number;
 
-    /** Distance of the far plane to the Z = 0 plane in viewer space */
+    /** Distance of the far plane to the optical center of the camera*/
     private readonly _far: number;
 
-    /** A 4x4 matrix that projects the viewer space into the clip space, i.e., [-1,1]^3 */
+    /** A 4x4 matrix that projects viewer space into clip space, i.e., [-1,1]^3 */
     private readonly _projectionMatrix: SpeedyMatrix;
 
     /** The inverse of the projection matrix, computed lazily */
@@ -79,11 +79,13 @@ export class PerspectiveView implements View
      */
     constructor(camera: CameraModel, near: number = DEFAULT_NEAR, far: number = DEFAULT_FAR)
     {
-        this._near = Math.max(0, +near);
-        this._far = Math.max(0, +far);
+        this._near = +near;
+        this._far = +far;
 
         if(this._near >= this._far)
             throw new IllegalArgumentError(`View expects near < far (found near = ${this._near} and far = ${this._far})`);
+        else if(this._near <= 0)
+            throw new IllegalArgumentError(`View expects a positive near (found ${this._near})`);
 
         this._camera = camera;
         this._projectionMatrix = camera.computeProjectionMatrix(this._near, this._far);

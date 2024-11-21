@@ -165,7 +165,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         keypointPortalSource.source = templateKeypointPortalSink;
 
         // setup camera
-        this._camera.init(this._initialScreenSize);
+        const aspectRatio = initialScreenSize.width / initialScreenSize.height;
+        this._camera.init(aspectRatio);
 
         // emit event
         const ev = new ImageTrackerEvent('targetfound', referenceImage);
@@ -180,16 +181,14 @@ export class ImageTrackerTrackingState extends ImageTrackerState
      */
     onLeaveState(): void
     {
-        const referenceImage = this._referenceImage as ReferenceImage;
-
         // log
-        Utils.log(`No longer tracking image "${referenceImage.name}"!`);
+        Utils.log(`No longer tracking image "${this._referenceImage!.name}"!`);
 
         // release the camera
         this._camera.release();
 
         // emit event
-        const ev = new ImageTrackerEvent('targetlost', referenceImage);
+        const ev = new ImageTrackerEvent('targetlost', this._referenceImage!);
         this._imageTracker.dispatchEvent(ev);
     }
 
@@ -240,8 +239,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
      */
     protected _gpuUpdate(): SpeedyPromise<SpeedyPipelineOutput>
     {
-        // No turbo?
-        if(!USE_TURBO || Settings.powerPreference == 'low-power')
+        // Run the pipeline as usual
+        if(!USE_TURBO || Settings.powerPreference == 'low-power')// || Settings.powerPreference == 'high-performance')
             return super._gpuUpdate();
 
         // When using turbo, we reduce the GPU usage by skipping every other frame
@@ -315,17 +314,25 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // update counter
             this._counter = (this._counter + 1) % delay;
 
-            // update camera model FIXME
-            const toNDC = ImageTrackerUtils.rasterToNDC(screenSize);
-            const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
-            const homography = Speedy.Matrix(toScreen.times(this._poseHomography).times(toNDC));
+            /*
+            // test
+            console.log("POSE ", this._poseHomography.toString());
+            console.log("WARP ", this._warpHomography.toString());
+            console.log("AMOT ", Speedy.Matrix(affineMotion).toString());
+            console.log("PMOT ", Speedy.Matrix(perspectiveMotion).toString());
+            */
 
-            //console.log("PIXL ", homography.toString());
-            //console.log("POSE ", this._poseHomography.toString());
-            //console.log("WARP ", this._warpHomography.toString());
-            //console.log("> AF ", Speedy.Matrix(affineMotion).toString());
-            //console.log("> PF ", Speedy.Matrix(perspectiveMotion).toString());
+            // We transform the keypoints of the reference image to NDC as a
+            // convenience. However, doing so distorts the aspect ratio. Here
+            // we undo the distortion.
+            const referenceImageMedia = this._imageTracker.database._findMedia(this._referenceImage!.name);
+            const referenceImageAspectRatio = referenceImageMedia.size.width / referenceImageMedia.size.height;
+            //const scale = ImageTrackerUtils.inverseBestFitScaleNDC(referenceImageAspectRatio); // not preferred; extrapolates the bounds of NDC
+            const scale = ImageTrackerUtils.bestFitScaleNDC(1 / referenceImageAspectRatio); // preferred
+            const homography = Speedy.Matrix(this._poseHomography.times(scale));
+            //this._poseHomography = homography; // visualize the polyline becoming a square
 
+            // update camera model
             return this._camera.update(homography);
         })
         .then(() => {
@@ -333,7 +340,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // we let the target object be at the origin of the world space
             // (identity transform). We also perform a change of coordinates,
             // so that we move out from pixel space and into normalized space
-            const modelMatrix = this._camera.denormalizer(); // ~ "identity matrix"
+            const modelMatrix = Speedy.Matrix.Eye(4);
             const transform = new Transform(modelMatrix);
             const pose = new Pose(transform);
 
@@ -357,11 +364,11 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // tracker output
             const trackerOutput: ImageTrackerOutput = {
                 exports: result,
+                keypoints: keypoints,
                 //keypointsNIS: image !== undefined ? keypoints : undefined, // debug only
                 image: image,
                 polylineNDC: ImageTrackerUtils.findPolylineNDC(this._poseHomography),
-                cameraMatrix: this._camera.matrix,
-                screenSize: screenSize,
+                camera: this._camera,
             };
 
             // save the last output
