@@ -10,14 +10,6 @@ A virtual camera in 3D world space.
 
 The [pose](viewer-pose.md) of the viewer.
 
-### transform
-
-`viewer.transform: Transform, read-only`
-
-The [Transform](transform.md) of the viewer. The same as `pose.transform`.
-
-*Since:* 0.4.0
-
 ### view
 
 `viewer.view: View, read-only`
