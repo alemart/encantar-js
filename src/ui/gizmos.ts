@@ -26,6 +26,7 @@ import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { SpeedyKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { Viewport } from '../core/viewport';
+import { CameraModel } from '../geometry/camera-model';
 import { Tracker, TrackerOutput } from '../trackers/tracker';
 import { ImageTrackerOutput } from '../trackers/image-tracker/image-tracker';
 import { NIS_SIZE } from '../trackers/image-tracker/settings';
@@ -125,8 +126,7 @@ class ImageTrackerGizmos implements GizmosRenderer
         const viewportSize = viewport._realSize;
         const keypointsNIS = output.keypointsNIS;
         const polylineNDC = output.polylineNDC;
-        const cameraMatrix = output.cameraMatrix;
-        const screenSize = output.screenSize;
+        const camera = output.camera;
 
         // debug
         //ctx.fillStyle = '#000';
@@ -142,8 +142,8 @@ class ImageTrackerGizmos implements GizmosRenderer
             this._renderPolylineNDC(ctx, polylineNDC, viewportSize);
 
         // render the axes of the 3D coordinate system
-        if(cameraMatrix !== undefined && screenSize !== undefined)
-            this._renderAxes(ctx, cameraMatrix, screenSize, viewportSize);
+        if(camera !== undefined)
+            this._renderAxes(ctx, camera, viewportSize);
     }
 
     /**
@@ -259,22 +259,23 @@ class ImageTrackerGizmos implements GizmosRenderer
     /**
      * Render the axes of a 3D coordinate system
      * @param ctx canvas 2D context
-     * @param cameraMatrix 3x4 camera matrix that maps normalized coordinates [-1,1]^3 to AR screen space
-     * @param screenSize AR screen size
+     * @param camera camera model
      * @param viewportSize viewport size
      * @param lineWidth
      */
-    private _renderAxes(ctx: CanvasRenderingContext2D, cameraMatrix: SpeedyMatrix, screenSize: SpeedySize, viewportSize: SpeedySize, lineWidth = 4): void
+    private _renderAxes(ctx: CanvasRenderingContext2D, camera: CameraModel, viewportSize: SpeedySize, lineWidth = 4): void
     {
         const RED = '#f00', GREEN = '#0f0', BLUE = '#00f';
         const color = [ RED, GREEN, BLUE ]; // color of each axis: (X,Y,Z)
         const length = 1; // length of each axis-corresponding line, given in normalized space units
-        const sx = viewportSize.width / screenSize.width;
-        const sy = viewportSize.height / screenSize.height;
+        const w = viewportSize.width;
+        const h = viewportSize.height;
+        const iw = 1 / (camera.imageSize.width / 2);
+        const ih = -1 / (camera.imageSize.height / 2);
 
         /*
 
-        Multiply the 3x4 camera matrix P by:
+        Multiply the 3x4 camera matrix by:
 
         [ 0  L  0  0 ]
         [ 0  0  L  0 ] , where L = length in normalized space of the lines
@@ -288,7 +289,7 @@ class ImageTrackerGizmos implements GizmosRenderer
 
         */
 
-        const p = cameraMatrix.read();
+        const p = camera.matrix.read();
         const l = length;
         const o = [ p[9], p[10], p[11] ]; // origin of the coordinate system
         const x = [ l*p[0]+p[9], l*p[1]+p[10], l*p[2]+p[11] ]; // x-axis
@@ -303,8 +304,8 @@ class ImageTrackerGizmos implements GizmosRenderer
             const x = q[0] / q[2], y = q[1] / q[2];
 
             ctx.beginPath();
-            ctx.moveTo(ox * sx, oy * sy);
-            ctx.lineTo(x * sx, y * sy);
+            ctx.moveTo((ox * iw * 0.5 + 0.5) * w, (oy * ih * 0.5 + 0.5) * h);
+            ctx.lineTo((x * iw * 0.5 + 0.5) * w, (y * ih * 0.5 + 0.5) * h);
             ctx.strokeStyle = color[i];
             ctx.lineWidth = lineWidth;
             ctx.stroke();

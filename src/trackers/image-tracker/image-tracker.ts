@@ -53,6 +53,7 @@ import { ImageTrackerEvent, ImageTrackerEventType } from './image-tracker-event'
 import { SpeedyPoint2 } from 'speedy-vision/types/core/speedy-point';
 import { Viewer } from '../../geometry/viewer';
 import { Pose } from '../../geometry/pose';
+import { CameraModel } from '../../geometry/camera-model';
 
 /** A trackable target */
 export interface TrackableImage extends Trackable
@@ -83,26 +84,17 @@ export interface ImageTrackerOutput extends TrackerOutput
     /** tracker result to be consumed by the user */
     readonly exports?: ImageTrackerResult;
 
-    /** size of the AR screen space, in pixels */
-    readonly screenSize?: SpeedySize;
-
-    /** optional keypoints */
+    /** keypoints found in this framestep */
     readonly keypoints?: SpeedyKeypoint[];
 
-    /** optional keypoints */
+    /** optional keypoints for visualizing & testing */
     readonly keypointsNIS?: SpeedyKeypoint[];
 
-    /** optional polyline for testing */
-    readonly polyline?: SpeedyPoint2[];
-
-    /** optional polyline for testing */
+    /** optional polyline for visualizing & testing */
     readonly polylineNDC?: SpeedyPoint2[];
 
-    /** optional 3x4 camera matrix in AR screen space */
-    readonly cameraMatrix?: SpeedyMatrix;
-
-    /** 3x3 homography in AR screen space */
-    homography?: SpeedyMatrix;
+    /** optional camera model for visualizing & testing */
+    readonly camera?: CameraModel;
 }
 
 /** All possible states of an Image Tracker */
