@@ -23,7 +23,7 @@
 import Speedy from 'speedy-vision';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { ReferenceImage } from './reference-image';
+import { ReferenceImage, ReferenceImageWithMedia } from './reference-image';
 import { Utils } from '../../utils/utils';
 import { IllegalArgumentError, IllegalOperationError } from '../../utils/errors';
 
@@ -33,28 +33,13 @@ const DEFAULT_CAPACITY = 100; // this number should exceed normal usage
                               // further testing is needed to verify the appropriateness of this number;
                               // it depends on the images, on the keypoint descriptors, and even on the target devices
 
-/** Generate a unique name for a reference image */
-const generateUniqueName = () => 'target-' + Math.random().toString(16).substr(2);
-
-/**
- * An entry of a Reference Image Database
- */
-interface ReferenceImageDatabaseEntry
-{
-    /** reference image */
-    readonly referenceImage: ReferenceImage;
-
-    /** previously loaded media */
-    readonly media: SpeedyMedia;
-}
-
 /**
  * A collection of Reference Images
  */
 export class ReferenceImageDatabase implements Iterable<ReferenceImage>
 {
     /** Entries */
-    private _entries: Map<string, ReferenceImageDatabaseEntry>;
+    private _entries: Map<string, ReferenceImageWithMedia>;
 
     /** Maximum number of entries */
     private _capacity: number;
@@ -62,8 +47,6 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
     /** Is the database locked? */
     private _locked: boolean;
 
-    /** Are we busy loading an image? */
-    private _busy: boolean;
 
 
 
@@ -75,7 +58,6 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
         this._capacity = DEFAULT_CAPACITY;
         this._entries = new Map();
         this._locked = false;
-        this._busy = false;
     }
 
     /**
@@ -111,11 +93,9 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
     /**
      * Iterates over the collection
      */
-    *[Symbol.iterator](): Iterator<ReferenceImage>
+    [Symbol.iterator](): Iterator<ReferenceImageWithMedia>
     {
-        const arr = Array.from(this._entries.values());
-        const ref = arr.map(entry => entry.referenceImage);
-        yield* ref;
+        return this._entries.values();
     }
 
     /**
@@ -128,56 +108,40 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     add(referenceImages: ReferenceImage[]): SpeedyPromise<void>
     {
-        const n = referenceImages.length;
-
-        // handle no input
-        if(n == 0)
-            return Speedy.Promise.resolve();
-
-        // handle multiple images as input
-        if(n > 1) {
-            Utils.log(`Loading ${n} reference image${n != 1 ? 's' : ''}...`);
-            const preloadMedias = referenceImages.map(referenceImage => Speedy.load(referenceImage.image));
-            return Speedy.Promise.all(preloadMedias).then(() => {
-                const promises = referenceImages.map(referenceImage => this.add([ referenceImage ]));
-                return Utils.runInSequence(promises);
+        return this._preloadMany(referenceImages).then(referenceImagesWithMedia => {
+            referenceImagesWithMedia.forEach(referenceImageWithMedia => {
+                this._addOne(referenceImageWithMedia);
             });
-        }
+        });
+    }
 
-        // handle a single image as input
-        const referenceImage = referenceImages[0];
+    /**
+     * Add a single preloaded reference image to the database
+     * @param referenceImage
+     */
+    _addOne(referenceImage: ReferenceImageWithMedia): void
+    {
+        const name = referenceImage.name;
 
         // locked database?
         if(this._locked)
-            throw new IllegalOperationError(`Can't add reference image "${referenceImage.name}" to the database: it's locked`);
-
-        // busy loading another image?
-        if(this._busy)
-            return Utils.wait(4).then(() => this.add(referenceImages)); // try again later
+            throw new IllegalOperationError(`Can't add reference image "${name}" to the database: it's locked`);
 
         // reached full capacity?
         if(this.count >= this.capacity)
-            throw new IllegalOperationError(`Can't add reference image "${referenceImage.name}" to the database: the capacity of ${this.capacity} images has been exceeded.`);
+            throw new IllegalOperationError(`Can't add reference image "${name}" to the database: the capacity of ${this.capacity} images has been exceeded.`);
 
         // check if the image is valid
         if(!(referenceImage.image instanceof HTMLImageElement) && !(referenceImage.image instanceof HTMLCanvasElement) && !(referenceImage.image instanceof ImageBitmap))
-            throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: invalid image`);
+            throw new IllegalArgumentError(`Can't add reference image "${name}" to the database: invalid image`);
 
         // check for duplicate names
-        if(this._entries.has(referenceImage.name))
-            throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: found duplicated name`);
+        if(this._entries.has(name))
+            throw new IllegalArgumentError(`Can't add reference image "${name}" to the database: found duplicated name`);
 
         // add the reference image to the database
-        Utils.log(`Adding reference image "${referenceImage.name}" to the database...`);
-        this._busy = true;
-        return Speedy.load(referenceImage.image).then(media => {
-            const name = referenceImage.name || generateUniqueName();
-            this._busy = false;
-            this._entries.set(name, {
-                referenceImage: Object.freeze(Object.assign({ }, referenceImage, { name })),
-                media: media
-            });
-        });
+        Utils.log(`Adding reference image "${name}" to the database...`);
+        this._entries.set(name, referenceImage);
     }
 
     /**
@@ -186,25 +150,51 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     _lock(): void
     {
-        if(this._busy)
-            throw new IllegalOperationError(`Can't lock the reference image database: we're busy loading an image`);
-
         this._locked = true;
     }
 
     /**
-     * Get the media object associated to a reference image
-     * @param name reference image name
-     * @returns media
+     * Get reference image by name
+     * @param name
+     * @returns the reference image with the given name, or null if there isn't any
      * @internal
      */
-    _findMedia(name: string): SpeedyMedia
+    _find(name: string): ReferenceImageWithMedia | null
     {
-        const entry = this._entries.get(name);
+        return this._entries.get(name) || null;
+    }
 
-        if(!entry)
-            throw new IllegalArgumentError(`Can't find reference image "${name}"`);
+    /**
+     * Load a reference image
+     * @param referenceImage
+     * @returns a promise that resolves to a corresponding ReferenceImageWithMedia
+     */
+    private _preloadOne(referenceImage: ReferenceImage): SpeedyPromise<ReferenceImageWithMedia>
+    {
+        if(referenceImage.name !== undefined)
+            Utils.log(`Loading reference image \"${referenceImage.name}\"...`);
+        else
+            Utils.log(`Loading reference image...`);
 
-        return entry.media;
+        if(!referenceImage.image)
+            return Speedy.Promise.reject(new IllegalArgumentError('The reference image was not provided!'));
+
+        return Speedy.load(referenceImage.image).then(media => {
+            return new ReferenceImageWithMedia(referenceImage, media);
+        });
+    }
+
+    /**
+     * Load multiple reference images
+     * @param referenceImages
+     * @returns a promise that resolves to corresponding ReferenceImageWithMedia objects
+     */
+    private _preloadMany(referenceImages: ReferenceImage[]): SpeedyPromise<ReferenceImageWithMedia[]>
+    {
+        const n = referenceImages.length;
+        Utils.log(`Loading ${n} reference image${n != 1 ? 's' : ''}...`);
+
+        const promises = referenceImages.map(referenceImage => this._preloadOne(referenceImage));
+        return Speedy.Promise.all<ReferenceImageWithMedia>(promises);
     }
 }

@@ -33,8 +33,7 @@ import { Resolution } from '../../../utils/resolution';
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName } from '../image-tracker';
 import { ImageTrackerUtils, ImageTrackerKeypointPair } from '../image-tracker-utils';
 import { ImageTrackerState, ImageTrackerStateOutput } from './state';
-import { ReferenceImage } from '../reference-image';
-import { ReferenceImageDatabase } from '../reference-image-database';
+import { ReferenceImage, ReferenceImageWithMedia } from '../reference-image';
 import { Nullable, Utils } from '../../../utils/utils';
 import { IllegalOperationError, TrainingError } from '../../../utils/errors';
 import {
@@ -60,7 +59,7 @@ interface TrainingMap
     readonly referenceImageIndex: number[];
 
     /** reference images */
-    readonly referenceImages: ReferenceImage[];
+    readonly referenceImages: ReferenceImageWithMedia[];
 }
 
 
@@ -142,15 +141,13 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         const keypointScaler = this._pipeline.node('keypointScaler') as SpeedyPipelineNodeKeypointTransformer;
 
         // set the appropriate training media
-        const database = this._imageTracker.database;
         const referenceImage = this._trainingMap.referenceImages[this._currentImageIndex];
-        const media = database._findMedia(referenceImage.name);
-        source.media = media;
+        source.media = referenceImage.media;
 
         // compute the appropriate size of the training image space
         const resolution = this._imageTracker.resolution;
         const scale = TRAIN_IMAGE_SCALE; // ORB is not scale-invariant
-        const aspectRatioOfTrainingImage = media.width / media.height;
+        const aspectRatioOfTrainingImage = referenceImage.aspectRatio;
 
         screen.size = Utils.resolution(resolution, aspectRatioOfTrainingImage);
         screen.size.width = Math.round(screen.size.width * scale);
@@ -305,7 +302,7 @@ export class ImageTrackerTrainingState extends ImageTrackerState
      * @param keypointIndex -1 if not found
      * @returns reference image
      */
-    referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImage>
+    referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImageWithMedia>
     {
         const imageIndex = this.referenceImageIndexOfKeypoint(keypointIndex);
         if(imageIndex < 0)

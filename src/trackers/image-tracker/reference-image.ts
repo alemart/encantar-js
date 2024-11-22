@@ -20,14 +20,104 @@
  * Reference Image for tracking
  */
 
+import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
+
+type ReferenceImageType = HTMLImageElement | HTMLCanvasElement | ImageBitmap;
+
+
+
 /**
  * Reference Image for tracking
  */
 export interface ReferenceImage
 {
     /** Reference Images should have unique names given by the user */
-    readonly name: string;
+    name?: string;
 
     /** Image data */
-    readonly image: HTMLImageElement | HTMLCanvasElement | ImageBitmap;
+    readonly image: ReferenceImageType;
+}
+
+/**
+ * A ReferenceImage decorated with a SpeedyMedia
+ */
+export class ReferenceImageWithMedia implements ReferenceImage
+{
+    /** The decorated reference image */
+    private _referenceImage: ReferenceImage;
+
+    /** A SpeedyMedia corresponding to the reference image */
+    private readonly _media: SpeedyMedia;
+
+    /** The aspect ratio of the reference image */
+    private readonly _aspectRatio: number;
+
+
+
+    /**
+     * Constructor
+     * @param referenceImage
+     * @param media
+     */
+    constructor(referenceImage: ReferenceImage, media: SpeedyMedia)
+    {
+        this._referenceImage = Object.assign({}, referenceImage);
+        this._media = media;
+
+        // generate a unique name if none is given
+        if(this._referenceImage.name === undefined)
+            this._referenceImage.name = this._generateUniqueName();
+
+        // store the aspect ratio
+        this._aspectRatio = media.width / media.height;
+    }
+
+    /**
+     * Getter of the name of the reference image
+     */
+    get name(): string
+    {
+        return this._referenceImage.name!;
+    }
+
+    /**
+     * Setter of the name of the reference image
+     */
+    set name(name: string)
+    {
+        this._referenceImage.name = name;
+    }
+
+    /**
+     * The image data
+     */
+    get image(): ReferenceImageType
+    {
+        return this._referenceImage.image;
+    }
+
+    /**
+     * A SpeedyMedia corresponding to the reference media
+     */
+    get media(): SpeedyMedia
+    {
+        return this._media;
+    }
+
+    /**
+     * The aspect ratio of the reference image
+     */
+    get aspectRatio(): number
+    {
+        return this._aspectRatio;
+    }
+
+    /**
+     * Generate a unique name for a reference image
+     * @returns a unique name
+     */
+    private _generateUniqueName(): string
+    {
+        return 'target-' + Math.random().toString(16).substr(2);
+    }
 }

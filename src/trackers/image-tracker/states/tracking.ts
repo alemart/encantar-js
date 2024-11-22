@@ -44,7 +44,7 @@ import { ImageTrackerUtils, ImageTrackerKeypointPair } from '../image-tracker-ut
 import { ImageTrackerEvent } from '../image-tracker-event';
 import { ImageTrackerState, ImageTrackerStateOutput } from './state';
 import { Nullable, Utils } from '../../../utils/utils';
-import { ReferenceImage } from '../reference-image';
+import { ReferenceImage, ReferenceImageWithMedia } from '../reference-image';
 import { CameraModel } from '../../../geometry/camera-model';
 import { Viewer } from '../../../geometry/viewer';
 import { Pose } from '../../../geometry/pose';
@@ -77,7 +77,7 @@ const NUMBER_OF_PBOS = 2;
 export class ImageTrackerTrackingState extends ImageTrackerState
 {
     /** tracked image */
-    private _referenceImage: Nullable<ReferenceImage>;
+    private _referenceImage: Nullable<ReferenceImageWithMedia>;
 
     /** current homography (for warping) */
     private _warpHomography: SpeedyMatrix;
@@ -139,7 +139,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
     onEnterState(settings: Record<string,any>)
     {
         const homography = settings.homography as SpeedyMatrix; // NDC, from reference image to video
-        const referenceImage = settings.referenceImage as Nullable<ReferenceImage>;
+        const referenceImage = settings.referenceImage as Nullable<ReferenceImageWithMedia>;
         const templateKeypoints = settings.templateKeypoints as SpeedyKeypoint[];
         const templateKeypointPortalSink = settings.templateKeypointPortalSink as SpeedyPipelineNodeKeypointPortalSink;
         const initialScreenSize = settings.initialScreenSize as SpeedySize; // this.screenSize is not yet set
@@ -325,10 +325,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // We transform the keypoints of the reference image to NDC as a
             // convenience. However, doing so distorts the aspect ratio. Here
             // we undo the distortion.
-            const referenceImageMedia = this._imageTracker.database._findMedia(this._referenceImage!.name);
-            const referenceImageAspectRatio = referenceImageMedia.size.width / referenceImageMedia.size.height;
-            //const scale = ImageTrackerUtils.inverseBestFitScaleNDC(referenceImageAspectRatio); // not preferred; extrapolates the bounds of NDC
-            const scale = ImageTrackerUtils.bestFitScaleNDC(1 / referenceImageAspectRatio); // preferred
+            //const scale = ImageTrackerUtils.inverseBestFitScaleNDC(referenceImage.aspectRatio); // not preferred; extrapolates the bounds of NDC
+            const scale = ImageTrackerUtils.bestFitScaleNDC(1 / referenceImage.aspectRatio); // preferred
             const homography = Speedy.Matrix(this._poseHomography.times(scale));
             //this._poseHomography = homography; // visualize the polyline becoming a square
 

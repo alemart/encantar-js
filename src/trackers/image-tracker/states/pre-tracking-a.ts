@@ -38,7 +38,7 @@ import { SpeedyKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName } from '../image-tracker';
 import { ImageTrackerUtils, ImageTrackerKeypointPair } from '../image-tracker-utils';
 import { ImageTrackerState, ImageTrackerStateOutput } from './state';
-import { ReferenceImage } from '../reference-image';
+import { ReferenceImage, ReferenceImageWithMedia } from '../reference-image';
 import { Nullable, Utils } from '../../../utils/utils';
 import { TrackingError } from '../../../utils/errors';
 import {
@@ -62,7 +62,7 @@ import {
 export class ImageTrackerPreTrackingAState extends ImageTrackerState
 {
     /** reference image */
-    private _referenceImage: Nullable<ReferenceImage>;
+    private _referenceImage: Nullable<ReferenceImageWithMedia>;
 
     /** a snapshot of the video from the scanning state and corresponding to the initial homography */
     private _snapshot: Nullable<SpeedyPipelineNodeImagePortalSink>;
@@ -92,7 +92,7 @@ export class ImageTrackerPreTrackingAState extends ImageTrackerState
     onEnterState(settings: Record<string,any>)
     {
         const homography = settings.homography as SpeedyMatrix;
-        const referenceImage = settings.referenceImage as ReferenceImage;
+        const referenceImage = settings.referenceImage as ReferenceImageWithMedia;
         const snapshot = settings.snapshot as SpeedyPipelineNodeImagePortalSink;
 
         // set attributes
@@ -114,7 +114,7 @@ export class ImageTrackerPreTrackingAState extends ImageTrackerState
         const borderClipper = this._pipeline.node('borderClipper') as SpeedyPipelineNodeKeypointBorderClipper;
 
         // set the reference image as the source image
-        source.media = this._imageTracker.database._findMedia(this._referenceImage!.name);
+        source.media = this._referenceImage!.media;
 
         // clip keypoints from the borders of the target image
         borderClipper.imageSize = screenSize;

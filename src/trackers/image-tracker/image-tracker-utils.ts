@@ -29,7 +29,7 @@ import { SpeedyPoint2 } from 'speedy-vision/types/core/speedy-point';
 import { SpeedyVector2 } from 'speedy-vision/types/core/speedy-vector';
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { ImageTracker } from './image-tracker';
-import { ReferenceImage } from './reference-image';
+import { ReferenceImageWithMedia } from './reference-image';
 import { Utils } from '../../utils/utils';
 import { IllegalOperationError, IllegalArgumentError, NumericalError } from '../../utils/errors';
 import { NIS_SIZE, TRACK_GRID_GRANULARITY } from './settings';
@@ -166,12 +166,10 @@ export class ImageTrackerUtils
      * @param referenceImage
      * @returns a best-fit aspect ratio
      */
-    static bestFitAspectRatioNDC(imageTracker: ImageTracker, referenceImage: ReferenceImage): number
+    static bestFitAspectRatioNDC(imageTracker: ImageTracker, referenceImage: ReferenceImageWithMedia): number
     {
         const screenSize = imageTracker.screenSize;
         const screenAspectRatio = screenSize.width / screenSize.height;
-        const referenceImageMedia = imageTracker.database._findMedia(referenceImage.name);
-        const referenceImageAspectRatio = referenceImageMedia.size.width / referenceImageMedia.size.height;
 
         /*
         
@@ -194,7 +192,7 @@ export class ImageTrackerUtils
 
         */
 
-        return referenceImageAspectRatio / screenAspectRatio;
+        return referenceImage.aspectRatio / screenAspectRatio;
     }
 
     /**

@@ -37,7 +37,7 @@ import { Tracker, TrackerOutput, TrackerResult, Trackable } from '../tracker';
 import { Session } from '../../core/session';
 import { IllegalOperationError, IllegalArgumentError } from '../../utils/errors';
 import { Resolution } from '../../utils/resolution';
-import { ReferenceImage } from './reference-image';
+import { ReferenceImage, ReferenceImageWithMedia } from './reference-image';
 import { ReferenceImageDatabase } from './reference-image-database';
 import { ImageTrackerState } from './states/state';
 import { ImageTrackerInitialState } from './states/initial';
@@ -320,7 +320,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
      * @returns reference image
      * @internal
      */
-    _referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImage>
+    _referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImageWithMedia>
     {
         const training = this._state.training as ImageTrackerTrainingState;
         return training.referenceImageOfKeypoint(keypointIndex);
