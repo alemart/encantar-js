@@ -22,7 +22,7 @@
 
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 
-type ReferenceImageType = HTMLImageElement | HTMLCanvasElement | ImageBitmap;
+type ReferenceImageType = HTMLImageElement | ImageBitmap | ImageData;
 
 
 
@@ -44,7 +44,7 @@ export interface ReferenceImage
 export class ReferenceImageWithMedia implements ReferenceImage
 {
     /** The decorated reference image */
-    private _referenceImage: ReferenceImage;
+    private readonly _referenceImage: ReferenceImage;
 
     /** A SpeedyMedia corresponding to the reference image */
     private readonly _media: SpeedyMedia;
@@ -89,7 +89,7 @@ export class ReferenceImageWithMedia implements ReferenceImage
     }
 
     /**
-     * The image data
+     * Image data
      */
     get image(): ReferenceImageType
     {

@@ -132,7 +132,11 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
             throw new IllegalOperationError(`Can't add reference image "${name}" to the database: the capacity of ${this.capacity} images has been exceeded.`);
 
         // check if the image is valid
-        if(!(referenceImage.image instanceof HTMLImageElement) && !(referenceImage.image instanceof HTMLCanvasElement) && !(referenceImage.image instanceof ImageBitmap))
+        if(
+            !(referenceImage.image instanceof HTMLImageElement) &&
+            !(referenceImage.image instanceof ImageBitmap) &&
+            !(referenceImage.image instanceof ImageData)
+        )
             throw new IllegalArgumentError(`Can't add reference image "${name}" to the database: invalid image`);
 
         // check for duplicate names
