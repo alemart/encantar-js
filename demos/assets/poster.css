@@ -1,0 +1,96 @@
+body {
+    background-color: #33334c;
+    background-image: url(mage.webp);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+#qr-code-area {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    color: black;
+    background-color: white;
+    border-radius: 16px;
+    padding: 0.5em;
+    text-align: center;
+    font-weight: bold;
+    font-family: sans-serif;
+    font-size: 1.25em;
+}
+
+#qr-code-area h4 {
+    margin: 0;
+}
+
+#qr-code {
+    image-rendering: pixelated;
+    min-width: 120px;
+    height: auto;
+}
+
+#back {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    padding: 8px;
+    color: #9999a6;
+    background-color: #33334c;
+    font-family: sans-serif;
+    font-size: 1em;
+    text-decoration: underline;
+    transition: color 0.125s;
+}
+
+#back:visited {
+    color: #9999a6;
+}
+
+#back:active, #back:hover {
+    color: white;
+}
+
+#prev, #next {
+    position: fixed;
+    top: calc(50% - 55px);
+    font-size: 96px;
+    color: white;
+    text-decoration: none;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+    transition: transform 0.125s;
+}
+
+#prev {
+    left: 8%;
+}
+
+#next {
+    right: 8%;
+}
+
+#prev:hover {
+    opacity: 1.0;
+    transform: translateX(-4px);
+}
+
+#next:hover {
+    opacity: 1.0;
+    transform: translateX(4px);
+}
+
+#prev::before {
+    content: "\276E";
+}
+
+#next::before {
+    content: "\276F";
+}

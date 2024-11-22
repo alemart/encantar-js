@@ -12,7 +12,7 @@ Once you pick a 3D rendering technology, you need to integrate it with encantar.
 
 Writing a plugin is a task of moderate complexity. It requires dealing with maths and with some idiosyncrasies of the 3D rendering technologies in order to make sure that it all works as intended. I provide easy-to-use plugins that work with different 3D rendering technologies, so that you don't need to deal with that complexity yourself. Plugins are shipped as JavaScript (.js) files. You just need to add a plugin to your web page, and then the integration will be done for you!
 
-[Get the plugins](https://github.com/alemart/encantar-js/tree/master/plugins){ .md-button .md-button--primary ._blank }
+[Get the plugins in the demos](/encantar-js/demos){ .md-button .md-button--primary ._blank }
 
 ## Create the virtual scene
 
@@ -26,20 +26,14 @@ Let me tell you more about the 3D rendering technologies I just mentioned.
 
 A-Frame is built on top of [Three.js](#threejs) and extends it in powerful ways. It introduces a HTML-based declarative approach for [scene graphs](https://en.wikipedia.org/wiki/Scene_graph){ ._blank }, empowering them with the [Entity-Component-System](https://en.wikipedia.org/wiki/Entity_component_system){ ._blank }, a software pattern commonly used in game development. A-Frame is easy for beginners and pleasing for experts. In many cases, writing JavaScript code is not needed.
 
-[Launch an A-Frame demo](/encantar-js/demos/hello-aframe/README.html){ ._blank .md-button }
-
 ### Babylon.js
 
 [Babylon.js](https://www.babylonjs.com){ ._blank } is a powerful open-source game and 3D rendering engine for the web. It includes pretty much all features you commonly find in 3D rendering engines (scene graphs, lights, materials, meshes, animations, etc.), plus systems that are specific to game engines (audio engine, collision system, physics system, support for sprites, etc.), plus all kinds of sophisticated features for various applications.
 
 Babylon.js has an amazing documentation with plenty of learning resources, as well as a helpful and friendly community! Even though it can be used by beginners, it's recommended to have experience with JavaScript before creating projects with it.
 
-[Launch a Babylon.js demo](/encantar-js/demos/hello-babylon/README.html){ ._blank .md-button }
-
 ### Three.js
 
 [Three.js](https://threejs.org){ ._blank } is a popular open-source JavaScript library used to render 3D graphics in web browsers. It has many features, including: scene graphs, cameras, animations, lights, materials, loading of 3D models, mathematical utilities, special effects, and more. It has an active and vibrant community. Many community-made extensions are available.
 
 Using Three.js requires more JavaScript experience than using A-Frame in most cases, but it's also a great choice if you're comfortable with coding. Compared to A-Frame, Three.js offers you additional freedom on how you can organize your code, because it's a library, not a framework.
-
-[Launch a Three.js demo](/encantar-js/demos/hello-three/README.html){ ._blank .md-button }

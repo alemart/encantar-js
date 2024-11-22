@@ -63,8 +63,7 @@ nav:
     - 'Support my work': 'support-my-work.md'
     - 'License': 'license.md'
   - 'Download': 'download.md'
-  - 'Demos':
-    - 'Demo gallery': 'demos.md'
+  - 'Demos': 'demos.md'
   - 'API':
     - 'General':
       - 'AR': 'api/ar.md'

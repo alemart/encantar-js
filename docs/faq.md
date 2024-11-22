@@ -8,6 +8,17 @@ encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web
 
 Refer to the [concepts](./getting-started/concepts.md).
 
+## What are your recommendations for WebAR?
+
+For a good experience with WebAR:
+
+* Don't move the camera nor the target image too quickly. This produces motion blur.
+* The target image should appear clearly in the video.
+* The physical environment should be properly illuminated.
+* If you're scanning the image on a screen, make sure to adjust the brightness. If the screen is too bright (too dark), it will cause overexposure (underexposure) in the video and tracking difficulties - details of the images will be lost. Screen reflections are also undesirable.
+* If you print the image, avoid shiny materials (e.g., glossy paper). They may generate artifacts in the image and interfere with the tracking. Prefer non-reflective materials.
+* Avoid low-quality cameras. Cameras of common smartphones are okay.
+
 ## Is this WebXR?
 
 No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely available. My intention is to give it broad compatibility.
