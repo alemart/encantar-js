@@ -54,7 +54,7 @@ interface ReferenceImageDatabaseEntry
 export class ReferenceImageDatabase implements Iterable<ReferenceImage>
 {
     /** Entries */
-    private _entries: ReferenceImageDatabaseEntry[];
+    private _entries: Map<string, ReferenceImageDatabaseEntry>;
 
     /** Maximum number of entries */
     private _capacity: number;
@@ -73,7 +73,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
     constructor()
     {
         this._capacity = DEFAULT_CAPACITY;
-        this._entries = [];
+        this._entries = new Map();
         this._locked = false;
         this._busy = false;
     }
@@ -83,7 +83,7 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     get count(): number
     {
-        return this._entries.length;
+        return this._entries.size;
     }
 
     /**
@@ -113,7 +113,8 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     *[Symbol.iterator](): Iterator<ReferenceImage>
     {
-        const ref = this._entries.map(entry => entry.referenceImage);
+        const arr = Array.from(this._entries.values());
+        const ref = arr.map(entry => entry.referenceImage);
         yield* ref;
     }
 
@@ -127,14 +128,20 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     add(referenceImages: ReferenceImage[]): SpeedyPromise<void>
     {
+        const n = referenceImages.length;
+
         // handle no input
-        if(referenceImages.length == 0)
+        if(n == 0)
             return Speedy.Promise.resolve();
 
         // handle multiple images as input
-        if(referenceImages.length > 1) {
-            const promises = referenceImages.map(image => this.add([ image ]));
-            return Utils.runInSequence(promises);
+        if(n > 1) {
+            Utils.log(`Loading ${n} reference image${n != 1 ? 's' : ''}...`);
+            const preloadMedias = referenceImages.map(referenceImage => Speedy.load(referenceImage.image));
+            return Speedy.Promise.all(preloadMedias).then(() => {
+                const promises = referenceImages.map(referenceImage => this.add([ referenceImage ]));
+                return Utils.runInSequence(promises);
+            });
         }
 
         // handle a single image as input
@@ -157,19 +164,17 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
             throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: invalid image`);
 
         // check for duplicate names
-        if(this._entries.find(entry => entry.referenceImage.name === referenceImage.name) !== undefined)
+        if(this._entries.has(referenceImage.name))
             throw new IllegalArgumentError(`Can't add reference image "${referenceImage.name}" to the database: found duplicated name`);
 
-        // load the media and add the reference image to the database
-        Utils.log(`Loading reference image "${referenceImage.name}"...`);
+        // add the reference image to the database
+        Utils.log(`Adding reference image "${referenceImage.name}" to the database...`);
         this._busy = true;
         return Speedy.load(referenceImage.image).then(media => {
+            const name = referenceImage.name || generateUniqueName();
             this._busy = false;
-            this._entries.push({
-                referenceImage: Object.freeze({
-                    ...referenceImage,
-                    name: referenceImage.name || generateUniqueName()
-                }),
+            this._entries.set(name, {
+                referenceImage: Object.freeze(Object.assign({ }, referenceImage, { name })),
                 media: media
             });
         });
@@ -195,11 +200,11 @@ export class ReferenceImageDatabase implements Iterable<ReferenceImage>
      */
     _findMedia(name: string): SpeedyMedia
     {
-        for(let i = 0; i < this._entries.length; i++) {
-            if(this._entries[i].referenceImage.name === name)
-                return this._entries[i].media;
-        }
+        const entry = this._entries.get(name);
 
-        throw new IllegalArgumentError(`Can't find reference image "${name}"`);
+        if(!entry)
+            throw new IllegalArgumentError(`Can't find reference image "${name}"`);
+
+        return entry.media;
     }
 }
