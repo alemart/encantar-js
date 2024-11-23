@@ -18,6 +18,7 @@ class EnchantedDemo extends ARDemo
         super();
 
         this._objects = { };
+        this._initialized = false;
     }
 
     /**
@@ -99,7 +100,7 @@ class EnchantedDemo extends ARDemo
         });
 
         // Change the point of view - slightly
-        ar.root.position.y = -0.5;
+        ar.root.position.y = -0.8;
 
         // Initialize objects
         this._initLight(ar);
@@ -110,6 +111,9 @@ class EnchantedDemo extends ARDemo
             this._initMage(ar),
             this._initCat(ar),
         ]);
+
+        // done!
+        this._initialized = true;
     }
 
     /**
@@ -130,7 +134,7 @@ class EnchantedDemo extends ARDemo
 
     _initLight(ar)
     {
-        const light = new BABYLON.HemisphericLight('light', BABYLON.Vector3.Down());
+        const light = new BABYLON.HemisphericLight('light', BABYLON.Vector3.Up());
         light.intensity = 1.0;
         light.diffuse.set(1, 1, 0.9);
         light.specular.set(0, 0, 0);
@@ -229,6 +233,12 @@ class EnchantedDemo extends ARDemo
 
     _onTargetFound(referenceImage)
     {
+        // make sure that the scene is initialized
+        if(!this._initialized) {
+            alert(`Target \"${referenceImage.name}\" was found, but the 3D scene is not yet initialized!`);
+            return;
+        }
+
         // change the scene based on the tracked image
         switch(referenceImage.name) {
             case 'mage':

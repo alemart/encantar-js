@@ -92,6 +92,7 @@ class EnchantedDemo extends ARDemo
         super();
 
         this._objects = { };
+        this._initialized = false;
     }
 
     /**
@@ -169,9 +170,9 @@ class EnchantedDemo extends ARDemo
         // ar.root, a node that is automatically aligned to the physical scene.
         // Adjusting ar.root will adjust all virtual objects.
         Utils.switchToFrontView(ar);
-        ar.root.position.set(0, -0.5, 0);
+        ar.root.position.set(0, -0.8, 0);
 
-        // initialize objects
+        // Initialize objects
         this._initLight(ar);
         this._initText(ar);
         this._initMagicCircle(ar);
@@ -180,6 +181,9 @@ class EnchantedDemo extends ARDemo
             this._initMage(ar),
             this._initCat(ar),
         ]);
+
+        // done!
+        this._initialized = true;
     }
 
     /**
@@ -298,6 +302,12 @@ class EnchantedDemo extends ARDemo
 
     _onTargetFound(referenceImage)
     {
+        // make sure that the scene is initialized
+        if(!this._initialized) {
+            alert(`Target \"${referenceImage.name}\" was found, but the 3D scene is not yet initialized!`);
+            return;
+        }
+
         // change the scene based on the tracked image
         switch(referenceImage.name) {
             case 'mage':
