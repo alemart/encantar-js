@@ -226,15 +226,11 @@
   
 
 
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../demos/" class="md-tabs__link">
-        Demos
-      </a>
-    </li>
-  
+  <li class="md-tabs__item">
+    <a href="../demos/" class="md-tabs__link">
+      Demos
+    </a>
+  </li>
 
       
         
@@ -582,6 +578,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-are-your-recommendations-for-webar" class="md-nav__link">
+    What are your recommendations for WebAR?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#is-this-webxr" class="md-nav__link">
     Is this WebXR?
   </a>
@@ -674,43 +677,10 @@
   
   
   
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4">
-          Demos
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Demos" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          Demos
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../demos/" class="md-nav__link">
-        Demo gallery
+        Demos
       </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -1689,6 +1659,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-are-your-recommendations-for-webar" class="md-nav__link">
+    What are your recommendations for WebAR?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#is-this-webxr" class="md-nav__link">
     Is this WebXR?
   </a>
@@ -1740,6 +1717,16 @@
 <p>encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name is derived from the Portuguese and Spanish word <em>encantar</em>, which means: to enchant, to delight, to love, to fascinate, to put a magical spell on someone or something. <img alt="✨" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" title=":sparkles:" /></p>
 <h2 id="what-is-webar">What is WebAR?</h2>
 <p>Refer to the <a href="../getting-started/concepts/">concepts</a>.</p>
+<h2 id="what-are-your-recommendations-for-webar">What are your recommendations for WebAR?</h2>
+<p>For a good experience with WebAR:</p>
+<ul>
+<li>Don't move the camera nor the target image too quickly. This produces motion blur.</li>
+<li>The target image should appear clearly in the video.</li>
+<li>The physical environment should be properly illuminated.</li>
+<li>If you're scanning the image on a screen, make sure to adjust the brightness. If the screen is too bright (too dark), it will cause overexposure (underexposure) in the video and tracking difficulties - details of the images will be lost. Screen reflections are also undesirable.</li>
+<li>If you print the image, avoid shiny materials (e.g., glossy paper). They may generate artifacts in the image and interfere with the tracking. Prefer non-reflective materials.</li>
+<li>Avoid low-quality cameras. Cameras of common smartphones are okay.</li>
+</ul>
 <h2 id="is-this-webxr">Is this WebXR?</h2>
 <p>No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely available. My intention is to give it broad compatibility.</p>
 <h2 id="why-do-my-models-appear-laid-down-in-ar">Why do my models appear "laid down" in AR?</h2>

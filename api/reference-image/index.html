@@ -224,15 +224,11 @@
   
 
 
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../demos/" class="md-tabs__link">
-        Demos
-      </a>
-    </li>
-  
+  <li class="md-tabs__item">
+    <a href="../../demos/" class="md-tabs__link">
+      Demos
+    </a>
+  </li>
 
       
         
@@ -596,43 +592,10 @@
   
   
   
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4">
-          Demos
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Demos" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          Demos
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
     <li class="md-nav__item">
       <a href="../../demos/" class="md-nav__link">
-        Demo gallery
+        Demos
       </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -1716,8 +1679,9 @@
 <p><code>referenceImage.name: string, read-only</code></p>
 <p>A name used to identify this reference image in a <a href="../reference-image-database/">database</a>.</p>
 <h3 id="image">image</h3>
-<p><code>referenceImage.image: HTMLImageElement | HTMLCanvasElement | ImageBitmap, read-only</code></p>
+<p><code>referenceImage.image: HTMLImageElement | ImageBitmap | ImageData, read-only</code></p>
 <p>Image template with pixel data.</p>
+<p><em>Note:</em> <code>ImageData</code> is acceptable since version 0.4.0.</p>
 
               
 

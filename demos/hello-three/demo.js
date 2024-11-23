@@ -92,6 +92,7 @@ class EnchantedDemo extends ARDemo
         super();
 
         this._objects = { };
+        this._initialized = false;
     }
 
     /**
@@ -159,27 +160,43 @@ class EnchantedDemo extends ARDemo
     }
 
     /**
-     * Initialization
-     * @param {ARSystem} ar
+     * Preload resources before starting the AR session
      * @returns {Promise<void>}
      */
-    async init(ar)
+    async preload()
+    {
+        // preload meshes
+        const [ mage, cat ] = await Promise.all([
+            Utils.loadGLTF('../assets/mage.glb'),
+            Utils.loadGLTF('../assets/cat.glb')
+        ]);
+
+        // save references
+        this._objects.gltf = { mage, cat };
+    }
+
+    /**
+     * Initialization
+     * @param {ARSystem} ar
+     * @returns {void}
+     */
+    init(ar)
     {
         // Change the point of view. All virtual objects are descendants of
         // ar.root, a node that is automatically aligned to the physical scene.
         // Adjusting ar.root will adjust all virtual objects.
         Utils.switchToFrontView(ar);
-        ar.root.position.set(0, -0.5, 0);
+        ar.root.position.set(0, -0.8, 0);
 
-        // initialize objects
+        // Initialize objects
         this._initLight(ar);
         this._initText(ar);
         this._initMagicCircle(ar);
+        this._initMage(ar);
+        this._initCat(ar);
 
-        await Promise.all([
-            this._initMage(ar),
-            this._initCat(ar),
-        ]);
+        // done!
+        this._initialized = true;
     }
 
     /**
@@ -238,10 +255,10 @@ class EnchantedDemo extends ARDemo
         this._objects.text = text;
     }
 
-    async _initMage(ar)
+    _initMage(ar)
     {
         // load the mage
-        const gltf = await Utils.loadGLTF('../assets/mage.glb');
+        const gltf = this._objects.gltf.mage;
         const mage = gltf.scene;
         mage.scale.set(0.7, 0.7, 0.7);
 
@@ -257,9 +274,9 @@ class EnchantedDemo extends ARDemo
         this._objects.mageAction = mageAction;
     }
 
-    async _initCat(ar)
+    _initCat(ar)
     {
-        const gltf = await Utils.loadGLTF('../assets/cat.glb');
+        const gltf = this._objects.gltf.cat;
         const cat = gltf.scene;
         cat.scale.set(0.7, 0.7, 0.7);
 
@@ -298,6 +315,12 @@ class EnchantedDemo extends ARDemo
 
     _onTargetFound(referenceImage)
     {
+        // make sure that the scene is initialized
+        if(!this._initialized) {
+            alert(`Target \"${referenceImage.name}\" was found, but the 3D scene is not yet initialized!`);
+            return;
+        }
+
         // change the scene based on the tracked image
         switch(referenceImage.name) {
             case 'mage':
