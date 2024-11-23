@@ -28,7 +28,6 @@ import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { SpeedyPoint2 } from 'speedy-vision/types/core/speedy-point';
 import { SpeedyVector2 } from 'speedy-vision/types/core/speedy-vector';
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
-import { ImageTracker } from './image-tracker';
 import { ReferenceImageWithMedia } from './reference-image';
 import { Utils } from '../../utils/utils';
 import { IllegalOperationError, IllegalArgumentError, NumericalError } from '../../utils/errors';
@@ -162,15 +161,12 @@ export class ImageTrackerUtils
 
     /**
      * Find the best-fit aspect ratio for the rectification of the reference image in NDC
-     * @param imageTracker
+     * @param screenSize
      * @param referenceImage
      * @returns a best-fit aspect ratio
      */
-    static bestFitAspectRatioNDC(imageTracker: ImageTracker, referenceImage: ReferenceImageWithMedia): number
+    static bestFitAspectRatioNDC(screenSize: SpeedySize, referenceImage: ReferenceImageWithMedia): number
     {
-        const screenSize = imageTracker.screenSize;
-        const screenAspectRatio = screenSize.width / screenSize.height;
-
         /*
         
         The best-fit aspectRatio (a) is constructed as follows:
@@ -192,6 +188,7 @@ export class ImageTrackerUtils
 
         */
 
+        const screenAspectRatio = screenSize.width / screenSize.height;
         return referenceImage.aspectRatio / screenAspectRatio;
     }
 

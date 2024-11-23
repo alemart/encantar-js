@@ -39,7 +39,7 @@ import { SpeedyKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName } from '../image-tracker';
 import { ImageTrackerUtils, ImageTrackerKeypointPair } from '../image-tracker-utils';
 import { ImageTrackerState, ImageTrackerStateOutput } from './state';
-import { ReferenceImage } from '../reference-image';
+import { ReferenceImageWithMedia } from '../reference-image';
 import { Nullable, Utils } from '../../../utils/utils';
 import { TrackingError } from '../../../utils/errors';
 import {
@@ -64,7 +64,7 @@ import {
 export class ImageTrackerPreTrackingBState extends ImageTrackerState
 {
     /** reference image */
-    private _referenceImage: Nullable<ReferenceImage>;
+    private _referenceImage: Nullable<ReferenceImageWithMedia>;
 
     /** a snapshot of the video from the scanning state and corresponding to the initial homography */
     private _snapshot: Nullable<SpeedyPipelineNodeImagePortalSink>;
@@ -101,7 +101,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
     onEnterState(settings: Record<string,any>)
     {
         const homography = settings.homography as SpeedyMatrix;
-        const referenceImage = settings.referenceImage as ReferenceImage;
+        const referenceImage = settings.referenceImage as ReferenceImageWithMedia;
         const snapshot = settings.snapshot as SpeedyPipelineNodeImagePortalSink;
         const referenceKeypointPortalSink = settings.referenceKeypointPortalSink as SpeedyPipelineNodeKeypointPortalSink;
 
@@ -143,7 +143,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
         // rectify the image
         const scale = TRACK_RECTIFIED_SCALE;
-        const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this._imageTracker, this._referenceImage!);
+        const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(screenSize, this._referenceImage!);
         const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
         const undistort = this._homography.inverse();
         const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
@@ -233,7 +233,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         }).then(([ warp, score ]) => {
 
             const scale = TRACK_RECTIFIED_SCALE;
-            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this._imageTracker, this._referenceImage!);
+            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage!);
             const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
             const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
             const scaledWarp = grow.times(warp).times(shrink);

@@ -128,7 +128,7 @@ export class ImageTrackerPreTrackingAState extends ImageTrackerState
 
         // rectify the image
         const scale = TRACK_RECTIFIED_SCALE;
-        const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this._imageTracker, this._referenceImage!);
+        const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(screenSize, this._referenceImage!);
         const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
         const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
         const toNDC = ImageTrackerUtils.rasterToNDC(screenSize);

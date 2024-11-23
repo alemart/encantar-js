@@ -228,7 +228,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
         // rectify the image
         const scale = TRACK_RECTIFIED_SCALE;
-        const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this._imageTracker, this._referenceImage!);
+        const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(screenSize, this._referenceImage!);
         const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
         const undistort = this._warpHomography.inverse();
         const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
@@ -461,7 +461,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         }).then(([ warp, score ]) => {
 
             const scale = TRACK_RECTIFIED_SCALE;
-            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this._imageTracker, this._referenceImage!);
+            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage!);
             const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
             const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
             const scaledWarp = grow.times(warp).times(shrink);
@@ -496,7 +496,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         }).then(([ warp, score ]) => {
 
             const scale = TRACK_RECTIFIED_SCALE;
-            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this._imageTracker, this._referenceImage!);
+            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage!);
             const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
             const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
             const scaledWarp = grow.times(warp).times(shrink);
