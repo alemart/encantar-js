@@ -56,6 +56,16 @@ class ARDemo
     {
         // optional implementation
     }
+
+    /**
+     * Preload resources before starting the AR session
+     * @returns {Promise<void> | SpeedyPromise<void>}
+     */
+    preload()
+    {
+        // optional implementation
+        return Promise.resolve();
+    }
 }
 
 /**
@@ -291,9 +301,8 @@ function encantar(demo)
     }
 
     return Promise.resolve()
-    .then(() => {
-        return demo.startSession(); // Promise or SpeedyPromise
-    })
+    .then(() => demo.preload())
+    .then(() => demo.startSession()) // Promise or SpeedyPromise
     .then(session => {
 
         ar._session = session;
