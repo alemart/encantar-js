@@ -106,8 +106,11 @@ export class ImageTrackerTrackingState extends ImageTrackerState
     /** the number of consecutive frames in which we have lost the tracking */
     private _lostCounter: number;
 
-    /** camera model */
+    /** camera model linked to the tracked image */
     private _camera: CameraModel;
+
+    /** a camera model that is fixed at the origin */
+    private _fixedCamera: CameraModel;
 
 
 
@@ -130,6 +133,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         this._counter = 0;
         this._lostCounter = 0;
         this._camera = new CameraModel();
+        this._fixedCamera = new CameraModel();
     }
 
     /**
@@ -164,9 +168,10 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         // setup portals
         keypointPortalSource.source = templateKeypointPortalSink;
 
-        // setup camera
+        // setup the cameras
         const aspectRatio = initialScreenSize.width / initialScreenSize.height;
         this._camera.init(aspectRatio);
+        this._fixedCamera.init(aspectRatio);
 
         // emit event
         const ev = new ImageTrackerEvent('targetfound', referenceImage);
@@ -184,7 +189,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         // log
         Utils.log(`No longer tracking image "${this._referenceImage!.name}"!`);
 
-        // release the camera
+        // release the cameras
+        this._fixedCamera.release();
         this._camera.release();
 
         // emit event
@@ -335,16 +341,33 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         })
         .then(() => {
 
-            // we let the target object be at the origin of the world space
-            // (identity transform). We also perform a change of coordinates,
-            // so that we move out from pixel space and into normalized space
+            /*
+
+            Q: should the camera move relative to the target image, or should
+               the target image move relative to the camera?
+
+            A: the target image should move and the camera should stay fixed.
+               Movements of the target image in the video should not affect the
+               rendering of all virtual elements in world space. They should
+               only affect the rendering of virtual elements positioned at the
+               local space linked to the target ("ar.root").
+
+            */
+
+            // the target moves and the camera stays fixed at the origin
+            const modelMatrix = this._camera.computeViewMatrix(); // p_view = V M p_model
+            const transform = new Transform(modelMatrix);
+            const pose = new Pose(transform);
+            const viewer = new Viewer(this._fixedCamera); // view matrix = I
+
+            /*
+            // this is the opposite reasoning: the camera moves and the target
+            // image stays fixed at the origin of world space
             const modelMatrix = Speedy.Matrix.Eye(4);
             const transform = new Transform(modelMatrix);
             const pose = new Pose(transform);
-
-            // given the current state of the camera model, we get a viewer
-            // compatible with the pose of the target
             const viewer = new Viewer(this._camera);
+            */
 
             // the trackable object
             const trackable: TrackableImage = {

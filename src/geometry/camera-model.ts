@@ -378,7 +378,6 @@ export class CameraModel
      */
     private _normalizeHomography(homography: SpeedyMatrix): SpeedyMatrix
     {
-        const h = homography.read();
         const u0 = this._intrinsics[U0];
         const v0 = this._intrinsics[V0];
         const fx = this._intrinsics[FX];
@@ -386,6 +385,7 @@ export class CameraModel
         const u0fx = u0 / fx;
         const v0fy = v0 / fy;
 
+        const h = homography.read();
         const h11 = h[0] / fx - u0fx * h[2], h12 = h[3] / fx - u0fx * h[5], h13 = h[6] / fx - u0fx * h[8];
         const h21 = h[1] / fy - v0fy * h[2], h22 = h[4] / fy - v0fy * h[5], h23 = h[7] / fy - v0fy * h[8];
         const h31 = h[2], h32 = h[5], h33 = h[8];
