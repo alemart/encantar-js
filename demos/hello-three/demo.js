@@ -160,11 +160,27 @@ class EnchantedDemo extends ARDemo
     }
 
     /**
-     * Initialization
-     * @param {ARSystem} ar
+     * Preload resources before starting the AR session
      * @returns {Promise<void>}
      */
-    async init(ar)
+    async preload()
+    {
+        // preload meshes
+        const [ mage, cat ] = await Promise.all([
+            Utils.loadGLTF('../assets/mage.glb'),
+            Utils.loadGLTF('../assets/cat.glb')
+        ]);
+
+        // save references
+        this._objects.gltf = { mage, cat };
+    }
+
+    /**
+     * Initialization
+     * @param {ARSystem} ar
+     * @returns {void}
+     */
+    init(ar)
     {
         // Change the point of view. All virtual objects are descendants of
         // ar.root, a node that is automatically aligned to the physical scene.
@@ -176,11 +192,8 @@ class EnchantedDemo extends ARDemo
         this._initLight(ar);
         this._initText(ar);
         this._initMagicCircle(ar);
-
-        await Promise.all([
-            this._initMage(ar),
-            this._initCat(ar),
-        ]);
+        this._initMage(ar);
+        this._initCat(ar);
 
         // done!
         this._initialized = true;
@@ -242,10 +255,10 @@ class EnchantedDemo extends ARDemo
         this._objects.text = text;
     }
 
-    async _initMage(ar)
+    _initMage(ar)
     {
         // load the mage
-        const gltf = await Utils.loadGLTF('../assets/mage.glb');
+        const gltf = this._objects.gltf.mage;
         const mage = gltf.scene;
         mage.scale.set(0.7, 0.7, 0.7);
 
@@ -261,9 +274,9 @@ class EnchantedDemo extends ARDemo
         this._objects.mageAction = mageAction;
     }
 
-    async _initCat(ar)
+    _initCat(ar)
     {
-        const gltf = await Utils.loadGLTF('../assets/cat.glb');
+        const gltf = this._objects.gltf.cat;
         const cat = gltf.scene;
         cat.scale.set(0.7, 0.7, 0.7);
 
