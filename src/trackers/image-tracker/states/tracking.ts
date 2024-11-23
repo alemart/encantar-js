@@ -26,6 +26,7 @@ import { SpeedyVector2 } from 'speedy-vision/types/core/speedy-vector';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
+import { SpeedyMatrixExpr } from 'speedy-vision/types/core/speedy-matrix-expr';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { SpeedyPipeline, SpeedyPipelineOutput } from 'speedy-vision/types/core/pipeline/pipeline';
 import { SpeedyPipelineNodeImageSource } from 'speedy-vision/types/core/pipeline/nodes/images/source';
@@ -39,39 +40,32 @@ import { SpeedyPipelineNodeKeypointBorderClipper } from 'speedy-vision/types/cor
 import { SpeedyPipelineNodeKeypointTransformer } from 'speedy-vision/types/core/pipeline/nodes/keypoints/transformer';
 import { SpeedyKeypoint, SpeedyTrackedKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName, ImageTrackerResult, TrackableImage } from '../image-tracker';
-import { ImageTrackerState, ImageTrackerStateOutput } from './state';
+import { ImageTrackerUtils, ImageTrackerKeypointPair } from '../image-tracker-utils';
 import { ImageTrackerEvent } from '../image-tracker-event';
+import { ImageTrackerState, ImageTrackerStateOutput } from './state';
 import { Nullable, Utils } from '../../../utils/utils';
-import { ReferenceImage } from '../reference-image';
+import { ReferenceImage, ReferenceImageWithMedia } from '../reference-image';
 import { CameraModel } from '../../../geometry/camera-model';
 import { Viewer } from '../../../geometry/viewer';
 import { Pose } from '../../../geometry/pose';
 import { Transform } from '../../../geometry/transform';
-import { IllegalOperationError, IllegalArgumentError, TrackingError } from '../../../utils/errors';
+import { IllegalOperationError, IllegalArgumentError, TrackingError, NumericalError } from '../../../utils/errors';
 import {
-    TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_MIN_MATCHES, TRACK_LOST_TOLERANCE,
+    TRACK_RECTIFIED_SCALE, TRACK_CLIPPING_BORDER, TRACK_MIN_MATCHES, TRACK_LOST_TOLERANCE,
     NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY, TRACK_WITH_NIGHTVISION,
     ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA,
     SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA,
     TRACK_HARRIS_QUALITY, TRACK_DETECTOR_CAPACITY, TRACK_MAX_KEYPOINTS,
-    TRACK_RANSAC_REPROJECTIONERROR, TRACK_GRID_GRANULARITY, TRACK_MATCH_RATIO,
-    NIGHTVISION_QUALITY,
-    SUBPIXEL_METHOD,
+    TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MATCH_RATIO,
+    NIGHTVISION_QUALITY, SUBPIXEL_METHOD,
 } from '../settings';
 import { Settings } from '../../../core/settings';
-
 
 /** Whether or not we want to accelerate GPU-CPU transfers. Using turbo costs a slight delay on the tracking */
 const USE_TURBO = true;
 
 /** Number of PBOs; meaningful only when using turbo */
 const NUMBER_OF_PBOS = 2;
-
-/** Frame skipping; meaningful only when using turbo */
-const TURBO_SKIP = 2;
-
-/** A pair (a,b) of arrays of keypoints such that keypoint a[i] is a match to keypoint b[i] for all i */
-type QualityMatches = [ SpeedyMatchedKeypoint[], SpeedyKeypoint[] ];
 
 
 
@@ -83,7 +77,7 @@ type QualityMatches = [ SpeedyMatchedKeypoint[], SpeedyKeypoint[] ];
 export class ImageTrackerTrackingState extends ImageTrackerState
 {
     /** tracked image */
-    private _referenceImage: Nullable<ReferenceImage>;
+    private _referenceImage: Nullable<ReferenceImageWithMedia>;
 
     /** current homography (for warping) */
     private _warpHomography: SpeedyMatrix;
@@ -91,33 +85,32 @@ export class ImageTrackerTrackingState extends ImageTrackerState
     /** current homography (for computing the pose) */
     private _poseHomography: SpeedyMatrix;
 
-    /** initial homography (i.e., the homography we found when we first started tracking) */
-    private _initialHomography: SpeedyMatrix; // from (full)screen to the actual target
-
     /** initial keypoints (i.e., the keypoints we found when we first started tracking) */
-    private _initialKeypoints: SpeedyKeypoint[];
+    private _templateKeypoints: SpeedyKeypoint[];
+
+    /** the screen size when the tracking began */
+    private _initialScreenSize: SpeedySize;
+
+    /** last output of the tracker */
+    private _lastOutput: ImageTrackerOutput;
+
+    /** last output of the pipeline */
+    private _lastPipelineOutput: SpeedyPipelineOutput;
+
+    /** a helper for frame skipping */
+    private _skipCounter: number;
 
     /** a helper */
     private _counter: number;
 
-    /** camera model */
-    private _camera: CameraModel;
-
-    /** predicted keypoints */
-    private _predictedKeypoints: SpeedyMatchedKeypoint[];
-
-    /** last pipeline output */
-    private _lastPipelineOutput: SpeedyPipelineOutput;
-
-    /** a helper */
-    private _pipelineCounter: number;
-
-    /** last output */
-    private _lastOutput: ImageTrackerOutput;
-
     /** the number of consecutive frames in which we have lost the tracking */
     private _lostCounter: number;
 
+    /** camera model linked to the tracked image */
+    private _camera: CameraModel;
+
+    /** a camera model that is fixed at the origin */
+    private _fixedCamera: CameraModel;
 
 
 
@@ -132,18 +125,15 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         this._referenceImage = null;
         this._warpHomography = Speedy.Matrix.Eye(3);
         this._poseHomography = Speedy.Matrix.Eye(3);
-        this._initialHomography = Speedy.Matrix.Eye(3);
-        this._initialKeypoints = [];
-        this._counter = 0;
-        this._camera = new CameraModel();
-        this._predictedKeypoints = [];
-        this._lastPipelineOutput = { keypoints: [] };
-        this._pipelineCounter = 0;
+        this._templateKeypoints = [];
+        this._initialScreenSize = Speedy.Size(1, 1);
         this._lastOutput = {};
+        this._lastPipelineOutput = { keypoints: [] };
+        this._skipCounter = 0;
+        this._counter = 0;
         this._lostCounter = 0;
-
-        // we need at least 4 correspondences of points to compute a homography matrix
-        Utils.assert(TRACK_MIN_MATCHES >= 4);
+        this._camera = new CameraModel();
+        this._fixedCamera = new CameraModel();
     }
 
     /**
@@ -152,11 +142,11 @@ export class ImageTrackerTrackingState extends ImageTrackerState
      */
     onEnterState(settings: Record<string,any>)
     {
-        const homography = settings.homography as SpeedyMatrix;
-        const referenceImage = settings.referenceImage as Nullable<ReferenceImage>;
+        const homography = settings.homography as SpeedyMatrix; // NDC, from reference image to video
+        const referenceImage = settings.referenceImage as Nullable<ReferenceImageWithMedia>;
         const templateKeypoints = settings.templateKeypoints as SpeedyKeypoint[];
-        const keypointPortalSink = settings.keypointPortalSink as SpeedyPipelineNodeKeypointPortalSink;
-        const screenSize = settings.screenSize as SpeedySize; // this.screenSize is not yet set
+        const templateKeypointPortalSink = settings.templateKeypointPortalSink as SpeedyPipelineNodeKeypointPortalSink;
+        const initialScreenSize = settings.initialScreenSize as SpeedySize; // this.screenSize is not yet set
         const keypointPortalSource = this._pipeline.node('keypointPortalSource') as SpeedyPipelineNodeKeypointPortalSource;
 
         // this shouldn't happen
@@ -167,20 +157,21 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         this._referenceImage = referenceImage;
         this._warpHomography = Speedy.Matrix(homography);
         this._poseHomography = Speedy.Matrix(homography);
-        this._initialHomography = Speedy.Matrix(homography);
-        this._initialKeypoints = templateKeypoints;
-        this._counter = 0;
-        this._predictedKeypoints = [];
-        this._lastPipelineOutput = { keypoints: [] };
-        this._pipelineCounter = 0;
+        this._templateKeypoints = templateKeypoints;
+        this._initialScreenSize = Speedy.Size(initialScreenSize.width, initialScreenSize.height);
         this._lastOutput = {};
+        this._lastPipelineOutput = { keypoints: [] };
+        this._skipCounter = 0;
+        this._counter = 0;
         this._lostCounter = 0;
 
         // setup portals
-        keypointPortalSource.source = keypointPortalSink;
+        keypointPortalSource.source = templateKeypointPortalSink;
 
-        // setup camera
-        this._camera.init(screenSize);
+        // setup the cameras
+        const aspectRatio = initialScreenSize.width / initialScreenSize.height;
+        this._camera.init(aspectRatio);
+        this._fixedCamera.init(aspectRatio);
 
         // emit event
         const ev = new ImageTrackerEvent('targetfound', referenceImage);
@@ -195,13 +186,15 @@ export class ImageTrackerTrackingState extends ImageTrackerState
      */
     onLeaveState(): void
     {
-        const referenceImage = this._referenceImage as ReferenceImage;
+        // log
+        Utils.log(`No longer tracking image "${this._referenceImage!.name}"!`);
 
-        // release the camera
+        // release the cameras
+        this._fixedCamera.release();
         this._camera.release();
 
         // emit event
-        const ev = new ImageTrackerEvent('targetlost', referenceImage);
+        const ev = new ImageTrackerEvent('targetlost', this._referenceImage!);
         this._imageTracker.dispatchEvent(ev);
     }
 
@@ -213,7 +206,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
     {
         const imageRectifier = this._pipeline.node('imageRectifier') as SpeedyPipelineNodePerspectiveWarp;
         const borderClipper = this._pipeline.node('borderClipper') as SpeedyPipelineNodeKeypointBorderClipper;
-        const keypointRectifier = this._pipeline.node('keypointRectifier') as SpeedyPipelineNodeKeypointTransformer;
+        const keypointScaler = this._pipeline.node('keypointScaler') as SpeedyPipelineNodeKeypointTransformer;
         const screenSize = this.screenSize;
 
         /*
@@ -230,10 +223,20 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             screenSize.height * TRACK_CLIPPING_BORDER
         );
 
+        // convert keypoints to NIS
+        keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screenSize);
+
         // rectify the image
-        return this._findImageWarp(this._warpHomography, screenSize).then(warp => {
-            imageRectifier.transform = warp;
-        });
+        const scale = TRACK_RECTIFIED_SCALE;
+        const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(screenSize, this._referenceImage!);
+        const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
+        const undistort = this._warpHomography.inverse();
+        const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
+        const toNDC = ImageTrackerUtils.rasterToNDC(screenSize);
+
+        return imageRectifier.transform.setTo(
+            toScreen.times(shrink.times(undistort)).times(toNDC)
+        ).then(() => void 0);
     }
 
     /**
@@ -242,35 +245,26 @@ export class ImageTrackerTrackingState extends ImageTrackerState
      */
     protected _gpuUpdate(): SpeedyPromise<SpeedyPipelineOutput>
     {
-        //return super._gpuUpdate();
-
-        // No turbo?
-        if(!USE_TURBO || Settings.powerPreference == 'low-power')
+        // Run the pipeline as usual
+        if(!USE_TURBO || Settings.powerPreference == 'low-power')// || Settings.powerPreference == 'high-performance')
             return super._gpuUpdate();
 
         // When using turbo, we reduce the GPU usage by skipping every other frame
-        const counter = this._pipelineCounter;
-        this._pipelineCounter = (this._pipelineCounter + 1) % TURBO_SKIP;
+        if(0 == (this._skipCounter = 1 - this._skipCounter)) {
+            const templateKeypoints = this._templateKeypoints;
+            const previousKeypoints = this._lastPipelineOutput.keypoints as SpeedyMatchedKeypoint[];
+            //const currentKeypoints = this._predictKeypoints(previousKeypoints, templateKeypoints);
+            const currentKeypoints = previousKeypoints; // this actually works
 
-        // Skip frame
-        if(counter != 0) {
-            if(this._lastPipelineOutput.keypoints !== undefined) {
-                this._predictedKeypoints = this._predictKeypoints(
-                    this._lastPipelineOutput.keypoints,
-                    this._initialKeypoints
-                );
-            }
-            else
-                this._predictedKeypoints.length = 0;
+            this._lastPipelineOutput.keypoints = currentKeypoints;
 
-            this._lastPipelineOutput.keypoints = this._predictedKeypoints;
             return Speedy.Promise.resolve(this._lastPipelineOutput);
         }
 
         // Run the pipeline and store the results
-        return super._gpuUpdate().then(results => {
-            this._lastPipelineOutput = results;
-            return results;
+        return super._gpuUpdate().then(result => {
+            this._lastPipelineOutput = result;
+            return result;
         });
     }
 
@@ -281,117 +275,99 @@ export class ImageTrackerTrackingState extends ImageTrackerState
      */
     protected _afterUpdate(result: SpeedyPipelineOutput): SpeedyPromise<ImageTrackerStateOutput>
     {
-        const imageRectifier = this._pipeline.node('imageRectifier') as SpeedyPipelineNodePerspectiveWarp;
         const keypoints = result.keypoints as SpeedyMatchedKeypoint[];
         const image = result.image as SpeedyMedia | undefined;
-        const referenceImage = this._referenceImage as ReferenceImage;
+        const referenceImage = this._referenceImage!;
+        const screenSize = this.screenSize;
 
-        // find the best keypoint matches
-        return this._preprocessMatches(keypoints, this._initialKeypoints).then(matches => {
+        // track the target
+        return Speedy.Promise.resolve()
+        .then(() => {
+
+            // if a change in screen size occurs, we need to recalibrate
+            // (perform a new pre-training)
+            if(!screenSize.equals(this._initialScreenSize))
+                throw new TrackingError('Detected a change in screen size');
+
+            // find matching pairs of keypoints
+            const allPairs = this._findMatchingPairs(this._templateKeypoints, keypoints);
+            const pairs = ImageTrackerUtils.refineMatchingPairs(allPairs);
+            if(pairs.length < TRACK_MIN_MATCHES)
+                throw new TrackingError('Not enough data points to continue the tracking');
 
             // find motion models
-            return Speedy.Promise.all<SpeedyMatrix>([
-                this._findAffineMotion(matches),
-                this._findPerspectiveMotion(matches)
+            const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
+            return Speedy.Promise.all<SpeedyMatrixExpr>([
+                this._findAffineMotionNDC(points),
+                this._findPerspectiveMotionNDC(points)
             ]);
 
-        }).then(([affineMotion, perspectiveMotion]) => {
+        })
+        .then(([affineMotion, perspectiveMotion]) => {
 
             const lowPower = (Settings.powerPreference == 'low-power');
-            const frozen = !(!USE_TURBO || lowPower || this._counter % TURBO_SKIP == 0);
+            const delay = NUMBER_OF_PBOS * (!lowPower ? 2 : 1);
 
             // update warp homography
-            const delay = NUMBER_OF_PBOS * (!lowPower ? TURBO_SKIP : 1);
-            const remainder = delay >>> 1; // we want remainder > 0, so it skips the first frame
-            if(!USE_TURBO || this._counter % delay == remainder)
-                this._warpHomography.setToSync(this._warpHomography.times(affineMotion));
+            if(!USE_TURBO || this._counter % delay == 1) // skip the first frame (PBOs)
+                this._warpHomography.setToSync(affineMotion.times(this._warpHomography));
 
             // update pose homography
-            if(!frozen)
-                this._poseHomography.setToSync(this._warpHomography.times(perspectiveMotion));
+            this._poseHomography.setToSync(perspectiveMotion.times(this._warpHomography));
+            if(Number.isNaN(this._poseHomography.at(0,0)))
+                throw new NumericalError('Bad homography'); // normalize? 1 / h33
 
             // update counter
             this._counter = (this._counter + 1) % delay;
 
-            // update the camera
-            if(!frozen)
-                return this._camera.update(this._poseHomography, this.screenSize);
-            else
-                return this._camera.matrix;
-
-        }).then(_ => {
-
-            // find the inverse of the rectification matrix
-            const rectificationMatrix = imageRectifier.transform;
-            const inverseRectificationMatrix = Speedy.Matrix(rectificationMatrix.inverse());
-
-            // move keypoints from rectified space back to image space
-            const n = keypoints.length;
-            const coords: number[] = new Array(2*n);
-            for(let i = 0, j = 0; i < n; i++, j += 2) {
-                coords[j] = keypoints[i].position.x;
-                coords[j+1] = keypoints[i].position.y;
-            }
-
-            return Speedy.Matrix.applyPerspectiveTransform(
-                Speedy.Matrix.Zeros(2, n),
-                Speedy.Matrix(2, n, coords),
-                inverseRectificationMatrix
-            );
-
             /*
-            // test image center
-            const coords2: number[] = new Array(2 * n);
-            for(let i = 0, j = 0; i < n; i++, j += 2) {
-                coords2[j] = this._imageTracker.screenSize.width / 2;
-                coords2[j+1] = this._imageTracker.screenSize.height / 2;
-                if(i % 2 == 0) {
-                    coords2[j] = this._imageTracker.screenSize.width / 4;
-                    coords2[j+1] = this._imageTracker.screenSize.height / 4;
-                }
-            }
-
-            return Speedy.Matrix.applyPerspectiveTransform(
-                Speedy.Matrix.Zeros(2, n),
-                Speedy.Matrix(2, n, coords2),
-                this._poseHomography
-                //this._warpHomography
-            );
+            // test
+            console.log("POSE ", this._poseHomography.toString());
+            console.log("WARP ", this._warpHomography.toString());
+            console.log("AMOT ", Speedy.Matrix(affineMotion).toString());
+            console.log("PMOT ", Speedy.Matrix(perspectiveMotion).toString());
             */
 
-        }).then(mat => {
+            // We transform the keypoints of the reference image to NDC as a
+            // convenience. However, doing so distorts the aspect ratio. Here
+            // we undo the distortion.
+            //const scale = ImageTrackerUtils.inverseBestFitScaleNDC(referenceImage.aspectRatio); // not preferred; extrapolates the bounds of NDC
+            const scale = ImageTrackerUtils.bestFitScaleNDC(1 / referenceImage.aspectRatio); // preferred
+            const homography = Speedy.Matrix(this._poseHomography.times(scale));
+            //this._poseHomography = homography; // visualize the polyline becoming a square
+
+            // update camera model
+            return this._camera.update(homography);
+        })
+        .then(() => {
 
             /*
 
-            const n = keypoints.length;
-            const coords = mat.read();
+            Q: should the camera move relative to the target image, or should
+               the target image move relative to the camera?
 
-            // ** this will interfere with the calculations when frame skipping is on **
-
-            // get keypoints in image space
-            for(let i = 0, j = 0; i < n; i++, j += 2) {
-                keypoints[i].position.x = coords[j];
-                keypoints[i].position.y = coords[j+1];
-            }
+            A: the target image should move and the camera should stay fixed.
+               Movements of the target image in the video should not affect the
+               rendering of all virtual elements in world space. They should
+               only affect the rendering of virtual elements positioned at the
+               local space linked to the target ("ar.root").
 
             */
 
-            // find a polyline surrounding the target
-            return this._findPolyline(this._poseHomography, this.screenSize);
-            //return this._findPolyline(this._warpHomography, this.screenSize);
-
-        }).then(polyline => {
-
-            // we let the target object be at the origin of the world space
-            // (identity transform). We also perform a change of coordinates,
-            // so that we move out from pixel space and into normalized space
-            const modelMatrix = this._camera.denormalizer(); // ~ "identity matrix"
+            // the target moves and the camera stays fixed at the origin
+            const modelMatrix = this._camera.computeViewMatrix(); // p_view = V M p_model
             const transform = new Transform(modelMatrix);
             const pose = new Pose(transform);
+            const viewer = new Viewer(this._fixedCamera); // view matrix = I
 
-            // given the current state of the camera model, we get a viewer
-            // compatible with the pose of the target
+            /*
+            // this is the opposite reasoning: the camera moves and the target
+            // image stays fixed at the origin of world space
+            const modelMatrix = Speedy.Matrix.Eye(4);
+            const transform = new Transform(modelMatrix);
+            const pose = new Pose(transform);
             const viewer = new Viewer(this._camera);
+            */
 
             // the trackable object
             const trackable: TrackableImage = {
@@ -406,16 +382,18 @@ export class ImageTrackerTrackingState extends ImageTrackerState
                 viewer: viewer
             };
 
-            // build and save the output
-            this._lastOutput = {
+            // tracker output
+            const trackerOutput: ImageTrackerOutput = {
                 exports: result,
-                cameraMatrix: this._camera.matrix,
-                homography: this._warpHomography,
-                //keypoints: keypoints,
-                screenSize: this.screenSize,
+                keypoints: keypoints,
+                //keypointsNIS: image !== undefined ? keypoints : undefined, // debug only
                 image: image,
-                polyline: polyline,
+                polylineNDC: ImageTrackerUtils.findPolylineNDC(this._poseHomography),
+                camera: this._camera,
             };
+
+            // save the last output
+            this._lastOutput = trackerOutput;
 
             // we have successfully tracked the target in this frame
             this._lostCounter = 0;
@@ -423,16 +401,15 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // done!
             return {
                 nextState: 'tracking',
-                trackerOutput: this._lastOutput
+                trackerOutput: trackerOutput
             };
 
-        }).catch(err => {
+        })
+        .catch(err => {
 
             // give some tolerance to tracking errors
             if(err instanceof TrackingError) {
                 if(++this._lostCounter <= TRACK_LOST_TOLERANCE) {
-                    //console.log("ABSORB",this._lostCounter,err.toString())
-                    // absorb the error
                     return {
                         nextState: 'tracking',
                         trackerOutput: this._lastOutput
@@ -440,351 +417,144 @@ export class ImageTrackerTrackingState extends ImageTrackerState
                 }
             }
 
-            // lost tracking
+            // log
             Utils.warning(`The target has been lost! ${err.toString()}`);
-            this._camera.reset();
 
             // go back to the scanning state
             return {
                 nextState: 'scanning',
-                trackerOutput: {
-                    image: image,
-                    screenSize: this.screenSize,
-                },
+                trackerOutput: { }
             };
 
         });
     }
 
     /**
-     * Find quality matches between two sets of keypoints
-     * @param currKeypoints keypoints of the current frame
-     * @param prevKeypoints keypoints of the previous frame
-     * @returns quality matches
+     * Find an affine motion model in NDC between pairs of keypoints in NDC
+     * given as a 2 x 2n [ src | dest ] matrix
+     * @param points compiled pairs of keypoints in NDC
+     * @returns a promise that resolves to a 3x3 warp in NDC that maps source to destination
      */
-    private _findQualityMatches(currKeypoints: SpeedyMatchedKeypoint[], prevKeypoints: SpeedyKeypoint[]): QualityMatches
-    {
-        const result: QualityMatches = [ [], [] ];
-        const n = currKeypoints.length;
-
-        for(let i = 0; i < n; i++) {
-            const currKeypoint = currKeypoints[i];
-
-            if(currKeypoint.matches[0].index >= 0 && currKeypoint.matches[1].index >= 0) {
-                const d1 = currKeypoint.matches[0].distance;
-                const d2 = currKeypoint.matches[1].distance;
-
-                if(d1 <= TRACK_MATCH_RATIO * d2) {
-                    const prevKeypoint = prevKeypoints[currKeypoint.matches[0].index];
-
-                    result[0].push(currKeypoint);
-                    result[1].push(prevKeypoint);
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Find a better spatial distribution of the input matches
-     * @param matches quality matches
-     * @returns refined quality matches
-     */
-    private _refineQualityMatches(matches: QualityMatches): QualityMatches
-    {
-        const currKeypoints = matches[0];
-        const prevKeypoints = matches[1];
-
-        // find a better spatial distribution of the keypoints
-        const indices = this._distributeKeypoints(currKeypoints, TRACK_GRID_GRANULARITY);
-        const n = indices.length; // number of refined matches
-
-        // assemble output
-        const result: QualityMatches = [ new Array(n), new Array(n) ];
-        for(let i = 0; i < n; i++) {
-            result[0][i] = currKeypoints[indices[i]];
-            result[1][i] = prevKeypoints[indices[i]];
-        }
-
-        // done!
-        return result;
-    }
-
-    /**
-     * Spatially distribute keypoints over a grid
-     * @param keypoints keypoints to be distributed
-     * @param gridCells number of grid elements in each axis
-     * @returns a list of indices of keypoints[]
-     */
-    private _distributeKeypoints(keypoints: SpeedyKeypoint[], gridCells: number): number[]
-    {
-        // get the coordinates of the keypoints
-        const n = keypoints.length;
-        const points: number[] = new Array(2 * n);
-        for(let i = 0, j = 0; i < n; i++, j += 2) {
-            points[j] = keypoints[i].x;
-            points[j+1] = keypoints[i].y;
-        }
-
-        // normalize the coordinates to [0,1] x [0,1]
-        this._normalizePoints(points);
-
-        // distribute the keypoints over a grid
-        const numberOfCells = gridCells * gridCells;
-        const grid: number[] = (new Array(numberOfCells)).fill(-1);
-        for(let i = 0, j = 0; i < n; i++, j += 2) {
-            // find the grid location of the i-th point
-            const xg = Math.floor(points[j] * gridCells); // 0 <= xg,yg < gridCells
-            const yg = Math.floor(points[j+1] * gridCells);
-
-            // store the index of the i-th point in the grid
-            grid[yg * gridCells + xg] = i;
-        }
-
-        // retrieve points of the grid
-        const indices: number[] = [];
-        for(let g = 0; g < numberOfCells; g++) {
-            if(grid[g] >= 0) {
-                const i = grid[g];
-                indices.push(i);
-            }
-        }
-
-        // done!
-        return indices;
-    }
-
-    /**
-     * Normalize points to [0,1)^2
-     * @param points 2 x n matrix of points in column-major format
-     * @returns points
-     */
-    private _normalizePoints(points: number[]): number[]
-    {
-        Utils.assert(points.length % 2 == 0);
-
-        const n = points.length / 2;
-        if(n == 0)
-            return points;
-
-        let xmin = Number.POSITIVE_INFINITY, xmax = Number.NEGATIVE_INFINITY;
-        let ymin = Number.POSITIVE_INFINITY, ymax = Number.NEGATIVE_INFINITY;
-        for(let i = 0, j = 0; i < n; i++, j += 2) {
-            const x = points[j], y = points[j+1];
-            xmin = x < xmin ? x : xmin;
-            ymin = y < ymin ? y : ymin;
-            xmax = x > xmax ? x : xmax;
-            ymax = y > ymax ? y : ymax;
-        }
-
-        const xlen = xmax - xmin + 1; // +1 is a correction factor, so that 0 <= x,y < 1
-        const ylen = ymax - ymin + 1;
-        for(let i = 0, j = 0; i < n; i++, j += 2) {
-            points[j] = (points[j] - xmin) / xlen;
-            points[j+1] = (points[j+1] - ymin) / ylen;
-        }
-
-        return points;
-    }
-
-    /**
-     * Find a matrix with the coordinates of quality matches
-     * @param matches n quality matches
-     * @returns a 2 x 2n matrix split into two 2 x n blocks [ prevKeypoints | currKeypoints ]
-     */
-    private _findMatrixOfMatches(matches: QualityMatches): SpeedyMatrix
-    {
-        const n = matches[0].length;
-        Utils.assert(n > 0);
-
-        // sets of keypoints
-        const currKeypoints = matches[0];
-        const prevKeypoints = matches[1];
-
-        // get the coordinates of the keypoints of the set of refined matches
-        const src: number[] = new Array(2*n);
-        const dst: number[] = new Array(2*n);
-
-        for(let i = 0, j = 0; i < n; i++, j += 2) {
-            src[j] = prevKeypoints[i].x;
-            src[j+1] = prevKeypoints[i].y;
-
-            dst[j] = currKeypoints[i].x;
-            dst[j+1] = currKeypoints[i].y;
-        }
-
-        // assemble the matrix
-        return Speedy.Matrix(2, 2*n, src.concat(dst));
-    }
-
-    /**
-     * Preprocess keypoint matches
-     * @param currKeypoints keypoints of the current frame
-     * @param prevKeypoints keypoints of the previous frame
-     * @returns a promise that is rejected if there are not enough "good" matches, or that is resolved to a
-     *          2 x 2n matrix split into two 2 x n blocks [ source x,y coordinates | dest x,y coordinates ]
-     */
-    private _preprocessMatches(currKeypoints: SpeedyMatchedKeypoint[], prevKeypoints: SpeedyKeypoint[]): SpeedyPromise<SpeedyMatrix>
-    {
-        // find and refine quality matches
-        const qualityMatches = this._findQualityMatches(currKeypoints, prevKeypoints);
-        const refinedMatches = this._refineQualityMatches(qualityMatches);
-
-        // not enough matches?
-        const n = refinedMatches[0].length;
-        if(n < TRACK_MIN_MATCHES)
-            return Speedy.Promise.reject(new TrackingError('Not enough data to compute a motion model'));
-
-        // find matrix of matches
-        const matrixOfMatches = this._findMatrixOfMatches(refinedMatches);
-
-        // warp matrix of matches
-        const result = Speedy.Matrix.Zeros(2, 2*n);
-        return this._findKeypointWarp().then(transform =>
-
-            Speedy.Matrix.applyAffineTransform(
-                result,
-                matrixOfMatches,
-                transform.block(0,1,0,2)
-            )
-
-        );
-    }
-
-    /**
-     * Find an affine motion model of the target image
-     * @param preprocessedMatches 2 x 2n matrix split into two 2 x n blocks [ src | dest ]
-     * @returns a promise that resolves to a 3x3 affine motion model (last row is [ 0  0  1 ])
-     */
-    private _findAffineMotion(preprocessedMatches: SpeedyMatrix): SpeedyPromise<SpeedyMatrix>
-    {
-        const model = Speedy.Matrix.Eye(3);
-        const n = preprocessedMatches.columns / 2; // number of preprocessed matches
-
-        // find motion model
-        return Speedy.Matrix.findAffineTransform(
-            model.block(0,1,0,2),
-            preprocessedMatches.block(0,1,0,n-1),
-            preprocessedMatches.block(0,1,n,2*n-1), {
-            method: 'pransac',
-            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR,
-            numberOfHypotheses: 512,
-            bundleSize: 128,
-        }).then(_ => {
-
-            // validate the model
-            const a00 = model.at(0,0);
-            if(Number.isNaN(a00))
-                throw new TrackingError(`Can't compute affine motion model: bad keypoints`);
-
-            // done!
-            return model;
-
-        });
-    }
-
-    /**
-     * Find a perspective motion model of the target image
-     * @param preprocessedMatches 2 x 2n matrix split into two 2 x n blocks [ src | dest ]
-     * @returns a promise that resolves to a 3x3 perspective motion model
-     */
-    private _findPerspectiveMotion(preprocessedMatches: SpeedyMatrix): SpeedyPromise<SpeedyMatrix>
+    private _findAffineMotionNDC(points: SpeedyMatrix): SpeedyPromise<SpeedyMatrixExpr>
     {
         /*
 
         We can probably get more accurate motion estimates if we
-        work in 3D rather than in 2D. We're currently estimating
-        an affine transform in image space. What if we projected
-        the keypoints into world space, estimated the camera motion
-        (rotation and translation) that best describes the observed
-        observed motion of the keypoints, and then projected things
-        back to image space? Need to figure this out; we'll get a
-        homography matrix.
-
-        Note: keypoints are in rectified image space.
+        work in 3D rather than in 2D. We're currently estimating an
+        affine motion in 2D NDC space, which does not account for
+        perspective distortions. What if we projected the keypoints
+        into 3D NDC space, estimated the camera motion (rotation and
+        translation) that best describes the observed observed motion
+        of the keypoints, and then projected things back to 2D NDC
+        space? Need to figure this out; we'll get a homography matrix.
 
         Note: work with a 6 DoF perspective transform instead of 8.
 
         */
 
-        const model = Speedy.Matrix.Zeros(3);
-        const n = preprocessedMatches.columns / 2; // number of preprocessed matches
-
-        // find motion model
-        return Speedy.Matrix.findHomography(
-            model,
-            preprocessedMatches.block(0,1,0,n-1),
-            preprocessedMatches.block(0,1,n,2*n-1), {
+        return ImageTrackerUtils.findAffineWarpNDC(points, {
             method: 'pransac',
-            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR,
-            numberOfHypotheses: 512*2,
-            bundleSize: 128*4, //*4
-        }).then(_ => {
+            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
+            numberOfHypotheses: 512*4,
+            bundleSize: 128,
+            mask: undefined // score is not needed
+        }).then(([ warp, score ]) => {
 
-            // validate the model
-            const a00 = model.at(0,0);
-            if(Number.isNaN(a00))
-                throw new TrackingError(`Can't compute perspective motion model: bad keypoints`);
+            const scale = TRACK_RECTIFIED_SCALE;
+            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage!);
+            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
+            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
+            const scaledWarp = grow.times(warp).times(shrink);
 
-            // done!
-            return model;
+            const distort = this._warpHomography;
+            const undistort = distort.inverse();
+            const correctedWarp = distort.times(scaledWarp).times(undistort);
+
+            return correctedWarp;
+
+        }).catch(err => {
+
+            throw new TrackingError(`Can't find an affine motion`, err);
 
         });
     }
 
     /**
-     * Find a rectification matrix to be applied to the target image
-     * @param homography maps a reference image to the AR screen
-     * @param media target
-     * @param screenSize AR screen
-     * @returns promise that resolves to a rectification matrix
+     * Find a perspective motion model in NDC between pairs of keypoints in NDC
+     * given as a 2 x 2n [ src | dest ] matrix
+     * @param points compiled pairs of keypoints in NDC
+     * @returns a promise that resolves to a 3x3 warp in NDC that maps source to destination
      */
-    private _findImageWarp(homography: SpeedyMatrix, screenSize: SpeedySize): SpeedyPromise<SpeedyMatrix>
+    private _findPerspectiveMotionNDC(points: SpeedyMatrix): SpeedyPromise<SpeedyMatrixExpr>
     {
-        const referenceImage = this._referenceImage as ReferenceImage;
-        const media = this._imageTracker.database._findMedia(referenceImage.name);
-        const mat = Speedy.Matrix.Zeros(3);
+        return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
+            method: 'pransac',
+            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
+            numberOfHypotheses: 512*2,
+            bundleSize: 128,//128*4,
+            mask: undefined // score is not needed
+        }).then(([ warp, score ]) => {
 
-        return this._findRectificationMatrixOfFullscreenImage(media, screenSize).then(warp =>
-            mat.setTo(warp.times(homography.inverse()))
-        );
+            const scale = TRACK_RECTIFIED_SCALE;
+            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage!);
+            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
+            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
+            const scaledWarp = grow.times(warp).times(shrink);
+
+            const distort = this._poseHomography;
+            const undistort = distort.inverse();
+            const correctedWarp = distort.times(scaledWarp).times(undistort);
+
+            return correctedWarp;
+
+        }).catch(err => {
+
+            throw new TrackingError(`Can't find a perspective motion`, err);
+
+        });
     }
 
     /**
-     * Find a warp to be applied to the keypoints
-     * @returns affine transform
+     * Find matching pairs of two sets of keypoints matched via brute force
+     * @param srcKeypoints source (database)
+     * @param destKeypoints destination
+     * @returns an array of matching pairs [src, dest]
      */
-    private _findKeypointWarp(): SpeedyPromise<SpeedyMatrix>
+    private _findMatchingPairs(srcKeypoints: SpeedyKeypoint[], destKeypoints: SpeedyMatchedKeypoint[]): ImageTrackerKeypointPair[]
     {
-        const referenceImage = this._referenceImage as ReferenceImage;
-        const media = this._imageTracker.database._findMedia(referenceImage.name);
-        const screenSize = this.screenSize;
-        const sw = screenSize.width, sh = screenSize.height;
-        const mat = Speedy.Matrix.Eye(3, 3);
+        const pairs: ImageTrackerKeypointPair[] = [];
 
-        // no rotation is needed
-        if(!this._mustRotateWarpedImage(media, screenSize))
-            return Speedy.Promise.resolve(mat);
+        for(let i = 0; i < destKeypoints.length; i++) {
+            const destKeypoint = destKeypoints[i];
 
-        // rotate by 90 degrees clockwise and scale
-        return Speedy.Matrix.affine(
-            mat.block(0,1,0,2),
-            Speedy.Matrix(2, 3, [ 0,sh , 0,0 , sw,0  ]),
-            Speedy.Matrix(2, 3, [ 0,0 , sw,0 , sw,sh ])
-        ).then(_ => mat);
+            if(destKeypoint.matches[0].index >= 0 && destKeypoint.matches[1].index >= 0) {
+                const d1 = destKeypoint.matches[0].distance;
+                const d2 = destKeypoint.matches[1].distance;
+
+                // the best match should be "much better" than the second best match,
+                // which means that they are "distinct enough"
+                if(d1 <= TRACK_MATCH_RATIO * d2) {
+                    const srcKeypoint = srcKeypoints[destKeypoint.matches[0].index];
+                    pairs.push([srcKeypoint, destKeypoint]);
+                }
+            }
+        }
+
+        return pairs;
     }
 
     /**
      * Predict the keypoints without actually looking at the image
      * @param curr keypoints at time t (will modify the contents)
-     * @param initial keypoints at time t-1 (not just t = 0)
+     * @param prev keypoints at time t-1 (not just t = 0)
      * @returns keypoints at time t+1
      */
-    private _predictKeypoints(curr: SpeedyMatchedKeypoint[], initial: SpeedyKeypoint[]): SpeedyMatchedKeypoint[]
+    /*
+    private _predictKeypoints(curr: SpeedyMatchedKeypoint[], prev: SpeedyKeypoint[]): SpeedyMatchedKeypoint[]
     {
         // the target image is likely to be moving roughly in
         // the same manner as it was in the previous frame
+        const alpha = 0.8; //0.2;
         const next: SpeedyMatchedKeypoint[] = [];
         const n = curr.length;
 
@@ -793,25 +563,23 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
             if(cur.matches[0].index < 0 || cur.matches[1].index < 0)
                 continue;
-            /*
-            else if(cur.matches[0].distance > TRACK_MATCH_RATIO * cur.matches[1].distance)
-                continue;
-            */
+            //else if(cur.matches[0].distance > TRACK_MATCH_RATIO * cur.matches[1].distance)
+            //    continue;
 
-            const ini = initial[cur.matches[0].index];
-            const dx = cur.position.x - ini.position.x;
-            const dy = cur.position.y - ini.position.y;
+            const prv = prev[cur.matches[0].index];
+            const dx = cur.position.x - prv.position.x;
+            const dy = cur.position.y - prv.position.y;
 
             // a better mathematical model is needed
-            const alpha = 0.8; //0.2;
-            cur.position.x = ini.position.x + alpha * dx;
-            cur.position.y = ini.position.y + alpha * dy;
+            cur.position.x = prv.position.x + alpha * dx;
+            cur.position.y = prv.position.y + alpha * dy;
             next.push(cur);
         }
 
         // done!
         return next;
     }
+    */
 
     /**
      * Create & setup the pipeline
@@ -835,10 +603,10 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         const denoiser = Speedy.Filter.GaussianBlur();
         const borderClipper = Speedy.Keypoint.BorderClipper('borderClipper');
         const clipper = Speedy.Keypoint.Clipper();
-        const keypointRectifier = Speedy.Keypoint.Transformer('keypointRectifier');
+        const keypointScaler = Speedy.Keypoint.Transformer('keypointScaler');
         const keypointPortalSource = Speedy.Keypoint.Portal.Source('keypointPortalSource');
         const keypointSink = Speedy.Keypoint.SinkOfMatchedKeypoints('keypoints');
-        const imageSink = Speedy.Image.Sink('image');
+        //const imageSink = Speedy.Image.Sink('image');
 
         source.media = null;
         screen.size = Speedy.Size(0,0);
@@ -858,7 +626,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         clipper.size = TRACK_MAX_KEYPOINTS;
         borderClipper.imageSize = screen.size;
         borderClipper.borderSize = Speedy.Vector2(0,0);
-        keypointRectifier.transform = Speedy.Matrix.Eye(3);
+        keypointScaler.transform = Speedy.Matrix.Eye(3);
         matcher.k = 2;
         keypointPortalSource.source = null;
         keypointSink.turbo = USE_TURBO;
@@ -893,9 +661,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         descriptor.output().connectTo(matcher.input('keypoints'));
 
         // prepare output
-        descriptor.output().connectTo(keypointRectifier.input());
-        //preMatcher.output().connectTo(keypointRectifier.input());
-        keypointRectifier.output().connectTo(keypointSink.input());
+        descriptor.output().connectTo(keypointScaler.input());
+        keypointScaler.output().connectTo(keypointSink.input());
         matcher.output().connectTo(keypointSink.input('matches'));
         //imageRectifier.output().connectTo(imageSink.input());
 
@@ -905,9 +672,10 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             imageRectifier, nightvision, nightvisionMux, blur,
             detector, subpixel, borderClipper, clipper, denoiser,
             descriptor, matcher,
-            keypointPortalSource, keypointRectifier, keypointSink,
+            keypointPortalSource, keypointScaler, keypointSink,
             //imageSink
         );
+
         return pipeline;
     }
 }

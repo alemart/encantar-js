@@ -33,10 +33,10 @@ import { SpeedyPipelineNodeResize } from 'speedy-vision/types/core/pipeline/node
 import { SpeedyPipelineNodeKeypointTransformer } from 'speedy-vision/types/core/pipeline/nodes/keypoints/transformer';
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName } from '../image-tracker';
+import { ReferenceImage } from '../reference-image';
 import { TrackerOutput } from '../../tracker';
 import { Nullable } from '../../../utils/utils';
-import { IllegalOperationError } from '../../../utils/errors';
-import { TRACK_RECTIFIED_BORDER } from '../settings';
+import { IllegalOperationError, IllegalArgumentError } from '../../../utils/errors';
 
 /** State output */
 export interface ImageTrackerStateOutput
@@ -45,7 +45,6 @@ export interface ImageTrackerStateOutput
     readonly nextState: ImageTrackerStateName;
     readonly nextStateSettings?: Record<string,any>;
 }
-
 
 /**
  * Abstract state of the Image Tracker
@@ -61,6 +60,9 @@ export abstract class ImageTrackerState
     /** pipeline */
     protected _pipeline: SpeedyPipeline;
 
+    /** a flag telling whether or not the pipeline has been released */
+    protected _pipelineReleased: boolean;
+
 
     /**
      * Constructor
@@ -72,6 +74,7 @@ export abstract class ImageTrackerState
         this._name = name;
         this._imageTracker = imageTracker;
         this._pipeline = this._createPipeline();
+        this._pipelineReleased = false;
     }
 
     /**
@@ -84,6 +87,7 @@ export abstract class ImageTrackerState
 
     /**
      * AR screen size
+     * It may change over time, as when flipping a phone
      */
     get screenSize(): SpeedySize
     {
@@ -107,7 +111,12 @@ export abstract class ImageTrackerState
      */
     release(): null
     {
-        return this._pipeline.release();
+        if(!this._pipelineReleased) {
+            this._pipeline.release();
+            this._pipelineReleased = true;
+        }
+
+        return null;
     }
 
     /**
@@ -183,154 +192,4 @@ export abstract class ImageTrackerState
      * @returns pipeline
      */
     protected abstract _createPipeline(): SpeedyPipeline;
-
-
-
-    //
-    // Some utility methods common to various states
-    //
-
-    /**
-     * Find the coordinates of a polyline surrounding the target image
-     * @param homography maps the target image to the AR screen
-     * @param targetSize size of the target space
-     * @returns promise that resolves to 4 points in AR screen space
-     */
-    protected _findPolylineCoordinates(homography: SpeedyMatrix, targetSize: SpeedySize): SpeedyPromise<SpeedyMatrix>
-    {
-        const w = targetSize.width, h = targetSize.height;
-        const referenceImageCoordinates = Speedy.Matrix(2, 4, [
-            0, 0,
-            w, 0,
-            w, h,
-            0, h,
-        ]);
-
-        const polylineCoordinates = Speedy.Matrix.Zeros(2, 4);
-        return Speedy.Matrix.applyPerspectiveTransform(
-            polylineCoordinates,
-            referenceImageCoordinates,
-            homography
-        );
-    }
-
-    /**
-     * Find a polyline surrounding the target image
-     * @param homography maps the target image to the AR screen
-     * @param targetSize size of the target space
-     * @returns promise that resolves to 4 points in AR screen space
-     */
-    protected _findPolyline(homography: SpeedyMatrix, targetSize: SpeedySize): SpeedyPromise<SpeedyPoint2[]>
-    {
-        return this._findPolylineCoordinates(homography, targetSize).then(polylineCoordinates => {
-            const polydata = polylineCoordinates.read();
-            const polyline = Array.from({ length: 4 }, (_, i) => Speedy.Point2(polydata[2*i], polydata[2*i+1]));
-
-            return polyline;
-        });
-    }
-
-    /**
-     * Whether or not to rotate the warped image in order to best fit the AR screen
-     * @param media media associated with the reference image
-     * @param screenSize AR screen
-     * @returns boolean
-     */
-    protected _mustRotateWarpedImage(media: SpeedyMedia, screenSize: SpeedySize): boolean
-    {
-        const screenAspectRatio = screenSize.width / screenSize.height;
-        const mediaAspectRatio = media.width / media.height;
-        const eps = 0.1;
-
-        return (mediaAspectRatio >= 1+eps && screenAspectRatio < 1-eps) || (mediaAspectRatio < 1-eps && screenAspectRatio >= 1+eps);
-    }
-
-    /**
-     * Find a rectification matrix to be applied to an image fitting the entire AR screen
-     * @param media media associated with the reference image
-     * @param screenSize AR screen
-     * @returns promise that resolves to a rectification matrix
-     */
-    protected _findRectificationMatrixOfFullscreenImage(media: SpeedyMedia, screenSize: SpeedySize): SpeedyPromise<SpeedyMatrix>
-    {
-        const b = TRACK_RECTIFIED_BORDER;
-        const sw = screenSize.width, sh = screenSize.height;
-        const mediaAspectRatio = media.width / media.height;
-        const mustRotate = this._mustRotateWarpedImage(media, screenSize);
-
-        // compute the vertices of the target in screen space
-        // we suppose portrait or landscape mode for both screen & media
-        const c = mustRotate ? 1 / mediaAspectRatio : mediaAspectRatio;
-        const top = sw >= sh ? b * sh : (sh - sw * (1-2*b) / c) / 2;
-        const left = sw >= sh ? (sw - sh * (1-2*b) * c) / 2 : b * sw;
-        const right = sw - left;
-        const bottom = sh - top;
-
-        const targetVertices = Speedy.Matrix(2, 4, [
-            left, top,
-            right, top,
-            right, bottom,
-            left, bottom,
-        ]);
-
-        const screenVertices = Speedy.Matrix(2, 4, [
-            0, 0,
-            sw, 0,
-            sw, sh,
-            0, sh
-        ]);
-
-        const preRectificationMatrix = Speedy.Matrix.Eye(3);
-        const alignmentMatrix = Speedy.Matrix.Zeros(3);
-        const rectificationMatrix = Speedy.Matrix.Zeros(3);
-
-        return (mustRotate ? Speedy.Matrix.perspective(
-            // pre-rectifation: rotate by 90 degrees counterclockwise and scale to screenSize
-            preRectificationMatrix,
-            screenVertices,
-            Speedy.Matrix(2, 4, [ 0,sh , 0,0 , sw,0 , sw,sh ])
-        ) : Speedy.Promise.resolve(preRectificationMatrix)).then(_ =>
-            // alignment: align the target to the center of the screen
-            Speedy.Matrix.perspective(
-                alignmentMatrix,
-                screenVertices,
-                targetVertices
-            )
-        ).then(_ =>
-            // pre-rectify and then align
-            rectificationMatrix.setTo(alignmentMatrix.times(preRectificationMatrix))
-        );
-    }
-
-    /**
-     * Find a rectification matrix to be applied to the target image
-     * @param homography maps a reference image to the AR screen
-     * @param targetSize size of the target space
-     * @param media media associated with the reference image
-     * @param screenSize AR screen
-     * @returns promise that resolves to a rectification matrix
-     */
-    protected _findRectificationMatrixOfCameraImage(homography: SpeedyMatrix, targetSize: SpeedySize, media: SpeedyMedia, screenSize: SpeedySize): SpeedyPromise<SpeedyMatrix>
-    {
-        const sw = screenSize.width, sh = screenSize.height;
-        const screen = Speedy.Matrix(2, 4, [ 0, 0, sw, 0, sw, sh, 0, sh ]);
-
-        const rectificationMatrix = Speedy.Matrix.Zeros(3);
-        return this._findPolylineCoordinates(homography, targetSize).then(polyline =>
-
-            // from target space to (full)screen
-            Speedy.Matrix.perspective(rectificationMatrix, polyline, screen)
-
-        ).then(_ =>
-
-            // from (full)screen to rectified coordinates
-            this._findRectificationMatrixOfFullscreenImage(media, screenSize)
-
-        ).then(mat =>
-
-            // function composition
-            rectificationMatrix.setTo(mat.times(rectificationMatrix))
-
-        );
-    }
 }

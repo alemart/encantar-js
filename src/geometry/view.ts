@@ -23,16 +23,15 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
-import { CameraModel, FX, FY, U0, V0 } from './camera-model';
+import { CameraModel } from './camera-model';
 import { IllegalArgumentError } from '../utils/errors';
 import { Nullable } from '../utils/utils';
 
-/** Default distance in pixels of the near plane to the optical center of the camera */
-const DEFAULT_NEAR = 1;
+/** Default distance of the near plane to the optical center of the camera */
+const DEFAULT_NEAR = 0.1;
 
-/** Default distance in pixels of the far plane to the optical center of the camera */
-const DEFAULT_FAR = 20000;
-
+/** Default distance of the far plane to the optical center of the camera */
+const DEFAULT_FAR = 10000 * DEFAULT_NEAR;
 
 
 /**
@@ -48,33 +47,27 @@ export interface View
     readonly _projectionMatrixInverse: SpeedyMatrix;
 }
 
+
 /**
  * A PerspectiveView is a View defining a symmetric frustum around the z-axis
  * (perspective projection)
  */
 export class PerspectiveView implements View
 {
-    /** A 4x4 matrix that projects the viewer space into the clip space, i.e., [-1,1]^3 */
+    /** Camera model */
+    private readonly _camera: CameraModel;
+
+    /** Distance of the near plane to the optical center of the camera */
+    private readonly _near: number;
+
+    /** Distance of the far plane to the optical center of the camera*/
+    private readonly _far: number;
+
+    /** A 4x4 matrix that projects viewer space into clip space, i.e., [-1,1]^3 */
     private readonly _projectionMatrix: SpeedyMatrix;
 
     /** The inverse of the projection matrix, computed lazily */
     private _inverseProjection: Nullable<SpeedyMatrix>;
-
-    /** Tangent of the half of the horizontal field-of-view */
-    private readonly _tanOfHalfFovx: number;
-
-    /** Tangent of the half of the vertical field-of-view */
-    private readonly _tanOfHalfFovy: number;
-
-    /** Aspect ratio of the frustum */
-    private readonly _aspect: number;
-
-    /** Distance of the near plane to the Z = 0 plane in viewer space */
-    private readonly _near: number;
-
-    /** Distance of the far plane to the Z = 0 plane in viewer space */
-    private readonly _far: number;
-
 
 
 
@@ -86,19 +79,16 @@ export class PerspectiveView implements View
      */
     constructor(camera: CameraModel, near: number = DEFAULT_NEAR, far: number = DEFAULT_FAR)
     {
-        const intrinsics = camera.intrinsics;
-        const screenSize = camera.screenSize;
-
-        this._near = Math.max(0, +near);
-        this._far = Math.max(0, +far);
+        this._near = +near;
+        this._far = +far;
 
         if(this._near >= this._far)
             throw new IllegalArgumentError(`View expects near < far (found near = ${this._near} and far = ${this._far})`);
+        else if(this._near <= 0)
+            throw new IllegalArgumentError(`View expects a positive near (found ${this._near})`);
 
-        this._aspect = screenSize.width / screenSize.height;
-        this._tanOfHalfFovx = intrinsics[U0] / intrinsics[FX];
-        this._tanOfHalfFovy = intrinsics[V0] / intrinsics[FY];
-        this._projectionMatrix = PerspectiveView._computeProjectionMatrix(intrinsics, this._near, this._far);
+        this._camera = camera;
+        this._projectionMatrix = camera.computeProjectionMatrix(this._near, this._far);
         this._inverseProjection = null;
     }
 
@@ -111,11 +101,23 @@ export class PerspectiveView implements View
     }
 
     /**
+     * The inverse of the projection matrix
+     * @internal
+     */
+    get _projectionMatrixInverse(): SpeedyMatrix
+    {
+        if(this._inverseProjection === null)
+            this._inverseProjection = Speedy.Matrix(this._projectionMatrix.inverse());
+
+        return this._inverseProjection;
+    }
+
+    /**
      * Aspect ratio of the frustum
      */
     get aspect(): number
     {
-        return this._aspect;
+        return this._camera.aspectRatio;
     }
 
     /**
@@ -123,7 +125,7 @@ export class PerspectiveView implements View
      */
     get fovx(): number
     {
-        return 2 * Math.atan(this._tanOfHalfFovx);
+        return this._camera.fovx;
     }
 
     /**
@@ -131,7 +133,7 @@ export class PerspectiveView implements View
      */
     get fovy(): number
     {
-        return 2 * Math.atan(this._tanOfHalfFovy);
+        return this._camera.fovy;
     }
 
     /**
@@ -148,41 +150,5 @@ export class PerspectiveView implements View
     get far(): number
     {
         return this._far;
-    }
-
-    /**
-     * The inverse of the projection matrix
-     * @internal
-     */
-    get _projectionMatrixInverse(): SpeedyMatrix
-    {
-        if(this._inverseProjection === null)
-            this._inverseProjection = Speedy.Matrix(this._projectionMatrix.inverse());
-
-        return this._inverseProjection;
-    }
-
-    /**
-     * Compute a perspective projection matrix for WebGL
-     * @param K camera intrinsics
-     * @param near distance of the near plane
-     * @param far distance of the far plane
-     */
-    private static _computeProjectionMatrix(K: number[], near: number, far: number): SpeedyMatrix
-    {
-        // we assume that the principal point is at the center of the image
-        const top = near * (K[V0] / K[FY]);
-        const right = near * (K[U0] / K[FX]);
-        const bottom = -top, left = -right; // symmetric frustum
-
-        // a derivation of this projection matrix can be found at
-        // https://www.songho.ca/opengl/gl_projectionmatrix.html
-        // http://learnwebgl.brown37.net/08_projections/projections_perspective.html
-        return Speedy.Matrix(4, 4, [
-            2 * near / (right - left), 0, 0, 0,
-            0, 2 * near / (top - bottom), 0, 0,
-            (right + left) / (right - left), (top + bottom) / (top - bottom), -(far + near) / (far - near), -1,
-            0, 0, -2 * far * near / (far - near), 0
-        ]);
     }
 }

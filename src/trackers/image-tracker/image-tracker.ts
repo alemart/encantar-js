@@ -37,13 +37,14 @@ import { Tracker, TrackerOutput, TrackerResult, Trackable } from '../tracker';
 import { Session } from '../../core/session';
 import { IllegalOperationError, IllegalArgumentError } from '../../utils/errors';
 import { Resolution } from '../../utils/resolution';
-import { ReferenceImage } from './reference-image';
+import { ReferenceImage, ReferenceImageWithMedia } from './reference-image';
 import { ReferenceImageDatabase } from './reference-image-database';
 import { ImageTrackerState } from './states/state';
 import { ImageTrackerInitialState } from './states/initial';
 import { ImageTrackerTrainingState } from './states/training';
 import { ImageTrackerScanningState } from './states/scanning';
-import { ImageTrackerPreTrackingState } from './states/pre-tracking';
+import { ImageTrackerPreTrackingAState } from './states/pre-tracking-a';
+import { ImageTrackerPreTrackingBState } from './states/pre-tracking-b';
 import { ImageTrackerTrackingState } from './states/tracking';
 import { Nullable, Utils } from '../../utils/utils';
 import { AREventTarget } from '../../utils/ar-events';
@@ -52,20 +53,7 @@ import { ImageTrackerEvent, ImageTrackerEventType } from './image-tracker-event'
 import { SpeedyPoint2 } from 'speedy-vision/types/core/speedy-point';
 import { Viewer } from '../../geometry/viewer';
 import { Pose } from '../../geometry/pose';
-
-/*
-
-A few definitions:
-
-1. Viewport size:
-    size of the drawing buffer of the background canvas = size of the input
-    media, in pixels
-
-2. AR screen size:
-    size for image processing operations, determined by the resolution of the
-    tracker and by the aspect ratio of the input media
-
-*/
+import { CameraModel } from '../../geometry/camera-model';
 
 /** A trackable target */
 export interface TrackableImage extends Trackable
@@ -96,24 +84,21 @@ export interface ImageTrackerOutput extends TrackerOutput
     /** tracker result to be consumed by the user */
     readonly exports?: ImageTrackerResult;
 
-    /** size of the AR screen space, in pixels */
-    readonly screenSize?: SpeedySize;
-
-    /** optional keypoints */
+    /** keypoints found in this framestep */
     readonly keypoints?: SpeedyKeypoint[];
 
-    /** optional polyline for testing */
-    readonly polyline?: SpeedyPoint2[];
+    /** optional keypoints for visualizing & testing */
+    readonly keypointsNIS?: SpeedyKeypoint[];
 
-    /** optional 3x4 camera matrix in AR screen space */
-    readonly cameraMatrix?: SpeedyMatrix;
+    /** optional polyline for visualizing & testing */
+    readonly polylineNDC?: SpeedyPoint2[];
 
-    /** 3x3 homography in AR screen space */
-    homography?: SpeedyMatrix;
+    /** optional camera model for visualizing & testing */
+    readonly camera?: CameraModel;
 }
 
 /** All possible states of an Image Tracker */
-export type ImageTrackerStateName = 'initial' | 'training' | 'scanning' | 'pre-tracking' | 'tracking';
+export type ImageTrackerStateName = 'initial' | 'training' | 'scanning' | 'pre-tracking-a' | 'pre-tracking-b' | 'tracking';
 
 /** A helper */
 const formatSize = (size: SpeedySize) => `${size.width}x${size.height}`;
@@ -163,7 +148,8 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
             'initial': new ImageTrackerInitialState(this),
             'training': new ImageTrackerTrainingState(this),
             'scanning': new ImageTrackerScanningState(this),
-            'pre-tracking': new ImageTrackerPreTrackingState(this),
+            'pre-tracking-a': new ImageTrackerPreTrackingAState(this),
+            'pre-tracking-b': new ImageTrackerPreTrackingBState(this),
             'tracking': new ImageTrackerTrackingState(this),
         };
 
@@ -311,8 +297,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
         // compute the screen size for image processing purposes
         // note: this may change over time...!
         const media = this._source!._internalMedia;
-        const aspectRatio = media.width / media.height;
-        const screenSize = Utils.resolution(this._resolution, aspectRatio);
+        const screenSize = this._computeScreenSize();
 
         // run the active state
         const activeState = this._state[this._activeStateName];
@@ -335,7 +320,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
      * @returns reference image
      * @internal
      */
-    _referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImage>
+    _referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImageWithMedia>
     {
         const training = this._state.training as ImageTrackerTrainingState;
         return training.referenceImageOfKeypoint(keypointIndex);
@@ -363,5 +348,19 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
     {
         const training = this._state.training as ImageTrackerTrainingState;
         return training.referenceKeypoint(keypointIndex);
+    }
+
+    /**
+     * Compute the current size of the AR screen space
+     * Note that this may change over time
+     * @returns size
+     */
+    private _computeScreenSize(): SpeedySize
+    {
+        const media = this._source!._internalMedia;
+        const aspectRatio = media.width / media.height;
+        const screenSize = Utils.resolution(this._resolution, aspectRatio);
+
+        return screenSize;
     }
 }

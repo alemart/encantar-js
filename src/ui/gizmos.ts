@@ -26,8 +26,10 @@ import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { SpeedyKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { Viewport } from '../core/viewport';
+import { CameraModel } from '../geometry/camera-model';
 import { Tracker, TrackerOutput } from '../trackers/tracker';
 import { ImageTrackerOutput } from '../trackers/image-tracker/image-tracker';
+import { NIS_SIZE } from '../trackers/image-tracker/settings';
 
 
 
@@ -122,10 +124,9 @@ class ImageTrackerGizmos implements GizmosRenderer
             return;
 
         const viewportSize = viewport._realSize;
-        const screenSize = output.screenSize;
-        const keypoints = output.keypoints;
-        const polyline = output.polyline;
-        const cameraMatrix = output.cameraMatrix;
+        const keypointsNIS = output.keypointsNIS;
+        const polylineNDC = output.polylineNDC;
+        const camera = output.camera;
 
         // debug
         //ctx.fillStyle = '#000';
@@ -133,43 +134,48 @@ class ImageTrackerGizmos implements GizmosRenderer
         //ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // render keypoints
-        if(keypoints !== undefined && screenSize !== undefined)
-            this._splitAndRenderKeypoints(ctx, keypoints, screenSize, viewportSize);
+        if(keypointsNIS !== undefined)
+            this._splitAndRenderKeypointsNIS(ctx, keypointsNIS, viewportSize);
 
         // render polylines
-        if(polyline !== undefined && screenSize !== undefined)
-            this._renderPolyline(ctx, polyline, screenSize, viewportSize);
+        if(polylineNDC !== undefined)
+            this._renderPolylineNDC(ctx, polylineNDC, viewportSize);
 
         // render the axes of the 3D coordinate system
-        if(cameraMatrix !== undefined && screenSize !== undefined)
-            this._renderAxes(ctx, cameraMatrix, screenSize, viewportSize);
+        if(camera !== undefined)
+            this._renderAxes(ctx, camera, viewportSize);
     }
 
     /**
      * Split keypoints in matched/unmatched categories and
      * render them for testing & development purposes
      * @param ctx canvas 2D context
-     * @param keypoints keypoints to render
-     * @param screenSize AR screen size
+     * @param keypoints keypoints in Normalized Image Space (NIS)
      * @param viewportSize viewport size
      * @param size base keypoint rendering size
      */
-    private _splitAndRenderKeypoints(ctx: CanvasRenderingContext2D, keypoints: SpeedyKeypoint[], screenSize: SpeedySize, viewportSize: SpeedySize, size = 1): void
+    private _splitAndRenderKeypointsNIS(ctx: CanvasRenderingContext2D, keypoints: SpeedyKeypoint[], viewportSize: SpeedySize, size = 1): void
     {
         if(keypoints.length == 0)
             return;
 
         if(!Object.prototype.hasOwnProperty.call(keypoints[0], '_matches')) { // hack...
-            this._renderKeypoints(ctx, keypoints, screenSize, viewportSize, '#f00', size);
+            this._renderKeypointsNIS(ctx, keypoints, viewportSize, '#f00', size);
             return;
         }
 
-        const matchedKeypoints = keypoints as SpeedyMatchedKeypoint[];
-        const goodMatches = matchedKeypoints.filter(keypoint => this._isGoodMatch(keypoint));
-        const badMatches = matchedKeypoints.filter(keypoint => !this._isGoodMatch(keypoint));
+        const goodMatches = [], badMatches = [];
+        for(let i = 0; i < keypoints.length; i++) {
+            const keypoint = keypoints[i] as SpeedyMatchedKeypoint;
 
-        this._renderKeypoints(ctx, badMatches, screenSize, viewportSize, '#f00', size);
-        this._renderKeypoints(ctx, goodMatches, screenSize, viewportSize, '#0f0', size);
+            if(this._isGoodMatch(keypoint))
+                goodMatches.push(keypoint);
+            else
+                badMatches.push(keypoint);
+        }
+
+        this._renderKeypointsNIS(ctx, badMatches, viewportSize, '#f00', size);
+        this._renderKeypointsNIS(ctx, goodMatches, viewportSize, '#0f0', size);
     }
 
     /**
@@ -198,16 +204,15 @@ class ImageTrackerGizmos implements GizmosRenderer
     /**
      * Render keypoints for testing & development purposes
      * @param ctx canvas 2D context
-     * @param keypoints keypoints to render
-     * @param screenSize AR screen size
+     * @param keypoints keypoints in Normalized Image Space (NIS)
      * @param viewportSize viewport size
      * @param color color of the rendered keypoints
      * @param size base keypoint rendering size
      */
-    private _renderKeypoints(ctx: CanvasRenderingContext2D, keypoints: SpeedyKeypoint[], screenSize: SpeedySize, viewportSize: SpeedySize, color = 'red', size = 1): void
+    private _renderKeypointsNIS(ctx: CanvasRenderingContext2D, keypoints: SpeedyKeypoint[], viewportSize: SpeedySize, color = 'red', size = 1): void
     {
-        const sx = viewportSize.width / screenSize.width;
-        const sy = viewportSize.height / screenSize.height;
+        const sx = viewportSize.width / NIS_SIZE;
+        const sy = viewportSize.height / NIS_SIZE;
 
         ctx.beginPath();
 
@@ -226,30 +231,26 @@ class ImageTrackerGizmos implements GizmosRenderer
     }
 
     /**
-     * Render polyline for testing & development purposes
+     * Render a polyline for testing & development purposes
      * @param ctx canvas 2D context
-     * @param polyline vertices
-     * @param screenSize AR screen size
+     * @param polyline vertices in NDC
      * @param viewportSize viewport size
      * @param color color of the rendered polyline
      * @param lineWidth
      */
-    private _renderPolyline(ctx: CanvasRenderingContext2D, polyline: SpeedyPoint2[], screenSize: SpeedySize, viewportSize: SpeedySize, color = '#0f0', lineWidth = 2): void
+    private _renderPolylineNDC(ctx: CanvasRenderingContext2D, polyline: SpeedyPoint2[], viewportSize: SpeedySize, color = '#0f0', lineWidth = 2): void
     {
-        if(polyline.length == 0)
+        const n = polyline.length;
+        const w = viewportSize.width;
+        const h = viewportSize.height;
+
+        if(n == 0)
             return;
 
-        const n = polyline.length;
-        const sx = viewportSize.width / screenSize.width;
-        const sy = viewportSize.height / screenSize.height;
-
-        // render polyline
         ctx.beginPath();
-
-        ctx.moveTo(polyline[n - 1].x * sx, polyline[n - 1].y * sy);
+        ctx.moveTo((polyline[n-1].x * 0.5 + 0.5) * w, (polyline[n-1].y * -0.5 + 0.5) * h);
         for(let j = 0; j < n; j++)
-            ctx.lineTo(polyline[j].x * sx, polyline[j].y * sy);
-
+            ctx.lineTo((polyline[j].x * 0.5 + 0.5) * w, (polyline[j].y * -0.5 + 0.5) * h);
         ctx.strokeStyle = color;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
@@ -258,22 +259,23 @@ class ImageTrackerGizmos implements GizmosRenderer
     /**
      * Render the axes of a 3D coordinate system
      * @param ctx canvas 2D context
-     * @param cameraMatrix 3x4 camera matrix that maps normalized coordinates [-1,1]^3 to AR screen space
-     * @param screenSize AR screen size
+     * @param camera camera model
      * @param viewportSize viewport size
      * @param lineWidth
      */
-    private _renderAxes(ctx: CanvasRenderingContext2D, cameraMatrix: SpeedyMatrix, screenSize: SpeedySize, viewportSize: SpeedySize, lineWidth = 4): void
+    private _renderAxes(ctx: CanvasRenderingContext2D, camera: CameraModel, viewportSize: SpeedySize, lineWidth = 4): void
     {
         const RED = '#f00', GREEN = '#0f0', BLUE = '#00f';
         const color = [ RED, GREEN, BLUE ]; // color of each axis: (X,Y,Z)
         const length = 1; // length of each axis-corresponding line, given in normalized space units
-        const sx = viewportSize.width / screenSize.width;
-        const sy = viewportSize.height / screenSize.height;
+        const w = viewportSize.width;
+        const h = viewportSize.height;
+        const iw = 1 / (camera.imageSize.width / 2);
+        const ih = -1 / (camera.imageSize.height / 2);
 
         /*
 
-        Multiply the 3x4 camera matrix P by:
+        Multiply the 3x4 camera matrix by:
 
         [ 0  L  0  0 ]
         [ 0  0  L  0 ] , where L = length in normalized space of the lines
@@ -287,7 +289,7 @@ class ImageTrackerGizmos implements GizmosRenderer
 
         */
 
-        const p = cameraMatrix.read();
+        const p = camera.matrix.read();
         const l = length;
         const o = [ p[9], p[10], p[11] ]; // origin of the coordinate system
         const x = [ l*p[0]+p[9], l*p[1]+p[10], l*p[2]+p[11] ]; // x-axis
@@ -302,8 +304,8 @@ class ImageTrackerGizmos implements GizmosRenderer
             const x = q[0] / q[2], y = q[1] / q[2];
 
             ctx.beginPath();
-            ctx.moveTo(ox * sx, oy * sy);
-            ctx.lineTo(x * sx, y * sy);
+            ctx.moveTo((ox * iw * 0.5 + 0.5) * w, (oy * ih * 0.5 + 0.5) * h);
+            ctx.lineTo((x * iw * 0.5 + 0.5) * w, (y * ih * 0.5 + 0.5) * h);
             ctx.strokeStyle = color[i];
             ctx.lineWidth = lineWidth;
             ctx.stroke();

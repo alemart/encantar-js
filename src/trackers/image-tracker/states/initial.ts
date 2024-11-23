@@ -78,6 +78,16 @@ export class ImageTrackerInitialState extends ImageTrackerState
     }
 
     /**
+     * Called when leaving the state, after update()
+     */
+    onLeaveState(): void
+    {
+        // we don't return to this state, so we can release the pipeline early
+        this._pipeline.release();
+        this._pipelineReleased = true;
+    }
+
+    /**
      * Create & setup the pipeline
      * @returns pipeline
      */

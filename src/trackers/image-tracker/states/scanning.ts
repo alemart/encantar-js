@@ -37,24 +37,20 @@ import { SpeedyPipelineNodeImagePortalSource, SpeedyPipelineNodeImagePortalSink 
 import { SpeedyPipelineNodeStaticLSHTables } from 'speedy-vision/types/core/pipeline/nodes/keypoints/matchers/lsh-static-tables';
 import { SpeedyKeypoint, SpeedyMatchedKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName } from '../image-tracker';
+import { ImageTrackerUtils, ImageTrackerKeypointPair } from '../image-tracker-utils';
 import { ImageTrackerState, ImageTrackerStateOutput } from './state';
-import { ImageTrackerPreTrackingState } from './pre-tracking';
 import { Nullable, Utils } from '../../../utils/utils';
-import { IllegalOperationError, IllegalArgumentError, DetectionError } from '../../../utils/errors';
+import { DetectionError } from '../../../utils/errors';
 import { 
     SCAN_MATCH_RATIO, SCAN_MIN_MATCHES, SCAN_CONSECUTIVE_FRAMES,
     ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA,
     NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY,
     SCAN_WITH_NIGHTVISION, SCAN_PYRAMID_LEVELS, SCAN_PYRAMID_SCALEFACTOR,
     SCAN_FAST_THRESHOLD, SCAN_MAX_KEYPOINTS, SCAN_LSH_TABLES, SCAN_LSH_HASHSIZE,
-    SCAN_RANSAC_REPROJECTIONERROR,
-    TRAIN_TARGET_NORMALIZED_SIZE,
+    SCAN_RANSAC_REPROJECTIONERROR_NDC,
     NIGHTVISION_QUALITY,
 } from '../settings';
 
-
-/** Default target space size (used when training) */
-const DEFAULT_TARGET_SPACE_SIZE = Speedy.Size(TRAIN_TARGET_NORMALIZED_SIZE, TRAIN_TARGET_NORMALIZED_SIZE);
 
 /** Port of the portal multiplexer: get new data from the camera */
 const PORT_CAMERA = 0;
@@ -65,7 +61,7 @@ const PORT_MEMORY = 1;
 
 
 /**
- * Scanning state of the Image Tracker
+ * In the scanning state we look for a reference image in the video
  */
 export class ImageTrackerScanningState extends ImageTrackerState
 {
@@ -101,7 +97,7 @@ export class ImageTrackerScanningState extends ImageTrackerState
     {
         const imagePortalMux = this._pipeline.node('imagePortalMux') as SpeedyPipelineNodeImageMultiplexer;
         const lshTables = this._pipeline.node('lshTables') as SpeedyPipelineNodeStaticLSHTables;
-        const keypoints = settings.keypoints as SpeedyKeypoint[] | undefined;
+        const database = settings.database as SpeedyKeypoint[] | undefined;
 
         // set attributes
         this._counter = 0;
@@ -111,8 +107,24 @@ export class ImageTrackerScanningState extends ImageTrackerState
         imagePortalMux.port = PORT_CAMERA;
 
         // prepare the keypoint matcher
-        if(keypoints !== undefined)
-            lshTables.keypoints = keypoints;
+        if(database !== undefined)
+            lshTables.keypoints = database;
+    }
+
+    /**
+     * Called just before the GPU processing
+     * @returns promise
+     */
+    protected _beforeUpdate(): SpeedyPromise<void>
+    {
+        const keypointScaler = this._pipeline.node('keypointScaler') as SpeedyPipelineNodeKeypointTransformer;
+        const screenSize = this.screenSize;
+
+        // convert keypoints to NIS
+        keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screenSize);
+
+        // done!
+        return Speedy.Promise.resolve();
     }
 
     /**
@@ -124,116 +136,123 @@ export class ImageTrackerScanningState extends ImageTrackerState
     {
         const imagePortalMux = this._pipeline.node('imagePortalMux') as SpeedyPipelineNodeImageMultiplexer;
         const keypoints = result.keypoints as SpeedyMatchedKeypoint[];
-        const matchedKeypoints = this._goodMatches(keypoints);
+        const image = result.image as SpeedyMedia | undefined;
 
         // tracker output
         const trackerOutput: ImageTrackerOutput = {
-            keypoints: keypoints,
-            screenSize: this.screenSize
+            keypointsNIS: keypoints,
+            polylineNDC: [],
+            image: image,
         };
 
         // keep the last memorized image
         imagePortalMux.port = PORT_MEMORY;
 
-        // have we found enough matches...?
-        if(matchedKeypoints.length >= SCAN_MIN_MATCHES) {
-            return this._findHomography(matchedKeypoints).then(([homography, score]) => {
+        // find high quality matches
+        const matchedKeypoints = this._selectGoodMatches(keypoints);
+        if(matchedKeypoints.length < SCAN_MIN_MATCHES) {
 
-                // have we found the best homography so far?
-                if(score >= this._bestScore) {
-                    // store it only if we'll be running the pipeline again
-                    if(this._counter < SCAN_CONSECUTIVE_FRAMES - 1) {
-                        this._bestScore = score;
-                        this._bestHomography = homography;
-
-                        // memorize the last image, corresponding to the best homography(*)
-                        imagePortalMux.port = PORT_CAMERA;
-
-                        /*
-
-                        (*) technically speaking, this is not exactly the case. Since we're
-                            using turbo to download the keypoints, there's a slight difference
-                            between the data used to compute the homography and the last image.
-                            Still, assuming continuity of the video stream, this logic is
-                            good enough.
-
-                        */
-                    }
-                }
-
-                // find a polyline surrounding the target
-                return this._findPolyline(homography, DEFAULT_TARGET_SPACE_SIZE);
-
-            }).then(polyline => {
-
-                // continue a little longer in the scanning state
-                if(++this._counter < SCAN_CONSECUTIVE_FRAMES) {
-                    return {
-                        nextState: this.name,
-                        trackerOutput: {
-                            polyline: polyline,
-                            ...trackerOutput,
-                        },
-                    };
-                }
-
-                // this image should correspond to the best homography
-                const snapshot = this._pipeline.node('imagePortalSink') as SpeedyPipelineNodeImagePortalSink;
-
-                // the reference image that we'll track
-                const referenceImage = this._imageTracker._referenceImageOfKeypoint(
-                    matchedKeypoints[0].matches[0].index
-                );
-
-                // let's track the target!
-                return {
-                    nextState: 'pre-tracking',
-                    nextStateSettings: {
-                        homography: this._bestHomography,
-                        snapshot: snapshot,
-                        referenceImage: referenceImage,
-                    },
-                    trackerOutput: {
-                        polyline: polyline,
-                        ...trackerOutput,
-                    },
-                };
-
-            }).catch(() => {
-
-                // continue in the scanning state
-                return {
-                    nextState: this.name,
-                    trackerOutput: trackerOutput,
-                };
-
-            });
-        }
-        else {
-
-            // not enough matches...!
+            // not enough high quality matches?
+            // we'll continue to scan the scene
             this._counter = 0;
             this._bestScore = 0;
 
+            return Speedy.Promise.resolve({
+                nextState: 'scanning',
+                trackerOutput: trackerOutput,
+            });
+
         }
 
-        // we'll continue to scan the scene
-        return Speedy.Promise.resolve({
-            nextState: this.name,
-            trackerOutput: trackerOutput,
+        // we have enough high quality matches!
+        const pairs = this._findMatchingPairs(matchedKeypoints);
+        const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
+
+        // find a homography
+        return this._findHomographyNDC(points).then(([homography, score]) => {
+
+            // have we found the best homography so far?
+            if(score >= this._bestScore) {
+
+                // store it only if we'll be running the pipeline again
+                if(this._counter < SCAN_CONSECUTIVE_FRAMES - 1) {
+                    this._bestScore = score;
+                    this._bestHomography = homography;
+
+                    // memorize the last image, corresponding to the best homography(*)
+                    imagePortalMux.port = PORT_CAMERA;
+
+                    /*
+
+                    (*) technically speaking, this is not exactly the case. Since we're
+                        using turbo to download the keypoints, there's a slight difference
+                        between the data used to compute the homography and the last image.
+                        Still, assuming continuity of the video stream, this logic is
+                        good enough.
+
+                    */
+                }
+
+            }
+
+            // find a polyline surrounding the target
+            const polylineNDC = ImageTrackerUtils.findPolylineNDC(homography);
+            trackerOutput.polylineNDC!.push(...polylineNDC);
+
+            // continue a little longer in the scanning state
+            if(++this._counter < SCAN_CONSECUTIVE_FRAMES) {
+                return {
+                    nextState: 'scanning',
+                    trackerOutput: trackerOutput
+                };
+            }
+
+            // this image should correspond to the best homography
+            const snapshot = this._pipeline.node('imagePortalSink') as SpeedyPipelineNodeImagePortalSink;
+
+            // the reference image that we'll track
+            const referenceImage = this._imageTracker._referenceImageOfKeypoint(
+                matchedKeypoints[0].matches[0].index
+            );
+
+            // this shouldn't happen
+            if(!referenceImage)
+                throw new DetectionError(`Can't track an unknown reference image`);
+
+            // let's track the target!
+            return {
+                nextState: 'pre-tracking-a',
+                nextStateSettings: {
+                    homography: this._bestHomography,
+                    snapshot: snapshot,
+                    referenceImage: referenceImage,
+                },
+                trackerOutput: trackerOutput
+            };
+
+        })
+        .catch(err => {
+
+            // continue in the scanning state
+            Utils.warning(`Error when scanning: ${err.toString()}`)
+            return {
+                nextState: 'scanning',
+                trackerOutput: trackerOutput,
+            };
+
         });
     }
 
     /**
-     * Find "high quality" matches of a single reference image
-     * @param keypoints
-     * @returns high quality matches
+     * Select high quality matches of a single reference image
+     * @param keypoints matched keypoints of any quality, to any reference image
+     * @returns high quality matches of a single reference image
      */
-    private _goodMatches(keypoints: SpeedyMatchedKeypoint[]): SpeedyMatchedKeypoint[]
+    private _selectGoodMatches(keypoints: SpeedyMatchedKeypoint[]): SpeedyMatchedKeypoint[]
     {
         const matchedKeypointsPerImageIndex: Record<number,SpeedyMatchedKeypoint[]> = Object.create(null);
 
-        // filter "good matches"
+        // find high quality matches, regardless of reference image
         for(let j = keypoints.length - 1; j >= 0; j--) {
             const keypoint = keypoints[j];
             if(keypoint.matches[0].index >= 0 && keypoint.matches[1].index >= 0) {
@@ -255,7 +274,7 @@ export class ImageTrackerScanningState extends ImageTrackerState
             }
         }
 
-        // find the image with the most matches
+        // find the reference image with the most high quality matches
         let matchedKeypoints: SpeedyMatchedKeypoint[] = [];
         for(const imageIndex in matchedKeypointsPerImageIndex) {
             if(matchedKeypointsPerImageIndex[imageIndex].length > matchedKeypoints.length)
@@ -267,71 +286,41 @@ export class ImageTrackerScanningState extends ImageTrackerState
     }
 
     /**
-     * Find a homography matrix using matched keypoints
-     * @param matchedKeypoints "good" matches only
-     * @returns homography from reference image space to AR screen space & homography "quality" score
+     * Find a homography matrix using matched keypoints in NDC
+     * @param points compiled pairs of keypoints in NDC
+     * @returns homography (from reference to matched, NDC) & "quality" score
      */
-    private _findHomography(matchedKeypoints: SpeedyMatchedKeypoint[]): SpeedyPromise<[SpeedyMatrix,number]>
+    private _findHomographyNDC(points: SpeedyMatrix): SpeedyPromise<[SpeedyMatrix,number]>
     {
-        const srcCoords: number[] = [];
-        const dstCoords: number[] = [];
+        return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
+            method: 'pransac',
+            reprojectionError: SCAN_RANSAC_REPROJECTIONERROR_NDC,
+            numberOfHypotheses: 512,
+            bundleSize: 128,
+        });
+    }
 
-        // find matching coordinates of the keypoints
+    /**
+     * Find matching pairs of keypoints from reference image (src) to matched image (dest)
+     * @param matchedKeypoints
+     * @returns an array of matching pairs [src, dest]
+     */
+    private _findMatchingPairs(matchedKeypoints: SpeedyMatchedKeypoint[]): ImageTrackerKeypointPair[]
+    {
+        const pairs = new Array<ImageTrackerKeypointPair>(matchedKeypoints.length);
+
         for(let i = matchedKeypoints.length - 1; i >= 0; i--) {
             const matchedKeypoint = matchedKeypoints[i];
             const referenceKeypoint = this._imageTracker._referenceKeypoint(matchedKeypoint.matches[0].index);
-            if(referenceKeypoint != null) {
-                srcCoords.push(referenceKeypoint.x);
-                srcCoords.push(referenceKeypoint.y);
-                dstCoords.push(matchedKeypoint.x);
-                dstCoords.push(matchedKeypoint.y);
-            }
-            else {
-                // this shouldn't happen
-                return Speedy.Promise.reject(
-                    new DetectionError(`Invalid keypoint match index: ${matchedKeypoint.matches[0].index} from ${matchedKeypoint.toString()}`)
-                );
-            }
+
+            // this shouldn't happen
+            if(referenceKeypoint == null)
+                throw new DetectionError(`Invalid keypoint match index: ${matchedKeypoint.matches[0].index} from ${matchedKeypoint.toString()}`);
+
+            pairs[i] = [ referenceKeypoint, matchedKeypoint ];
         }
 
-        // too few points?
-        const n = srcCoords.length / 2;
-        if(n < 4) {
-            return Speedy.Promise.reject(
-                new DetectionError(`Too few points to compute a homography`)
-            );
-        }
-
-        // compute a homography
-        const src = Speedy.Matrix(2, n, srcCoords);
-        const dst = Speedy.Matrix(2, n, dstCoords);
-        const mask = Speedy.Matrix.Zeros(1, n);
-
-        const homography = Speedy.Matrix.Zeros(3);
-        return Speedy.Matrix.findHomography(homography, src, dst, {
-            method: 'pransac',
-            reprojectionError: SCAN_RANSAC_REPROJECTIONERROR,
-            numberOfHypotheses: 512,
-            bundleSize: 128,
-            mask: mask,
-        }).then(homography => {
-
-            // check if this is a valid homography
-            const a00 = homography.at(0,0);
-            if(Number.isNaN(a00))
-                throw new DetectionError(`Can't compute homography`);
-
-            // count the number of inliers
-            const inliers = mask.read();
-            let inlierCount = 0;
-            for(let i = inliers.length - 1; i >= 0; i--)
-                inlierCount += inliers[i];
-            const score = inlierCount / inliers.length;
-
-            // done!
-            return [ homography, score ];
-
-        });
+        return pairs;
     }
 
     /**
@@ -354,6 +343,7 @@ export class ImageTrackerScanningState extends ImageTrackerState
         const clipper = Speedy.Keypoint.Clipper();
         const lshTables = Speedy.Keypoint.Matcher.StaticLSHTables('lshTables');
         const knn = Speedy.Keypoint.Matcher.LSHKNN();
+        const keypointScaler = Speedy.Keypoint.Transformer('keypointScaler');
         const keypointSink = Speedy.Keypoint.SinkOfMatchedKeypoints('keypoints');
         const imagePortalSink = Speedy.Image.Portal.Sink('imagePortalSink');
         const imagePortalSource = Speedy.Image.Portal.Source('imagePortalSource');
@@ -386,6 +376,7 @@ export class ImageTrackerScanningState extends ImageTrackerState
         imagePortalMux.port = PORT_CAMERA; // 0 = camera stream; 1 = lock image
         imagePortalCopy.size = Speedy.Size(0,0);
         imagePortalCopy.scale = Speedy.Vector2(1,1);
+        keypointScaler.transform = Speedy.Matrix.Eye(3);
         keypointSink.turbo = true;
 
         // prepare input
@@ -412,7 +403,8 @@ export class ImageTrackerScanningState extends ImageTrackerState
         lshTables.output().connectTo(knn.input('lsh'));
 
         // prepare output
-        clipper.output().connectTo(keypointSink.input());
+        clipper.output().connectTo(keypointScaler.input());
+        keypointScaler.output().connectTo(keypointSink.input());
         knn.output().connectTo(keypointSink.input('matches'));
         //pyramid.output().connectTo(imageSink.input());
 
@@ -429,7 +421,7 @@ export class ImageTrackerScanningState extends ImageTrackerState
             greyscale, blur, nightvision, nightvisionMux, pyramid,
             detector, descriptor, clipper,
             lshTables, knn,
-            keypointSink,
+            keypointScaler, keypointSink,
             imagePortalSink, imagePortalSource,
             imagePortalMux, imagePortalBuffer, imagePortalCopy,
             //, imageSink

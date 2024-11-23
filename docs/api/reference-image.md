@@ -12,6 +12,8 @@ A name used to identify this reference image in a [database](reference-image-dat
 
 ### image
 
-`referenceImage.image: HTMLImageElement | HTMLCanvasElement | ImageBitmap, read-only`
+`referenceImage.image: HTMLImageElement | ImageBitmap | ImageData, read-only`
 
 Image template with pixel data.
+
+*Note:* `ImageData` is acceptable since version 0.4.0.

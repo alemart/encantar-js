@@ -31,9 +31,9 @@ import { SpeedyPipelineNodeKeypointTransformer } from 'speedy-vision/types/core/
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { Resolution } from '../../../utils/resolution';
 import { ImageTracker, ImageTrackerOutput, ImageTrackerStateName } from '../image-tracker';
+import { ImageTrackerUtils, ImageTrackerKeypointPair } from '../image-tracker-utils';
 import { ImageTrackerState, ImageTrackerStateOutput } from './state';
-import { ReferenceImage } from '../reference-image';
-import { ReferenceImageDatabase } from '../reference-image-database';
+import { ReferenceImage, ReferenceImageWithMedia } from '../reference-image';
 import { Nullable, Utils } from '../../../utils/utils';
 import { IllegalOperationError, TrainingError } from '../../../utils/errors';
 import {
@@ -43,7 +43,6 @@ import {
     SCAN_WITH_NIGHTVISION, NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY,
     SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA,
     TRAIN_IMAGE_SCALE,
-    TRAIN_TARGET_NORMALIZED_SIZE,
     NIGHTVISION_QUALITY,
     SUBPIXEL_METHOD,
 } from '../settings';
@@ -53,14 +52,14 @@ import {
 /** The training map maps keypoints to reference images */
 interface TrainingMap
 {
+    /** the collection of all keypoints (of all images) */
+    readonly keypoints: SpeedyKeypoint[];
+
     /** maps a keypoint index to an image index */
     readonly referenceImageIndex: number[];
 
-    /** maps an image index to a reference image */
-    readonly referenceImage: ReferenceImage[];
-
-    /** the collection of all keypoints (of all images) */
-    readonly keypoints: SpeedyKeypoint[];
+    /** reference images */
+    readonly referenceImages: ReferenceImageWithMedia[];
 }
 
 
@@ -70,8 +69,10 @@ interface TrainingMap
  */
 export class ImageTrackerTrainingState extends ImageTrackerState
 {
+    /** index of the image being used to train the tracker */
     private _currentImageIndex = 0;
-    private _image: ReferenceImage[] = [];
+
+    /** training map */
     private _trainingMap: TrainingMap;
 
 
@@ -86,9 +87,9 @@ export class ImageTrackerTrainingState extends ImageTrackerState
 
         // initialize the training map
         this._trainingMap = {
+            keypoints: [],
             referenceImageIndex: [],
-            referenceImage: [],
-            keypoints: []
+            referenceImages: [],
         };
     }
 
@@ -106,10 +107,9 @@ export class ImageTrackerTrainingState extends ImageTrackerState
 
         // prepare to train...
         this._currentImageIndex = 0;
-        this._image.length = 0;
-        this._trainingMap.referenceImageIndex.length = 0;
-        this._trainingMap.referenceImage.length = 0;
         this._trainingMap.keypoints.length = 0;
+        this._trainingMap.referenceImageIndex.length = 0;
+        this._trainingMap.referenceImages.length = 0;
 
         // lock the database
         Utils.log(`Image Tracker: training using ${database.count} reference image${database.count != 1 ? 's' : ''}`);
@@ -117,7 +117,17 @@ export class ImageTrackerTrainingState extends ImageTrackerState
 
         // collect all images
         for(const referenceImage of database)
-            this._image.push(referenceImage);
+            this._trainingMap.referenceImages.push(referenceImage);
+    }
+
+    /**
+     * Called when leaving the state, after update()
+     */
+    onLeaveState(): void
+    {
+        // we don't return to this state, so we can release the pipeline early
+        this._pipeline.release();
+        this._pipelineReleased = true;
     }
 
     /**
@@ -126,66 +136,25 @@ export class ImageTrackerTrainingState extends ImageTrackerState
      */
     protected _beforeUpdate(): SpeedyPromise<void>
     {
-        const arScreenSize = this.screenSize;
         const source = this._pipeline.node('source') as SpeedyPipelineNodeImageSource;
         const screen = this._pipeline.node('screen') as SpeedyPipelineNodeResize;
         const keypointScaler = this._pipeline.node('keypointScaler') as SpeedyPipelineNodeKeypointTransformer;
 
-        // this shouldn't happen
-        if(this._currentImageIndex >= this._image.length)
-            return Speedy.Promise.reject(new IllegalOperationError());
-
         // set the appropriate training media
-        const database = this._imageTracker.database;
-        const referenceImage = this._image[this._currentImageIndex];
-        const media = database._findMedia(referenceImage.name);
-        source.media = media;
+        const referenceImage = this._trainingMap.referenceImages[this._currentImageIndex];
+        source.media = referenceImage.media;
 
         // compute the appropriate size of the training image space
         const resolution = this._imageTracker.resolution;
         const scale = TRAIN_IMAGE_SCALE; // ORB is not scale-invariant
-        const aspectRatioOfTrainingImage = media.width / media.height;
+        const aspectRatioOfTrainingImage = referenceImage.aspectRatio;
 
-        /*
-        let sin = 0, cos = 1;
-
-        if((aspectRatioOfSourceVideo - 1) * (aspectRatioOfTrainingImage - 1) >= 0) {
-            // training image and source video: both in landscape mode or both in portrait mode
-            screen.size = Utils.resolution(resolution, aspectRatioOfTrainingImage);
-            screen.size.width = Math.round(screen.size.width * scale);
-            screen.size.height = Math.round(screen.size.height * scale);
-        }
-        else if(aspectRatioOfTrainingImage > aspectRatioOfSourceVideo) {
-            // training image: portrait mode; source video: landscape mode
-            screen.size = Utils.resolution(resolution, 1 / aspectRatioOfTrainingImage);
-            screen.size.width = Math.round(screen.size.width * scale);
-            screen.size.height = Math.round(screen.size.height * scale);
-            sin = 1; cos = 0; // rotate 90deg
-        }
-        else {
-            // training image: landscape mode; source video: portrait mode
-        }
-        */
         screen.size = Utils.resolution(resolution, aspectRatioOfTrainingImage);
         screen.size.width = Math.round(screen.size.width * scale);
         screen.size.height = Math.round(screen.size.height * scale);
 
-
-        // convert keypoints from the training image space to AR screen space
-        // let's pretend that trained keypoints belong to the AR screen space,
-        // regardless of the size of the target image. This will make things
-        // easier when computing the homography.
-        /*
-        const sw = arScreenSize.width / screen.size.width;
-        const sh = arScreenSize.height / screen.size.height;
-        */
-        const sw = TRAIN_TARGET_NORMALIZED_SIZE / screen.size.width;
-        const sh = TRAIN_TARGET_NORMALIZED_SIZE / screen.size.height;
-        keypointScaler.transform = Speedy.Matrix(3, 3, [
-            sw, 0,  0,
-            0,  sh, 0,
-            0,  0,  1,
-        ]);
+        // convert keypoints to NIS
+        keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screen.size);
 
         // log
         Utils.log(`Image Tracker: training using reference image "${referenceImage.name}" at ${screen.size.width}x${screen.size.height}...`);
@@ -201,15 +170,20 @@ export class ImageTrackerTrainingState extends ImageTrackerState
      */
     protected _afterUpdate(result: SpeedyPipelineOutput): SpeedyPromise<ImageTrackerStateOutput>
     {
-        const referenceImage = this._image[this._currentImageIndex];
+        const referenceImage = this._trainingMap.referenceImages[this._currentImageIndex];
         const keypoints = result.keypoints as SpeedyKeypoint[];
         const image = result.image as SpeedyMedia | undefined;
 
         // log
         Utils.log(`Image Tracker: found ${keypoints.length} keypoints in reference image "${referenceImage.name}"`);
 
+        // tracker output
+        const trackerOutput: ImageTrackerOutput = {
+            keypointsNIS: image !== undefined ? keypoints : undefined, // debug only
+            image: image,
+        };
+
         // set the training map, so that we can map all keypoints of the current image to the current image
-        this._trainingMap.referenceImage.push(referenceImage);
         for(let i = 0; i < keypoints.length; i++) {
             this._trainingMap.keypoints.push(keypoints[i]);
             this._trainingMap.referenceImageIndex.push(this._currentImageIndex);
@@ -218,31 +192,22 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         // the current image has been processed!
         ++this._currentImageIndex;
 
-        // set output
-        if(this._currentImageIndex >= this._image.length) {
-
-            // finished training!
-            return Speedy.Promise.resolve({
-                //nextState: 'training',
-                nextState: 'scanning',
-                nextStateSettings: {
-                    keypoints: this._trainingMap.keypoints,
-                },
-                trackerOutput: { },
-                //trackerOutput: { image, keypoints, screenSize: this.screenSize },
-            });
-
-        }
-        else {
-
-            // we're not done yet
+        // we're not done yet
+        if(this._currentImageIndex < this._trainingMap.referenceImages.length) {
             return Speedy.Promise.resolve({
                 nextState: 'training',
-                trackerOutput: { },
-                //trackerOutput: { image, keypoints, screenSize: this.screenSize },
+                trackerOutput: trackerOutput
             });
-
         }
+
+        // finished training!
+        return Speedy.Promise.resolve({
+            nextState: 'scanning',
+            trackerOutput: trackerOutput,
+            nextStateSettings: {
+                database: this._trainingMap.keypoints,
+            }
+        });
     }
 
     /**
@@ -268,7 +233,7 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         const clipper = Speedy.Keypoint.Clipper();
         const keypointScaler = Speedy.Keypoint.Transformer('keypointScaler');
         const keypointSink = Speedy.Keypoint.Sink('keypoints');
-        const imageSink = Speedy.Image.Sink('image');
+        //const imageSink = Speedy.Image.Sink('image');
 
         source.media = null;
         screen.size = Speedy.Size(0,0);
@@ -313,12 +278,12 @@ export class ImageTrackerTrainingState extends ImageTrackerState
         // keypoint description
         greyscale.output().connectTo(blur.input());
         blur.output().connectTo(descriptor.input('image'));
-        clipper.output().connectTo(descriptor.input('keypoints'));
+        subpixel.output().connectTo(descriptor.input('keypoints'));
 
         // prepare output
         descriptor.output().connectTo(keypointScaler.input());
         keypointScaler.output().connectTo(keypointSink.input());
-        nightvisionMux.output().connectTo(imageSink.input());
+        //nightvisionMux.output().connectTo(imageSink.input());
 
         // done!
         pipeline.init(
@@ -327,27 +292,27 @@ export class ImageTrackerTrainingState extends ImageTrackerState
             pyramid, detector, blur, descriptor, clipper,
             denoiser, blurredPyramid, subpixel,
             keypointScaler, keypointSink,
-            imageSink
+            //imageSink
         );
         return pipeline;
     }
 
     /**
-     * Get reference image
+     * Get the reference image associated with a keypoint index in the training map
      * @param keypointIndex -1 if not found
      * @returns reference image
      */
-    referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImage>
+    referenceImageOfKeypoint(keypointIndex: number): Nullable<ReferenceImageWithMedia>
     {
         const imageIndex = this.referenceImageIndexOfKeypoint(keypointIndex);
         if(imageIndex < 0)
             return null;
 
-        return this._trainingMap.referenceImage[imageIndex];
+        return this._trainingMap.referenceImages[imageIndex];
     }
 
     /**
-     * Get reference image index
+     * Get the reference image index associated with a keypoint index in the training map
      * @param keypointIndex -1 if not found
      * @returns reference image index, or -1 if not found
      */
@@ -358,14 +323,14 @@ export class ImageTrackerTrainingState extends ImageTrackerState
             return -1;
 
         const imageIndex = this._trainingMap.referenceImageIndex[keypointIndex];
-        if(imageIndex < 0 || imageIndex >= this._trainingMap.referenceImage.length)
+        if(imageIndex < 0 || imageIndex >= this._trainingMap.referenceImages.length)
             return -1;
 
         return imageIndex;
     }
 
     /**
-     * Get keypoint of the trained set
+     * Get a keypoint of the trained set
      * @param keypointIndex -1 if not found
      * @returns a keypoint
      */
