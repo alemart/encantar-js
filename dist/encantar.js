@@ -5,7 +5,7 @@
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-11-23T16:53:17.780Z
+ * Date: 2024-11-25T01:46:40.728Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -20127,8 +20127,6 @@ class StatsPanel {
  * settings.ts
  * Settings of the Image Tracker
  */
-/** Default tracking resolution */
-const DEFAULT_TRACKING_RESOLUTION = 'sm';
 /** Maximum number of keypoints to be stored for each reference image when in the training state */
 const TRAIN_MAX_KEYPOINTS = 1024; //512;
 /** Percentage relative to the screen size adjusted to the aspect ratio of the reference image */
@@ -25814,17 +25812,21 @@ class ImageTrackerTrackingState extends ImageTrackerState {
 
 
 
-
 /** A helper */
 const formatSize = (size) => `${size.width}x${size.height}`;
+/** Default options for instantiating an ImageTracker */
+const image_tracker_DEFAULT_OPTIONS = {
+    resolution: 'sm'
+};
 /**
  * The ImageTracker tracks an image (one at a time)
  */
 class ImageTracker extends AREventTarget {
     /**
      * Constructor
+     * @param options
      */
-    constructor() {
+    constructor(options) {
         super();
         // the states
         this._state = {
@@ -25842,7 +25844,8 @@ class ImageTracker extends AREventTarget {
         this._lastOutput = {};
         this._database = new ReferenceImageDatabase();
         // user settings
-        this._resolution = DEFAULT_TRACKING_RESOLUTION;
+        options = Object.assign({}, image_tracker_DEFAULT_OPTIONS, options);
+        this._resolution = options.resolution;
     }
     /**
      * The type of the tracker
@@ -26611,9 +26614,17 @@ class PointerTracker {
 class TrackerFactory {
     /**
      * Create an Image Tracker
+     * @param options
+     */
+    static Image(options = {}) {
+        return new ImageTracker(options);
+    }
+    /**
+     * Create an Image Tracker with default settings
+     * @deprecated
      */
     static ImageTracker() {
-        return new ImageTracker();
+        return this.Image();
     }
     /**
      * Create a Pointer Tracker
@@ -26969,6 +26980,7 @@ const DEFAULT_CAMERA_OPTIONS = {
 class CameraSource extends VideoSource {
     /**
      * Constructor
+     * @param options
      */
     constructor(options) {
         const video = document.createElement('video');
