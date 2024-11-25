@@ -68,6 +68,9 @@ body {
     font-size: 96px;
     color: white;
     text-decoration: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
     opacity: 0.5;
     transition: opacity 0.5s;
     transition: transform 0.125s;
