@@ -10,6 +10,8 @@ A [tracker](tracker.md) that tracks images in a video. Images are tracked using 
 
 Instantiate an image tracker with the specified `options`.
 
+*Since:* 0.4.0
+
 **Arguments**
 
 * `options: object, optional`. An object with the following keys (all are optional):
