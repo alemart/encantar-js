@@ -177,9 +177,9 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
         const scene = this.el;
 
         // validate
-        if(!scene.getAttribute('ar-session')) {
-            scene.setAttribute('ar-session', {}); // use a default ar-session
-            //throw new Error('Missing ar-session in a-scene'); // other errors will appear
+        if(!scene.getAttribute('encantar')) {
+            scene.setAttribute('encantar', {}); // use a default encantar
+            //throw new Error('Missing encantar in a-scene'); // other errors will appear
         }
 
         // initial setup
@@ -400,10 +400,10 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
     _loadPreferences()
     {
         const scene = this.el;
-        const sessionComponent = scene.components['ar-session'];
+        const sessionComponent = scene.components['encantar'];
 
         if(sessionComponent === undefined)
-            throw new Error('Missing ar-session in a-scene');
+            throw new Error('Missing encantar in a-scene');
 
         return sessionComponent.preferences();
     },
@@ -461,9 +461,10 @@ const ARComponent = obj => Object.assign({}, obj, {
 });
 
 /**
- * AR Session
+ * The encantar component enchants an a-scene with AR
+ * Parameters of the AR scene are set in this component
  */
-AFRAME.registerComponent('ar-session', ARComponent({
+AFRAME.registerComponent('encantar', ARComponent({
 
     schema: {
 
