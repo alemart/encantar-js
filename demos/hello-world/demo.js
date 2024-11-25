@@ -18,7 +18,7 @@ async function startARSession()
         );
     }
 
-    const tracker = AR.Tracker.ImageTracker();
+    const tracker = AR.Tracker.Image();
     await tracker.database.add([
     {
         name: 'mage',
