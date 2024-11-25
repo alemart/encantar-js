@@ -144,7 +144,7 @@ window.onload = async function()
             );
         }
 
-        const tracker = AR.Tracker.Image();
+        const tracker = AR.Tracker.ImageTracker();
     }
     catch(error) {
         alert(error.message);
@@ -185,7 +185,7 @@ window.onload = async function()
             );
         }
 
-        const tracker = AR.Tracker.Image();
+        const tracker = AR.Tracker.ImageTracker();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')

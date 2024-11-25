@@ -16,7 +16,7 @@ async function startARSession()
         );
     }
 
-    const tracker = AR.Tracker.Image();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
@@ -160,7 +160,7 @@ async function startARSession()
         );
     }
 
-    const tracker = AR.Tracker.Image();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
@@ -206,7 +206,7 @@ async function startARSession()
         );
     }
 
-    const tracker = AR.Tracker.Image();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
@@ -260,7 +260,7 @@ async function startARSession()
         );
     }
 
-    const tracker = AR.Tracker.Image();
+    const tracker = AR.Tracker.ImageTracker();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
