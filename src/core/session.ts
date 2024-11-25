@@ -708,7 +708,7 @@ export class Session extends AREventTarget<SessionEventType>
 
                 // update internals
                 this._renderStats.update();
-                this._statsPanel.update(time, this._trackers, this._sources, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
+                this._statsPanel.update(time, this._sources, this._trackers, this._viewport, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
                 this._frameReady = false;
 
             }

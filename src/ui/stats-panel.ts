@@ -82,16 +82,17 @@ export class StatsPanel
     /**
      * A method to be called in the update loop
      * @param time current time in ms
-     * @param trackers the trackers attached to the session
      * @param sources the sources of media linked to the session
+     * @param trackers the trackers attached to the session
+     * @param viewport the viewport
      * @param gpu GPU cycles per second
      * @param fps frames per second
      */
-    update(time: DOMHighResTimeStamp, trackers: Tracker[], sources: Source[], gpu: number, fps: number): void
+    update(time: DOMHighResTimeStamp, sources: Source[], trackers: Tracker[], viewport: Viewport, gpu: number, fps: number): void
     {
         if(time >= this._lastUpdate + UPDATE_INTERVAL) {
             this._lastUpdate = time;
-            this._update(trackers, sources, fps, gpu);
+            this._update(sources, trackers, viewport, fps, gpu);
         }
     }
 
@@ -113,12 +114,13 @@ export class StatsPanel
 
     /**
      * Update the contents of the panel
-     * @param trackers the trackers attached to the session
      * @param sources the sources of media linked to the session
+     * @param trackers the trackers attached to the session
+     * @param viewport the viewport
      * @param fps frames per second
      * @param gpu GPU cycles per second
      */
-    private _update(trackers: Tracker[], sources: Source[], fps: number, gpu: number): void
+    private _update(sources: Source[], trackers: Tracker[], viewport: Viewport, fps: number, gpu: number): void
     {
         // all sanitized
         const lfps = this._label('_ar_fps');
@@ -147,6 +149,12 @@ export class StatsPanel
         if(lout !== null) {
             const trackerStats = trackers.map(tracker => tracker._stats).join(', ');
             lout.innerText = trackerStats;
+        }
+
+        const ldraw = this._label('_ar_draw');
+        if(ldraw !== null) {
+            const size = viewport.virtualSize;
+            ldraw.innerText = `${size.width}x${size.height} viewport`;
         }
     }
 
@@ -239,6 +247,9 @@ export class StatsPanel
 
         print('<br>');
         print('OUT: <span class="_ar_out"></span>');
+
+        print('<br>');
+        print('DRAW: <span class="_ar_draw"></span>');
 
         return content;
     }
