@@ -203,7 +203,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
     }
 
     /**
-     * Resolution of the AR screen space
+     * Resolution of the tracker
      */
     get resolution(): Resolution
     {
@@ -211,11 +211,13 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
     }
 
     /**
-     * Resolution of the AR screen space
+     * Resolution of the tracker
+     * @readonly
      */
     set resolution(resolution: Resolution)
     {
-        this._resolution = resolution;
+        // this property is readonly, but this setter has been kept because
+        // it wasn't readonly in previous versions of the engine. FIXME
     }
 
     /**

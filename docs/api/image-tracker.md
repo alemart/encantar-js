@@ -63,9 +63,11 @@ A [database](reference-image-database.md) of [reference images](reference-image.
 
 ### resolution
 
-`tracker.resolution: Resolution`
+`tracker.resolution: Resolution, read-only`
 
 The [resolution](resolution.md) adopted by the computer vision algorithms implemented in the tracker. Higher resolutions improve the tracking quality, but are computationally more expensive. Note that this resolution is different from, and should not be larger than, the [resolution of the camera](camera-source.md#resolution)!
+
+*Note:* this property is read-only since 0.4.0. Set the resolution when instantiating the tracker.
 
 ## Events
 
