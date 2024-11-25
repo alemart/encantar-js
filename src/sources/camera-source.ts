@@ -68,6 +68,7 @@ export class CameraSource extends VideoSource
 
     /**
      * Constructor
+     * @param options
      */
     constructor(options: CameraSourceOptions)
     {

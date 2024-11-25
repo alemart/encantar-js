@@ -48,7 +48,6 @@ import { ImageTrackerPreTrackingBState } from './states/pre-tracking-b';
 import { ImageTrackerTrackingState } from './states/tracking';
 import { Nullable, Utils } from '../../utils/utils';
 import { AREventTarget } from '../../utils/ar-events';
-import { DEFAULT_TRACKING_RESOLUTION } from './settings';
 import { ImageTrackerEvent, ImageTrackerEventType } from './image-tracker-event';
 import { SpeedyPoint2 } from 'speedy-vision/types/core/speedy-point';
 import { Viewer } from '../../geometry/viewer';
@@ -103,6 +102,18 @@ export type ImageTrackerStateName = 'initial' | 'training' | 'scanning' | 'pre-t
 /** A helper */
 const formatSize = (size: SpeedySize) => `${size.width}x${size.height}`;
 
+/** Options for instantiating an ImageTracker */
+export interface ImageTrackerOptions
+{
+    /** resolution of the tracker; it helps define the AR screen space */
+    resolution?: Resolution;
+}
+
+/** Default options for instantiating an ImageTracker */
+const DEFAULT_OPTIONS: Readonly<ImageTrackerOptions> = {
+    resolution: 'sm'
+};
+
 
 
 
@@ -138,8 +149,9 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
 
     /**
      * Constructor
+     * @param options
      */
-    constructor()
+    constructor(options: ImageTrackerOptions)
     {
         super();
 
@@ -161,7 +173,8 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
         this._database = new ReferenceImageDatabase();
 
         // user settings
-        this._resolution = DEFAULT_TRACKING_RESOLUTION;
+        options = Object.assign({}, DEFAULT_OPTIONS, options);
+        this._resolution = options.resolution!;
     }
 
     /**

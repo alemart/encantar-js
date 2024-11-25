@@ -920,7 +920,7 @@ window.addEventListener('load', async function() {
 
         //AR.Settings.powerPreference = 'low-power';
 
-        const tracker = AR.Tracker.ImageTracker();
+        const tracker = AR.Tracker.Image();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')

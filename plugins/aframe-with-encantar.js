@@ -913,7 +913,7 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
 
     /* async */ tracker()
     {
-        const tracker = AR.Tracker.ImageTracker();
+        const tracker = AR.Tracker.Image();
         const referenceImages = [];
 
         tracker.resolution = this.data.resolution;

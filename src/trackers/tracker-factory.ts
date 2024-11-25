@@ -20,7 +20,7 @@
  * Tracker factory
  */
 
-import { ImageTracker } from './image-tracker/image-tracker';
+import { ImageTracker, ImageTrackerOptions } from './image-tracker/image-tracker';
 import { PointerTracker } from './pointer-tracker/pointer-tracker';
 
 /**
@@ -30,10 +30,20 @@ export class TrackerFactory
 {
     /**
      * Create an Image Tracker
+     * @param options
+     */
+    static Image(options: ImageTrackerOptions = {}): ImageTracker
+    {
+        return new ImageTracker(options);
+    }
+
+    /**
+     * Create an Image Tracker with default settings
+     * @deprecated
      */
     static ImageTracker(): ImageTracker
     {
-        return new ImageTracker();
+        return this.Image();
     }
 
     /**

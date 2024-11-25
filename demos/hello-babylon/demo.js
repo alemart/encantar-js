@@ -34,7 +34,7 @@ class EnchantedDemo extends ARDemo
             );
         }
 
-        const tracker = AR.Tracker.ImageTracker();
+        const tracker = AR.Tracker.Image();
         await tracker.database.add([
         {
             name: 'mage',
