@@ -99,9 +99,6 @@ export interface ImageTrackerOutput extends TrackerOutput
 /** All possible states of an Image Tracker */
 export type ImageTrackerStateName = 'initial' | 'training' | 'scanning' | 'pre-tracking-a' | 'pre-tracking-b' | 'tracking';
 
-/** A helper */
-const formatSize = (size: SpeedySize) => `${size.width}x${size.height}`;
-
 /** Options for instantiating an ImageTracker */
 export interface ImageTrackerOptions
 {
@@ -244,7 +241,9 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
      */
     get _stats(): string
     {
-        return `${formatSize(this.screenSize)} ${this.state}`;
+        const screenSize = this.screenSize;
+
+        return `${screenSize.width}x${screenSize.height} ${this.state}`;
     }
 
     /**
