@@ -29,9 +29,9 @@ const imageTracker = AR.Tracker.Image({
 });
 ```
 
-### AR.Tracker.ImageTracker
+### ~~AR.Tracker.ImageTracker~~
 
-`AR.Tracker.ImageTracker(): ImageTracker`
+~~`AR.Tracker.ImageTracker(): ImageTracker`~~
 
 Instantiate an image tracker with default settings.
 
