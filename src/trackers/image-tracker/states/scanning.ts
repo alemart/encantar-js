@@ -295,7 +295,7 @@ export class ImageTrackerScanningState extends ImageTrackerState
         return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
             method: 'pransac',
             reprojectionError: SCAN_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512,
+            numberOfHypotheses: 512*2,
             bundleSize: 128,
         });
     }

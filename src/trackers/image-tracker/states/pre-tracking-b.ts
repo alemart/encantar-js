@@ -29,6 +29,7 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { SpeedyPipeline, SpeedyPipelineOutput } from 'speedy-vision/types/core/pipeline/pipeline';
 import { SpeedyPipelineNodeImageSource } from 'speedy-vision/types/core/pipeline/nodes/images/source';
 import { SpeedyPipelineNodeImageMultiplexer } from 'speedy-vision/types/core/pipeline/nodes/images/multiplexer';
+import { SpeedyPipelineNodeImageBuffer } from 'speedy-vision/types/core/pipeline/nodes/images/buffer';
 import { SpeedyPipelineNodeImagePortalSource, SpeedyPipelineNodeImagePortalSink } from 'speedy-vision/types/core/pipeline/nodes/images/portal';
 import { SpeedyPipelineNodeKeypointPortalSource, SpeedyPipelineNodeKeypointPortalSink } from 'speedy-vision/types/core/pipeline/nodes/keypoints/portal';
 import { SpeedyPipelineNodeResize } from 'speedy-vision/types/core/pipeline/nodes/transforms/resize';
@@ -48,7 +49,8 @@ import {
     ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA,
     TRACK_HARRIS_QUALITY, TRACK_DETECTOR_CAPACITY, TRACK_MAX_KEYPOINTS,
     SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA,
-    PRE_TRACK_MIN_MATCHES, TRACK_MATCH_RATIO, TRACK_RANSAC_REPROJECTIONERROR_NDC,
+    PRE_TRACK_MIN_MATCHES, PRE_TRACK_MAX_ITERATIONS,
+    TRACK_MATCH_RATIO, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC,
     NIGHTVISION_QUALITY,
     SUBPIXEL_METHOD,
 } from '../settings';
@@ -75,6 +77,9 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
     /** portal with keypoints from Pre-Tracking A */
     private _referenceKeypointPortalSink: Nullable<SpeedyPipelineNodeKeypointPortalSink>;
 
+    /** number of iterations */
+    private _iterations: number;
+
 
 
 
@@ -92,6 +97,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         this._referenceImage = null;
         this._snapshot = null;
         this._referenceKeypointPortalSink = null;
+        this._iterations = 0;
     }
 
     /**
@@ -104,12 +110,19 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         const referenceImage = settings.referenceImage as ReferenceImageWithMedia;
         const snapshot = settings.snapshot as SpeedyPipelineNodeImagePortalSink;
         const referenceKeypointPortalSink = settings.referenceKeypointPortalSink as SpeedyPipelineNodeKeypointPortalSink;
+        const sourceMux = this._pipeline.node('sourceMux') as SpeedyPipelineNodeImageMultiplexer;
+        const sourceBuffer = this._pipeline.node('sourceBuffer') as SpeedyPipelineNodeImageBuffer;
 
         // set attributes
         this._homography = homography;
         this._referenceImage = referenceImage;
         this._snapshot = snapshot;
         this._referenceKeypointPortalSink = referenceKeypointPortalSink;
+        this._iterations = 0;
+
+        // reset nodes
+        sourceMux.port = 0;
+        sourceBuffer.frozen = false;
     }
 
     /**
@@ -166,6 +179,8 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         const keypoints = result.keypoints as SpeedyMatchedKeypoint[]; // from Pre-Tracking B
         const image = result.image as SpeedyMedia | undefined;
         const keypointPortalSink = this._pipeline.node('keypointPortalSink') as SpeedyPipelineNodeKeypointPortalSink;
+        const sourceMux = this._pipeline.node('sourceMux') as SpeedyPipelineNodeImageMultiplexer;
+        const sourceBuffer = this._pipeline.node('sourceBuffer') as SpeedyPipelineNodeImageBuffer;
 
         // tracker output
         const trackerOutput: ImageTrackerOutput = {
@@ -184,22 +199,25 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
             // find a warp
             const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
-            return this._findAffineMotionNDC(points);
+            return this._findMotionNDC(points);
 
         })
         .then(warp => {
+
+            // get the camera image in the next iteration
+            // the warped snapshot from the scanning state is occasionally very blurry
+            sourceMux.port = 1;
+            sourceBuffer.frozen = true;
 
             // refine the homography
             return this._homography.setTo(warp.times(this._homography));
 
         })
         .then(_ => ({
-            nextState: 'tracking',
-            //nextState: 'pre-tracking-b',
+            nextState: (++this._iterations < PRE_TRACK_MAX_ITERATIONS) ? 'pre-tracking-b' : 'tracking',
             trackerOutput: trackerOutput,
             nextStateSettings: {
                 // we export keypoints obtained in Pre-Tracking B, not in A.
-                // lighting conditions match, but what if the snapshot is too blurry?
                 templateKeypoints: keypoints,
                 templateKeypointPortalSink: keypointPortalSink,
                 referenceImage: this._referenceImage,
@@ -217,17 +235,18 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
     }
 
     /**
-     * Find an affine motion model in NDC between pairs of keypoints in NDC
+     * Find a motion model in NDC between pairs of keypoints in NDC
      * given as a 2 x 2n [ src | dest ] matrix
      * @param points compiled pairs of keypoints in NDC
      * @returns a promise that resolves to a 3x3 warp in NDC that maps source to destination
      */
-    private _findAffineMotionNDC(points: SpeedyMatrix): SpeedyPromise<SpeedyMatrixExpr>
+    private _findMotionNDC(points: SpeedyMatrix): SpeedyPromise<SpeedyMatrixExpr>
     {
-        return ImageTrackerUtils.findAffineWarpNDC(points, {
+        //return ImageTrackerUtils.findAffineWarpNDC(points, {
+        return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
             method: 'pransac',
-            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512*4,
+            reprojectionError: PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC,
+            numberOfHypotheses: 512*8, // we want a really good homography
             bundleSize: 128,
             mask: undefined // score is not needed
         }).then(([ warp, score ]) => {
@@ -290,6 +309,8 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
         const source = Speedy.Image.Source('source');
         const imagePortalSource = Speedy.Image.Portal.Source('imagePortalSource');
+        const sourceMux = Speedy.Image.Multiplexer('sourceMux');
+        const sourceBuffer = Speedy.Image.Buffer('sourceBuffer');
         const referenceKeypointPortalSource = Speedy.Keypoint.Portal.Source('referenceKeypointPortalSource');
         const screen = Speedy.Transform.Resize('screen');
         const greyscale = Speedy.Filter.Greyscale();
@@ -312,6 +333,8 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
         source.media = null;
         imagePortalSource.source = null;
+        sourceMux.port = 0; // 0 = portal; 1 = source
+        sourceBuffer.frozen = false;
         referenceKeypointPortalSource.source = null;
         imageRectifier.transform = Speedy.Matrix.Eye(3);
         screen.size = Speedy.Size(0,0);
@@ -335,8 +358,10 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         keypointSink.turbo = false;
 
         // prepare input
-        //source.output(); // ignore, but keep it in the pipeline
-        imagePortalSource.output().connectTo(screen.input());
+        source.output().connectTo(sourceBuffer.input());
+        imagePortalSource.output().connectTo(sourceMux.input('in0'));
+        sourceBuffer.output().connectTo(sourceMux.input('in1'));
+        sourceMux.output().connectTo(screen.input());
         screen.output().connectTo(greyscale.input());
 
         // preprocess images
@@ -374,7 +399,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
         // done!
         pipeline.init(
-            source, screen, imagePortalSource,
+            source, imagePortalSource, sourceBuffer, sourceMux, screen,
             referenceKeypointPortalSource,
             greyscale, imageRectifier,
             nightvision, nightvisionMux,

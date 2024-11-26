@@ -51,7 +51,7 @@ export const SCAN_MIN_MATCHES = 20; //30;
 export const SCAN_CONSECUTIVE_FRAMES = 30;//15;//45;
 
 /** Reprojection error, in NIS pixels, used when estimating a motion model (scanning state) */
-export const SCAN_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.02) | 0;
+export const SCAN_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125) | 0;
 
 /** Reprojection error, in NDC, used when estimating a motion model (scanning state) */
 export const SCAN_RANSAC_REPROJECTIONERROR_NDC = SCAN_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
@@ -94,6 +94,15 @@ export const SUBPIXEL_METHOD = 'bilinear-upsample'; // 'quadratic1d';
 
 /** Minimum acceptable number of matched keypoints when in a pre-tracking state */
 export const PRE_TRACK_MIN_MATCHES = 4;
+
+/** Maximum number of iterations in Pre-tracking B */
+export const PRE_TRACK_MAX_ITERATIONS = 3;
+
+/** Reprojection error, in NIS pixels, used when pre-tracking */
+export const PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125 * 0.5) | 0;
+
+/** Reprojection error, in NDC, used when pre-tracking */
+export const PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC = PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
 
 /** Minimum acceptable number of matched keypoints when in the tracking state */
 export const TRACK_MIN_MATCHES = 4;//10; //20;
