@@ -55,6 +55,12 @@ import {
     SUBPIXEL_METHOD,
 } from '../settings';
 
+/** Port of the source image multiplexer: get data from the portal */
+const PORT_PORTAL = 0;
+
+/** Port of the source image multiplexer: get data from the camera */
+const PORT_CAMERA = 1;
+
 
 
 
@@ -121,7 +127,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         this._iterations = 0;
 
         // reset nodes
-        sourceMux.port = 0;
+        sourceMux.port = PORT_PORTAL;
         sourceBuffer.frozen = false;
     }
 
@@ -206,7 +212,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
             // get the camera image in the next iteration
             // the warped snapshot from the scanning state is occasionally very blurry
-            sourceMux.port = 1;
+            sourceMux.port = PORT_CAMERA;
             sourceBuffer.frozen = true;
 
             // refine the homography
@@ -333,7 +339,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
         source.media = null;
         imagePortalSource.source = null;
-        sourceMux.port = 0; // 0 = portal; 1 = source
+        sourceMux.port = PORT_PORTAL;
         sourceBuffer.frozen = false;
         referenceKeypointPortalSource.source = null;
         imageRectifier.transform = Speedy.Matrix.Eye(3);
@@ -358,8 +364,8 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         keypointSink.turbo = false;
 
         // prepare input
-        source.output().connectTo(sourceBuffer.input());
         imagePortalSource.output().connectTo(sourceMux.input('in0'));
+        source.output().connectTo(sourceBuffer.input());
         sourceBuffer.output().connectTo(sourceMux.input('in1'));
         sourceMux.output().connectTo(screen.input());
         screen.output().connectTo(greyscale.input());
