@@ -6,7 +6,7 @@ In this section we'll learn how to set up the tracker. Later on we'll see how to
 
 The first thing we need to do is add the image we want to track to our web page. We'll be calling that a **reference image**. We simply pick a suitable image and add an `<img>` tag to the page.
 
-Not all images are suitable for tracking. Images should be distinct, detailed and asymmetrical. I discuss this in detail in [Guidelines for Images](./guidelines-for-images.md). For now we'll just use the following image:
+Not all images are suitable for tracking. Images should be distinct, detailed and asymmetrical. I discuss this in detail in [Guidelines for Images](../guidelines-for-images.md). For now we'll just use the following image:
 
 <figure markdown>
 [![../assets/my-reference-image.webp](../assets/my-reference-image.webp "Based on free image by ArtRose from https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/"){ width=512 }](../assets/my-reference-image.webp){ ._blank }

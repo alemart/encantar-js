@@ -1,6 +1,6 @@
 # Session
 
-A central component of a WebAR experience. Read the [concepts](../getting-started/concepts.md) for more information.
+A central component of a WebAR experience. Read the [concepts](../tutorial/concepts.md) for more information.
 
 ## Instantiation
 

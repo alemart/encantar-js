@@ -6,7 +6,7 @@ encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web
 
 ## What is WebAR?
 
-Refer to the [concepts](./getting-started/concepts.md).
+Refer to the [concepts](./tutorial/concepts.md).
 
 ## What are your recommendations for WebAR?
 
