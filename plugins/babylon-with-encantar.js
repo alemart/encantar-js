@@ -231,7 +231,7 @@ class ARSystem
 function encantar(demo)
 {
     const ar = new ARSystem();
-    const flipZAxis = new BABYLON.Matrix().copyFromFloats(
+    const flipZ = new BABYLON.Matrix().copyFromFloats(
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0,-1, 0,
@@ -243,9 +243,11 @@ function encantar(demo)
         ar._frame = frame;
         mix(frame);
 
+        ar._engine.beginFrame();
         demo.update(ar);
-
         ar._scene.render(false);
+        ar._engine.endFrame();
+
         ar._session.requestAnimationFrame(animate);
     }
 
@@ -285,7 +287,7 @@ function encantar(demo)
         if(ar._scene.useRightHandedSystem)
             ar._camera.freezeProjectionMatrix(convert(projectionMatrix));
         else
-            ar._camera.freezeProjectionMatrix(convert(projectionMatrix).multiply(flipZAxis));
+            ar._camera.freezeProjectionMatrix(convert(projectionMatrix).multiply(flipZ));
 
         ar._camera.setViewMatrix(convert(viewMatrix));
 
