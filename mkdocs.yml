@@ -52,6 +52,7 @@ nav:
     - 'Demos': 'demos.md'
     - 'Learn': 'tutorial/introduction.md'
     - 'API Reference': 'api/ar.md'
+    - 'Recommendations': 'recommendations.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'Support my work': 'support-my-work.md'
     - 'License': 'license.md'
@@ -66,6 +67,7 @@ nav:
     - 'Activate your webcam': 'tutorial/activate-your-webcam.md'
     - 'Augment the scene': 'tutorial/augment-the-scene.md'
     - 'Next steps': 'tutorial/next-steps.md'
+    - 'Recommendations': 'recommendations.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'Questions & Answers': 'faq.md'
   - 'API':

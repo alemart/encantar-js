@@ -54,3 +54,5 @@ If you're using a screen to display your images, make sure to adjust its brightn
 ### Test it!
 
 In addition to the guidelines presented above, you should always experiment with your images and make sure it all works as intended. Keep in mind that proper lighting of the physical environment is also very important!
+
+See also: [Recommendations for WebAR](./recommendations.md).
