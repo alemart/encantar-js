@@ -304,6 +304,9 @@ export class PointerTracker implements Tracker
             // determine the elapsed time since the tracking began
             const elapsedTime = previous ? previous.elapsedTime + deltaTime : 0;
 
+            // determine how much this pointer has moved since its tracking began
+            const totalDistance = previous ? previous.totalDistance + deltaPosition.length() : 0;
+
             // determine whether or not this is the primary pointer for this type
             const isPrimary = event.isPrimary;
 
@@ -312,7 +315,7 @@ export class PointerTracker implements Tracker
 
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, isPrimary, kind });
+            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, totalDistance, isPrimary, kind });
 
         }
 

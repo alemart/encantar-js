@@ -50,13 +50,19 @@ The difference between the position of the pointer in this and in the previous f
 
 `pointer.velocity: Vector2, read-only`
 
-The current velocity of the pointer, given in normalized units per second. You can get the speed of motion by calculating the [magnitude](vector2.md#length) of this vector.
+The current velocity of the pointer, given in normalized units per second. You can get the current speed of motion by calculating the [magnitude](vector2.md#length) of this vector.
 
 ### elapsedTime
 
 `pointer.elapsedTime: number, read-only`
 
 The elapsed time, in seconds, since the tracking of this pointer began.
+
+### totalDistance
+
+`pointer.totalDistance: number, read-only`
+
+How much this pointer has moved, in normalized units, since its tracking began. You can get the average speed of motion by calculating the ratio `totalDistance / elapsedTime`.
 
 ### isPrimary
 

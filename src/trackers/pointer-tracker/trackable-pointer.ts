@@ -59,6 +59,9 @@ export interface TrackablePointer extends Trackable
     /** elapsed time, in seconds, since the tracking of this pointer began */
     readonly elapsedTime: number;
 
+    /** how much this pointer has moved, in normalized units, since its tracking began */
+    readonly totalDistance: number;
+
     /** whether or not this is the primary pointer for this type */
     readonly isPrimary: boolean;
 
