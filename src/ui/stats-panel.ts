@@ -154,7 +154,7 @@ export class StatsPanel
         const ldraw = this._label('_ar_draw');
         if(ldraw !== null) {
             const size = viewport.virtualSize;
-            ldraw.innerText = `${size.width}x${size.height} viewport`;
+            ldraw.innerText = `${size.width}x${size.height} view`;
         }
     }
 
