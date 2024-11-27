@@ -17,8 +17,8 @@ class ARDemo
 {
     /**
      * Start the AR session
-     * @abstract
      * @returns {Promise<Session> | SpeedyPromise<Session>}
+     * @abstract
      */
     startSession()
     {
@@ -27,32 +27,29 @@ class ARDemo
 
     /**
      * Initialization
-     * @abstract
-     * @param {ARSystem} ar
      * @returns {void | Promise<void> | SpeedyPromise<void>}
+     * @abstract
      */
-    init(ar)
+    init()
     {
         throw new Error('Abstract method');
     }
 
     /**
      * Animation loop
-     * @abstract
-     * @param {ARSystem} ar
      * @returns {void}
+     * @abstract
      */
-    update(ar)
+    update()
     {
         throw new Error('Abstract method');
     }
 
     /**
      * Release resources
-     * @param {ARSystem} ar
      * @returns {void}
      */
-    release(ar)
+    release()
     {
         // optional implementation
     }
@@ -65,6 +62,23 @@ class ARDemo
     {
         // optional implementation
         return Promise.resolve();
+    }
+
+    /**
+     * A reference to the ARSystem
+     * @returns {ARSystem | null}
+     */
+    get ar()
+    {
+        return this._ar;
+    }
+
+    /**
+     * Constructor
+     */
+    constructor()
+    {
+        this._ar = null;
     }
 }
 
@@ -244,7 +258,7 @@ function encantar(demo)
         mix(frame);
 
         ar._engine.beginFrame();
-        demo.update(ar);
+        demo.update();
         ar._scene.render(false);
         ar._engine.endFrame();
 
@@ -307,6 +321,8 @@ function encantar(demo)
     .then(() => demo.startSession()) // Promise or SpeedyPromise
     .then(session => {
 
+        demo._ar = ar;
+
         ar._session = session;
 
         ar._engine = new BABYLON.Engine(session.viewport.canvas, false, {
@@ -352,10 +368,10 @@ function encantar(demo)
 
         return Promise.resolve()
         .then(() => {
-            return demo.init(ar);
+            return demo.init();
         })
         .then(() => {
-            session.addEventListener('end', event => { demo.release(ar); });
+            session.addEventListener('end', event => { demo.release(); });
             session.requestAnimationFrame(animate);
             return ar;
         })

@@ -87,10 +87,9 @@ class EnchantedDemo extends ARDemo
 
     /**
      * Initialization
-     * @param {ARSystem} ar
      * @returns {Promise<void>}
      */
-    async init(ar)
+    async init()
     {
         // Do not automatically play an animation when loading GLTF models
         BABYLON.SceneLoader.OnPluginActivatedObservable.add(loader => {
@@ -100,16 +99,17 @@ class EnchantedDemo extends ARDemo
         });
 
         // Change the point of view - slightly
+        const ar = this.ar;
         ar.root.position.y = -0.8;
 
         // Initialize objects
-        this._initLight(ar);
-        this._initText(ar);
-        this._initMagicCircle(ar);
+        this._initLight();
+        this._initText();
+        this._initMagicCircle();
 
         await Promise.all([
-            this._initMage(ar),
-            this._initCat(ar),
+            this._initMage(),
+            this._initCat(),
         ]);
 
         // done!
@@ -118,11 +118,11 @@ class EnchantedDemo extends ARDemo
 
     /**
      * Animation loop
-     * @param {ARSystem} ar
      * @returns {void}
      */
-    update(ar)
+    update()
     {
+        const ar = this.ar;
         const delta = ar.session.time.delta; // given in seconds
 
         this._animateMagicCircle(delta);
@@ -132,7 +132,7 @@ class EnchantedDemo extends ARDemo
     // ------------------------------------------------------------------------
 
 
-    _initLight(ar)
+    _initLight()
     {
         const light = new BABYLON.HemisphericLight('light', BABYLON.Vector3.Up());
         light.intensity = 1.0;
@@ -140,7 +140,7 @@ class EnchantedDemo extends ARDemo
         light.specular.set(0, 0, 0);
     }
 
-    _initMagicCircle(ar)
+    _initMagicCircle()
     {
         // create a magic circle
         const magicCircle = BABYLON.MeshBuilder.CreatePlane('magic-circle', {
@@ -160,13 +160,14 @@ class EnchantedDemo extends ARDemo
         magicCircle.scaling.set(4, 4, 1);
 
         // make it a child of ar.root
+        const ar = this.ar;
         magicCircle.parent = ar.root;
 
         // save a reference
         this._objects.magicCircle = magicCircle;
     }
 
-    _initText(ar)
+    _initText()
     {
         const text = BABYLON.MeshBuilder.CreatePlane('text', {
             width: 1,
@@ -184,12 +185,13 @@ class EnchantedDemo extends ARDemo
         text.position.set(0, 2, 0.5);
         text.scaling.set(3, 1.5, 1);
 
+        const ar = this.ar;
         text.parent = ar.root;
 
         this._objects.text = text;
     }
 
-    async _initMage(ar)
+    async _initMage()
     {
         // load the mage
         const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '../assets/', 'mage.glb');
@@ -202,13 +204,14 @@ class EnchantedDemo extends ARDemo
             anim.play(true);
 
         // make the mage a child of ar.root
+        const ar = this.ar;
         mage.parent = ar.root;
 
         // save a reference
         this._objects.mage = mage;
     }
 
-    async _initCat(ar)
+    async _initCat()
     {
         const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '../assets/', 'cat.glb');
         const cat = gltf.meshes[0];
@@ -218,6 +221,7 @@ class EnchantedDemo extends ARDemo
         if(anim)
             anim.play(true);
 
+        const ar = this.ar;
         cat.parent = ar.root;
 
         this._objects.cat = cat;
