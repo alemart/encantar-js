@@ -135,8 +135,10 @@ class EnchantedDemo extends ARDemo
     _initLight()
     {
         const light = new BABYLON.HemisphericLight('light', BABYLON.Vector3.Up());
+
         light.intensity = 1.0;
-        light.diffuse.set(1, 1, 0.9);
+        light.diffuse.set(1, 1, 1);
+        light.groundColor.set(1, 1, 1);
         light.specular.set(0, 0, 0);
     }
 
