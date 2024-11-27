@@ -352,6 +352,10 @@ export class ImageTrackerTrackingState extends ImageTrackerState
                only affect the rendering of virtual elements positioned at the
                local space linked to the target ("ar.root").
 
+               (that's right, and movements of the real camera in physical space
+               shouldn't affect the world space either. Note: the real camera is
+               expected to be shaky. Example: a user holding a mobile phone.)
+
             */
 
             // the target moves and the camera stays fixed at the origin
