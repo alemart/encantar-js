@@ -163,6 +163,45 @@ export class Vector3
     }
 
     /**
+     * Compute a unit vector with the same direction as this
+     * @returns a new unit vector with the same direction as this
+     */
+    normalized(): Vector3
+    {
+        return this._clone()._normalize();
+    }
+
+    /**
+     * Compute the sum between this vector and v
+     * @param v a vector
+     * @returns a new vector equal to the sum between this and v
+     */
+    plus(v: Vector3): Vector3
+    {
+        return this._clone()._add(v);
+    }
+
+    /**
+     * Compute the difference between this vector and v
+     * @param v a vector
+     * @returns a new vector equal to the difference this - v
+     */
+    minus(v: Vector3): Vector3
+    {
+        return this._clone()._subtract(v);
+    }
+
+    /**
+     * Compute the multiplication between this vector and a scale factor
+     * @param scale scalar quantity
+     * @returns a new vector equal to the multiplication between this and the scale factor
+     */
+    times(scale: number): Vector3
+    {
+        return this._clone()._scale(scale);
+    }
+
+    /**
      * Check if this and v have the same coordinates
      * @param v a vector
      * @returns true if this and v have the same coordinates

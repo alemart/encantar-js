@@ -95,6 +95,58 @@ Compute a unit vector pointing to `v` from `this`.
 
 A new unit vector pointing to `v` from `this`.
 
+### normalized
+
+`vector.normalized(): Vector2`
+
+Compute a unit vector with the same direction as `this`.
+
+**Returns**
+
+A new unit vector with the same direction as `this`.
+
+### plus
+
+`vector.plus(v: Vector2): Vector2`
+
+Compute the sum between `this` vector and `v`.
+
+**Arguments**
+
+* `v: Vector2`. A vector.
+
+**Returns**
+
+A new vector equal to the sum between `this` and `v`.
+
+### minus
+
+`vector.minus(v: Vector2): Vector2`
+
+Compute the difference between `this` vector and `v`.
+
+**Arguments**
+
+* `v: Vector2`. A vector.
+
+**Returns**
+
+A new vector equal to the difference `this` - `v`.
+
+### times
+
+`vector.times(scale: number): Vector2`
+
+Compute `this` vector multiplied by a scale factor.
+
+**Arguments**
+
+* `scale: number`. A scale factor.
+
+**Returns**
+
+A new vector equal to the multiplication between `this` and the scale factor.
+
 ### equals
 
 `vector.equals(v: Vector2): boolean`

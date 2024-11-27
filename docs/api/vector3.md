@@ -116,6 +116,58 @@ Compute the cross product of `this` and `v`.
 
 The cross product `this` x `v`.
 
+### normalized
+
+`vector.normalized(): Vector3`
+
+Compute a unit vector with the same direction as `this`.
+
+**Returns**
+
+A new unit vector with the same direction as `this`.
+
+### plus
+
+`vector.plus(v: Vector3): Vector3`
+
+Compute the sum between `this` vector and `v`.
+
+**Arguments**
+
+* `v: Vector3`. A vector.
+
+**Returns**
+
+A new vector equal to the sum between `this` and `v`.
+
+### minus
+
+`vector.minus(v: Vector3): Vector3`
+
+Compute the difference between `this` vector and `v`.
+
+**Arguments**
+
+* `v: Vector3`. A vector.
+
+**Returns**
+
+A new vector equal to the difference `this` - `v`.
+
+### times
+
+`vector.times(scale: number): Vector3`
+
+Compute `this` vector multiplied by a scale factor.
+
+**Arguments**
+
+* `scale: number`. A scale factor.
+
+**Returns**
+
+A new vector equal to the multiplication between `this` and the scale factor.
+
 ### equals
 
 `vector.equals(v: Vector3): boolean`
