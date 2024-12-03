@@ -17,6 +17,7 @@ class EnchantedDemo extends ARDemo
     {
         super();
 
+        this._assetManager = new AssetManager();
         this._objects = { };
         this._initialized = false;
     }
@@ -86,6 +87,22 @@ class EnchantedDemo extends ARDemo
     }
 
     /**
+     * Preload resources before starting the AR session
+     * @returns {Promise<void>}
+     */
+    preload()
+    {
+        console.log('Preloading assets...');
+
+        return this._assetManager.preload([
+            '../assets/mage.glb',
+            '../assets/cat.glb',
+            '../assets/magic-circle.png',
+            '../assets/it-works.png',
+        ]);
+    }
+
+    /**
      * Initialization
      * @returns {Promise<void>}
      */
@@ -145,21 +162,25 @@ class EnchantedDemo extends ARDemo
     _initMagicCircle()
     {
         // create a magic circle
+        const material = new BABYLON.StandardMaterial('magic-circle-material');
+        const url = this._assetManager.url('magic-circle.png');
+
+        material.diffuseTexture = new BABYLON.Texture(url);
+        material.diffuseTexture.hasAlpha = true;
+        material.useAlphaFromDiffuseTexture = true;
+        material.diffuseColor.set(0, 0, 0);
+        material.emissiveColor.set(1, 1, 1);
+        material.unlit = true;
+
         const magicCircle = BABYLON.MeshBuilder.CreatePlane('magic-circle', {
             width: 1,
             height: 1,
             sideOrientation: BABYLON.Mesh.DOUBLESIDE
         });
 
-        magicCircle.material = new BABYLON.StandardMaterial('magic-circle-material');
-        magicCircle.material.diffuseTexture = new BABYLON.Texture('../assets/magic-circle.png');
-        magicCircle.material.diffuseTexture.hasAlpha = true;
-        magicCircle.material.useAlphaFromDiffuseTexture = true;
-        magicCircle.material.diffuseColor.set(0, 0, 0);
-        magicCircle.material.emissiveColor.set(1, 1, 1);
-        magicCircle.material.unlit = true;
         magicCircle.rotation.set(-Math.PI / 2, 0, 0);
         magicCircle.scaling.set(4, 4, 1);
+        magicCircle.material = material;
 
         // make it a child of ar.root
         const ar = this.ar;
@@ -171,21 +192,25 @@ class EnchantedDemo extends ARDemo
 
     _initText()
     {
+        const material = new BABYLON.StandardMaterial('text-material');
+        const url = this._assetManager.url('it-works.png');
+
+        material.diffuseTexture = new BABYLON.Texture(url);
+        material.diffuseTexture.hasAlpha = true;
+        material.useAlphaFromDiffuseTexture = true;
+        material.diffuseColor.set(0, 0, 0);
+        material.emissiveColor.set(1, 1, 1);
+        material.unlit = true;
+
         const text = BABYLON.MeshBuilder.CreatePlane('text', {
             width: 1,
             height: 1,
             sideOrientation: BABYLON.Mesh.DOUBLESIDE
         });
 
-        text.material = new BABYLON.StandardMaterial('text-material');
-        text.material.diffuseTexture = new BABYLON.Texture('../assets/it-works.png');
-        text.material.diffuseTexture.hasAlpha = true;
-        text.material.useAlphaFromDiffuseTexture = true;
-        text.material.diffuseColor.set(0, 0, 0);
-        text.material.emissiveColor.set(1, 1, 1);
-        text.material.unlit = true;
         text.position.set(0, 2, 0.5);
         text.scaling.set(3, 1.5, 1);
+        text.material = material;
 
         const ar = this.ar;
         text.parent = ar.root;
@@ -196,7 +221,8 @@ class EnchantedDemo extends ARDemo
     async _initMage()
     {
         // load the mage
-        const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '../assets/', 'mage.glb');
+        const file = this._assetManager.file('mage.glb');
+        const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '', file);
         const mage = gltf.meshes[0];
         mage.scaling.set(0.7, 0.7, 0.7);
 
@@ -215,7 +241,8 @@ class EnchantedDemo extends ARDemo
 
     async _initCat()
     {
-        const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '../assets/', 'cat.glb');
+        const file = this._assetManager.file('cat.glb');
+        const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '', file);
         const cat = gltf.meshes[0];
         cat.scaling.set(0.7, 0.7, 0.7);
 
