@@ -154,7 +154,7 @@ export class StatsPanel
         const ldraw = this._label('_ar_draw');
         if(ldraw !== null) {
             const size = viewport.virtualSize;
-            ldraw.innerText = `${size.width}x${size.height} view`;
+            ldraw.innerText = `${size.width}x${size.height} rendering`;
         }
     }
 
@@ -249,7 +249,7 @@ export class StatsPanel
         print('OUT: <span class="_ar_out"></span>');
 
         print('<br>');
-        print('DRAW: <span class="_ar_draw"></span>');
+        print('VIEW: <span class="_ar_draw"></span>');
 
         return content;
     }
