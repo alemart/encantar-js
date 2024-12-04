@@ -99,7 +99,7 @@ class EnchantedDemo extends ARDemo
             '../assets/cat.glb',
             '../assets/magic-circle.png',
             '../assets/it-works.png',
-        ]);
+        ], { timeout: 20 });
     }
 
     /**

@@ -45,12 +45,14 @@ class AssetManager
     /**
      * Preload one or more assets
      * @param {string|string[]} url URL(s) of the asset(s)
+     * @param {object} [options]
+     * @param {number} [options.timeout] timeout, in seconds
      * @returns {Promise<void>}
      */
-    preload(url)
+    preload(url, options = {})
     {
         if(Array.isArray(url))
-            return Promise.all(url.map(url => this.preload(url)));
+            return Promise.all(url.map(url => this.preload(url, options)));
 
         if(typeof url != 'string')
             return Promise.reject(new TypeError());
@@ -59,7 +61,11 @@ class AssetManager
         if(this._assetMap.has(filename))
             return Promise.resolve();
 
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
+            const seconds = options.timeout !== undefined ? options.timeout : Infinity;
+            const timeoutFn = () => reject(new Error(`Can't preload assets: timeout!`));
+            const timeoutId = isFinite(seconds) ? setTimeout(timeoutFn, seconds * 1000) : undefined;
+
             fetch(url)
             .then(response => {
                 if(!response.ok)
@@ -77,7 +83,10 @@ class AssetManager
             .catch(error => {
                 console.warn(`Can't preload asset "${filename}"! ${error.message} (${url})`);
             })
-            .finally(resolve);
+            .finally(() => {
+                clearTimeout(timeoutId);
+                resolve();
+            });
         });
     }
 
