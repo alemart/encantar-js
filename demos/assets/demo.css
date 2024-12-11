@@ -16,7 +16,7 @@ body {
     z-index: 0;
 }
 
-#about, #sponsor {
+#info, #like {
     position: absolute;
     width: 64px;
     height: 64px;
@@ -35,36 +35,38 @@ body {
     border-radius: 64px;
 }
 
-#about:active, #about:focus, #sponsor:active, #sponsor:focus {
+#info:active, #info:focus, #like:active, #like:focus {
     background-color: #ffd500;
     border-color: #ffd500;
     opacity: 1.0;
 }
 
-#about {
-    top: 24px;
-    right: 24px;
+#info {
+    bottom: 24px;
+    left: 24px;
     background-image: url(../assets/info.svg);
 }
 
-#sponsor {
-    top: calc(50% - 32px);
+#like {
+    top: 24px;
     right: 24px;
     background-image: url(../assets/heart.svg);
 }
 
 @media screen and (orientation: portrait) {
-    #about {
-        left: 24px;
+
+    #like {
+        top: unset;
+        right: unset;
         bottom: 24px;
-        top: initial;
-        right: initial;
+        left: 24px;
     }
 
-    #sponsor {
-        left: calc(50% - 32px);
-        bottom: 24px;
-        top: initial;
-        right: initial;
+    #info {
+        top: 24px;
+        right: 24px;
+        bottom: unset;
+        left: unset;
     }
+
 }
