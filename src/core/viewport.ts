@@ -733,7 +733,7 @@ class BestFitResizeStrategy extends ImmersiveResizeStrategy
     {
         const subContainer = viewport._subContainer;
         const windowAspectRatio = window.innerWidth / window.innerHeight;
-        const viewportAspectRatio = viewport._realSize.width / viewport._realSize.height;
+        const viewportAspectRatio = viewport.aspectRatio;
         let width = 1, height = 1, left = '0px', top = '0px';
 
         if(viewportAspectRatio <= windowAspectRatio) {
@@ -904,10 +904,16 @@ export class Viewport extends ViewportEventTarget
      */
     get virtualSize(): SpeedySize
     {
-        const size = this._realSize;
-        const aspectRatio = size.width / size.height;
+        return Utils.resolution(this._resolution, this.aspectRatio);
+    }
 
-        return Utils.resolution(this._resolution, aspectRatio);
+    /**
+     * Aspect ratio of the viewport
+     */
+    get aspectRatio(): number
+    {
+        const size = this._realSize;
+        return size.width / size.height;
     }
 
     /**

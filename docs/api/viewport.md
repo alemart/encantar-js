@@ -53,6 +53,14 @@ The [HUD](hud.md).
 
 The [resolution](resolution.md) of the virtual scene.
 
+### aspectRatio
+
+`viewport.aspectRatio: number, read-only`
+
+The aspect ratio of the viewport.
+
+*Since:* 0.4.0
+
 ### virtualSize
 
 `viewport.virtualSize: SpeedySize, read-only`
