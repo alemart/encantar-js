@@ -25,7 +25,7 @@ import { Settings, PowerPreference } from '../core/settings';
 import { Viewport } from '../core/viewport';
 import { Tracker } from '../trackers/tracker';
 import { Source } from '../sources/source';
-import { Utils, Nullable } from '../utils/utils';
+import { Nullable } from '../utils/utils';
 import AR from '../main';
 
 
@@ -38,6 +38,9 @@ const POWER_ICON: { readonly [P in PowerPreference]: string } = Object.freeze({
     'low-power': '&#x1F50B',
     'high-performance': '&#x26A1'
 });
+
+/** Button icons (atlas) */
+const BUTTON_ICONS = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAVUlEQVRIS2NkGGDAOMD2M4w6YDQE8IbAfyBgBAJSEipIDy712MzCaTiyQdRwBC4zsDoAmy8ocQQ+vRgOIDUI8UUPMVFIUvySkhaIVTvqgNEQGPAQAABSNiARgz5LggAAAABJRU5ErkJggg==';
 
 
 
@@ -151,10 +154,10 @@ export class StatsPanel
             lout.innerText = trackerStats;
         }
 
-        const ldraw = this._label('_ar_draw');
-        if(ldraw !== null) {
+        const lview = this._label('_ar_view');
+        if(lview !== null) {
             const size = viewport.virtualSize;
-            ldraw.innerText = `${size.width}x${size.height} rendering`;
+            lview.innerText = `${size.width}x${size.height} rendering`;
         }
     }
 
@@ -209,14 +212,38 @@ export class StatsPanel
     private _createTitle(): HTMLElement
     {
         const title = document.createElement('div');
+        const button = document.createElement('button');
 
+        title.style.display = 'flex';
         title.style.backgroundColor = '#7e56c2';
         title.style.color = 'white';
         title.style.fontFamily = 'monospace';
         title.style.fontSize = '14px';
         title.style.fontWeight = 'bold';
-        title.style.padding = '2px';
+        title.style.paddingRight = '4px';
         title.innerText = 'encantar.js ' + AR.version;
+
+        button.style.width = '18px';
+        button.style.height = '18px';
+        button.style.marginRight = '4px';
+        button.style.backgroundColor = '#7e56c2';
+        button.style.backgroundImage = 'url(' + BUTTON_ICONS + ')';
+        button.style.backgroundRepeat = 'no-repeat';
+        button.style.backgroundPosition = '0 0';
+        button.style.borderWidth = '2px';
+        button.style.borderColor = '#b588fb #46346a #46346a #b588fb';
+        title.insertBefore(button, title.firstChild);
+
+        button.addEventListener('click', () => {
+            const container = title.parentNode;
+            const details = container && container.querySelector<HTMLElement>('._ar_details');
+
+            if(!details)
+                return;
+
+            details.hidden = !details.hidden;
+            button.style.backgroundPosition = details.hidden ? '0 0 ' : '-16px 0';
+        });
 
         return title;
     }
@@ -228,7 +255,7 @@ export class StatsPanel
     private _createContent(): HTMLElement
     {
         const content = document.createElement('div');
-        const print = (html: string): void => content.insertAdjacentHTML('beforeend', html);
+        const details = document.createElement('div');
 
         content.style.backgroundColor = 'rgba(0,0,0,0.5)';
         content.style.color = 'white';
@@ -237,20 +264,22 @@ export class StatsPanel
         content.style.padding = '2px';
         content.style.whiteSpace = 'pre-line';
 
+        details.classList.add('_ar_details');
+        details.hidden = true;
+
         // all sanitized
-        print('FPS: <span class="_ar_fps"></span> | ');
-        print('GPU: <span class="_ar_gpu"></span> ');
-        print('<span class="_ar_power"></span>');
+        const append = (div: HTMLDivElement, html: string): void => div.insertAdjacentHTML('beforeend', html);
 
-        print('<br>');
-        print('IN: <span class="_ar_in"></span>');
+        append(content, 'FPS: <span class="_ar_fps"></span> | ');
+        append(content, 'GPU: <span class="_ar_gpu"></span> ');
+        append(content, '<span class="_ar_power"></span>');
 
-        print('<br>');
-        print('OUT: <span class="_ar_out"></span>');
+        append(details, 'IN: <span class="_ar_in"></span><br>');
+        append(details, 'OUT: <span class="_ar_out"></span><br>');
+        append(details, 'VIEW: <span class="_ar_view"></span>');
 
-        print('<br>');
-        print('VIEW: <span class="_ar_draw"></span>');
-
+        // done!
+        content.appendChild(details);
         return content;
     }
 }
