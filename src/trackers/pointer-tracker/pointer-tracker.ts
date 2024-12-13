@@ -27,7 +27,7 @@ import { TrackablePointer, TrackablePointerPhase } from './trackable-pointer';
 import { PointerSource } from '../../sources/pointer-source';
 import { Vector2 } from '../../geometry/vector2';
 import { Utils, Nullable } from '../../utils/utils';
-import { IllegalOperationError } from '../../utils/errors';
+import { IllegalOperationError, IllegalArgumentError } from '../../utils/errors';
 import { Session } from '../../core/session';
 import { Viewport } from '../../core/viewport';
 
@@ -52,6 +52,38 @@ export interface PointerTrackerOutput extends TrackerOutput
     readonly exports: PointerTrackerResult;
 }
 
+/**
+ * The space in which pointers are located.
+ *
+ * - In "normalized" space, pointers are located in [-1,1]x[-1,1]. The origin
+ *   of the space is at the center of the viewport. The x-axis points to the
+ *   right and the y-axis points up. This is the default space.
+ *
+ * - The "adjusted" space is similar to the normalized space, except that it is
+ *   scaled so that it matches the aspect ratio of the viewport.
+ *
+ *   Pointers in adjusted space are contained in normalized space, but unless
+ *   the viewport is a square, one of their coordinates, x or y, will no longer
+ *   range from -1 to +1. It will range from -s to +s, where s = min(a, 1/a).
+ *   In this expression, a is the aspect ratio of the viewport and s is less
+ *   than or equal to 1.
+ *
+ *   Selecting the adjusted space is useful for making sure that pointer speeds
+ *   are equivalent in both axes and for preserving movement curves. Speeds are
+ *   not equivalent and movement curves are not preserved by default because
+ *   the normalized space is a square, whereas the viewport is a rectangle.
+ */
+export type PointerSpace = 'normalized' | 'adjusted'; // | 'viewport';
+
+/**
+ * Options for instantiating a PointerTracker
+ */
+export interface PointerTrackerOptions
+{
+    /** the space in which pointers will be located */
+    space?: PointerSpace;
+}
+
 /** Convert event type to trackable pointer phase */
 const EVENTTYPE2PHASE: Record<string, TrackablePointerPhase> = {
     'pointerdown': 'began',
@@ -60,6 +92,11 @@ const EVENTTYPE2PHASE: Record<string, TrackablePointerPhase> = {
     'pointercancel': 'canceled',
     'pointerleave': 'ended',
     'pointerenter': 'began',
+};
+
+/** Default options for instantiating a PointerTracker */
+const DEFAULT_OPTIONS: Readonly<Required<PointerTrackerOptions>> = {
+    space: 'normalized'
 };
 
 
@@ -75,6 +112,9 @@ export class PointerTracker implements Tracker
 
     /** the viewport */
     private _viewport: Nullable<Viewport>;
+
+    /** pointer space */
+    private _space: PointerSpace;
 
     /** active pointers */
     private _activePointers: Map<number, TrackablePointer>;
@@ -99,13 +139,20 @@ export class PointerTracker implements Tracker
 
 
 
+
+
+
     /**
      * Constructor
+     * @param options
      */
-    constructor()
+    constructor(options: PointerTrackerOptions)
     {
+        const settings = this._buildSettings(options);
+
         this._source = null;
         this._viewport = null;
+        this._space = settings.space;
         this._activePointers = new Map();
         this._newPointers = new Map();
         this._idMap = new Map();
@@ -114,6 +161,21 @@ export class PointerTracker implements Tracker
         this._previousUpdateTime = Number.POSITIVE_INFINITY;
         this._wantToReset = false;
         this._resetInTheNextUpdate = this._resetInTheNextUpdate.bind(this);
+    }
+
+    /**
+     * Build a full and validated options object
+     * @param options
+     * @returns validated options with defaults
+     */
+    private _buildSettings(options: PointerTrackerOptions): Required<PointerTrackerOptions>
+    {
+        const settings: Required<PointerTrackerOptions> = Object.assign({}, DEFAULT_OPTIONS, options);
+
+        if(settings.space != 'normalized' && settings.space != 'adjusted')
+            throw new IllegalArgumentError(`Invalid pointer space: "${settings.space}"`);
+
+        return settings;
     }
 
     /**
@@ -283,12 +345,26 @@ export class PointerTracker implements Tracker
                     continue;
             }
 
-            // determine the current position
+            // determine the current position in normalized space
             const absX = event.pageX - (rect.left + window.scrollX);
             const absY = event.pageY - (rect.top + window.scrollY);
             const relX = 2 * absX / rect.width - 1; // convert to [-1,1]
             const relY = -(2 * absY / rect.height - 1); // flip Y axis
             const position = new Vector2(relX, relY);
+
+            // scale the normalized space so that it matches the aspect ratio of the viewport
+            if(this._space == 'adjusted') {
+                const a = this._viewport!.aspectRatio;
+
+                if(a >= 1) {
+                    // landscape
+                    position._set(relX, relY / a);
+                }
+                else {
+                    // portrait
+                    position._set(relX * a, relY);
+                }
+            }
 
             // determine the position delta
             const deltaPosition = !previous ? Vector2.ZERO :
@@ -357,6 +433,15 @@ export class PointerTracker implements Tracker
         const s = n != 1 ? 's' : '';
 
         return n + ' pointer' + s;
+    }
+
+    /**
+     * The space in which pointers are located.
+     * You may set it when instantiating the tracker.
+     */
+    get space(): PointerSpace
+    {
+        return this._space;
     }
 
     /**

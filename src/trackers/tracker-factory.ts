@@ -21,7 +21,7 @@
  */
 
 import { ImageTracker, ImageTrackerOptions } from './image-tracker/image-tracker';
-import { PointerTracker } from './pointer-tracker/pointer-tracker';
+import { PointerTracker, PointerTrackerOptions } from './pointer-tracker/pointer-tracker';
 
 /**
  * Tracker factory
@@ -48,9 +48,10 @@ export class TrackerFactory
 
     /**
      * Create a Pointer Tracker
+     * @param options
      */
-    static Pointer(): PointerTracker
+    static Pointer(options: PointerTrackerOptions = {}): PointerTracker
     {
-        return new PointerTracker();
+        return new PointerTracker(options);
     }
 }
