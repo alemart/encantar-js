@@ -7,7 +7,7 @@
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
     'encantar.js': { version: '0.4.0' },
-     'babylon.js': { version: '7.29.0' }
+     'babylon.js': { version: '7.38.0' }
 });
 
 /**
@@ -325,18 +325,29 @@ function encantar(demo)
 
         ar._session = session;
 
-        ar._engine = new BABYLON.Engine(session.viewport.canvas, false, {
-            premultipliedAlpha: true
-        });
-        ar._engine.resize = function(forceSetSize = false) {
+        BABYLON.Engine.prototype.resize = function(forceSetSize = false) {
             // make babylon.js respect the resolution of the viewport
             const size = session.viewport.virtualSize;
             this.setSize(size.width, size.height, forceSetSize);
         };
+        ar._engine = new BABYLON.Engine(session.viewport.canvas, false, {
+            premultipliedAlpha: true
+        });
 
         ar._scene = new BABYLON.Scene(ar._engine);
         ar._scene.useRightHandedSystem = true;
-        ar._scene.clearColor.set(0, 0, 0, 0);
+        ar._scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+        ar._scene._inputManager._updatePointerPosition = function(evt) {
+            // adjust babylon.js pointers to the resolution of the viewport
+            const engine = this._scene.getEngine();
+            const canvasRect = engine.getInputElementClientRect();
+            if(!canvasRect)
+                return;
+            this._pointerX = (evt.clientX - canvasRect.left) * (engine.getRenderWidth() / canvasRect.width);
+            this._pointerY = (evt.clientY - canvasRect.top) * (engine.getRenderHeight() / canvasRect.height);
+            this._unTranslatedPointerX = this._pointerX;
+            this._unTranslatedPointerY = this._pointerY;
+        };
 
         ar._origin = new BABYLON.TransformNode('ar-origin', ar._scene);
         ar._root = new BABYLON.TransformNode('ar-root', ar._scene);
