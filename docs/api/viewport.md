@@ -158,7 +158,7 @@ A promise that is resolved once the fullscreen mode is no longer active, or reje
 
 `viewport.convertToPixels(position: Vector2, space: string): Vector2`
 
-Convert a `position` given in space units to a corresponding pixel position in [canvas](#canvas) space.
+Convert a `position` given in space units to a corresponding pixel position in [canvas](#canvas) space. See also: [convertFromPixels()](#convertfrompixels).
 
 *Since:* 0.4.0
 
@@ -170,6 +170,23 @@ Convert a `position` given in space units to a corresponding pixel position in [
 **Returns**
 
 An equivalent pixel position in canvas space.
+
+### convertFromPixels
+
+`viewport.convertFromPixels(position: Vector2, space: string): Vector2`
+
+Convert a pixel `position` given in [canvas](#canvas) space to a corresponding position in space units. See also: [convertToPixels()](#converttopixels).
+
+*Since:* 0.4.0
+
+**Arguments**
+
+- `position: Vector2`. A pixel position in canvas space.
+- `space: string, optional`. The space to convert to. Possible values: `"normalized"` (default) or `"adjusted"`. See also: [PointerTracker.space](pointer-tracker.md#space).
+
+**Returns**
+
+An equivalent position in space units.
 
 ## Events
 

@@ -990,28 +990,65 @@ export class Viewport extends ViewportEventTarget
      * position in canvas space. Units in normalized space range from -1 to +1.
      * The center of the canvas is at (0,0). The top right corner is at (1,1).
      * The bottom left corner is at (-1,-1).
-     * @param position in normalized units
-     * @param space either "normalized" (default) or "adjusted", @see PointerSpace
+     * @param position in space units
+     * @param space either "normalized" (default) or "adjusted"; @see PointerSpace
      * @returns an equivalent pixel position in canvas space
      */
     convertToPixels(position: Vector2, space: "normalized" | "adjusted" = 'normalized'): Vector2
     {
         const canvas = this.canvas;
-        let x = 0.5 * (1 + position.x) * canvas.width;
-        let y = 0.5 * (1 - position.y) * canvas.height;
+        let mx = 1, my = 1;
 
         if(space == 'adjusted') {
+            // convert from adjusted to normalized space
             const a = canvas.width / canvas.height;
 
             if(a >= 1)
-                y *= a;
+                my *= a;
             else
-                x /= a;
+                mx /= a;
         }
         else if(space != 'normalized')
             throw new IllegalArgumentError(`Invalid space: "${space}"`);
 
+        // convert from normalized to canvas space
+        const x = 0.5 * (1 + position.x * mx) * canvas.width;
+        const y = 0.5 * (1 - position.y * my) * canvas.height;
+
+        // done!
         return new Vector2(x, y);
+    }
+
+    /**
+     * Convert a pixel position given in canvas space to a corresponding
+     * position in space units. This is the inverse of convertToPixels().
+     * @param position in canvas space
+     * @space either "normalized" (default) or "adjusted"; see @PointerSpace
+     * @returns an equivalent position in space units
+     */
+    convertFromPixels(position: Vector2, space: "normalized" | "adjusted" = 'normalized'): Vector2
+    {
+        const canvas = this.canvas;
+        let mx = 1, my = 1;
+
+        // convert from canvas to normalized space
+        const x = 2 * position.x / canvas.width - 1;
+        const y = -2 * position.y / canvas.height + 1;
+
+        if(space == 'adjusted') {
+            // convert from normalized to adjusted space
+            const a = canvas.width / canvas.height;
+
+            if(a >= 1)
+                my /= a;
+            else
+                mx *= a;
+        }
+        else if(space != 'normalized')
+            throw new IllegalArgumentError(`Invalid space: "${space}"`);
+
+        // done!
+        return new Vector2(x * mx, y * my);
     }
 
     /**
