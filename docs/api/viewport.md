@@ -156,15 +156,16 @@ A promise that is resolved once the fullscreen mode is no longer active, or reje
 
 ### convertToPixels
 
-`viewport.convertToPixels(position: Vector2): Vector2`
+`viewport.convertToPixels(position: Vector2, space: string): Vector2`
 
-Convert a `position` given in normalized units to a corresponding pixel position in [canvas](#canvas) space. Normalized units range from -1 to +1. The center of the canvas is at (0,0). The top right corner is at (1,1). The bottom left corner is at (-1,-1).
+Convert a `position` given in space units to a corresponding pixel position in [canvas](#canvas) space.
 
 *Since:* 0.4.0
 
 **Arguments**
 
-`position: Vector2`. A position in normalized units.
+- `position: Vector2`. A position in space units.
+- `space: string, optional`. The space to convert from. Possible values: `"normalized"` (default) or `"adjusted"`. See also: [PointerTracker.space](pointer-tracker.md#space).
 
 **Returns**
 

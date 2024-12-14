@@ -986,18 +986,30 @@ export class Viewport extends ViewportEventTarget
     }
 
     /**
-     * Convert a position given in normalized units to a corresponding pixel
-     * position in canvas space. Normalized units range from -1 to +1. The
-     * center of the canvas is at (0,0). The top right corner is at (1,1).
+     * Convert a position given in space units to a corresponding pixel
+     * position in canvas space. Units in normalized space range from -1 to +1.
+     * The center of the canvas is at (0,0). The top right corner is at (1,1).
      * The bottom left corner is at (-1,-1).
      * @param position in normalized units
+     * @param space either "normalized" (default) or "adjusted", @see PointerSpace
      * @returns an equivalent pixel position in canvas space
      */
-    convertToPixels(position: Vector2): Vector2
+    convertToPixels(position: Vector2, space: "normalized" | "adjusted" = 'normalized'): Vector2
     {
         const canvas = this.canvas;
-        const x = 0.5 * (1 + position.x) * canvas.width;
-        const y = 0.5 * (1 - position.y) * canvas.height;
+        let x = 0.5 * (1 + position.x) * canvas.width;
+        let y = 0.5 * (1 - position.y) * canvas.height;
+
+        if(space == 'adjusted') {
+            const a = canvas.width / canvas.height;
+
+            if(a >= 1)
+                y *= a;
+            else
+                x /= a;
+        }
+        else if(space != 'normalized')
+            throw new IllegalArgumentError(`Invalid space: "${space}"`);
 
         return new Vector2(x, y);
     }
