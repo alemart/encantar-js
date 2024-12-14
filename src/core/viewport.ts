@@ -997,23 +997,23 @@ export class Viewport extends ViewportEventTarget
     convertToPixels(position: Vector2, space: "normalized" | "adjusted" = 'normalized'): Vector2
     {
         const canvas = this.canvas;
-        let mx = 1, my = 1;
+        let px = position.x, py = position.y;
 
         if(space == 'adjusted') {
             // convert from adjusted to normalized space
             const a = canvas.width / canvas.height;
 
             if(a >= 1)
-                my *= a;
+                py *= a;
             else
-                mx /= a;
+                px /= a;
         }
         else if(space != 'normalized')
             throw new IllegalArgumentError(`Invalid space: "${space}"`);
 
         // convert from normalized to canvas space
-        const x = 0.5 * (1 + position.x * mx) * canvas.width;
-        const y = 0.5 * (1 - position.y * my) * canvas.height;
+        const x = 0.5 * (1 + px) * canvas.width;
+        const y = 0.5 * (1 - py) * canvas.height;
 
         // done!
         return new Vector2(x, y);
@@ -1029,26 +1029,25 @@ export class Viewport extends ViewportEventTarget
     convertFromPixels(position: Vector2, space: "normalized" | "adjusted" = 'normalized'): Vector2
     {
         const canvas = this.canvas;
-        let mx = 1, my = 1;
 
         // convert from canvas to normalized space
-        const x = 2 * position.x / canvas.width - 1;
-        const y = -2 * position.y / canvas.height + 1;
+        let x = 2 * position.x / canvas.width - 1;
+        let y = -2 * position.y / canvas.height + 1;
 
         if(space == 'adjusted') {
             // convert from normalized to adjusted space
             const a = canvas.width / canvas.height;
 
             if(a >= 1)
-                my /= a;
+                y /= a;
             else
-                mx *= a;
+                x *= a;
         }
         else if(space != 'normalized')
             throw new IllegalArgumentError(`Invalid space: "${space}"`);
 
         // done!
-        return new Vector2(x * mx, y * my);
+        return new Vector2(x, y);
     }
 
     /**
