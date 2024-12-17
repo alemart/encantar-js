@@ -4,7 +4,7 @@
 
 The Augmented Reality engine that will enchant you!
 
-:magic_wand: **[Demos](https://alemart.github.io/encantar-js/demos/)** | :eyes: **[Try it!](https://alemart.github.io/encantar-js/demos/hello-three/poster.html)** | :books: **[Learn](https://alemart.github.io/encantar-js/)** | :heart: **[Sponsor](https://github.com/sponsors/alemart)**
+:magic_wand: **[Demos](https://alemart.github.io/encantar-js/demos/)** | :eyes: **[Try it!](https://alemart.github.io/encantar-js/demos/hello-three/poster.html)** | :books: **[Learn](https://alemart.github.io/encantar-js/)** | :heart: **[Support](https://alemart.github.io/encantar-js/support-my-work)**
 
 [![Demo](docs/img/mage.gif)](https://alemart.github.io/encantar-js/demos/hello-three/poster.html)
 

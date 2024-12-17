@@ -6,7 +6,7 @@ The Augmented Reality engine that will enchant you!
 
 [:sparkles: Demos](./demos.md){ .md-button ._blank }
 [:eyes: Try it!](https://alemart.github.io/encantar-js/demos/hello-three/poster.html){ .md-button ._blank }
-[:books: Learn](./tutorial/introduction.md){ .md-button } [:heart:{ .heart } Sponsor](./support-my-work.md){ .md-button }
+[:books: Learn](./tutorial/introduction.md){ .md-button } [:heart:{ .heart } Support](./support-my-work.md){ .md-button }
 
 ## Features
 
