@@ -459,7 +459,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         return ImageTrackerUtils.findAffineWarpNDC(points, {
             method: 'pransac',
             reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512*4,
+            numberOfHypotheses: 512*2,
             bundleSize: 128,
             mask: undefined // score is not needed
         }).then(([ warp, score ]) => {
