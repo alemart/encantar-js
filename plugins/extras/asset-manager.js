@@ -63,7 +63,7 @@ class AssetManager
 
         return new Promise((resolve, reject) => {
             const seconds = options.timeout !== undefined ? options.timeout : Infinity;
-            const timeoutFn = () => reject(new Error(`Can't preload assets: timeout!`));
+            const timeoutFn = () => reject(new Error(`Can't preload assets: slow connection!`));
             const timeoutId = isFinite(seconds) ? setTimeout(timeoutFn, seconds * 1000) : undefined;
 
             fetch(url)
