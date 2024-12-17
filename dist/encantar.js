@@ -5,7 +5,7 @@
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2024-11-25T01:46:40.728Z
+ * Date: 2024-12-17T18:08:41.979Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -19952,6 +19952,8 @@ const POWER_ICON = Object.freeze({
     'low-power': '&#x1F50B',
     'high-performance': '&#x26A1'
 });
+/** Button icons (atlas) */
+const BUTTON_ICONS = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAVUlEQVRIS2NkGGDAOMD2M4w6YDQE8IbAfyBgBAJSEipIDy712MzCaTiyQdRwBC4zsDoAmy8ocQQ+vRgOIDUI8UUPMVFIUvySkhaIVTvqgNEQGPAQAABSNiARgz5LggAAAABJRU5ErkJggg==';
 /**
  * Stats panel used for development purposes
  */
@@ -19975,15 +19977,16 @@ class StatsPanel {
     /**
      * A method to be called in the update loop
      * @param time current time in ms
-     * @param trackers the trackers attached to the session
      * @param sources the sources of media linked to the session
+     * @param trackers the trackers attached to the session
+     * @param viewport the viewport
      * @param gpu GPU cycles per second
      * @param fps frames per second
      */
-    update(time, trackers, sources, gpu, fps) {
+    update(time, sources, trackers, viewport, gpu, fps) {
         if (time >= this._lastUpdate + stats_panel_UPDATE_INTERVAL) {
             this._lastUpdate = time;
-            this._update(trackers, sources, fps, gpu);
+            this._update(sources, trackers, viewport, fps, gpu);
         }
     }
     /**
@@ -20000,12 +20003,13 @@ class StatsPanel {
     }
     /**
      * Update the contents of the panel
-     * @param trackers the trackers attached to the session
      * @param sources the sources of media linked to the session
+     * @param trackers the trackers attached to the session
+     * @param viewport the viewport
      * @param fps frames per second
      * @param gpu GPU cycles per second
      */
-    _update(trackers, sources, fps, gpu) {
+    _update(sources, trackers, viewport, fps, gpu) {
         // all sanitized
         const lfps = this._label('_ar_fps');
         if (lfps !== null) {
@@ -20029,6 +20033,11 @@ class StatsPanel {
         if (lout !== null) {
             const trackerStats = trackers.map(tracker => tracker._stats).join(', ');
             lout.innerText = trackerStats;
+        }
+        const lview = this._label('_ar_view');
+        if (lview !== null) {
+            const size = viewport.virtualSize;
+            lview.innerText = `${size.width}x${size.height} rendering`;
         }
     }
     /**
@@ -20071,13 +20080,33 @@ class StatsPanel {
      */
     _createTitle() {
         const title = document.createElement('div');
+        const button = document.createElement('button');
+        title.style.display = 'flex';
         title.style.backgroundColor = '#7e56c2';
         title.style.color = 'white';
         title.style.fontFamily = 'monospace';
         title.style.fontSize = '14px';
         title.style.fontWeight = 'bold';
-        title.style.padding = '2px';
+        title.style.paddingRight = '4px';
         title.innerText = 'encantar.js ' + AR.version;
+        button.style.width = '18px';
+        button.style.height = '18px';
+        button.style.marginRight = '4px';
+        button.style.backgroundColor = '#7e56c2';
+        button.style.backgroundImage = 'url(' + BUTTON_ICONS + ')';
+        button.style.backgroundRepeat = 'no-repeat';
+        button.style.backgroundPosition = '0 0';
+        button.style.borderWidth = '2px';
+        button.style.borderColor = '#b588fb #46346a #46346a #b588fb';
+        title.insertBefore(button, title.firstChild);
+        button.addEventListener('click', () => {
+            const container = title.parentNode;
+            const details = container && container.querySelector('._ar_details');
+            if (!details)
+                return;
+            details.hidden = !details.hidden;
+            button.style.backgroundPosition = details.hidden ? '0 0 ' : '-16px 0';
+        });
         return title;
     }
     /**
@@ -20086,21 +20115,25 @@ class StatsPanel {
      */
     _createContent() {
         const content = document.createElement('div');
-        const print = (html) => content.insertAdjacentHTML('beforeend', html);
+        const details = document.createElement('div');
         content.style.backgroundColor = 'rgba(0,0,0,0.5)';
         content.style.color = 'white';
         content.style.fontFamily = 'monospace';
         content.style.fontSize = '14px';
         content.style.padding = '2px';
         content.style.whiteSpace = 'pre-line';
+        details.classList.add('_ar_details');
+        details.hidden = true;
         // all sanitized
-        print('FPS: <span class="_ar_fps"></span> | ');
-        print('GPU: <span class="_ar_gpu"></span> ');
-        print('<span class="_ar_power"></span>');
-        print('<br>');
-        print('IN: <span class="_ar_in"></span>');
-        print('<br>');
-        print('OUT: <span class="_ar_out"></span>');
+        const append = (div, html) => div.insertAdjacentHTML('beforeend', html);
+        append(content, 'FPS: <span class="_ar_fps"></span> | ');
+        append(content, 'GPU: <span class="_ar_gpu"></span> ');
+        append(content, '<span class="_ar_power"></span>');
+        append(details, 'IN: <span class="_ar_in"></span><br>');
+        append(details, 'OUT: <span class="_ar_out"></span><br>');
+        append(details, 'VIEW: <span class="_ar_view"></span>');
+        // done!
+        content.appendChild(details);
         return content;
     }
 }
@@ -20148,7 +20181,7 @@ const SCAN_MIN_MATCHES = 20; //30;
 /** When in the scanning state, we require the image to be matched during a few consecutive frames before accepting it */
 const SCAN_CONSECUTIVE_FRAMES = 30; //15;//45;
 /** Reprojection error, in NIS pixels, used when estimating a motion model (scanning state) */
-const SCAN_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.02) | 0;
+const SCAN_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125) | 0;
 /** Reprojection error, in NDC, used when estimating a motion model (scanning state) */
 const SCAN_RANSAC_REPROJECTIONERROR_NDC = SCAN_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
 /** Number of tables used in the LSH-based keypoint matching */
@@ -20177,6 +20210,12 @@ const SUBPIXEL_GAUSSIAN_SIGMA = 1.0;
 const SUBPIXEL_METHOD = 'bilinear-upsample'; // 'quadratic1d';
 /** Minimum acceptable number of matched keypoints when in a pre-tracking state */
 const PRE_TRACK_MIN_MATCHES = 4;
+/** Maximum number of iterations in Pre-tracking B */
+const PRE_TRACK_MAX_ITERATIONS = 3;
+/** Reprojection error, in NIS pixels, used when pre-tracking */
+const PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125 * 0.5) | 0;
+/** Reprojection error, in NDC, used when pre-tracking */
+const PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC = PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
 /** Minimum acceptable number of matched keypoints when in the tracking state */
 const TRACK_MIN_MATCHES = 4; //10; //20;
 /** Maximum number of keypoints to be analyzed in the tracking state */
@@ -21124,7 +21163,7 @@ class Session extends AREventTarget {
                     rafQueue[i][1].call(undefined, time, frame);
                 // update internals
                 this._renderStats.update();
-                this._statsPanel.update(time, this._trackers, this._sources, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
+                this._statsPanel.update(time, this._sources, this._trackers, this._viewport, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
                 this._frameReady = false;
             }
             else {
@@ -22524,7 +22563,7 @@ class ImageTrackerScanningState extends ImageTrackerState {
         return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
             method: 'pransac',
             reprojectionError: SCAN_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512,
+            numberOfHypotheses: 512 * 2,
             bundleSize: 128,
         });
     }
@@ -22850,6 +22889,10 @@ class ImageTrackerPreTrackingAState extends ImageTrackerState {
 
 
 
+/** Port of the source image multiplexer: get data from the portal */
+const PORT_PORTAL = 0;
+/** Port of the source image multiplexer: get data from the camera */
+const pre_tracking_b_PORT_CAMERA = 1;
 /**
  * In Pre-Tracking B, we refine the homography obtained at the scanning state.
  * We find a transformation that warps the snapshot obtained from the scanning
@@ -22866,6 +22909,7 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         this._referenceImage = null;
         this._snapshot = null;
         this._referenceKeypointPortalSink = null;
+        this._iterations = 0;
     }
     /**
      * Called as soon as this becomes the active state, just before update() runs for the first time
@@ -22876,11 +22920,17 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         const referenceImage = settings.referenceImage;
         const snapshot = settings.snapshot;
         const referenceKeypointPortalSink = settings.referenceKeypointPortalSink;
+        const sourceMux = this._pipeline.node('sourceMux');
+        const sourceBuffer = this._pipeline.node('sourceBuffer');
         // set attributes
         this._homography = homography;
         this._referenceImage = referenceImage;
         this._snapshot = snapshot;
         this._referenceKeypointPortalSink = referenceKeypointPortalSink;
+        this._iterations = 0;
+        // reset nodes
+        sourceMux.port = PORT_PORTAL;
+        sourceBuffer.frozen = false;
     }
     /**
      * Called just before the GPU processing
@@ -22922,6 +22972,8 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         const keypoints = result.keypoints; // from Pre-Tracking B
         const image = result.image;
         const keypointPortalSink = this._pipeline.node('keypointPortalSink');
+        const sourceMux = this._pipeline.node('sourceMux');
+        const sourceBuffer = this._pipeline.node('sourceBuffer');
         // tracker output
         const trackerOutput = {
             keypointsNIS: image !== undefined ? keypoints : undefined,
@@ -22936,19 +22988,21 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
                 throw new TrackingError('Not enough data points');
             // find a warp
             const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
-            return this._findAffineMotionNDC(points);
+            return this._findMotionNDC(points);
         })
             .then(warp => {
+            // get the camera image in the next iteration
+            // the warped snapshot from the scanning state is occasionally very blurry
+            sourceMux.port = pre_tracking_b_PORT_CAMERA;
+            sourceBuffer.frozen = true;
             // refine the homography
             return this._homography.setTo(warp.times(this._homography));
         })
             .then(_ => ({
-            nextState: 'tracking',
-            //nextState: 'pre-tracking-b',
+            nextState: (++this._iterations < PRE_TRACK_MAX_ITERATIONS) ? 'pre-tracking-b' : 'tracking',
             trackerOutput: trackerOutput,
             nextStateSettings: {
                 // we export keypoints obtained in Pre-Tracking B, not in A.
-                // lighting conditions match, but what if the snapshot is too blurry?
                 templateKeypoints: keypoints,
                 templateKeypointPortalSink: keypointPortalSink,
                 referenceImage: this._referenceImage,
@@ -22965,16 +23019,17 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         });
     }
     /**
-     * Find an affine motion model in NDC between pairs of keypoints in NDC
+     * Find a motion model in NDC between pairs of keypoints in NDC
      * given as a 2 x 2n [ src | dest ] matrix
      * @param points compiled pairs of keypoints in NDC
      * @returns a promise that resolves to a 3x3 warp in NDC that maps source to destination
      */
-    _findAffineMotionNDC(points) {
-        return ImageTrackerUtils.findAffineWarpNDC(points, {
+    _findMotionNDC(points) {
+        //return ImageTrackerUtils.findAffineWarpNDC(points, {
+        return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
             method: 'pransac',
-            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512 * 4,
+            reprojectionError: PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC,
+            numberOfHypotheses: 512 * 8,
             bundleSize: 128,
             mask: undefined // score is not needed
         }).then(([warp, score]) => {
@@ -23023,6 +23078,8 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         const pipeline = speedy_vision_default().Pipeline();
         const source = speedy_vision_default().Image.Source('source');
         const imagePortalSource = speedy_vision_default().Image.Portal.Source('imagePortalSource');
+        const sourceMux = speedy_vision_default().Image.Multiplexer('sourceMux');
+        const sourceBuffer = speedy_vision_default().Image.Buffer('sourceBuffer');
         const referenceKeypointPortalSource = speedy_vision_default().Keypoint.Portal.Source('referenceKeypointPortalSource');
         const screen = speedy_vision_default().Transform.Resize('screen');
         const greyscale = speedy_vision_default().Filter.Greyscale();
@@ -23044,6 +23101,8 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         //const imageSink = Speedy.Image.Sink('image');
         source.media = null;
         imagePortalSource.source = null;
+        sourceMux.port = PORT_PORTAL;
+        sourceBuffer.frozen = false;
         referenceKeypointPortalSource.source = null;
         imageRectifier.transform = speedy_vision_default().Matrix.Eye(3);
         screen.size = speedy_vision_default().Size(0, 0);
@@ -23066,8 +23125,10 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         keypointScaler.transform = speedy_vision_default().Matrix.Eye(3);
         keypointSink.turbo = false;
         // prepare input
-        //source.output(); // ignore, but keep it in the pipeline
-        imagePortalSource.output().connectTo(screen.input());
+        imagePortalSource.output().connectTo(sourceMux.input('in0'));
+        source.output().connectTo(sourceBuffer.input());
+        sourceBuffer.output().connectTo(sourceMux.input('in1'));
+        sourceMux.output().connectTo(screen.input());
         screen.output().connectTo(greyscale.input());
         // preprocess images
         greyscale.output().connectTo(imageRectifier.input());
@@ -23097,7 +23158,7 @@ class ImageTrackerPreTrackingBState extends ImageTrackerState {
         referenceKeypointPortalSource.output().connectTo(referenceKeypointSink.input());
         //imageRectifier.output().connectTo(imageSink.input());
         // done!
-        pipeline.init(source, screen, imagePortalSource, referenceKeypointPortalSource, greyscale, imageRectifier, nightvision, nightvisionMux, detector, borderClipper, clipper, denoiser, subpixel, blur, descriptor, matcher, keypointScaler, keypointSink, keypointPortalSink, referenceKeypointSink);
+        pipeline.init(source, imagePortalSource, sourceBuffer, sourceMux, screen, referenceKeypointPortalSource, greyscale, imageRectifier, nightvision, nightvisionMux, detector, borderClipper, clipper, denoiser, subpixel, blur, descriptor, matcher, keypointScaler, keypointSink, keypointPortalSink, referenceKeypointSink);
         return pipeline;
     }
 }
@@ -23597,6 +23658,37 @@ class Vector3 {
         const y = this._z * v._x - this._x * v._z;
         const z = this._x * v._y - this._y * v._x;
         return new Vector3(x, y, z);
+    }
+    /**
+     * Compute a unit vector with the same direction as this
+     * @returns a new unit vector with the same direction as this
+     */
+    normalized() {
+        return this._clone()._normalize();
+    }
+    /**
+     * Compute the sum between this vector and v
+     * @param v a vector
+     * @returns a new vector equal to the sum between this and v
+     */
+    plus(v) {
+        return this._clone()._add(v);
+    }
+    /**
+     * Compute the difference between this vector and v
+     * @param v a vector
+     * @returns a new vector equal to the difference this - v
+     */
+    minus(v) {
+        return this._clone()._subtract(v);
+    }
+    /**
+     * Compute the multiplication between this vector and a scale factor
+     * @param scale scalar quantity
+     * @returns a new vector equal to the multiplication between this and the scale factor
+     */
+    times(scale) {
+        return this._clone()._scale(scale);
     }
     /**
      * Check if this and v have the same coordinates
@@ -25508,6 +25600,10 @@ class ImageTrackerTrackingState extends ImageTrackerState {
                only affect the rendering of virtual elements positioned at the
                local space linked to the target ("ar.root").
 
+               (that's right, and movements of the real camera in physical space
+               shouldn't affect the world space either. Note: the real camera is
+               expected to be shaky. Example: a user holding a mobile phone.)
+
             */
             // the target moves and the camera stays fixed at the origin
             const modelMatrix = this._camera.computeViewMatrix(); // p_view = V M p_model
@@ -25595,7 +25691,7 @@ class ImageTrackerTrackingState extends ImageTrackerState {
         return ImageTrackerUtils.findAffineWarpNDC(points, {
             method: 'pransac',
             reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512 * 4,
+            numberOfHypotheses: 512 * 2,
             bundleSize: 128,
             mask: undefined // score is not needed
         }).then(([warp, score]) => {
@@ -25812,8 +25908,6 @@ class ImageTrackerTrackingState extends ImageTrackerState {
 
 
 
-/** A helper */
-const formatSize = (size) => `${size.width}x${size.height}`;
 /** Default options for instantiating an ImageTracker */
 const image_tracker_DEFAULT_OPTIONS = {
     resolution: 'sm'
@@ -25867,16 +25961,18 @@ class ImageTracker extends AREventTarget {
         return this._database;
     }
     /**
-     * Resolution of the AR screen space
+     * Resolution of the tracker
      */
     get resolution() {
         return this._resolution;
     }
     /**
-     * Resolution of the AR screen space
+     * Resolution of the tracker
+     * @readonly
      */
     set resolution(resolution) {
-        this._resolution = resolution;
+        // this property is readonly, but this setter has been kept because
+        // it wasn't readonly in previous versions of the engine. FIXME
     }
     /**
      * Size of the AR screen space, in pixels
@@ -25897,7 +25993,8 @@ class ImageTracker extends AREventTarget {
      * @internal
      */
     get _stats() {
-        return `${formatSize(this.screenSize)} ${this.state}`;
+        const screenSize = this.screenSize;
+        return `${screenSize.width}x${screenSize.height} ${this.state}`;
     }
     /**
      * Initialize this tracker
@@ -26110,6 +26207,37 @@ class Vector2 {
         return v._clone()._subtract(this)._normalize();
     }
     /**
+     * Compute a unit vector with the same direction as this
+     * @returns a new unit vector with the same direction as this
+     */
+    normalized() {
+        return this._clone()._normalize();
+    }
+    /**
+     * Compute the sum between this vector and v
+     * @param v a vector
+     * @returns a new vector equal to the sum between this and v
+     */
+    plus(v) {
+        return this._clone()._add(v);
+    }
+    /**
+     * Compute the difference between this vector and v
+     * @param v a vector
+     * @returns a new vector equal to the difference this - v
+     */
+    minus(v) {
+        return this._clone()._subtract(v);
+    }
+    /**
+     * Compute the multiplication between this vector and a scale factor
+     * @param scale scalar quantity
+     * @returns a new vector equal to the multiplication between this and the scale factor
+     */
+    times(scale) {
+        return this._clone()._scale(scale);
+    }
+    /**
      * Check if this and v have the same coordinates
      * @param v a vector
      * @returns true if this and v have the same coordinates
@@ -26240,16 +26368,23 @@ const EVENTTYPE2PHASE = {
     'pointerleave': 'ended',
     'pointerenter': 'began',
 };
+/** Default options for instantiating a PointerTracker */
+const pointer_tracker_DEFAULT_OPTIONS = {
+    space: 'normalized'
+};
 /**
  * A tracker of pointer-based input such as mouse, touch or pen
  */
 class PointerTracker {
     /**
      * Constructor
+     * @param options
      */
-    constructor() {
+    constructor(options) {
+        const settings = this._buildSettings(options);
         this._source = null;
         this._viewport = null;
+        this._space = settings.space;
         this._activePointers = new Map();
         this._newPointers = new Map();
         this._idMap = new Map();
@@ -26258,6 +26393,17 @@ class PointerTracker {
         this._previousUpdateTime = Number.POSITIVE_INFINITY;
         this._wantToReset = false;
         this._resetInTheNextUpdate = this._resetInTheNextUpdate.bind(this);
+    }
+    /**
+     * Build a full and validated options object
+     * @param options
+     * @returns validated options with defaults
+     */
+    _buildSettings(options) {
+        const settings = Object.assign({}, pointer_tracker_DEFAULT_OPTIONS, options);
+        if (settings.space != 'normalized' && settings.space != 'adjusted')
+            throw new IllegalArgumentError(`Invalid pointer space: "${settings.space}"`);
+        return settings;
     }
     /**
      * The type of the tracker
@@ -26394,12 +26540,24 @@ class PointerTracker {
                     this._newPointers.clear();
                     continue;
             }
-            // determine the current position
+            // determine the current position in normalized space
             const absX = event.pageX - (rect.left + window.scrollX);
             const absY = event.pageY - (rect.top + window.scrollY);
             const relX = 2 * absX / rect.width - 1; // convert to [-1,1]
             const relY = -(2 * absY / rect.height - 1); // flip Y axis
             const position = new Vector2(relX, relY);
+            // scale the normalized space so that it matches the aspect ratio of the viewport
+            if (this._space == 'adjusted') {
+                const a = this._viewport.aspectRatio;
+                if (a >= 1) {
+                    // landscape
+                    position._set(relX, relY / a);
+                }
+                else {
+                    // portrait
+                    position._set(relX * a, relY);
+                }
+            }
             // determine the position delta
             const deltaPosition = !previous ? Vector2.ZERO :
                 position._clone()._subtract(previous.position);
@@ -26410,13 +26568,15 @@ class PointerTracker {
             const velocity = deltaPosition._clone()._scale(inverseDeltaTime);
             // determine the elapsed time since the tracking began
             const elapsedTime = previous ? previous.elapsedTime + deltaTime : 0;
+            // determine how much this pointer has moved since its tracking began
+            const totalDistance = previous ? previous.totalDistance + deltaPosition.length() : 0;
             // determine whether or not this is the primary pointer for this type
             const isPrimary = event.isPrimary;
             // determine the type of the originating device
             const kind = event.pointerType;
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, isPrimary, kind });
+            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, elapsedTime, totalDistance, isPrimary, kind });
         }
         // update trackables
         this._newPointers.forEach((trackable, id) => this._activePointers.set(id, trackable));
@@ -26447,6 +26607,13 @@ class PointerTracker {
         const n = this._activePointers.size;
         const s = n != 1 ? 's' : '';
         return n + ' pointer' + s;
+    }
+    /**
+     * The space in which pointers are located.
+     * You may set it when instantiating the tracker.
+     */
+    get space() {
+        return this._space;
     }
     /**
      * Generate tracker output
@@ -26628,9 +26795,10 @@ class TrackerFactory {
     }
     /**
      * Create a Pointer Tracker
+     * @param options
      */
-    static Pointer() {
-        return new PointerTracker();
+    static Pointer(options = {}) {
+        return new PointerTracker(options);
     }
 }
 
@@ -27984,7 +28152,7 @@ class BestFitResizeStrategy extends ImmersiveResizeStrategy {
     resize(viewport) {
         const subContainer = viewport._subContainer;
         const windowAspectRatio = window.innerWidth / window.innerHeight;
-        const viewportAspectRatio = viewport._realSize.width / viewport._realSize.height;
+        const viewportAspectRatio = viewport.aspectRatio;
         let width = 1, height = 1, left = '0px', top = '0px';
         if (viewportAspectRatio <= windowAspectRatio) {
             height = window.innerHeight;
@@ -28093,9 +28261,14 @@ class Viewport extends ViewportEventTarget {
      * on which the virtual scene will be drawn
      */
     get virtualSize() {
+        return Utils.resolution(this._resolution, this.aspectRatio);
+    }
+    /**
+     * Aspect ratio of the viewport
+     */
+    get aspectRatio() {
         const size = this._realSize;
-        const aspectRatio = size.width / size.height;
-        return Utils.resolution(this._resolution, aspectRatio);
+        return size.width / size.height;
     }
     /**
      * Is the viewport currently being displayed in fullscreen mode?
@@ -28151,17 +28324,56 @@ class Viewport extends ViewportEventTarget {
         return this._fullscreen.exit();
     }
     /**
-     * Convert a position given in normalized units to a corresponding pixel
-     * position in canvas space. Normalized units range from -1 to +1. The
-     * center of the canvas is at (0,0). The top right corner is at (1,1).
+     * Convert a position given in space units to a corresponding pixel
+     * position in canvas space. Units in normalized space range from -1 to +1.
+     * The center of the canvas is at (0,0). The top right corner is at (1,1).
      * The bottom left corner is at (-1,-1).
-     * @param position in normalized units
+     * @param position in space units
+     * @param space either "normalized" (default) or "adjusted"; @see PointerSpace
      * @returns an equivalent pixel position in canvas space
      */
-    convertToPixels(position) {
+    convertToPixels(position, space = 'normalized') {
         const canvas = this.canvas;
-        const x = 0.5 * (1 + position.x) * canvas.width;
-        const y = 0.5 * (1 - position.y) * canvas.height;
+        let px = position.x, py = position.y;
+        if (space == 'adjusted') {
+            // convert from adjusted to normalized space
+            const a = canvas.width / canvas.height;
+            if (a >= 1)
+                py *= a;
+            else
+                px /= a;
+        }
+        else if (space != 'normalized')
+            throw new IllegalArgumentError(`Invalid space: "${space}"`);
+        // convert from normalized to canvas space
+        const x = 0.5 * (1 + px) * canvas.width;
+        const y = 0.5 * (1 - py) * canvas.height;
+        // done!
+        return new Vector2(x, y);
+    }
+    /**
+     * Convert a pixel position given in canvas space to a corresponding
+     * position in space units. This is the inverse of convertToPixels().
+     * @param position in canvas space
+     * @space either "normalized" (default) or "adjusted"; see @PointerSpace
+     * @returns an equivalent position in space units
+     */
+    convertFromPixels(position, space = 'normalized') {
+        const canvas = this.canvas;
+        // convert from canvas to normalized space
+        let x = 2 * position.x / canvas.width - 1;
+        let y = -2 * position.y / canvas.height + 1;
+        if (space == 'adjusted') {
+            // convert from normalized to adjusted space
+            const a = canvas.width / canvas.height;
+            if (a >= 1)
+                y /= a;
+            else
+                x *= a;
+        }
+        else if (space != 'normalized')
+            throw new IllegalArgumentError(`Invalid space: "${space}"`);
+        // done!
         return new Vector2(x, y);
     }
     /**
