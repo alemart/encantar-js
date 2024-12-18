@@ -64,6 +64,12 @@ The elapsed time, in seconds, since the tracking of this pointer began.
 
 How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio `movementLength / duration`.
 
+### movementDuration
+
+`pointer.movementDuration: number, read-only`
+
+The total time, in seconds, in which this pointer has moved. You can get the average speed of motion, excluding the times in which this pointer has not moved, by calculating the ratio `movementLength / movementDuration`.
+
 ### isPrimary
 
 `pointer.isPrimary: boolean, read-only`

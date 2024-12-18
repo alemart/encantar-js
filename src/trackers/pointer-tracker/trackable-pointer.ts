@@ -59,6 +59,9 @@ export interface TrackablePointer extends Trackable
     /** elapsed time, in seconds, since the tracking of this pointer began */
     readonly duration: number;
 
+    /** the total time, in seconds, in which this pointer has moved */
+    readonly movementDuration: number;
+
     /** how much this pointer has moved, in space units, since its tracking began */
     readonly movementLength: number;
 
