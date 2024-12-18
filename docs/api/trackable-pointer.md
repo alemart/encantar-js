@@ -58,11 +58,11 @@ The current velocity of the pointer, given in space units per second. You can ge
 
 The elapsed time, in seconds, since the tracking of this pointer began.
 
-### totalDistance
+### movementLength
 
-`pointer.totalDistance: number, read-only`
+`pointer.movementLength: number, read-only`
 
-How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio `totalDistance / duration`.
+How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio `movementLength / duration`.
 
 ### isPrimary
 

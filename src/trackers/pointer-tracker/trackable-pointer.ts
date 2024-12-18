@@ -60,7 +60,7 @@ export interface TrackablePointer extends Trackable
     readonly duration: number;
 
     /** how much this pointer has moved, in space units, since its tracking began */
-    readonly totalDistance: number;
+    readonly movementLength: number;
 
     /** whether or not this is the primary pointer for this type */
     readonly isPrimary: boolean;
