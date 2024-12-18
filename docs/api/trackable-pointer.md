@@ -56,7 +56,7 @@ The current velocity of the pointer, given in space units per second. You can ge
 
 `pointer.duration: number, read-only`
 
-The elapsed time, in seconds, since the tracking of this pointer began.
+The elapsed time, in seconds, since the tracking of this pointer began. You can check if this pointer represents a tap by comparing its duration to a threshold at the `"ended"` [phase](#phase). Example: `isTap = pointer.phase == "ended" && pointer.duration < 0.25`.
 
 ### movementLength
 
@@ -68,16 +68,16 @@ How much this pointer has moved, in space units, since its tracking began. You c
 
 `pointer.movementDuration: number, read-only`
 
-The total time, in seconds, in which this pointer has moved. You can get the average speed of motion, excluding the times in which this pointer has not moved, by calculating the ratio `movementLength / movementDuration`.
+The total time, in seconds, in which this pointer has moved. You can get the average speed of motion, excluding the times in which this pointer remained stationary, by calculating the ratio `movementLength / movementDuration`.
 
 ### isPrimary
 
 `pointer.isPrimary: boolean, read-only`
 
-Whether or not this is the primary pointer among all pointers of this [type](#type). A typical primary pointer is that of a finger that touches the screen when no other fingers are touching it.
+Whether or not this is the primary pointer among all pointers of this [kind](#kind). A typical primary pointer is that of a finger that touches the screen when no other fingers are touching it.
 
 ### kind
 
 `pointer.kind: string, read-only`
 
-The type of device that originated this pointer. Typically `"touch"`, `"mouse"` or `"pen"`.
+The kind of device that originated this pointer. Typically `"touch"`, `"mouse"` or `"pen"`.

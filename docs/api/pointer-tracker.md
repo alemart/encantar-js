@@ -52,3 +52,5 @@ The space in which pointers are located. You may set it when instantiating the t
     Pointers in adjusted space are contained in normalized space, but unless the viewport is a square, one of their coordinates, x or y, will no longer range from -1 to +1. It will range from *-s* to *+s*, where *s = min(a, 1/a)*. In this expression, *a* is the aspect ratio of the viewport and *s* is less than or equal to 1.
 
     Selecting the adjusted space is useful for making sure that pointer speeds are equivalent in both axes and for preserving movement curves. Speeds are not equivalent and movement curves are not preserved by default because the normalized space is a square, whereas the viewport is a rectangle.
+
+    In summary: prefer the adjusted space when tracking movements.
