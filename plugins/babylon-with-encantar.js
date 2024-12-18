@@ -7,7 +7,7 @@
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
     'encantar.js': { version: '0.4.0' },
-     'babylon.js': { version: '7.29.0' }
+     'babylon.js': { version: '7.38.0' }
 });
 
 /**
@@ -17,8 +17,8 @@ class ARDemo
 {
     /**
      * Start the AR session
-     * @abstract
      * @returns {Promise<Session> | SpeedyPromise<Session>}
+     * @abstract
      */
     startSession()
     {
@@ -27,32 +27,29 @@ class ARDemo
 
     /**
      * Initialization
-     * @abstract
-     * @param {ARSystem} ar
      * @returns {void | Promise<void> | SpeedyPromise<void>}
+     * @abstract
      */
-    init(ar)
+    init()
     {
         throw new Error('Abstract method');
     }
 
     /**
      * Animation loop
-     * @abstract
-     * @param {ARSystem} ar
      * @returns {void}
+     * @abstract
      */
-    update(ar)
+    update()
     {
         throw new Error('Abstract method');
     }
 
     /**
      * Release resources
-     * @param {ARSystem} ar
      * @returns {void}
      */
-    release(ar)
+    release()
     {
         // optional implementation
     }
@@ -65,6 +62,23 @@ class ARDemo
     {
         // optional implementation
         return Promise.resolve();
+    }
+
+    /**
+     * A reference to the ARSystem
+     * @returns {ARSystem | null}
+     */
+    get ar()
+    {
+        return this._ar;
+    }
+
+    /**
+     * Constructor
+     */
+    constructor()
+    {
+        this._ar = null;
     }
 }
 
@@ -231,7 +245,7 @@ class ARSystem
 function encantar(demo)
 {
     const ar = new ARSystem();
-    const flipZAxis = new BABYLON.Matrix().copyFromFloats(
+    const flipZ = new BABYLON.Matrix().copyFromFloats(
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0,-1, 0,
@@ -243,9 +257,11 @@ function encantar(demo)
         ar._frame = frame;
         mix(frame);
 
-        demo.update(ar);
-
+        ar._engine.beginFrame();
+        demo.update();
         ar._scene.render(false);
+        ar._engine.endFrame();
+
         ar._session.requestAnimationFrame(animate);
     }
 
@@ -285,7 +301,7 @@ function encantar(demo)
         if(ar._scene.useRightHandedSystem)
             ar._camera.freezeProjectionMatrix(convert(projectionMatrix));
         else
-            ar._camera.freezeProjectionMatrix(convert(projectionMatrix).multiply(flipZAxis));
+            ar._camera.freezeProjectionMatrix(convert(projectionMatrix).multiply(flipZ));
 
         ar._camera.setViewMatrix(convert(viewMatrix));
 
@@ -305,20 +321,33 @@ function encantar(demo)
     .then(() => demo.startSession()) // Promise or SpeedyPromise
     .then(session => {
 
+        demo._ar = ar;
+
         ar._session = session;
 
-        ar._engine = new BABYLON.Engine(session.viewport.canvas, false, {
-            premultipliedAlpha: true
-        });
-        ar._engine.resize = function(forceSetSize = false) {
+        BABYLON.Engine.prototype.resize = function(forceSetSize = false) {
             // make babylon.js respect the resolution of the viewport
             const size = session.viewport.virtualSize;
             this.setSize(size.width, size.height, forceSetSize);
         };
+        ar._engine = new BABYLON.Engine(session.viewport.canvas, false, {
+            premultipliedAlpha: true
+        });
 
         ar._scene = new BABYLON.Scene(ar._engine);
         ar._scene.useRightHandedSystem = true;
-        ar._scene.clearColor.set(0, 0, 0, 0);
+        ar._scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
+        ar._scene._inputManager._updatePointerPosition = function(evt) {
+            // adjust babylon.js pointers to the resolution of the viewport
+            const engine = this._scene.getEngine();
+            const canvasRect = engine.getInputElementClientRect();
+            if(!canvasRect)
+                return;
+            this._pointerX = (evt.clientX - canvasRect.left) * (engine.getRenderWidth() / canvasRect.width);
+            this._pointerY = (evt.clientY - canvasRect.top) * (engine.getRenderHeight() / canvasRect.height);
+            this._unTranslatedPointerX = this._pointerX;
+            this._unTranslatedPointerY = this._pointerY;
+        };
 
         ar._origin = new BABYLON.TransformNode('ar-origin', ar._scene);
         ar._root = new BABYLON.TransformNode('ar-root', ar._scene);
@@ -350,10 +379,10 @@ function encantar(demo)
 
         return Promise.resolve()
         .then(() => {
-            return demo.init(ar);
+            return demo.init();
         })
         .then(() => {
-            session.addEventListener('end', event => { demo.release(ar); });
+            session.addEventListener('end', event => { demo.release(); });
             session.requestAnimationFrame(animate);
             return ar;
         })

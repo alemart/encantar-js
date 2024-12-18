@@ -37,10 +37,10 @@ body {
     height: auto;
 }
 
-#back {
+#get {
     position: fixed;
     top: 24px;
-    right: 24px;
+    left: 24px;
     padding: 16px;
     color: rgb(184, 98, 184);
     background-color: white;
@@ -53,13 +53,12 @@ body {
     transition: transform 0.25s;
 }
 
-#back:visited {
+#get:any-link {
     color: rgb(184, 98, 184);
 }
 
-#back:active, #back:hover {
-    color: rgb(184, 98, 184);
-    transform: scale(1.1);
+#get:hover {
+    transform: scale(1.0625);
 }
 
 #prev, #next {
@@ -100,4 +99,36 @@ body {
 
 #next::before {
     content: "\276F";
+}
+
+
+#like {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    color: rgb(184, 98, 184);
+    background-color: white;
+    border: 0;
+    border-radius: 32px;
+    font-family: sans-serif;
+    font-size: 1.25em;
+    font-weight: bold;
+    text-decoration: underline;
+    transition: transform 0.25s;
+}
+
+#like:hover {
+    transform: scale(1.0625);
+}
+
+#like i {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(184, 98, 184);
+    mask: url(../assets/heart-fill.svg) 0 0/64px 64px;
+    -webkit-mask: url(../assets/heart-fill.svg) 0 0/64px 64px;
 }

@@ -228,7 +228,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../getting-started/introduction/" class="md-tabs__link">
+      <a href="../../tutorial/introduction/" class="md-tabs__link">
         Learn
       </a>
     </li>
@@ -386,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/introduction/" class="md-nav__link">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
         Learn
       </a>
     </li>
@@ -402,6 +402,34 @@
     <li class="md-nav__item">
       <a href="../ar/" class="md-nav__link">
         API Reference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
+        Guidelines for Images
       </a>
     </li>
   
@@ -506,7 +534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/introduction/" class="md-nav__link">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -520,7 +548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/concepts/" class="md-nav__link">
+      <a href="../../tutorial/concepts/" class="md-nav__link">
         Concepts
       </a>
     </li>
@@ -534,7 +562,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-a-web-server/" class="md-nav__link">
+      <a href="../../tutorial/set-up-a-web-server/" class="md-nav__link">
         Set up a web server
       </a>
     </li>
@@ -548,7 +576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-the-tracker/" class="md-nav__link">
+      <a href="../../tutorial/set-up-the-tracker/" class="md-nav__link">
         Set up the tracker
       </a>
     </li>
@@ -562,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-the-session/" class="md-nav__link">
+      <a href="../../tutorial/set-up-the-session/" class="md-nav__link">
         Set up the session
       </a>
     </li>
@@ -576,7 +604,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/activate-your-webcam/" class="md-nav__link">
+      <a href="../../tutorial/activate-your-webcam/" class="md-nav__link">
         Activate your webcam
       </a>
     </li>
@@ -590,7 +618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/augment-the-scene/" class="md-nav__link">
+      <a href="../../tutorial/augment-the-scene/" class="md-nav__link">
         Augment the scene
       </a>
     </li>
@@ -604,7 +632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/next-steps/" class="md-nav__link">
+      <a href="../../tutorial/next-steps/" class="md-nav__link">
         Next steps
       </a>
     </li>
@@ -618,7 +646,21 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/guidelines-for-images/" class="md-nav__link">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
         Guidelines for Images
       </a>
     </li>
@@ -1022,6 +1064,13 @@
           <li class="md-nav__item">
   <a href="#type" class="md-nav__link">
     type
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#space" class="md-nav__link">
+    space
   </a>
   
 </li>
@@ -1720,6 +1769,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#space" class="md-nav__link">
+    space
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1749,17 +1805,41 @@
 <p><em>Since:</em> 0.4.0</p>
 <h2 id="instantiation">Instantiation</h2>
 <h3 id="artrackerpointer">AR.Tracker.Pointer</h3>
-<p><code>AR.Tracker.Pointer(): PointerTracker</code></p>
-<p>Create a new <code>PointerTracker</code>.</p>
+<p><code>AR.Tracker.Pointer(options: object): PointerTracker</code></p>
+<p>Create a new <code>PointerTracker</code> with the specified <code>options</code>.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>options: object, optional</code>. An object with the following keys (all are optional):<ul>
+<li><code>space: string</code>. The <a href="#space">space</a> in which pointers will be located. Defaults to <code>"normalized"</code>.</li>
+</ul>
+</li>
+</ul>
 <p><strong>Returns</strong></p>
 <p>A new <code>PointerTracker</code>.</p>
 <p><strong>Example</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">const</span> <span class="nx">pointerTracker</span> <span class="o">=</span> <span class="nx">AR</span><span class="p">.</span><span class="nx">Tracker</span><span class="p">.</span><span class="nx">Pointer</span><span class="p">();</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Use default settings</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">const</span> <span class="nx">pointerTracker</span> <span class="o">=</span> <span class="nx">AR</span><span class="p">.</span><span class="nx">Tracker</span><span class="p">.</span><span class="nx">Pointer</span><span class="p">();</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">// Track pointers in adjusted space</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kd">const</span> <span class="nx">pointerTracker</span> <span class="o">=</span> <span class="nx">AR</span><span class="p">.</span><span class="nx">Tracker</span><span class="p">.</span><span class="nx">Pointer</span><span class="p">({</span> <span class="nx">space</span><span class="o">:</span> <span class="s1">&#39;adjusted&#39;</span> <span class="p">});</span>
 </code></pre></div>
 <h2 id="properties">Properties</h2>
 <h3 id="type">type</h3>
 <p><code>tracker.type: string, read-only</code></p>
 <p>The string <code>"pointer-tracker"</code>.</p>
+<h3 id="space">space</h3>
+<p><code>tracker.space: string, read-only</code></p>
+<p>The space in which pointers are located. You may set it when instantiating the tracker. Possible values: <code>"normalized"</code> or <code>"adjusted"</code>.</p>
+<ul>
+<li>
+<p>In <code>"normalized"</code> space, pointers are located in [-1,1]x[-1,1]. The origin of the space is at the center of the <a href="../viewport/">viewport</a>. The x-axis points to the right and the y-axis points up. This is the default space.</p>
+</li>
+<li>
+<p>The <code>"adjusted"</code> space is similar to the normalized space, except that it is scaled so that it matches the <a href="../viewport/#aspectratio">aspect ratio</a> of the viewport.</p>
+<p>Pointers in adjusted space are contained in normalized space, but unless the viewport is a square, one of their coordinates, x or y, will no longer range from -1 to +1. It will range from <em>-s</em> to <em>+s</em>, where <em>s = min(a, 1/a)</em>. In this expression, <em>a</em> is the aspect ratio of the viewport and <em>s</em> is less than or equal to 1.</p>
+<p>Selecting the adjusted space is useful for making sure that pointer speeds are equivalent in both axes and for preserving movement curves. Speeds are not equivalent and movement curves are not preserved by default because the normalized space is a square, whereas the viewport is a rectangle.</p>
+</li>
+</ul>
 
               
 

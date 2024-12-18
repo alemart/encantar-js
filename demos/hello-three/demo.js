@@ -177,11 +177,12 @@ class EnchantedDemo extends ARDemo
 
     /**
      * Initialization
-     * @param {ARSystem} ar
      * @returns {void}
      */
-    init(ar)
+    init()
     {
+        const ar = this.ar;
+
         // Change the point of view. All virtual objects are descendants of
         // ar.root, a node that is automatically aligned to the physical scene.
         // Adjusting ar.root will adjust all virtual objects.
@@ -189,11 +190,11 @@ class EnchantedDemo extends ARDemo
         ar.root.position.set(0, -0.8, 0);
 
         // Initialize objects
-        this._initLight(ar);
-        this._initText(ar);
-        this._initMagicCircle(ar);
-        this._initMage(ar);
-        this._initCat(ar);
+        this._initLight();
+        this._initText();
+        this._initMagicCircle();
+        this._initMage();
+        this._initCat();
 
         // done!
         this._initialized = true;
@@ -201,11 +202,11 @@ class EnchantedDemo extends ARDemo
 
     /**
      * Animation loop
-     * @param {ARSystem} ar
      * @returns {void}
      */
-    update(ar)
+    update()
     {
+        const ar = this.ar;
         const delta = ar.session.time.delta; // given in seconds
 
         // animate the objects of the scene
@@ -218,15 +219,16 @@ class EnchantedDemo extends ARDemo
     // ------------------------------------------------------------------------
 
 
-    _initLight(ar)
+    _initLight()
     {
         const ambientLight = new THREE.AmbientLight(0xffffff);
         ambientLight.intensity = 1.5;
 
+        const ar = this.ar;
         ar.scene.add(ambientLight);
     }
 
-    _initMagicCircle(ar)
+    _initMagicCircle()
     {
         // create a magic circle
         const magicCircle = Utils.createImagePlane('../assets/magic-circle.png');
@@ -235,13 +237,14 @@ class EnchantedDemo extends ARDemo
         magicCircle.scale.set(4, 4, 1);
 
         // make it a child of ar.root
+        const ar = this.ar;
         ar.root.add(magicCircle);
 
         // save a reference
         this._objects.magicCircle = magicCircle;
     }
 
-    _initText(ar)
+    _initText()
     {
         const text = Utils.createImagePlane('../assets/it-works.png');
         text.material.transparent = true;
@@ -250,12 +253,13 @@ class EnchantedDemo extends ARDemo
         text.scale.set(3, 1.5, 1);
         text.rotateX(Math.PI / 2);
 
+        const ar = this.ar;
         ar.root.add(text);
 
         this._objects.text = text;
     }
 
-    _initMage(ar)
+    _initMage()
     {
         // load the mage
         const gltf = this._objects.gltf.mage;
@@ -267,6 +271,7 @@ class EnchantedDemo extends ARDemo
         mageAction.play();
 
         // make the mage a child of ar.root
+        const ar = this.ar;
         ar.root.add(mage);
 
         // save references
@@ -274,7 +279,7 @@ class EnchantedDemo extends ARDemo
         this._objects.mageAction = mageAction;
     }
 
-    _initCat(ar)
+    _initCat()
     {
         const gltf = this._objects.gltf.cat;
         const cat = gltf.scene;
@@ -283,6 +288,7 @@ class EnchantedDemo extends ARDemo
         const catAction = Utils.createAnimationAction(gltf, 'Cheer');
         catAction.play();
 
+        const ar = this.ar;
         ar.root.add(cat);
 
         this._objects.cat = cat;

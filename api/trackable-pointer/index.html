@@ -228,7 +228,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../getting-started/introduction/" class="md-tabs__link">
+      <a href="../../tutorial/introduction/" class="md-tabs__link">
         Learn
       </a>
     </li>
@@ -386,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/introduction/" class="md-nav__link">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
         Learn
       </a>
     </li>
@@ -402,6 +402,34 @@
     <li class="md-nav__item">
       <a href="../ar/" class="md-nav__link">
         API Reference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
+        Guidelines for Images
       </a>
     </li>
   
@@ -506,7 +534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/introduction/" class="md-nav__link">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -520,7 +548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/concepts/" class="md-nav__link">
+      <a href="../../tutorial/concepts/" class="md-nav__link">
         Concepts
       </a>
     </li>
@@ -534,7 +562,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-a-web-server/" class="md-nav__link">
+      <a href="../../tutorial/set-up-a-web-server/" class="md-nav__link">
         Set up a web server
       </a>
     </li>
@@ -548,7 +576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-the-tracker/" class="md-nav__link">
+      <a href="../../tutorial/set-up-the-tracker/" class="md-nav__link">
         Set up the tracker
       </a>
     </li>
@@ -562,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-the-session/" class="md-nav__link">
+      <a href="../../tutorial/set-up-the-session/" class="md-nav__link">
         Set up the session
       </a>
     </li>
@@ -576,7 +604,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/activate-your-webcam/" class="md-nav__link">
+      <a href="../../tutorial/activate-your-webcam/" class="md-nav__link">
         Activate your webcam
       </a>
     </li>
@@ -590,7 +618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/augment-the-scene/" class="md-nav__link">
+      <a href="../../tutorial/augment-the-scene/" class="md-nav__link">
         Augment the scene
       </a>
     </li>
@@ -604,7 +632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/next-steps/" class="md-nav__link">
+      <a href="../../tutorial/next-steps/" class="md-nav__link">
         Next steps
       </a>
     </li>
@@ -618,7 +646,21 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/guidelines-for-images/" class="md-nav__link">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
         Guidelines for Images
       </a>
     </li>
@@ -1072,6 +1114,13 @@
           <li class="md-nav__item">
   <a href="#elapsedtime" class="md-nav__link">
     elapsedTime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#totaldistance" class="md-nav__link">
+    totalDistance
   </a>
   
 </li>
@@ -1779,6 +1828,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#totaldistance" class="md-nav__link">
+    totalDistance
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#isprimary" class="md-nav__link">
     isPrimary
   </a>
@@ -1819,7 +1875,7 @@
 <h1 id="trackablepointer">TrackablePointer</h1>
 <p>A <a href="../trackable/">trackable</a> that represents a pointer tracked by a <a href="../pointer-tracker/">PointerTracker</a>.</p>
 <p>A pointer is an abstraction that represents an instance of user input that targets one or more coordinates on a screen. For example, each point of contact between fingers and a multitouch screen generate a pointer. Devices such as a mouse and a pen/stylus also generate pointers.</p>
-<p>Pointers are positioned in the <a href="../viewport/">viewport</a>. Their positions are given in normalized units, which range from -1 to +1. The center of the viewport is at (0,0). The top right corner is at (1,1). The bottom left corner is at (-1,-1).</p>
+<p>Pointers are located in the <a href="../viewport/">viewport</a>. Their positions are given in <a href="../pointer-tracker/#space">space units</a>. By default, space units are normalized units, which range from -1 to +1. In normalized space, the center of the viewport is at (0,0). The top right corner is at (1,1). The bottom left corner is at (-1,-1).</p>
 <p><em>Since:</em> 0.4.0</p>
 <h2 id="properties">Properties</h2>
 <h3 id="id">id</h3>
@@ -1837,7 +1893,7 @@
 </ul>
 <h3 id="position">position</h3>
 <p><code>pointer.position: Vector2, read-only</code></p>
-<p>The current position of the pointer, given in normalized units. See also: <a href="../viewer/#raycast">Viewer.raycast</a>, <a href="../viewport/#converttopixels">Viewport.convertToPixels</a>.</p>
+<p>The current position of the pointer, given in space units. See also: <a href="../pointer-tracker/#space">PointerTracker.space</a>, <a href="../viewer/#raycast">Viewer.raycast</a>, <a href="../viewport/#converttopixels">Viewport.convertToPixels</a>.</p>
 <h3 id="initialposition">initialPosition</h3>
 <p><code>pointer.initialPosition: Vector2, read-only</code></p>
 <p>The position of the pointer when its tracking began.</p>
@@ -1846,10 +1902,13 @@
 <p>The difference between the position of the pointer in this and in the previous frame.</p>
 <h3 id="velocity">velocity</h3>
 <p><code>pointer.velocity: Vector2, read-only</code></p>
-<p>The current velocity of the pointer, given in normalized units per second. You can get the speed of motion by calculating the <a href="../vector2/#length">magnitude</a> of this vector.</p>
+<p>The current velocity of the pointer, given in space units per second. You can get the current speed of motion by calculating the <a href="../vector2/#length">magnitude</a> of this vector.</p>
 <h3 id="elapsedtime">elapsedTime</h3>
 <p><code>pointer.elapsedTime: number, read-only</code></p>
 <p>The elapsed time, in seconds, since the tracking of this pointer began.</p>
+<h3 id="totaldistance">totalDistance</h3>
+<p><code>pointer.totalDistance: number, read-only</code></p>
+<p>How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio <code>totalDistance / elapsedTime</code>.</p>
 <h3 id="isprimary">isPrimary</h3>
 <p><code>pointer.isPrimary: boolean, read-only</code></p>
 <p>Whether or not this is the primary pointer among all pointers of this <a href="#type">type</a>. A typical primary pointer is that of a finger that touches the screen when no other fingers are touching it.</p>

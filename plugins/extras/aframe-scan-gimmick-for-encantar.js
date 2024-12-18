@@ -49,7 +49,7 @@ AFRAME.registerComponent('ar-scan-gimmick', {
 
     remove()
     {
-        if(this._img === null);
+        if(this._img === null)
             return;
 
         this._unregisterEvents();

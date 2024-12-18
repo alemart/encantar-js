@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(document.getElementById('splash'))
         return;
 
-    const sponsor = document.createElement('a');
+    const support = document.createElement('a');
     const heart = document.createElement('img');
     const text = document.createTextNode('Support me');
 
@@ -24,42 +24,42 @@ document.addEventListener('DOMContentLoaded', () => {
     heart.style.paddingRight = '8px';
     heart.classList.add('gemoji', 'heart');
 
-    sponsor.href = 'https://github.com/sponsors/alemart';
-    sponsor.target = '_blank';
-    sponsor.role = 'button';
-    sponsor.style.display = 'flex';
-    sponsor.style.alignItems = 'center';
-    sponsor.style.position = 'fixed';
-    sponsor.style.right = '16px';
-    sponsor.style.bottom = '16px';
-    sponsor.style.padding = '0 20px';
-    sponsor.style.height = '48px';
-    sponsor.style.color = 'var(--md-primary-fg-color)';
-    sponsor.style.backgroundColor = 'var(--md-primary-bg-color)';
-    sponsor.style.fontWeight = 'bold';
-    sponsor.style.fontSize = '16px';
-    sponsor.style.fontFamily = 'var(--md-text-font) sans-serif';
-    sponsor.style.cursor = 'pointer';
-    sponsor.style.borderWidth = '2px';
-    sponsor.style.borderStyle = 'solid';
-    sponsor.style.borderColor = 'var(--md-primary-fg-color)';
-    sponsor.style.borderRadius = '100px';
-    sponsor.style.transition = 'color 125ms,background-color 125ms,border-color 125ms';
+    support.href = 'https://alemart.github.io/encantar-js/support-my-work';
+    support.target = '_blank';
+    support.role = 'button';
+    support.style.display = 'flex';
+    support.style.alignItems = 'center';
+    support.style.position = 'fixed';
+    support.style.right = '16px';
+    support.style.bottom = '16px';
+    support.style.padding = '0 20px';
+    support.style.height = '48px';
+    support.style.color = 'var(--md-primary-fg-color)';
+    support.style.backgroundColor = 'var(--md-primary-bg-color)';
+    support.style.fontWeight = 'bold';
+    support.style.fontSize = '16px';
+    support.style.fontFamily = 'var(--md-text-font) sans-serif';
+    support.style.cursor = 'pointer';
+    support.style.borderWidth = '2px';
+    support.style.borderStyle = 'solid';
+    support.style.borderColor = 'var(--md-primary-fg-color)';
+    support.style.borderRadius = '100px';
+    support.style.transition = 'color 125ms,background-color 125ms,border-color 125ms';
 
-    sponsor.addEventListener('pointerenter', () => {
-        sponsor.style.backgroundColor = 'var(--md-accent-fg-color)';
-        sponsor.style.borderColor = 'var(--md-accent-fg-color)';
-        sponsor.style.color = 'var(--md-accent-bg-color)';
+    support.addEventListener('pointerenter', () => {
+        support.style.backgroundColor = 'var(--md-accent-fg-color)';
+        support.style.borderColor = 'var(--md-accent-fg-color)';
+        support.style.color = 'var(--md-accent-bg-color)';
     });
 
-    sponsor.addEventListener('pointerleave', () => {
-        sponsor.style.backgroundColor = 'var(--md-primary-bg-color)';
-        sponsor.style.borderColor = 'var(--md-primary-fg-color)';
-        sponsor.style.color = 'var(--md-primary-fg-color)';
+    support.addEventListener('pointerleave', () => {
+        support.style.backgroundColor = 'var(--md-primary-bg-color)';
+        support.style.borderColor = 'var(--md-primary-fg-color)';
+        support.style.color = 'var(--md-primary-fg-color)';
     });
 
-    sponsor.appendChild(heart);
-    sponsor.appendChild(text);
-    document.body.appendChild(sponsor);
+    support.appendChild(heart);
+    support.appendChild(text);
+    document.body.appendChild(support);
 
 });

@@ -6,16 +6,17 @@
         <title>encantar.js WebAR demo with babylon.js</title>
         <link href="../assets/demo.css" rel="stylesheet">
         <script src="../../dist/encantar.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/babylonjs@7.29.0/babylon.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders@7.29.0/babylonjs.loaders.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/babylonjs@7.38.0/babylon.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders@7.38.0/babylonjs.loaders.min.js"></script>
         <script src="../../plugins/babylon-with-encantar.js"></script>
+        <script src="../../plugins/extras/asset-manager.js"></script>
         <script src="demo.js"></script>
     </head>
     <body>
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
-                <a id="about" href="NOTICE.html" draggable="false"></a>
-                <a id="sponsor" href="https://github.com/sponsors/alemart" draggable="false"></a>
+                <a id="info" href="NOTICE.html" draggable="false"></a>
+                <a id="like" href="../assets/promo.html" draggable="false"></a>
                 <img id="scan" src="../assets/scan.png" draggable="false">
             </div>
         </div>

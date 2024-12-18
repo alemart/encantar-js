@@ -27,32 +27,29 @@ class ARDemo
 
     /**
      * Initialization
-     * @abstract
-     * @param {ARSystem} ar
      * @returns {void | Promise<void> | SpeedyPromise<void>}
+     * @abstract
      */
-    init(ar)
+    init()
     {
         throw new Error('Abstract method');
     }
 
     /**
      * Animation loop
-     * @abstract
-     * @param {ARSystem} ar
      * @returns {void}
+     * @abstract
      */
-    update(ar)
+    update()
     {
         throw new Error('Abstract method');
     }
 
     /**
      * Release resources
-     * @param {ARSystem} ar
      * @returns {void}
      */
-    release(ar)
+    release()
     {
         // optional implementation
     }
@@ -65,6 +62,23 @@ class ARDemo
     {
         // optional implementation
         return Promise.resolve();
+    }
+
+    /**
+     * A reference to the ARSystem
+     * @returns {ARSystem | null}
+     */
+    get ar()
+    {
+        return this._ar;
+    }
+
+    /**
+     * Constructor
+     */
+    constructor()
+    {
+        this._ar = null;
     }
 }
 
@@ -237,7 +251,7 @@ function encantar(demo)
         ar._frame = frame;
         mix(frame);
 
-        demo.update(ar);
+        demo.update();
 
         ar._renderer.render(ar._scene, ar._camera);
         ar._session.requestAnimationFrame(animate);
@@ -289,6 +303,8 @@ function encantar(demo)
     .then(() => demo.startSession()) // Promise or SpeedyPromise
     .then(session => {
 
+        demo._ar = ar;
+
         ar._session = session;
 
         ar._scene = new THREE.Scene();
@@ -324,10 +340,10 @@ function encantar(demo)
 
         return Promise.resolve()
         .then(() => {
-            return demo.init(ar);
+            return demo.init();
         })
         .then(() => {
-            session.addEventListener('end', event => { demo.release(ar); });
+            session.addEventListener('end', event => { demo.release(); });
             session.requestAnimationFrame(animate);
             return ar;
         })

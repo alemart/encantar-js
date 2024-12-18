@@ -228,7 +228,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../getting-started/introduction/" class="md-tabs__link">
+      <a href="../../tutorial/introduction/" class="md-tabs__link">
         Learn
       </a>
     </li>
@@ -386,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/introduction/" class="md-nav__link">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
         Learn
       </a>
     </li>
@@ -402,6 +402,34 @@
     <li class="md-nav__item">
       <a href="../ar/" class="md-nav__link">
         API Reference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
+        Guidelines for Images
       </a>
     </li>
   
@@ -506,7 +534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/introduction/" class="md-nav__link">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -520,7 +548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/concepts/" class="md-nav__link">
+      <a href="../../tutorial/concepts/" class="md-nav__link">
         Concepts
       </a>
     </li>
@@ -534,7 +562,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-a-web-server/" class="md-nav__link">
+      <a href="../../tutorial/set-up-a-web-server/" class="md-nav__link">
         Set up a web server
       </a>
     </li>
@@ -548,7 +576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-the-tracker/" class="md-nav__link">
+      <a href="../../tutorial/set-up-the-tracker/" class="md-nav__link">
         Set up the tracker
       </a>
     </li>
@@ -562,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/set-up-the-session/" class="md-nav__link">
+      <a href="../../tutorial/set-up-the-session/" class="md-nav__link">
         Set up the session
       </a>
     </li>
@@ -576,7 +604,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/activate-your-webcam/" class="md-nav__link">
+      <a href="../../tutorial/activate-your-webcam/" class="md-nav__link">
         Activate your webcam
       </a>
     </li>
@@ -590,7 +618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/augment-the-scene/" class="md-nav__link">
+      <a href="../../tutorial/augment-the-scene/" class="md-nav__link">
         Augment the scene
       </a>
     </li>
@@ -604,7 +632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/next-steps/" class="md-nav__link">
+      <a href="../../tutorial/next-steps/" class="md-nav__link">
         Next steps
       </a>
     </li>
@@ -618,7 +646,21 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting-started/guidelines-for-images/" class="md-nav__link">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
         Guidelines for Images
       </a>
     </li>
@@ -905,7 +947,7 @@
         
           <li class="md-nav__item">
   <a href="#artrackerimagetracker" class="md-nav__link">
-    AR.Tracker.ImageTracker
+    ~~AR.Tracker.ImageTracker~~
   </a>
   
 </li>
@@ -1757,7 +1799,7 @@
         
           <li class="md-nav__item">
   <a href="#artrackerimagetracker" class="md-nav__link">
-    AR.Tracker.ImageTracker
+    ~~AR.Tracker.ImageTracker~~
   </a>
   
 </li>
@@ -1860,6 +1902,7 @@
 <h3 id="artrackerimage">AR.Tracker.Image</h3>
 <p><code>AR.Tracker.Image(options: object): ImageTracker</code></p>
 <p>Instantiate an image tracker with the specified <code>options</code>.</p>
+<p><em>Since:</em> 0.4.0</p>
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>options: object, optional</code>. An object with the following keys (all are optional):<ul>
@@ -1874,8 +1917,8 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="nx">resolution</span><span class="o">:</span> <span class="s2">&quot;sm&quot;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">});</span>
 </code></pre></div>
-<h3 id="artrackerimagetracker">AR.Tracker.ImageTracker</h3>
-<p><code>AR.Tracker.ImageTracker(): ImageTracker</code></p>
+<h3 id="artrackerimagetracker">~~AR.Tracker.ImageTracker~~</h3>
+<p>~~<code>AR.Tracker.ImageTracker(): ImageTracker</code>~~</p>
 <p>Instantiate an image tracker with default settings.</p>
 <p><em>Deprecated since:</em> 0.4.0. Use <code>AR.Tracker.Image()</code> instead.</p>
 <p><strong>Returns</strong></p>
@@ -1891,8 +1934,9 @@
 <p><code>tracker.database: ReferenceImageDatabase, read-only</code></p>
 <p>A <a href="../reference-image-database/">database</a> of <a href="../reference-image/">reference images</a>.</p>
 <h3 id="resolution">resolution</h3>
-<p><code>tracker.resolution: Resolution</code></p>
+<p><code>tracker.resolution: Resolution, read-only</code></p>
 <p>The <a href="../resolution/">resolution</a> adopted by the computer vision algorithms implemented in the tracker. Higher resolutions improve the tracking quality, but are computationally more expensive. Note that this resolution is different from, and should not be larger than, the <a href="../camera-source/#resolution">resolution of the camera</a>!</p>
+<p><em>Note:</em> this property is read-only since 0.4.0. Set the resolution when instantiating the tracker.</p>
 <h2 id="events">Events</h2>
 <p>An ImageTracker is an <a href="../ar-event-target/">AREventTarget</a>. You can listen to the following events:</p>
 <h3 id="targetfound">targetfound</h3>

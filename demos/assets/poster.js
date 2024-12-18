@@ -14,21 +14,28 @@ function changeImage(direction)
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    const prev = document.getElementById('prev');
-    const next = document.getElementById('next');
-
     const arImages = (document.body.dataset.arImages || DEFAULT_IMAGE).split(';');
     paths.push.apply(paths, arImages);
     changeImage(0);
 
-    if(!prev || !next)
-        return;
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    if(prev && next) {
+        prev.addEventListener('click', function() { changeImage(-1); });
+        next.addEventListener('click', function() { changeImage(+1); });
 
-    prev.addEventListener('click', function() { changeImage(-1); });
-    next.addEventListener('click', function() { changeImage(+1); });
+        if(paths.length < 2)
+            prev.hidden = next.hidden = true;
+    }
 
-    if(paths.length < 2)
-        prev.hidden = next.hidden = true;
+    document.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+            window.goatcounter && window.goatcounter.count({
+                path: function(p) { return a.id + '-' + p; },
+                event: true,
+            });
+        });
+    });
 
 });
 

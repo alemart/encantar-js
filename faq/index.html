@@ -230,7 +230,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../getting-started/introduction/" class="md-tabs__link md-tabs__link--active">
+      <a href="../tutorial/introduction/" class="md-tabs__link md-tabs__link--active">
         Learn
       </a>
     </li>
@@ -386,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/introduction/" class="md-nav__link">
+      <a href="../tutorial/introduction/" class="md-nav__link">
         Learn
       </a>
     </li>
@@ -402,6 +402,34 @@
     <li class="md-nav__item">
       <a href="../api/ar/" class="md-nav__link">
         API Reference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guidelines-for-images/" class="md-nav__link">
+        Guidelines for Images
       </a>
     </li>
   
@@ -508,7 +536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/introduction/" class="md-nav__link">
+      <a href="../tutorial/introduction/" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -522,7 +550,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/concepts/" class="md-nav__link">
+      <a href="../tutorial/concepts/" class="md-nav__link">
         Concepts
       </a>
     </li>
@@ -536,7 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/set-up-a-web-server/" class="md-nav__link">
+      <a href="../tutorial/set-up-a-web-server/" class="md-nav__link">
         Set up a web server
       </a>
     </li>
@@ -550,7 +578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/set-up-the-tracker/" class="md-nav__link">
+      <a href="../tutorial/set-up-the-tracker/" class="md-nav__link">
         Set up the tracker
       </a>
     </li>
@@ -564,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/set-up-the-session/" class="md-nav__link">
+      <a href="../tutorial/set-up-the-session/" class="md-nav__link">
         Set up the session
       </a>
     </li>
@@ -578,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/activate-your-webcam/" class="md-nav__link">
+      <a href="../tutorial/activate-your-webcam/" class="md-nav__link">
         Activate your webcam
       </a>
     </li>
@@ -592,7 +620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/augment-the-scene/" class="md-nav__link">
+      <a href="../tutorial/augment-the-scene/" class="md-nav__link">
         Augment the scene
       </a>
     </li>
@@ -606,7 +634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/next-steps/" class="md-nav__link">
+      <a href="../tutorial/next-steps/" class="md-nav__link">
         Next steps
       </a>
     </li>
@@ -620,7 +648,21 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/guidelines-for-images/" class="md-nav__link">
+      <a href="../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guidelines-for-images/" class="md-nav__link">
         Guidelines for Images
       </a>
     </li>
@@ -1762,17 +1804,9 @@
 <h2 id="what-is-encantarjs">What is encantar.js?</h2>
 <p>encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name is derived from the Portuguese and Spanish word <em>encantar</em>, which means: to enchant, to delight, to love, to fascinate, to put a magical spell on someone or something. <img alt="✨" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" title=":sparkles:" /></p>
 <h2 id="what-is-webar">What is WebAR?</h2>
-<p>Refer to the <a href="../getting-started/concepts/">concepts</a>.</p>
+<p>Refer to the <a href="../tutorial/concepts/">concepts</a>.</p>
 <h2 id="what-are-your-recommendations-for-webar">What are your recommendations for WebAR?</h2>
-<p>For a good experience with WebAR:</p>
-<ul>
-<li>Don't move the camera nor the target image too quickly. This produces motion blur.</li>
-<li>The target image should appear clearly in the video.</li>
-<li>The physical environment should be properly illuminated.</li>
-<li>If you're scanning the image on a screen, make sure to adjust the brightness. If the screen is too bright (too dark), it will cause overexposure (underexposure) in the video and tracking difficulties - details of the images will be lost. Screen reflections are also undesirable.</li>
-<li>If you print the image, avoid shiny materials (e.g., glossy paper). They may generate artifacts in the image and interfere with the tracking. Prefer non-reflective materials.</li>
-<li>Avoid low-quality cameras. Cameras of common smartphones are okay.</li>
-</ul>
+<p>Refer to the <a href="../recommendations/">recommendations</a>.</p>
 <h2 id="is-this-webxr">Is this WebXR?</h2>
 <p>No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely available. My intention is to give it broad compatibility.</p>
 <h2 id="why-do-my-models-appear-laid-down-in-ar">Why do my models appear "laid down" in AR?</h2>
@@ -1799,7 +1833,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../getting-started/guidelines-for-images/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Guidelines for Images" rel="prev">
+        <a href="../guidelines-for-images/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Guidelines for Images" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
