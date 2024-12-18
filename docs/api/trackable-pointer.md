@@ -52,9 +52,9 @@ The difference between the position of the pointer in this and in the previous f
 
 The current velocity of the pointer, given in space units per second. You can get the current speed of motion by calculating the [magnitude](vector2.md#length) of this vector.
 
-### elapsedTime
+### duration
 
-`pointer.elapsedTime: number, read-only`
+`pointer.duration: number, read-only`
 
 The elapsed time, in seconds, since the tracking of this pointer began.
 
@@ -62,7 +62,7 @@ The elapsed time, in seconds, since the tracking of this pointer began.
 
 `pointer.totalDistance: number, read-only`
 
-How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio `totalDistance / elapsedTime`.
+How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio `totalDistance / duration`.
 
 ### isPrimary
 

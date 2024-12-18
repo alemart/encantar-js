@@ -57,7 +57,7 @@ export interface TrackablePointer extends Trackable
     readonly velocity: Vector2;
 
     /** elapsed time, in seconds, since the tracking of this pointer began */
-    readonly elapsedTime: number;
+    readonly duration: number;
 
     /** how much this pointer has moved, in space units, since its tracking began */
     readonly totalDistance: number;
