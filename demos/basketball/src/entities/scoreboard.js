@@ -142,7 +142,7 @@ export class Scoreboard extends PhysicsEntity
             depth: 1.0,
         });
 
-        this._mesh.position = new BABYLON.Vector3(2.5, 0.5, 0);
+        this._mesh.position = new BABYLON.Vector3(2.0, 0.35, 0.5);
         this._mesh.rotate(BABYLON.Axis.Y, -Math.PI / 6);
 
         this._mesh.material = new BABYLON.StandardMaterial('ScoreboardMaterial');

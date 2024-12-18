@@ -24,13 +24,13 @@ export class Lights extends Entity
         const dlight = new BABYLON.DirectionalLight('dlight', BABYLON.Vector3.Down());
 
         light.intensity = 1.0;
-        light.diffuse.set(1, 1, 1);
-        light.groundColor.set(1, 1, 1);
-        light.specular.set(0, 0, 0);
+        light.diffuse = new BABYLON.Color3(1, 1, 1);
+        light.groundColor = new BABYLON.Color3(1, 1, 1);
+        light.specular = new BABYLON.Color3(0, 0, 0);
 
         dlight.intensity = 1.0;
-        dlight.diffuse.set(1, 1, 1);
-        dlight.specular.set(1, 1, 1);
+        dlight.diffuse = new BABYLON.Color3(1, 1, 1);
+        dlight.specular = new BABYLON.Color3(1, 1, 1);
 
         const ar = this.ar;
         dlight.parent = ar.root;

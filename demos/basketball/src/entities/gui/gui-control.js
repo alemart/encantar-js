@@ -22,7 +22,7 @@ export class GUIControl extends Entity
     constructor(game)
     {
         super(game);
-        this._parent = demo.gui;
+        this._parent = game.gui;
         this._control = null;
     }
 

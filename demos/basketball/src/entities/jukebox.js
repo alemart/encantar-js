@@ -54,7 +54,7 @@ export class Jukebox extends Entity
     {
         switch(event.type) {
             case 'scored':
-                this._play('net', event.detail.position);
+                this._play('basket', event.detail.position);
                 if(event.detail.score == 3)
                     this._play('bonus');
                 break;
