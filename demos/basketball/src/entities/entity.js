@@ -14,11 +14,11 @@ export class Entity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        this._demo = demo;
+        this._game = game;
     }
 
     /**
@@ -62,7 +62,7 @@ export class Entity
      */
     _broadcast(event)
     {
-        this._demo.broadcast(event);
+        this._game.broadcast(event);
     }
 
     /**
@@ -71,7 +71,7 @@ export class Entity
      */
     get ar()
     {
-        return this._demo.ar;
+        return this._game.ar;
     }
 }
 
@@ -83,11 +83,11 @@ export class PhysicsEntity extends Entity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._physicsAnchor = null;
     }
 

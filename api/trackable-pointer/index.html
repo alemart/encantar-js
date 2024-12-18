@@ -1112,15 +1112,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#elapsedtime" class="md-nav__link">
-    elapsedTime
+  <a href="#duration" class="md-nav__link">
+    duration
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#totaldistance" class="md-nav__link">
-    totalDistance
+  <a href="#movementlength" class="md-nav__link">
+    movementLength
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#movementduration" class="md-nav__link">
+    movementDuration
   </a>
   
 </li>
@@ -1821,15 +1828,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#elapsedtime" class="md-nav__link">
-    elapsedTime
+  <a href="#duration" class="md-nav__link">
+    duration
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#totaldistance" class="md-nav__link">
-    totalDistance
+  <a href="#movementlength" class="md-nav__link">
+    movementLength
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#movementduration" class="md-nav__link">
+    movementDuration
   </a>
   
 </li>
@@ -1903,18 +1917,21 @@
 <h3 id="velocity">velocity</h3>
 <p><code>pointer.velocity: Vector2, read-only</code></p>
 <p>The current velocity of the pointer, given in space units per second. You can get the current speed of motion by calculating the <a href="../vector2/#length">magnitude</a> of this vector.</p>
-<h3 id="elapsedtime">elapsedTime</h3>
-<p><code>pointer.elapsedTime: number, read-only</code></p>
-<p>The elapsed time, in seconds, since the tracking of this pointer began.</p>
-<h3 id="totaldistance">totalDistance</h3>
-<p><code>pointer.totalDistance: number, read-only</code></p>
-<p>How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio <code>totalDistance / elapsedTime</code>.</p>
+<h3 id="duration">duration</h3>
+<p><code>pointer.duration: number, read-only</code></p>
+<p>The elapsed time, in seconds, since the tracking of this pointer began. You can check if this pointer represents a tap by comparing its duration to a threshold at the <code>"ended"</code> <a href="#phase">phase</a>. Example: <code>isTap = pointer.phase == "ended" &amp;&amp; pointer.duration &lt; 0.25</code>.</p>
+<h3 id="movementlength">movementLength</h3>
+<p><code>pointer.movementLength: number, read-only</code></p>
+<p>How much this pointer has moved, in space units, since its tracking began. You can get the average speed of motion by calculating the ratio <code>movementLength / duration</code>.</p>
+<h3 id="movementduration">movementDuration</h3>
+<p><code>pointer.movementDuration: number, read-only</code></p>
+<p>The total time, in seconds, in which this pointer has moved. You can get the average speed of motion, excluding the times in which this pointer remained stationary, by calculating the ratio <code>movementLength / movementDuration</code>.</p>
 <h3 id="isprimary">isPrimary</h3>
 <p><code>pointer.isPrimary: boolean, read-only</code></p>
-<p>Whether or not this is the primary pointer among all pointers of this <a href="#type">type</a>. A typical primary pointer is that of a finger that touches the screen when no other fingers are touching it.</p>
+<p>Whether or not this is the primary pointer among all pointers of this <a href="#kind">kind</a>. A typical primary pointer is that of a finger that touches the screen when no other fingers are touching it.</p>
 <h3 id="kind">kind</h3>
 <p><code>pointer.kind: string, read-only</code></p>
-<p>The type of device that originated this pointer. Typically <code>"touch"</code>, <code>"mouse"</code> or <code>"pen"</code>.</p>
+<p>The kind of device that originated this pointer. Typically <code>"touch"</code>, <code>"mouse"</code> or <code>"pen"</code>.</p>
 
               
 

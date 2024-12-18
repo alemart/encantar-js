@@ -9,7 +9,7 @@
 
 import { Entity } from './entity.js';
 import { GameEvent } from '../core/events.js';
-import { NUMBER_OF_BALLS, SCORE_TABLE } from '../core/globals.js';
+import { NUMBER_OF_BALLS, RANK_TABLE } from '../core/globals.js';
 
 /**
  * The Game Controller manages the state of the game
@@ -18,11 +18,11 @@ export class GameController extends Entity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
 
         this._ballsLeft = NUMBER_OF_BALLS;
         this._score = 0;
@@ -81,7 +81,7 @@ export class GameController extends Entity
      */
     _computeRank(score)
     {
-        const entries = Object.entries(SCORE_TABLE).sort((a, b) => b[1] - a[1]);
+        const entries = Object.entries(RANK_TABLE).sort((a, b) => b[1] - a[1]);
 
         for(const [rank, minScore] of entries) {
             if(score >= minScore)

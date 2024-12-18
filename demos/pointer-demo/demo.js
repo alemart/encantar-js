@@ -81,7 +81,7 @@ function render(pointers, viewport)
         ctx.fillText('x: ' + pointer.position.x.toFixed(5), position.x, position.y + 2 * TEXT_LINE_HEIGHT);
         ctx.fillText('y: ' + pointer.position.y.toFixed(5), position.x, position.y + 3 * TEXT_LINE_HEIGHT);
         ctx.fillText('speed: ' + pointer.velocity.length().toFixed(5), position.x, position.y + 4 * TEXT_LINE_HEIGHT);
-        ctx.fillText('time: ' + pointer.elapsedTime.toFixed(5), position.x, position.y + 5 * TEXT_LINE_HEIGHT);
+        ctx.fillText('time: ' + pointer.duration.toFixed(5), position.x, position.y + 5 * TEXT_LINE_HEIGHT);
     }
 }
 

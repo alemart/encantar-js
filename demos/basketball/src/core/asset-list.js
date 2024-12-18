@@ -23,7 +23,7 @@ export const ASSET_LIST = Object.freeze([
     // sounds
     'backboard.wav',
     'bounce.wav',
-    'net.wav',
+    'basket.wav',
     'bonus.wav',
     'win.wav',
     'lose.wav',

@@ -22,7 +22,7 @@ class BallIcon extends GUIControl
      */
     _createControl()
     {
-        const url = this._demo.assetManager.url('atlas.png');
+        const url = this._game.assetManager.url('atlas.png');
         const icon = new BABYLON.GUI.Image('ballIcon', url);
 
         icon.sourceLeft = 896;
@@ -103,10 +103,10 @@ export class BallCounter extends Entity
         const icons = [];
 
         for(let i = 0; i < NUMBER_OF_BALLS; i++) {
-            const icon = this._demo.spawn(BallIcon).then(icon => icon.setId(i));
+            const icon = this._game.spawn(BallIcon).then(icon => icon.setId(i));
             icons.push(icon);
         }
 
-        return Promise.all(icons);
+        return Promise.all(icons).then(() => void 0);
     }
 }

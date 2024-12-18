@@ -17,11 +17,11 @@ export class GameOverOverlay extends GUIControl
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
 
         this._messages = {
             'S' : 'YOU ARE A\nLEGEND!!!!!',

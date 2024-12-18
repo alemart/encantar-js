@@ -22,7 +22,7 @@ export class MuteButton extends GUIControl
      */
     _createControl()
     {
-        const url = this._demo.assetManager.url('atlas.png');
+        const url = this._game.assetManager.url('atlas.png');
         const button = BABYLON.GUI.Button.CreateImageOnlyButton('muteButton', url);
         const offset = 1.5 + ((NUMBER_OF_BALLS / 2) | 0);
 

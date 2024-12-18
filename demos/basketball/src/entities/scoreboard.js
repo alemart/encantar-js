@@ -17,11 +17,11 @@ class ScoreboardDigit extends Entity
 {
      /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._mesh = null;
     }
 
@@ -94,7 +94,7 @@ class ScoreboardDigit extends Entity
             height: 1.0,
         });
 
-        const url = this._demo.assetManager.url('atlas.png');
+        const url = this._game.assetManager.url('atlas.png');
         const material = new BABYLON.StandardMaterial('ScoreboardDigitMaterial');
 
         material.diffuseTexture = new BABYLON.Texture(url);
@@ -118,11 +118,11 @@ export class Scoreboard extends PhysicsEntity
 {
      /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._mesh = null;
         this._units = null;
         this._tens = null;
@@ -142,17 +142,17 @@ export class Scoreboard extends PhysicsEntity
             depth: 1.0,
         });
 
-        this._mesh.position = new BABYLON.Vector3(2.5, 0.5, 0);
+        this._mesh.position = new BABYLON.Vector3(2.0, 0.35, 0.5);
         this._mesh.rotate(BABYLON.Axis.Y, -Math.PI / 6);
 
         this._mesh.material = new BABYLON.StandardMaterial('ScoreboardMaterial');
         this._mesh.material.diffuseColor = BABYLON.Color3.FromHexString('#110d7c');
 
-        this._units = await this._demo.spawn(ScoreboardDigit);
+        this._units = await this._game.spawn(ScoreboardDigit);
         this._units.mesh.position = new BABYLON.Vector3(x, y, z);
         this._units.mesh.parent = this._mesh;
 
-        this._tens = await this._demo.spawn(ScoreboardDigit);
+        this._tens = await this._game.spawn(ScoreboardDigit);
         this._tens.mesh.position = new BABYLON.Vector3(-x, y, z);
         this._tens.mesh.parent = this._mesh;
 

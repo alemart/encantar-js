@@ -19,11 +19,11 @@ export class TutorialOverlay extends GUIControl
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._timer = 0;
         this._enabled = true;
     }
@@ -34,7 +34,7 @@ export class TutorialOverlay extends GUIControl
      */
     _createControl()
     {
-        const url = this._demo.assetManager.url('atlas.png');
+        const url = this._game.assetManager.url('atlas.png');
         const container = new BABYLON.GUI.Container();
         const text = new BABYLON.GUI.TextBlock();
         const hand = new BABYLON.GUI.Image('hand', url);

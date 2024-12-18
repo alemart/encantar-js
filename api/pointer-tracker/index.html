@@ -1838,6 +1838,7 @@
 <p>The <code>"adjusted"</code> space is similar to the normalized space, except that it is scaled so that it matches the <a href="../viewport/#aspectratio">aspect ratio</a> of the viewport.</p>
 <p>Pointers in adjusted space are contained in normalized space, but unless the viewport is a square, one of their coordinates, x or y, will no longer range from -1 to +1. It will range from <em>-s</em> to <em>+s</em>, where <em>s = min(a, 1/a)</em>. In this expression, <em>a</em> is the aspect ratio of the viewport and <em>s</em> is less than or equal to 1.</p>
 <p>Selecting the adjusted space is useful for making sure that pointer speeds are equivalent in both axes and for preserving movement curves. Speeds are not equivalent and movement curves are not preserved by default because the normalized space is a square, whereas the viewport is a rectangle.</p>
+<p>In summary: prefer the adjusted space when tracking movements.</p>
 </li>
 </ul>
 

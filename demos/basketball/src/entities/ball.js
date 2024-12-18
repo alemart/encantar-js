@@ -14,13 +14,13 @@ import { GameEvent } from '../core/events.js';
 const BALL_RADIUS = 0.27;
 
 /** Minimum distance for scoring 3 points */
-const THREE_POINT_THRESHOLD = 5.0;
+const THREE_POINT_THRESHOLD = 6.0;
 
 /** Shoot angle */
 const SHOOT_ANGLE = Math.PI / 4;
 
 /** Shoot sensitivity multiplier (y and z axes) */
-const SHOOT_SENSITIVITY = 1.65;
+const SHOOT_SENSITIVITY = 1.5;
 
 /** Shoot sensitivity multiplier (x-axis) */
 const SHOOT_HORIZONTAL_SENSITIVITY = 0.5;
@@ -50,11 +50,11 @@ export class Ball extends Entity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
 
         this._state = 'ready';
         this._runState = {
@@ -77,7 +77,7 @@ export class Ball extends Entity
      */
     async init()
     {
-        const file = this._demo.assetManager.file('ball.glb');
+        const file = this._game.assetManager.file('ball.glb');
         const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '', file);
         const mesh = this._createPhysicsRoot(gltf.meshes[0]); // gltf.meshes[0] is __root__
 
@@ -128,7 +128,7 @@ export class Ball extends Entity
 
         if(ar.pointers.length > 0) {
             const pointer = ar.pointers[0];
-            const position = ar.session.viewport.convertToPixels(pointer.position, 'adjusted');
+            const position = ar.session.viewport.convertToPixels(pointer.position, pointer.tracker.space);
 
             if(position.x > 60) {
                 impostor.mass = 1; // enable gravity
@@ -167,11 +167,12 @@ export class Ball extends Entity
     _onThrownState()
     {
         const ar = this.ar;
+        const rootPosition = ar.root.absolutePosition;
         const cameraPosition = ar.camera.globalPosition;
         const ballPosition = this._mesh.absolutePosition;
         const distance = BABYLON.Vector3.Distance(cameraPosition, ballPosition);
 
-        if(distance > MAX_DISTANCE || ballPosition.y < cameraPosition.y - MAX_Y_DISTANCE) {
+        if(distance > MAX_DISTANCE || ballPosition.y < rootPosition.y - MAX_Y_DISTANCE) {
             this._broadcast(new GameEvent('lostball'));
             this._state = 'ready';
         }
@@ -185,11 +186,10 @@ export class Ball extends Entity
     _throw(v)
     {
         const magnitude = SHOOT_SENSITIVITY * v.y;
-        const angle = SHOOT_ANGLE;
         const impulse = new BABYLON.Vector3(
             v.x * SHOOT_HORIZONTAL_SENSITIVITY,
-            magnitude * Math.sin(angle),
-            -magnitude * Math.cos(angle)
+            magnitude * Math.sin(SHOOT_ANGLE),
+            -magnitude * Math.cos(SHOOT_ANGLE)
         );
 
         this._positionWhenThrown.copyFrom(this._mesh.absolutePosition);
@@ -204,17 +204,13 @@ export class Ball extends Entity
      */
     _findVelocity(pointer)
     {
-        // we could return pointer.velocity, but that's not always
-        // user-friendly when it comes to throwing the ball!
-        const currentSpeed = pointer.velocity.length();
-        const averageSpeed = pointer.totalDistance / pointer.elapsedTime;
-        const speed = Math.max(currentSpeed, averageSpeed);
+        if(pointer.movementDuration == 0)
+            return pointer.velocity.times(0);
 
-        let direction = pointer.initialPosition.directionTo(pointer.position);
-        if(direction.y < 0)
-            direction = pointer.deltaPosition.normalized();
+        const averageSpeed = pointer.movementLength / pointer.movementDuration;
+        const direction = pointer.initialPosition.directionTo(pointer.position);
 
-        return direction.times(speed);
+        return direction.times(averageSpeed);
     }
 
     /**
