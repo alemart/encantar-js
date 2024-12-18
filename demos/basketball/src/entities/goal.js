@@ -20,11 +20,11 @@ export class Goal extends PhysicsEntity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._physicsRoot = null;
     }
 
@@ -34,7 +34,7 @@ export class Goal extends PhysicsEntity
      */
     async init()
     {
-        const file = this._demo.assetManager.file('goal.glb');
+        const file = this._game.assetManager.file('goal.glb');
         const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '', file);
         this._physicsRoot = this._createPhysicsRoot(gltf.meshes);
         this._physicsRoot.position.y = Y_OFFSET;

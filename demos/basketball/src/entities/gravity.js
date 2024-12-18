@@ -19,11 +19,11 @@ export class Gravity extends Entity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._gravity = new BABYLON.Vector3();
         this._isTracking = false;
     }

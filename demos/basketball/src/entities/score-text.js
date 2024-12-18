@@ -26,11 +26,11 @@ export class ScoreText extends Entity
 {
      /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._score = 0;
         this._mesh = null;
         this._initialPosition = new BABYLON.Vector3();
@@ -48,7 +48,7 @@ export class ScoreText extends Entity
             height: 0.5,
         });
 
-        const url = this._demo.assetManager.url('atlas.png');
+        const url = this._game.assetManager.url('atlas.png');
         const material = new BABYLON.StandardMaterial('ScoreTextMaterial');
 
         material.diffuseTexture = new BABYLON.Texture(url);

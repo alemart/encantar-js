@@ -50,11 +50,11 @@ export class Ball extends Entity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
 
         this._state = 'ready';
         this._runState = {
@@ -77,7 +77,7 @@ export class Ball extends Entity
      */
     async init()
     {
-        const file = this._demo.assetManager.file('ball.glb');
+        const file = this._game.assetManager.file('ball.glb');
         const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '', file);
         const mesh = this._createPhysicsRoot(gltf.meshes[0]); // gltf.meshes[0] is __root__
 

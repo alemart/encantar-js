@@ -11,7 +11,7 @@
 export const NUMBER_OF_BALLS = 5;
 
 /** The minimum score for each rank */
-export const SCORE_TABLE = Object.freeze({
+export const RANK_TABLE = Object.freeze({
     'S':  15,
     'A+': 12,
     'A':  11,

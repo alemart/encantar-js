@@ -18,11 +18,11 @@ export class Jukebox extends Entity
 {
      /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._sound = new Map();
     }
 
@@ -35,7 +35,7 @@ export class Jukebox extends Entity
         const soundFiles = ASSET_LIST.filter(asset => asset.endsWith('.wav'));
 
         for(const filepath of soundFiles) {
-            const url = this._demo.assetManager.url(filepath);
+            const url = this._game.assetManager.url(filepath);
             const soundName = filepath.substring(0, filepath.length - 4);
             const sound = new BABYLON.Sound(soundName, url);
 

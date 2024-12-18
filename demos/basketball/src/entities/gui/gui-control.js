@@ -17,11 +17,11 @@ export class GUIControl extends Entity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
         this._parent = demo.gui;
         this._control = null;
     }

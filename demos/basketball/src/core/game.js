@@ -228,7 +228,7 @@ export class BasketballGame extends ARDemo
             this.spawn(TutorialOverlay),
             this.spawn(GameOverOverlay),
 
-        ]);
+        ]).then(() => void 0);
     }
 
     /**

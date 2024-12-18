@@ -29,11 +29,11 @@ export class BasketballNet extends PhysicsEntity
 {
     /**
      * Constructor
-     * @param {BasketballDemo} demo
+     * @param {BasketballGame} game
      */
-    constructor(demo)
+    constructor(game)
     {
-        super(demo);
+        super(game);
 
         this._physicsRoot = null;
         this._mesh = null;
@@ -144,7 +144,7 @@ export class BasketballNet extends PhysicsEntity
     _createMaterial()
     {
         const material = new BABYLON.StandardMaterial('BasketballNetMaterial');
-        const url = this._demo.assetManager.url('atlas.png');
+        const url = this._game.assetManager.url('atlas.png');
 
         material.diffuseTexture = new BABYLON.Texture(url);
         material.diffuseTexture.hasAlpha = true;
