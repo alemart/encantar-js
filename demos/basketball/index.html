@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>Magic AR Basketball Game - encantar.js WebAR demo</title>
+        <link href="../assets/demo.css" rel="stylesheet">
+        <script src="../../dist/encantar.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/babylonjs@7.38.0/babylon.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders@7.38.0/babylonjs.loaders.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/babylonjs-gui@7.38.0/babylon.gui.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/cannon@0.6.2/build/cannon.min.js"></script>
+        <script src="../../plugins/babylon-with-encantar.js"></script>
+        <script src="../../plugins/extras/asset-manager.js"></script>
+        <script type="module" src="./src/main.js"></script>
+    </head>
+    <body>
+        <div id="ar-viewport">
+            <div id="ar-hud" hidden>
+                <a id="info" href="NOTICE.html" draggable="false"></a>
+                <a id="like" href="../assets/promo.html" draggable="false"></a>
+                <img id="scan" src="../assets/scan.png" draggable="false">
+            </div>
+        </div>
+        <img id="mage" src="../assets/mage.webp" hidden>
+    </body>
+</html>
