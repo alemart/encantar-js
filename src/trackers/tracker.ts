@@ -29,6 +29,8 @@ import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
  */
 export interface Trackable
 {
+    /** the tracker that generated this trackable */
+    readonly tracker: Tracker;
 }
 
 /**

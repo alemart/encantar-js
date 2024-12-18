@@ -394,7 +394,14 @@ export class PointerTracker implements Tracker
 
             // we create new trackable instances on each frame;
             // these will be exported and consumed by the user
-            this._newPointers.set(id, { id, phase, position, deltaPosition, initialPosition, velocity, duration, movementDuration, movementLength, isPrimary, kind });
+            this._newPointers.set(id, {
+                id, phase,
+                position, deltaPosition, initialPosition,
+                velocity, duration,
+                movementDuration, movementLength,
+                isPrimary, kind,
+                tracker: this
+            });
 
         }
 
