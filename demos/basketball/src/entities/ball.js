@@ -11,7 +11,7 @@ import { Entity } from './entity.js';
 import { GameEvent } from '../core/events.js';
 
 /** Radius of the ball */
-const BALL_RADIUS = 0.27;
+const BALL_RADIUS = 0.275;
 
 /** Minimum distance for scoring 3 points */
 const THREE_POINT_THRESHOLD = 6.0;
@@ -69,6 +69,7 @@ export class Ball extends Entity
         this._mesh = null;
         this._lastTrigger = '';
         this._collisionFlags = 0;
+        this._locked = false;
     }
 
     /**
@@ -125,6 +126,9 @@ export class Ball extends Entity
 
         impostor.setLinearVelocity(BABYLON.Vector3.Zero());
         impostor.mass = 0; // disable gravity
+
+        if(this._locked)
+            return;
 
         if(ar.pointers.length > 0) {
             const pointer = ar.pointers[0];
@@ -380,6 +384,7 @@ export class Ball extends Entity
 
         // create the root node
         const physicsRoot = BABYLON.MeshBuilder.CreateSphere('Ball', { diameter: 2 * r });
+        physicsRoot.isVisible = false;
         physicsRoot.addChild(mesh);
 
         physicsRoot.physicsImpostor = new BABYLON.PhysicsImpostor(physicsRoot, BABYLON.PhysicsImpostor.SphereImpostor, {
@@ -427,6 +432,14 @@ export class Ball extends Entity
 
             case 'netready':
                 event.detail.entity.setBall(this._mesh);
+                break;
+
+            case 'gameover':
+                this._locked = true;
+                break;
+
+            case 'restarted':
+                this._locked = false;
                 break;
         }
     }

@@ -1817,7 +1817,7 @@
 <p><strong>Returns</strong></p>
 <p>A new <code>PointerTracker</code>.</p>
 <p><strong>Example</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Use default settings</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// Use the default settings</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">const</span> <span class="nx">pointerTracker</span> <span class="o">=</span> <span class="nx">AR</span><span class="p">.</span><span class="nx">Tracker</span><span class="p">.</span><span class="nx">Pointer</span><span class="p">();</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1">// Track pointers in adjusted space</span>
@@ -1833,12 +1833,17 @@
 <ul>
 <li>
 <p>In <code>"normalized"</code> space, pointers are located in [-1,1]x[-1,1]. The origin of the space is at the center of the <a href="../viewport/">viewport</a>. The x-axis points to the right and the y-axis points up. This is the default space.</p>
+<ul>
+<li>Point (0,0) is at the center of the viewport</li>
+<li>The top-right corner of the viewport is at (+1,+1)</li>
+<li>The bottom-left corner of the viewport is at (-1,-1)</li>
+</ul>
 </li>
 <li>
 <p>The <code>"adjusted"</code> space is similar to the normalized space, except that it is scaled so that it matches the <a href="../viewport/#aspectratio">aspect ratio</a> of the viewport.</p>
 <p>Pointers in adjusted space are contained in normalized space, but unless the viewport is a square, one of their coordinates, x or y, will no longer range from -1 to +1. It will range from <em>-s</em> to <em>+s</em>, where <em>s = min(a, 1/a)</em>. In this expression, <em>a</em> is the aspect ratio of the viewport and <em>s</em> is less than or equal to 1.</p>
 <p>Selecting the adjusted space is useful for making sure that pointer speeds are equivalent in both axes and for preserving movement curves. Speeds are not equivalent and movement curves are not preserved by default because the normalized space is a square, whereas the viewport is a rectangle.</p>
-<p>In summary: prefer the adjusted space when tracking movements.</p>
+<p>In summary, prefer the adjusted space when working with velocities and movement curves.</p>
 </li>
 </ul>
 
