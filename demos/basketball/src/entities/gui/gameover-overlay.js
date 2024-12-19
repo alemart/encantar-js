@@ -22,16 +22,7 @@ export class GameOverOverlay extends GUIControl
     constructor(game)
     {
         super(game);
-
-        this._messages = {
-            'S' : 'YOU ARE A\nLEGEND!!!!!',
-            'A+': 'Well done!\nYou\'re a Pro!',
-            'A' : 'Well done!\nYou\'re a Pro!',
-            'B+': 'Nice, but you\'re\nnot yet a Pro!',
-            'B' : 'You can do better!',
-            'C' : 'Try again!',
-            'F' : 'Try again!'
-        };
+        this._observedLongDistanceShot = false;
     }
 
     /**
@@ -129,11 +120,48 @@ export class GameOverOverlay extends GUIControl
             const message = container.getChildByName('message');
 
             rank.text = event.detail.rank;
-            message.text = this._messages[event.detail.rank] || '';
+            message.text = this._getMessage(event.detail.rank);
 
             container.isVisible = true;
         }
         else if(event.type == 'targetlost')
             this.control.isVisible = false;
+        else if(event.type == 'restarted')
+            this._observedLongDistanceShot = false;
+        else if(event.type == 'scored' && !this._observedLongDistanceShot)
+            this._observedLongDistanceShot = (event.detail.score > 2);
+    }
+
+    /**
+     * Get the message to be displayed
+     * @param {string} rank
+     * @returns {string}
+     */
+    _getMessage(rank)
+    {
+        switch(rank) {
+            case 'S':
+                return 'YOU ARE A\nLEGEND!!!!!';
+
+            case 'A+':
+            case 'A':
+                return 'Well done!\nYou\'re a Pro!';
+
+            case 'B+':
+                if(this._observedLongDistanceShot)
+                    return 'Nice, but you\'re\nnot yet a Pro!';
+                else
+                    return 'A Pro shoots from\nlong distances!';
+
+            case 'B':
+                return 'You can do better!';
+
+            case 'C':
+            case 'F':
+                return 'Try again!';
+
+            default:
+                return '';
+        }
     }
 }
