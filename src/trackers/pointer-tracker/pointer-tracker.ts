@@ -59,6 +59,10 @@ export interface PointerTrackerOutput extends TrackerOutput
  *   of the space is at the center of the viewport. The x-axis points to the
  *   right and the y-axis points up. This is the default space.
  *
+ *   - Point (0,0) is at the center of the viewport
+ *   - The top-right corner of the viewport is at (+1,+1)
+ *   - The bottom-left corner of the viewport is at (-1,-1)
+ *
  * - The "adjusted" space is similar to the normalized space, except that it is
  *   scaled so that it matches the aspect ratio of the viewport.
  *
@@ -72,8 +76,11 @@ export interface PointerTrackerOutput extends TrackerOutput
  *   are equivalent in both axes and for preserving movement curves. Speeds are
  *   not equivalent and movement curves are not preserved by default because
  *   the normalized space is a square, whereas the viewport is a rectangle.
+ *
+ *   In summary, prefer the adjusted space when working with velocities and
+ *   movement curves.
  */
-export type PointerSpace = 'normalized' | 'adjusted'; // | 'viewport';
+export type PointerSpace = 'normalized' | 'adjusted';
 
 /**
  * Options for instantiating a PointerTracker
