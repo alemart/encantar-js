@@ -69,6 +69,7 @@ export class Ball extends Entity
         this._mesh = null;
         this._lastTrigger = '';
         this._collisionFlags = 0;
+        this._locked = false;
     }
 
     /**
@@ -125,6 +126,9 @@ export class Ball extends Entity
 
         impostor.setLinearVelocity(BABYLON.Vector3.Zero());
         impostor.mass = 0; // disable gravity
+
+        if(this._locked)
+            return;
 
         if(ar.pointers.length > 0) {
             const pointer = ar.pointers[0];
@@ -427,6 +431,14 @@ export class Ball extends Entity
 
             case 'netready':
                 event.detail.entity.setBall(this._mesh);
+                break;
+
+            case 'gameover':
+                this._locked = true;
+                break;
+
+            case 'restarted':
+                this._locked = false;
                 break;
         }
     }

@@ -108,7 +108,7 @@ export class GameOverOverlay extends GUIControl
             return;
 
         const pointer = ar.pointers[0];
-        if(pointer.phase != 'began')
+        if(pointer.phase != 'ended')
             return;
 
         // hide the overlay when touching the screen
