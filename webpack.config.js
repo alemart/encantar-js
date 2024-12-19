@@ -79,6 +79,9 @@ module.exports = (env, argv) => ({
             directory: path.resolve(__dirname, dir),
             publicPath: `/${dir}/`,
         })),
+        headers: {
+            'Cache-Control': 'no-store',
+        },
         //host: '0.0.0.0',
         //host: 'local-ip',
     },
