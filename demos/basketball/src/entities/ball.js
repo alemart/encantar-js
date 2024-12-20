@@ -257,8 +257,8 @@ export class Ball extends Entity
         else if(trigger.name == 'Trigger_B') {
             if(this._lastTrigger == 'A')
                 this._lastTrigger = 'B';
-            else if(this._mesh.physicsImpostor.getLinearVelocity().y > 0)
-                this._lastTrigger = 'X';
+            /*else if(this._mesh.physicsImpostor.getLinearVelocity().y > 0)
+                this._lastTrigger = 'X';*/
         }
         else if(trigger.name == 'Trigger_C') {
             if(this._lastTrigger == 'B') {

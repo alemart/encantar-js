@@ -102,5 +102,31 @@ export class Goal extends PhysicsEntity
             const net = event.detail.entity;
             net.moveBy(this._physicsRoot.position);
         }
+        else if(event.type == 'hooksready') {
+            const hooks = event.detail.hooks;
+            const centerOfHooks = this._findCenterOfHooks(hooks);
+            const radius = BABYLON.Vector3.Distance(centerOfHooks, hooks[0].position);
+            const position = centerOfHooks.add(this._physicsRoot.position); // position relative to ar.root
+
+            this._broadcast(new GameEvent('hoopready', { position, radius }));
+        }
+    }
+
+    /**
+     * Find the geometrical center of a set of hooks
+     * @param {BABYLON.Mesh[]} hooks non-empty array
+     * @returns {BABYLON.Vector3}
+     */
+    _findCenterOfHooks(hooks)
+    {
+        const center = new BABYLON.Vector3(0, 0, 0);
+
+        for(const hook of hooks) {
+            center.x += hook.position.x;
+            center.y += hook.position.y;
+            center.z += hook.position.z;
+        }
+
+        return center.scaleInPlace(1 / hooks.length);
     }
 }
