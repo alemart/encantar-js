@@ -19,6 +19,9 @@ const ANIMATION_DURATION = 3.0;
 /** Duration of the fade-out effect, in seconds */
 const FADE_OUT_DURATION = 1.0;
 
+/** Y offset from the hoop, in world units */
+const Y_OFFSET = 0.25;
+
 /**
  * Score Text
  */
@@ -129,37 +132,18 @@ export class ScoreText extends Entity
     }
 
     /**
-     * Find the geometrical center, in world space, of a set of hooks
-     * @param {BABYLON.Mesh[]} hooks non-empty array
-     * @returns {BABYLON.Vector3}
-     */
-    _findCenter(hooks)
-    {
-        const center = new BABYLON.Vector3(0, 0, 0);
-
-        for(const hook of hooks) {
-            center.x += hook.absolutePosition.x;
-            center.y += hook.absolutePosition.y;
-            center.z += hook.absolutePosition.z;
-        }
-
-        return center.scaleInPlace(1 / hooks.length);
-    }
-
-    /**
      * Handle an event
      * @param {GameEvent} event
      * @returns {void}
      */
     handleEvent(event)
     {
-        if(event.type == 'hooksready') {
-            const hooks = event.detail.hooks;
-            const center = this._findCenter(hooks);
-            const parent = this._mesh.parent;
-            const offset = center.subtract(parent.absolutePosition);
+        if(event.type == 'hoopready') {
+            const hoopPosition = event.detail.position;
+            const offset = new BABYLON.Vector3(0, Y_OFFSET, 0);
+            const position = hoopPosition.add(offset);
 
-            this._initialPosition.copyFrom(offset);
+            this._initialPosition.copyFrom(position);
             this._mesh.position.copyFrom(this._initialPosition);
         }
         else if(event.type == 'scored') {

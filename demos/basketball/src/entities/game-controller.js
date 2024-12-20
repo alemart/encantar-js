@@ -26,6 +26,7 @@ export class GameController extends Entity
 
         this._ballsLeft = NUMBER_OF_BALLS;
         this._score = 0;
+        this._gameStarted = false;
     }
 
     /**
@@ -61,6 +62,7 @@ export class GameController extends Entity
                     this._broadcast(new GameEvent('newball', { ballsLeft: this._ballsLeft }));
                 break;
 
+            case 'started':
             case 'restarted':
                 this._score = 0;
                 this._ballsLeft = NUMBER_OF_BALLS;
@@ -68,8 +70,27 @@ export class GameController extends Entity
                 this._broadcast(new GameEvent('newball', { ballsLeft: this._ballsLeft }));
                 break;
 
-            case 'targetlost':
+            case 'tutorialdismissed':
+                this._gameStarted = true;
+                this._broadcast(new GameEvent('started'));
+                break;
+
+            case 'gameoverdismissed':
                 this._broadcast(new GameEvent('restarted'));
+                break;
+
+            case 'targetfound':
+                if(this._gameStarted)
+                    this._broadcast(new GameEvent('restarted'));
+                else
+                    this._broadcast(new GameEvent('awakened'));
+                break;
+
+            case 'targetlost':
+                if(this._gameStarted)
+                    this._broadcast(new GameEvent('paused'));
+                else
+                    this._broadcast(new GameEvent('slept'));
                 break;
         }
     }

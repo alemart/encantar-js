@@ -194,7 +194,7 @@ export class BasketballNet extends PhysicsEntity
         this._indices.length = 0;
 
         // the origin of the mesh will be positioned at the geometrical center of the hooks
-        const center = this._findCenter(hooks);
+        const center = this._findCenterOfHooks(hooks);
         this._physicsRoot.position.copyFrom(center);
 
         // setup the top ring
@@ -434,7 +434,7 @@ export class BasketballNet extends PhysicsEntity
      * @param {BABYLON.Mesh[]} hooks non-empty array
      * @returns {BABYLON.Vector3}
      */
-    _findCenter(hooks)
+    _findCenterOfHooks(hooks)
     {
         const center = new BABYLON.Vector3(0, 0, 0);
 

@@ -20,7 +20,8 @@ export const ASSET_LIST = Object.freeze([
     // 2D artwork
     'atlas.png',
 
-    // sounds
+    // sounds & music
+    'music.mp3',
     'backboard.wav',
     'bounce.wav',
     'basket.wav',
