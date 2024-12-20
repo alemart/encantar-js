@@ -14,7 +14,7 @@ import { GameEvent } from '../core/events.js';
 const BALL_RADIUS = 0.275;
 
 /** Minimum distance for scoring 3 points */
-const THREE_POINT_THRESHOLD = 6.0;
+const THREE_POINT_THRESHOLD = 5.0;
 
 /** Shoot angle */
 const SHOOT_ANGLE = Math.PI / 4;
@@ -36,6 +36,15 @@ const MAX_DISTANCE = 15;
 
 /** Maximum distance in the y-axis from the camera to the ball, so that the ball is considered "lost" in the thrown state */
 const MAX_Y_DISTANCE = 5;
+
+/** Frequency of the shining effect, in Hz */
+const SHINE_FREQUENCY = 2.0;
+
+/** Maximum brightness of the ball when the shining effect is applied (a value in [0,1]) */
+const SHINE_MAX_BRIGHTNESS = 0.25;
+
+/** Duration of fading of the shining effect, in seconds */
+const SHINE_FADE_DURATION = 0.5;
 
 /** Collision flag for the backboard */
 const FLAG_BACKBOARD = 1;
@@ -66,10 +75,13 @@ export class Ball extends Entity
         this._plane = new BABYLON.Plane(0, 0, 1, 0);
         this._planeOrigin = new BABYLON.Vector3();
         this._positionWhenThrown = new BABYLON.Vector3();
+        this._hoopPosition = new BABYLON.Vector3();
         this._mesh = null;
         this._lastTrigger = '';
         this._collisionFlags = 0;
         this._locked = false;
+        this._shineFactor = 0;
+        this._shineTimer = 0;
     }
 
     /**
@@ -103,6 +115,7 @@ export class Ball extends Entity
         }
 
         this._updatePlane();
+        this._shine();
 
         const fn = this._runState[this._state];
         fn.call(this);
@@ -211,7 +224,7 @@ export class Ball extends Entity
         if(pointer.movementDuration == 0)
             return pointer.velocity.times(0);
 
-        const averageSpeed = pointer.movementLength / pointer.movementDuration;
+        const averageSpeed = pointer.movementLength / pointer.duration;
         const direction = pointer.initialPosition.directionTo(pointer.position);
 
         return direction.times(averageSpeed);
@@ -274,16 +287,9 @@ export class Ball extends Entity
      */
     _score()
     {
-        const pointA = this._mesh.absolutePosition;
-        const pointB = this._positionWhenThrown;
-
-        const plane = BABYLON.Plane.FromPositionAndNormal(this.ar.root.absolutePosition, this.ar.root.up);
-        const projectedPointA = this._orthogonalProjection(plane, pointA);
-        const projectedPointB = this._orthogonalProjection(plane, pointB);
-
-        const distance = BABYLON.Vector3.Distance(projectedPointA, projectedPointB);
+        const distance = this._calculateDistanceToHoop(this._positionWhenThrown);
         const score = this._calculateScore(distance);
-        const position = pointA;
+        const position = this._mesh.absolutePosition;
 
         this._broadcast(new GameEvent('scored', { score, position }));
     }
@@ -296,6 +302,24 @@ export class Ball extends Entity
     _calculateScore(distance)
     {
         return distance >= THREE_POINT_THRESHOLD ? 3 : 2;
+    }
+
+    /**
+     * Calculate the distance between a point and the hoop
+     * @param {BABYLON.Vector3} absolutePosition
+     * @returns {number}
+     */
+    _calculateDistanceToHoop(absolutePosition)
+    {
+        const ar = this.ar;
+        const pointA = absolutePosition;
+        const pointB = ar.root.absolutePosition.add(this._hoopPosition);
+
+        const groundLike = BABYLON.Plane.FromPositionAndNormal(ar.root.absolutePosition, ar.root.up);
+        const projectedPointA = this._orthogonalProjection(groundLike, pointA);
+        const projectedPointB = this._orthogonalProjection(groundLike, pointB);
+
+        return BABYLON.Vector3.Distance(projectedPointA, projectedPointB);
     }
 
     /**
@@ -366,6 +390,51 @@ export class Ball extends Entity
     }
 
     /**
+     * Make the ball shine as a visual cue to indicate long distances
+     * @returns {void}
+     */
+    _shine()
+    {
+        const b = this._shineBrightness();
+
+        this._mesh.getChildMeshes().forEach(child => {
+            if(child.material)
+                child.material.emissiveColor.set(b, b, b);
+        });
+    }
+
+    /**
+     * Compute the brightness of the shining ball
+     * @returns {number} in [0,1]
+     */
+    _shineBrightness()
+    {
+        if(this._state == 'thrown' || !this._mesh.isEnabled) {
+            this._shineFactor = this._shineTimer = 0;
+            return 0;
+        }
+
+        const time = this.ar.session.time;
+        const dt = time.delta;
+        const rate = 1.0 / SHINE_FADE_DURATION;
+        const distance = this._calculateDistanceToHoop(this._mesh.absolutePosition);
+
+        if(distance >= THREE_POINT_THRESHOLD) {
+            this._shineFactor = 1;
+            this._shineTimer += dt;
+        }
+        else {
+            this._shineFactor = Math.max(0, this._shineFactor - rate * dt);
+            if(this._shineFactor == 0)
+                this._shineTimer = 0;
+        }
+
+        const t = this._shineTimer;
+        const s = 0.5 - 0.5 * Math.cos(2 * Math.PI * SHINE_FREQUENCY * t);
+        return this._shineFactor * SHINE_MAX_BRIGHTNESS * s;
+    }
+
+    /**
      * Create a root node with a physics impostor
      * @param {BABYLON.Mesh} mesh from gltf
      * @param {number} radius radius of the ball
@@ -374,9 +443,10 @@ export class Ball extends Entity
     _createPhysicsRoot(mesh)
     {
         const r = BALL_RADIUS;
+        const r_ = r - 0.003;
 
         // prepare the mesh
-        mesh.scaling.set(r, r, r); // original radius = 1
+        mesh.scaling.set(r_, r_, r_); // original radius = 1
         mesh.getChildMeshes().forEach(child => {
             if(child.material)
                 child.material.specularIntensity = 0;
@@ -428,6 +498,10 @@ export class Ball extends Entity
                     event.detail.impostor,
                     (_, collided) => this._onCollisionEnter(collided)
                 );
+                break;
+
+            case 'hoopready':
+                this._hoopPosition.copyFrom(event.detail.position);
                 break;
 
             case 'netready':
