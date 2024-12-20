@@ -24,6 +24,8 @@ export class Jukebox extends Entity
     {
         super(game);
         this._sound = new Map();
+        this._music = null;
+        this._gameStarted = false;
     }
 
     /**
@@ -32,16 +34,8 @@ export class Jukebox extends Entity
      */
     init()
     {
-        const soundFiles = ASSET_LIST.filter(asset => asset.endsWith('.wav'));
-
-        for(const filepath of soundFiles) {
-            const url = this._game.assetManager.url(filepath);
-            const soundName = filepath.substring(0, filepath.length - 4);
-            const sound = new BABYLON.Sound(soundName, url);
-
-            this._sound.set(soundName, sound);
-        }
-
+        this._loadSounds();
+        this._loadMusic();
         BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
     }
 
@@ -59,7 +53,15 @@ export class Jukebox extends Entity
                     this._play('bonus');
                 break;
 
+            case 'ballbounced':
+                if(event.detail.material == 'backboard')
+                    this._play('backboard', event.detail.position);
+                else
+                    this._play('bounce', event.detail.position);
+                break;
+
             case 'gameover':
+                this._music.setVolume(0.2);
                 if(/^[AS]/.test(event.detail.rank))
                     this._play('win');
                 else if(event.detail.rank == 'B+')
@@ -68,11 +70,23 @@ export class Jukebox extends Entity
                     this._play('lose');
                 break;
 
-            case 'ballbounced':
-                if(event.detail.material == 'backboard')
-                    this._play('backboard', event.detail.position);
-                else
-                    this._play('bounce', event.detail.position);
+            case 'restarted':
+                this._music.setVolume(0.5);
+                break;
+
+            case 'started':
+                this._gameStarted = true;
+                this._music.setVolume(0.5);
+                this._music.play();
+                break;
+
+            case 'targetfound':
+                if(this._gameStarted)
+                    this._music.play();
+                break;
+
+            case 'targetlost':
+                this._music.stop();
                 break;
 
             case 'unmuted':
@@ -84,6 +98,33 @@ export class Jukebox extends Entity
                 this._mute();
                 break;
         }
+    }
+
+    /**
+     * Load the sound effects
+     * @returns {void}
+     */
+    _loadSounds()
+    {
+        const soundFiles = ASSET_LIST.filter(asset => asset.endsWith('.wav'));
+
+        for(const filepath of soundFiles) {
+            const url = this._game.assetManager.url(filepath);
+            const soundName = filepath.substring(0, filepath.length - 4);
+            const sound = new BABYLON.Sound(soundName, url);
+
+            this._sound.set(soundName, sound);
+        }
+    }
+
+    /**
+     * Load the music
+     * @returns {void}
+     */
+    _loadMusic()
+    {
+        const url = this._game.assetManager.url('music.mp3');
+        this._music = new BABYLON.Sound('music', url, this.ar.scene, null, { loop: true });
     }
 
     /**

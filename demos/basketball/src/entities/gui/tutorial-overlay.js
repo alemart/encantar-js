@@ -8,6 +8,7 @@
  */
 
 import { GUIControl } from './gui-control.js';
+import { GameEvent } from '../../core/events.js';
 
 /** Duration of the swipe animation, in seconds */
 const ANIMATION_DURATION = 1.5;
@@ -88,6 +89,7 @@ export class TutorialOverlay extends GUIControl
             if(pointer.phase == 'began') {
                 container.isVisible = false;
                 this._enabled = false;
+                this._broadcast(new GameEvent('started'));
                 return;
             }
         }
