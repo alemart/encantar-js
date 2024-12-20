@@ -90,8 +90,7 @@ export class GameOverOverlay extends GUIControl
      */
     update()
     {
-        const container = this.control;
-        if(!container.isVisible)
+        if(!this.control.isVisible)
             return;
 
         const ar = this.ar;
@@ -99,12 +98,8 @@ export class GameOverOverlay extends GUIControl
             return;
 
         const pointer = ar.pointers[0];
-        if(pointer.phase != 'ended')
-            return;
-
-        // hide the overlay when touching the screen
-        container.isVisible = false;
-        this._broadcast(new GameEvent('gameoverdismissed'));
+        if(pointer.phase == 'ended')
+            this._dismiss();
     }
 
     /**
@@ -125,11 +120,21 @@ export class GameOverOverlay extends GUIControl
             container.isVisible = true;
         }
         else if(event.type == 'targetlost')
-            this.control.isVisible = false;
+            this._dismiss();
         else if(event.type == 'restarted')
             this._observedLongDistanceShot = false;
         else if(event.type == 'scored' && !this._observedLongDistanceShot)
             this._observedLongDistanceShot = (event.detail.score > 2);
+    }
+
+    /**
+     * Dismiss the Game Over screen
+     * @returns {void}
+     */
+    _dismiss()
+    {
+        this.control.isVisible = false;
+        this._broadcast(new GameEvent('gameoverdismissed'));
     }
 
     /**
