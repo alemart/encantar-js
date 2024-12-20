@@ -438,7 +438,7 @@ export class Ball extends Entity
                 this._locked = true;
                 break;
 
-            case 'restarted':
+            case 'gameoverdismissed':
                 this._locked = false;
                 break;
         }

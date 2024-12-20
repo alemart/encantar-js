@@ -78,14 +78,19 @@ class BallIcon extends GUIControl
      */
     handleEvent(event)
     {
-        if(event.type == 'newball') {
-            const ballsLeft = event.detail.ballsLeft;
-            this.control.notRenderable = !(this._id < ballsLeft);
+        switch(event.type) {
+            case 'targetfound':
+                this.control.isVisible = true;
+                break;
+
+            case 'targetlost':
+                this.control.isVisible = false;
+                break;
+
+            case 'newball':
+                this.control.notRenderable = !(this._id < event.detail.ballsLeft);
+                break;
         }
-        else if(event.type == 'targetfound')
-            this.control.isVisible = true;
-        else if(event.type == 'targetlost')
-            this.control.isVisible = false;
     }
 }
 

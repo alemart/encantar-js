@@ -26,7 +26,6 @@ export class TutorialOverlay extends GUIControl
     {
         super(game);
         this._timer = 0;
-        this._enabled = true;
     }
 
     /**
@@ -76,20 +75,18 @@ export class TutorialOverlay extends GUIControl
      */
     update()
     {
+        const ar = this.ar;
         const container = this.control;
 
-        // check if the tutorial is enabled / being displayed
-        if(!this._enabled || !container.isVisible)
+        // check if the tutorial is being displayed
+        if(!container.isVisible)
             return;
 
         // hide the overlay when touching the screen
-        const ar = this.ar;
         if(ar.pointers.length > 0) {
             const pointer = ar.pointers[0];
             if(pointer.phase == 'began') {
-                container.isVisible = false;
-                this._enabled = false;
-                this._broadcast(new GameEvent('started'));
+                this._dismiss();
                 return;
             }
         }
@@ -118,15 +115,35 @@ export class TutorialOverlay extends GUIControl
     }
 
     /**
+     * Dismiss the tutorial
+     * @returns {void}
+     */
+    _dismiss()
+    {
+        this.control.isVisible = false;
+        this._broadcast(new GameEvent('tutorialdismissed'));
+    }
+
+    /**
      * Handle an event
      * @param {GameEvent} event
      * @returns {void}
      */
     handleEvent(event)
     {
-        if(event.type == 'targetfound')
-            this.control.isVisible = this._enabled;
-        else if(event.type == 'targetlost' || event.type == 'guiresized')
-            this.control.isVisible = false;
+        switch(event.type) {
+            case 'awakened':
+                this.control.isVisible = true;
+                break;
+
+            case 'targetlost':
+                this.control.isVisible = false;
+                break;
+
+            case 'guiresized':
+                if(this.control.isVisible)
+                    this._dismiss();
+                break;
+        }
     }
 }

@@ -104,7 +104,7 @@ export class GameOverOverlay extends GUIControl
 
         // hide the overlay when touching the screen
         container.isVisible = false;
-        this._broadcast(new GameEvent('restarted'));
+        this._broadcast(new GameEvent('gameoverdismissed'));
     }
 
     /**

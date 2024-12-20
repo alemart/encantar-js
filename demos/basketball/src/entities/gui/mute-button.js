@@ -67,9 +67,14 @@ export class MuteButton extends GUIControl
      */
     handleEvent(event)
     {
-        if(event.type == 'targetfound')
-            this.control.isVisible = true;
-        else if(event.type == 'targetlost')
-            this.control.isVisible = false;
+        switch(event.type) {
+            case 'targetfound':
+                this.control.isVisible = true;
+                break;
+
+            case 'targetlost':
+                this.control.isVisible = false;
+                break;
+        }
     }
 }

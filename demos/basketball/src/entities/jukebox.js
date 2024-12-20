@@ -25,7 +25,6 @@ export class Jukebox extends Entity
         super(game);
         this._sound = new Map();
         this._music = null;
-        this._gameStarted = false;
     }
 
     /**
@@ -70,22 +69,14 @@ export class Jukebox extends Entity
                     this._play('lose');
                 break;
 
+            case 'started':
             case 'restarted':
                 this._music.setVolume(0.5);
-                break;
-
-            case 'started':
-                this._gameStarted = true;
-                this._music.setVolume(0.5);
-                this._music.play();
-                break;
-
-            case 'targetfound':
-                if(this._gameStarted)
+                if(!this._music.isPlaying)
                     this._music.play();
                 break;
 
-            case 'targetlost':
+            case 'paused':
                 this._music.stop();
                 break;
 
