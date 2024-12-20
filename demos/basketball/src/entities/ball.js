@@ -443,10 +443,10 @@ export class Ball extends Entity
     _createPhysicsRoot(mesh)
     {
         const r = BALL_RADIUS;
-        const r_ = r - 0.003;
+        const rd = r * 0.99;
 
         // prepare the mesh
-        mesh.scaling.set(r_, r_, r_); // original radius = 1
+        mesh.scaling.set(rd, rd, rd); // original radius = 1
         mesh.getChildMeshes().forEach(child => {
             if(child.material)
                 child.material.specularIntensity = 0;
