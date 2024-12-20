@@ -20,7 +20,7 @@ const THREE_POINT_THRESHOLD = 5.0;
 const SHOOT_ANGLE = Math.PI / 4;
 
 /** Shoot sensitivity multiplier (y and z axes) */
-const SHOOT_SENSITIVITY = 1.5;
+const SHOOT_SENSITIVITY = 1.35;
 
 /** Shoot sensitivity multiplier (x-axis) */
 const SHOOT_HORIZONTAL_SENSITIVITY = 0.5;
@@ -44,7 +44,7 @@ const SHINE_FREQUENCY = 2.0;
 const SHINE_MAX_BRIGHTNESS = 0.25;
 
 /** Duration of fading of the shining effect, in seconds */
-const SHINE_FADE_DURATION = 0.5;
+const SHINE_FADE_DURATION = 0.25;
 
 /** Collision flag for the backboard */
 const FLAG_BACKBOARD = 1;
