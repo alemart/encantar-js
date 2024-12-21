@@ -11,10 +11,10 @@ import { Entity } from './entity.js';
 import { GameEvent } from '../core/events.js';
 
 /** Radius of the ball */
-const BALL_RADIUS = 0.275;
+const BALL_RADIUS = 0.27;
 
 /** Minimum distance for scoring 3 points */
-const THREE_POINT_THRESHOLD = 5.0;
+const THREE_POINT_THRESHOLD = 5.5;
 
 /** Shoot angle */
 const SHOOT_ANGLE = Math.PI / 4;
@@ -270,8 +270,6 @@ export class Ball extends Entity
         else if(trigger.name == 'Trigger_B') {
             if(this._lastTrigger == 'A')
                 this._lastTrigger = 'B';
-            /*else if(this._mesh.physicsImpostor.getLinearVelocity().y > 0)
-                this._lastTrigger = 'X';*/
         }
         else if(trigger.name == 'Trigger_C') {
             if(this._lastTrigger == 'B') {

@@ -119,7 +119,7 @@ export class GameOverOverlay extends GUIControl
 
             container.isVisible = true;
         }
-        else if(event.type == 'targetlost')
+        else if(event.type == 'paused')
             this._dismiss();
         else if(event.type == 'restarted')
             this._observedLongDistanceShot = false;
@@ -133,6 +133,9 @@ export class GameOverOverlay extends GUIControl
      */
     _dismiss()
     {
+        if(!this.control.isVisible)
+            return;
+
         this.control.isVisible = false;
         this._broadcast(new GameEvent('gameoverdismissed'));
     }
