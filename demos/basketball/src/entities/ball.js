@@ -149,6 +149,7 @@ export class Ball extends Entity
 
             if(position.x > 60) {
                 impostor.mass = 1; // enable gravity
+                this._positionWhenThrown.copyFrom(mesh.absolutePosition);
                 this._state = 'throwing';
             }
         }
@@ -209,7 +210,6 @@ export class Ball extends Entity
             -magnitude * Math.cos(SHOOT_ANGLE)
         );
 
-        this._positionWhenThrown.copyFrom(this._mesh.absolutePosition);
         this._mesh.physicsImpostor.applyImpulse(impulse, this._mesh.absolutePosition);
         this._state = 'thrown';
     }
