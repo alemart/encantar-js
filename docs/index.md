@@ -1,12 +1,12 @@
 # Welcome to encantar.js!
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/encantar-js)](https://github.com/alemart/encantar-js/releases/) ![GitHub file size in bytes on a specified ref (branch/commit/tag)](https://img.shields.io/github/size/alemart/encantar-js/dist/encantar.min.js?branch=master&label=minified%20js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
+![GitHub release](https://img.shields.io/github/v/release/alemart/encantar-js) ![GitHub file size](https://img.shields.io/github/size/alemart/encantar-js/dist/encantar.min.js?branch=master&label=minified%20js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/) [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart)
 
 The Augmented Reality engine that will enchant you!
 
-[:sparkles: Demos](./demos.md){ .md-button ._blank }
-[:eyes: Try it!](https://alemart.github.io/encantar-js/demos/hello-three/poster.html){ .md-button ._blank }
-[:books: Learn](./tutorial/introduction.md){ .md-button } [:heart:{ .heart } Support](./support-my-work.md){ .md-button }
+[:star2: Try it!](./demos/hello-three/poster.html){ .md-button ._blank } [:video_game: Play a game!](./demos/basketball/poster.html){ .md-button ._blank } [:sparkles: Demos](./demos.md){ .md-button ._blank } [:books: Learn](./tutorial/introduction.md){ .md-button }
+
+[![Demo](./img/mage.gif)](./demos/hello-three/poster.html){ ._blank } [![Game](./img/basketball.gif)](./demos/basketball/poster.html){ ._blank }
 
 ## Features
 

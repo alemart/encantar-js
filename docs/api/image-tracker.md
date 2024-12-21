@@ -15,7 +15,7 @@ Instantiate an image tracker with the specified `options`.
 **Arguments**
 
 * `options: object, optional`. An object with the following keys (all are optional):
-    * `resolution: Resolution`. The [resolution](resolution.md) of the tracker. Make sure that the [resolution of the video](camera-source.md) is at least as high as this. Suggested values: `"sm"`, `"sm+"`, `"md"`, `"md+"`.
+    * `resolution: Resolution`. The [resolution](resolution.md) of the tracker. Make sure that the [resolution of the video](camera-source.md#resolution) is at least as high as this. Suggested values: `"sm"`, `"sm+"`, `"md"`, `"md+"`.
 
 **Returns**
 
@@ -29,11 +29,11 @@ const imageTracker = AR.Tracker.Image({
 });
 ```
 
-### ~~AR.Tracker.ImageTracker~~
+### AR.Tracker.ImageTracker
 
-~~`AR.Tracker.ImageTracker(): ImageTracker`~~
+<span style="text-decoration: line-through">`AR.Tracker.ImageTracker(): ImageTracker`</span>
 
-Instantiate an image tracker with default settings.
+Instantiate an image tracker with the default settings.
 
 *Deprecated since:* 0.4.0. Use `AR.Tracker.Image()` instead.
 
@@ -67,7 +67,7 @@ A [database](reference-image-database.md) of [reference images](reference-image.
 
 The [resolution](resolution.md) adopted by the computer vision algorithms implemented in the tracker. Higher resolutions improve the tracking quality, but are computationally more expensive. Note that this resolution is different from, and should not be larger than, the [resolution of the camera](camera-source.md#resolution)!
 
-*Note:* this property is read-only since 0.4.0. Set the resolution when instantiating the tracker.
+*Note:* this property is read-only since 0.4.0. Set the resolution when [instantiating](#instantiation) the tracker.
 
 ## Events
 

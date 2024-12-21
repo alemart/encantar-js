@@ -1,6 +1,6 @@
 # Resolution
 
-A `Resolution` is a setting defined by a string. It is mapped to a size measured in pixels according to special rules. You may use it, for example, to change the resolution of a video captured by a webcam, to adjust the resolution of a video when it is processed by a tracker, or to set the rendering resolution of a virtual scene.
+A `Resolution` is a setting defined by a string. It is mapped to a size measured in pixels according to special rules. You may use it, for example, to set the [resolution of the camera](camera-source.md#resolution), to adjust the [resolution of the tracker](image-tracker.md#resolution), or to set the [rendering resolution](viewport.md#resolution) of the virtual scene.
 
 The table below shows examples of how resolution strings are converted to pixels:
 

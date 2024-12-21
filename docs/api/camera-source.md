@@ -39,4 +39,4 @@ const webcam = AR.Source.Camera({
 
 `source.resolution: Resolution, read-only`
 
-The [resolution](resolution.md) of this source of data.
+The [resolution](resolution.md) of this source of data. Set it when [instantiating](#instantiation) the object.

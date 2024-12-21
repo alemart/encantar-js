@@ -51,7 +51,7 @@ The [HUD](hud.md).
 
 `viewport.resolution: Resolution, read-only`
 
-The [resolution](resolution.md) of the virtual scene.
+The [resolution](resolution.md) of the virtual scene. You may set it when [instantiating](#instantiation) the viewport.
 
 ### aspectRatio
 
