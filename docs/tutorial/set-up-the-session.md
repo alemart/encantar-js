@@ -39,7 +39,7 @@ window.onload = async function()
             );
         }
 
-        const tracker = AR.Tracker.ImageTracker();
+        const tracker = AR.Tracker.Image();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')
@@ -70,7 +70,7 @@ window.onload = async function()
             );
         }
 
-        const tracker = AR.Tracker.ImageTracker();
+        const tracker = AR.Tracker.Image();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')
@@ -104,7 +104,7 @@ window.onload = async function()
             );
         }
 
-        const tracker = AR.Tracker.ImageTracker();
+        const tracker = AR.Tracker.Image();
         await tracker.database.add([{
             name: 'my-reference-image',
             image: document.getElementById('my-reference-image')
@@ -167,7 +167,7 @@ async function startARSession()
         );
     }
 
-    const tracker = AR.Tracker.ImageTracker();
+    const tracker = AR.Tracker.Image();
     await tracker.database.add([{
         name: 'my-reference-image',
         image: document.getElementById('my-reference-image')
