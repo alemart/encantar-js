@@ -34,7 +34,7 @@ const PLANE_BALL_OFFSET = -0.35;
 /** Maximum distance from the camera to the ball, so that the ball is considered "lost" in the thrown state */
 const MAX_DISTANCE = 15;
 
-/** Maximum distance in the y-axis from the camera to the ball, so that the ball is considered "lost" in the thrown state */
+/** Maximum distance in the y-axis from ar.root to the ball, so that the ball is considered "lost" in the thrown state */
 const MAX_Y_DISTANCE = 5;
 
 /** Frequency of the shining effect, in Hz */
@@ -412,19 +412,20 @@ export class Ball extends Entity
             return 0;
         }
 
-        const time = this.ar.session.time;
-        const dt = time.delta;
+        const ar = this.ar;
+        const dt = ar.session.time.delta;
         const rate = 1.0 / SHINE_FADE_DURATION;
         const distance = this._calculateDistanceToHoop(this._mesh.absolutePosition);
 
+        // shine if long distance
         if(distance >= THREE_POINT_THRESHOLD) {
             this._shineFactor = 1;
             this._shineTimer += dt;
         }
         else {
-            this._shineFactor = Math.max(0, this._shineFactor - rate * dt);
-            if(this._shineFactor == 0)
-                this._shineTimer = 0;
+            this._shineFactor -= rate * dt;
+            if(this._shineFactor <= 0)
+                this._shineFactor = this._shineTimer = 0;
         }
 
         const t = this._shineTimer;
