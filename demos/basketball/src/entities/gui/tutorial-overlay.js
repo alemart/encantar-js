@@ -120,6 +120,9 @@ export class TutorialOverlay extends GUIControl
      */
     _dismiss()
     {
+        if(!this.control.isVisible)
+            return;
+
         this.control.isVisible = false;
         this._broadcast(new GameEvent('tutorialdismissed'));
     }
@@ -136,13 +139,12 @@ export class TutorialOverlay extends GUIControl
                 this.control.isVisible = true;
                 break;
 
-            case 'targetlost':
+            case 'slept':
                 this.control.isVisible = false;
                 break;
 
             case 'guiresized':
-                if(this.control.isVisible)
-                    this._dismiss();
+                this.control.markAllAsDirty();
                 break;
         }
     }
