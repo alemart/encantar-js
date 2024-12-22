@@ -17,11 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const support = document.createElement('a');
     const heart = document.createElement('img');
-    const text = document.createTextNode('Support me');
+    const text = document.createTextNode('Support');
 
     heart.src = 'https://github.githubassets.com/images/icons/emoji/unicode/2764.png';
     heart.style.width = '24px';
-    heart.style.paddingRight = '8px';
+    //heart.style.paddingRight = '8px';
     heart.classList.add('gemoji', 'heart');
 
     support.href = 'https://alemart.github.io/encantar-js/support-my-work';
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     support.style.position = 'fixed';
     support.style.right = '16px';
     support.style.bottom = '16px';
-    support.style.padding = '0 20px';
-    support.style.height = '48px';
+    support.style.padding = '12px';// '0 20px';
+    //support.style.height = '48px';
     support.style.color = 'var(--md-primary-fg-color)';
     support.style.backgroundColor = 'var(--md-primary-bg-color)';
     support.style.fontWeight = 'bold';
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     support.appendChild(heart);
-    support.appendChild(text);
+    //support.appendChild(text);
     document.body.appendChild(support);
 
 });

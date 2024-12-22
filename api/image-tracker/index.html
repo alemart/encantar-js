@@ -947,7 +947,7 @@
         
           <li class="md-nav__item">
   <a href="#artrackerimagetracker" class="md-nav__link">
-    ~~AR.Tracker.ImageTracker~~
+    AR.Tracker.ImageTracker
   </a>
   
 </li>
@@ -1799,7 +1799,7 @@
         
           <li class="md-nav__item">
   <a href="#artrackerimagetracker" class="md-nav__link">
-    ~~AR.Tracker.ImageTracker~~
+    AR.Tracker.ImageTracker
   </a>
   
 </li>
@@ -1906,7 +1906,7 @@
 <p><strong>Arguments</strong></p>
 <ul>
 <li><code>options: object, optional</code>. An object with the following keys (all are optional):<ul>
-<li><code>resolution: Resolution</code>. The <a href="../resolution/">resolution</a> of the tracker. Make sure that the <a href="../camera-source/">resolution of the video</a> is at least as high as this. Suggested values: <code>"sm"</code>, <code>"sm+"</code>, <code>"md"</code>, <code>"md+"</code>.</li>
+<li><code>resolution: Resolution</code>. The <a href="../resolution/">resolution</a> of the tracker. Make sure that the <a href="../camera-source/#resolution">resolution of the video</a> is at least as high as this. Suggested values: <code>"sm"</code>, <code>"sm+"</code>, <code>"md"</code>, <code>"md+"</code>.</li>
 </ul>
 </li>
 </ul>
@@ -1917,9 +1917,9 @@
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="nx">resolution</span><span class="o">:</span> <span class="s2">&quot;sm&quot;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">});</span>
 </code></pre></div>
-<h3 id="artrackerimagetracker">~~AR.Tracker.ImageTracker~~</h3>
-<p>~~<code>AR.Tracker.ImageTracker(): ImageTracker</code>~~</p>
-<p>Instantiate an image tracker with default settings.</p>
+<h3 id="artrackerimagetracker">AR.Tracker.ImageTracker</h3>
+<p><span style="text-decoration: line-through"><code>AR.Tracker.ImageTracker(): ImageTracker</code></span></p>
+<p>Instantiate an image tracker with the default settings.</p>
 <p><em>Deprecated since:</em> 0.4.0. Use <code>AR.Tracker.Image()</code> instead.</p>
 <p><strong>Returns</strong></p>
 <p>A new image tracker.</p>
@@ -1936,7 +1936,7 @@
 <h3 id="resolution">resolution</h3>
 <p><code>tracker.resolution: Resolution, read-only</code></p>
 <p>The <a href="../resolution/">resolution</a> adopted by the computer vision algorithms implemented in the tracker. Higher resolutions improve the tracking quality, but are computationally more expensive. Note that this resolution is different from, and should not be larger than, the <a href="../camera-source/#resolution">resolution of the camera</a>!</p>
-<p><em>Note:</em> this property is read-only since 0.4.0. Set the resolution when instantiating the tracker.</p>
+<p><em>Note:</em> this property is read-only since 0.4.0. Set the resolution when <a href="#instantiation">instantiating</a> the tracker.</p>
 <h2 id="events">Events</h2>
 <p>An ImageTracker is an <a href="../ar-event-target/">AREventTarget</a>. You can listen to the following events:</p>
 <h3 id="targetfound">targetfound</h3>
