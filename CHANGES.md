@@ -1,5 +1,26 @@
 # Release notes
 
+## 0.4.0 - December 21st, 2024
+
+* Introduced the Pointer Tracker
+* Improved the calculations of the Image Tracker
+* Introduced classes for Vectors, Quaternions and Rays
+* Introduced routines for decomposing Transforms
+* Added a utility for raycasting
+* Changed the smoothing filter of the Pose
+* Made several smaller additions to the API
+* Introduced the Asset Manager (extra)
+* Added a preloading method to the templates of the plugins
+* Updated the plugins
+* Created the Magic AR Basketball Game ;)
+* Created a demo of the Pointer Tracker
+* Added posters of the demos
+* Changed the Stats bar and the 2D UI of the demos
+* Added support for using an ImageData as a Reference Image
+* Dropped support for using a canvas as a Reference Image
+* Updated the documentation
+* General improvements and fixes
+
 ## 0.3.0 - October 20th, 2024
 
 * Changed to encantar.js
