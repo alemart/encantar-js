@@ -12,7 +12,7 @@
         <meta name="author" content="Alexandre Martins">
       
       
-        <link rel="canonical" href="https://alemart.github.io/encantar-js/">
+        <link rel="canonical" href="https://encantar.dev/">
       
       <link rel="icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
@@ -58,7 +58,7 @@
     
 <meta property="og:title" content="Welcome! - encantar.js: GPU-accelerated Augmented Reality for the web">
 <meta property="og:description" content="The Augmented Reality engine that will enchant you!">
-<meta property="og:url" content="https://alemart.github.io/encantar-js/">
+<meta property="og:url" content="https://encantar.dev/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="robots" content="index, follow">
@@ -1759,7 +1759,7 @@
 
 
 <h1 id="welcome-to-encantarjs">Welcome to encantar.js!</h1>
-<p><img alt="GitHub release" src="https://img.shields.io/github/v/release/alemart/encantar-js" /> <img alt="GitHub file size" src="https://img.shields.io/github/size/alemart/encantar-js/dist/encantar.min.js?branch=master&amp;label=minified%20js" /> <a href="https://github.com/alemart/encantar-js/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/alemart/encantar-js?logo=github" /></a> <a href="https://github.com/sponsors/alemart/"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/alemart?logo=github" /></a> <a href="https://ko-fi.com/alemart"><img alt="ko-fi" src="https://ko-fi.com/img/githubbutton_sm.svg" /></a></p>
+<p><img alt="GitHub release" src="https://img.shields.io/github/v/release/alemart/encantar-js" /> <img alt="GitHub file size" src="https://img.shields.io/github/size/alemart/encantar-js/dist/encantar.min.js?branch=master&amp;label=minified%20js" /> <a href="https://github.com/alemart/encantar-js/stargazers"><img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/alemart/encantar-js?logo=github" /></a> <a href="https://github.com/sponsors/alemart/"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/alemart?logo=github" /></a></p>
 <p>The Augmented Reality engine that will enchant you!</p>
 <p><a class="md-button _blank" href="./demos/hello-three/poster.html"><img alt="🌟" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f31f.png" title=":star2:" /> Try it!</a> <a class="md-button _blank" href="./demos/basketball/poster.html"><img alt="🎮" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3ae.png" title=":video_game:" /> Play a game!</a> <a class="md-button _blank" href="demos/"><img alt="✨" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" title=":sparkles:" /> Demos</a> <a class="md-button" href="tutorial/introduction/"><img alt="📚" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png" title=":books:" /> Learn</a></p>
 <p><a class="_blank" href="./demos/hello-three/poster.html"><img alt="Demo" src="img/mage.gif" /></a> <a class="_blank" href="./demos/basketball/poster.html"><img alt="Game" src="img/basketball.gif" /></a></p>
@@ -1812,6 +1812,29 @@
         
       </main>
       
+<button id="support-button" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
+    &#x1F468;&#x200D;&#x1F4BB; Need help?
+</button>
+<section id="support-widget" class="md-typeset invisible">
+    <h4>Technical support</h4>
+    <p>You can request technical help at <a class="support-link"></a></p>
+    <ul>
+        <li>Get expert guidance on how to create your AR experience with encantar.js</li>
+        <li>Ask technical questions</li>
+    </ul>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
+    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
+    document.querySelectorAll('a.support-link').forEach(function(a) {
+        a.href = link;
+        if(a.innerText.length == 0)
+            a.innerText = link.substring(7);
+    });
+});
+</script>
+
         <footer class="md-footer">
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
@@ -1886,6 +1909,7 @@
   </div>
 </footer>
       
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>

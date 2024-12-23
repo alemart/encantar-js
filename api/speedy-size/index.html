@@ -12,7 +12,7 @@
         <meta name="author" content="Alexandre Martins">
       
       
-        <link rel="canonical" href="https://alemart.github.io/encantar-js/api/speedy-size/">
+        <link rel="canonical" href="https://encantar.dev/api/speedy-size/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
@@ -58,7 +58,7 @@
     
 <meta property="og:title" content="SpeedySize - encantar.js: GPU-accelerated Augmented Reality for the web">
 <meta property="og:description" content="The Augmented Reality engine that will enchant you!">
-<meta property="og:url" content="https://alemart.github.io/encantar-js/">
+<meta property="og:url" content="https://encantar.dev/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="robots" content="index, follow">
@@ -1776,6 +1776,29 @@
         
       </main>
       
+<button id="support-button" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
+    &#x1F468;&#x200D;&#x1F4BB; Need help?
+</button>
+<section id="support-widget" class="md-typeset invisible">
+    <h4>Technical support</h4>
+    <p>You can request technical help at <a class="support-link"></a></p>
+    <ul>
+        <li>Get expert guidance on how to create your AR experience with encantar.js</li>
+        <li>Ask technical questions</li>
+    </ul>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
+    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
+    document.querySelectorAll('a.support-link').forEach(function(a) {
+        a.href = link;
+        if(a.innerText.length == 0)
+            a.innerText = link.substring(7);
+    });
+});
+</script>
+
         <footer class="md-footer">
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
@@ -1865,6 +1888,7 @@
   </div>
 </footer>
       
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
