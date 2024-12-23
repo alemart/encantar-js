@@ -21,3 +21,29 @@
 {% block content %}
 {{ super() }}
 {% endblock %}
+
+{% block footer %}
+<button id="support-button" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
+    &#x1F468;&#x200D;&#x1F4BB; Need help?
+</button>
+<section id="support-widget" class="md-typeset invisible">
+    <h4>Technical support</h4>
+    <p>You can request technical help at <a class="support-link"></a></p>
+    <ul>
+        <li>Get expert guidance on how to create your AR experience with encantar.js</li>
+        <li>Ask technical questions</li>
+    </ul>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
+    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
+    document.querySelectorAll('a.support-link').forEach(function(a) {
+        a.href = link;
+        if(a.innerText.length == 0)
+            a.innerText = link.substring(7);
+    });
+});
+</script>
+{{ super() }}
+{% endblock %}

@@ -28,3 +28,51 @@
     height: auto;
     max-width: 100%;
 }
+
+#support-widget {
+    position: fixed;
+    bottom: 80px;
+    right: 16px;
+    padding: 0 12px;
+    width: 256px;
+    font-size: 0.8rem;
+    color: var(--md-default-fg-color);
+    background-color: var(--md-primary-bg-color);
+    border-color: var(--md-primary-fg-color);
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 16px;
+    transform: scaleY(1);
+    transform-origin: bottom;
+    transition: transform 0.25s ease;
+    z-index: 1000;
+}
+
+#support-widget.invisible {
+    transform: scaleY(0);
+}
+
+#support-button {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    padding: 12px;
+    color: var(--md-primary-fg-color);
+    background-color: var(--md-primary-bg-color);
+    font-weight: bold;
+    font-size: 0.8rem;
+    font-family: sans-serif;
+    cursor: pointer;
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--md-primary-fg-color);
+    border-radius: 32px;
+    transition: color 125ms, background-color 125ms, border-color 125ms;
+    z-index: 1000;
+}
+
+#support-button:hover {
+    color: var(--md-accent-bg-color);
+    border-color: var(--md-accent-fg-color);
+    background-color: var(--md-accent-fg-color);
+}
