@@ -4,9 +4,9 @@
 
 The Augmented Reality engine that will enchant you!
 
-:star2: **[Try it!](https://alemart.github.io/encantar-js/demos/hello-three/poster.html)** | :video_game: **[Play a game!](https://alemart.github.io/encantar-js/demos/basketball/poster.html)** | :magic_wand: **[Demos](https://alemart.github.io/encantar-js/demos/)** | :books: **[Learn](https://alemart.github.io/encantar-js/)**
+:star2: **[Try it!](https://encantar.dev/demos/hello-three/poster.html)** | :video_game: **[Play a game!](https://encantar.dev/demos/basketball/poster.html)** | :magic_wand: **[Demos](https://encantar.dev/demos/)** | :books: **[Learn](https://encantar.dev/)**
 
-[![Demo](docs/img/mage.gif)](https://alemart.github.io/encantar-js/demos/hello-three/poster.html) [![Game](docs/img/basketball.gif)](https://alemart.github.io/encantar-js/demos/basketball/poster.html)
+[![Demo](docs/img/mage.gif)](https://encantar.dev/demos/hello-three/poster.html) [![Game](docs/img/basketball.gif)](https://encantar.dev/demos/basketball/poster.html)
 
 ## Features
 
