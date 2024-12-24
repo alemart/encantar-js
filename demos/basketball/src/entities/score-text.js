@@ -155,5 +155,7 @@ export class ScoreText extends Entity
                 this._timer = ANIMATION_DURATION;
             }
         }
+        else if(event.type == 'paused')
+            this._mesh.material.alpha = 0;
     }
 }
