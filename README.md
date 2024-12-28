@@ -8,6 +8,8 @@ The Augmented Reality engine that will enchant you!
 
 [![Demo](docs/img/mage.gif)](https://encantar.dev/demos/hello-three/poster.html) [![Game](docs/img/basketball.gif)](https://encantar.dev/demos/basketball/poster.html)
 
+:heart: encantar.js is an Augmented Reality technology which I develop independently. Support the continuance of this work by [purchasing your copy](https://ko-fi.com/s/3ee4182cb6). You can also [become a sponsor](https://github.com/sponsors/alemart). Thank you!
+
 ## Features
 
 * **Image tracking**: track detailed images such as book covers, cartoons and photos. No need of manual training!
