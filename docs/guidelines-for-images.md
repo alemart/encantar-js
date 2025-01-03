@@ -1,33 +1,42 @@
-# Guidelines for Reference Images
+# Guidelines for Images
 
-Some images are more suitable for tracking than others. For best results, pick images that are distinct, asymmetric and detailed. Let me show you some examples.
+Not all images are suitable for tracking. For best results, pick images that are distinct, asymmetric, detailed and that have little or no text.
 
 ## Distinct
 
 A distinct image has distinguishable areas - quite unlike a repetitive pattern!
 
-| Distinct :heavy_check_mark: | Not distinct :x: |
-| --------------------------- | ---------------- |
-| [![](./img/guidelines-for-images-10.jpg "Based on free image from https://pixabay.com/pt/illustrations/unic%c3%b3rnio-gal%c3%a1xia-fantasia-estrela-3115021/ (Tarishart)")](./img/guidelines-for-images-10.jpg){ ._blank } | [![](./img/guidelines-for-images-1.jpg "Free image from https://www.pexels.com/pt-br/foto/papel-de-parede-abstrato-roxo-e-azul-430207/ (Scott Webb)")](./img/guidelines-for-images-1.jpg){ ._blank } |
-| [![](./img/guidelines-for-images-9.jpg "Based on free images from https://pixabay.com/pt/illustrations/o-macaco-chimpanz%c3%a9-macaco-banana-4701265/ (Dmitry Abramov) and https://pixabay.com/pt/vectors/panorama-crep%c3%basculo-luz-noite-c%c3%a9u-1844227/ (Wild0ne)")](./img/guidelines-for-images-9.jpg){ ._blank } | [![](./img/guidelines-for-images-4.jpg "Free image from https://www.pexels.com/pt-br/foto/imagem-completa-da-estrutura-arquitetonica-248921/ (Pixabay)")](./img/guidelines-for-images-4.jpg){ ._blank } |
+| Suitable :heavy_check_mark: | Unsuitable :x: |
+| --------------------------- | -------------- |
+| [![](./img/guidelines-for-images-10.jpg "Based on https://pixabay.com/pt/illustrations/unic%c3%b3rnio-gal%c3%a1xia-fantasia-estrela-3115021/ (Tarishart)")](./img/guidelines-for-images-10.jpg){ ._blank } | [![](./img/guidelines-for-images-1.jpg "Source: https://www.pexels.com/pt-br/foto/papel-de-parede-abstrato-roxo-e-azul-430207/ (Scott Webb)")](./img/guidelines-for-images-1.jpg){ ._blank } |
+| [![](./img/guidelines-for-images-9.jpg "Based on https://pixabay.com/pt/illustrations/o-macaco-chimpanz%c3%a9-macaco-banana-4701265/ (Dmitry Abramov) and https://pixabay.com/pt/vectors/panorama-crep%c3%basculo-luz-noite-c%c3%a9u-1844227/ (Wild0ne)")](./img/guidelines-for-images-9.jpg){ ._blank } | [![](./img/guidelines-for-images-4.jpg "Source: https://www.pexels.com/pt-br/foto/imagem-completa-da-estrutura-arquitetonica-248921/ (Pixabay)")](./img/guidelines-for-images-4.jpg){ ._blank } |
 
 ## Asymmetric
 
 Asymmetric images help the engine determine their orientation. When evaluating symmetry, you must not take colors into account.
 
-| Asymmetric :heavy_check_mark: | Symmetric :x: |
-| ----------------------------- | ------------- |
-| [![](./img/guidelines-for-images-12.jpg "Free image from https://www.pexels.com/pt-br/foto/gatinho-branco-e-cinza-cheirando-flor-da-margarida-branca-1472999/ (Alex Bargain)")](./img/guidelines-for-images-12.jpg){ ._blank } | [![](./img/guidelines-for-images-2.jpg "Free image from https://www.pexels.com/pt-br/foto/frutas-citricas-brancas-vermelhas-e-amarelas-1415734/ (Aleksandar Pasaric)")](./img/guidelines-for-images-2.jpg){ ._blank } |
-| [![](./img/guidelines-for-images-11.jpg "Based on free image from https://pixabay.com/pt/photos/sof%c3%a1-surreal-olhos-cachorro-arte-749629/ (0fjd125gk87)")](./img/guidelines-for-images-11.jpg){ ._blank } | [![](./img/guidelines-for-images-5.jpg "Free image from https://www.pexels.com/pt-br/foto/lapis-de-cor-amarelo-e-azul-1762851/ (Ann H)")](./img/guidelines-for-images-5.jpg){ ._blank } |
+| Suitable :heavy_check_mark: | Unsuitable :x: |
+| --------------------------- | -------------- |
+| [![](./img/guidelines-for-images-12.jpg "Source: https://www.pexels.com/pt-br/foto/gatinho-branco-e-cinza-cheirando-flor-da-margarida-branca-1472999/ (Alex Bargain)")](./img/guidelines-for-images-12.jpg){ ._blank } | [![](./img/guidelines-for-images-2.jpg "Source: https://www.pexels.com/pt-br/foto/frutas-citricas-brancas-vermelhas-e-amarelas-1415734/ (Aleksandar Pasaric)")](./img/guidelines-for-images-2.jpg){ ._blank } |
+| [![](./img/guidelines-for-images-11.jpg "Based on https://pixabay.com/pt/photos/sof%c3%a1-surreal-olhos-cachorro-arte-749629/ (0fjd125gk87)")](./img/guidelines-for-images-11.jpg){ ._blank } | [![](./img/guidelines-for-images-5.jpg "Source: https://www.pexels.com/pt-br/foto/lapis-de-cor-amarelo-e-azul-1762851/ (Ann H)")](./img/guidelines-for-images-5.jpg){ ._blank } |
 
 ## Detailed
 
-A detailed image has lots of details with sufficient contrast. There's not much blank space!
+A detailed image has lots of different details with sufficient contrast. There isn't much blank space!
 
-| Detailed :heavy_check_mark: | Not detailed :x: |
-| ---------------------------------- | ----------------------- |
-| [![](./img/guidelines-for-images-3.jpg "Free image from https://www.pexels.com/pt-br/foto/pagode-verde-321900/ (Anthony)")](./img/guidelines-for-images-3.jpg){ ._blank } | [![](./img/guidelines-for-images-7.jpg "Free image from https://www.pexels.com/pt-br/foto/6985119/ (Gradienta)")](./img/guidelines-for-images-7.jpg){ ._blank } |
-| [![](./img/guidelines-for-images-8.jpg "Free image from https://www.pexels.com/pt-br/foto/fotografia-de-close-up-de-arara-azul-e-amarela-1453550/ (Susanne Jutzeler)")](./img/guidelines-for-images-8.jpg){ ._blank } | [![](./img/guidelines-for-images-6.jpg "Free image from https://unsplash.com/photos/KF-r4-KM9pM (Gian Gomez)")](./img/guidelines-for-images-6.jpg){ ._blank } |
+| Suitable :heavy_check_mark: | Unsuitable :x: |
+| --------------------------- | -------------- |
+| [![](./img/guidelines-for-images-3.jpg "Source: https://www.pexels.com/pt-br/foto/borboleta-flor-broto-flora-5647855/ (Ольга Бочкарева)")](./img/guidelines-for-images-3.jpg){ ._blank } | [![](./img/guidelines-for-images-7.jpg "Source: https://www.pexels.com/pt-br/foto/6985119/ (Gradienta)")](./img/guidelines-for-images-7.jpg){ ._blank } |
+| [![](./img/guidelines-for-images-8.jpg "Source: https://www.pexels.com/pt-br/foto/fotografia-de-close-up-de-arara-azul-e-amarela-1453550/ (Susanne Jutzeler)")](./img/guidelines-for-images-8.jpg){ ._blank } | [![](./img/guidelines-for-images-6.jpg "Source: https://unsplash.com/photos/KF-r4-KM9pM (Gian Gomez)")](./img/guidelines-for-images-6.jpg){ ._blank } |
+
+## Little or no text
+
+It follows from the other recommendations that images with too much text - particularly small text - are unsuitable for tracking. Feature points will tend to cluster around the letters and will not be distinct enough. A little bit of text is okay.
+
+| Suitable :heavy_check_mark: | Unsuitable :x: |
+| --------------------------- | -------------- |
+| [![](./img/guidelines-for-images-14.jpg "Based on https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/ (ArtRose)")](./img/guidelines-for-images-14.jpg){ ._blank } | [![](./img/guidelines-for-images-13.jpg "Based on https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/ (ArtRose)")](./img/guidelines-for-images-13.jpg){ ._blank } |
+| [![](./img/guidelines-for-images-16.jpg "Based on https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/ (ArtRose)")](./img/guidelines-for-images-16.jpg){ ._blank } | [![](./img/guidelines-for-images-15.png "Based on https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/ (ArtRose)")](./img/guidelines-for-images-15.png){ ._blank } |
 
 ## Other considerations
 

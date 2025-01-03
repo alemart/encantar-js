@@ -99,7 +99,7 @@ Open <http://localhost:8000>{ ._blank } and... ta-da! The web browser will ask f
 Here is the reference image in case you need it again:
 
 <figure markdown>
-[![/assets/my-reference-image.webp](../assets/my-reference-image.webp "Based on free image by ArtRose from https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/"){ width=512 }](../assets/my-reference-image.webp){ ._blank }
+[![/assets/my-reference-image.webp](../assets/my-reference-image.webp "Based on https://pixabay.com/pt/vectors/bruxa-vassoura-gato-chap%c3%a9u-magia-5635225/ (ArtRose)"){ width=512 }](../assets/my-reference-image.webp){ ._blank }
 <figcaption>Reference Image</figcaption>
 </figure>
 
