@@ -70,6 +70,7 @@ nav:
     - 'Recommendations': 'recommendations.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'Questions & Answers': 'faq.md'
+    - 'API Reference': 'api/ar.md'
   - 'API':
     - 'General':
       - 'AR': 'api/ar.md'
@@ -118,6 +119,8 @@ nav:
       - 'AREventListener': 'api/ar-event-listener.md'
       - 'AREventTarget': 'api/ar-event-target.md'
       - 'AREventType': 'api/ar-event-type.md'
+    - 'Plugins':
+      - 'A-Frame': 'api/plugin-aframe.md'
     - 'Speedy':
       - 'Speedy': 'api/speedy.md'
       - 'SpeedySize': 'api/speedy-size.md'

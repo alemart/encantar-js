@@ -12,7 +12,7 @@ Once you pick a 3D rendering technology, you need to integrate it with encantar.
 
 Writing a plugin is a task of moderate complexity. It requires dealing with maths and with some idiosyncrasies of the 3D rendering technologies in order to make sure that it all works as intended. I provide easy-to-use plugins that work with different 3D rendering technologies, so that you don't need to deal with that complexity yourself. Plugins are shipped as JavaScript (.js) files. You just need to add a plugin to your web page, and then the integration will be done for you!
 
-[Get the plugins in the demos](/encantar-js/demos){ .md-button .md-button--primary ._blank }
+[Get the plugins in the demos](../../demos){ .md-button .md-button--primary ._blank }
 
 ## Create the virtual scene
 
@@ -25,6 +25,39 @@ Let me tell you more about the 3D rendering technologies I just mentioned.
 [A-Frame](https://aframe.io){ ._blank } is an open-source framework used to build virtual reality (VR) experiences for the web. When you combine it with encantar.js, you become able to use it to create AR experiences too - without the need of special hardware or software.
 
 A-Frame is built on top of [Three.js](#threejs) and extends it in powerful ways. It introduces a HTML-based declarative approach for [scene graphs](https://en.wikipedia.org/wiki/Scene_graph){ ._blank }, empowering them with the [Entity-Component-System](https://en.wikipedia.org/wiki/Entity_component_system){ ._blank }, a software pattern commonly used in game development. A-Frame is easy for beginners and pleasing for experts. In many cases, writing JavaScript code is not needed.
+
+It's easy to construct a basic augmented scene, and no JavaScript is needed for that:
+
+```html
+<a-scene encantar="stats: true; gizmos: true">
+
+    <!-- Sources of data -->
+    <ar-sources>
+        <ar-camera-source></ar-camera-source> <!-- webcam -->
+    </ar-sources>
+
+    <!-- Trackers -->
+    <ar-trackers>
+        <ar-image-tracker>
+            <ar-reference-image name="mage" src="mage.png"></ar-reference-image>
+        </ar-image-tracker>
+    </ar-trackers>
+
+    <!-- AR Viewport -->
+    <ar-viewport></ar-viewport>
+
+    <!-- Virtual camera for AR -->
+    <ar-camera></ar-camera>
+
+    <!-- Root node: this will be displayed in AR -->
+    <ar-root reference-image="mage">
+        <a-box color="yellow" position="0 0 0.5"></a-box>
+    </ar-root>
+
+</a-scene>
+```
+
+[Tell me more!](../api/plugin-aframe.md){ .md-button ._blank }
 
 ### Babylon.js
 
