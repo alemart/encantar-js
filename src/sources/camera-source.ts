@@ -58,9 +58,6 @@ const DEFAULT_CAMERA_OPTIONS: Readonly<Required<CameraSourceOptions>> = {
  */
 export class CameraSource extends VideoSource
 {
-    /** Video element */
-    private _cameraVideo: HTMLVideoElement;
-
     /** Options of the constructor */
     private _options: Required<CameraSourceOptions>;
 
@@ -75,7 +72,6 @@ export class CameraSource extends VideoSource
         const video = document.createElement('video');
 
         super(video);
-        this._cameraVideo = video;
         this._options = Object.assign({}, DEFAULT_CAMERA_OPTIONS, options);
     }
 
@@ -108,6 +104,7 @@ export class CameraSource extends VideoSource
             video: {
                 width: size.width,
                 height: size.height,
+                aspectRatio: options.aspectRatio,
                 ...options.constraints,
             }
         };
@@ -115,7 +112,7 @@ export class CameraSource extends VideoSource
         // load camera stream
         return new Speedy.Promise<HTMLVideoElement>((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                const video = this._cameraVideo;
+                const video = this.video;
                 video.onloadedmetadata = () => {
                     const promise = video.play();
                     const success = 'Access to the webcam has been granted.';
@@ -148,7 +145,7 @@ export class CameraSource extends VideoSource
                     error
                 ));
             });
-        }).then(_ => super._init()); // this will call VideoSource._handleBrowserQuirks()
+        }).then(_ => super._init()); // this will handle browser quirks
     }
 
     /**
@@ -158,13 +155,14 @@ export class CameraSource extends VideoSource
      */
     _release(): SpeedyPromise<void>
     {
-        const stream = this._cameraVideo.srcObject as MediaStream;
+        const video = this.video;
+        const stream = video.srcObject as MediaStream;
         const tracks = stream.getTracks();
 
         // stop camera feed
         tracks.forEach(track => track.stop());
-        this._cameraVideo.onloadedmetadata = null;
-        this._cameraVideo.srcObject = null;
+        video.onloadedmetadata = null;
+        video.srcObject = null;
 
         // release the media
         return super._release();

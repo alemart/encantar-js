@@ -59,6 +59,14 @@ export class VideoSource implements Source
     }
 
     /**
+     * The underlying <video> element
+     */
+    get video(): HTMLVideoElement
+    {
+        return this._video;
+    }
+
+    /**
      * A type-identifier of the source of data
      * @internal
      */

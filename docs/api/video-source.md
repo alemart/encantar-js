@@ -17,3 +17,13 @@ Create a new source of data linked to the provided `video`.
 **Returns**
 
 A new source of data.
+
+## Properties
+
+### video
+
+`source.video: HTMLVideoElement, read-only`
+
+The underlying `<video>` element.
+
+*Since:* 0.4.1

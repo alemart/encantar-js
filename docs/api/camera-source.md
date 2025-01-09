@@ -1,6 +1,6 @@
 # CameraSource
 
-A [source of data](source.md) linked to a webcam.
+A [source of data](source.md) linked to a webcam. This class extends [VideoSource](video-source.md).
 
 ## Instantiation
 
