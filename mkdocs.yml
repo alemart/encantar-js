@@ -121,6 +121,8 @@ nav:
       - 'AREventType': 'api/ar-event-type.md'
     - 'Plugins':
       - 'A-Frame': 'api/plugin-aframe.md'
+      - 'Babylon.js': 'api/plugin-babylon.md'
+      - 'Three.js': 'api/plugin-three.md'
     - 'Speedy':
       - 'Speedy': 'api/speedy.md'
       - 'SpeedySize': 'api/speedy-size.md'

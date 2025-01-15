@@ -65,8 +65,12 @@ It's easy to construct a basic augmented scene, and no JavaScript is needed for 
 
 Babylon.js has an amazing documentation with plenty of learning resources, as well as a helpful and friendly community! Even though it can be used by beginners, it's recommended to have experience with JavaScript before creating projects with it.
 
+[Tell me more!](../api/plugin-babylon.md){ .md-button ._blank }
+
 ### Three.js
 
 [Three.js](https://threejs.org){ ._blank } is a popular open-source JavaScript library used to render 3D graphics in web browsers. It has many features, including: scene graphs, cameras, animations, lights, materials, loading of 3D models, mathematical utilities, special effects, and more. It has an active and vibrant community. Many community-made extensions are available.
 
 Using Three.js requires more JavaScript experience than using A-Frame in most cases, but it's also a great choice if you're comfortable with coding. Compared to A-Frame, Three.js offers you additional freedom on how you can organize your code, because it's a library, not a framework.
+
+[Tell me more!](../api/plugin-three.md){ .md-button ._blank }
