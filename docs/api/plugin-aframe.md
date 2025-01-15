@@ -1,6 +1,6 @@
 # A-Frame plugin
 
-Documentation of the A-Frame plugin.
+Documentation of the [A-Frame](https://aframe.io){ ._blank } plugin.
 
 We'll get to the details, but a basic augmented scene can be constructed as follows:
 
