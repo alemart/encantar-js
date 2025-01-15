@@ -17,8 +17,8 @@ class ARDemo
 {
     /**
      * Start the AR session
-     * @abstract
      * @returns {Promise<Session> | SpeedyPromise<Session>}
+     * @abstract
      */
     startSession()
     {
@@ -28,21 +28,18 @@ class ARDemo
     /**
      * Initialization
      * @returns {void | Promise<void> | SpeedyPromise<void>}
-     * @abstract
      */
     init()
     {
-        throw new Error('Abstract method');
+        return Promise.resolve();
     }
 
     /**
-     * Animation loop
+     * Animation step
      * @returns {void}
-     * @abstract
      */
     update()
     {
-        throw new Error('Abstract method');
     }
 
     /**
@@ -51,7 +48,6 @@ class ARDemo
      */
     release()
     {
-        // optional implementation
     }
 
     /**
@@ -60,7 +56,6 @@ class ARDemo
      */
     preload()
     {
-        // optional implementation
         return Promise.resolve();
     }
 
