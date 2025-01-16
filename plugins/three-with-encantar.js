@@ -12,6 +12,7 @@ __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
 
 /**
  * Base class for Augmented Reality experiences
+ * @abstract
  */
 class ARDemo
 {
@@ -35,7 +36,7 @@ class ARDemo
     }
 
     /**
-     * Animation step
+     * Animation step - called every frame
      * @returns {void}
      */
     update()
