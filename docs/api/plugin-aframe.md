@@ -219,6 +219,14 @@ The `<ar-sources>` primitive is used to specify the [sources of data](./source.m
 </a-assets>
 ```
 
+### ar-canvas-source
+
+`<ar-canvas-source>` sets up a [CanvasSource](./canvas-source.md), which is a source of data linked to a `<canvas>` element. It must be a direct child of `<ar-sources>`.
+
+**Properties**
+
+* `canvas: selector`. A selector of a `<canvas>` element.
+
 ### ar-pointer-source
 
 `<ar-pointer-source>` sets up a [PointerSource](./pointer-source.md), a source of pointer-based input. It must be a direct child of `<ar-sources>`. See also: [ar-pointer-tracker](#ar-pointer-tracker).
