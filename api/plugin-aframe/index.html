@@ -1,0 +1,2762 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The Augmented Reality engine that will enchant you!">
+      
+      
+        <meta name="author" content="Alexandre Martins">
+      
+      
+        <link rel="canonical" href="https://encantar.dev/api/plugin-aframe/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
+    
+    
+      
+        <title>A-Frame - encantar.js: GPU-accelerated Augmented Reality for the web</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#7e56c2">
+        
+      
+    
+    
+
+<script data-goatcounter="https://encantar-js.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../style/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+<meta property="og:title" content="A-Frame - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:description" content="The Augmented Reality engine that will enchant you!">
+<meta property="og:url" content="https://encantar.dev/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="robots" content="index, follow">
+
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="yellow">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#a-frame-plugin" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            encantar.js: GPU-accelerated Augmented Reality for the web
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              A-Frame
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/alemart/encantar-js/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    alemart/encantar-js
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../download/" class="md-tabs__link">
+      Download
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../demos/" class="md-tabs__link">
+      Demos
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../tutorial/introduction/" class="md-tabs__link">
+        Learn
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ar/" class="md-tabs__link md-tabs__link--active">
+        API
+      </a>
+    </li>
+  
+
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    encantar.js: GPU-accelerated Augmented Reality for the web
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/alemart/encantar-js/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    alemart/encantar-js
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Welcome!
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download/" class="md-nav__link">
+        Download
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/" class="md-nav__link">
+        Demos
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
+        Learn
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ar/" class="md-nav__link">
+        API Reference
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
+        Guidelines for Images
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../support-my-work/" class="md-nav__link">
+        Support my work
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../license/" class="md-nav__link">
+        License
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download/" class="md-nav__link">
+        Download
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demos/" class="md-nav__link">
+        Demos
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Learn
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Learn" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Learn
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/introduction/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/concepts/" class="md-nav__link">
+        Concepts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/set-up-a-web-server/" class="md-nav__link">
+        Set up a web server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/set-up-the-tracker/" class="md-nav__link">
+        Set up the tracker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/set-up-the-session/" class="md-nav__link">
+        Set up the session
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/activate-your-webcam/" class="md-nav__link">
+        Activate your webcam
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/augment-the-scene/" class="md-nav__link">
+        Augment the scene
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/next-steps/" class="md-nav__link">
+        Next steps
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recommendations/" class="md-nav__link">
+        Recommendations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guidelines-for-images/" class="md-nav__link">
+        Guidelines for Images
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        Questions & Answers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ar/" class="md-nav__link">
+        API Reference
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" type="checkbox" id="__nav_5_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_1">
+          General
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="General" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          General
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ar/" class="md-nav__link">
+        AR
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../session/" class="md-nav__link">
+        Session
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../frame/" class="md-nav__link">
+        Frame
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time-manager/" class="md-nav__link">
+        Time
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../settings/" class="md-nav__link">
+        Settings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../resolution/" class="md-nav__link">
+        Resolution
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2" type="checkbox" id="__nav_5_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_2">
+          Trackers
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Trackers" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          Trackers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2_1" type="checkbox" id="__nav_5_2_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_2_1">
+          Image tracker
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Image tracker" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          Image tracker
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image-tracker/" class="md-nav__link">
+        ImageTracker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-image/" class="md-nav__link">
+        ReferenceImage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference-image-database/" class="md-nav__link">
+        ReferenceImageDatabase
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image-tracker-result/" class="md-nav__link">
+        ImageTrackerResult
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trackable-image/" class="md-nav__link">
+        TrackableImage
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_2_2" type="checkbox" id="__nav_5_2_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_2_2">
+          Pointer tracker
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Pointer tracker" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Pointer tracker
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointer-tracker/" class="md-nav__link">
+        PointerTracker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointer-tracker-result/" class="md-nav__link">
+        PointerTrackerResult
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trackable-pointer/" class="md-nav__link">
+        TrackablePointer
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tracker/" class="md-nav__link">
+        Tracker
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tracker-result/" class="md-nav__link">
+        TrackerResult
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trackable/" class="md-nav__link">
+        Trackable
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_3" type="checkbox" id="__nav_5_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_3">
+          Sources
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Sources" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_3">
+          <span class="md-nav__icon md-icon"></span>
+          Sources
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camera-source/" class="md-nav__link">
+        CameraSource
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../canvas-source/" class="md-nav__link">
+        CanvasSource
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../video-source/" class="md-nav__link">
+        VideoSource
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pointer-source/" class="md-nav__link">
+        PointerSource
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../source/" class="md-nav__link">
+        Source
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_4" type="checkbox" id="__nav_5_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_4">
+          Geometry
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Geometry" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_4">
+          <span class="md-nav__icon md-icon"></span>
+          Geometry
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pose/" class="md-nav__link">
+        Pose
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../viewer/" class="md-nav__link">
+        Viewer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../viewer-pose/" class="md-nav__link">
+        ViewerPose
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../view/" class="md-nav__link">
+        View
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../perspective-view/" class="md-nav__link">
+        PerspectiveView
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transform/" class="md-nav__link">
+        Transform
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector2/" class="md-nav__link">
+        Vector2
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector3/" class="md-nav__link">
+        Vector3
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quaternion/" class="md-nav__link">
+        Quaternion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ray/" class="md-nav__link">
+        Ray
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_5" type="checkbox" id="__nav_5_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_5">
+          Visualization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Visualization" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_5">
+          <span class="md-nav__icon md-icon"></span>
+          Visualization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../viewport/" class="md-nav__link">
+        Viewport
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hud/" class="md-nav__link">
+        HUD
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gizmos/" class="md-nav__link">
+        Gizmos
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_6" type="checkbox" id="__nav_5_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_6">
+          Events
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Events" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_6">
+          <span class="md-nav__icon md-icon"></span>
+          Events
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ar-event/" class="md-nav__link">
+        AREvent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ar-event-listener/" class="md-nav__link">
+        AREventListener
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ar-event-target/" class="md-nav__link">
+        AREventTarget
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ar-event-type/" class="md-nav__link">
+        AREventType
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_7" type="checkbox" id="__nav_5_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_7">
+          Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_7">
+          <span class="md-nav__icon md-icon"></span>
+          Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          A-Frame
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        A-Frame
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basics" class="md-nav__link">
+    Basics
+  </a>
+  
+    <nav class="md-nav" aria-label="Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encantar" class="md-nav__link">
+    encantar
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-root" class="md-nav__link">
+    ar-root
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    Visualization
+  </a>
+  
+    <nav class="md-nav" aria-label="Visualization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-viewport" class="md-nav__link">
+    ar-viewport
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-hud" class="md-nav__link">
+    ar-hud
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-camera" class="md-nav__link">
+    ar-camera
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    Sources
+  </a>
+  
+    <nav class="md-nav" aria-label="Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-sources" class="md-nav__link">
+    ar-sources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-camera-source" class="md-nav__link">
+    ar-camera-source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-video-source" class="md-nav__link">
+    ar-video-source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-pointer-source" class="md-nav__link">
+    ar-pointer-source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trackers" class="md-nav__link">
+    Trackers
+  </a>
+  
+    <nav class="md-nav" aria-label="Trackers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-trackers" class="md-nav__link">
+    ar-trackers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-image-tracker" class="md-nav__link">
+    ar-image-tracker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-reference-image" class="md-nav__link">
+    ar-reference-image
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-pointer-tracker" class="md-nav__link">
+    ar-pointer-tracker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ar-system" class="md-nav__link">
+    AR System
+  </a>
+  
+    <nav class="md-nav" aria-label="AR System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar" class="md-nav__link">
+    ar
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    session
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frame" class="md-nav__link">
+    frame
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewer" class="md-nav__link">
+    viewer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pointers" class="md-nav__link">
+    pointers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utils" class="md-nav__link">
+    utils
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utilities" class="md-nav__link">
+    Utilities
+  </a>
+  
+    <nav class="md-nav" aria-label="Utilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convertvector2" class="md-nav__link">
+    convertVector2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convertvector3" class="md-nav__link">
+    convertVector3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convertquaternion" class="md-nav__link">
+    convertQuaternion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convertray" class="md-nav__link">
+    convertRay
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#events" class="md-nav__link">
+    Events
+  </a>
+  
+    <nav class="md-nav" aria-label="Events">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-started" class="md-nav__link">
+    ar-started
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin-babylon/" class="md-nav__link">
+        Babylon.js
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugin-three/" class="md-nav__link">
+        Three.js
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_8" type="checkbox" id="__nav_5_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_8">
+          Speedy
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Speedy" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_8">
+          <span class="md-nav__icon md-icon"></span>
+          Speedy
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speedy/" class="md-nav__link">
+        Speedy
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speedy-size/" class="md-nav__link">
+        SpeedySize
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speedy-matrix/" class="md-nav__link">
+        SpeedyMatrix
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speedy-promise/" class="md-nav__link">
+        SpeedyPromise
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basics" class="md-nav__link">
+    Basics
+  </a>
+  
+    <nav class="md-nav" aria-label="Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encantar" class="md-nav__link">
+    encantar
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-root" class="md-nav__link">
+    ar-root
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    Visualization
+  </a>
+  
+    <nav class="md-nav" aria-label="Visualization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-viewport" class="md-nav__link">
+    ar-viewport
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-hud" class="md-nav__link">
+    ar-hud
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-camera" class="md-nav__link">
+    ar-camera
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sources" class="md-nav__link">
+    Sources
+  </a>
+  
+    <nav class="md-nav" aria-label="Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-sources" class="md-nav__link">
+    ar-sources
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-camera-source" class="md-nav__link">
+    ar-camera-source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-video-source" class="md-nav__link">
+    ar-video-source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-pointer-source" class="md-nav__link">
+    ar-pointer-source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trackers" class="md-nav__link">
+    Trackers
+  </a>
+  
+    <nav class="md-nav" aria-label="Trackers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-trackers" class="md-nav__link">
+    ar-trackers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-image-tracker" class="md-nav__link">
+    ar-image-tracker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-reference-image" class="md-nav__link">
+    ar-reference-image
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-pointer-tracker" class="md-nav__link">
+    ar-pointer-tracker
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ar-system" class="md-nav__link">
+    AR System
+  </a>
+  
+    <nav class="md-nav" aria-label="AR System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar" class="md-nav__link">
+    ar
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session" class="md-nav__link">
+    session
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frame" class="md-nav__link">
+    frame
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewer" class="md-nav__link">
+    viewer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pointers" class="md-nav__link">
+    pointers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#utils" class="md-nav__link">
+    utils
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#utilities" class="md-nav__link">
+    Utilities
+  </a>
+  
+    <nav class="md-nav" aria-label="Utilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convertvector2" class="md-nav__link">
+    convertVector2
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convertvector3" class="md-nav__link">
+    convertVector3
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convertquaternion" class="md-nav__link">
+    convertQuaternion
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#convertray" class="md-nav__link">
+    convertRay
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#events" class="md-nav__link">
+    Events
+  </a>
+  
+    <nav class="md-nav" aria-label="Events">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ar-started" class="md-nav__link">
+    ar-started
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+
+                
+<a href="https://github.com/alemart/encantar-js/edit/master/docs/api/plugin-aframe.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="a-frame-plugin">A-Frame plugin</h1>
+<p>Documentation of the <a class="_blank" href="https://aframe.io">A-Frame</a> plugin.</p>
+<p>We'll get to the details, but a basic augmented scene can be constructed as follows:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="o">=</span><span class="s">&quot;stats: true; gizmos: true&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="cm">&lt;!-- Sources of data --&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="p">&lt;</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="p">&lt;</span><span class="nt">ar-camera-source</span><span class="p">&gt;&lt;/</span><span class="nt">ar-camera-source</span><span class="p">&gt;</span> <span class="cm">&lt;!-- webcam --&gt;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="p">&lt;/</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    <span class="cm">&lt;!-- Trackers --&gt;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="p">&lt;</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="p">&lt;</span><span class="nt">ar-image-tracker</span><span class="p">&gt;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>            <span class="p">&lt;</span><span class="nt">ar-reference-image</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;mage&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;mage.png&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-reference-image</span><span class="p">&gt;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="p">&lt;/</span><span class="nt">ar-image-tracker</span><span class="p">&gt;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="p">&lt;/</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="cm">&lt;!-- AR Viewport --&gt;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="p">&lt;</span><span class="nt">ar-viewport</span><span class="p">&gt;&lt;/</span><span class="nt">ar-viewport</span><span class="p">&gt;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    <span class="cm">&lt;!-- Virtual camera for AR --&gt;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    <span class="p">&lt;</span><span class="nt">ar-camera</span><span class="p">&gt;&lt;/</span><span class="nt">ar-camera</span><span class="p">&gt;</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    <span class="cm">&lt;!-- Root node: this will be displayed in AR --&gt;</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    <span class="p">&lt;</span><span class="nt">ar-root</span> <span class="na">reference-image</span><span class="o">=</span><span class="s">&quot;mage&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>        <span class="p">&lt;</span><span class="nt">a-box</span> <span class="na">color</span><span class="o">=</span><span class="s">&quot;yellow&quot;</span> <span class="na">position</span><span class="o">=</span><span class="s">&quot;0 0 0.5&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">a-box</span><span class="p">&gt;</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    <span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><em>Since:</em> 0.3.0</p>
+<h2 id="basics">Basics</h2>
+<h3 id="encantar">encantar</h3>
+<p>The <code>encantar</code> component <em>enchants</em> (augments) <code>&lt;a-scene&gt;</code>, so that it displays content in AR.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>mode: string</code>. The <a href="../session/#mode">session mode</a>. Defaults to <code>"immersive"</code>.</li>
+<li><code>stats: boolean</code>. Whether or not to display the built-in stats panel. It's useful during development. Defaults to <code>false</code>.</li>
+<li><code>gizmos: boolean</code>. Whether or not to display the <a href="../session/#gizmos">gizmos</a>. Defaults to <code>false</code>.</li>
+<li><code>autoplay: boolean</code>. Whether or not to start the AR <a href="../session/">session</a> automatically. Defaults to <code>true</code>.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="o">=</span><span class="s">&quot;stats: true; gizmos: true&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    ...
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-root">ar-root</h3>
+<p>The <code>&lt;ar-root&gt;</code> primitive sets up a node of the virtual scene that is automatically aligned to the physical scene. Simply put, children of this node will augment physical reality. <code>&lt;ar-root&gt;</code> must be a direct child of <code>&lt;a-scene&gt;</code>. It does not have to be unique. See also: <a href="#ar-camera">ar-camera</a>.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>reference-image: string</code>. The name of a <a href="../reference-image/">reference image</a> or the empty string. This node will be matched to the specified reference image, or to any reference image if this property is the empty string. Defaults to the empty string. See also: <a href="#ar-reference-image">ar-reference-image</a>.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="p">&gt;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    ...
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="cm">&lt;!-- Matches only the specified reference image --&gt;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="p">&lt;</span><span class="nt">ar-root</span> <span class="na">reference-image</span><span class="o">=</span><span class="s">&quot;mage&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        ...
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="cm">&lt;!-- Matches any reference image --&gt;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="p">&lt;</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>        ...
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>    <span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    ...
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+</code></pre></div>
+<h2 id="visualization">Visualization</h2>
+<h3 id="ar-viewport">ar-viewport</h3>
+<p>The <code>&lt;ar-viewport&gt;</code> primitive sets up the <a href="../viewport/">viewport</a> that will be linked to the AR <a href="../session/">session</a>. It must be unique and a direct child of <code>&lt;a-scene&gt;</code>. See also: <a href="#ar-hud">ar-hud</a>.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>resolution: string</code>. The <a href="../viewport/#resolution">resolution of the viewport</a>, which corresponds to the resolution of the virtual scene. See also: <a href="../resolution/">Resolution</a>.</li>
+<li><code>style: string</code>. The <a href="../viewport/#style">style of the viewport</a>.</li>
+<li><code>fullscreen-ui: component</code>. A component that controls the built-in fullscreen button. This button included as a convenience if the fullscreen mode is <a href="../viewport/#fullscreenavailable">available</a> on the target platform. The following properties are available:<ul>
+<li><code>enabled: boolean</code>. Whether or not to display the fullscreen button. Defaults to <code>true</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="p">&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    ...
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="p">&lt;</span><span class="nt">ar-viewport</span> <span class="na">resolution</span><span class="o">=</span><span class="s">&quot;lg&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>        ...
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="p">&lt;/</span><span class="nt">ar-viewport</span><span class="p">&gt;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    ...
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-hud">ar-hud</h3>
+<p>The <code>&lt;ar-hud&gt;</code> primitive sets up a <a href="../hud/">Heads Up Display</a>, a 2D overlay that is displayed in front of the augmented scene. It's meant to contain HTML elements. Additionally, it must be a direct child of <code>&lt;ar-viewport&gt;</code>. See also: <a href="#ar-viewport">ar-viewport</a>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">&lt;</span><span class="nt">ar-viewport</span><span class="p">&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="p">&lt;</span><span class="nt">ar-hud</span><span class="p">&gt;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="cm">&lt;!-- This will be displayed in front of the augmented scene --&gt;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;example-button&quot;</span><span class="p">&gt;</span>Tap me<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="p">&lt;/</span><span class="nt">ar-hud</span><span class="p">&gt;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">&lt;/</span><span class="nt">ar-viewport</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-camera">ar-camera</h3>
+<p><code>&lt;ar-camera&gt;</code> sets up a virtual camera that is ready for AR. It should be unique and a direct child of <code>&lt;a-scene&gt;</code>. Do not confuse it with <code>&lt;a-camera&gt;</code>, the standard camera from A-Frame. See also: <a href="#ar-root">ar-root</a>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="p">&gt;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    ...
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="p">&lt;</span><span class="nt">ar-camera</span><span class="p">&gt;&lt;/</span><span class="nt">ar-camera</span><span class="p">&gt;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    ...
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+</code></pre></div>
+<h2 id="sources">Sources</h2>
+<h3 id="ar-sources">ar-sources</h3>
+<p>The <code>&lt;ar-sources&gt;</code> primitive is used to specify the <a href="../source/">sources of data</a> that will be linked to the AR <a href="../session/">session</a>. It must be unique and a direct child of <code>&lt;a-scene&gt;</code>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="p">&gt;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    ...
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="p">&lt;</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>        ...
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="p">&lt;/</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    ...
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-camera-source">ar-camera-source</h3>
+<p><code>&lt;ar-camera-source&gt;</code> sets up a <a href="../camera-source/">CameraSource</a>, which is source of data linked to a webcam. It must be a direct child of <code>&lt;ar-sources&gt;</code>.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>resolution: string</code>. The preferred <a href="../camera-source/#resolution">resolution of the camera</a>. See also: <a href="../resolution/">Resolution</a>.</li>
+<li><code>facing-mode: string</code>. The preferred camera on mobile devices. Typically <code>"environment"</code> (rear camera) or <code>"user"</code> (front camera). Defaults to <code>"environment"</code>.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">&lt;</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="p">&lt;</span><span class="nt">ar-camera-source</span> <span class="na">resolution</span><span class="o">=</span><span class="s">&quot;md&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-camera-source</span><span class="p">&gt;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">&lt;/</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-video-source">ar-video-source</h3>
+<p><code>&lt;ar-video-source&gt;</code> sets up a <a href="../video-source/">VideoSource</a>, which is a source of data linked to a <code>&lt;video&gt;</code> element. It must be a direct child of <code>&lt;ar-sources&gt;</code>.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>video: selector</code>. A selector of a <code>&lt;video&gt;</code> element.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">&lt;</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="p">&lt;</span><span class="nt">ar-video-source</span> <span class="na">video</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-video-source</span><span class="p">&gt;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">&lt;/</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>...
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="cm">&lt;!-- External assets --&gt;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">&lt;</span><span class="nt">a-assets</span><span class="p">&gt;</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>    <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">hidden</span> <span class="na">muted</span> <span class="na">loop</span> <span class="na">playsinline</span> <span class="na">autoplay</span><span class="p">&gt;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.webm&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/webm&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;my-video.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="p">&lt;/</span><span class="nt">a-assets</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-pointer-source">ar-pointer-source</h3>
+<p><code>&lt;ar-pointer-source&gt;</code> sets up a <a href="../pointer-source/">PointerSource</a>, a source of pointer-based input. It must be a direct child of <code>&lt;ar-sources&gt;</code>. See also: <a href="#ar-pointer-tracker">ar-pointer-tracker</a>.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">&lt;</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    ...
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="p">&lt;</span><span class="nt">ar-pointer-source</span><span class="p">&gt;&lt;/</span><span class="nt">ar-pointer-source</span><span class="p">&gt;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">&lt;/</span><span class="nt">ar-sources</span><span class="p">&gt;</span>
+</code></pre></div>
+<h2 id="trackers">Trackers</h2>
+<h3 id="ar-trackers">ar-trackers</h3>
+<p>The <code>&lt;ar-trackers&gt;</code> primitive is used to specify the <a href="../tracker/">trackers</a> that will be linked to the AR <a href="../session/">session</a>. It must be unique and a direct child of <code>&lt;a-scene&gt;</code>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="p">&gt;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    ...
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="p">&lt;</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        ...
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="p">&lt;/</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>    ...
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-image-tracker">ar-image-tracker</h3>
+<p><code>&lt;ar-image-tracker&gt;</code> sets up an <a href="../image-tracker/">ImageTracker</a>, which is used to track images in a video. You must include at least one <code>&lt;ar-reference-image&gt;</code> as a direct child. See also: <a href="#ar-reference-image">ar-reference-image</a>, <a href="#ar-camera-source">ar-camera-source</a>, <a href="#ar-video-source">ar-video-source</a>.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>resolution: string</code>. The <a href="../image-tracker/#resolution">resolution of the tracker</a>. See also: <a href="../resolution/">Resolution</a>.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">&lt;</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="p">&lt;</span><span class="nt">ar-image-tracker</span> <span class="na">resolution</span><span class="o">=</span><span class="s">&quot;md&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>        <span class="p">&lt;</span><span class="nt">ar-reference-image</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;mage&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;mage.png&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-reference-image</span><span class="p">&gt;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>        <span class="p">&lt;</span><span class="nt">ar-reference-image</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;magic&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;magic.png&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-reference-image</span><span class="p">&gt;</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="p">&lt;/</span><span class="nt">ar-image-tracker</span><span class="p">&gt;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">&lt;/</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-reference-image">ar-reference-image</h3>
+<p><code>&lt;ar-reference-image&gt;</code> defines a <a href="../reference-image/">ReferenceImage</a> to be used by an image tracker. It must be a direct child of <code>&lt;ar-image-tracker&gt;</code>. See also: <a href="#ar-image-tracker">ar-image-tracker</a>.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>name: string</code>. The name of the reference image. You may link it with <code>&lt;ar-root&gt;</code>. Names must be unique. See also: <a href="#ar-root">ar-root</a>.</li>
+<li><code>src: string</code>. Path to the image.</li>
+</ul>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">&lt;</span><span class="nt">ar-image-tracker</span><span class="p">&gt;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="p">&lt;</span><span class="nt">ar-reference-image</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;mage&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;mage.png&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-reference-image</span><span class="p">&gt;</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="p">&lt;/</span><span class="nt">ar-image-tracker</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="ar-pointer-tracker">ar-pointer-tracker</h3>
+<p><code>&lt;ar-pointer-tracker&gt;</code> sets up a <a href="../pointer-tracker/">PointerTracker</a>, which is used to track pointer-based input. It must be a direct child of <code>&lt;ar-trackers&gt;</code>. See also: <a href="#ar-pointer-source">ar-pointer-source</a>, <a href="#pointers">pointers</a>.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">&lt;</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    ...
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="p">&lt;</span><span class="nt">ar-pointer-tracker</span><span class="p">&gt;&lt;/</span><span class="nt">ar-pointer-tracker</span><span class="p">&gt;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">&lt;/</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
+</code></pre></div>
+<h2 id="ar-system">AR System</h2>
+<h3 id="ar">ar</h3>
+<p>The <code>ar</code> system conveniently exposes useful objects and methods in JavaScript. It may be accessed from any component by writing <code>this.el.sceneEl.systems.ar</code>.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nx">AFRAME</span><span class="p">.</span><span class="nx">registerComponent</span><span class="p">(</span><span class="s1">&#39;my-component&#39;</span><span class="p">,</span> <span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="c1">// ...</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="nx">tick</span><span class="p">()</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="p">{</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        <span class="kd">const</span> <span class="nx">ar</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">el</span><span class="p">.</span><span class="nx">sceneEl</span><span class="p">.</span><span class="nx">systems</span><span class="p">.</span><span class="nx">ar</span><span class="p">;</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        <span class="kd">const</span> <span class="nx">session</span> <span class="o">=</span> <span class="nx">ar</span><span class="p">.</span><span class="nx">session</span><span class="p">;</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>        <span class="c1">// ...</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>    <span class="p">},</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>    <span class="c1">// ...</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="p">});</span>
+</code></pre></div>
+<h3 id="session">session</h3>
+<p><code>ar.session: Session | null</code></p>
+<p>The AR <a href="../session/">Session</a>. If the AR session hasn't been started, this will be <code>null</code>.</p>
+<h3 id="frame">frame</h3>
+<p><code>ar.frame: Frame | null</code></p>
+<p>The current <a href="../frame/">Frame</a>. If the AR scene isn't initialized, this will be <code>null</code>.</p>
+<h3 id="viewer">viewer</h3>
+<p><code>ar.viewer: Viewer | null</code></p>
+<p>A reference to the <a href="../viewer/">Viewer</a> of the current frame, if any.</p>
+<p><em>Since:</em> 0.4.0</p>
+<h3 id="pointers">pointers</h3>
+<p><code>ar.pointers: TrackablePointer[]</code></p>
+<p>The <a href="../trackable-pointer/">TrackablePointers</a> of the current frame, if any. Make sure to add a <code>&lt;ar-pointer-tracker&gt;</code> in order to use these. See also: <a href="#ar-pointer-tracker">ar-pointer-tracker</a>.</p>
+<p><em>Since:</em> 0.4.0</p>
+<h3 id="utils">utils</h3>
+<p><code>ar.utils: object</code></p>
+<p><a href="#utilities">Utilities</a> for AR.</p>
+<p><em>Since:</em> 0.4.0</p>
+<h2 id="utilities">Utilities</h2>
+<h3 id="convertvector2">convertVector2</h3>
+<p><code>ar.utils.convertVector2(v: Vector2): THREE.Vector2</code></p>
+<p>Convert a <a href="../vector2/">Vector2</a> into a <code>THREE.Vector2</code>.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>v: Vector2</code>. A 2D vector.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A corresponding <code>THREE.Vector2</code>.</p>
+<h3 id="convertvector3">convertVector3</h3>
+<p><code>ar.utils.convertVector3(v: Vector3): THREE.Vector3</code></p>
+<p>Convert a <a href="../vector3/">Vector3</a> into a <code>THREE.Vector3</code>.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>v: Vector3</code>. A 3D vector.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A corresponding <code>THREE.Vector3</code>.</p>
+<h3 id="convertquaternion">convertQuaternion</h3>
+<p><code>ar.utils.convertQuaternion(q: Quaternion): THREE.Quaternion</code></p>
+<p>Convert a <a href="../quaternion/">Quaternion</a> into a <code>THREE.Quaternion</code>.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>q: Quaternion</code>. A quaternion.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A corresponding <code>THREE.Quaternion</code>.</p>
+<h3 id="convertray">convertRay</h3>
+<p><code>ar.utils.convertRay(r: Ray): THREE.Ray</code></p>
+<p>Convert a <a href="../ray/">Ray</a> into a <code>THREE.Ray</code>.</p>
+<p><em>Since:</em> 0.4.0</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>r: Ray</code>. A ray.</li>
+</ul>
+<p><strong>Returns</strong></p>
+<p>A corresponding <code>THREE.Ray</code>.</p>
+<h2 id="events">Events</h2>
+<h3 id="ar-started">ar-started</h3>
+<p>The <code>ar-started</code> event is emitted when the main loop of the AR scene is set up, just after the AR session starts.</p>
+<p><strong>Details</strong></p>
+<ul>
+<li><code>ar: object</code>. A reference to the <a href="#ar">ar</a> system.</li>
+</ul>
+
+              
+
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+<button id="support-button" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
+    &#x1F468;&#x200D;&#x1F4BB; Need help?
+</button>
+<section id="support-widget" class="md-typeset invisible">
+    <h4>Technical support</h4>
+    <p>You can get expert guidance on WebAR with encantar.js by contacting <a href="#" class="support-link" id="technical-support-widget" data-goatcounter-click></a>.</p>
+    <p><small>I speak English and Portuguese. Falo Inglês e Português.</small></p>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
+    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
+    document.querySelectorAll('a.support-link').forEach(function(a) {
+        a.href = link;
+        if(a.innerText.length == 0)
+            a.innerText = link.substring(7);
+    });
+});
+</script>
+
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../ar-event-type/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AREventType" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              AREventType
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../plugin-babylon/" class="md-footer__link md-footer__link--next" aria-label="Next: Babylon.js" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Babylon.js
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <!--
+  Copyright (c) 2016-2022 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Copyright and theme information - modified by Alexandre -->
+<div class="md-copyright">
+    <div class="md-copyright__highlight">
+      encantar.js: GPU-accelerated Augmented Reality for the web.
+      Copyright &copy; 2022 - present Alexandre Martins.
+    </div>
+  
+    This page is licensed under the
+    <a
+      href="http://creativecommons.org/licenses/by/4.0"
+      target="_blank" rel="license"
+    >
+      Creative Commons Attribution 4.0 International License
+    </a>
+    and is made with
+    <a
+      href="https://squidfunk.github.io/mkdocs-material"
+      target="_blank" rel="noopener"
+    >
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5413a266.min.js"></script>
+      
+        <script src="../../js/extra.js"></script>
+      
+    
+  </body>
+</html>
