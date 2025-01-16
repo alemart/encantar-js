@@ -993,6 +993,10 @@ AFRAME.registerPrimitive('ar-reference-image', {
 AFRAME.registerComponent('ar-pointer-tracker', ARComponent({
 
     schema: {
+
+        /** the space in which pointers will be located */
+        'space': { type: 'string', default: 'normalized' },
+
     },
 
     validate()
@@ -1003,7 +1007,9 @@ AFRAME.registerComponent('ar-pointer-tracker', ARComponent({
 
     tracker()
     {
-        return AR.Tracker.Pointer();
+        return AR.Tracker.Pointer({
+            space: this.data.space
+        });
     },
 
 }));
@@ -1011,6 +1017,9 @@ AFRAME.registerComponent('ar-pointer-tracker', ARComponent({
 AFRAME.registerPrimitive('ar-pointer-tracker', {
     defaultComponents: {
         'ar-pointer-tracker': {}
+    },
+    mappings: {
+        'space': 'ar-pointer-tracker.space'
     }
 });
 

@@ -306,6 +306,10 @@ The `<ar-trackers>` primitive is used to specify the [trackers](./tracker.md) th
 
 *Since:* 0.4.0
 
+**Properties**
+
+* `space: string`. The [space](./pointer-tracker.md#space) in which pointers will be located. *Since:* 0.4.1
+
 **Example**
 
 ```html
