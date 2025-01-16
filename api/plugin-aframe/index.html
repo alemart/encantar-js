@@ -1618,6 +1618,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#encantar" class="md-nav__link">
     encantar
   </a>
@@ -1695,6 +1702,13 @@
           <li class="md-nav__item">
   <a href="#ar-video-source" class="md-nav__link">
     ar-video-source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-canvas-source" class="md-nav__link">
+    ar-canvas-source
   </a>
   
 </li>
@@ -2042,6 +2056,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#encantar" class="md-nav__link">
     encantar
   </a>
@@ -2119,6 +2140,13 @@
           <li class="md-nav__item">
   <a href="#ar-video-source" class="md-nav__link">
     ar-video-source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ar-canvas-source" class="md-nav__link">
+    ar-canvas-source
   </a>
   
 </li>
@@ -2312,8 +2340,11 @@
 
 
 <h1 id="a-frame-plugin">A-Frame plugin</h1>
-<p>Documentation of the <a class="_blank" href="https://aframe.io">A-Frame</a> plugin.</p>
-<p>We'll get to the details, but a basic augmented scene can be constructed as follows:</p>
+<p>Documentation of the <a class="_blank" href="https://aframe.io">A-Frame</a> plugin. Study the <a href="../../demos/">demos</a> for elaborate examples.</p>
+<p><em>Since:</em> 0.3.0</p>
+<h2 id="basics">Basics</h2>
+<h3 id="example">Example</h3>
+<p>A basic augmented scene can be constructed as follows:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">&lt;</span><span class="nt">a-scene</span> <span class="na">encantar</span><span class="o">=</span><span class="s">&quot;stats: true; gizmos: true&quot;</span><span class="p">&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="cm">&lt;!-- Sources of data --&gt;</span>
@@ -2341,10 +2372,9 @@
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
 <a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="p">&lt;/</span><span class="nt">a-scene</span><span class="p">&gt;</span>
 </code></pre></div>
-<p><em>Since:</em> 0.3.0</p>
-<h2 id="basics">Basics</h2>
+<p><a class="_blank" href="../../img/demo-box.gif"><img alt="A box displayed in Augmented Reality" class="responsive" src="../../img/demo-box.gif" /></a></p>
 <h3 id="encantar">encantar</h3>
-<p>The <code>encantar</code> component <em>enchants</em> (augments) <code>&lt;a-scene&gt;</code>, so that it displays content in AR.</p>
+<p>The <code>encantar</code> component <em>enchants</em> <code>&lt;a-scene&gt;</code>, so that it displays content in AR.</p>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>mode: string</code>. The <a href="../session/#mode">session mode</a>. Defaults to <code>"immersive"</code>.</li>
@@ -2481,6 +2511,12 @@
 <a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
 <a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="p">&lt;/</span><span class="nt">a-assets</span><span class="p">&gt;</span>
 </code></pre></div>
+<h3 id="ar-canvas-source">ar-canvas-source</h3>
+<p><code>&lt;ar-canvas-source&gt;</code> sets up a <a href="../canvas-source/">CanvasSource</a>, which is a source of data linked to a <code>&lt;canvas&gt;</code> element. It must be a direct child of <code>&lt;ar-sources&gt;</code>.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>canvas: selector</code>. A selector of a <code>&lt;canvas&gt;</code> element.</li>
+</ul>
 <h3 id="ar-pointer-source">ar-pointer-source</h3>
 <p><code>&lt;ar-pointer-source&gt;</code> sets up a <a href="../pointer-source/">PointerSource</a>, a source of pointer-based input. It must be a direct child of <code>&lt;ar-sources&gt;</code>. See also: <a href="#ar-pointer-tracker">ar-pointer-tracker</a>.</p>
 <p><em>Since:</em> 0.4.0</p>
@@ -2535,6 +2571,10 @@
 <h3 id="ar-pointer-tracker">ar-pointer-tracker</h3>
 <p><code>&lt;ar-pointer-tracker&gt;</code> sets up a <a href="../pointer-tracker/">PointerTracker</a>, which is used to track pointer-based input. It must be a direct child of <code>&lt;ar-trackers&gt;</code>. See also: <a href="#ar-pointer-source">ar-pointer-source</a>, <a href="#pointers">pointers</a>.</p>
 <p><em>Since:</em> 0.4.0</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>space: string</code>. The <a href="../pointer-tracker/#space">space</a> in which pointers will be located. <em>Since:</em> 0.4.1</li>
+</ul>
 <p><strong>Example</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">&lt;</span><span class="nt">ar-trackers</span><span class="p">&gt;</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    ...

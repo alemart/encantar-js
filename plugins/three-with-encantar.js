@@ -6,12 +6,13 @@
 
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
-    'encantar.js': { version: '0.4.0' },
+    'encantar.js': { version: '0.4.1' },
        'three.js': { version: '147' }
 });
 
 /**
  * Base class for Augmented Reality experiences
+ * @abstract
  */
 class ARDemo
 {
@@ -35,7 +36,7 @@ class ARDemo
     }
 
     /**
-     * Animation step
+     * Animation step - called every frame
      * @returns {void}
      */
     update()

@@ -6,12 +6,13 @@
 
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
-    'encantar.js': { version: '0.4.0' },
+    'encantar.js': { version: '0.4.1' },
      'babylon.js': { version: '7.38.0' }
 });
 
 /**
  * Base class for Augmented Reality experiences
+ * @abstract
  */
 class ARDemo
 {
@@ -35,7 +36,7 @@ class ARDemo
     }
 
     /**
-     * Animation step
+     * Animation step - called every frame
      * @returns {void}
      */
     update()
@@ -354,7 +355,7 @@ function encantar(demo)
         ar._camera._customViewMatrix = BABYLON.Matrix.Identity();
         ar._camera._getViewMatrix = function() { return this._customViewMatrix; };
         ar._camera.setViewMatrix = function(matrix) {
-            this._customViewMatrix = matrix;
+            this._customViewMatrix.copyFrom(matrix);
             this.getViewMatrix(true);
             this.getWorldMatrix().decompose(undefined, this._tmpQuaternion, this.position);
             BABYLON.Axis.Y.rotateByQuaternionToRef(this._tmpQuaternion, this.upVector);
