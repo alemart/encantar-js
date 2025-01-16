@@ -44,7 +44,7 @@ export class TutorialOverlay extends GUIControl
 
         text.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
         text.textVerticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-        text.text = 'Swipe to\nshoot';
+        text.text = 'Swipe\nslowly\nto shoot';
         text.color = 'white';
         text.fontFamily = 'sans-serif';
         text.fontStyle = 'bold';
