@@ -149,7 +149,7 @@ export class VideoSource implements Source
         video.setAttribute('playsinline', '');
 
         // handle autoplay
-        return this._handleAutoPlay(video).then(video => {
+        return this._handleAutoPlay(video).finally(() => {
 
             // handle WebKit quirks
             if(Utils.isWebKit()) {
