@@ -1,3 +1,23 @@
+.md-button {
+    border-radius: 100px !important;
+}
+
+img.responsive {
+    width: 100%;
+    height: auto;
+}
+
+.transparent-grid {
+    display: inline-block;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAABlBMVEWZmZlmZmZYfKrVAAAAE0lEQVQI12P4/5+BgZoEA3VNBADtvT/BrQ+bEwAAAABJRU5ErkJggg==);
+    background-repeat: repeat;
+}
+
+.md-typeset video {
+    height: auto;
+    max-width: 100%;
+}
+
 @keyframes heart {
 
     0%, 40%, 80%, 100% {
@@ -12,21 +32,6 @@
 
 .heart {
     animation: heart 1000ms infinite;
-}
-
-.md-button {
-    border-radius: 100px !important;
-}
-
-.transparent-grid {
-    display: inline-block;
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAABlBMVEWZmZlmZmZYfKrVAAAAE0lEQVQI12P4/5+BgZoEA3VNBADtvT/BrQ+bEwAAAABJRU5ErkJggg==);
-    background-repeat: repeat;
-}
-
-.md-typeset video {
-    height: auto;
-    max-width: 100%;
 }
 
 #support-widget {
