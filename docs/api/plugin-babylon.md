@@ -10,7 +10,7 @@ Documentation of the [babylon.js](https://www.babylonjs.com){ ._blank } plugin. 
 
 The following diagram shows, in a simplified manner, the lifecycle of an AR experience. The rectangular blocks represent methods of your [ARDemo](#ardemo). Function [encantar](#encantar) starts the magic.
 
-![Lifecycle of an AR experience](/img/lifecycle-plugin.png)
+![Lifecycle of an AR experience](../img/lifecycle-plugin.png)
 
 !!! tip
 

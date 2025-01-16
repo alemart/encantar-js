@@ -18,7 +18,7 @@ async function startARSession()
         );
     }
 
-    AR.Settings.powerPreference = 'low-power'; // OPTIONAL
+    AR.Settings.powerPreference = 'low-power'; // optional
 
     const tracker = AR.Tracker.Image();
     await tracker.database.add([{

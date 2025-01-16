@@ -8,7 +8,7 @@ Documentation of the [three.js](https://threejs.org){ ._blank } plugin. Study th
 
 The following diagram shows, in a simplified manner, the lifecycle of an AR experience. The rectangular blocks represent methods of your [ARDemo](#ardemo). Function [encantar](#encantar) starts the magic.
 
-![Lifecycle of an AR experience](/img/lifecycle-plugin.png)
+![Lifecycle of an AR experience](../img/lifecycle-plugin.png)
 
 <pre style="display:none">
 mermaid
