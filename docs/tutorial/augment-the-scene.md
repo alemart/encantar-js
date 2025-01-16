@@ -57,6 +57,8 @@ It's easy to construct a basic augmented scene, and no JavaScript is needed for 
 </a-scene>
 ```
 
+[![A box displayed in Augmented Reality](../img/demo-box.gif){ .responsive }](../img/demo-box.gif){ ._blank }
+
 [Tell me more!](../api/plugin-aframe.md){ .md-button ._blank }
 
 ### Babylon.js

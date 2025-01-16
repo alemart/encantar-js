@@ -1,8 +1,14 @@
 # A-Frame plugin
 
-Documentation of the [A-Frame](https://aframe.io){ ._blank } plugin.
+Documentation of the [A-Frame](https://aframe.io){ ._blank } plugin. Study the [demos](../demos.md) for elaborate examples.
 
-We'll get to the details, but a basic augmented scene can be constructed as follows:
+*Since:* 0.3.0
+
+## Basics
+
+### Example
+
+A basic augmented scene can be constructed as follows:
 
 ```html
 <a-scene encantar="stats: true; gizmos: true">
@@ -33,13 +39,11 @@ We'll get to the details, but a basic augmented scene can be constructed as foll
 </a-scene>
 ```
 
-*Since:* 0.3.0
-
-## Basics
+[![A box displayed in Augmented Reality](../img/demo-box.gif){ .responsive }](../img/demo-box.gif){ ._blank }
 
 ### encantar
 
-The `encantar` component *enchants* (augments) `<a-scene>`, so that it displays content in AR.
+The `encantar` component *enchants* `<a-scene>`, so that it displays content in AR.
 
 **Properties**
 
