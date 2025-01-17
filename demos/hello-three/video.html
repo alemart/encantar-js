@@ -5,11 +5,18 @@
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
         <title>encantar.js WebAR demo with three.js</title>
         <link href="../assets/demo.css" rel="stylesheet">
+        <script async crossorigin src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.1/dist/es-module-shims.min.js"></script>
+        <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.147.0/examples/jsm/",
+                "three-with-encantar": "../../plugins/three-with-encantar.js"
+            }
+        }
+        </script>
         <script src="../../dist/encantar.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
-        <script src="../../plugins/three-with-encantar.js"></script>
-        <script src="demo.js"></script>
+        <script type="module" src="demo.js"></script>
     </head>
     <body>
         <div id="ar-viewport">
