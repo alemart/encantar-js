@@ -224,7 +224,7 @@ class EnchantedDemo extends ARDemo
     _initLight()
     {
         const ambientLight = new THREE.AmbientLight(0xffffff);
-        ambientLight.intensity = 1.5;
+        ambientLight.intensity = 1.0 * Math.PI;
 
         const ar = this.ar;
         ar.scene.add(ambientLight);
