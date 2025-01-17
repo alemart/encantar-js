@@ -22,7 +22,7 @@ Next, let's add the reference image to our web page. Add an `<img>` tag to the `
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
         <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
@@ -49,7 +49,7 @@ Once you see that the image is being properly loaded, there is no need to keep i
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
         <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
@@ -87,7 +87,7 @@ Let's include the test video in our page. Add a `<video>` tag as follows:
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
         <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <style>body { background-color: #3d5afe; }</style>
@@ -115,7 +115,7 @@ We'll be writing a little bit of JavaScript code now. In order to keep our code 
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
         <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>

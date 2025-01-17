@@ -50,7 +50,7 @@ Let's also comment (or remove) the `<video>` tag from the HTML file - we no long
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
         <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
@@ -124,7 +124,7 @@ In order to display that scan gimmick, we need to create a HUD (<em>Heads-Up Dis
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1, maximum-scale=1">
         <title>encantar.js WebAR demo</title>
         <script src="encantar.js"></script>
         <script src="ar-demo.js"></script>
