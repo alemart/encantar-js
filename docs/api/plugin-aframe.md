@@ -334,13 +334,18 @@ AFRAME.registerComponent('my-component', {
 
     tick()
     {
-        const ar = this.el.sceneEl.systems.ar;
+        const ar = this.ar;
         const session = ar.session;
 
         // ...
     },
 
     // ...
+
+    get ar()
+    {
+        return this.el.sceneEl.systems.ar;
+    }
 
 });
 ```
