@@ -1,7 +1,8 @@
 {
     "compilerOptions": {
-        "target": "ES6",
-        "module": "ES6",
+        "target": "es2020",
+        "module": "es6",
+        "lib": ["dom", "es2020"],
         "outDir": "./dist/",
         "sourceMap": true,
         "allowJs": true,
@@ -11,6 +12,7 @@
         "skipLibCheck": true,
         "moduleResolution": "node",
         "esModuleInterop": true,
+        "isolatedModules": true,
         "allowSyntheticDefaultImports": true,
         "forceConsistentCasingInFileNames": true,
         "preserveSymlinks": true
