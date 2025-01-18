@@ -3,7 +3,9 @@
  * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
  */
 
-(function() {
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { encantar, ARDemo } from 'three-with-encantar';
 
 /**
  * Utilities for the Demo
@@ -12,7 +14,7 @@ class Utils
 {
     static async loadGLTF(filepath, yAxisIsUp = true)
     {
-        const loader = new THREE.GLTFLoader();
+        const loader = new GLTFLoader();
         const gltf = await loader.loadAsync(filepath);
 
         // glTF defines +y as up. We expect +z to be up (when XY is the ground plane)
@@ -222,7 +224,7 @@ class EnchantedDemo extends ARDemo
     _initLight()
     {
         const ambientLight = new THREE.AmbientLight(0xffffff);
-        ambientLight.intensity = 1.5;
+        ambientLight.intensity = 1.0 * Math.PI;
 
         const ar = this.ar;
         ar.scene.add(ambientLight);
@@ -358,14 +360,9 @@ function main()
 {
     const demo = new EnchantedDemo();
 
-    if(typeof encantar === 'undefined')
-        throw new Error(`Can't find the three.js plugin for encantar.js`);
-
     encantar(demo).catch(error => {
         alert(error.message);
     });
 }
 
 document.addEventListener('DOMContentLoaded', main);
-
-})();

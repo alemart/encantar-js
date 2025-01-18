@@ -4,17 +4,19 @@
  * @license LGPL-3.0-or-later
  */
 
+import * as THREE from 'three';
+
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
     'encantar.js': { version: '0.4.1' },
-       'three.js': { version: '147' }
+       'three.js': { version: '172' }
 });
 
 /**
  * Base class for Augmented Reality experiences
  * @abstract
  */
-class ARDemo
+export class ARDemo
 {
     /**
      * Start the AR session
@@ -238,7 +240,7 @@ class ARSystem
  * @param {ARDemo} demo
  * @returns {Promise<ARSystem>}
  */
-function encantar(demo)
+export function encantar(demo)
 {
     const ar = new ARSystem();
 
@@ -364,8 +366,8 @@ function encantar(demo)
 function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(libs)
 {
     window.addEventListener('load', () => {
-        try { AR, __THREE__;
-            const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'three.js': __THREE__ };
+        try { AR;
+            const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'three.js': THREE.REVISION };
             const check = (x,v,w) => v != w ? console.warn(`\n\n\nWARNING\n\nThis plugin has been tested with ${x} version ${v}. The version in use is ${w}. Usage of ${x} version ${v} is recommended instead.\n\n\n`) : void 0;
             for(const [lib, expected] of Object.entries(libs))
                 check(lib, expected.version, versionOf[lib]);
