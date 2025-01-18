@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.1
+ * encantar.js version 0.4.0
  * GPU-accelerated Augmented Reality for the web
- * Copyright 2022-2025 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
+ * Copyright 2022-2024 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://github.com/alemart/encantar-js
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-01-18T02:07:51.928Z
+ * Date: 2024-12-18T22:52:50.448Z
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -26854,12 +26854,6 @@ class VideoSource {
         this._media = null;
     }
     /**
-     * The underlying <video> element
-     */
-    get video() {
-        return this._video;
-    }
-    /**
      * A type-identifier of the source of data
      * @internal
      */
@@ -26924,7 +26918,7 @@ class VideoSource {
         // required on iOS; nice to have in all browsers
         video.setAttribute('playsinline', '');
         // handle autoplay
-        return this._handleAutoPlay(video).finally(() => {
+        return this._handleAutoPlay(video).then(video => {
             // handle WebKit quirks
             if (Utils.isWebKit()) {
                 // on Epiphany 45, a hidden <video> shows up as a black screen when copied to a canvas
@@ -27169,6 +27163,7 @@ class CameraSource extends VideoSource {
     constructor(options) {
         const video = document.createElement('video');
         super(video);
+        this._cameraVideo = video;
         this._options = Object.assign({}, DEFAULT_CAMERA_OPTIONS, options);
     }
     /**
@@ -27192,12 +27187,12 @@ class CameraSource extends VideoSource {
         const size = Utils.resolution(options.resolution, options.aspectRatio);
         const constraints = {
             audio: false,
-            video: Object.assign({ width: size.width, height: size.height, aspectRatio: options.aspectRatio }, options.constraints)
+            video: Object.assign({ width: size.width, height: size.height }, options.constraints)
         };
         // load camera stream
         return new (speedy_vision_default()).Promise((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-                const video = this.video;
+                const video = this._cameraVideo;
                 video.onloadedmetadata = () => {
                     const promise = video.play();
                     const success = 'Access to the webcam has been granted.';
@@ -27222,7 +27217,7 @@ class CameraSource extends VideoSource {
             }).catch(error => {
                 reject(new AccessDeniedError('Please give access to the webcam and reload the page.', error));
             });
-        }).then(_ => super._init()); // this will handle browser quirks
+        }).then(_ => super._init()); // this will call VideoSource._handleBrowserQuirks()
     }
     /**
      * Release this source of data
@@ -27230,13 +27225,12 @@ class CameraSource extends VideoSource {
      * @internal
      */
     _release() {
-        const video = this.video;
-        const stream = video.srcObject;
+        const stream = this._cameraVideo.srcObject;
         const tracks = stream.getTracks();
         // stop camera feed
         tracks.forEach(track => track.stop());
-        video.onloadedmetadata = null;
-        video.srcObject = null;
+        this._cameraVideo.onloadedmetadata = null;
+        this._cameraVideo.srcObject = null;
         // release the media
         return super._release();
     }
@@ -28497,7 +28491,7 @@ class AR {
         if (false)
             {}
         else
-            return "0.4.1";
+            return "0.4.0";
     }
     /**
      * Speedy Vision
