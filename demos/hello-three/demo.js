@@ -365,4 +365,7 @@ function main()
     });
 }
 
-document.addEventListener('DOMContentLoaded', main);
+if(document.readyState == 'loading')
+    document.addEventListener('DOMContentLoaded', main);
+else
+    main(); // XXX es-module-shims
