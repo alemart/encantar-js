@@ -129,10 +129,9 @@ export class PointerSource implements Source
             this._viewport.hud.container.style.pointerEvents = 'none';
 
             // Make HUD elements accept pointer events
-            for(const element of this._viewport.hud.container.children) {
-                const el = element as HTMLElement;
-                if(el.style.getPropertyValue('pointer-events') == '')
-                    el.style.pointerEvents = 'auto';
+            for(const element of this._viewport.hud.container.children as any as HTMLElement[]) {
+                if(element.style.getPropertyValue('pointer-events') == '')
+                    element.style.pointerEvents = 'auto';
             }
         }
     }
