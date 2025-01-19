@@ -1,6 +1,6 @@
 # Welcome to encantar.js!
 
-![GitHub release](https://img.shields.io/github/v/release/alemart/encantar-js) ![GitHub file size](https://img.shields.io/github/size/alemart/encantar-js/dist/encantar.min.js?branch=master&label=minified%20js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
+![GitHub release](https://img.shields.io/github/v/release/alemart/encantar-js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
 
 The Augmented Reality engine that will enchant you!
 
