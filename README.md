@@ -1,7 +1,5 @@
 # encantar.js WebAR engine
 
-![GitHub release](https://img.shields.io/github/v/release/alemart/encantar-js) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart/)
-
 The Augmented Reality engine that will enchant you!
 
 :heart: Support this work by [purchasing your copy](https://ko-fi.com/s/3ee4182cb6) or by [becoming a sponsor](https://github.com/sponsors/alemart).
