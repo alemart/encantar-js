@@ -20,7 +20,7 @@ Session.vim
 
 # mine
 node_modules/*
-dist/*.map
+www/
 site/
 docs/__pycache__/*
 demos/**/*.blend1
