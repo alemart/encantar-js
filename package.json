@@ -31,9 +31,11 @@
   "scripts": {
     "start": "node esbuild.mjs --dev --minify --serve",
     "build": "tsc --noEmit && npm run clean && node esbuild.mjs && node esbuild.mjs --minify",
-    "clean": "rm -rf www/dist/*.*",
+    "build-dev": "tsc --noEmit && npm run clean && node esbuild.mjs --dev && node esbuild.mjs --dev --minify",
     "update": "npm update speedy-vision",
-    "deploy": "npm run build && mkdocs gh-deploy",
+    "deploy": "mkdocs gh-deploy",
+    "docs": "mkdocs serve",
+    "clean": "rm -rf www/dist/*.*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
