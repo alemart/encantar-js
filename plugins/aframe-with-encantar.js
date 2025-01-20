@@ -488,6 +488,7 @@ AFRAME.registerComponent('encantar', ARComponent({
     init()
     {
         this._started = false;
+        this.el.setAttribute('xr-mode-ui', { enabled: false });
     },
 
     play()
