@@ -1,8 +1,9 @@
 import * as esbuild from 'esbuild';
+import path from 'path';
 import { readFile } from 'fs/promises';
 
 const argv = process.argv.slice(2);
-const json = await readFile(new URL('package.json', import.meta.url));
+const json = await readFile(new URL('./package.json', import.meta.url), { encoding: 'utf8' });
 const pack = JSON.parse(json);
 const production = (argv.indexOf('--dev') < 0);
 const minify = (argv.indexOf('--minify') >= 0);
@@ -44,6 +45,8 @@ await ctx.serve({
     host: '0.0.0.0',
     port: 8000,
     servedir: 'www',
+    keyfile: path.join(import.meta.dirname, 'local-server.key'),
+    certfile: path.join(import.meta.dirname, 'local-server.cert'),
 });
 
 function generateBanner()
