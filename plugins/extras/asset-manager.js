@@ -1,4 +1,4 @@
-/**
+/*!
  * An Asset Manager for AR
  * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
  * @license LGPL-3.0-or-later
