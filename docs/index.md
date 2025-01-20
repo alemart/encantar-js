@@ -4,9 +4,9 @@ The Augmented Reality engine that will enchant you!
 
 :heart:{ .heart } Support this work by [purchasing your copy](https://ko-fi.com/s/3ee4182cb6) or by [becoming a sponsor](https://github.com/sponsors/alemart).
 
-[:star2: Try it!](./demos/hello-three/poster.html){ .md-button ._blank } [:video_game: Play a game!](./demos/basketball/poster.html){ .md-button ._blank } [:sparkles: Demos](./demos.md){ .md-button ._blank } [:books: Learn](./tutorial/introduction.md){ .md-button }
+[:star2: Try it!](./demos/hello-aframe/poster.html){ .md-button ._blank } [:video_game: Play a game!](./demos/basketball/poster.html){ .md-button ._blank } [:sparkles: Demos](./demos.md){ .md-button ._blank } [:books: Learn](./tutorial/introduction.md){ .md-button }
 
-[![Demo](./img/mage.gif)](./demos/hello-three/poster.html){ ._blank } [![Game](./img/basketball.gif)](./demos/basketball/poster.html){ ._blank }
+[![Demo](./img/mage.gif)](./demos/hello-aframe/poster.html){ ._blank } [![Game](./img/basketball.gif)](./demos/basketball/poster.html){ ._blank }
 
 ## Features
 
