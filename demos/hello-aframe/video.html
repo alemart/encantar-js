@@ -82,14 +82,14 @@
             <!-- A 3D camera adapted for AR -->
             <ar-camera></ar-camera>
 
+            <!-- Light -->
+            <a-light type="ambient" intensity="1.0"></a-light>
+
             <!-- The mage -->
             <ar-root reference-image="mage">
 
                 <!-- Switch from top view to front view -->
                 <a-entity rotation="-90 0 0" position="0 -0.8 0">
-
-                    <!-- Light -->
-                    <a-light type="ambient" intensity="1.0"></a-light>
 
                     <!-- 3D model -->
                     <a-entity
@@ -110,8 +110,6 @@
             <!-- The cat -->
             <ar-root reference-image="cat">
                 <a-entity rotation="-90 0 0" position="0 -0.8 0">
-                    <a-light type="ambient" intensity="1.0"></a-light>
-
                     <a-entity
                         gltf-model="#cat-model" gltf-anim="clip: Cheer"
                         rotation="90 0 0" scale="0.7 0.7 0.7">
