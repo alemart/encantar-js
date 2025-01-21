@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-01-19T02:33:21.067Z
+ * Date: 2025-01-21T00:22:15.366Z
 */
 var AR = (() => {
   var __create = Object.create;
