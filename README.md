@@ -2,7 +2,7 @@
 
 The Augmented Reality engine that will enchant you!
 
-:heart: Support this work by [purchasing your copy](https://ko-fi.com/s/3ee4182cb6) or by [becoming a sponsor](https://github.com/sponsors/alemart).
+:heart: encantar.js is an Augmented Reality technology which I develop independently. Support this work by [purchasing your copy](https://ko-fi.com/s/3ee4182cb6). You can also [become a sponsor](https://github.com/sponsors/alemart).
 
 :star2: **[Try it!](https://encantar.dev/demos/hello-aframe/poster.html)** | :video_game: **[Play a game!](https://encantar.dev/demos/basketball/poster.html)** | :magic_wand: **[Demos](https://encantar.dev/demos/)** | :books: **[Learn](https://encantar.dev/)**
 

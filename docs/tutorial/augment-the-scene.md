@@ -26,7 +26,7 @@ Let me tell you more about the 3D rendering technologies I just mentioned.
 
 A-Frame is built on top of [Three.js](#threejs) and extends it in powerful ways. It introduces a HTML-based declarative approach for [scene graphs](https://en.wikipedia.org/wiki/Scene_graph){ ._blank }, empowering them with the [Entity-Component-System](https://en.wikipedia.org/wiki/Entity_component_system){ ._blank }, a software pattern commonly used in game development. A-Frame is easy for beginners and pleasing for experts. In many cases, writing JavaScript code is not needed.
 
-It's easy to construct a basic augmented scene, and no JavaScript is needed for that:
+See how easy it is to construct a basic augmented scene:
 
 ```html
 <a-scene encantar="stats: true; gizmos: true">
@@ -57,7 +57,7 @@ It's easy to construct a basic augmented scene, and no JavaScript is needed for 
 </a-scene>
 ```
 
-[![A box displayed in Augmented Reality](../img/demo-box.gif){ .responsive }](../img/demo-box.gif){ ._blank }
+![A box displayed in Augmented Reality](../img/demo-box.gif){ .responsive }
 
 [Tell me more!](../api/plugin-aframe.md){ .md-button ._blank }
 

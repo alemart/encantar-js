@@ -39,7 +39,7 @@ A basic augmented scene can be constructed as follows:
 </a-scene>
 ```
 
-[![A box displayed in Augmented Reality](../img/demo-box.gif){ .responsive }](../img/demo-box.gif){ ._blank }
+![A box displayed in Augmented Reality](../img/demo-box.gif){ .responsive }
 
 ### encantar
 
