@@ -1,5 +1,13 @@
 # Release notes
 
+## 0.4.1 - January 20th, 2025
+
+* Documented the plugins in Markdown
+* Moved the project to esbuild
+* Updated the A-Frame and the three.js plugins
+* Updated the documentation
+* Made small changes to the code
+
 ## 0.4.0 - December 21st, 2024
 
 * Introduced the Pointer Tracker
