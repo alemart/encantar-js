@@ -5,7 +5,7 @@ import { readFile } from 'fs/promises';
 const argv = process.argv.slice(2);
 const json = await readFile(new URL('./package.json', import.meta.url), { encoding: 'utf8' });
 const pack = JSON.parse(json);
-const production = (argv.indexOf('--dev') < 0);
+const production = (pack.version.indexOf('-dev') < 0);
 const minify = (argv.indexOf('--minify') >= 0);
 const serve = (argv.indexOf('--serve') >= 0);
 
@@ -23,7 +23,6 @@ const options = {
     globalName: 'AR',
     define: {
         __AR_VERSION__: JSON.stringify(pack.version),
-        __AR_DEVELOPMENT_MODE__: String(!production),
         __AR_WEBSITE__: JSON.stringify(pack.homepage),
     },
     legalComments: 'inline',

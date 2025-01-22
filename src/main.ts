@@ -32,7 +32,6 @@ import { Vector3 } from './geometry/vector3';
 import { Utils } from './utils/utils';
 
 declare const __AR_VERSION__: string;
-declare const __AR_DEVELOPMENT_MODE__: string;
 declare const __AR_WEBSITE__: string;
 
 /**
@@ -64,10 +63,7 @@ export default class AR
      */
     static get version(): string
     {
-        if(__AR_DEVELOPMENT_MODE__)
-            return __AR_VERSION__ + '-dev';
-        else
-            return __AR_VERSION__;
+        return __AR_VERSION__;
     }
 
     /**
