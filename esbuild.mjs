@@ -14,7 +14,7 @@ const options = {
     stdin: {
         contents: 'import AR from "./main.ts";\nmodule.exports = AR;',
         resolveDir: 'src',
-        sourcefile: '__main.ts',
+        sourcefile: 'index.ts',
     },
     bundle: true,
     minify: minify,
