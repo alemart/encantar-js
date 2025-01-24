@@ -44,8 +44,8 @@ await ctx.serve({
     host: '0.0.0.0',
     port: 8000,
     servedir: 'www',
-    keyfile: path.join(import.meta.dirname, 'local-server.key'),
-    certfile: path.join(import.meta.dirname, 'local-server.cert'),
+    keyfile: path.join(import.meta.dirname, '.local-server.key'),
+    certfile: path.join(import.meta.dirname, '.local-server.cert'),
 });
 
 function generateBanner()

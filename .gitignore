@@ -21,8 +21,8 @@ Session.vim
 # mine
 node_modules/*
 www/
-local-server.cert
-local-server.key
+.local-server.cert
+.local-server.key
 site/
 docs/__pycache__/*
 demos/**/*.blend1
