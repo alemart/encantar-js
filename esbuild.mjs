@@ -10,9 +10,9 @@ const minify = (argv.indexOf('--minify') >= 0);
 const serve = (argv.indexOf('--serve') >= 0);
 
 const options = {
-    //entryPoints: ['src/main.ts'], // AR.default
+    //entryPoints: ['src/main.ts'], // AR.AR
     stdin: {
-        contents: 'import AR from "./main.ts";\nmodule.exports = AR;',
+        contents: 'import { AR } from "./main.ts";\nmodule.exports = AR;',
         resolveDir: 'src',
         sourcefile: 'index.ts',
     },

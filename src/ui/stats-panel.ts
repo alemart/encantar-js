@@ -26,7 +26,7 @@ import { Viewport } from '../core/viewport';
 import { Tracker } from '../trackers/tracker';
 import { Source } from '../sources/source';
 import { Nullable } from '../utils/utils';
-import AR from '../main';
+import { AR } from '../main';
 
 
 /** Update interval, in ms */

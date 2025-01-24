@@ -37,7 +37,7 @@ declare const __AR_WEBSITE__: string;
 /**
  * GPU-accelerated Augmented Reality for the web
  */
-export default class AR
+export class AR
 {
     /**
      * Start a new session

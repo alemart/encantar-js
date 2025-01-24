@@ -20,7 +20,7 @@
  * Viewport
  */
 
-import AR from '../main';
+import { AR } from '../main';
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
