@@ -5,7 +5,7 @@ import { readFile } from 'fs/promises';
 const argv = process.argv.slice(2);
 const json = await readFile(new URL('./package.json', import.meta.url), { encoding: 'utf8' });
 const pack = JSON.parse(json);
-const production = (pack.version.indexOf('-dev') < 0);
+const production = !pack.version.endsWith('-dev');
 const minify = (argv.indexOf('--minify') >= 0);
 const serve = (argv.indexOf('--serve') >= 0);
 
