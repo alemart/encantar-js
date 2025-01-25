@@ -135,9 +135,16 @@ export class CameraSource extends VideoSource
                         ));
                     });
                 };
-                video.setAttribute('playsinline', '');
-                video.setAttribute('autoplay', '');
+
                 video.setAttribute('muted', '');
+                video.muted = true; // browser quirks?
+
+                video.setAttribute('playsinline', '');
+                video.playsInline = true;
+
+                video.setAttribute('autoplay', '');
+                video.autoplay = true;
+
                 video.srcObject = stream;
             }).catch(error => {
                 reject(new AccessDeniedError(
