@@ -30,7 +30,7 @@
                 <ar-camera-source></ar-camera-source>
                 -->
 
-                <!-- Use a video element (see <a-assets>) -->
+                <!-- Use a video element -->
                 <ar-video-source video="#my-video"></ar-video-source>
 
             </ar-sources>
@@ -134,12 +134,15 @@
                 <a-asset-item id="mage-model" src="../assets/mage.glb"></a-asset-item>
                 <img id="magic-circle" src="../assets/magic-circle.png">
                 <img id="it-works" src="../assets/it-works.png">
-                <video id="my-video" hidden muted loop playsinline autoplay>
-                    <source src="../assets/my-video.webm" type="video/webm" />
-                    <source src="../assets/my-video.mp4" type="video/mp4" />
-                </video>
             </a-assets>
 
         </a-scene>
+
+        <!-- Feed the Image Tracker with this video -->
+        <video id="my-video" hidden muted loop playsinline autoplay>
+            <source src="../assets/my-video.webm" type="video/webm" />
+            <source src="../assets/my-video.mp4" type="video/mp4" />
+        </video>
+
     </body>
 </html>
