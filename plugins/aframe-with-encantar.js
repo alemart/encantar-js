@@ -183,7 +183,8 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
         }
 
         // initial setup
-        scene.setAttribute('vr-mode-ui', { enabled: false });
+        scene.setAttribute('xr-mode-ui', { enabled: false });
+        scene.setAttribute('vr-mode-ui', { enabled: false }); // deprecated
         scene.setAttribute('embedded', true);
         scene.setAttribute('renderer', { alpha: true });
 
@@ -488,7 +489,6 @@ AFRAME.registerComponent('encantar', ARComponent({
     init()
     {
         this._started = false;
-        this.el.setAttribute('xr-mode-ui', { enabled: false });
     },
 
     play()
