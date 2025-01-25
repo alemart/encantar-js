@@ -280,6 +280,9 @@ export class Quaternion
 
         (expand h q* = (x_h i + y_h j + z_h k + w_h) (-x i - y j - z k + w) to see)
 
+        Note that matrices L_q and R_h* have orthogonal columns / rows and are
+        symmetric. Additionally, L_q' = L_q* and R_q' = R_q* (note the symmetry)
+
         ---
 
         Although quaternion multiplication is not commutative, it is associative,
