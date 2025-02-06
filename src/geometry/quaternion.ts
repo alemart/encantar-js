@@ -304,14 +304,14 @@ export class Quaternion
 
         */
 
-        const x2 = x*x, y2 = y*y, z2 = z*z;//, w2 = w*w;
+        const x2 = 2*x*x, y2 = 2*y*y, z2 = 2*z*z;
         const xy = 2*x*y, xz = 2*x*z, yz = 2*y*z;
         const wx = 2*w*x, wy = 2*w*y, wz = 2*w*z;
 
         return Speedy.Matrix(3, 3, [
-            1-2*(y2+z2), xy+wz, xz-wy,
-            xy-wz, 1-2*(x2+z2), yz+wx,
-            xz+wy, yz-wx, 1-2*(x2+y2)
+            1-(y2+z2), xy+wz, xz-wy,
+            xy-wz, 1-(x2+z2), yz+wx,
+            xz+wy, yz-wx, 1-(x2+y2)
         ]);
     }
 
