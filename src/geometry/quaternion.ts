@@ -23,6 +23,7 @@
 import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
 import { IllegalArgumentError } from '../utils/errors';
+import { Vector3 } from './vector3';
 
 /** Small number */
 const EPSILON = 1e-6;
@@ -72,6 +73,31 @@ export class Quaternion
     static Identity(): Quaternion
     {
         return new Quaternion(0, 0, 0, 1);
+    }
+
+    /**
+     * Create a unit quaternion from an axis-angle representation of a rotation
+     * @param axis non-zero
+     * @param angle in radians
+     * @returns a new quaternion
+     */
+    static FromAxisAngle(axis: Vector3, angle: number): Quaternion
+    {
+        // sanity check
+        if(axis.dot(axis) < EPSILON * EPSILON)
+            return Quaternion.Identity();
+
+        // create the quaternion
+        const sin = Math.sin(angle / 2);
+        const cos = Math.cos(angle / 2);
+        const r = axis.normalized();
+
+        const x = r.x * sin;
+        const y = r.y * sin;
+        const z = r.z * sin;
+        const w = cos;
+
+        return new Quaternion(x, y, z, w);
     }
 
     /**
