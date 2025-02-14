@@ -178,17 +178,13 @@ export class Session extends AREventTarget<SessionEventType>
         else
             this._viewport._init(() => Utils.resolution('sm', window.innerWidth / window.innerHeight), mode);
 
-        // setup the main loop
-        this._setupUpdateLoop();
-        this._setupRenderLoop();
-
         // setup the stats panel
         this._statsPanel = new StatsPanel(this._viewport);
         this._statsPanel.visible = stats;
 
         // done!
         Session._count++;
-        Utils.log(`The ${mode} session is now active!`);
+        Utils.log(`The ${this._mode} session is now active!`);
     }
 
     /**
@@ -330,7 +326,7 @@ export class Session extends AREventTarget<SessionEventType>
 
         }).then(session => {
 
-            // validate trackers
+            // validate the trackers
             if(trackers.length == 0)
                 Utils.warning(`No trackers have been attached to the session!`);
 
@@ -339,10 +335,16 @@ export class Session extends AREventTarget<SessionEventType>
                     throw new IllegalArgumentError(`Found repeated trackers`);
             }
 
-            // attach trackers and return the session
+            // attach the trackers
             return Speedy.Promise.all(
                 trackers.map(tracker => session._attachTracker(tracker))
-            ).then(() => session).catch(err => { throw err; });
+            ).then(() => session);
+
+        }).then(session => {
+
+            // start the main loop and return the session
+            session._startMainLoop();
+            return session;
 
         }).catch(err => {
 
@@ -502,6 +504,17 @@ export class Session extends AREventTarget<SessionEventType>
     }
 
     /**
+     * Start the main loop
+     */
+    private _startMainLoop(): void
+    {
+        this._setupUpdateLoop();
+        this._setupRenderLoop();
+
+        Utils.log('The main loop has been started!');
+    }
+
+    /**
      * Find the primary source of data (generally a camera stream)
      * @param sources
      * @returns the primary source, or null if there isn't any
@@ -597,12 +610,12 @@ export class Session extends AREventTarget<SessionEventType>
     private _setupUpdateLoop(): void
     {
         const scheduleNextFrame = () => {
-            if(this._active) {
-                if(Settings.powerPreference == 'high-performance')
-                    asap(repeat);
-                else
-                    window.requestAnimationFrame(repeat);
-            }
+            if(!this._active)
+                return;
+            else if(Settings.powerPreference == 'high-performance')
+                asap(repeat);
+            else
+                window.requestAnimationFrame(repeat);
         };
         
         const update = () => {
@@ -675,7 +688,7 @@ export class Session extends AREventTarget<SessionEventType>
 
             // skip frames
             if(!enableFrameSkipping || !(skip = !skip))
-                this._render(timestamp, false);
+                this._render(timestamp);
                 //this._render(timestamp, !enableFrameSkipping && !highPerformance && (toggle = !toggle));
 
             // repeat
@@ -691,7 +704,7 @@ export class Session extends AREventTarget<SessionEventType>
      * @param time current time, in ms
      * @param skipUserMedia skip copying the pixels of the user media to the background canvas in order to reduce the processing load (video stream is probably at 30fps?)
      */
-    private _render(time: DOMHighResTimeStamp, skipUserMedia: boolean): void
+    private _render(time: DOMHighResTimeStamp, skipUserMedia: boolean = false): void
     {
         // is the session active?
         if(this._active) {
