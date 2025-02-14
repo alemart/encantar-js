@@ -79,9 +79,9 @@ export class Utils
     }
 
     /**
-     * Returns a range [0, 1, ..., n-1]
+     * Generate the range [0, 1, ..., n-1]
      * @param n non-negative integer
-     * @returns range from 0 to n-1, inclusive
+     * @returns range from 0 to n-1, inclusive, as a new array
      */
     static range(n: number): number[]
     {
@@ -89,6 +89,24 @@ export class Utils
             throw new IllegalArgumentError();
 
         return Array.from({ length: n }, (_, i) => i);
+    }
+
+    /**
+     * Shuffle an array
+     * @param arr array to be shuffled in-place
+     * @returns shuffled arr
+     */
+    static shuffle<T>(arr: T[]): T[]
+    {
+        // Fisher-Yattes shuffle
+        for(let i = arr.length - 1; i >= 1; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // 0 <= j <= i
+            const tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+        }
+
+        return arr;
     }
 
     /**
