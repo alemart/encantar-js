@@ -260,6 +260,15 @@ export class CameraModel
     }
 
     /**
+     * Camera intrinsics matrix
+     * @returns a 3x3 camera intrinsics matrix
+     */
+    intrinsicsMatrix(): SpeedyMatrix
+    {
+        return Speedy.Matrix(3, 3, this._intrinsics);
+    }
+
+    /**
      * Compute the view matrix. This 4x4 matrix moves 3D points from
      * world space to view space. We want the camera looking in the
      * direction of the negative z-axis (WebGL-friendly)
