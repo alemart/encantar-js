@@ -968,6 +968,7 @@ AFRAME.registerComponent('ar-reference-image', ARComponent({
             throw new Error('Unspecified src attribute of ar-reference-image');
 
         const img = new Image();
+        img.crossOrigin = 'anonymous';
         img.src = this.data.src;
 
         return {
