@@ -1330,87 +1330,16 @@ function findNormalVector(u: TinyMatrix[], v: TinyMatrix[], n: number): TinyMatr
     const j = Math.floor((n-1) * 2 / 3);
     const k = n-1;
 
-    const u0 = u[o], ui = u[i], uj = u[j], uk = u[k];
-    const v0 = v[o], vi = v[i], vj = v[j], vk = v[k];
-
-    /*
-    DEBUG && print({
-        unprojectedPoints: {
-            u: { u0, ui, uj, uk },
-            v: { v0, vi, vj, vk },
-            phi_0i: angle(v0, vi),
-            phi_0j: angle(v0, vj),
-            phi_0k: angle(v0, vk),
-        }
-    });
-    */
-
-    // let wa be ua - u0 for a in { i, j, k }
-    sub(wi, ui, u0);
-    sub(wj, uj, u0);
-    sub(wk, uk, u0);
-
-    /*
-    DEBUG && print({
-        planeBasis: {
-            wi, wj, wk,
-        }
-    });
-    */
-
-    // find (ai, aj) such that wk = ai wi + aj wj
-    const det2 = wi[0] * wj[1] - wi[1] * wj[0];
-    if(Math.abs(det2) < 1e-6) // wi and wj are colinear
-        return vec3(Number.NaN);
-
-    const ai = (wj[1] * wk[0] - wj[0] * wk[1]) / det2;
-    const aj = (wi[0] * wk[1] - wi[1] * wk[0]) / det2;
-
-    /*
-    DEBUG && print({
-        planePair: {
-            det2,
-            ai, aj,
-        }
-    });
-    */
-
-    // solve Ax = b for x = [ si/s0  sj/s0  sk/s0 ]'
-    const bm = ai + aj - 1;
-
-    _b[0] = bm * v0[0];
-    _b[1] = bm * v0[1];
-    _b[2] = bm * v0[2];
-
-    _A[0] = ai * vi[0],
-    _A[1] = ai * vi[1],
-    _A[2] = ai * vi[2],
-    _A[3] = aj * vj[0],
-    _A[4] = aj * vj[1],
-    _A[5] = aj * vj[2],
-    _A[6] = -vk[0],
-    _A[7] = -vk[1],
-    _A[8] = -vk[2]
-
-    /*
-    DEBUG && print({
-        findRatios: {
-            _A,
-            detA: determinant(_A),
-            _b
-        }
-    });
-    */
-
-    inverse(_invA, _A);
-    mul(_x, _invA, _b);
-    if(Number.isNaN(_x[0]))
+    // find the ratios si/s0, sj/s0 and sk/s0
+    const ratios = findRatios(u, v, n, o, i, j, k);
+    if(Number.isNaN(ratios[0]))
         return vec3(Number.NaN);
 
     // compute a normal vector
-    scale(ri, vi, _x[0]);
+    const v0 = v[o], vi = v[i], vj = v[j];
+    scale(ri, vi, ratios[0]);
     sub(ri, ri, v0);
-    scale(rj, vj, _x[1]);
+    scale(rj, vj, ratios[1]);
     sub(rj, rj, v0);
     normalize(nvec, cross(nvec, ri, rj));
 
@@ -1424,6 +1353,7 @@ function findNormalVector(u: TinyMatrix[], v: TinyMatrix[], n: number): TinyMatr
     });
     */
 
+    // done!
     return nvec;
 }
 
