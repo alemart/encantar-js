@@ -430,6 +430,7 @@ as I explained earlier. Now we've found (R,t) with a quick analytic solution!
 
 import Speedy from 'speedy-vision';
 import { SpeedyMatrix } from 'speedy-vision/types/core/speedy-matrix';
+import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Utils, Nullable } from '../utils/utils';
 import { IllegalArgumentError } from '../utils/errors';
 
@@ -502,13 +503,27 @@ export interface solvePlanarPnPRansacOptions
     mask?: Nullable<SpeedyMatrix>;
 }
 
+/** Options for find6DoFHomography() */
+export interface find6DoFHomographyOptions extends solvePlanarPnPRansacOptions
+{
+    /** quality of the refinement: a value in [0,1] */
+    refinementQuality?: number;
+}
+
 /** Default options for the RANSAC scheme */
 const DEFAULT_RANSAC_OPTIONS: Required<solvePlanarPnPRansacOptions> = {
-    numberOfHypotheses: 512,
+    numberOfHypotheses: 100,
     reprojectionError: 3,
     acceptablePercentageOfInliers: Number.POSITIVE_INFINITY, // never exit early
     mask: null,
 };
+
+/** Default options for find6DoFHomography() */
+const DEFAULT_FIND6DOFHOMOGRAPHY_OPTIONS: Required<find6DoFHomographyOptions> = Object.assign(
+    {}, DEFAULT_RANSAC_OPTIONS, {
+        refinementQuality: 1.0
+    }
+);
 
 
 
@@ -960,26 +975,70 @@ export function solvePlanarPnPRansac(referencePoints: SpeedyMatrix, observedPoin
  * @param referencePoints 2 x n matrix with reference points in a plane parallel to the image plane (Z = z0 > 0)
  * @param observedPoints 2 x n matrix with the observed points corresponding to the reference points
  * @param cameraIntrinsics 3x3 matrix
- * @param options RANSAC options
+ * @param options options
  * @returns 3x3 homography matrix or a matrix of NaNs if no suitable homography is found
  */
-export function find6DoFHomography(referencePoints: SpeedyMatrix, observedPoints: SpeedyMatrix, cameraIntrinsics: SpeedyMatrix, options: solvePlanarPnPRansacOptions = {}): SpeedyMatrix
+export function find6DoFHomography(referencePoints: SpeedyMatrix, observedPoints: SpeedyMatrix, cameraIntrinsics: SpeedyMatrix, options: find6DoFHomographyOptions = {}): SpeedyPromise<SpeedyMatrix>
 {
-    const extrinsics = solvePlanarPnPRansac(referencePoints, observedPoints, cameraIntrinsics, options);
-    const homography = buildHomography(cameraIntrinsics, extrinsics);
-    const entries = Array.from<number>(homography);
+    const n = referencePoints.columns;
+    const settings = Object.assign({}, DEFAULT_FIND6DOFHOMOGRAPHY_OPTIONS, options);
+    const refinementQuality = Math.max(0, Math.min(settings.refinementQuality, 1));
+    const reprojectionError = settings.reprojectionError;
+    const mask = settings.mask;
+
+    // validate
+    if(n < 4)
+        return Speedy.Promise.reject(new IllegalArgumentError('find6DofHomography() requires at least 4 points'));
+    else if(referencePoints.columns != observedPoints.columns || referencePoints.rows != 2 || observedPoints.rows != 2)
+        return Speedy.Promise.reject(new IllegalArgumentError('Bad input'));
+    else if(cameraIntrinsics.columns != 3 || cameraIntrinsics.rows != 3)
+        return Speedy.Promise.reject(new IllegalArgumentError('Bad intrinsics'));
+
+    // find a pose. 6DoF: 3 for rotation + 3 for translation
+    const pose = solvePlanarPnPRansac(referencePoints, observedPoints, cameraIntrinsics, options);
 
     /*
     DEBUG && print({
         find6DoFHomography: {
-            R: extrinsics.block(0, 2, 0, 2).toString(),
-            t: extrinsics.block(0, 2, 3, 3).toString(),
-            //q: new Quaternion()._fromRotationMatrix(extrinsics.block(0, 2, 0, 2)).toString(),
+            R: pose.block(0, 2, 0, 2).toString(),
+            t: pose.block(0, 2, 3, 3).toString(),
+            //q: new Quaternion()._fromRotationMatrix(pose.block(0, 2, 0, 2)).toString(),
         }
     });
     */
 
-    return Speedy.Matrix(3, 3, entries);
+    // build an initial homography
+    const hom = buildHomography(cameraIntrinsics, pose);
+    const entries = Array.from<number>(hom);
+    const homography = Speedy.Matrix(3, 3, entries);
+
+    // quit without refinement (for testing purposes)
+    // we can expect a coarse estimate of the camera intrinsics
+    if(refinementQuality == 0 || Number.isNaN(entries[0]))
+        return Speedy.Promise.resolve(homography);
+
+    // refine the homography with DLT + RANSAC
+    const src = referencePoints, dest = observedPoints;
+    const intermediate = Speedy.Matrix.Zeros(2, n);
+
+    return Speedy.Matrix.applyPerspectiveTransform(intermediate, src, homography)
+    .then(intermediate =>
+        Speedy.Matrix.findHomography(
+            Speedy.Matrix.Zeros(3),
+            intermediate,
+            dest,
+            {
+                method: 'pransac',
+                numberOfHypotheses: Math.ceil(512 * refinementQuality), // XXX we can reduce this number without compromising quality
+                bundleSize: Math.ceil(128 * refinementQuality),
+                reprojectionError: reprojectionError,
+                mask,
+            }
+        )
+    )
+    .then(adjustment =>
+        adjustment.setTo(adjustment.times(homography))
+    );
 }
 
 /*
