@@ -67,6 +67,9 @@ const USE_TURBO = true;
 /** Number of PBOs; meaningful only when using turbo */
 const NUMBER_OF_PBOS = 2;
 
+/** Motion model */
+const NO_MOTION = Speedy.Matrix.Eye(3);
+
 
 
 /**
@@ -298,22 +301,25 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // find motion models
             const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
             return Speedy.Promise.all<SpeedyMatrixExpr>([
-                this._findAffineMotionNDC(points),
-                this._findPerspectiveMotionNDC(points)
+                //this._findAffineMotionNDC(points),
+                //this._findPerspectiveMotionNDC(points),
+                this._find6DoFPerspectiveMotionNDC(points),
+                Speedy.Promise.resolve(NO_MOTION),
             ]);
 
         })
-        .then(([affineMotion, perspectiveMotion]) => {
+        .then(([warpMotion, poseMotion]) => {
 
             const lowPower = (Settings.powerPreference == 'low-power');
             const delay = NUMBER_OF_PBOS * (!lowPower ? 2 : 1);
 
             // update warp homography
             if(!USE_TURBO || this._counter % delay == 1) // skip the first frame (PBOs)
-                this._warpHomography.setToSync(affineMotion.times(this._warpHomography));
+                this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
 
             // update pose homography
-            this._poseHomography.setToSync(perspectiveMotion.times(this._warpHomography));
+            //poseMotion = warpMotion; // commented: reduce jitter, increase delay
+            this._poseHomography.setToSync(poseMotion.times(this._warpHomography));
             if(Number.isNaN(this._poseHomography.at(0,0)))
                 throw new NumericalError('Bad homography'); // normalize? 1 / h33
 
@@ -324,8 +330,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // test
             console.log("POSE ", this._poseHomography.toString());
             console.log("WARP ", this._warpHomography.toString());
-            console.log("AMOT ", Speedy.Matrix(affineMotion).toString());
-            console.log("PMOT ", Speedy.Matrix(perspectiveMotion).toString());
+            console.log("AMOT ", Speedy.Matrix(warpMotion).toString());
+            console.log("PMOT ", Speedy.Matrix(poseMotion).toString());
             */
 
             // We transform the keypoints of the reference image to NDC as a
@@ -455,6 +461,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
         Note: work with a 6 DoF perspective transform instead of 8.
 
+        Edit: now we have find6DoFHomography()
+
         */
 
         return ImageTrackerUtils.findAffineWarpNDC(points, {
@@ -498,7 +506,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             numberOfHypotheses: 512*2,
             bundleSize: 128,//128*4,
             mask: undefined // score is not needed
-        }).then(([ warp, score ]) => {
+        })
+        .then(([ warp, score ]) => {
 
             const scale = TRACK_RECTIFIED_SCALE;
             const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage!);
@@ -507,6 +516,43 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             const scaledWarp = grow.times(warp).times(shrink);
 
             const distort = this._poseHomography;
+            const undistort = distort.inverse();
+            const correctedWarp = distort.times(scaledWarp).times(undistort);
+
+            return correctedWarp;
+
+        }).catch(err => {
+
+            throw new TrackingError(`Can't find a perspective motion`, err);
+
+        });
+    }
+
+    /**
+     * Find a 6 DoF perspective motion model in NDC between pairs of keypoints in NDC
+     * given as a 2 x 2n [ src | dest ] matrix
+     * @param points compiled pairs of keypoints in NDC
+     * @returns a promise that resolves to a 3x3 warp in NDC that maps source to destination
+     */
+    private _find6DoFPerspectiveMotionNDC(points: SpeedyMatrix): SpeedyPromise<SpeedyMatrixExpr>
+    {
+        const K = this._camera.intrinsicsMatrix();
+
+        return ImageTrackerUtils.find6DoFHomographyNDC(K, points, {
+            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
+            numberOfHypotheses: 100,
+            //mask: undefined // score is not needed
+        })
+        .then(([ warp, score ]) => {
+
+            const scale = TRACK_RECTIFIED_SCALE;
+            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage!);
+            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
+            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
+            const scaledWarp = grow.times(warp).times(shrink);
+
+            //const distort = this._poseHomography;
+            const distort = this._warpHomography;
             const undistort = distort.inverse();
             const correctedWarp = distort.times(scaledWarp).times(undistort);
 

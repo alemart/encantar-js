@@ -138,7 +138,7 @@ export const TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR
 export const TRACK_GRID_GRANULARITY = 10; //20; // the value of N
 
 /** Used to identify the best maches */
-export const TRACK_MATCH_RATIO = 0.75; // usually a value in [0.6, 0.8] - low values => strict tracking
+export const TRACK_MATCH_RATIO = 0.7; // usually a value in [0.6, 0.8] - low values => strict tracking
 
 /** Number of consecutive frames in which we tolerate a  "target lost" situation */
 export const TRACK_LOST_TOLERANCE = 15;

@@ -32,6 +32,7 @@ import { ReferenceImageWithMedia } from './reference-image';
 import { Utils } from '../../utils/utils';
 import { IllegalOperationError, IllegalArgumentError, NumericalError } from '../../utils/errors';
 import { NIS_SIZE, TRACK_GRID_GRANULARITY } from './settings';
+import { find6DoFHomography, solvePlanarPnPRansacOptions } from '../../geometry/pnp';
 
 /*
 
@@ -223,6 +224,93 @@ export class ImageTrackerUtils
         }
 
         return Speedy.Matrix(2, 2*n, data);
+    }
+
+    /**
+     * Given n > 0 pairs of keypoints in NDC as a 2 x 2n [ src | dest ] matrix,
+     * find a 6 DoF perspective warp (homography) from src to dest in NDC
+     * @param cameraIntrinsics 3x3 camera intrinsics
+     * @param points compiled pairs of keypoints in NDC
+     * @param options to be passed to pnp
+     * @returns a pair [ 3x3 transformation matrix, quality score ]
+     */
+    static find6DoFHomographyNDC(cameraIntrinsics: SpeedyMatrix, points: SpeedyMatrix, options: solvePlanarPnPRansacOptions): SpeedyPromise<[SpeedyMatrix,number]>
+    {
+        // too few data points?
+        const n = points.columns / 2;
+        if(n < 4) {
+            return Speedy.Promise.reject(
+                new IllegalArgumentError(`Too few data points to compute a perspective warp`)
+            );
+        }
+
+        // compute a homography
+        const src = points.block(0, 1, 0, n-1);
+        const dest = points.block(0, 1, n, 2*n-1);
+        const homography = find6DoFHomography(src, dest, cameraIntrinsics, options);
+        //console.log('homography',homography.toString(), src.toString(), dest.toString());
+
+        // quit without refinement (test)
+        // we use a coarse estimate of the camera intrinsics
+        //return Speedy.Promise.resolve([homography, 0]);
+
+        const mask = Speedy.Matrix.Zeros(1, n);
+        const intermediate = Speedy.Matrix.Zeros(2, n);
+
+        // refine the result of find6DoFHomography() with DLT + RANSAC
+        return Speedy.Matrix.applyPerspectiveTransform(intermediate, src, homography)
+        .then(intermediate =>
+            Speedy.Matrix.findHomography(
+                Speedy.Matrix.Zeros(3),
+                intermediate,
+                dest,
+                {
+                    method: 'pransac',
+                    numberOfHypotheses: 512, // XXX we can reduce this number without compromising quality
+                    bundleSize: 128, // maybe make it a parameter in case we need an extra performance boost?
+                    reprojectionError: options.reprojectionError,
+                    mask,
+                }
+            )
+        )
+        .then(adjustment => adjustment.setTo(adjustment.times(homography)))
+        .then(newHomography => {
+
+            // count inliers
+            let m = 0;
+            const inliers = mask.read();
+            for(let i = 0; i < n; i++)
+                m += inliers[i];
+
+            /*
+            // count and collect inliers
+            let m = 0;
+            const _mask = mask.read(), _src = src.read(), _dest = dest.read();
+            const _isrc = new Array<number>(2*n), _idest = new Array<number>(2*n);
+            for(let i = 0; i < n; i++) {
+                if(_mask[i]) {
+                    const j = m++;
+                    _isrc[2*j] = _src[2*i];
+                    _isrc[2*j+1] = _src[2*i+1];
+                    _idest[2*j] = _dest[2*i];
+                    _idest[2*j+1] = _dest[2*i+1];
+                }
+            }
+            _isrc.length = _idest.length = 2*m;
+
+            // refine homography
+            if(m > 0) {
+                const isrc = Speedy.Matrix(2, m, _isrc);
+                const idest = Speedy.Matrix(2, m, _idest);
+                newHomography = refineHomography(newHomography, isrc, idest);
+            }
+            */
+
+            // done!
+            const score = m / n;
+            return [newHomography, score];
+
+        });
     }
 
     /**
