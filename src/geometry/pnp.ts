@@ -445,6 +445,9 @@ const DEFAULT_TARGET_WIDTH_IN_METERS = 20 * 0.01; // 20 cm
 /** Whether or not to use a normal vector to find the relative distances between the points */
 const USE_NORMAL_VECTOR = false;
 
+/** Small number */
+const EPSILON = 1e-8;
+
 /** Debug flag */
 const DEBUG = false;
 
@@ -1407,7 +1410,7 @@ function findRatios(u: TinyMatrix[], v: TinyMatrix[], n: number, o: number, i: n
 
     // find (ai, aj) such that wk = ai wi + aj wj
     const det2 = wi[0] * wj[1] - wi[1] * wj[0];
-    if(Math.abs(det2) < 1e-6) // wi and wj are colinear
+    if(Math.abs(det2) < EPSILON) // wi and wj are colinear
         return vec3(Number.NaN);
 
     const ai = (wj[1] * wk[0] - wj[0] * wk[1]) / det2;
@@ -1618,7 +1621,7 @@ function inverse(B: TinyMatrix, A: TinyMatrix): TinyMatrix
 
     // determinant of A
     const det = A[0] * m0 - A[1] * m1 + A[2] * m2;
-    if(Math.abs(det) < 1e-8)
+    if(Math.abs(det) < EPSILON)
         return B.fill(Number.NaN);
 
     // invert via cofactor expansion

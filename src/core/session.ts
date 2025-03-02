@@ -282,16 +282,16 @@ export class Session extends AREventTarget<SessionEventType>
             if(!Session.isSupported())
                 throw new NotSupportedError('You need a browser/device compatible with WebGL2 and WebAssembly in order to experience Augmented Reality with encantar.js');
 
-            // block multiple immersive sessions
+            // block multiple sessions when requesting the immersive mode
             if(mode !== 'inline' && Session.count > 0)
-                throw new IllegalOperationError(`Can't start more than one immersive session`);
+                throw new IllegalOperationError(`Can't start multiple sessions, except in inline mode`);
 
             // dev build? work-in-progress
             const isStableBuild = /^\d+\.\d+(\.\d+)*$/.test(AR.version);
             if(!isStableBuild) {
                 if(!(['localhost', '127.0.0.1', '[::1]', '', 'encantar.dev', 'alemart.github.io'].includes(location.hostname))) {
                     if(!(location.hostname.startsWith('192.168.') || location.hostname.startsWith('10.') || /^172\.(1[6-9]|2[0-9]|3[01])\./.test(location.hostname))) {
-                        const message = 'This is a development build (unstable). Do not use it in production.';
+                        const message = 'This is a development build (unstable). Do not use it in production. Get a stable release at encantar.dev';
                         Utils.warning(message);
                         if(!confirm(message + '\n\nAre you sure you want to continue?'))
                             throw new AccessDeniedError('Aborted');
