@@ -836,40 +836,16 @@ export function solvePlanarPnPRansac(referencePoints: SpeedyMatrix, observedPoin
     if(n < 4)
         throw new IllegalArgumentError('solvePlanarPnP requires at least 4 points');
 
+    const K = mat3(cameraIntrinsics.read()), E = mat3x4(0);
     const mask = new Array<number>(n);
     mask.fill(0);
 
-    const referencePointsEntries = referencePoints.read();
-    const observedPointsEntries = observedPoints.read();
-    const inliers = new Array<number>(n);
+    const src = referencePoints.read();
+    const dest = observedPoints.read();
     const permutation = Utils.range(n); // vector of indices
 
-    //const p = new Array<number>(2*n), q = new Array<number>(2*n);
-    //let mp = Speedy.Matrix.Zeros(2, n), mq = Speedy.Matrix.Zeros(2, n);
     const p = new Array<number>(2*4), q = new Array<number>(2*4);
     let mp = Speedy.Matrix.Zeros(2, 4), mq = Speedy.Matrix.Zeros(2, 4);
-    const reorderPoints = (permutation: number[], n: number) => {
-        // resize the matrices to change the number of points
-        //p.length = q.length = 2*n;
-        //Utils.assert(n == 4);
-
-        // reorder elements according to the permutation
-        for(let j = 0; j < n; j++) {
-            const k = permutation[j];
-            for(let a = 0; a < 2; a++) {
-                p[j*2 + a] = referencePointsEntries[k*2 + a];
-                q[j*2 + a] = observedPointsEntries[k*2 + a];
-            }
-        }
-
-        // entries are changed and matrices may be resized
-        //mp = Speedy.Matrix(2, n, p);
-        //mq = Speedy.Matrix(2, n, q);
-
-        // matrices may NOT be resized
-        mp.data.set(p);
-        mq.data.set(q);
-    };
 
     let bestError = Number.POSITIVE_INFINITY;
     let bestPose = INVALID_POSE;
@@ -879,16 +855,15 @@ export function solvePlanarPnPRansac(referencePoints: SpeedyMatrix, observedPoin
         // Preprocessing
         // Set p = shuffled referencePoints and q = shuffled observedPoints
         Utils.shuffle(permutation);
-        reorderPoints(permutation, 4);
+        reorderPoints4(mp, mq, p, q, src, dest, permutation);
 
         // Generate a model with 4 points only
         const pose = solvePlanarPnP(mp, mq, cameraIntrinsics);
-        const homography = buildHomography(cameraIntrinsics, pose);
+        E.set(pose.read()); //E.set(pose.data);
+        const homography = buildHomography(K, E);
 
         // Evaluate the model against the entire dataset
-        //reorderPoints(permutation, n);
-        //const error = computeReprojectionError(homography, p, q, threshold, mask);
-        const error = computeReprojectionError(homography, referencePointsEntries, observedPointsEntries, threshold, mask);
+        const error = computeReprojectionError(homography, src, dest, threshold, mask);
 
         /*
         DEBUG && print({
@@ -901,13 +876,10 @@ export function solvePlanarPnPRansac(referencePoints: SpeedyMatrix, observedPoin
         });
         */
 
-        // Count and collect the inliers
+        // Count the inliers
         let count = 0;
-        for(let j = 0; j < n; j++) {
-            if(mask[j] != 0)
-                inliers[count++] = permutation[j];
-                //inliers[count++] = j;
-        }
+        for(let j = 0; j < n; j++)
+            count += mask[j];
 
         /*
         DEBUG && print({
@@ -923,18 +895,10 @@ export function solvePlanarPnPRansac(referencePoints: SpeedyMatrix, observedPoin
         // Insufficient inliers? Discard the model
         if(count < 4)
             continue;
-
-        // Generate a new model with all the inliers
-        reorderPoints(inliers, count);
-        const newPose = solvePlanarPnP(mp, mq, cameraIntrinsics);
-        const newHomography = buildHomography(cameraIntrinsics, newPose);
-
-        // Evaluate the new model against the set of inliers
-        const newError = computeReprojectionError(newHomography, p, q, threshold, mask);
         */
 
-        // If we generate a new model with all the inliers, we may end up with
-        // a bad normal vector, which would adversely affect the entire pose.
+        // We don't generate a new model with all the inliers. We can expect a
+        // coarse estimate of the intrinsics K. The model will need refinement.
         // We're just using n = 4. We'll refine the homography later.
         const newPose = pose;
         const newError = error;
@@ -1011,7 +975,9 @@ export function find6DoFHomography(referencePoints: SpeedyMatrix, observedPoints
     */
 
     // build an initial homography
-    const hom = buildHomography(cameraIntrinsics, pose);
+    const K = mat3(cameraIntrinsics.read());
+    const E = mat3x4(pose.read());
+    const hom = buildHomography(K, E);
     const entries = Array.from<number>(hom);
     const homography = Speedy.Matrix(3, 3, entries);
 
@@ -1044,79 +1010,6 @@ export function find6DoFHomography(referencePoints: SpeedyMatrix, observedPoints
     );
 }
 
-/*
-// refine homography. pass only inliers!
-export function refineHomography(homography: SpeedyMatrix, referencePoints: SpeedyMatrix, observedPoints: SpeedyMatrix): SpeedyMatrix
-{
-    //return homography;
-    const n = referencePoints.columns;
-    const P = referencePoints.read();
-    const Q = observedPoints.read();
-    const h = mat3(0);
-    const grad = mat3(0); // or 9x1 vector
-    const delta = mat3(0);
-    const rate = 0.002;
-    const threshold = 1e-4;
-    const maxIterations = 100;
-    const thr2 = threshold * threshold;
-    let it = 0, error = 0;
-
-    h.set(homography.read());
-
-    // gradient descent
-    // TODO Gauss-Newton / OLS ?
-    for(it = 0; it < maxIterations; it++) {
-
-        error = 0;
-        grad.fill(0);
-
-        for(let j = 0; j < n; j += 2) {
-            const px = P[j], py = P[j+1], qx = Q[j], qy = Q[j+1];
-            const num1 = h[0] * px + h[3] * py + h[6];
-            const num2 = h[1] * px + h[4] * py + h[7];
-            const den = h[2] * px + h[5] * py + h[8];
-            const den2 = den * den;
-            const dx = num1 / den - qx;
-            const dy = num2 / den - qy;
-
-            grad[0] += dx * (px / den);
-            grad[1] += dy * (px / den);
-            grad[2] += (dx * num1 + dy * num2) * px / den2;
-            grad[3] += dx * (py / den);
-            grad[4] += dy * (py / den);
-            grad[5] += (dx * num1 + dy * num2) * py / den2;
-            grad[6] += dx / den;
-            grad[7] += dy / den;
-            grad[8] += (dx * num1 + dy * num2) / den2;
-
-            error += dx*dx + dy*dy;
-        }
-
-        grad[2] = -grad[2];
-        grad[5] = -grad[5];
-        grad[8] = -grad[8];
-        error *= 0.5 / n;
-
-        if(error < thr2)
-            break;
-
-        scale(delta, grad, rate);
-        sub(h, h, delta);
-
-    }
-
-    DEBUG && print({
-        refineHomography: {
-            iterations: it,
-            error: Math.sqrt(error),
-            grad: Math.sqrt(grad.reduce((s,x) => s+x*x, 0)),
-        }
-    });
-
-    return Speedy.Matrix(3, 3, Array.from(h));
-}
-*/
-
 
 
 
@@ -1129,13 +1022,12 @@ export function refineHomography(homography: SpeedyMatrix, referencePoints: Spee
 
 /**
  * Build a homography matrix
- * @param cameraIntrinsics 3x3 intrinsics
- * @param cameraExtrinsics 3x4 extrinsics
+ * @param K 3x3 intrinsics
+ * @param E 3x4 extrinsics
  * @returns 3x3 homography as a TinyMatrix
  */
-function buildHomography(cameraIntrinsics: SpeedyMatrix, cameraExtrinsics: SpeedyMatrix): TinyMatrix
+function buildHomography(K: TinyMatrix, E: TinyMatrix): TinyMatrix
 {
-    const K = mat3(cameraIntrinsics.read());
     const fx = K[0], fy = K[4], cx = K[6], cy = K[7];
     const z0 = getZ0(fx);
 
@@ -1173,7 +1065,6 @@ function buildHomography(cameraIntrinsics: SpeedyMatrix, cameraExtrinsics: Speed
     A4[15] = 1;
 
     // compose with the pose. The result M is 3x4
-    const E = mat3x4(cameraExtrinsics.read());
     mul(M, E, A4);
 
     // remove the third column from the extrinsics matrix
@@ -1204,17 +1095,17 @@ function buildHomography(cameraIntrinsics: SpeedyMatrix, cameraExtrinsics: Speed
 /**
  * Given a homography matrix and n correspondences (pi, qi), compute the reprojection error
  * @param homography 3x3 homography matrix
- * @param p reference points as a 2 x n matrix
- * @param q observed points as a 2 x n matrix
+ * @param src reference points as a 2 x n matrix
+ * @param dest observed points as a 2 x n matrix
  * @param threshold for a point to be considered an outlier
  * @param mask inliers mask (output)
  * @returns a measure of the error (less is better)
  */
-function computeReprojectionError(homography: TinyMatrix, p: number[], q: number[], threshold: number = 3, mask: number[] = []): number
+function computeReprojectionError(homography: TinyMatrix, src: number[], dest: number[], threshold: number = 3, mask: number[] = []): number
 {
     const [ h11, h21, h31, h12, h22, h32, h13, h23, h33 ] = homography;
     const [ ih11, ih21, ih31, ih12, ih22, ih32, ih13, ih23, ih33 ] = inverse(invH, homography);
-    const n = p.length / 2;
+    const n = src.length / 2;
     const thr2 = threshold * threshold;
     let totalError = 0;
 
@@ -1227,12 +1118,12 @@ function computeReprojectionError(homography: TinyMatrix, p: number[], q: number
 
     // for each point correspondence (p,q)
     for(let i = 0, j = 0; i < n; i++, j += 2) {
-        const px = p[j+0];
-        const py = p[j+1];
+        const px = src[j+0];
+        const py = src[j+1];
         const pz = 1; // homogeneous
 
-        const qx = q[j+0];
-        const qy = q[j+1];
+        const qx = dest[j+0];
+        const qy = dest[j+1];
         const qz = 1;
 
         // compute the reprojection error H*p - q
@@ -1259,8 +1150,7 @@ function computeReprojectionError(homography: TinyMatrix, p: number[], q: number
 
         // accumulate
         totalError += error2 + ierror2;
-        if(error2 < thr2 && ierror2 < thr2)
-            mask[i] = 1; // this is an inlier
+        mask[i] = +(error2 < thr2 && ierror2 < thr2); // 1 if this is an inlier
 
         /*
         DEBUG && mask[i] && print({
@@ -1284,7 +1174,8 @@ function computeReprojectionError(homography: TinyMatrix, p: number[], q: number
     }
 
     // return the average error
-    return Math.sqrt(totalError / n);
+    //return Math.sqrt(totalError / n);
+    return totalError / n;
 }
 
 /**
@@ -1490,6 +1381,43 @@ function getZ0(fx: number, targetWidthInMeters: number = DEFAULT_TARGET_WIDTH_IN
     // done!
     return z0;
 }
+
+/**
+ * Reorder n = 4 points according to a permutation
+ * @param mp output
+ * @param mq output
+ * @param p temporary
+ * @param q temporary
+ * @param src reference points as a 2 x n matrix
+ * @param dest observed points as a 2 x n matrix
+ * @param permutation permutation of n indices
+ */
+function reorderPoints4(mp: SpeedyMatrix, mq: SpeedyMatrix, p: number[], q: number[], src: number[], dest: number[], permutation: number[])
+{
+    const n = 4;
+
+    // validate
+    Utils.assert(
+        permutation.length >= n &&
+        p.length == n*2 && q.length == n*2 &&
+        mp.rows == 2 && mp.columns == n &&
+        mq.rows == 2 && mq.columns == n
+    );
+
+    // reorder elements according to the permutation
+    for(let j = 0; j < n; j++) {
+        const k = permutation[j];
+        for(let a = 0; a < 2; a++) {
+            p[j*2 + a] = src[k*2 + a];
+            q[j*2 + a] = dest[k*2 + a];
+        }
+    }
+
+    // matrices may NOT be resized
+    mp.data.set(p);
+    mq.data.set(q);
+}
+
 
 
 
