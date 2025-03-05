@@ -448,9 +448,11 @@ A corresponding `THREE.Ray`.
 
 ## Events
 
+The events below are emitted on the scene.
+
 ### arstarted
 
-This event is emitted on the scene when the main loop of the AR scene is set up, just after the AR session starts.
+The main loop of the AR scene has been set up. This takes place just after the AR session starts.
 
 *Since:* 0.4.2. Previously, this event was called *ar-started*.
 
@@ -466,4 +468,26 @@ The AR session has ended.
 
 **Details**
 
+* `ar: object`. A reference to the [ar](#ar) system.
+
+### artargetfound
+
+An image target has been found.
+
+*Since:* 0.4.2
+
+**Details**
+
+* `referenceImage: ReferenceImage`. The [reference image](reference-image.md) that is linked to the target.
+* `ar: object`. A reference to the [ar](#ar) system.
+
+### artargetlost
+
+An image target has been lost.
+
+*Since:* 0.4.2
+
+**Details**
+
+* `referenceImage: ReferenceImage`. The [reference image](reference-image.md) that is linked to the target.
 * `ar: object`. A reference to the [ar](#ar) system.

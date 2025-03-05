@@ -933,6 +933,11 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
             }
         }
 
+        const ar = this.ar;
+        const scene = this.el.sceneEl;
+        tracker.addEventListener('targetfound', ev => scene.emit('artargetfound', { ar, referenceImage: ev.referenceImage }));
+        tracker.addEventListener('targetlost', ev => scene.emit('artargetlost', { ar, referenceImage: ev.referenceImage }));
+
         return tracker.database.add(referenceImages).then(() => tracker);
     },
 
