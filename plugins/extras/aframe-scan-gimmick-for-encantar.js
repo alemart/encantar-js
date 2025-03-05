@@ -1,6 +1,7 @@
 /*!
  * A-Frame scan gimmick for encantar.js
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
+ * @version 1.1.0
+ * @author Alexandre Martins (https://encantar.dev)
  * @license LGPL-3.0-or-later
  */
 
@@ -28,10 +29,12 @@ AFRAME.registerComponent('ar-scan-gimmick', {
         this._ar = ar;
         this._img = null;
         this._hadGizmos = false;
+
         this._onTargetFound = this._onTargetFound.bind(this);
         this._onTargetLost = this._onTargetLost.bind(this);
+        this._registerEvents();
 
-        scene.addEventListener('ar-started', () => {
+        scene.addEventListener('arready', () => {
 
             this._validate();
 
@@ -41,8 +44,6 @@ AFRAME.registerComponent('ar-scan-gimmick', {
             const img = this._createImage();
             this.el.parentNode.appendChild(img);
             this._img = img;
-
-            this._registerEvents();
 
         });
     },
@@ -60,22 +61,18 @@ AFRAME.registerComponent('ar-scan-gimmick', {
 
     _registerEvents()
     {
-        const imageTracker = this._findImageTracker();
+        const scene = this.el.sceneEl;
 
-        if(imageTracker !== null) {
-            imageTracker.addEventListener('targetfound', this._onTargetFound);
-            imageTracker.addEventListener('targetlost', this._onTargetLost);
-        }
+        scene.addEventListener('artargetfound', this._onTargetFound);
+        scene.addEventListener('artargetlost', this._onTargetLost);
     },
 
     _unregisterEvents()
     {
-        const imageTracker = this._findImageTracker();
+        const scene = this.el.sceneEl;
 
-        if(imageTracker !== null) {
-            imageTracker.removeEventListener('targetlost', this._onTargetLost);
-            imageTracker.removeEventListener('targetfound', this._onTargetFound);
-        }
+        scene.removeEventListener('artargetlost', this._onTargetLost);
+        scene.removeEventListener('artargetfound', this._onTargetFound);
     },
 
     _onTargetFound(event)
@@ -94,20 +91,6 @@ AFRAME.registerComponent('ar-scan-gimmick', {
 
         ar.session.gizmos.visible = this._hadGizmos;
         img.style.display = 'inline-block';
-    },
-
-    _findImageTracker()
-    {
-        const ar = this._ar;
-
-        if(ar !== null) {
-            for(const tracker of ar.session.trackers) {
-                if(tracker.type == 'image-tracker')
-                    return tracker;
-            }
-        }
-
-        return null;
     },
 
     _createImage()
