@@ -457,3 +457,13 @@ This event is emitted on the scene when the main loop of the AR scene is set up,
 **Details**
 
 * `ar: object`. A reference to the [ar](#ar) system.
+
+### arfinished
+
+The AR session has ended.
+
+*Since:* 0.4.2
+
+**Details**
+
+* `ar: object`. A reference to the [ar](#ar) system.

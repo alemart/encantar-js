@@ -310,6 +310,8 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
             this.viewer = null;
             this.frame = null;
             this.pointers.length = 0;
+
+            scene.emit('arfinished', { ar: this });
         });
 
         session.viewport.addEventListener('resize', () => {
