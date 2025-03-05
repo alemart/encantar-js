@@ -448,9 +448,11 @@ A corresponding `THREE.Ray`.
 
 ## Events
 
-### ar-started
+### arstarted
 
-The `ar-started` event is emitted when the main loop of the AR scene is set up, just after the AR session starts.
+This event is emitted on the scene when the main loop of the AR scene is set up, just after the AR session starts.
+
+*Since:* 0.4.2. Previously, this event was called *ar-started*.
 
 **Details**
 

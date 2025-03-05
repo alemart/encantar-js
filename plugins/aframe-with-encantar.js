@@ -189,7 +189,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
         scene.setAttribute('renderer', { alpha: true });
 
         // pause the scene until we're ready
-        scene.addEventListener('ar-started', () => {
+        scene.addEventListener('arstarted', () => {
             scene.play();
         });
         scene.addEventListener('loaded', () => {
@@ -252,7 +252,8 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
 
             // we're done!
             const scene = this.el;
-            scene.emit('ar-started', { ar: this });
+            scene.emit('arstarted', { ar: this });
+            scene.emit('ar-started', { ar: this }); // backwards compatibility with 0.3.0 - 0.4.1
             return session;
         })
         .catch(error => {
