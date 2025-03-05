@@ -211,12 +211,10 @@ The `<ar-sources>` primitive is used to specify the [sources of data](./source.m
 ...
 
 <!-- External assets -->
-<a-assets>
-    <video id="my-video" hidden muted loop playsinline autoplay>
-        <source src="my-video.webm" type="video/webm" />
-        <source src="my-video.mp4" type="video/mp4" />
-    </video>
-</a-assets>
+<video id="my-video" hidden muted loop playsinline autoplay>
+    <source src="my-video.webm" type="video/webm" />
+    <source src="my-video.mp4" type="video/mp4" />
+</video>
 ```
 
 ### ar-canvas-source
@@ -334,18 +332,14 @@ AFRAME.registerComponent('my-component', {
 
     tick()
     {
-        const ar = this.ar;
+        const scene = this.el.sceneEl;
+        const ar = scene.systems.ar;
         const session = ar.session;
 
         // ...
     },
 
     // ...
-
-    get ar()
-    {
-        return this.el.sceneEl.systems.ar;
-    }
 
 });
 ```
