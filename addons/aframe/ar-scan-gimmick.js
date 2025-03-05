@@ -114,7 +114,7 @@ AFRAME.registerComponent('ar-scan-gimmick', {
     _validate()
     {
         if(!this.el.parentNode.getAttribute('ar-hud'))
-            throw new Error('a-entity with ar-scan-gimmick must be a direct child of ar-hud');
+            console.error('a-entity with ar-scan-gimmick must be a direct child of ar-hud');
     },
 
 });
