@@ -450,7 +450,7 @@ A corresponding `THREE.Ray`.
 
 The events below are emitted on the scene.
 
-### arstarted
+### arready
 
 The main loop of the AR scene has been set up. This takes place just after the AR session starts.
 
@@ -458,9 +458,9 @@ The main loop of the AR scene has been set up. This takes place just after the A
 
 **Details**
 
-* `ar: object`. A reference to the [ar](#ar) system.
+* `ar: object`. The [ar](#ar) system.
 
-### arfinished
+### arsessionended
 
 The AR session has ended.
 
@@ -468,7 +468,7 @@ The AR session has ended.
 
 **Details**
 
-* `ar: object`. A reference to the [ar](#ar) system.
+* `ar: object`. The [ar](#ar) system.
 
 ### artargetfound
 
@@ -479,7 +479,7 @@ An image target has been found.
 **Details**
 
 * `referenceImage: ReferenceImage`. The [reference image](reference-image.md) that is linked to the target.
-* `ar: object`. A reference to the [ar](#ar) system.
+* `ar: object`. The [ar](#ar) system.
 
 ### artargetlost
 
@@ -490,4 +490,4 @@ An image target has been lost.
 **Details**
 
 * `referenceImage: ReferenceImage`. The [reference image](reference-image.md) that is linked to the target.
-* `ar: object`. A reference to the [ar](#ar) system.
+* `ar: object`. The [ar](#ar) system.

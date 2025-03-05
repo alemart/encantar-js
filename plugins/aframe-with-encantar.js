@@ -189,7 +189,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
         scene.setAttribute('renderer', { alpha: true });
 
         // pause the scene until we're ready
-        scene.addEventListener('arstarted', () => {
+        scene.addEventListener('arready', () => {
             scene.play();
         });
         scene.addEventListener('loaded', () => {
@@ -252,7 +252,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
 
             // we're done!
             const scene = this.el;
-            scene.emit('arstarted', { ar: this });
+            scene.emit('arready', { ar: this });
             scene.emit('ar-started', { ar: this }); // backwards compatibility with 0.3.0 - 0.4.1
             return session;
         })
@@ -311,7 +311,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
             this.frame = null;
             this.pointers.length = 0;
 
-            scene.emit('arfinished', { ar: this });
+            scene.emit('arsessionended', { ar: this });
         });
 
         session.viewport.addEventListener('resize', () => {
