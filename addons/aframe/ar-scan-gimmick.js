@@ -1,6 +1,6 @@
 /*!
  * A-Frame scan gimmick for encantar.js
- * @version 1.1.0
+ * @version 1.2.0
  * @author Alexandre Martins (https://encantar.dev)
  * @license LGPL-3.0-or-later
  */
@@ -9,12 +9,25 @@
 
 const DEFAULT_IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAVklEQVRYR+2WMQ4AIAgD4f+PVlzFYGSpw3UlQHOaBjexXLzfMJAIjFD1LB6q6q/9RwO3Jd1/s8ztszEAAQiQhBCAAARIQghA4E8C0rO8e3J3+4hiOYEJMwaAIT1kBDMAAAAASUVORK5CYII=';
 
+AFRAME.registerPrimitive('ar-scan-gimmick', {
+
+    defaultComponents: {
+        'ar-scan-gimmick': { },
+    },
+
+    mappings: {
+        src: 'ar-scan-gimmick.src',
+        opacity: 'ar-scan-gimmick.opacity',
+    },
+
+});
+
 AFRAME.registerComponent('ar-scan-gimmick', {
 
     schema: {
 
         /** URL of an image */
-        'src': { type: 'string', default: DEFAULT_IMAGE },
+        'src': { type: 'string', default: '' },
 
         /** opacity of the image */
         'opacity': { type: 'number', default: 1.0 }
@@ -96,8 +109,9 @@ AFRAME.registerComponent('ar-scan-gimmick', {
     _createImage()
     {
         const img = document.createElement('img');
+        const src = this.data.src !== '' ? this.data.src : DEFAULT_IMAGE;
 
-        img.src = this.data.src;
+        img.src = src;
         img.draggable = false;
         img.style.width = '100%';
         img.style.height = '100%';
@@ -105,7 +119,7 @@ AFRAME.registerComponent('ar-scan-gimmick', {
         img.style.display = 'inline-block';
         img.style.opacity = this.data.opacity;
 
-        if(img.src == DEFAULT_IMAGE)
+        if(src === DEFAULT_IMAGE)
             img.style.imageRendering = 'pixelated';
 
         return img;
