@@ -5,6 +5,7 @@ def copy_static_files(config, **kwargs):
     site_dir = config['site_dir']
     copy_directory('dist', site_dir)
     copy_directory('plugins', site_dir)
+    copy_directory('addons', site_dir)
     copy_directory('demos', site_dir)
 
 def copy_directory(dir_path, site_dir):

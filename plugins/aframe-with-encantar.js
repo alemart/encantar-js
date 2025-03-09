@@ -189,7 +189,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
         scene.setAttribute('renderer', { alpha: true });
 
         // pause the scene until we're ready
-        scene.addEventListener('ar-started', () => {
+        scene.addEventListener('arready', () => {
             scene.play();
         });
         scene.addEventListener('loaded', () => {
@@ -252,7 +252,8 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
 
             // we're done!
             const scene = this.el;
-            scene.emit('ar-started', { ar: this });
+            scene.emit('arready', { ar: this });
+            scene.emit('ar-started', { ar: this }); // backwards compatibility with 0.3.0 - 0.4.1
             return session;
         })
         .catch(error => {
@@ -309,6 +310,8 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
             this.viewer = null;
             this.frame = null;
             this.pointers.length = 0;
+
+            scene.emit('arsessionended', { ar: this });
         });
 
         session.viewport.addEventListener('resize', () => {
@@ -929,6 +932,11 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
                 }
             }
         }
+
+        const ar = this.ar;
+        const scene = this.el.sceneEl;
+        tracker.addEventListener('targetfound', ev => scene.emit('artargetfound', { ar, referenceImage: ev.referenceImage }));
+        tracker.addEventListener('targetlost', ev => scene.emit('artargetlost', { ar, referenceImage: ev.referenceImage }));
 
         return tracker.database.add(referenceImages).then(() => tracker);
     },

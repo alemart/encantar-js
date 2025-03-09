@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.1
+ * encantar.js version 0.4.2-dev
  * GPU-accelerated Augmented Reality for the web
  * Copyright 2022-2025 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-01-21T02:37:34.737Z
+ * Date: 2025-03-09T14:38:31.156Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -776,13 +776,13 @@ var AR = (() => {
                     get(ptr) {
                       const byte = this._memory.as.uint8;
                       const size = this._memory.as.uint8.byteLength;
-                      let p = ptr;
-                      while (p < size && 0 !== byte[p]) ++p;
-                      return this._decoder.decode(byte.subarray(ptr, p));
+                      let p2 = ptr;
+                      while (p2 < size && 0 !== byte[p2]) ++p2;
+                      return this._decoder.decode(byte.subarray(ptr, p2));
                     }
                   }
                   (function loadWASM(memory) {
-                    const base64decode = (data) => Uint8Array.from(atob(data), (v) => v.charCodeAt(0));
+                    const base64decode = (data) => Uint8Array.from(atob(data), (v2) => v2.charCodeAt(0));
                     if (typeof WebAssembly === "undefined") return;
                     _speedy_promise__WEBPACK_IMPORTED_MODULE_0__.i.resolve(WASM_BINARY).then((data) => base64decode(data)).then((bytes) => WebAssembly.instantiate(bytes, {
                       env: Object.assign({
@@ -1011,16 +1011,16 @@ var AR = (() => {
                       const DECIMALS = 5;
                       const rows = this.rows, columns = this.columns;
                       const entries = this.read();
-                      const mat = (
+                      const mat2 = (
                         /** @type {number[][]} */
                         new Array(rows)
                       );
                       for (let i = 0; i < rows; i++) {
-                        mat[i] = new Array(columns);
-                        for (let j = 0; j < columns; j++) mat[i][j] = entries[j * rows + i];
+                        mat2[i] = new Array(columns);
+                        for (let j = 0; j < columns; j++) mat2[i][j] = entries[j * rows + i];
                       }
                       const fix = (x) => x.toFixed(DECIMALS);
-                      const fmt = mat.map((row) => "    " + row.map(fix).join(", ")).join(",\n");
+                      const fmt = mat2.map((row) => "    " + row.map(fix).join(", ")).join(",\n");
                       const str = `SpeedyMatrix(rows=${rows}, columns=${columns}, data=[
 ${fmt}
 ])`;
@@ -1484,56 +1484,56 @@ ${fmt}
                       return new BabelRegExp(e2, void 0, r2);
                     };
                     var e = RegExp.prototype, r = /* @__PURE__ */ new WeakMap();
-                    function BabelRegExp(e2, t, p) {
-                      var o = RegExp(e2, t);
-                      return r.set(o, p || r.get(e2)), _setPrototypeOf(o, BabelRegExp.prototype);
+                    function BabelRegExp(e2, t2, p2) {
+                      var o = RegExp(e2, t2);
+                      return r.set(o, p2 || r.get(e2)), _setPrototypeOf(o, BabelRegExp.prototype);
                     }
-                    function buildGroups(e2, t) {
-                      var p = r.get(t);
-                      return Object.keys(p).reduce(function(r2, t2) {
-                        var o = p[t2];
-                        if ("number" == typeof o) r2[t2] = e2[o];
+                    function buildGroups(e2, t2) {
+                      var p2 = r.get(t2);
+                      return Object.keys(p2).reduce(function(r2, t3) {
+                        var o = p2[t3];
+                        if ("number" == typeof o) r2[t3] = e2[o];
                         else {
                           for (var i = 0; void 0 === e2[o[i]] && i + 1 < o.length; ) i++;
-                          r2[t2] = e2[o[i]];
+                          r2[t3] = e2[o[i]];
                         }
                         return r2;
                       }, /* @__PURE__ */ Object.create(null));
                     }
                     return _inherits(BabelRegExp, RegExp), BabelRegExp.prototype.exec = function(r2) {
-                      var t = e.exec.call(this, r2);
-                      if (t) {
-                        t.groups = buildGroups(t, this);
-                        var p = t.indices;
-                        p && (p.groups = buildGroups(p, this));
+                      var t2 = e.exec.call(this, r2);
+                      if (t2) {
+                        t2.groups = buildGroups(t2, this);
+                        var p2 = t2.indices;
+                        p2 && (p2.groups = buildGroups(p2, this));
                       }
-                      return t;
-                    }, BabelRegExp.prototype[Symbol.replace] = function(t, p) {
-                      if ("string" == typeof p) {
+                      return t2;
+                    }, BabelRegExp.prototype[Symbol.replace] = function(t2, p2) {
+                      if ("string" == typeof p2) {
                         var o = r.get(this);
-                        return e[Symbol.replace].call(this, t, p.replace(/\$<([^>]+)>/g, function(e2, r2) {
-                          var t2 = o[r2];
-                          return "$" + (Array.isArray(t2) ? t2.join("$") : t2);
+                        return e[Symbol.replace].call(this, t2, p2.replace(/\$<([^>]+)>/g, function(e2, r2) {
+                          var t3 = o[r2];
+                          return "$" + (Array.isArray(t3) ? t3.join("$") : t3);
                         }));
                       }
-                      if ("function" == typeof p) {
+                      if ("function" == typeof p2) {
                         var i = this;
-                        return e[Symbol.replace].call(this, t, function() {
+                        return e[Symbol.replace].call(this, t2, function() {
                           var e2 = arguments;
-                          return "object" != typeof e2[e2.length - 1] && (e2 = [].slice.call(e2)).push(buildGroups(e2, i)), p.apply(this, e2);
+                          return "object" != typeof e2[e2.length - 1] && (e2 = [].slice.call(e2)).push(buildGroups(e2, i)), p2.apply(this, e2);
                         });
                       }
-                      return e[Symbol.replace].call(this, t, p);
+                      return e[Symbol.replace].call(this, t2, p2);
                     }, _wrapRegExp.apply(this, arguments);
                   }
-                  function _inherits(t, e) {
+                  function _inherits(t2, e) {
                     if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
-                    t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: true, configurable: true } }), Object.defineProperty(t, "prototype", { writable: false }), e && _setPrototypeOf(t, e);
+                    t2.prototype = Object.create(e && e.prototype, { constructor: { value: t2, writable: true, configurable: true } }), Object.defineProperty(t2, "prototype", { writable: false }), e && _setPrototypeOf(t2, e);
                   }
-                  function _setPrototypeOf(t, e) {
-                    return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t2, e2) {
-                      return t2.__proto__ = e2, t2;
-                    }, _setPrototypeOf(t, e);
+                  function _setPrototypeOf(t2, e) {
+                    return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e2) {
+                      return t3.__proto__ = e2, t3;
+                    }, _setPrototypeOf(t2, e);
                   }
                   const globals = __webpack_require__2(3816);
                   const numericGlobals = (
@@ -2937,8 +2937,8 @@ uniform highp vec2 texSize;
                      * @param {number[]} b
                      * @returns {Array<[number,number]>}
                      */
-                    static cartesian(a, b) {
-                      return [].concat(...a.map((a2) => b.map((b2) => [a2, b2])));
+                    static cartesian(a, b2) {
+                      return [].concat(...a.map((a2) => b2.map((b3) => [a2, b3])));
                     }
                     /**
                      * Symmetric range
@@ -2970,9 +2970,9 @@ uniform highp vec2 texSize;
                       for (let i = 0; i < m; i++) {
                         const j = i + (Math.random() * (len - i) | 0);
                         if (i !== j) {
-                          const t = arr[i];
+                          const t2 = arr[i];
                           arr[i] = arr[j];
-                          arr[j] = t;
+                          arr[j] = t2;
                         }
                       }
                       return arr;
@@ -3050,7 +3050,7 @@ uniform highp vec2 texSize;
                      */
                     static formatBinaryData(bytes) {
                       const uint8 = new Uint8Array(bytes);
-                      const array = Array.from(uint8, (b) => b.toString(16).padStart(2, "0"));
+                      const array = Array.from(uint8, (b2) => b2.toString(16).padStart(2, "0"));
                       return array.join(" ");
                     }
                     /**
@@ -4245,7 +4245,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               __webpack_require__.d(__webpack_exports__, {
                 "default": () => (
                   /* binding */
-                  Speedy29
+                  Speedy30
                 )
               });
               var speedy_gl = __webpack_require__(1001);
@@ -4845,17 +4845,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * @param {number} a alpha component, a value in [0,1]
                  * @returns {this}
                  */
-                clearToColor(r, g, b, a) {
+                clearToColor(r, g, b2, a) {
                   const gl = this._gl;
                   if (gl.isContextLost()) return this;
                   r = Math.max(0, Math.min(+r, 1));
                   g = Math.max(0, Math.min(+g, 1));
-                  b = Math.max(0, Math.min(+b, 1));
+                  b2 = Math.max(0, Math.min(+b2, 1));
                   a = Math.max(0, Math.min(+a, 1));
                   this.discardMipmaps();
                   gl.bindFramebuffer(gl.FRAMEBUFFER, this._glFbo);
                   gl.viewport(0, 0, this._width, this._height);
-                  gl.clearColor(r, g, b, a);
+                  gl.clearColor(r, g, b2, a);
                   gl.clear(gl.COLOR_BUFFER_BIT);
                   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
                   return this;
@@ -5026,8 +5026,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   gl.useProgram(this._program);
                   for (const name of shaderdecl.uniforms) {
                     const type = shaderdecl.uniformType(name);
-                    const location = gl.getUniformLocation(this._program, name);
-                    this._uniform.set(name, new UniformVariable(type, location));
+                    const location2 = gl.getUniformLocation(this._program, name);
+                    this._uniform.set(name, new UniformVariable(type, location2));
                   }
                   for (let j = 0; j < this._argnames.length; j++) {
                     const argname = this._argnames[j];
@@ -5207,7 +5207,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 ` + formattedSource + "\n");
                 }
               }
-              function ProgramGeometry(gl, location) {
+              function ProgramGeometry(gl, location2) {
                 this.vao = gl.createVertexArray();
                 this.vbo = Object.freeze({
                   position: gl.createBuffer(),
@@ -5231,9 +5231,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   1,
                   1
                 ]), gl.STATIC_DRAW);
-                gl.enableVertexAttribArray(location.position);
+                gl.enableVertexAttribArray(location2.position);
                 gl.vertexAttribPointer(
-                  location.position,
+                  location2.position,
                   // attribute location
                   2,
                   // 2 components per vertex (x,y)
@@ -5261,9 +5261,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   1,
                   1
                 ]), gl.STATIC_DRAW);
-                gl.enableVertexAttribArray(location.texCoord);
+                gl.enableVertexAttribArray(location2.texCoord);
                 gl.vertexAttribPointer(
-                  location.texCoord,
+                  location2.texCoord,
                   // attribute location
                   2,
                   // 2 components per vertex (x,y)
@@ -5286,10 +5286,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                 gl.deleteBuffer(this.vbo.texCoord);
                 return null;
               };
-              function UniformVariable(type, location) {
+              function UniformVariable(type, location2) {
                 this.type = String(type);
                 if (!Object.prototype.hasOwnProperty.call(UNIFORM_SETTERS, this.type)) throw new utils_errors.EM(`Unsupported uniform type: ${this.type}`);
-                this.location = location;
+                this.location = location2;
                 this.setter = UNIFORM_SETTERS[this.type];
                 const n = Number(this.setter.match(/^uniform(Matrix)?(\d)/)[2]) | 0;
                 this.dim = this.type.startsWith("mat") ? 2 : this.type.indexOf("vec") >= 0 ? 1 : 0;
@@ -5565,54 +5565,54 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               const LSH_ACCEPTABLE_NUMBER_OF_TABLES = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
               const LSH_ACCEPTABLE_HASH_SIZES = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
               const LSH_ACCEPTABLE_DESCRIPTOR_SIZES = [32, 64];
-              const generateLSHProfiles = (t, h, p) => !LSH_ACCEPTABLE_HASH_SIZES.includes(h) || !LSH_ACCEPTABLE_NUMBER_OF_TABLES.includes(t) ? null : [{
+              const generateLSHProfiles = (t2, h, p2) => !LSH_ACCEPTABLE_HASH_SIZES.includes(h) || !LSH_ACCEPTABLE_NUMBER_OF_TABLES.includes(t2) ? null : [{
                 name: "x-small",
                 bucketCapacity: 1,
-                tableCount: t,
+                tableCount: t2,
                 hashSize: h,
-                capacity: findTableCapacity(h, 1, p)
+                capacity: findTableCapacity(h, 1, p2)
               }, {
                 name: "small",
                 bucketCapacity: 2,
-                tableCount: t,
+                tableCount: t2,
                 hashSize: h,
-                capacity: findTableCapacity(h, 2, p)
+                capacity: findTableCapacity(h, 2, p2)
               }, {
                 name: "small-plus",
                 bucketCapacity: 3,
-                tableCount: t,
+                tableCount: t2,
                 hashSize: h,
-                capacity: findTableCapacity(h, 3, p)
+                capacity: findTableCapacity(h, 3, p2)
               }, {
                 name: "medium",
                 bucketCapacity: 4,
-                tableCount: t,
+                tableCount: t2,
                 hashSize: h,
-                capacity: findTableCapacity(h, 4, p)
+                capacity: findTableCapacity(h, 4, p2)
               }, {
                 name: "medium-plus",
                 bucketCapacity: 5,
-                tableCount: t,
+                tableCount: t2,
                 hashSize: h,
-                capacity: findTableCapacity(h, 5, p)
+                capacity: findTableCapacity(h, 5, p2)
               }, {
                 name: "large",
                 bucketCapacity: 6,
-                tableCount: t,
+                tableCount: t2,
                 hashSize: h,
-                capacity: findTableCapacity(h, 6, p)
+                capacity: findTableCapacity(h, 6, p2)
               }, {
                 name: "x-large",
                 bucketCapacity: 8,
-                tableCount: t,
+                tableCount: t2,
                 hashSize: h,
-                capacity: findTableCapacity(h, 8, p)
+                capacity: findTableCapacity(h, 8, p2)
               }];
               const LSH_SEQUENCE_MAXLEN = Math.max(...LSH_ACCEPTABLE_HASH_SIZES);
               const LSH_SEQUENCE_COUNT = Math.max(...LSH_ACCEPTABLE_NUMBER_OF_TABLES);
               const partitionedSort = (seq) => (utils.A.range(LSH_SEQUENCE_COUNT).forEach((i) => seq.subarray(i * LSH_SEQUENCE_MAXLEN, (i + 1) * LSH_SEQUENCE_MAXLEN).sort()), seq);
-              const padSequences = (p, seq) => (utils.A.range(LSH_SEQUENCE_COUNT).forEach((i) => seq.subarray((i + 1) * LSH_SEQUENCE_MAXLEN - p, (i + 1) * LSH_SEQUENCE_MAXLEN).fill(195939070)), seq);
-              const LSH_SEQUENCES = ((f) => LSH_ACCEPTABLE_HASH_SIZES.reduce((p, o) => (p[o] = f(o), p), {}))((h) => ({
+              const padSequences = (p2, seq) => (utils.A.range(LSH_SEQUENCE_COUNT).forEach((i) => seq.subarray((i + 1) * LSH_SEQUENCE_MAXLEN - p2, (i + 1) * LSH_SEQUENCE_MAXLEN).fill(195939070)), seq);
+              const LSH_SEQUENCES = ((f) => LSH_ACCEPTABLE_HASH_SIZES.reduce((p2, o) => (p2[o] = f(o), p2), {}))((h) => ({
                 // for 256-bit descriptors
                 32: partitionedSort(padSequences(LSH_SEQUENCE_MAXLEN - h, new Uint32Array([...utils.A.shuffle(utils.A.range(256)), ...utils.A.shuffle(utils.A.range(256)), ...utils.A.shuffle(utils.A.range(256))].slice(0, LSH_SEQUENCE_COUNT * LSH_SEQUENCE_MAXLEN)))),
                 // for 512-bit descriptors
@@ -5810,9 +5810,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                     let hash = 0;
                     for (let i = 0; i < hashSize; i++) {
                       let bit = sequences[offset + i];
-                      let b = bit >>> 3;
+                      let b2 = bit >>> 3;
                       let m = 1 << (bit & 7);
-                      hash = hash << 1 | (descriptor[b] & m) != 0;
+                      hash = hash << 1 | (descriptor[b2] & m) != 0;
                     }
                     utils.A.assert(hash >= 0 && hash < bucketsPerTable);
                     hashes[table] = hash;
@@ -5829,13 +5829,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               function findTableCapacity(hashSize, bucketCapacity, probability = 0.99) {
                 const n = 1 << hashSize;
                 const c = bucketCapacity;
-                const p = probability;
+                const p2 = probability;
                 let l = 1, r = n * c;
                 let m = 0, pm = 0;
                 while (l < r) {
                   m = Math.floor((l + r) / 2);
                   pm = cumulativePoisson(m / n, c);
-                  if (pm > p)
+                  if (pm > p2)
                     l = m + 1;
                   else r = m;
                 }
@@ -6496,12 +6496,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   const TIMEOUT = 3e4, INTERVAL = 500;
                   if (video.readyState >= 3) return speedy_promise.i.resolve(video);
                   return new speedy_promise.i((resolve, reject) => {
-                    let ms = 0, t = setInterval(() => {
+                    let ms = 0, t2 = setInterval(() => {
                       if (video.readyState >= 3) {
-                        clearInterval(t);
+                        clearInterval(t2);
                         resolve(video);
                       } else if ((ms += INTERVAL) >= TIMEOUT) {
-                        clearInterval(t);
+                        clearInterval(t2);
                         reject(new utils_errors.MU("The video took too long to load"));
                       }
                     }, INTERVAL);
@@ -7165,25 +7165,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * @param {SpeedyVector2} v
                  * @returns {boolean}
                  */
-                equals(v) {
-                  return this.x === v.x && this.y === v.y;
+                equals(v2) {
+                  return this.x === v2.x && this.y === v2.y;
                 }
                 /**
                  * Dot product between this vector and another vector
                  * @param {SpeedyVector2} v another vector
                  * @returns {number}
                  */
-                dot(v) {
-                  return this.x * v.x + this.y * v.y;
+                dot(v2) {
+                  return this.x * v2.x + this.y * v2.y;
                 }
                 /**
                  * The distance between this vector and another vector
                  * @param {SpeedyVector2} v another vector
                  * @returns {number}
                  */
-                distanceTo(v) {
-                  const dx = this.x - v.x;
-                  const dy = this.y - v.y;
+                distanceTo(v2) {
+                  const dx = this.x - v2.x;
+                  const dy = this.y - v2.y;
                   return Math.sqrt(dx * dx + dy * dy);
                 }
                 /**
@@ -7281,24 +7281,24 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * @param {SpeedyVector2} v 
                  * @returns {SpeedyPoint2}
                  */
-                plus(v) {
-                  return new SpeedyPoint2(this.x + v.x, this.y + v.y);
+                plus(v2) {
+                  return new SpeedyPoint2(this.x + v2.x, this.y + v2.y);
                 }
                 /**
                  * Subtracts a point p from this point
                  * @param {SpeedyPoint2} p 
                  * @returns {SpeedyVector2}
                  */
-                minus(p) {
-                  return new SpeedyVector2(this.x - p.x, this.y - p.y);
+                minus(p2) {
+                  return new SpeedyVector2(this.x - p2.x, this.y - p2.y);
                 }
                 /**
                  * Is this point equal to p?
                  * @param {SpeedyPoint2} p
                  * @returns {boolean}
                  */
-                equals(p) {
-                  return this.x === p.x && this.y === p.y;
+                equals(p2) {
+                  return this.x === p2.x && this.y === p2.y;
                 }
               }
               var speedy_matrix_expr = __webpack_require__(6306);
@@ -7379,31 +7379,31 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * @param {'reduced'|'full'} [options.mode]
                  * @returns {SpeedyPromise<[SpeedyMatrix,SpeedyMatrix]>} resolves to [Q,R]
                  */
-                qr(Q, R, mat, {
+                qr(Q, R2, mat2, {
                   mode = "reduced"
                 } = {}) {
-                  const A = mat, m = mat.rows, n = mat.columns;
+                  const A2 = mat2, m = mat2.rows, n = mat2.columns;
                   if (mode == "reduced") {
-                    if (Q.rows != m || Q.columns != n || R.rows != n || R.columns != n) throw new utils_errors.qw(`Invalid shape for reduced QR`);
+                    if (Q.rows != m || Q.columns != n || R2.rows != n || R2.columns != n) throw new utils_errors.qw(`Invalid shape for reduced QR`);
                   } else if (mode == "full") {
-                    if (Q.rows != m || Q.columns != m || R.rows != m || R.columns != n) throw new utils_errors.qw(`Invalid shape for full QR`);
+                    if (Q.rows != m || Q.columns != m || R2.rows != m || R2.columns != n) throw new utils_errors.qw(`Invalid shape for full QR`);
                   } else throw new utils_errors.qw(`Invalid mode for QR: "${mode}"`);
                   return speedy_matrix_wasm.U.ready().then(({
                     wasm,
                     memory
                   }) => {
                     const Qptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, Q);
-                    const Rptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, R);
-                    const Aptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, A);
-                    speedy_matrix_wasm.U.copyToMat32(wasm, memory, Aptr, A);
+                    const Rptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, R2);
+                    const Aptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, A2);
+                    speedy_matrix_wasm.U.copyToMat32(wasm, memory, Aptr, A2);
                     if (mode == "reduced") wasm.exports.Mat32_qr_reduced(Qptr, Rptr, Aptr);
                     else wasm.exports.Mat32_qr_full(Qptr, Rptr, Aptr);
                     speedy_matrix_wasm.U.copyFromMat32(wasm, memory, Qptr, Q);
-                    speedy_matrix_wasm.U.copyFromMat32(wasm, memory, Rptr, R);
+                    speedy_matrix_wasm.U.copyFromMat32(wasm, memory, Rptr, R2);
                     speedy_matrix_wasm.U.deallocateMat32(wasm, memory, Aptr);
                     speedy_matrix_wasm.U.deallocateMat32(wasm, memory, Rptr);
                     speedy_matrix_wasm.U.deallocateMat32(wasm, memory, Qptr);
-                    return [Q, R];
+                    return [Q, R2];
                   });
                 }
                 /**
@@ -7416,22 +7416,22 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * @param {'qr'} [options.method] method of resolution
                  * @returns {SpeedyPromise<SpeedyMatrix>} resolves to solution
                  */
-                ols(solution, A, b, {
+                ols(solution, A2, b2, {
                   method = "qr"
                 } = {}) {
-                  const m = A.rows, n = A.columns;
+                  const m = A2.rows, n = A2.columns;
                   const x = solution;
                   if (m < n || n == 0) throw new utils_errors.qw(`Can't solve an underdetermined system of equations`);
-                  else if (b.rows != m || b.columns != 1 || x.rows != n || x.columns != 1) throw new utils_errors.qw(`Invalid shapes`);
+                  else if (b2.rows != m || b2.columns != 1 || x.rows != n || x.columns != 1) throw new utils_errors.qw(`Invalid shapes`);
                   return speedy_matrix_wasm.U.ready().then(({
                     wasm,
                     memory
                   }) => {
-                    const Aptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, A);
-                    const bptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, b);
+                    const Aptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, A2);
+                    const bptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, b2);
                     const xptr = speedy_matrix_wasm.U.allocateMat32(wasm, memory, x);
-                    speedy_matrix_wasm.U.copyToMat32(wasm, memory, Aptr, A);
-                    speedy_matrix_wasm.U.copyToMat32(wasm, memory, bptr, b);
+                    speedy_matrix_wasm.U.copyToMat32(wasm, memory, Aptr, A2);
+                    speedy_matrix_wasm.U.copyToMat32(wasm, memory, bptr, b2);
                     switch (method) {
                       case "qr":
                         wasm.exports.Mat32_qr_ols(xptr, Aptr, bptr, 2);
@@ -7455,20 +7455,20 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * @param {'qr'} [options.method] method of resolution
                  * @returns {SpeedyPromise<SpeedyMatrix>} resolves to solution
                  */
-                solve(solution, A, b, {
+                solve(solution, A2, b2, {
                   method = "qr"
                 } = {}) {
-                  const m = A.rows, n = A.columns;
+                  const m = A2.rows, n = A2.columns;
                   const x = solution;
                   if (m != n) throw new utils_errors.qw(`Can't solve an over or underdetermined system of equations`);
-                  else if (b.rows != m || b.columns != 1 || x.rows != m || x.columns != 1) throw new utils_errors.qw(`Invalid shapes`);
+                  else if (b2.rows != m || b2.columns != 1 || x.rows != m || x.columns != 1) throw new utils_errors.qw(`Invalid shapes`);
                   return speedy_matrix_wasm.U.ready().then(({
                     wasm,
                     memory
                   }) => {
                     switch (method) {
                       case "qr":
-                        return this.ols(x, A, b, {
+                        return this.ols(x, A2, b2, {
                           method
                         });
                       /*case 'lu':
@@ -10152,33 +10152,33 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * @param {number} [eps] epsilon
                  * @returns {number[]} 3x3 inverse matrix in column-major format
                  */
-                _inverse3(mat, eps = 1e-6) {
-                  const a11 = mat[0];
-                  const a21 = mat[1];
-                  const a31 = mat[2];
-                  const a12 = mat[3];
-                  const a22 = mat[4];
-                  const a32 = mat[5];
-                  const a13 = mat[6];
-                  const a23 = mat[7];
-                  const a33 = mat[8];
+                _inverse3(mat2, eps = 1e-6) {
+                  const a11 = mat2[0];
+                  const a21 = mat2[1];
+                  const a31 = mat2[2];
+                  const a12 = mat2[3];
+                  const a22 = mat2[4];
+                  const a32 = mat2[5];
+                  const a13 = mat2[6];
+                  const a23 = mat2[7];
+                  const a33 = mat2[8];
                   const b1 = a33 * a22 - a32 * a23;
                   const b2 = a33 * a12 - a32 * a13;
                   const b3 = a23 * a12 - a22 * a13;
                   const det = a11 * b1 - a21 * b2 + a31 * b3;
                   if (!(Math.abs(det) < eps)) {
                     const d = 1 / det;
-                    mat[0] = b1 * d;
-                    mat[1] = -(a33 * a21 - a31 * a23) * d;
-                    mat[2] = (a32 * a21 - a31 * a22) * d;
-                    mat[3] = -b2 * d;
-                    mat[4] = (a33 * a11 - a31 * a13) * d;
-                    mat[5] = -(a32 * a11 - a31 * a12) * d;
-                    mat[6] = b3 * d;
-                    mat[7] = -(a23 * a11 - a21 * a13) * d;
-                    mat[8] = (a22 * a11 - a21 * a12) * d;
-                  } else mat.fill(Number.NaN, 0, 9);
-                  return mat;
+                    mat2[0] = b1 * d;
+                    mat2[1] = -(a33 * a21 - a31 * a23) * d;
+                    mat2[2] = (a32 * a21 - a31 * a22) * d;
+                    mat2[3] = -b2 * d;
+                    mat2[4] = (a33 * a11 - a31 * a13) * d;
+                    mat2[5] = -(a32 * a11 - a31 * a12) * d;
+                    mat2[6] = b3 * d;
+                    mat2[7] = -(a23 * a11 - a21 * a13) * d;
+                    mat2[8] = (a22 * a11 - a21 * a12) * d;
+                  } else mat2.fill(Number.NaN, 0, 9);
+                  return mat2;
                 }
               }
               ;
@@ -10218,8 +10218,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  * Size of the output image relative to the size of the input image
                  * @param {SpeedyVector2} scale
                  */
-                set scale(scale) {
-                  this._scale = scale;
+                set scale(scale2) {
+                  this._scale = scale2;
                 }
                 /**
                  * Interpolation method
@@ -10375,7 +10375,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   keypoints.sortLookupTable.outputs(width, height, this._tex16[0], this._tex16[1]);
                   keypoints.encodeKeypoints.outputs(encoderLength, encoderLength, encodedKeypoints);
                   let lookupTable = keypoints.initLookupTable(corners);
-                  for (let b = 1; b < maxSize; b *= 2) lookupTable = keypoints.sortLookupTable(lookupTable, b, width, height);
+                  for (let b2 = 1; b2 < maxSize; b2 *= 2) lookupTable = keypoints.sortLookupTable(lookupTable, b2, width, height);
                   return keypoints.encodeKeypoints(corners, lookupTable, width, descriptorSize, extraSize, encoderLength, encoderCapacity);
                 }
                 _encodeKeypointsOLD(gpu2, corners, encodedKeypoints, descriptorSize = 0, extraSize = 0) {
@@ -11113,7 +11113,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   keypoints.mixKeypointsApply.outputs(encoderLength, encoderLength, tex[4]);
                   let clippedKeypoints = keypoints.clipBorder(imageWidth, imageHeight, borderTop, borderRight, borderBottom, borderLeft, encodedKeypoints, descriptorSize, extraSize, encoderLength);
                   let sortedKeypoints = keypoints.mixKeypointsInit(clippedKeypoints, descriptorSize, extraSize, encoderLength, capacity);
-                  for (let b = 1; b < capacity; b *= 2) sortedKeypoints = keypoints.mixKeypointsSort(sortedKeypoints, b);
+                  for (let b2 = 1; b2 < capacity; b2 *= 2) sortedKeypoints = keypoints.mixKeypointsSort(sortedKeypoints, b2);
                   clippedKeypoints = keypoints.mixKeypointsApply(sortedKeypoints, clippedKeypoints, descriptorSize, extraSize, encoderLength);
                   this.output().swrite(clippedKeypoints, descriptorSize, extraSize, encoderLength);
                 }
@@ -11231,7 +11231,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   keypoints.mixKeypointsApply.outputs(encoderLength, encoderLength, tex[4]);
                   let mixedKeypoints = keypoints.mixKeypointsPreInit(kps0.encodedKeypoints, kps1.encodedKeypoints, kps0.encoderLength, kps1.encoderLength, cap0, cap1, descriptorSize, extraSize, encoderLength);
                   let sortedKeypoints = keypoints.mixKeypointsInit(mixedKeypoints, descriptorSize, extraSize, encoderLength, capacity);
-                  for (let b = 1; b < capacity; b *= 2) sortedKeypoints = keypoints.mixKeypointsSort(sortedKeypoints, b);
+                  for (let b2 = 1; b2 < capacity; b2 *= 2) sortedKeypoints = keypoints.mixKeypointsSort(sortedKeypoints, b2);
                   mixedKeypoints = keypoints.mixKeypointsApply(sortedKeypoints, mixedKeypoints, descriptorSize, extraSize, encoderLength);
                   this.output().swrite(mixedKeypoints, descriptorSize, extraSize, encoderLength);
                 }
@@ -11286,7 +11286,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   gpu2.programs.keypoints.mixKeypointsSort.outputs(encoderLength, encoderLength, this._tex[2], this._tex[3]);
                   gpu2.programs.keypoints.mixKeypointsApply.outputs(encoderLength, encoderLength, this._tex[4]);
                   let sortedKeypoints = gpu2.programs.keypoints.mixKeypointsInit(encodedKeypoints, descriptorSize, extraSize, encoderLength, capacity);
-                  for (let b = 1; b < capacity; b *= 2) sortedKeypoints = gpu2.programs.keypoints.mixKeypointsSort(sortedKeypoints, b);
+                  for (let b2 = 1; b2 < capacity; b2 *= 2) sortedKeypoints = gpu2.programs.keypoints.mixKeypointsSort(sortedKeypoints, b2);
                   encodedKeypoints = gpu2.programs.keypoints.mixKeypointsApply(sortedKeypoints, encodedKeypoints, descriptorSize, extraSize, encoderLength);
                   if (!Number.isNaN(maxKeypoints) && maxKeypoints < capacity) {
                     const newEncoderLength = SpeedyPipelineNodeKeypointDetector.encoderLength(maxKeypoints, descriptorSize, extraSize);
@@ -11303,14 +11303,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                  */
                 _generatePermutation(n, bufsize = n) {
                   const array = new Int32Array(bufsize);
-                  const p = array.subarray(0, n).fill(-1);
-                  const q = utils.A.shuffle(utils.A.range(n));
+                  const p2 = array.subarray(0, n).fill(-1);
+                  const q2 = utils.A.shuffle(utils.A.range(n));
                   for (let i = 0, j = 0; i < n; i++) {
-                    if (p[i] < 0) {
+                    if (p2[i] < 0) {
                       do {
-                        p[i] = q[j++];
-                      } while (p[i] < i);
-                      p[p[i]] = i;
+                        p2[i] = q2[j++];
+                      } while (p2[i] < i);
+                      p2[p2[i]] = i;
                     }
                   }
                   return array;
@@ -11789,7 +11789,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   if (windowSize.width != windowSize.height) {
                     throw new utils_errors.EM(`LK: window ${this._windowSize.toString()} is not square!`);
                   } else if (!Object.prototype.hasOwnProperty.call(LK_PROGRAM, windowSize.width)) {
-                    const SUPPORTED_WINDOWS = Object.keys(LK_PROGRAM).sort((a, b) => a - b).map((k) => k + "x" + k).join(", ");
+                    const SUPPORTED_WINDOWS = Object.keys(LK_PROGRAM).sort((a, b2) => a - b2).map((k) => k + "x" + k).join(", ");
                     throw new utils_errors.EM(`LK: window of size ${this._windowSize.toString()} is not supported! Supported sizes: ${SUPPORTED_WINDOWS}`);
                   }
                   this._windowSize = windowSize;
@@ -12824,7 +12824,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               ;
               const matrixFactory = new SpeedyMatrixFactory();
               const vector2Factory = new SpeedyPipelineVector2Factory();
-              class Speedy29 {
+              class Speedy30 {
                 /**
                  * The version of the library
                  * @returns {string}
@@ -12961,8 +12961,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   return FPSCounter.instance.fps;
                 }
               }
-              Object.freeze(Speedy29);
-              utils.A.log(`Speedy Vision version ${Speedy29.version}. GPU-accelerated Computer Vision for JavaScript by Alexandre Martins. https://github.com/alemart/speedy-vision`);
+              Object.freeze(Speedy30);
+              utils.A.log(`Speedy Vision version ${Speedy30.version}. GPU-accelerated Computer Vision for JavaScript by Alexandre Martins. https://github.com/alemart/speedy-vision`);
               if (!globals.LITTLE_ENDIAN) utils.A.warning("Running on a big-endian machine");
             })();
             __webpack_exports__ = __webpack_exports__["default"];
@@ -13151,14 +13151,28 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             throw new AssertionError(errorMessage);
         }
         /**
-         * Returns a range [0, 1, ..., n-1]
+         * Generate the range [0, 1, ..., n-1]
          * @param n non-negative integer
-         * @returns range from 0 to n-1, inclusive
+         * @returns range from 0 to n-1, inclusive, as a new array
          */
         static range(n) {
           if ((n |= 0) < 0)
             throw new IllegalArgumentError();
           return Array.from({ length: n }, (_, i) => i);
+        }
+        /**
+         * Shuffle an array
+         * @param arr array to be shuffled in-place
+         * @returns shuffled arr
+         */
+        static shuffle(arr) {
+          for (let i = arr.length - 1; i >= 1; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const tmp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = tmp;
+          }
+          return arr;
         }
         /**
          * Wait a few milliseconds
@@ -13593,7 +13607,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       TRACK_RANSAC_REPROJECTIONERROR_NIS = NIS_SIZE * 0.0125 | 0;
       TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
       TRACK_GRID_GRANULARITY = 10;
-      TRACK_MATCH_RATIO = 0.75;
+      TRACK_MATCH_RATIO = 0.7;
       TRACK_LOST_TOLERANCE = 15;
     }
   });
@@ -13763,17 +13777,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const h = viewportSize.height;
           const iw = 1 / (camera.imageSize.width / 2);
           const ih = -1 / (camera.imageSize.height / 2);
-          const p = camera.matrix.read();
+          const p2 = camera.matrix.read();
           const l = length;
-          const o = [p[9], p[10], p[11]];
-          const x = [l * p[0] + p[9], l * p[1] + p[10], l * p[2] + p[11]];
-          const y = [l * p[3] + p[9], l * p[4] + p[10], l * p[5] + p[11]];
-          const z = [l * p[6] + p[9], l * p[7] + p[10], l * p[8] + p[11]];
+          const o = [p2[9], p2[10], p2[11]];
+          const x = [l * p2[0] + p2[9], l * p2[1] + p2[10], l * p2[2] + p2[11]];
+          const y = [l * p2[3] + p2[9], l * p2[4] + p2[10], l * p2[5] + p2[11]];
+          const z = [l * p2[6] + p2[9], l * p2[7] + p2[10], l * p2[8] + p2[11]];
           const axis = [x, y, z];
           const ox = o[0] / o[2], oy = o[1] / o[2];
           for (let i = 0; i < 3; i++) {
-            const q = axis[i];
-            const x2 = q[0] / q[2], y2 = q[1] / q[2];
+            const q2 = axis[i];
+            const x2 = q2[0] / q2[2], y2 = q2[1] / q2[2];
             ctx.beginPath();
             ctx.moveTo((ox * iw * 0.5 + 0.5) * w, (oy * ih * 0.5 + 0.5) * h);
             ctx.lineTo((x2 * iw * 0.5 + 0.5) * w, (y2 * ih * 0.5 + 0.5) * h);
@@ -13875,8 +13889,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         /**
          * Time scale (defaults to 1)
          */
-        set scale(scale) {
-          this._scale = Math.max(0, +scale);
+        set scale(scale2) {
+          this._scale = Math.max(0, +scale2);
         }
         /**
          * Time scale independent elapsed time since the start of the session,
@@ -13922,6 +13936,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     "src/core/session.ts"() {
       "use strict";
       import_speedy_vision3 = __toESM(require_speedy_vision(), 1);
+      init_main();
       init_utils();
       init_ar_events();
       init_errors();
@@ -13972,12 +13987,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             this._viewport._init(() => this._primarySource._internalMedia.size, mode);
           else
             this._viewport._init(() => Utils.resolution("sm", window.innerWidth / window.innerHeight), mode);
-          this._setupUpdateLoop();
-          this._setupRenderLoop();
           this._statsPanel = new StatsPanel(this._viewport);
           this._statsPanel.visible = stats;
           _Session._count++;
-          Utils.log(`The ${mode} session is now active!`);
+          Utils.log(`The ${this._mode} session is now active!`);
         }
         /**
          * Checks if the engine can be run in the browser the client is using
@@ -13990,7 +14003,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const matches = safari || ios;
             if (matches !== null) {
               const version = matches[3] || "0.0";
-              const [x, y] = version.split(/[\._]/).map((v) => parseInt(v) | 0);
+              const [x, y] = version.split(/[\._]/).map((v2) => parseInt(v2) | 0);
               if (x < 15 || x == 15 && y < 2) {
                 Utils.error(`${matches === safari ? "Safari" : "iOS"} version ${version} is not supported! User agent: ${navigator.userAgent}`);
                 return false;
@@ -14019,7 +14032,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             if (!_Session.isSupported())
               throw new NotSupportedError("You need a browser/device compatible with WebGL2 and WebAssembly in order to experience Augmented Reality with encantar.js");
             if (mode !== "inline" && _Session.count > 0)
-              throw new IllegalOperationError(`Can't start more than one immersive session`);
+              throw new IllegalOperationError(`Can't start multiple sessions, except in inline mode`);
+            const isStableBuild = /^\d+\.\d+(\.\d+)*$/.test(AR.version);
+            if (!isStableBuild) {
+              if (!["localhost", "127.0.0.1", "[::1]", "", "encantar.dev", "alemart.github.io"].includes(location.hostname)) {
+                if (!(location.hostname.startsWith("192.168.") || location.hostname.startsWith("10.") || /^172\.(1[6-9]|2[0-9]|3[01])\./.test(location.hostname))) {
+                  const message = "This is a development build (unstable). Do not use it in production. Get a stable release at encantar.dev";
+                  Utils.warning(message);
+                  if (!confirm(message + "\n\nAre you sure you want to continue?"))
+                    throw new AccessDeniedError("Aborted");
+                }
+              }
+            }
             return import_speedy_vision3.default.Matrix.ready();
           }).then(() => {
             for (let i = sources.length - 1; i >= 0; i--) {
@@ -14042,9 +14066,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             }
             return import_speedy_vision3.default.Promise.all(
               trackers.map((tracker) => session._attachTracker(tracker))
-            ).then(() => session).catch((err) => {
-              throw err;
-            });
+            ).then(() => session);
+          }).then((session) => {
+            session._startMainLoop();
+            return session;
           }).catch((err) => {
             Utils.error(`Can't start session: ${err.message}`);
             throw err;
@@ -14152,6 +14177,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           return this._sources[Symbol.iterator]();
         }
         /**
+         * Start the main loop
+         */
+        _startMainLoop() {
+          this._setupUpdateLoop();
+          this._setupRenderLoop();
+          Utils.log("The main loop has been started!");
+        }
+        /**
          * Find the primary source of data (generally a camera stream)
          * @param sources
          * @returns the primary source, or null if there isn't any
@@ -14224,12 +14257,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _setupUpdateLoop() {
           const scheduleNextFrame = () => {
-            if (this._active) {
-              if (Settings.powerPreference == "high-performance")
-                asap(repeat);
-              else
-                window.requestAnimationFrame(repeat);
-            }
+            if (!this._active)
+              return;
+            else if (Settings.powerPreference == "high-performance")
+              asap(repeat);
+            else
+              window.requestAnimationFrame(repeat);
           };
           const update = () => {
             this._update().then(scheduleNextFrame).turbocharge();
@@ -14282,7 +14315,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const highPerformance = Settings.powerPreference == "high-performance";
             this._time._update(timestamp);
             if (!enableFrameSkipping || !(skip = !skip))
-              this._render(timestamp, false);
+              this._render(timestamp);
             if (this._active)
               window.requestAnimationFrame(render);
           };
@@ -14293,7 +14326,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param time current time, in ms
          * @param skipUserMedia skip copying the pixels of the user media to the background canvas in order to reduce the processing load (video stream is probably at 30fps?)
          */
-        _render(time, skipUserMedia) {
+        _render(time, skipUserMedia = false) {
           if (this._active) {
             if (this._frameReady) {
               const results = this._trackers.map(
@@ -14792,15 +14825,566 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     }
   });
 
-  // src/trackers/image-tracker/image-tracker-utils.ts
-  var import_speedy_vision8, ImageTrackerUtils;
-  var init_image_tracker_utils = __esm({
-    "src/trackers/image-tracker/image-tracker-utils.ts"() {
+  // src/geometry/pnp.ts
+  function solvePlanarPnP(referencePoints, observedPoints, cameraIntrinsics) {
+    if (referencePoints.rows != 2 || observedPoints.rows != 2 || referencePoints.columns != observedPoints.columns)
+      throw new IllegalArgumentError("Bad input");
+    else if (cameraIntrinsics.rows != 3 || cameraIntrinsics.columns != 3)
+      throw new IllegalArgumentError("Bad intrinsics");
+    let n = referencePoints.columns;
+    if (n < 4)
+      throw new IllegalArgumentError("solvePlanarPnP requires at least 4 points");
+    else if (n > MAX_POINTS)
+      n = MAX_POINTS;
+    const K = cameraIntrinsics.read();
+    const fx = K[0], fy = K[4], cx = K[6], cy = K[7];
+    Kinv[0] = 1 / fx;
+    Kinv[4] = 1 / fy;
+    Kinv[6] = -cx / fx;
+    Kinv[7] = -cy / fy;
+    Kinv[8] = 1;
+    const z0 = getZ0(fx);
+    const P = referencePoints.read(), Q = observedPoints.read();
+    for (let i = 0, j = 0; i < n; i++, j += 2) {
+      const pi = p[i], qi = q[i];
+      pi[0] = P[j];
+      pi[1] = P[j + 1];
+      pi[2] = 1;
+      qi[0] = Q[j];
+      qi[1] = Q[j + 1];
+      qi[2] = 1;
+    }
+    for (let i = 0; i < n; i++) {
+      mul(u[i], Kinv, p[i]);
+      scale(u[i], u[i], z0);
+    }
+    for (let i = 0; i < n; i++) {
+      mul(v[i], Kinv, q[i]);
+      normalize(v[i], v[i]);
+    }
+    uhat[0] = uhat[1] = uhat[2] = 0;
+    for (let i = 0; i < n; i++) {
+      const ui = u[i];
+      uhat[0] += ui[0];
+      uhat[1] += ui[1];
+      uhat[2] += ui[2];
+    }
+    uhat[0] /= n;
+    uhat[1] /= n;
+    uhat[2] /= n;
+    for (let i = 0; i < n; i++)
+      sub(uc[i], u[i], uhat);
+    if (USE_NORMAL_VECTOR) {
+      const normal = findNormalVector(u, v, n);
+      if (Number.isNaN(normal[0]))
+        return INVALID_POSE;
+      const nv0 = dot(normal, v[0]);
+      for (let j = 0; j < n; j++)
+        sjs0[j] = nv0 / dot(normal, v[j]);
+    } else {
+      sjs0[0] = 1;
+      for (let k = 3; k < n; k += 3) {
+        const o = 0, i = k - 2, j = k - 1;
+        const ratios = findRatios(u, v, n, o, i, j, k);
+        if (Number.isNaN(ratios[0]))
+          return INVALID_POSE;
+        sjs0[i] = ratios[0];
+        sjs0[j] = ratios[1];
+        sjs0[k] = ratios[2];
+        if (k + 3 >= n)
+          k -= 2;
+      }
+    }
+    vhat[0] = vhat[1] = vhat[2] = 0;
+    for (let i = 0; i < n; i++) {
+      const vi = v[i];
+      const sis0 = sjs0[i];
+      vhat[0] += sis0 * vi[0];
+      vhat[1] += sis0 * vi[1];
+      vhat[2] += sis0 * vi[2];
+    }
+    vhat[0] /= n;
+    vhat[1] /= n;
+    vhat[2] /= n;
+    for (let j = 0; j < n; j++) {
+      scale(vstar, v[j], sjs0[j]);
+      sub(vstar, vstar, vhat);
+      normalize(vc[j], vstar);
+    }
+    let xx = 0, yy = 0, xy = 0, yx = 0, zx = 0, zy = 0;
+    for (let j = 0; j < n; j++) {
+      const ucj = uc[j];
+      const vcj = vc[j];
+      xx += vcj[0] * ucj[0];
+      yy += vcj[1] * ucj[1];
+      xy += vcj[0] * ucj[1];
+      yx += vcj[1] * ucj[0];
+      zx += vcj[2] * ucj[0];
+      zy += vcj[2] * ucj[1];
+    }
+    const xx2 = xx * xx, yy2 = yy * yy, xy2 = xy * xy, yx2 = yx * yx, zx2 = zx * zx, zy2 = zy * zy;
+    const delta = xx2 * (yy2 + zy2) + xy2 * (yx2 + zx2) + yx2 * zy2 + yy2 * zx2 - 2 * (xx * xy * (yx * yy + zx * zy) + yx * yy * zx * zy);
+    const eigenval = Math.sqrt(xx2 + xy2 + yx2 + yy2 + zx2 + zy2 + 2 * Math.sqrt(delta));
+    A[0] = xx - yy - eigenval;
+    A[1] = xy + yx;
+    A[2] = zx;
+    A[3] = xy + yx;
+    A[4] = -xx + yy - eigenval;
+    A[5] = zy;
+    A[6] = zx;
+    A[7] = zy;
+    A[8] = -(xx + yy + eigenval);
+    b[0] = -zy;
+    b[1] = zx;
+    b[2] = xy - yx;
+    mul(eigenvec, inverse(invA, A), b);
+    if (Number.isNaN(eigenvec[0]))
+      return INVALID_POSE;
+    const qx = eigenvec[0], qy = eigenvec[1], qz = eigenvec[2], qw = 1;
+    const qlen = Math.sqrt(qx * qx + qy * qy + qz * qz + qw * qw);
+    quaternion[0] = qx / qlen;
+    quaternion[1] = qy / qlen;
+    quaternion[2] = qz / qlen;
+    quaternion[3] = qw / qlen;
+    const h = findFarthestPointIndex(u, n, 0);
+    const shs0 = sjs0[h];
+    const vhv0 = dot(v[h], v[0]);
+    const lh0 = distance2(u[h], u[0]);
+    const s02 = lh0 / (shs0 * (shs0 - 2 * vhv0) + 1);
+    const s0 = Math.sqrt(s02);
+    quat2mat(R, quaternion);
+    scale(centroid, vhat, s0);
+    sub(t, centroid, mul(Ruhat, R, uhat));
+    for (let i = 0; i < 9; i++)
+      pose[i] = R[i];
+    for (let i = 0; i < 3; i++)
+      pose[9 + i] = t[i];
+    return import_speedy_vision8.default.Matrix(3, 4, pose);
+  }
+  function solvePlanarPnPRansac(referencePoints, observedPoints, cameraIntrinsics, options = {}) {
+    const settings = Object.assign({}, DEFAULT_RANSAC_OPTIONS, options);
+    const numberOfHypotheses = settings.numberOfHypotheses;
+    const threshold = settings.reprojectionError;
+    const acceptablePercentageOfInliers = settings.acceptablePercentageOfInliers;
+    const outputMask = settings.mask;
+    const n = referencePoints.columns;
+    if (n < 4)
+      throw new IllegalArgumentError("solvePlanarPnP requires at least 4 points");
+    const K = mat3(cameraIntrinsics.read()), E = mat3x4(0);
+    const mask = new Array(n);
+    mask.fill(0);
+    const src = referencePoints.read();
+    const dest = observedPoints.read();
+    const permutation = Utils.range(n);
+    const p2 = new Array(2 * 4), q2 = new Array(2 * 4);
+    let mp = import_speedy_vision8.default.Matrix.Zeros(2, 4), mq = import_speedy_vision8.default.Matrix.Zeros(2, 4);
+    let bestError = Number.POSITIVE_INFINITY;
+    let bestPose = INVALID_POSE;
+    for (let i = 0; i < numberOfHypotheses; i++) {
+      Utils.shuffle(permutation);
+      reorderPoints4(mp, mq, p2, q2, src, dest, permutation);
+      const pose2 = solvePlanarPnP(mp, mq, cameraIntrinsics);
+      E.set(pose2.read());
+      const homography = buildHomography(K, E);
+      const error = computeReprojectionError(homography, src, dest, threshold, mask);
+      let count = 0;
+      for (let j = 0; j < n; j++)
+        count += mask[j];
+      const newPose = pose2;
+      const newError = error;
+      if (newError > bestError)
+        continue;
+      bestError = newError;
+      bestPose = newPose;
+      if (count / n >= acceptablePercentageOfInliers)
+        break;
+    }
+    if (outputMask != null)
+      outputMask.setToSync(import_speedy_vision8.default.Matrix(1, n, mask));
+    return bestPose;
+  }
+  function find6DoFHomography(referencePoints, observedPoints, cameraIntrinsics, options = {}) {
+    const n = referencePoints.columns;
+    const settings = Object.assign({}, DEFAULT_FIND6DOFHOMOGRAPHY_OPTIONS, options);
+    const refinementQuality = Math.max(0, Math.min(settings.refinementQuality, 1));
+    const reprojectionError = settings.reprojectionError;
+    const mask = settings.mask;
+    if (n < 4)
+      return import_speedy_vision8.default.Promise.reject(new IllegalArgumentError("find6DofHomography() requires at least 4 points"));
+    else if (referencePoints.columns != observedPoints.columns || referencePoints.rows != 2 || observedPoints.rows != 2)
+      return import_speedy_vision8.default.Promise.reject(new IllegalArgumentError("Bad input"));
+    else if (cameraIntrinsics.columns != 3 || cameraIntrinsics.rows != 3)
+      return import_speedy_vision8.default.Promise.reject(new IllegalArgumentError("Bad intrinsics"));
+    const pose2 = solvePlanarPnPRansac(referencePoints, observedPoints, cameraIntrinsics, options);
+    const K = mat3(cameraIntrinsics.read());
+    const E = mat3x4(pose2.read());
+    const hom = buildHomography(K, E);
+    const entries = Array.from(hom);
+    const homography = import_speedy_vision8.default.Matrix(3, 3, entries);
+    if (refinementQuality == 0 || Number.isNaN(entries[0]))
+      return import_speedy_vision8.default.Promise.resolve(homography);
+    const src = referencePoints, dest = observedPoints;
+    const intermediate = import_speedy_vision8.default.Matrix.Zeros(2, n);
+    return import_speedy_vision8.default.Matrix.applyPerspectiveTransform(intermediate, src, homography).then(
+      (intermediate2) => import_speedy_vision8.default.Matrix.findHomography(
+        import_speedy_vision8.default.Matrix.Zeros(3),
+        intermediate2,
+        dest,
+        {
+          method: "pransac",
+          numberOfHypotheses: Math.ceil(512 * refinementQuality),
+          // XXX we can reduce this number without compromising quality
+          bundleSize: Math.ceil(128 * refinementQuality),
+          reprojectionError,
+          mask
+        }
+      )
+    ).then(
+      (adjustment) => adjustment.setTo(adjustment.times(homography))
+    );
+  }
+  function buildHomography(K, E) {
+    const fx = K[0], fy = K[4], cx = K[6], cy = K[7];
+    const z0 = getZ0(fx);
+    A4[0] = z0 / fx;
+    A4[5] = z0 / fy;
+    A4[10] = z0;
+    A4[12] = -cx * z0 / fx;
+    A4[13] = -cy * z0 / fy;
+    A4[14] = z0;
+    A4[15] = 1;
+    mul(M, E, A4);
+    rt[0] = M[0];
+    rt[1] = M[1];
+    rt[2] = M[2];
+    rt[3] = M[3];
+    rt[4] = M[4];
+    rt[5] = M[5];
+    rt[6] = M[9];
+    rt[7] = M[10];
+    rt[8] = M[11];
+    mul(H, K, rt);
+    const scale2 = 1 / H[8];
+    for (let i = 0; i < 9; i++)
+      H[i] *= scale2;
+    return H;
+  }
+  function computeReprojectionError(homography, src, dest, threshold = 3, mask = []) {
+    const [h11, h21, h31, h12, h22, h32, h13, h23, h33] = homography;
+    const [ih11, ih21, ih31, ih12, ih22, ih32, ih13, ih23, ih33] = inverse(invH, homography);
+    const n = src.length / 2;
+    const thr2 = threshold * threshold;
+    let totalError = 0;
+    mask.length = n;
+    mask.fill(0);
+    if (Number.isNaN(h11 * ih11))
+      return Number.POSITIVE_INFINITY;
+    for (let i = 0, j = 0; i < n; i++, j += 2) {
+      const px = src[j + 0];
+      const py = src[j + 1];
+      const pz = 1;
+      const qx = dest[j + 0];
+      const qy = dest[j + 1];
+      const qz = 1;
+      const hpx = h11 * px + h12 * py + h13 * pz;
+      const hpy = h21 * px + h22 * py + h23 * pz;
+      const hpz = h31 * px + h32 * py + h33 * pz;
+      const ux = hpx / hpz, uy = hpy / hpz;
+      const vx = qx / qz, vy = qy / qz;
+      const dx = ux - vx, dy = uy - vy;
+      const error2 = dx * dx + dy * dy;
+      const ihqx = ih11 * qx + ih12 * qy + ih13 * qz;
+      const ihqy = ih21 * qx + ih22 * qy + ih23 * qz;
+      const ihqz = ih31 * qx + ih32 * qy + ih33 * qz;
+      const iux = ihqx / ihqz, iuy = ihqy / ihqz;
+      const ivx = px / pz, ivy = py / pz;
+      const idx = iux - ivx, idy = iuy - ivy;
+      const ierror2 = idx * idx + idy * idy;
+      totalError += error2 + ierror2;
+      mask[i] = +(error2 < thr2 && ierror2 < thr2);
+    }
+    return totalError / n;
+  }
+  function findFarthestPointIndex(u2, n, pivot = 0) {
+    const u0 = u2[pivot];
+    if (n > u2.length)
+      throw new IllegalArgumentError();
+    let maxdist = 0, idx = 0;
+    for (let i = 0; i < n; i++) {
+      const dist = distance2(u0, u2[i]);
+      if (dist > maxdist) {
+        maxdist = dist;
+        idx = i;
+      }
+    }
+    return idx;
+  }
+  function findNormalVector(u2, v2, n) {
+    if (u2.length < 4 || v2.length < 4 || u2.length != v2.length || n > u2.length)
+      throw new IllegalArgumentError();
+    const o = 0;
+    const i = Math.floor((n - 1) / 3);
+    const j = Math.floor((n - 1) * 2 / 3);
+    const k = n - 1;
+    const ratios = findRatios(u2, v2, n, o, i, j, k);
+    if (Number.isNaN(ratios[0]))
+      return vec3(Number.NaN);
+    const v0 = v2[o], vi = v2[i], vj = v2[j];
+    scale(ri, vi, ratios[0]);
+    sub(ri, ri, v0);
+    scale(rj, vj, ratios[1]);
+    sub(rj, rj, v0);
+    normalize(nvec, cross(nvec, ri, rj));
+    return nvec;
+  }
+  function findRatios(u2, v2, n, o, i, j, k) {
+    if (u2.length < 4 || v2.length < 4 || u2.length != v2.length || n > u2.length)
+      throw new IllegalArgumentError();
+    else if (Math.min(o, i, j, k) < 0 || Math.max(o, i, j, k) >= n)
+      throw new IllegalArgumentError();
+    const u0 = u2[o], ui = u2[i], uj = u2[j], uk = u2[k];
+    const v0 = v2[o], vi = v2[i], vj = v2[j], vk = v2[k];
+    sub(wi, ui, u0);
+    sub(wj, uj, u0);
+    sub(wk, uk, u0);
+    const det2 = wi[0] * wj[1] - wi[1] * wj[0];
+    if (Math.abs(det2) < EPSILON)
+      return vec3(Number.NaN);
+    const ai = (wj[1] * wk[0] - wj[0] * wk[1]) / det2;
+    const aj = (wi[0] * wk[1] - wi[1] * wk[0]) / det2;
+    const bm = ai + aj - 1;
+    _b[0] = bm * v0[0];
+    _b[1] = bm * v0[1];
+    _b[2] = bm * v0[2];
+    _A[0] = ai * vi[0], _A[1] = ai * vi[1], _A[2] = ai * vi[2], _A[3] = aj * vj[0], _A[4] = aj * vj[1], _A[5] = aj * vj[2], _A[6] = -vk[0], _A[7] = -vk[1], _A[8] = -vk[2];
+    inverse(_invA, _A);
+    mul(_x, _invA, _b);
+    return _x;
+  }
+  function getZ0(fx, targetWidthInMeters = DEFAULT_TARGET_WIDTH_IN_METERS, sensorWidthInMeters = DEFAULT_SENSOR_WIDTH_IN_METERS) {
+    const PIXELS_PER_WORLD_UNIT = 20;
+    const f = fx / PIXELS_PER_WORLD_UNIT;
+    const r = targetWidthInMeters / sensorWidthInMeters;
+    const z0 = r * f;
+    return z0;
+  }
+  function reorderPoints4(mp, mq, p2, q2, src, dest, permutation) {
+    const n = 4;
+    Utils.assert(
+      permutation.length >= n && p2.length == n * 2 && q2.length == n * 2 && mp.rows == 2 && mp.columns == n && mq.rows == 2 && mq.columns == n
+    );
+    for (let j = 0; j < n; j++) {
+      const k = permutation[j];
+      for (let a = 0; a < 2; a++) {
+        p2[j * 2 + a] = src[k * 2 + a];
+        q2[j * 2 + a] = dest[k * 2 + a];
+      }
+    }
+    mp.data.set(p2);
+    mq.data.set(q2);
+  }
+  function mat(rows, cols = rows, entries = 0) {
+    if (typeof rows == "object")
+      return mat(rows._rows, rows._cols, rows);
+    const isSequence = typeof entries == "object";
+    if (isSequence && entries.length != rows * cols)
+      throw new IllegalArgumentError();
+    const M2 = isSequence ? new Float64Array(entries) : new Float64Array(rows * cols);
+    M2._rows = rows;
+    M2._cols = cols;
+    if (typeof entries == "number")
+      M2.fill(entries);
+    return M2;
+  }
+  function mat3(entries) {
+    return mat(3, 3, entries);
+  }
+  function mat4(entries) {
+    return mat(4, 4, entries);
+  }
+  function mat3x4(entries) {
+    return mat(3, 4, entries);
+  }
+  function vec3(entries) {
+    return mat(3, 1, entries);
+  }
+  function vec4(entries) {
+    return mat(4, 1, entries);
+  }
+  function sub(C, A2, B) {
+    const rowsA = A2._rows, colsA = A2._cols;
+    const rowsB = B._rows, colsB = B._cols;
+    const rowsC = C._rows, colsC = C._cols;
+    if (rowsA != rowsB || colsA != colsB || rowsA != rowsC || colsA != colsC)
+      throw new IllegalArgumentError();
+    for (let i = 0; i < C.length; i++)
+      C[i] = A2[i] - B[i];
+    return C;
+  }
+  function mul(C, A2, B) {
+    const rowsA = A2._rows, colsA = A2._cols;
+    const rowsB = B._rows, colsB = B._cols;
+    const rowsC = C._rows, colsC = C._cols;
+    if (rowsC != rowsA || colsC != colsB || colsA != rowsB)
+      throw new IllegalArgumentError();
+    C.fill(0);
+    for (let k = 0; k < colsC; k++) {
+      for (let j = 0; j < rowsA; j++) {
+        for (let i = 0; i < colsA; i++)
+          C[k * rowsC + j] += A2[i * rowsA + j] * B[k * rowsB + i];
+      }
+    }
+    return C;
+  }
+  function scale(B, A2, s) {
+    if (A2._rows != B._rows || A2._cols != B._cols)
+      throw new IllegalArgumentError();
+    for (let i = 0; i < B.length; i++)
+      B[i] = A2[i] * s;
+    return B;
+  }
+  function inverse(B, A2) {
+    if (A2._rows != B._rows || A2._cols != B._cols)
+      throw new IllegalArgumentError();
+    const m0 = A2[4] * A2[8] - A2[7] * A2[5];
+    const m1 = A2[3] * A2[8] - A2[6] * A2[5];
+    const m2 = A2[3] * A2[7] - A2[6] * A2[4];
+    const m3 = A2[1] * A2[8] - A2[7] * A2[2];
+    const m4 = A2[0] * A2[8] - A2[6] * A2[2];
+    const m5 = A2[0] * A2[7] - A2[6] * A2[1];
+    const m6 = A2[1] * A2[5] - A2[4] * A2[2];
+    const m7 = A2[0] * A2[5] - A2[3] * A2[2];
+    const m8 = A2[0] * A2[4] - A2[3] * A2[1];
+    const det = A2[0] * m0 - A2[1] * m1 + A2[2] * m2;
+    if (Math.abs(det) < EPSILON)
+      return B.fill(Number.NaN);
+    const idet = 1 / det;
+    B[0] = m0 * idet;
+    B[1] = -m3 * idet;
+    B[2] = m6 * idet;
+    B[3] = -m1 * idet;
+    B[4] = m4 * idet;
+    B[5] = -m7 * idet;
+    B[6] = m2 * idet;
+    B[7] = -m5 * idet;
+    B[8] = m8 * idet;
+    return B;
+  }
+  function normalize(w, v2) {
+    const len2 = dot(v2, v2);
+    const len = Math.sqrt(len2);
+    w[0] = v2[0] / len;
+    w[1] = v2[1] / len;
+    w[2] = v2[2] / len;
+    return w;
+  }
+  function distance2(u2, v2) {
+    const dx = u2[0] - v2[0];
+    const dy = u2[1] - v2[1];
+    const dz = u2[2] - v2[2];
+    return dx * dx + dy * dy + dz * dz;
+  }
+  function dot(u2, v2) {
+    return u2[0] * v2[0] + u2[1] * v2[1] + u2[2] * v2[2];
+  }
+  function cross(w, u2, v2) {
+    w[0] = u2[1] * v2[2] - u2[2] * v2[1];
+    w[1] = u2[2] * v2[0] - u2[0] * v2[2];
+    w[2] = u2[0] * v2[1] - u2[1] * v2[0];
+    return w;
+  }
+  function quat2mat(R2, q2) {
+    const x = q2[0], y = q2[1], z = q2[2], w = q2[3];
+    const x2 = 2 * x * x, y2 = 2 * y * y, z2 = 2 * z * z;
+    const xy = 2 * x * y, xz = 2 * x * z, yz = 2 * y * z;
+    const wx = 2 * w * x, wy = 2 * w * y, wz = 2 * w * z;
+    R2[0] = 1 - (y2 + z2);
+    R2[1] = xy + wz;
+    R2[2] = xz - wy;
+    R2[3] = xy - wz;
+    R2[4] = 1 - (x2 + z2);
+    R2[5] = yz + wx;
+    R2[6] = xz + wy;
+    R2[7] = yz - wx;
+    R2[8] = 1 - (x2 + y2);
+    return R2;
+  }
+  var import_speedy_vision8, DEFAULT_SENSOR_WIDTH_IN_METERS, DEFAULT_TARGET_WIDTH_IN_METERS, USE_NORMAL_VECTOR, EPSILON, MAX_POINTS, INVALID_POSE, Kinv, p, q, u, v, uc, vc, sjs0, uhat, vhat, vstar, A, invA, b, eigenvec, R, quaternion, Ruhat, centroid, t, pose, wi, wj, wk, _b, _A, _invA, _x, ri, rj, nvec, H, invH, M, rt, A4, DEFAULT_RANSAC_OPTIONS, DEFAULT_FIND6DOFHOMOGRAPHY_OPTIONS;
+  var init_pnp = __esm({
+    "src/geometry/pnp.ts"() {
       "use strict";
       import_speedy_vision8 = __toESM(require_speedy_vision(), 1);
       init_utils();
       init_errors();
+      DEFAULT_SENSOR_WIDTH_IN_METERS = 5 * 1e-3;
+      DEFAULT_TARGET_WIDTH_IN_METERS = 20 * 0.01;
+      USE_NORMAL_VECTOR = false;
+      EPSILON = 1e-8;
+      MAX_POINTS = 1024;
+      INVALID_POSE = import_speedy_vision8.default.Matrix(3, 4, new Array(12).fill(Number.NaN));
+      Kinv = mat3(0);
+      p = Array.from({ length: MAX_POINTS }, () => vec3(0));
+      q = Array.from({ length: MAX_POINTS }, () => vec3(0));
+      u = Array.from({ length: MAX_POINTS }, () => vec3(0));
+      v = Array.from({ length: MAX_POINTS }, () => vec3(0));
+      uc = Array.from({ length: MAX_POINTS }, () => vec3(0));
+      vc = Array.from({ length: MAX_POINTS }, () => vec3(0));
+      sjs0 = new Array(MAX_POINTS).fill(0);
+      uhat = vec3(0);
+      vhat = vec3(0);
+      vstar = vec3(0);
+      A = mat3(0);
+      invA = mat3(0);
+      b = vec3(0);
+      eigenvec = vec3(0);
+      R = mat3(0);
+      quaternion = vec4(0);
+      Ruhat = vec3(0);
+      centroid = vec3(0);
+      t = vec3(0);
+      pose = new Array(12).fill(0);
+      wi = vec3(0);
+      wj = vec3(0);
+      wk = vec3(0);
+      _b = vec3(0);
+      _A = mat3(0);
+      _invA = mat3(0);
+      _x = vec3(0);
+      ri = vec3(0);
+      rj = vec3(0);
+      nvec = vec3(0);
+      H = mat3(0);
+      invH = mat3(0);
+      M = mat3x4(0);
+      rt = mat3(0);
+      A4 = mat4(0);
+      DEFAULT_RANSAC_OPTIONS = {
+        numberOfHypotheses: 100,
+        reprojectionError: 3,
+        acceptablePercentageOfInliers: Number.POSITIVE_INFINITY,
+        // never exit early
+        mask: null
+      };
+      DEFAULT_FIND6DOFHOMOGRAPHY_OPTIONS = Object.assign(
+        {},
+        DEFAULT_RANSAC_OPTIONS,
+        {
+          refinementQuality: 1
+        }
+      );
+    }
+  });
+
+  // src/trackers/image-tracker/image-tracker-utils.ts
+  var import_speedy_vision9, ImageTrackerUtils;
+  var init_image_tracker_utils = __esm({
+    "src/trackers/image-tracker/image-tracker-utils.ts"() {
+      "use strict";
+      import_speedy_vision9 = __toESM(require_speedy_vision(), 1);
+      init_utils();
+      init_errors();
       init_settings();
+      init_pnp();
       ImageTrackerUtils = class {
         /**
          * Find a transformation that converts a raster space to NIS
@@ -14810,7 +15394,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         static rasterToNIS(size) {
           const sx = NIS_SIZE / size.width;
           const sy = NIS_SIZE / size.height;
-          return import_speedy_vision8.default.Matrix(3, 3, [
+          return import_speedy_vision9.default.Matrix(3, 3, [
             sx,
             0,
             0,
@@ -14829,7 +15413,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         static rasterToNDC(size) {
           const w = size.width, h = size.height;
-          return import_speedy_vision8.default.Matrix(3, 3, [
+          return import_speedy_vision9.default.Matrix(3, 3, [
             2 / w,
             0,
             0,
@@ -14848,7 +15432,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         static NDCToRaster(size) {
           const w = size.width, h = size.height;
-          return import_speedy_vision8.default.Matrix(3, 3, [
+          return import_speedy_vision9.default.Matrix(3, 3, [
             w / 2,
             0,
             0,
@@ -14867,7 +15451,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns a 3x3 matrix
          */
         static scaleNDC(sx, sy = sx) {
-          return import_speedy_vision8.default.Matrix(3, 3, [
+          return import_speedy_vision9.default.Matrix(3, 3, [
             sx,
             0,
             0,
@@ -14885,11 +15469,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param scale optional scale factor in both axes
          * @returns a 3x3 matrix
          */
-        static bestFitScaleNDC(aspectRatio, scale = 1) {
+        static bestFitScaleNDC(aspectRatio, scale2 = 1) {
           if (aspectRatio >= 1)
-            return this.scaleNDC(scale, scale / aspectRatio);
+            return this.scaleNDC(scale2, scale2 / aspectRatio);
           else
-            return this.scaleNDC(scale * aspectRatio, scale);
+            return this.scaleNDC(scale2 * aspectRatio, scale2);
         }
         /**
          * Find the inverse matrix of bestFitScaleNDC()
@@ -14897,11 +15481,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param scale optional, as given to bestFitScaleNDC()
          * @returns a 3x3 matrix
          */
-        static inverseBestFitScaleNDC(aspectRatio, scale = 1) {
+        static inverseBestFitScaleNDC(aspectRatio, scale2 = 1) {
           if (aspectRatio >= 1)
-            return this.scaleNDC(1 / scale, aspectRatio / scale);
+            return this.scaleNDC(1 / scale2, aspectRatio / scale2);
           else
-            return this.scaleNDC(1 / (scale * aspectRatio), 1 / scale);
+            return this.scaleNDC(1 / (scale2 * aspectRatio), 1 / scale2);
         }
         /**
          * Find the best-fit aspect ratio for the rectification of the reference image in NDC
@@ -14926,17 +15510,52 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const n = pairs.length;
           if (n == 0)
             throw new IllegalArgumentError();
-          const scale = 2 / NIS_SIZE;
+          const scale2 = 2 / NIS_SIZE;
           const data = new Array(2 * 2 * n);
           for (let i = 0, j = 0, k = 2 * n; i < n; i++, j += 2, k += 2) {
             const src = pairs[i][0];
             const dest = pairs[i][1];
-            data[j] = src.x * scale - 1;
-            data[j + 1] = 1 - src.y * scale;
-            data[k] = dest.x * scale - 1;
-            data[k + 1] = 1 - dest.y * scale;
+            data[j] = src.x * scale2 - 1;
+            data[j + 1] = 1 - src.y * scale2;
+            data[k] = dest.x * scale2 - 1;
+            data[k + 1] = 1 - dest.y * scale2;
           }
-          return import_speedy_vision8.default.Matrix(2, 2 * n, data);
+          return import_speedy_vision9.default.Matrix(2, 2 * n, data);
+        }
+        /**
+         * Given n > 0 pairs of keypoints in NDC as a 2 x 2n [ src | dest ] matrix,
+         * find a 6 DoF perspective warp (homography) from src to dest in NDC
+         * @param cameraIntrinsics 3x3 camera intrinsics
+         * @param points compiled pairs of keypoints in NDC
+         * @param options to be passed to find6DofHomography
+         * @returns a pair [ 3x3 transformation matrix, quality score ]
+         */
+        static find6DoFHomographyNDC(cameraIntrinsics, points, options) {
+          const n = points.columns / 2;
+          if (n < 4) {
+            return import_speedy_vision9.default.Promise.reject(
+              new IllegalArgumentError(`Too few data points to compute a perspective warp`)
+            );
+          }
+          const src = points.block(0, 1, 0, n - 1);
+          const dest = points.block(0, 1, n, 2 * n - 1);
+          const mask = options.mask || import_speedy_vision9.default.Matrix.Zeros(1, n);
+          return find6DoFHomography(
+            src,
+            dest,
+            cameraIntrinsics,
+            Object.assign({ mask }, options)
+          ).then((homography) => {
+            const a00 = homography.at(0, 0);
+            if (Number.isNaN(a00))
+              throw new NumericalError(`Can't compute a perspective warp: bad keypoints`);
+            let m = 0;
+            const inliers = mask.read();
+            for (let i = 0; i < n; i++)
+              m += inliers[i];
+            const score = m / n;
+            return [homography, score];
+          });
         }
         /**
          * Given n > 0 pairs of keypoints in NDC as a 2 x 2n [ src | dest ] matrix,
@@ -14948,15 +15567,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         static findPerspectiveWarpNDC(points, options) {
           const n = points.columns / 2;
           if (n < 4) {
-            return import_speedy_vision8.default.Promise.reject(
+            return import_speedy_vision9.default.Promise.reject(
               new IllegalArgumentError(`Too few data points to compute a perspective warp`)
             );
           }
           const src = points.block(0, 1, 0, n - 1);
           const dest = points.block(0, 1, n, 2 * n - 1);
-          const mask = import_speedy_vision8.default.Matrix.Zeros(1, n);
-          return import_speedy_vision8.default.Matrix.findHomography(
-            import_speedy_vision8.default.Matrix.Zeros(3),
+          const mask = options.mask || import_speedy_vision9.default.Matrix.Zeros(1, n);
+          return import_speedy_vision9.default.Matrix.findHomography(
+            import_speedy_vision9.default.Matrix.Zeros(3),
             src,
             dest,
             Object.assign({ mask }, options)
@@ -14964,11 +15583,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const a00 = homography.at(0, 0);
             if (Number.isNaN(a00))
               throw new NumericalError(`Can't compute a perspective warp: bad keypoints`);
+            let m = 0;
             const inliers = mask.read();
-            let inlierCount = 0;
-            for (let i = inliers.length - 1; i >= 0; i--)
-              inlierCount += inliers[i];
-            const score = inlierCount / inliers.length;
+            for (let i = 0; i < n; i++)
+              m += inliers[i];
+            const score = m / n;
             return [homography, score];
           });
         }
@@ -14983,15 +15602,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         static findAffineWarpNDC(points, options) {
           const n = points.columns / 2;
           if (n < 3) {
-            return import_speedy_vision8.default.Promise.reject(
+            return import_speedy_vision9.default.Promise.reject(
               new IllegalArgumentError(`Too few data points to compute an affine warp`)
             );
           }
-          const model = import_speedy_vision8.default.Matrix.Eye(3);
+          const model = import_speedy_vision9.default.Matrix.Eye(3);
           const src = points.block(0, 1, 0, n - 1);
           const dest = points.block(0, 1, n, 2 * n - 1);
-          const mask = import_speedy_vision8.default.Matrix.Zeros(1, n);
-          return import_speedy_vision8.default.Matrix.findAffineTransform(
+          const mask = options.mask || import_speedy_vision9.default.Matrix.Zeros(1, n);
+          return import_speedy_vision9.default.Matrix.findAffineTransform(
             model.block(0, 1, 0, 2),
             // 2x3 submatrix
             src,
@@ -15001,11 +15620,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const a00 = model.at(0, 0);
             if (Number.isNaN(a00))
               throw new NumericalError(`Can't compute an affine warp: bad keypoints`);
+            let m = 0;
             const inliers = mask.read();
-            let inlierCount = 0;
-            for (let i = inliers.length - 1; i >= 0; i--)
-              inlierCount += inliers[i];
-            const score = inlierCount / inliers.length;
+            for (let i = 0; i < n; i++)
+              m += inliers[i];
+            const score = m / n;
             return [model, score];
           });
         }
@@ -15019,11 +15638,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const uv = [-1, 1, -1, -1, 1, -1, 1, 1];
           const polyline = new Array(4);
           for (let i = 0, j = 0; i < 4; i++, j += 2) {
-            const u = uv[j], v = uv[j + 1];
-            const x = h[0] * u + h[3] * v + h[6];
-            const y = h[1] * u + h[4] * v + h[7];
-            const w = h[2] * u + h[5] * v + h[8];
-            polyline[i] = import_speedy_vision8.default.Point2(x / w, y / w);
+            const u2 = uv[j], v2 = uv[j + 1];
+            const x = h[0] * u2 + h[3] * v2 + h[6];
+            const y = h[1] * u2 + h[4] * v2 + h[7];
+            const w = h[2] * u2 + h[5] * v2 + h[8];
+            polyline[i] = import_speedy_vision9.default.Point2(x / w, y / w);
           }
           return polyline;
         }
@@ -15108,11 +15727,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/states/training.ts
-  var import_speedy_vision9, ImageTrackerTrainingState;
+  var import_speedy_vision10, ImageTrackerTrainingState;
   var init_training = __esm({
     "src/trackers/image-tracker/states/training.ts"() {
       "use strict";
-      import_speedy_vision9 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision10 = __toESM(require_speedy_vision(), 1);
       init_image_tracker_utils();
       init_state();
       init_utils();
@@ -15168,14 +15787,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const referenceImage = this._trainingMap.referenceImages[this._currentImageIndex];
           source.media = referenceImage.media;
           const resolution = this._imageTracker.resolution;
-          const scale = TRAIN_IMAGE_SCALE;
+          const scale2 = TRAIN_IMAGE_SCALE;
           const aspectRatioOfTrainingImage = referenceImage.aspectRatio;
           screen2.size = Utils.resolution(resolution, aspectRatioOfTrainingImage);
-          screen2.size.width = Math.round(screen2.size.width * scale);
-          screen2.size.height = Math.round(screen2.size.height * scale);
+          screen2.size.width = Math.round(screen2.size.width * scale2);
+          screen2.size.height = Math.round(screen2.size.height * scale2);
           keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screen2.size);
           Utils.log(`Image Tracker: training using reference image "${referenceImage.name}" at ${screen2.size.width}x${screen2.size.height}...`);
-          return import_speedy_vision9.default.Promise.resolve();
+          return import_speedy_vision10.default.Promise.resolve();
         }
         /**
          * Post processing that takes place just after the GPU processing
@@ -15198,12 +15817,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           }
           ++this._currentImageIndex;
           if (this._currentImageIndex < this._trainingMap.referenceImages.length) {
-            return import_speedy_vision9.default.Promise.resolve({
+            return import_speedy_vision10.default.Promise.resolve({
               nextState: "training",
               trackerOutput
             });
           }
-          return import_speedy_vision9.default.Promise.resolve({
+          return import_speedy_vision10.default.Promise.resolve({
             nextState: "scanning",
             trackerOutput,
             nextStateSettings: {
@@ -15216,26 +15835,26 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns pipeline
          */
         _createPipeline() {
-          const pipeline = import_speedy_vision9.default.Pipeline();
-          const source = import_speedy_vision9.default.Image.Source("source");
-          const screen2 = import_speedy_vision9.default.Transform.Resize("screen");
-          const greyscale = import_speedy_vision9.default.Filter.Greyscale();
-          const blur = import_speedy_vision9.default.Filter.GaussianBlur();
-          const nightvision = import_speedy_vision9.default.Filter.Nightvision();
-          const nightvisionMux = import_speedy_vision9.default.Image.Multiplexer("nightvisionMux");
-          const pyramid = import_speedy_vision9.default.Image.Pyramid();
-          const detector = import_speedy_vision9.default.Keypoint.Detector.FAST("fast");
-          const descriptor = import_speedy_vision9.default.Keypoint.Descriptor.ORB();
-          const subpixel = import_speedy_vision9.default.Keypoint.SubpixelRefiner();
-          const blurredPyramid = import_speedy_vision9.default.Image.Pyramid();
-          const denoiser = import_speedy_vision9.default.Filter.GaussianBlur();
-          const clipper = import_speedy_vision9.default.Keypoint.Clipper();
-          const keypointScaler = import_speedy_vision9.default.Keypoint.Transformer("keypointScaler");
-          const keypointSink = import_speedy_vision9.default.Keypoint.Sink("keypoints");
+          const pipeline = import_speedy_vision10.default.Pipeline();
+          const source = import_speedy_vision10.default.Image.Source("source");
+          const screen2 = import_speedy_vision10.default.Transform.Resize("screen");
+          const greyscale = import_speedy_vision10.default.Filter.Greyscale();
+          const blur = import_speedy_vision10.default.Filter.GaussianBlur();
+          const nightvision = import_speedy_vision10.default.Filter.Nightvision();
+          const nightvisionMux = import_speedy_vision10.default.Image.Multiplexer("nightvisionMux");
+          const pyramid = import_speedy_vision10.default.Image.Pyramid();
+          const detector = import_speedy_vision10.default.Keypoint.Detector.FAST("fast");
+          const descriptor = import_speedy_vision10.default.Keypoint.Descriptor.ORB();
+          const subpixel = import_speedy_vision10.default.Keypoint.SubpixelRefiner();
+          const blurredPyramid = import_speedy_vision10.default.Image.Pyramid();
+          const denoiser = import_speedy_vision10.default.Filter.GaussianBlur();
+          const clipper = import_speedy_vision10.default.Keypoint.Clipper();
+          const keypointScaler = import_speedy_vision10.default.Keypoint.Transformer("keypointScaler");
+          const keypointSink = import_speedy_vision10.default.Keypoint.Sink("keypoints");
           source.media = null;
-          screen2.size = import_speedy_vision9.default.Size(0, 0);
-          blur.kernelSize = import_speedy_vision9.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
-          blur.sigma = import_speedy_vision9.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
+          screen2.size = import_speedy_vision10.default.Size(0, 0);
+          blur.kernelSize = import_speedy_vision10.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
+          blur.sigma = import_speedy_vision10.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
           nightvision.gain = NIGHTVISION_GAIN;
           nightvision.offset = NIGHTVISION_OFFSET;
           nightvision.decay = NIGHTVISION_DECAY;
@@ -15246,10 +15865,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           detector.threshold = SCAN_FAST_THRESHOLD;
           detector.capacity = 8192;
           subpixel.method = SUBPIXEL_METHOD;
-          denoiser.kernelSize = import_speedy_vision9.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
-          denoiser.sigma = import_speedy_vision9.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
+          denoiser.kernelSize = import_speedy_vision10.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
+          denoiser.sigma = import_speedy_vision10.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
           clipper.size = TRAIN_MAX_KEYPOINTS;
-          keypointScaler.transform = import_speedy_vision9.default.Matrix.Eye(3);
+          keypointScaler.transform = import_speedy_vision10.default.Matrix.Eye(3);
           keypointSink.turbo = false;
           source.output().connectTo(screen2.input());
           screen2.output().connectTo(greyscale.input());
@@ -15328,11 +15947,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/states/scanning.ts
-  var import_speedy_vision10, PORT_CAMERA, PORT_MEMORY, ImageTrackerScanningState;
+  var import_speedy_vision11, PORT_CAMERA, PORT_MEMORY, ImageTrackerScanningState;
   var init_scanning = __esm({
     "src/trackers/image-tracker/states/scanning.ts"() {
       "use strict";
-      import_speedy_vision10 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision11 = __toESM(require_speedy_vision(), 1);
       init_image_tracker_utils();
       init_state();
       init_utils();
@@ -15349,7 +15968,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           super("scanning", imageTracker);
           this._counter = 0;
           this._bestScore = 0;
-          this._bestHomography = import_speedy_vision10.default.Matrix.Eye(3);
+          this._bestHomography = import_speedy_vision11.default.Matrix.Eye(3);
         }
         /**
          * Called as soon as this becomes the active state, just before update() runs for the first time
@@ -15373,7 +15992,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const keypointScaler = this._pipeline.node("keypointScaler");
           const screenSize = this.screenSize;
           keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screenSize);
-          return import_speedy_vision10.default.Promise.resolve();
+          return import_speedy_vision11.default.Promise.resolve();
         }
         /**
          * Post processing that takes place just after the GPU processing
@@ -15394,7 +16013,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (matchedKeypoints.length < SCAN_MIN_MATCHES) {
             this._counter = 0;
             this._bestScore = 0;
-            return import_speedy_vision10.default.Promise.resolve({
+            return import_speedy_vision11.default.Promise.resolve({
               nextState: "scanning",
               trackerOutput
             });
@@ -15502,30 +16121,30 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns pipeline
          */
         _createPipeline() {
-          const pipeline = import_speedy_vision10.default.Pipeline();
-          const source = import_speedy_vision10.default.Image.Source("source");
-          const screen2 = import_speedy_vision10.default.Transform.Resize("screen");
-          const greyscale = import_speedy_vision10.default.Filter.Greyscale();
-          const blur = import_speedy_vision10.default.Filter.GaussianBlur();
-          const nightvision = import_speedy_vision10.default.Filter.Nightvision();
-          const nightvisionMux = import_speedy_vision10.default.Image.Multiplexer("nightvisionMux");
-          const pyramid = import_speedy_vision10.default.Image.Pyramid();
-          const detector = import_speedy_vision10.default.Keypoint.Detector.FAST();
-          const descriptor = import_speedy_vision10.default.Keypoint.Descriptor.ORB();
-          const clipper = import_speedy_vision10.default.Keypoint.Clipper();
-          const lshTables = import_speedy_vision10.default.Keypoint.Matcher.StaticLSHTables("lshTables");
-          const knn = import_speedy_vision10.default.Keypoint.Matcher.LSHKNN();
-          const keypointScaler = import_speedy_vision10.default.Keypoint.Transformer("keypointScaler");
-          const keypointSink = import_speedy_vision10.default.Keypoint.SinkOfMatchedKeypoints("keypoints");
-          const imagePortalSink = import_speedy_vision10.default.Image.Portal.Sink("imagePortalSink");
-          const imagePortalSource = import_speedy_vision10.default.Image.Portal.Source("imagePortalSource");
-          const imagePortalMux = import_speedy_vision10.default.Image.Multiplexer("imagePortalMux");
-          const imagePortalBuffer = import_speedy_vision10.default.Image.Buffer();
-          const imagePortalCopy = import_speedy_vision10.default.Transform.Resize();
+          const pipeline = import_speedy_vision11.default.Pipeline();
+          const source = import_speedy_vision11.default.Image.Source("source");
+          const screen2 = import_speedy_vision11.default.Transform.Resize("screen");
+          const greyscale = import_speedy_vision11.default.Filter.Greyscale();
+          const blur = import_speedy_vision11.default.Filter.GaussianBlur();
+          const nightvision = import_speedy_vision11.default.Filter.Nightvision();
+          const nightvisionMux = import_speedy_vision11.default.Image.Multiplexer("nightvisionMux");
+          const pyramid = import_speedy_vision11.default.Image.Pyramid();
+          const detector = import_speedy_vision11.default.Keypoint.Detector.FAST();
+          const descriptor = import_speedy_vision11.default.Keypoint.Descriptor.ORB();
+          const clipper = import_speedy_vision11.default.Keypoint.Clipper();
+          const lshTables = import_speedy_vision11.default.Keypoint.Matcher.StaticLSHTables("lshTables");
+          const knn = import_speedy_vision11.default.Keypoint.Matcher.LSHKNN();
+          const keypointScaler = import_speedy_vision11.default.Keypoint.Transformer("keypointScaler");
+          const keypointSink = import_speedy_vision11.default.Keypoint.SinkOfMatchedKeypoints("keypoints");
+          const imagePortalSink = import_speedy_vision11.default.Image.Portal.Sink("imagePortalSink");
+          const imagePortalSource = import_speedy_vision11.default.Image.Portal.Source("imagePortalSource");
+          const imagePortalMux = import_speedy_vision11.default.Image.Multiplexer("imagePortalMux");
+          const imagePortalBuffer = import_speedy_vision11.default.Image.Buffer();
+          const imagePortalCopy = import_speedy_vision11.default.Transform.Resize();
           source.media = null;
-          screen2.size = import_speedy_vision10.default.Size(0, 0);
-          blur.kernelSize = import_speedy_vision10.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
-          blur.sigma = import_speedy_vision10.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
+          screen2.size = import_speedy_vision11.default.Size(0, 0);
+          blur.kernelSize = import_speedy_vision11.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
+          blur.sigma = import_speedy_vision11.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
           nightvision.gain = NIGHTVISION_GAIN;
           nightvision.offset = NIGHTVISION_OFFSET;
           nightvision.decay = NIGHTVISION_DECAY;
@@ -15543,9 +16162,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           knn.quality = "default";
           imagePortalSource.source = imagePortalSink;
           imagePortalMux.port = PORT_CAMERA;
-          imagePortalCopy.size = import_speedy_vision10.default.Size(0, 0);
-          imagePortalCopy.scale = import_speedy_vision10.default.Vector2(1, 1);
-          keypointScaler.transform = import_speedy_vision10.default.Matrix.Eye(3);
+          imagePortalCopy.size = import_speedy_vision11.default.Size(0, 0);
+          imagePortalCopy.scale = import_speedy_vision11.default.Vector2(1, 1);
+          keypointScaler.transform = import_speedy_vision11.default.Matrix.Eye(3);
           keypointSink.turbo = true;
           source.output().connectTo(screen2.input());
           screen2.output().connectTo(greyscale.input());
@@ -15597,11 +16216,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/states/pre-tracking-a.ts
-  var import_speedy_vision11, ImageTrackerPreTrackingAState;
+  var import_speedy_vision12, ImageTrackerPreTrackingAState;
   var init_pre_tracking_a = __esm({
     "src/trackers/image-tracker/states/pre-tracking-a.ts"() {
       "use strict";
-      import_speedy_vision11 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision12 = __toESM(require_speedy_vision(), 1);
       init_image_tracker_utils();
       init_state();
       init_utils();
@@ -15613,7 +16232,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         constructor(imageTracker) {
           super("pre-tracking-a", imageTracker);
-          this._homography = import_speedy_vision11.default.Matrix.Eye(3);
+          this._homography = import_speedy_vision12.default.Matrix.Eye(3);
           this._referenceImage = null;
           this._snapshot = null;
         }
@@ -15641,14 +16260,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const borderClipper = this._pipeline.node("borderClipper");
           source.media = this._referenceImage.media;
           borderClipper.imageSize = screenSize;
-          borderClipper.borderSize = import_speedy_vision11.default.Vector2(
+          borderClipper.borderSize = import_speedy_vision12.default.Vector2(
             screenSize.width * TRACK_CLIPPING_BORDER,
             screenSize.height * TRACK_CLIPPING_BORDER
           );
           keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screenSize);
-          const scale = TRACK_RECTIFIED_SCALE;
+          const scale2 = TRACK_RECTIFIED_SCALE;
           const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(screenSize, this._referenceImage);
-          const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
+          const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale2);
           const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
           const toNDC = ImageTrackerUtils.rasterToNDC(screenSize);
           return imageRectifier.transform.setTo(
@@ -15672,12 +16291,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           };
           if (keypoints.length < PRE_TRACK_MIN_MATCHES) {
             Utils.warning(`Can't pre-track "${referenceImage.name}" in ${this.name}!`);
-            return import_speedy_vision11.default.Promise.resolve({
+            return import_speedy_vision12.default.Promise.resolve({
               nextState: "scanning",
               trackerOutput
             });
           }
-          return import_speedy_vision11.default.Promise.resolve({
+          return import_speedy_vision12.default.Promise.resolve({
             nextState: "pre-tracking-b",
             trackerOutput,
             nextStateSettings: {
@@ -15693,42 +16312,42 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns pipeline
          */
         _createPipeline() {
-          const pipeline = import_speedy_vision11.default.Pipeline();
-          const source = import_speedy_vision11.default.Image.Source("source");
-          const screen2 = import_speedy_vision11.default.Transform.Resize("screen");
-          const greyscale = import_speedy_vision11.default.Filter.Greyscale();
-          const imageRectifier = import_speedy_vision11.default.Transform.PerspectiveWarp("imageRectifier");
-          const nightvision = import_speedy_vision11.default.Filter.Nightvision();
-          const nightvisionMux = import_speedy_vision11.default.Image.Multiplexer();
-          const detector = import_speedy_vision11.default.Keypoint.Detector.Harris();
-          const descriptor = import_speedy_vision11.default.Keypoint.Descriptor.ORB();
-          const blur = import_speedy_vision11.default.Filter.GaussianBlur();
-          const clipper = import_speedy_vision11.default.Keypoint.Clipper();
-          const borderClipper = import_speedy_vision11.default.Keypoint.BorderClipper("borderClipper");
-          const denoiser = import_speedy_vision11.default.Filter.GaussianBlur();
-          const subpixel = import_speedy_vision11.default.Keypoint.SubpixelRefiner();
-          const keypointScaler = import_speedy_vision11.default.Keypoint.Transformer("keypointScaler");
-          const keypointPortalSink = import_speedy_vision11.default.Keypoint.Portal.Sink("keypointPortalSink");
-          const keypointSink = import_speedy_vision11.default.Keypoint.Sink("keypoints");
+          const pipeline = import_speedy_vision12.default.Pipeline();
+          const source = import_speedy_vision12.default.Image.Source("source");
+          const screen2 = import_speedy_vision12.default.Transform.Resize("screen");
+          const greyscale = import_speedy_vision12.default.Filter.Greyscale();
+          const imageRectifier = import_speedy_vision12.default.Transform.PerspectiveWarp("imageRectifier");
+          const nightvision = import_speedy_vision12.default.Filter.Nightvision();
+          const nightvisionMux = import_speedy_vision12.default.Image.Multiplexer();
+          const detector = import_speedy_vision12.default.Keypoint.Detector.Harris();
+          const descriptor = import_speedy_vision12.default.Keypoint.Descriptor.ORB();
+          const blur = import_speedy_vision12.default.Filter.GaussianBlur();
+          const clipper = import_speedy_vision12.default.Keypoint.Clipper();
+          const borderClipper = import_speedy_vision12.default.Keypoint.BorderClipper("borderClipper");
+          const denoiser = import_speedy_vision12.default.Filter.GaussianBlur();
+          const subpixel = import_speedy_vision12.default.Keypoint.SubpixelRefiner();
+          const keypointScaler = import_speedy_vision12.default.Keypoint.Transformer("keypointScaler");
+          const keypointPortalSink = import_speedy_vision12.default.Keypoint.Portal.Sink("keypointPortalSink");
+          const keypointSink = import_speedy_vision12.default.Keypoint.Sink("keypoints");
           source.media = null;
-          imageRectifier.transform = import_speedy_vision11.default.Matrix.Eye(3);
-          screen2.size = import_speedy_vision11.default.Size(0, 0);
+          imageRectifier.transform = import_speedy_vision12.default.Matrix.Eye(3);
+          screen2.size = import_speedy_vision12.default.Size(0, 0);
           nightvision.gain = NIGHTVISION_GAIN;
           nightvision.offset = NIGHTVISION_OFFSET;
           nightvision.decay = NIGHTVISION_DECAY;
           nightvision.quality = NIGHTVISION_QUALITY;
           nightvisionMux.port = TRACK_WITH_NIGHTVISION ? 1 : 0;
-          blur.kernelSize = import_speedy_vision11.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
-          blur.sigma = import_speedy_vision11.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
-          denoiser.kernelSize = import_speedy_vision11.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
-          denoiser.sigma = import_speedy_vision11.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
+          blur.kernelSize = import_speedy_vision12.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
+          blur.sigma = import_speedy_vision12.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
+          denoiser.kernelSize = import_speedy_vision12.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
+          denoiser.sigma = import_speedy_vision12.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
           detector.quality = TRACK_HARRIS_QUALITY;
           detector.capacity = TRACK_DETECTOR_CAPACITY;
           subpixel.method = SUBPIXEL_METHOD;
           clipper.size = TRACK_MAX_KEYPOINTS;
           borderClipper.imageSize = screen2.size;
-          borderClipper.borderSize = import_speedy_vision11.default.Vector2(0, 0);
-          keypointScaler.transform = import_speedy_vision11.default.Matrix.Eye(3);
+          borderClipper.borderSize = import_speedy_vision12.default.Vector2(0, 0);
+          keypointScaler.transform = import_speedy_vision12.default.Matrix.Eye(3);
           keypointSink.turbo = false;
           source.output().connectTo(screen2.input());
           screen2.output().connectTo(greyscale.input());
@@ -15774,11 +16393,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/states/pre-tracking-b.ts
-  var import_speedy_vision12, PORT_PORTAL, PORT_CAMERA2, ImageTrackerPreTrackingBState;
+  var import_speedy_vision13, PORT_PORTAL, PORT_CAMERA2, ImageTrackerPreTrackingBState;
   var init_pre_tracking_b = __esm({
     "src/trackers/image-tracker/states/pre-tracking-b.ts"() {
       "use strict";
-      import_speedy_vision12 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision13 = __toESM(require_speedy_vision(), 1);
       init_image_tracker_utils();
       init_state();
       init_utils();
@@ -15793,7 +16412,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         constructor(imageTracker) {
           super("pre-tracking-b", imageTracker);
-          this._homography = import_speedy_vision12.default.Matrix.Eye(3);
+          this._homography = import_speedy_vision13.default.Matrix.Eye(3);
           this._referenceImage = null;
           this._snapshot = null;
           this._referenceKeypointPortalSink = null;
@@ -15832,14 +16451,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           imagePortalSource.source = this._snapshot;
           referenceKeypointPortalSource.source = this._referenceKeypointPortalSink;
           borderClipper.imageSize = screenSize;
-          borderClipper.borderSize = import_speedy_vision12.default.Vector2(
+          borderClipper.borderSize = import_speedy_vision13.default.Vector2(
             screenSize.width * TRACK_CLIPPING_BORDER,
             screenSize.height * TRACK_CLIPPING_BORDER
           );
           keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screenSize);
-          const scale = TRACK_RECTIFIED_SCALE;
+          const scale2 = TRACK_RECTIFIED_SCALE;
           const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(screenSize, this._referenceImage);
-          const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
+          const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale2);
           const undistort = this._homography.inverse();
           const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
           const toNDC = ImageTrackerUtils.rasterToNDC(screenSize);
@@ -15865,7 +16484,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             // debug only
             image
           };
-          return import_speedy_vision12.default.Promise.resolve().then(() => {
+          return import_speedy_vision13.default.Promise.resolve().then(() => {
             const pairs = this._findMatchingPairs(referenceKeypoints, keypoints);
             if (pairs.length < PRE_TRACK_MIN_MATCHES)
               throw new TrackingError("Not enough data points");
@@ -15910,10 +16529,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             mask: void 0
             // score is not needed
           }).then(([warp, score]) => {
-            const scale = TRACK_RECTIFIED_SCALE;
+            const scale2 = TRACK_RECTIFIED_SCALE;
             const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage);
-            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
-            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
+            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale2);
+            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale2);
             const scaledWarp = grow.times(warp).times(shrink);
             const distort = this._homography;
             const undistort = distort.inverse();
@@ -15947,53 +16566,53 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns pipeline
          */
         _createPipeline() {
-          const pipeline = import_speedy_vision12.default.Pipeline();
-          const source = import_speedy_vision12.default.Image.Source("source");
-          const imagePortalSource = import_speedy_vision12.default.Image.Portal.Source("imagePortalSource");
-          const sourceMux = import_speedy_vision12.default.Image.Multiplexer("sourceMux");
-          const sourceBuffer = import_speedy_vision12.default.Image.Buffer("sourceBuffer");
-          const referenceKeypointPortalSource = import_speedy_vision12.default.Keypoint.Portal.Source("referenceKeypointPortalSource");
-          const screen2 = import_speedy_vision12.default.Transform.Resize("screen");
-          const greyscale = import_speedy_vision12.default.Filter.Greyscale();
-          const imageRectifier = import_speedy_vision12.default.Transform.PerspectiveWarp("imageRectifier");
-          const nightvision = import_speedy_vision12.default.Filter.Nightvision();
-          const nightvisionMux = import_speedy_vision12.default.Image.Multiplexer();
-          const detector = import_speedy_vision12.default.Keypoint.Detector.Harris();
-          const descriptor = import_speedy_vision12.default.Keypoint.Descriptor.ORB();
-          const blur = import_speedy_vision12.default.Filter.GaussianBlur();
-          const clipper = import_speedy_vision12.default.Keypoint.Clipper();
-          const borderClipper = import_speedy_vision12.default.Keypoint.BorderClipper("borderClipper");
-          const denoiser = import_speedy_vision12.default.Filter.GaussianBlur();
-          const subpixel = import_speedy_vision12.default.Keypoint.SubpixelRefiner();
-          const matcher = import_speedy_vision12.default.Keypoint.Matcher.BFKNN();
-          const keypointScaler = import_speedy_vision12.default.Keypoint.Transformer("keypointScaler");
-          const keypointSink = import_speedy_vision12.default.Keypoint.SinkOfMatchedKeypoints("keypoints");
-          const keypointPortalSink = import_speedy_vision12.default.Keypoint.Portal.Sink("keypointPortalSink");
-          const referenceKeypointSink = import_speedy_vision12.default.Keypoint.Sink("referenceKeypoints");
+          const pipeline = import_speedy_vision13.default.Pipeline();
+          const source = import_speedy_vision13.default.Image.Source("source");
+          const imagePortalSource = import_speedy_vision13.default.Image.Portal.Source("imagePortalSource");
+          const sourceMux = import_speedy_vision13.default.Image.Multiplexer("sourceMux");
+          const sourceBuffer = import_speedy_vision13.default.Image.Buffer("sourceBuffer");
+          const referenceKeypointPortalSource = import_speedy_vision13.default.Keypoint.Portal.Source("referenceKeypointPortalSource");
+          const screen2 = import_speedy_vision13.default.Transform.Resize("screen");
+          const greyscale = import_speedy_vision13.default.Filter.Greyscale();
+          const imageRectifier = import_speedy_vision13.default.Transform.PerspectiveWarp("imageRectifier");
+          const nightvision = import_speedy_vision13.default.Filter.Nightvision();
+          const nightvisionMux = import_speedy_vision13.default.Image.Multiplexer();
+          const detector = import_speedy_vision13.default.Keypoint.Detector.Harris();
+          const descriptor = import_speedy_vision13.default.Keypoint.Descriptor.ORB();
+          const blur = import_speedy_vision13.default.Filter.GaussianBlur();
+          const clipper = import_speedy_vision13.default.Keypoint.Clipper();
+          const borderClipper = import_speedy_vision13.default.Keypoint.BorderClipper("borderClipper");
+          const denoiser = import_speedy_vision13.default.Filter.GaussianBlur();
+          const subpixel = import_speedy_vision13.default.Keypoint.SubpixelRefiner();
+          const matcher = import_speedy_vision13.default.Keypoint.Matcher.BFKNN();
+          const keypointScaler = import_speedy_vision13.default.Keypoint.Transformer("keypointScaler");
+          const keypointSink = import_speedy_vision13.default.Keypoint.SinkOfMatchedKeypoints("keypoints");
+          const keypointPortalSink = import_speedy_vision13.default.Keypoint.Portal.Sink("keypointPortalSink");
+          const referenceKeypointSink = import_speedy_vision13.default.Keypoint.Sink("referenceKeypoints");
           source.media = null;
           imagePortalSource.source = null;
           sourceMux.port = PORT_PORTAL;
           sourceBuffer.frozen = false;
           referenceKeypointPortalSource.source = null;
-          imageRectifier.transform = import_speedy_vision12.default.Matrix.Eye(3);
-          screen2.size = import_speedy_vision12.default.Size(0, 0);
+          imageRectifier.transform = import_speedy_vision13.default.Matrix.Eye(3);
+          screen2.size = import_speedy_vision13.default.Size(0, 0);
           nightvision.gain = NIGHTVISION_GAIN;
           nightvision.offset = NIGHTVISION_OFFSET;
           nightvision.decay = NIGHTVISION_DECAY;
           nightvision.quality = NIGHTVISION_QUALITY;
           nightvisionMux.port = TRACK_WITH_NIGHTVISION ? 1 : 0;
-          blur.kernelSize = import_speedy_vision12.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
-          blur.sigma = import_speedy_vision12.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
-          denoiser.kernelSize = import_speedy_vision12.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
-          denoiser.sigma = import_speedy_vision12.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
+          blur.kernelSize = import_speedy_vision13.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
+          blur.sigma = import_speedy_vision13.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
+          denoiser.kernelSize = import_speedy_vision13.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
+          denoiser.sigma = import_speedy_vision13.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
           detector.quality = TRACK_HARRIS_QUALITY;
           detector.capacity = TRACK_DETECTOR_CAPACITY;
           subpixel.method = SUBPIXEL_METHOD;
           clipper.size = TRACK_MAX_KEYPOINTS;
           borderClipper.imageSize = screen2.size;
-          borderClipper.borderSize = import_speedy_vision12.default.Vector2(0, 0);
+          borderClipper.borderSize = import_speedy_vision13.default.Vector2(0, 0);
           matcher.k = 2;
-          keypointScaler.transform = import_speedy_vision12.default.Matrix.Eye(3);
+          keypointScaler.transform = import_speedy_vision13.default.Matrix.Eye(3);
           keypointSink.turbo = false;
           imagePortalSource.output().connectTo(sourceMux.input("in0"));
           source.output().connectTo(sourceBuffer.input());
@@ -16078,13 +16697,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/geometry/quaternion.ts
-  var import_speedy_vision13, EPSILON, Quaternion;
+  var import_speedy_vision14, EPSILON2, Quaternion;
   var init_quaternion = __esm({
     "src/geometry/quaternion.ts"() {
       "use strict";
-      import_speedy_vision13 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision14 = __toESM(require_speedy_vision(), 1);
       init_errors();
-      EPSILON = 1e-6;
+      EPSILON2 = 1e-6;
       Quaternion = class _Quaternion {
         /**
          * Constructor
@@ -16105,6 +16724,24 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         static Identity() {
           return new _Quaternion(0, 0, 0, 1);
+        }
+        /**
+         * Create a unit quaternion from an axis-angle representation of a rotation
+         * @param axis non-zero
+         * @param angle in radians
+         * @returns a new quaternion
+         */
+        static FromAxisAngle(axis, angle) {
+          if (axis.dot(axis) < EPSILON2 * EPSILON2)
+            return _Quaternion.Identity();
+          const sin = Math.sin(angle / 2);
+          const cos = Math.cos(angle / 2);
+          const r = axis.normalized();
+          const x = r.x * sin;
+          const y = r.y * sin;
+          const z = r.z * sin;
+          const w = cos;
+          return new _Quaternion(x, y, z, w);
         }
         /**
          * The x coordinate of the quaternion (imaginary)
@@ -16146,8 +16783,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param q a quaternion
          * @returns true if this and q have the same coordinates
          */
-        equals(q) {
-          return this._w === q._w && this._x === q._x && this._y === q._y && this._z === q._z;
+        equals(q2) {
+          return this._w === q2._w && this._x === q2._x && this._y === q2._y && this._z === q2._z;
         }
         /**
          * Convert to string
@@ -16167,7 +16804,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _normalize() {
           const length = this.length();
-          if (length < EPSILON)
+          if (length < EPSILON2)
             return this;
           this._x /= length;
           this._y /= length;
@@ -16208,11 +16845,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this quaternion
          * @internal
          */
-        _copyFrom(q) {
-          this._x = q._x;
-          this._y = q._y;
-          this._z = q._z;
-          this._w = q._w;
+        _copyFrom(q2) {
+          this._x = q2._x;
+          this._y = q2._y;
+          this._z = q2._z;
+          this._w = q2._w;
           return this;
         }
         /**
@@ -16222,25 +16859,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _toRotationMatrix() {
           const length = this.length();
-          if (length < EPSILON)
-            return import_speedy_vision13.default.Matrix.Eye(3);
+          if (length < EPSILON2)
+            return import_speedy_vision14.default.Matrix.Eye(3);
           const x = this._x / length;
           const y = this._y / length;
           const z = this._z / length;
           const w = this._w / length;
-          const x2 = x * x, y2 = y * y, z2 = z * z;
+          const x2 = 2 * x * x, y2 = 2 * y * y, z2 = 2 * z * z;
           const xy = 2 * x * y, xz = 2 * x * z, yz = 2 * y * z;
           const wx = 2 * w * x, wy = 2 * w * y, wz = 2 * w * z;
-          return import_speedy_vision13.default.Matrix(3, 3, [
-            1 - 2 * (y2 + z2),
+          return import_speedy_vision14.default.Matrix(3, 3, [
+            1 - (y2 + z2),
             xy + wz,
             xz - wy,
             xy - wz,
-            1 - 2 * (x2 + z2),
+            1 - (x2 + z2),
             yz + wx,
             xz + wy,
             yz - wx,
-            1 - 2 * (x2 + y2)
+            1 - (x2 + y2)
           ]);
         }
         /**
@@ -16282,11 +16919,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/geometry/vector3.ts
-  var EPSILON2, ZERO, Vector3;
+  var EPSILON3, ZERO, Vector3;
   var init_vector3 = __esm({
     "src/geometry/vector3.ts"() {
       "use strict";
-      EPSILON2 = 1e-6;
+      EPSILON3 = 1e-6;
       ZERO = null;
       Vector3 = class _Vector3 {
         /**
@@ -16344,18 +16981,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param v a vector
          * @returns the dot product of the vectors
          */
-        dot(v) {
-          return this._x * v._x + this._y * v._y + this._z * v._z;
+        dot(v2) {
+          return this._x * v2._x + this._y * v2._y + this._z * v2._z;
         }
         /**
          * Compute the distance between points this and v
          * @param v a vector / point
          * @returns the distance between the points
          */
-        distanceTo(v) {
-          const dx = this._x - v._x;
-          const dy = this._y - v._y;
-          const dz = this._z - v._z;
+        distanceTo(v2) {
+          const dx = this._x - v2._x;
+          const dy = this._y - v2._y;
+          const dz = this._z - v2._z;
           return Math.sqrt(dx * dx + dy * dy + dz * dz);
         }
         /**
@@ -16363,18 +17000,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param v a vector
          * @returns a new unit vector pointing to v from this
          */
-        directionTo(v) {
-          return v._clone()._subtract(this)._normalize();
+        directionTo(v2) {
+          return v2._clone()._subtract(this)._normalize();
         }
         /**
          * The cross product of this and v
          * @param v a vector
          * @returns the cross product this x v
          */
-        cross(v) {
-          const x = this._y * v._z - this._z * v._y;
-          const y = this._z * v._x - this._x * v._z;
-          const z = this._x * v._y - this._y * v._x;
+        cross(v2) {
+          const x = this._y * v2._z - this._z * v2._y;
+          const y = this._z * v2._x - this._x * v2._z;
+          const z = this._x * v2._y - this._y * v2._x;
           return new _Vector3(x, y, z);
         }
         /**
@@ -16389,32 +17026,32 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param v a vector
          * @returns a new vector equal to the sum between this and v
          */
-        plus(v) {
-          return this._clone()._add(v);
+        plus(v2) {
+          return this._clone()._add(v2);
         }
         /**
          * Compute the difference between this vector and v
          * @param v a vector
          * @returns a new vector equal to the difference this - v
          */
-        minus(v) {
-          return this._clone()._subtract(v);
+        minus(v2) {
+          return this._clone()._subtract(v2);
         }
         /**
          * Compute the multiplication between this vector and a scale factor
          * @param scale scalar quantity
          * @returns a new vector equal to the multiplication between this and the scale factor
          */
-        times(scale) {
-          return this._clone()._scale(scale);
+        times(scale2) {
+          return this._clone()._scale(scale2);
         }
         /**
          * Check if this and v have the same coordinates
          * @param v a vector
          * @returns true if this and v have the same coordinates
          */
-        equals(v) {
-          return this._x === v._x && this._y === v._y && this._z === v._z;
+        equals(v2) {
+          return this._x === v2._x && this._y === v2._y && this._z === v2._z;
         }
         /**
          * Convert to string
@@ -16446,10 +17083,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this vector
          * @internal
          */
-        _copyFrom(v) {
-          this._x = v._x;
-          this._y = v._y;
-          this._z = v._z;
+        _copyFrom(v2) {
+          this._x = v2._x;
+          this._y = v2._y;
+          this._z = v2._z;
           return this;
         }
         /**
@@ -16459,7 +17096,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _normalize() {
           const length = this.length();
-          if (length < EPSILON2)
+          if (length < EPSILON3)
             return this;
           this._x /= length;
           this._y /= length;
@@ -16472,10 +17109,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this vector
          * @internal
          */
-        _add(v) {
-          this._x += v._x;
-          this._y += v._y;
-          this._z += v._z;
+        _add(v2) {
+          this._x += v2._x;
+          this._y += v2._y;
+          this._z += v2._z;
           return this;
         }
         /**
@@ -16484,10 +17121,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this vector
          * @internal
          */
-        _subtract(v) {
-          this._x -= v._x;
-          this._y -= v._y;
-          this._z -= v._z;
+        _subtract(v2) {
+          this._x -= v2._x;
+          this._y -= v2._y;
+          this._z -= v2._z;
           return this;
         }
         /**
@@ -16509,8 +17146,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this vector
          * @internal
          */
-        _applyRotationQuaternion(q) {
-          const x = q.x, y = q.y, z = q.z, w = q.w;
+        _applyRotationQuaternion(q2) {
+          const x = q2.x, y = q2.y, z = q2.z, w = q2.w;
           const vx = this._x, vy = this._y, vz = this._z;
           const x2 = x * x, y2 = y * y, z2 = z * z;
           const xy = 2 * x * y, xz = 2 * x * z, yz = 2 * y * z;
@@ -16533,11 +17170,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/geometry/pose-filter.ts
-  var import_speedy_vision14, TRANSLATION_SAMPLES, ROTATION_SAMPLES, NO_TRANSLATION, NO_ROTATION, ZERO_QUATERNION, PoseFilter;
+  var import_speedy_vision15, TRANSLATION_SAMPLES, ROTATION_SAMPLES, NO_TRANSLATION, NO_ROTATION, ZERO_QUATERNION, PoseFilter;
   var init_pose_filter = __esm({
     "src/geometry/pose-filter.ts"() {
       "use strict";
-      import_speedy_vision14 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision15 = __toESM(require_speedy_vision(), 1);
       init_settings2();
       init_quaternion();
       init_vector3();
@@ -16562,8 +17199,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Reset the filter
          */
         reset() {
-          this._rotationSample.forEach((q) => q._copyFrom(NO_ROTATION));
-          this._translationSample.forEach((t) => t._copyFrom(NO_TRANSLATION));
+          this._rotationSample.forEach((q2) => q2._copyFrom(NO_ROTATION));
+          this._translationSample.forEach((t2) => t2._copyFrom(NO_TRANSLATION));
           this._isEmpty = true;
         }
         /**
@@ -16577,17 +17214,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             throw new IllegalArgumentError();
           if (Number.isNaN(data[0] * data[9]))
             return false;
-          const q = this._rotationSample[ROTATION_SAMPLES - 1];
+          const q2 = this._rotationSample[ROTATION_SAMPLES - 1];
           for (let i = ROTATION_SAMPLES - 1; i > 0; i--)
             this._rotationSample[i] = this._rotationSample[i - 1];
-          this._rotationSample[0] = q._fromRotationMatrix(sample.block(0, 2, 0, 2));
-          const t = this._translationSample[TRANSLATION_SAMPLES - 1];
+          this._rotationSample[0] = q2._fromRotationMatrix(sample.block(0, 2, 0, 2));
+          const t2 = this._translationSample[TRANSLATION_SAMPLES - 1];
           for (let i = TRANSLATION_SAMPLES - 1; i > 0; i--)
             this._translationSample[i] = this._translationSample[i - 1];
-          this._translationSample[0] = t._set(data[9], data[10], data[11]);
+          this._translationSample[0] = t2._set(data[9], data[10], data[11]);
           if (this._isEmpty) {
-            this._rotationSample.forEach((q2, i) => i > 0 && q2._copyFrom(this._rotationSample[0]));
-            this._translationSample.forEach((t2, i) => i > 0 && t2._copyFrom(this._translationSample[0]));
+            this._rotationSample.forEach((q3, i) => i > 0 && q3._copyFrom(this._rotationSample[0]));
+            this._translationSample.forEach((t3, i) => i > 0 && t3._copyFrom(this._translationSample[0]));
             this._isEmpty = false;
           }
           return true;
@@ -16599,21 +17236,21 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         output() {
           const div = Settings.powerPreference == "low-power" ? 1.5 : 1;
           const T = Math.ceil(TRANSLATION_SAMPLES / div);
-          const R = Math.ceil(ROTATION_SAMPLES / div);
-          const t = this._smoothTranslation._copyFrom(NO_TRANSLATION);
-          const q = this._smoothRotation._copyFrom(ZERO_QUATERNION);
+          const R2 = Math.ceil(ROTATION_SAMPLES / div);
+          const t2 = this._smoothTranslation._copyFrom(NO_TRANSLATION);
+          const q2 = this._smoothRotation._copyFrom(ZERO_QUATERNION);
           for (let i = 0, d = 2 / (T * T + T); i < T; i++) {
             const ti = this._translationSample[i];
             const w = (T - i) * d;
-            t._set(
-              t.x + ti.x * w,
-              t.y + ti.y * w,
-              t.z + ti.z * w
+            t2._set(
+              t2.x + ti.x * w,
+              t2.y + ti.y * w,
+              t2.z + ti.z * w
             );
           }
-          for (let i = 0; i < R; i++) {
+          for (let i = 0; i < R2; i++) {
             const qi = this._rotationSample[i];
-            const w = 1 / R;
+            const w = 1 / R2;
             if (qi.w < 0) {
               qi._set(
                 -qi.x,
@@ -16622,34 +17259,34 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                 -qi.w
               );
             }
-            q._set(
-              q.x + qi.x * w,
-              q.y + qi.y * w,
-              q.z + qi.z * w,
-              q.w + qi.w * w
+            q2._set(
+              q2.x + qi.x * w,
+              q2.y + qi.y * w,
+              q2.z + qi.z * w,
+              q2.w + qi.w * w
             );
           }
-          const entries = q._toRotationMatrix().read();
-          entries.push(t.x, t.y, t.z);
-          return import_speedy_vision14.default.Matrix(3, 4, entries);
+          const entries = q2._toRotationMatrix().read();
+          entries.push(t2.x, t2.y, t2.z);
+          return import_speedy_vision15.default.Matrix(3, 4, entries);
         }
       };
     }
   });
 
   // src/geometry/camera-model.ts
-  var import_speedy_vision15, HFOV_GUESS, DEFAULT_SCALE, DEG2RAD, EPSILON3, FX, FY, U0, V0, POSE_REFINEMENT_ITERATIONS, TRANSLATION_REFINEMENT_ITERATIONS, TRANSLATION_REFINEMENT_TOLERANCE, TRANSLATION_REFINEMENT_GRIDSIZE, CameraModel;
+  var import_speedy_vision16, HFOV_GUESS, DEFAULT_SCALE, DEG2RAD, EPSILON4, FX, FY, U0, V0, POSE_REFINEMENT_ITERATIONS, TRANSLATION_REFINEMENT_ITERATIONS, TRANSLATION_REFINEMENT_TOLERANCE, TRANSLATION_REFINEMENT_GRIDSIZE, CameraModel;
   var init_camera_model = __esm({
     "src/geometry/camera-model.ts"() {
       "use strict";
-      import_speedy_vision15 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision16 = __toESM(require_speedy_vision(), 1);
       init_utils();
       init_pose_filter();
       init_errors();
       HFOV_GUESS = 60;
       DEFAULT_SCALE = 2;
       DEG2RAD = 0.017453292519943295;
-      EPSILON3 = 1e-6;
+      EPSILON4 = 1e-6;
       FX = 0;
       FY = 4;
       U0 = 6;
@@ -16663,12 +17300,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Constructor
          */
         constructor() {
-          this._imageSize = import_speedy_vision15.default.Size(0, 0);
-          this._matrix = import_speedy_vision15.default.Matrix.Eye(3, 4);
+          this._imageSize = import_speedy_vision16.default.Size(0, 0);
+          this._matrix = import_speedy_vision16.default.Matrix.Eye(3, 4);
           this._intrinsics = [1, 0, 0, 0, 1, 0, 0, 0, 1];
           this._extrinsics = [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0];
           this._filter = new PoseFilter();
-          this._flipZ = import_speedy_vision15.default.Matrix(4, 4, [
+          this._flipZ = import_speedy_vision16.default.Matrix(4, 4, [
             1,
             0,
             0,
@@ -16692,15 +17329,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param aspectRatio aspect ratio of the image plane
          * @param scale optional scale factor of the image plane
          */
-        init(aspectRatio, scale = DEFAULT_SCALE) {
+        init(aspectRatio, scale2 = DEFAULT_SCALE) {
           Utils.log(`Initializing the camera model...`);
-          Utils.assert(aspectRatio > 0 && scale > 1e-5);
+          Utils.assert(aspectRatio > 0 && scale2 > 1e-5);
           if (aspectRatio >= 1) {
-            this._imageSize.width = aspectRatio * scale;
-            this._imageSize.height = scale;
+            this._imageSize.width = aspectRatio * scale2;
+            this._imageSize.height = scale2;
           } else {
-            this._imageSize.width = scale;
-            this._imageSize.height = scale / aspectRatio;
+            this._imageSize.width = scale2;
+            this._imageSize.height = scale2 / aspectRatio;
           }
           this.reset();
         }
@@ -16722,16 +17359,16 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const h = homography.read();
           const h11 = h[0], h12 = h[3], h13 = h[6], h21 = h[1], h22 = h[4], h23 = h[7], h31 = h[2], h32 = h[5], h33 = h[8];
           const det = h13 * (h21 * h32 - h22 * h31) - h23 * (h11 * h32 - h12 * h31) + h33 * (h11 * h22 - h12 * h21);
-          if (Math.abs(det) < EPSILON3 || Number.isNaN(det))
-            return import_speedy_vision15.default.Promise.reject(new NumericalError(`Can't update the camera model using an invalid homography matrix`));
-          const pose = this._estimatePose(homography);
-          if (this._filter.feed(pose))
+          if (Math.abs(det) < EPSILON4 || Number.isNaN(det))
+            return import_speedy_vision16.default.Promise.reject(new NumericalError(`Can't update the camera model using an invalid homography matrix`));
+          const pose2 = this._estimatePose(homography);
+          if (this._filter.feed(pose2))
             this._extrinsics = this._filter.output().read();
           const Z = this._flipZ;
-          const K = import_speedy_vision15.default.Matrix(3, 3, this._intrinsics);
-          const E = import_speedy_vision15.default.Matrix(3, 4, this._extrinsics);
+          const K = import_speedy_vision16.default.Matrix(3, 3, this._intrinsics);
+          const E = import_speedy_vision16.default.Matrix(3, 4, this._extrinsics);
           this._matrix.setToSync(K.times(E).times(Z));
-          return import_speedy_vision15.default.Promise.resolve(this._matrix);
+          return import_speedy_vision16.default.Promise.resolve(this._matrix);
         }
         /**
          * Reset the camera model
@@ -16781,6 +17418,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           return 2 * Math.atan(halfHeight / this._intrinsics[FY]);
         }
         /**
+         * Camera intrinsics matrix
+         * @returns a 3x3 camera intrinsics matrix
+         */
+        intrinsicsMatrix() {
+          return import_speedy_vision16.default.Matrix(3, 3, this._intrinsics);
+        }
+        /**
          * Compute the view matrix. This 4x4 matrix moves 3D points from
          * world space to view space. We want the camera looking in the
          * direction of the negative z-axis (WebGL-friendly)
@@ -16788,7 +17432,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         computeViewMatrix() {
           const E = this._extrinsics;
-          return import_speedy_vision15.default.Matrix(4, 4, [
+          return import_speedy_vision16.default.Matrix(4, 4, [
             E[0],
             E[1],
             -E[2],
@@ -16824,7 +17468,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const right = near * (halfWidth / fx);
           const top = near * (halfHeight / fy);
           const bottom = -top, left = -right;
-          return import_speedy_vision15.default.Matrix(4, 4, [
+          return import_speedy_vision16.default.Matrix(4, 4, [
             2 * near / (right - left),
             0,
             0,
@@ -16873,7 +17517,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         _convertToImageSpace(homographyNDC) {
           const w = this._imageSize.width / 2;
           const h = this._imageSize.height / 2;
-          const fromNDC = import_speedy_vision15.default.Matrix(3, 3, [
+          const fromNDC = import_speedy_vision16.default.Matrix(3, 3, [
             w,
             0,
             0,
@@ -16884,7 +17528,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             0,
             1
           ]);
-          return import_speedy_vision15.default.Matrix(fromNDC.times(homographyNDC));
+          return import_speedy_vision16.default.Matrix(fromNDC.times(homographyNDC));
         }
         /**
          * Compute a normalized homography H^ = K^(-1) * H for an
@@ -16903,7 +17547,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const h11 = h[0] / fx - u0fx * h[2], h12 = h[3] / fx - u0fx * h[5], h13 = h[6] / fx - u0fx * h[8];
           const h21 = h[1] / fy - v0fy * h[2], h22 = h[4] / fy - v0fy * h[5], h23 = h[7] / fy - v0fy * h[8];
           const h31 = h[2], h32 = h[5], h33 = h[8];
-          return import_speedy_vision15.default.Matrix(3, 3, [
+          return import_speedy_vision16.default.Matrix(3, 3, [
             h11,
             h21,
             h31,
@@ -16931,25 +17575,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const h2norm = Math.sqrt(h2norm2);
           const hnorm = Math.max(h1norm, h2norm);
           const sign = h33 >= 0 ? 1 : -1;
-          let scale = sign / hnorm;
-          if (Number.isNaN(scale))
-            return import_speedy_vision15.default.Matrix(3, 3, new Array(9).fill(Number.NaN));
+          let scale2 = sign / hnorm;
+          if (Number.isNaN(scale2))
+            return import_speedy_vision16.default.Matrix(3, 3, new Array(9).fill(Number.NaN));
           let r = new Array(6);
-          r[0] = scale * h11;
-          r[1] = scale * h21;
-          r[2] = scale * h31;
-          r[3] = scale * h12;
-          r[4] = scale * h22;
-          r[5] = scale * h32;
+          r[0] = scale2 * h11;
+          r[1] = scale2 * h21;
+          r[2] = scale2 * h31;
+          r[3] = scale2 * h12;
+          r[4] = scale2 * h22;
+          r[5] = scale2 * h32;
           r = this._refineRotation(r);
-          scale = r[0] * h11 + r[1] * h21 + r[2] * h31;
-          scale += r[3] * h12 + r[4] * h22 + r[5] * h32;
-          scale /= h1norm2 + h2norm2;
-          let t = new Array(3);
-          t[0] = scale * h13;
-          t[1] = scale * h23;
-          t[2] = scale * h33;
-          return import_speedy_vision15.default.Matrix(3, 3, r.concat(t));
+          scale2 = r[0] * h11 + r[1] * h21 + r[2] * h31;
+          scale2 += r[3] * h12 + r[4] * h22 + r[5] * h32;
+          scale2 /= h1norm2 + h2norm2;
+          let t2 = new Array(3);
+          t2[0] = scale2 * h13;
+          t2[1] = scale2 * h23;
+          t2[2] = scale2 * h33;
+          return import_speedy_vision16.default.Matrix(3, 3, r.concat(t2));
         }
         /**
          * Make two non-zero and non-parallel input vectors, r1 and r2, orthonormal
@@ -16973,15 +17617,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const y2 = x2 / alpha2;
           const s1 = Math.sqrt(eigval1), s2 = Math.sqrt(eigval2);
           const a = x1 * x1 / s1 + x2 * x2 / s2;
-          const b = x1 * y1 / s1 + x2 * y2 / s2;
+          const b2 = x1 * y1 / s1 + x2 * y2 / s2;
           const c = y1 * y1 / s1 + y2 * y2 / s2;
           return [
-            a * r11 + b * r12,
-            a * r21 + b * r22,
-            a * r31 + b * r32,
-            b * r11 + c * r12,
-            b * r21 + c * r22,
-            b * r31 + c * r32
+            a * r11 + b2 * r12,
+            a * r21 + b2 * r22,
+            a * r31 + b2 * r32,
+            b2 * r11 + c * r12,
+            b2 * r21 + c * r22,
+            b2 * r31 + c * r32
           ];
         }
         /**
@@ -17023,29 +17667,29 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           }
           const n3 = 3 * n;
           const m = new Array(n3 * 3);
-          const v = new Array(n3);
+          const v2 = new Array(n3);
           for (let i = 0, k = 0; k < n; i += 3, k++) {
             m[i] = m[i + n3 + 1] = m[i + n3 + n3 + 2] = 0;
             m[i + n3] = -(m[i + 1] = a3[k]);
             m[i + 2] = -(m[i + n3 + n3] = a2[k]);
             m[i + n3 + n3 + 1] = -(m[i + n3 + 2] = a1[k]);
-            v[i] = a3[k] * (x[k] * r21 + y[k] * r22) - a2[k] * (x[k] * r31 + y[k] * r32);
-            v[i + 1] = -a3[k] * (x[k] * r11 + y[k] * r12) + a1[k] * (x[k] * r31 + y[k] * r32);
-            v[i + 2] = a2[k] * (x[k] * r11 + y[k] * r12) - a1[k] * (x[k] * r21 + y[k] * r22);
+            v2[i] = a3[k] * (x[k] * r21 + y[k] * r22) - a2[k] * (x[k] * r31 + y[k] * r32);
+            v2[i + 1] = -a3[k] * (x[k] * r11 + y[k] * r12) + a1[k] * (x[k] * r31 + y[k] * r32);
+            v2[i + 2] = a2[k] * (x[k] * r11 + y[k] * r12) - a1[k] * (x[k] * r21 + y[k] * r22);
           }
           const r = new Array(3 * n);
           const c = new Array(3);
           const Mc = new Array(3 * n);
-          const t = new Array(3);
-          t[0] = t0[0];
-          t[1] = t0[1];
-          t[2] = t0[2];
+          const t2 = new Array(3);
+          t2[0] = t0[0];
+          t2[1] = t0[1];
+          t2[2] = t0[2];
           for (let it = 0; it < TRANSLATION_REFINEMENT_ITERATIONS; it++) {
             for (let i = 0; i < n3; i++) {
               r[i] = 0;
               for (let j = 0; j < 3; j++)
-                r[i] += m[j * n3 + i] * t[j];
-              r[i] -= v[i];
+                r[i] += m[j * n3 + i] * t2[j];
+              r[i] -= v2[i];
             }
             for (let i = 0; i < 3; i++) {
               c[i] = 0;
@@ -17069,9 +17713,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             if (Number.isNaN(frc))
               break;
             for (let i = 0; i < 3; i++)
-              t[i] -= frc * c[i];
+              t2[i] -= frc * c[i];
           }
-          return t;
+          return t2;
         }
         /**
          * Find a 3x3 rotation matrix R given two orthonormal vectors [ r1 | r2 ]
@@ -17110,19 +17754,19 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _estimatePose(homography) {
           const normalizedHomography = this._normalizeHomography(homography);
-          const partialPose = import_speedy_vision15.default.Matrix.Eye(3);
-          const residual = import_speedy_vision15.default.Matrix(normalizedHomography);
+          const partialPose = import_speedy_vision16.default.Matrix.Eye(3);
+          const residual = import_speedy_vision16.default.Matrix(normalizedHomography);
           for (let k = 0; k < POSE_REFINEMENT_ITERATIONS; k++) {
-            const rt = this._estimatePartialPose(residual);
-            partialPose.setToSync(rt.times(partialPose));
-            residual.setToSync(residual.times(rt.inverse()));
+            const rt2 = this._estimatePartialPose(residual);
+            partialPose.setToSync(rt2.times(partialPose));
+            residual.setToSync(residual.times(rt2.inverse()));
           }
-          const mat = partialPose.read();
-          const r0 = mat.slice(0, 6);
-          const t0 = mat.slice(6, 9);
-          const t = this._refineTranslation(normalizedHomography, r0, t0);
+          const mat2 = partialPose.read();
+          const r0 = mat2.slice(0, 6);
+          const t0 = mat2.slice(6, 9);
+          const t2 = this._refineTranslation(normalizedHomography, r0, t0);
           const r = this._computeFullRotation(r0);
-          return import_speedy_vision15.default.Matrix(3, 4, r.concat(t));
+          return import_speedy_vision16.default.Matrix(3, 4, r.concat(t2));
         }
       };
     }
@@ -17153,15 +17797,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/geometry/transform.ts
-  var import_speedy_vision16, EPSILON4, Transform;
+  var import_speedy_vision17, EPSILON5, Transform;
   var init_transform = __esm({
     "src/geometry/transform.ts"() {
       "use strict";
-      import_speedy_vision16 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision17 = __toESM(require_speedy_vision(), 1);
       init_errors();
       init_vector3();
       init_quaternion();
-      EPSILON4 = 1e-6;
+      EPSILON5 = 1e-6;
       Transform = class _Transform {
         /**
          * Constructor
@@ -17252,21 +17896,21 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param v a vector
          * @returns input vector v
          */
-        _scaleAndRotate(v) {
+        _scaleAndRotate(v2) {
           const m = this._matrix.read();
-          const h = Math.abs(m[15]) < EPSILON4 ? Number.NaN : 1 / m[15];
-          const vx = v.x, vy = v.y, vz = v.z;
+          const h = Math.abs(m[15]) < EPSILON5 ? Number.NaN : 1 / m[15];
+          const vx = v2.x, vy = v2.y, vz = v2.z;
           const x = m[0] * vx + m[4] * vy + m[8] * vz;
           const y = m[1] * vx + m[5] * vy + m[9] * vz;
           const z = m[2] * vx + m[6] * vy + m[10] * vz;
-          return v._set(x * h, y * h, z * h);
+          return v2._set(x * h, y * h, z * h);
         }
         /**
          * Decompose this transform
          */
         _decompose() {
           const m = this._matrix.read();
-          const h = Math.abs(m[15]) < EPSILON4 ? Number.NaN : 1 / m[15];
+          const h = Math.abs(m[15]) < EPSILON5 ? Number.NaN : 1 / m[15];
           const tx = m[12] * h;
           const ty = m[13] * h;
           const tz = m[14] * h;
@@ -17284,7 +17928,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const sx = Math.sqrt(rs11 * rs11 + rs12 * rs12 + rs13 * rs13);
           const sy = Math.sqrt(rs21 * rs21 + rs22 * rs22 + rs23 * rs23);
           const sz = Math.sqrt(rs31 * rs31 + rs32 * rs32 + rs33 * rs33) * sign;
-          if (sx < EPSILON4 || sy < EPSILON4 || sz * sign < EPSILON4) {
+          if (sx < EPSILON5 || sy < EPSILON5 || sz * sign < EPSILON5) {
             this._position._set(tx, ty, tz);
             this._scale._set(sx, sy, sz);
             this._orientation._copyFrom(Quaternion.Identity());
@@ -17306,7 +17950,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const r33 = rs33 * zz;
           this._position._set(tx, ty, tz);
           this._scale._set(sx, sy, sz);
-          this._orientation._fromRotationMatrix(import_speedy_vision16.default.Matrix(3, 3, [
+          this._orientation._fromRotationMatrix(import_speedy_vision17.default.Matrix(3, 3, [
             r11,
             r21,
             r31,
@@ -17326,7 +17970,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _computePosition() {
           const m = this._matrix.read();
-          const h = Math.abs(m[15]) < EPSILON4 ? Number.NaN : 1 / m[15];
+          const h = Math.abs(m[15]) < EPSILON5 ? Number.NaN : 1 / m[15];
           this._position._set(m[12] * h, m[13] * h, m[14] * h);
           this._isPositionComputed = true;
         }
@@ -17335,18 +17979,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns the inverse matrix
          */
         _inverseMatrix() {
-          return import_speedy_vision16.default.Matrix(this._matrix.inverse());
+          return import_speedy_vision17.default.Matrix(this._matrix.inverse());
         }
       };
     }
   });
 
   // src/geometry/viewer-pose.ts
-  var import_speedy_vision17, ViewerPose;
+  var import_speedy_vision18, ViewerPose;
   var init_viewer_pose = __esm({
     "src/geometry/viewer-pose.ts"() {
       "use strict";
-      import_speedy_vision17 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision18 = __toESM(require_speedy_vision(), 1);
       init_pose();
       init_transform();
       ViewerPose = class extends Pose {
@@ -17356,7 +18000,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         constructor(camera) {
           const viewMatrix = camera.computeViewMatrix();
-          const modelMatrix = import_speedy_vision17.default.Matrix(viewMatrix.inverse());
+          const modelMatrix = import_speedy_vision18.default.Matrix(viewMatrix.inverse());
           const transform = new Transform(modelMatrix);
           super(transform);
           this._viewMatrix = viewMatrix;
@@ -17374,11 +18018,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/geometry/view.ts
-  var import_speedy_vision18, DEFAULT_NEAR, DEFAULT_FAR, PerspectiveView;
+  var import_speedy_vision19, DEFAULT_NEAR, DEFAULT_FAR, PerspectiveView;
   var init_view = __esm({
     "src/geometry/view.ts"() {
       "use strict";
-      import_speedy_vision18 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision19 = __toESM(require_speedy_vision(), 1);
       init_errors();
       DEFAULT_NEAR = 0.1;
       DEFAULT_FAR = 1e4 * DEFAULT_NEAR;
@@ -17412,7 +18056,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         get _projectionMatrixInverse() {
           if (this._inverseProjection === null)
-            this._inverseProjection = import_speedy_vision18.default.Matrix(this._projectionMatrix.inverse());
+            this._inverseProjection = import_speedy_vision19.default.Matrix(this._projectionMatrix.inverse());
           return this._inverseProjection;
         }
         /**
@@ -17481,11 +18125,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/geometry/viewer.ts
-  var import_speedy_vision19, Viewer;
+  var import_speedy_vision20, Viewer;
   var init_viewer = __esm({
     "src/geometry/viewer.ts"() {
       "use strict";
-      import_speedy_vision19 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision20 = __toESM(require_speedy_vision(), 1);
       init_pose();
       init_viewer_pose();
       init_view();
@@ -17527,10 +18171,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param pose a pose in world space
          * @returns a pose in viewer space
          */
-        convertToViewerSpace(pose) {
-          const modelMatrix = pose.transform.matrix;
+        convertToViewerSpace(pose2) {
+          const modelMatrix = pose2.transform.matrix;
           const viewMatrix = this._pose.viewMatrix;
-          const modelViewMatrix = import_speedy_vision19.default.Matrix(viewMatrix.times(modelMatrix));
+          const modelViewMatrix = import_speedy_vision20.default.Matrix(viewMatrix.times(modelMatrix));
           const transform = new Transform(modelViewMatrix);
           return new Pose(transform);
         }
@@ -17542,7 +18186,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         raycast(position) {
           const projectionMatrixInverse = this.view._projectionMatrixInverse;
           const viewMatrixInverse = this._pose.transform.matrix;
-          const pointInClipSpace = import_speedy_vision19.default.Matrix(4, 1, [
+          const pointInClipSpace = import_speedy_vision20.default.Matrix(4, 1, [
             // Normalized Device Coordinates (NDC)
             position.x,
             position.y,
@@ -17553,9 +18197,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           ]);
           const pointInViewSpace = projectionMatrixInverse.times(pointInClipSpace);
           const pointInWorldSpace = viewMatrixInverse.times(pointInViewSpace);
-          const p = import_speedy_vision19.default.Matrix(pointInWorldSpace).read();
+          const p2 = import_speedy_vision20.default.Matrix(pointInWorldSpace).read();
           const origin = this._pose.transform.position;
-          const direction = new Vector3(p[0] / p[3], p[1] / p[3], p[2] / p[3])._subtract(origin)._normalize();
+          const direction = new Vector3(p2[0] / p2[3], p2[1] / p2[3], p2[2] / p2[3])._subtract(origin)._normalize();
           return new Ray(origin, direction);
         }
         /**
@@ -17572,11 +18216,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/states/tracking.ts
-  var import_speedy_vision20, USE_TURBO, NUMBER_OF_PBOS, ImageTrackerTrackingState;
+  var import_speedy_vision21, USE_TURBO, NUMBER_OF_PBOS, NO_MOTION, ImageTrackerTrackingState;
   var init_tracking = __esm({
     "src/trackers/image-tracker/states/tracking.ts"() {
       "use strict";
-      import_speedy_vision20 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision21 = __toESM(require_speedy_vision(), 1);
       init_image_tracker_utils();
       init_image_tracker_event();
       init_state();
@@ -17590,6 +18234,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       init_settings2();
       USE_TURBO = true;
       NUMBER_OF_PBOS = 2;
+      NO_MOTION = import_speedy_vision21.default.Matrix.Eye(3);
       ImageTrackerTrackingState = class extends ImageTrackerState {
         /**
          * Constructor
@@ -17598,10 +18243,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         constructor(imageTracker) {
           super("tracking", imageTracker);
           this._referenceImage = null;
-          this._warpHomography = import_speedy_vision20.default.Matrix.Eye(3);
-          this._poseHomography = import_speedy_vision20.default.Matrix.Eye(3);
+          this._warpHomography = import_speedy_vision21.default.Matrix.Eye(3);
+          this._poseHomography = import_speedy_vision21.default.Matrix.Eye(3);
           this._templateKeypoints = [];
-          this._initialScreenSize = import_speedy_vision20.default.Size(1, 1);
+          this._initialScreenSize = import_speedy_vision21.default.Size(1, 1);
           this._lastOutput = {};
           this._lastPipelineOutput = { keypoints: [] };
           this._skipCounter = 0;
@@ -17624,10 +18269,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (!referenceImage)
             throw new IllegalOperationError(`Can't track a null reference image`);
           this._referenceImage = referenceImage;
-          this._warpHomography = import_speedy_vision20.default.Matrix(homography);
-          this._poseHomography = import_speedy_vision20.default.Matrix(homography);
+          this._warpHomography = import_speedy_vision21.default.Matrix(homography);
+          this._poseHomography = import_speedy_vision21.default.Matrix(homography);
           this._templateKeypoints = templateKeypoints;
-          this._initialScreenSize = import_speedy_vision20.default.Size(initialScreenSize.width, initialScreenSize.height);
+          this._initialScreenSize = import_speedy_vision21.default.Size(initialScreenSize.width, initialScreenSize.height);
           this._lastOutput = {};
           this._lastPipelineOutput = { keypoints: [] };
           this._skipCounter = 0;
@@ -17661,14 +18306,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const keypointScaler = this._pipeline.node("keypointScaler");
           const screenSize = this.screenSize;
           borderClipper.imageSize = screenSize;
-          borderClipper.borderSize = import_speedy_vision20.default.Vector2(
+          borderClipper.borderSize = import_speedy_vision21.default.Vector2(
             screenSize.width * TRACK_CLIPPING_BORDER,
             screenSize.height * TRACK_CLIPPING_BORDER
           );
           keypointScaler.transform = ImageTrackerUtils.rasterToNIS(screenSize);
-          const scale = TRACK_RECTIFIED_SCALE;
+          const scale2 = TRACK_RECTIFIED_SCALE;
           const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(screenSize, this._referenceImage);
-          const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
+          const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale2);
           const undistort = this._warpHomography.inverse();
           const toScreen = ImageTrackerUtils.NDCToRaster(screenSize);
           const toNDC = ImageTrackerUtils.rasterToNDC(screenSize);
@@ -17688,7 +18333,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const previousKeypoints = this._lastPipelineOutput.keypoints;
             const currentKeypoints = previousKeypoints;
             this._lastPipelineOutput.keypoints = currentKeypoints;
-            return import_speedy_vision20.default.Promise.resolve(this._lastPipelineOutput);
+            return import_speedy_vision21.default.Promise.resolve(this._lastPipelineOutput);
           }
           return super._gpuUpdate().then((result) => {
             this._lastPipelineOutput = result;
@@ -17705,7 +18350,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const image = result.image;
           const referenceImage = this._referenceImage;
           const screenSize = this.screenSize;
-          return import_speedy_vision20.default.Promise.resolve().then(() => {
+          return import_speedy_vision21.default.Promise.resolve().then(() => {
             if (!screenSize.equals(this._initialScreenSize))
               throw new TrackingError("Detected a change in screen size");
             const allPairs = this._findMatchingPairs(this._templateKeypoints, keypoints);
@@ -17713,29 +18358,31 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             if (pairs.length < TRACK_MIN_MATCHES)
               throw new TrackingError("Not enough data points to continue the tracking");
             const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
-            return import_speedy_vision20.default.Promise.all([
-              this._findAffineMotionNDC(points),
-              this._findPerspectiveMotionNDC(points)
+            return import_speedy_vision21.default.Promise.all([
+              //this._findAffineMotionNDC(points),
+              //this._findPerspectiveMotionNDC(points),
+              this._find6DoFPerspectiveMotionNDC(points),
+              import_speedy_vision21.default.Promise.resolve(NO_MOTION)
             ]);
-          }).then(([affineMotion, perspectiveMotion]) => {
+          }).then(([warpMotion, poseMotion]) => {
             const lowPower = Settings.powerPreference == "low-power";
             const delay = NUMBER_OF_PBOS * (!lowPower ? 2 : 1);
             if (!USE_TURBO || this._counter % delay == 1)
-              this._warpHomography.setToSync(affineMotion.times(this._warpHomography));
-            this._poseHomography.setToSync(perspectiveMotion.times(this._warpHomography));
+              this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
+            this._poseHomography.setToSync(poseMotion.times(this._warpHomography));
             if (Number.isNaN(this._poseHomography.at(0, 0)))
               throw new NumericalError("Bad homography");
             this._counter = (this._counter + 1) % delay;
-            const scale = ImageTrackerUtils.bestFitScaleNDC(1 / referenceImage.aspectRatio);
-            const homography = import_speedy_vision20.default.Matrix(this._poseHomography.times(scale));
+            const scale2 = ImageTrackerUtils.bestFitScaleNDC(1 / referenceImage.aspectRatio);
+            const homography = import_speedy_vision21.default.Matrix(this._poseHomography.times(scale2));
             return this._camera.update(homography);
           }).then(() => {
             const modelMatrix = this._camera.computeViewMatrix();
             const transform = new Transform(modelMatrix);
-            const pose = new Pose(transform);
+            const pose2 = new Pose(transform);
             const viewer = new Viewer(this._fixedCamera);
             const trackable = {
-              pose,
+              pose: pose2,
               referenceImage,
               tracker: this._imageTracker
             };
@@ -17789,10 +18436,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             mask: void 0
             // score is not needed
           }).then(([warp, score]) => {
-            const scale = TRACK_RECTIFIED_SCALE;
+            const scale2 = TRACK_RECTIFIED_SCALE;
             const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage);
-            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
-            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
+            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale2);
+            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale2);
             const scaledWarp = grow.times(warp).times(shrink);
             const distort = this._warpHomography;
             const undistort = distort.inverse();
@@ -17818,12 +18465,38 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             mask: void 0
             // score is not needed
           }).then(([warp, score]) => {
-            const scale = TRACK_RECTIFIED_SCALE;
+            const scale2 = TRACK_RECTIFIED_SCALE;
             const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage);
-            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale);
-            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale);
+            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale2);
+            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale2);
             const scaledWarp = grow.times(warp).times(shrink);
             const distort = this._poseHomography;
+            const undistort = distort.inverse();
+            const correctedWarp = distort.times(scaledWarp).times(undistort);
+            return correctedWarp;
+          }).catch((err) => {
+            throw new TrackingError(`Can't find a perspective motion`, err);
+          });
+        }
+        /**
+         * Find a 6 DoF perspective motion model in NDC between pairs of keypoints in NDC
+         * given as a 2 x 2n [ src | dest ] matrix
+         * @param points compiled pairs of keypoints in NDC
+         * @returns a promise that resolves to a 3x3 warp in NDC that maps source to destination
+         */
+        _find6DoFPerspectiveMotionNDC(points) {
+          const K = this._camera.intrinsicsMatrix();
+          return ImageTrackerUtils.find6DoFHomographyNDC(K, points, {
+            reprojectionError: TRACK_RANSAC_REPROJECTIONERROR_NDC,
+            numberOfHypotheses: 100
+            //mask: undefined // score is not needed
+          }).then(([warp, score]) => {
+            const scale2 = TRACK_RECTIFIED_SCALE;
+            const aspectRatio = ImageTrackerUtils.bestFitAspectRatioNDC(this.screenSize, this._referenceImage);
+            const shrink = ImageTrackerUtils.bestFitScaleNDC(aspectRatio, scale2);
+            const grow = ImageTrackerUtils.inverseBestFitScaleNDC(aspectRatio, scale2);
+            const scaledWarp = grow.times(warp).times(shrink);
+            const distort = this._warpHomography;
             const undistort = distort.inverse();
             const correctedWarp = distort.times(scaledWarp).times(undistort);
             return correctedWarp;
@@ -17894,43 +18567,43 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns pipeline
          */
         _createPipeline() {
-          const pipeline = import_speedy_vision20.default.Pipeline();
-          const source = import_speedy_vision20.default.Image.Source("source");
-          const screen2 = import_speedy_vision20.default.Transform.Resize("screen");
-          const greyscale = import_speedy_vision20.default.Filter.Greyscale();
-          const imageRectifier = import_speedy_vision20.default.Transform.PerspectiveWarp("imageRectifier");
-          const nightvision = import_speedy_vision20.default.Filter.Nightvision();
-          const nightvisionMux = import_speedy_vision20.default.Image.Multiplexer();
-          const blur = import_speedy_vision20.default.Filter.GaussianBlur();
-          const detector = import_speedy_vision20.default.Keypoint.Detector.Harris();
-          const descriptor = import_speedy_vision20.default.Keypoint.Descriptor.ORB();
-          const matcher = import_speedy_vision20.default.Keypoint.Matcher.BFKNN();
-          const subpixel = import_speedy_vision20.default.Keypoint.SubpixelRefiner();
-          const denoiser = import_speedy_vision20.default.Filter.GaussianBlur();
-          const borderClipper = import_speedy_vision20.default.Keypoint.BorderClipper("borderClipper");
-          const clipper = import_speedy_vision20.default.Keypoint.Clipper();
-          const keypointScaler = import_speedy_vision20.default.Keypoint.Transformer("keypointScaler");
-          const keypointPortalSource = import_speedy_vision20.default.Keypoint.Portal.Source("keypointPortalSource");
-          const keypointSink = import_speedy_vision20.default.Keypoint.SinkOfMatchedKeypoints("keypoints");
+          const pipeline = import_speedy_vision21.default.Pipeline();
+          const source = import_speedy_vision21.default.Image.Source("source");
+          const screen2 = import_speedy_vision21.default.Transform.Resize("screen");
+          const greyscale = import_speedy_vision21.default.Filter.Greyscale();
+          const imageRectifier = import_speedy_vision21.default.Transform.PerspectiveWarp("imageRectifier");
+          const nightvision = import_speedy_vision21.default.Filter.Nightvision();
+          const nightvisionMux = import_speedy_vision21.default.Image.Multiplexer();
+          const blur = import_speedy_vision21.default.Filter.GaussianBlur();
+          const detector = import_speedy_vision21.default.Keypoint.Detector.Harris();
+          const descriptor = import_speedy_vision21.default.Keypoint.Descriptor.ORB();
+          const matcher = import_speedy_vision21.default.Keypoint.Matcher.BFKNN();
+          const subpixel = import_speedy_vision21.default.Keypoint.SubpixelRefiner();
+          const denoiser = import_speedy_vision21.default.Filter.GaussianBlur();
+          const borderClipper = import_speedy_vision21.default.Keypoint.BorderClipper("borderClipper");
+          const clipper = import_speedy_vision21.default.Keypoint.Clipper();
+          const keypointScaler = import_speedy_vision21.default.Keypoint.Transformer("keypointScaler");
+          const keypointPortalSource = import_speedy_vision21.default.Keypoint.Portal.Source("keypointPortalSource");
+          const keypointSink = import_speedy_vision21.default.Keypoint.SinkOfMatchedKeypoints("keypoints");
           source.media = null;
-          screen2.size = import_speedy_vision20.default.Size(0, 0);
-          imageRectifier.transform = import_speedy_vision20.default.Matrix.Eye(3);
+          screen2.size = import_speedy_vision21.default.Size(0, 0);
+          imageRectifier.transform = import_speedy_vision21.default.Matrix.Eye(3);
           nightvision.gain = NIGHTVISION_GAIN;
           nightvision.offset = NIGHTVISION_OFFSET;
           nightvision.decay = NIGHTVISION_DECAY;
           nightvision.quality = NIGHTVISION_QUALITY;
           nightvisionMux.port = TRACK_WITH_NIGHTVISION ? 1 : 0;
-          blur.kernelSize = import_speedy_vision20.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
-          blur.sigma = import_speedy_vision20.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
-          denoiser.kernelSize = import_speedy_vision20.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
-          denoiser.sigma = import_speedy_vision20.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
+          blur.kernelSize = import_speedy_vision21.default.Size(ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_KSIZE);
+          blur.sigma = import_speedy_vision21.default.Vector2(ORB_GAUSSIAN_SIGMA, ORB_GAUSSIAN_SIGMA);
+          denoiser.kernelSize = import_speedy_vision21.default.Size(SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_KSIZE);
+          denoiser.sigma = import_speedy_vision21.default.Vector2(SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_SIGMA);
           detector.quality = TRACK_HARRIS_QUALITY;
           detector.capacity = TRACK_DETECTOR_CAPACITY;
           subpixel.method = SUBPIXEL_METHOD;
           clipper.size = TRACK_MAX_KEYPOINTS;
           borderClipper.imageSize = screen2.size;
-          borderClipper.borderSize = import_speedy_vision20.default.Vector2(0, 0);
-          keypointScaler.transform = import_speedy_vision20.default.Matrix.Eye(3);
+          borderClipper.borderSize = import_speedy_vision21.default.Vector2(0, 0);
+          keypointScaler.transform = import_speedy_vision21.default.Matrix.Eye(3);
           matcher.k = 2;
           keypointPortalSource.source = null;
           keypointSink.turbo = USE_TURBO;
@@ -17981,11 +18654,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/image-tracker.ts
-  var import_speedy_vision21, DEFAULT_OPTIONS2, ImageTracker;
+  var import_speedy_vision22, DEFAULT_OPTIONS2, ImageTracker;
   var init_image_tracker = __esm({
     "src/trackers/image-tracker/image-tracker.ts"() {
       "use strict";
-      import_speedy_vision21 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision22 = __toESM(require_speedy_vision(), 1);
       init_errors();
       init_reference_image_database();
       init_initial();
@@ -18094,7 +18767,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             throw new IllegalOperationError("The image tracker requires a suitable source of data");
           for (const state of Object.values(this._state))
             state.init();
-          return import_speedy_vision21.default.Promise.resolve();
+          return import_speedy_vision22.default.Promise.resolve();
         }
         /**
          * Release this tracker
@@ -18105,7 +18778,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           for (const state of Object.values(this._state))
             state.release();
           this._session = null;
-          return import_speedy_vision21.default.Promise.resolve();
+          return import_speedy_vision22.default.Promise.resolve();
         }
         /**
          * Update the tracker
@@ -18114,7 +18787,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _update() {
           if (this._session == null)
-            return import_speedy_vision21.default.Promise.reject(new IllegalOperationError(`Uninitialized tracker`));
+            return import_speedy_vision22.default.Promise.reject(new IllegalOperationError(`Uninitialized tracker`));
           const media = this._source._internalMedia;
           const screenSize = this._computeScreenSize();
           const activeState = this._state[this._activeStateName];
@@ -18173,11 +18846,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/geometry/vector2.ts
-  var EPSILON5, ZERO2, Vector2;
+  var EPSILON6, ZERO2, Vector2;
   var init_vector2 = __esm({
     "src/geometry/vector2.ts"() {
       "use strict";
-      EPSILON5 = 1e-6;
+      EPSILON6 = 1e-6;
       ZERO2 = null;
       Vector2 = class _Vector2 {
         /**
@@ -18227,17 +18900,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param v a vector
          * @returns the dot product of the vectors
          */
-        dot(v) {
-          return this._x * v._x + this._y * v._y;
+        dot(v2) {
+          return this._x * v2._x + this._y * v2._y;
         }
         /**
          * Compute the distance between points this and v
          * @param v a vector / point
          * @returns the distance between the points
          */
-        distanceTo(v) {
-          const dx = this._x - v._x;
-          const dy = this._y - v._y;
+        distanceTo(v2) {
+          const dx = this._x - v2._x;
+          const dy = this._y - v2._y;
           return Math.sqrt(dx * dx + dy * dy);
         }
         /**
@@ -18245,8 +18918,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param v a vector
          * @returns a new unit vector pointing to v from this
          */
-        directionTo(v) {
-          return v._clone()._subtract(this)._normalize();
+        directionTo(v2) {
+          return v2._clone()._subtract(this)._normalize();
         }
         /**
          * Compute a unit vector with the same direction as this
@@ -18260,32 +18933,32 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param v a vector
          * @returns a new vector equal to the sum between this and v
          */
-        plus(v) {
-          return this._clone()._add(v);
+        plus(v2) {
+          return this._clone()._add(v2);
         }
         /**
          * Compute the difference between this vector and v
          * @param v a vector
          * @returns a new vector equal to the difference this - v
          */
-        minus(v) {
-          return this._clone()._subtract(v);
+        minus(v2) {
+          return this._clone()._subtract(v2);
         }
         /**
          * Compute the multiplication between this vector and a scale factor
          * @param scale scalar quantity
          * @returns a new vector equal to the multiplication between this and the scale factor
          */
-        times(scale) {
-          return this._clone()._scale(scale);
+        times(scale2) {
+          return this._clone()._scale(scale2);
         }
         /**
          * Check if this and v have the same coordinates
          * @param v a vector
          * @returns true if this and v have the same coordinates
          */
-        equals(v) {
-          return this._x === v._x && this._y === v._y;
+        equals(v2) {
+          return this._x === v2._x && this._y === v2._y;
         }
         /**
          * Convert to string
@@ -18314,9 +18987,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this vector
          * @internal
          */
-        _copyFrom(v) {
-          this._x = v._x;
-          this._y = v._y;
+        _copyFrom(v2) {
+          this._x = v2._x;
+          this._y = v2._y;
           return this;
         }
         /**
@@ -18326,7 +18999,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _normalize() {
           const length = this.length();
-          if (length < EPSILON5)
+          if (length < EPSILON6)
             return this;
           this._x /= length;
           this._y /= length;
@@ -18338,9 +19011,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this vector
          * @internal
          */
-        _add(v) {
-          this._x += v._x;
-          this._y += v._y;
+        _add(v2) {
+          this._x += v2._x;
+          this._y += v2._y;
           return this;
         }
         /**
@@ -18349,9 +19022,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @returns this vector
          * @internal
          */
-        _subtract(v) {
-          this._x -= v._x;
-          this._y -= v._y;
+        _subtract(v2) {
+          this._x -= v2._x;
+          this._y -= v2._y;
           return this;
         }
         /**
@@ -18378,11 +19051,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/pointer-tracker/pointer-tracker.ts
-  var import_speedy_vision22, EVENTTYPE2PHASE, DEFAULT_OPTIONS3, PointerTracker;
+  var import_speedy_vision23, EVENTTYPE2PHASE, DEFAULT_OPTIONS3, PointerTracker;
   var init_pointer_tracker = __esm({
     "src/trackers/pointer-tracker/pointer-tracker.ts"() {
       "use strict";
-      import_speedy_vision22 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision23 = __toESM(require_speedy_vision(), 1);
       init_vector2();
       init_utils();
       init_errors();
@@ -18449,10 +19122,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             }
           }
           if (this._source === null)
-            return import_speedy_vision22.default.Promise.reject(new IllegalOperationError("A PointerTracker expects a PointerSource"));
+            return import_speedy_vision23.default.Promise.reject(new IllegalOperationError("A PointerTracker expects a PointerSource"));
           this._source._setViewport(this._viewport);
           document.addEventListener("visibilitychange", this._resetInTheNextUpdate);
-          return import_speedy_vision22.default.Promise.resolve();
+          return import_speedy_vision23.default.Promise.resolve();
         }
         /**
          * Release the tracker
@@ -18466,7 +19139,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           this._newPointers.clear();
           this._idMap.clear();
           document.removeEventListener("visibilitychange", this._resetInTheNextUpdate);
-          return import_speedy_vision22.default.Promise.resolve();
+          return import_speedy_vision23.default.Promise.resolve();
         }
         /**
          * Update the tracker (update cycle)
@@ -18493,9 +19166,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           let event;
           while ((event = this._source._consume()) !== null) {
             if (event.target !== canvas)
-              return import_speedy_vision22.default.Promise.reject(new IllegalOperationError("Invalid PointerEvent target " + event.target));
+              return import_speedy_vision23.default.Promise.reject(new IllegalOperationError("Invalid PointerEvent target " + event.target));
             else if (!EVENTTYPE2PHASE.hasOwnProperty(event.type))
-              return import_speedy_vision22.default.Promise.reject(new IllegalOperationError("Invalid PointerEvent type " + event.type));
+              return import_speedy_vision23.default.Promise.reject(new IllegalOperationError("Invalid PointerEvent type " + event.type));
             const id = this._normalizeId(event.pointerId, event.pointerType);
             const previous = this._activePointers.get(id);
             const current = this._newPointers.get(id);
@@ -18577,7 +19250,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (this._activePointers.size == 0 && this._idMap.size > 0)
             this._idMap.clear();
           this._previousOutput = this._generateOutput();
-          return import_speedy_vision22.default.Promise.resolve();
+          return import_speedy_vision23.default.Promise.resolve();
         }
         /**
          * Output of the previous frame
@@ -18748,11 +19421,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/sources/video-source.ts
-  var import_speedy_vision23, ALERT_MESSAGE, displayedAlertMessage, VideoSource;
+  var import_speedy_vision24, ALERT_MESSAGE, displayedAlertMessage, VideoSource;
   var init_video_source = __esm({
     "src/sources/video-source.ts"() {
       "use strict";
-      import_speedy_vision23 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision24 = __toESM(require_speedy_vision(), 1);
       init_utils();
       init_errors();
       ALERT_MESSAGE = "Tap on the screen to start";
@@ -18808,7 +19481,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           Utils.log(`Initializing ${this._type} source...`);
           return this._prepareVideo(this._video).then((video) => {
             Utils.log("The video is prepared");
-            return import_speedy_vision23.default.load(video).then((media) => {
+            return import_speedy_vision24.default.load(video).then((media) => {
               Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
               this._media = media;
             });
@@ -18823,7 +19496,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (this._media)
             this._media.release();
           this._media = null;
-          return import_speedy_vision23.default.Promise.resolve();
+          return import_speedy_vision24.default.Promise.resolve();
         }
         /**
          * Handle browser-specific quirks for <video> elements
@@ -18852,7 +19525,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _handleAutoPlay(video) {
           if (!video.autoplay)
-            return import_speedy_vision23.default.Promise.resolve(video);
+            return import_speedy_vision24.default.Promise.resolve(video);
           if (!video.muted) {
             Utils.warning("Videos marked with autoplay should be muted", video);
             video.muted = true;
@@ -18861,7 +19534,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const promise = video2.play();
             if (promise === void 0)
               return video2;
-            return new import_speedy_vision23.default.Promise((resolve, reject) => {
+            return new import_speedy_vision24.default.Promise((resolve, reject) => {
               promise.then(() => resolve(video2), (error) => {
                 Utils.error(`Can't autoplay video!`, error, video2);
                 if (error.name == "NotAllowedError") {
@@ -18892,14 +19565,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         _waitUntilPlayable(video) {
           const TIMEOUT = 15e3, INTERVAL = 500;
           if (video.readyState >= 3)
-            return import_speedy_vision23.default.Promise.resolve(video);
-          return new import_speedy_vision23.default.Promise((resolve, reject) => {
-            let ms = 0, t = setInterval(() => {
+            return import_speedy_vision24.default.Promise.resolve(video);
+          return new import_speedy_vision24.default.Promise((resolve, reject) => {
+            let ms = 0, t2 = setInterval(() => {
               if (video.readyState >= 3) {
-                clearInterval(t);
+                clearInterval(t2);
                 resolve(video);
               } else if ((ms += INTERVAL) >= TIMEOUT) {
-                clearInterval(t);
+                clearInterval(t2);
                 reject(new TimeoutError("The video took too long to load"));
               }
             }, INTERVAL);
@@ -18910,11 +19583,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/sources/canvas-source.ts
-  var import_speedy_vision24, CanvasSource;
+  var import_speedy_vision25, CanvasSource;
   var init_canvas_source = __esm({
     "src/sources/canvas-source.ts"() {
       "use strict";
-      import_speedy_vision24 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision25 = __toESM(require_speedy_vision(), 1);
       init_utils();
       init_errors();
       CanvasSource = class {
@@ -18959,7 +19632,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @internal
          */
         _init() {
-          return import_speedy_vision24.default.load(this._canvas).then((media) => {
+          return import_speedy_vision25.default.load(this._canvas).then((media) => {
             Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
             this._media = media;
           });
@@ -18973,18 +19646,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (this._media)
             this._media.release();
           this._media = null;
-          return import_speedy_vision24.default.Promise.resolve();
+          return import_speedy_vision25.default.Promise.resolve();
         }
       };
     }
   });
 
   // src/sources/camera-source.ts
-  var import_speedy_vision25, DEFAULT_CAMERA_OPTIONS, CameraSource;
+  var import_speedy_vision26, DEFAULT_CAMERA_OPTIONS, CameraSource;
   var init_camera_source = __esm({
     "src/sources/camera-source.ts"() {
       "use strict";
-      import_speedy_vision25 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision26 = __toESM(require_speedy_vision(), 1);
       init_utils();
       init_errors();
       init_video_source();
@@ -19029,7 +19702,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               ...options.constraints
             }
           };
-          return new import_speedy_vision25.default.Promise((resolve, reject) => {
+          return new import_speedy_vision26.default.Promise((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
               const video = this.video;
               video.onloadedmetadata = () => {
@@ -19050,9 +19723,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                   ));
                 });
               };
-              video.setAttribute("playsinline", "");
-              video.setAttribute("autoplay", "");
               video.setAttribute("muted", "");
+              video.muted = true;
+              video.setAttribute("playsinline", "");
+              video.playsInline = true;
+              video.setAttribute("autoplay", "");
+              video.autoplay = true;
               video.srcObject = stream;
             }).catch((error) => {
               reject(new AccessDeniedError(
@@ -19081,11 +19757,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/sources/pointer-source.ts
-  var import_speedy_vision26, PointerSource;
+  var import_speedy_vision27, PointerSource;
   var init_pointer_source = __esm({
     "src/sources/pointer-source.ts"() {
       "use strict";
-      import_speedy_vision26 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision27 = __toESM(require_speedy_vision(), 1);
       init_utils();
       PointerSource = class {
         /**
@@ -19126,7 +19802,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _init() {
           Utils.log("Initializing PointerSource...");
-          return import_speedy_vision26.default.Promise.resolve();
+          return import_speedy_vision27.default.Promise.resolve();
         }
         /**
          * Release this source of data
@@ -19135,7 +19811,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _release() {
           this._setViewport(null);
-          return import_speedy_vision26.default.Promise.resolve();
+          return import_speedy_vision27.default.Promise.resolve();
         }
         /**
          * Link a viewport to this source of data
@@ -19428,12 +20104,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/core/viewport.ts
-  var import_speedy_vision27, ViewportEvent, ViewportEventTarget, DEFAULT_VIEWPORT_SETTINGS, BASE_ZINDEX, BACKGROUND_ZINDEX, FOREGROUND_ZINDEX, HUD_ZINDEX, ViewportContainers, ViewportCanvases, ViewportFullscreenHelper, ViewportResizer, ViewportResizeStrategy, InlineResizeStrategy, ImmersiveResizeStrategy, BestFitResizeStrategy, StretchResizeStrategy, Viewport;
+  var import_speedy_vision28, ViewportEvent, ViewportEventTarget, DEFAULT_VIEWPORT_SETTINGS, BASE_ZINDEX, BACKGROUND_ZINDEX, FOREGROUND_ZINDEX, HUD_ZINDEX, ViewportContainers, ViewportCanvases, ViewportFullscreenHelper, ViewportResizer, ViewportResizeStrategy, InlineResizeStrategy, ImmersiveResizeStrategy, BestFitResizeStrategy, StretchResizeStrategy, Viewport;
   var init_viewport = __esm({
     "src/core/viewport.ts"() {
       "use strict";
       init_main();
-      import_speedy_vision27 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision28 = __toESM(require_speedy_vision(), 1);
       init_hud();
       init_fullscreen_button();
       init_vector2();
@@ -19615,11 +20291,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const container = this._container;
           if (container.requestFullscreen === void 0) {
             if (container.webkitRequestFullscreen === void 0)
-              return import_speedy_vision27.default.Promise.reject(new NotSupportedError());
+              return import_speedy_vision28.default.Promise.reject(new NotSupportedError());
             else if (!document.webkitFullscreenEnabled)
-              return import_speedy_vision27.default.Promise.reject(new AccessDeniedError());
+              return import_speedy_vision28.default.Promise.reject(new AccessDeniedError());
             container.webkitRequestFullscreen();
-            return new import_speedy_vision27.default.Promise((resolve, reject) => {
+            return new import_speedy_vision28.default.Promise((resolve, reject) => {
               setTimeout(() => {
                 if (container === document.webkitFullscreenElement) {
                   Utils.log("Entering fullscreen mode...");
@@ -19630,8 +20306,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             });
           }
           if (!document.fullscreenEnabled)
-            return import_speedy_vision27.default.Promise.reject(new AccessDeniedError());
-          return new import_speedy_vision27.default.Promise((resolve, reject) => {
+            return import_speedy_vision28.default.Promise.reject(new AccessDeniedError());
+          return new import_speedy_vision28.default.Promise((resolve, reject) => {
             container.requestFullscreen({
               navigationUI: "hide"
             }).then(() => {
@@ -19648,11 +20324,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (document.exitFullscreen === void 0) {
             const doc = document;
             if (doc.webkitExitFullscreen === void 0)
-              return import_speedy_vision27.default.Promise.reject(new NotSupportedError());
+              return import_speedy_vision28.default.Promise.reject(new NotSupportedError());
             else if (doc.webkitFullscreenElement === null)
-              return import_speedy_vision27.default.Promise.reject(new IllegalOperationError("Not in fullscreen mode"));
+              return import_speedy_vision28.default.Promise.reject(new IllegalOperationError("Not in fullscreen mode"));
             doc.webkitExitFullscreen();
-            return new import_speedy_vision27.default.Promise((resolve, reject) => {
+            return new import_speedy_vision28.default.Promise((resolve, reject) => {
               setTimeout(() => {
                 if (doc.webkitFullscreenElement === null) {
                   Utils.log("Exiting fullscreen mode...");
@@ -19663,8 +20339,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             });
           }
           if (document.fullscreenElement === null)
-            return import_speedy_vision27.default.Promise.reject(new IllegalOperationError("Not in fullscreen mode"));
-          return new import_speedy_vision27.default.Promise((resolve, reject) => {
+            return import_speedy_vision28.default.Promise.reject(new IllegalOperationError("Not in fullscreen mode"));
+          return new import_speedy_vision28.default.Promise((resolve, reject) => {
             document.exitFullscreen().then(() => {
               Utils.log("Exiting fullscreen mode...");
               resolve();
@@ -20105,11 +20781,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/main.ts
-  var import_speedy_vision28, AR;
+  var import_speedy_vision29, AR;
   var init_main = __esm({
     "src/main.ts"() {
       "use strict";
-      import_speedy_vision28 = __toESM(require_speedy_vision(), 1);
+      import_speedy_vision29 = __toESM(require_speedy_vision(), 1);
       init_settings2();
       init_session();
       init_tracker_factory();
@@ -20138,16 +20814,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Engine version
          */
         static get version() {
-          if (false)
-            return "0.4.1-dev";
-          else
-            return "0.4.1";
+          return "0.4.2-dev";
         }
         /**
          * Speedy Vision
          */
         static get Speedy() {
-          return import_speedy_vision28.default;
+          return import_speedy_vision29.default;
         }
         /**
          * Trackers
@@ -20196,19 +20869,20 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         }
       };
       Object.freeze(AR);
-      ((window2) => window2.Speedy = window2.Speedy || import_speedy_vision28.default)(window);
+      ((window2) => window2.Speedy = window2.Speedy || import_speedy_vision29.default)(window);
       Utils.log(
         `encantar.js version ${AR.version}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. https://encantar.dev`
       );
     }
   });
 
-  // src/__main.ts
-  var require_main = __commonJS({
-    "src/__main.ts"(exports, module) {
+  // src/index.ts
+  var require_src = __commonJS({
+    "src/index.ts"(exports, module) {
       init_main();
       module.exports = AR;
     }
   });
-  return require_main();
+  return require_src();
 })();
+//# sourceMappingURL=encantar.js.map
