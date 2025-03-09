@@ -6,9 +6,9 @@ An A-Frame component and primitive for playing videos in AR. `<ar-video-player>`
 
     The Video Player Add-On includes a working demo that you can easily modify. This page documents it in depth and is meant to be used as a reference.
 
-<div style="text-align: center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sz4Fmf3zyho?si=e4Ry5jcYAvxPfAKe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+<link rel="stylesheet" href="../../style/lite-yt-embed.css">
+<script src="../../js/lite-yt-embed.js"></script>
+<lite-youtube videoid="sz4Fmf3zyho"></lite-youtube>
 
 ## Properties
 

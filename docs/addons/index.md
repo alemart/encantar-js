@@ -10,18 +10,21 @@ Add-Ons provide an enriched experience with additional features that enhance the
 .addon-container:nth-child(2n) > div:nth-child(2) { min-width: 426px; margin-right: 32px; order: -1; }
 </style>
 
+<link rel="stylesheet" href="../style/lite-yt-embed.css">
+<script src="../js/lite-yt-embed.js"></script>
+
 <div class="addon-container" markdown>
   <div markdown>
 
 ## Video Player
 
-Enchant your audience with this [easy-to-use and customizable](./ar-video-player.md) Video Player! Videos in AR are suitable for: product marketing, AR business cards, educational materials, interactive art, entertainment, and more!
+Enchant your audience using this [easy-to-use &amp; customizable](./ar-video-player.md) Video Player! Videos in AR are suitable for: product marketing, AR business cards, educational materials, interactive art, and more!
 
 [I want this!](https://ko-fi.com/s/697a184728){ .md-button ._blank }
 
   </div>
   <div>
-    <iframe width="426" height="240" src="https://www.youtube.com/embed/sz4Fmf3zyho?si=1aI6_Odv2iebIjbL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <lite-youtube videoid="sz4Fmf3zyho"></lite-youtube>
   </div>
 </div>
 
@@ -47,7 +50,7 @@ Add interactivity to your scenes with easy-to-use buttons for AR! You can [custo
 
 ## AR Clickables
 
-Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. AR Clickables are the building blocks of AR Buttons and are included with them.
+Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. AR Clickables are based on the [Pointer Tracker](../api/pointer-tracker.md). They are the building blocks of AR Buttons and are included with them.
 
 [I want this!](https://ko-fi.com/s/697a184728){ .md-button ._blank }
 
