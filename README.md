@@ -2,17 +2,18 @@
 
 The Augmented Reality engine that will enchant you!
 
-:heart: encantar.js is an Augmented Reality technology which I develop independently. Support this work by [purchasing your copy](https://ko-fi.com/s/3ee4182cb6). You can also [become a sponsor](https://github.com/sponsors/alemart).
+:heart: encantar.js is an Augmented Reality technology which I develop independently. Support this work by [purchasing your copy](https://encantar.dev/download). You can also [become a sponsor](https://github.com/sponsors/alemart).
 
-:star2: **[Try it!](https://encantar.dev/demos/hello-aframe/poster.html)** | :video_game: **[Play a game!](https://encantar.dev/demos/basketball/poster.html)** | :magic_wand: **[Demos](https://encantar.dev/demos/)** | :books: **[Learn](https://encantar.dev/)**
+:star2: **[Try it!](https://encantar.dev/demos/hello-aframe/poster.html)** | :video_game: **[Play a game!](https://encantar.dev/demos/basketball/poster.html)** | :magic_wand: **[Demos](https://encantar.dev/demos/)** | :heart_eyes: **[Add-Ons](https://encantar.dev/addons/)** | :books: **[Learn](https://encantar.dev/)**
 
-[![Demo](docs/img/mage.gif)](https://encantar.dev/demos/hello-aframe/poster.html) [![Game](docs/img/basketball.gif)](https://encantar.dev/demos/basketball/poster.html)
+<a href="https://encantar.dev/demos/hello-aframe/poster.html"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://encantar.dev/demos/basketball/poster.html"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://encantar.dev/addons/"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
 
 ## Features
 
 * **Image tracking**: track detailed images such as book covers, cartoons and photos. No need of manual training!
 * **Pointer tracking**: create interactive experiences based on touch and mouse input with an easy-to-use API.
-* **Plugins**: use encantar.js with the 3D framework of your choice, including A-Frame, Babylon.js, Three.js and more!
+* **Plugins**: use encantar.js with the 3D framework of your choice, including: A-Frame, Babylon.js, Three.js and more!
+* **Add-Ons**: create rich experiences with additional features that enhance the core of encantar.js!
 
 ## Key points
 
