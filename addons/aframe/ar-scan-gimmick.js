@@ -116,6 +116,7 @@ AFRAME.registerComponent('ar-scan-gimmick', {
         img.style.width = '100%';
         img.style.height = '100%';
         img.style.objectFit = 'contain';
+        img.style.pointerEvents = 'none';
         img.style.display = 'inline-block';
         img.style.opacity = this.data.opacity;
 
