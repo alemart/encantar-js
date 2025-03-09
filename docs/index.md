@@ -2,17 +2,28 @@
 
 The Augmented Reality engine that will enchant you!
 
-:heart:{ .heart } encantar.js is an Augmented Reality technology which I develop independently. Support this work by [purchasing your copy](https://ko-fi.com/s/3ee4182cb6). You can also [become a sponsor](https://github.com/sponsors/alemart).
+:heart:{ .heart } encantar.js is an Augmented Reality technology which I develop independently. Support this work by [purchasing your copy](./download.md). You can also [become a sponsor](https://github.com/sponsors/alemart).
 
-[:star2: Try it!](./demos/hello-aframe/poster.html){ .md-button ._blank } [:video_game: Play a game!](./demos/basketball/poster.html){ .md-button ._blank } [:sparkles: Demos](./demos.md){ .md-button ._blank } [:books: Learn](./tutorial/introduction.md){ .md-button }
+<style>
+.md-button { padding-left: 1.5em !important; padding-right: 1.5em !important; }
+#gallery { display: flex; justify-content: center; }
+#gallery img { height: 128px; margin: 0 2px; }
+</style>
 
-[![Demo](./img/mage.gif)](./demos/hello-aframe/poster.html){ ._blank } [![Game](./img/basketball.gif)](./demos/basketball/poster.html){ ._blank }
+[:star2: Try it!](./demos/hello-aframe/poster.html){ .md-button ._blank } [:video_game: Play a game!](./demos/basketball/poster.html){ .md-button ._blank } [:sparkles: Demos](./demos.md){ .md-button ._blank } [:heart_eyes: Add-Ons](./addons/index.md){ .md-button } [:books: Learn](./tutorial/introduction.md){ .md-button }
+
+<div id="gallery">
+  <a href="demos/hello-aframe/poster.html" target="_blank"><img src="img/mage.gif" alt="Demo"></a>
+  <a href="demos/basketball/poster.html" target="_blank"><img src="img/basketball.gif" alt="Game"></a>
+  <a href="addons/"><img src="img/video-player.gif" alt="Video Player"></a>
+</div>
 
 ## Features
 
 * **Image tracking**: track detailed images such as book covers, cartoons and photos. No need of manual training!
 * **Pointer tracking**: create interactive experiences based on touch and mouse input with an easy-to-use API.
-* **Plugins**: use encantar.js with the 3D framework of your choice, including A-Frame, Babylon.js, Three.js and more!
+* **Plugins**: use encantar.js with the 3D framework of your choice, including: A-Frame, Babylon.js, Three.js and more!
+* **Add-Ons**: create rich experiences with additional features that enhance the core of encantar.js!
 
 ## Key points
 

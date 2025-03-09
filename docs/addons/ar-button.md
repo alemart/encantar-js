@@ -6,7 +6,7 @@ An A-Frame component and primitive for creating buttons. Buttons respond to clic
 
     AR Buttons **require** an [ar-pointer-tracker](../api/plugin-aframe.md#ar-pointer-tracker) in your scene!
 
-![AR Buttons](../img/demo-box.gif){ .responsive }
+![AR Buttons](../img/addon-buttons.gif){ .responsive }
 
 ## Properties
 

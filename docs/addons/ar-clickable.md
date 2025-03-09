@@ -6,7 +6,7 @@ An A-Frame component that turns 3D and 2D objects into "clickables" that respond
 
     AR Clickables **require** an [ar-pointer-tracker](../api/plugin-aframe.md#ar-pointer-tracker) in your scene!
 
-![AR Clickables](../img/demo-box.gif){ .responsive }
+![AR Clickables](../img/addon-clickables.gif){ .responsive }
 
 ## Properties
 
@@ -48,7 +48,7 @@ The following special properties are used to further customize the declarative h
 
 !!! question "What about event-set?"
 
-    Declarative handlers are similar to A-Frame's event-set in their usage, but there are differences behind the scenes. Whenever working with AR Clickables, usage of the declarative handlers presented in this page is preferred.
+    Declarative handlers are similar to A-Frame's event-set in their usage, but there are differences behind the scenes. Whenever working with AR Clickables, usage of the declarative handlers presented in this page is recommended.
 
 ### Multiple handlers
 

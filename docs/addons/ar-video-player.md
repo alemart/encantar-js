@@ -1,14 +1,14 @@
 # Video Player
 
-An A-Frame solution for playing videos in AR. `<ar-video-player>` is tailored for AR with encantar.js. Unlike A-Frame's standard `<a-video>`, `<ar-video-player>` handles corner cases for AR and includes easy-to-use controls, so you can focus on creating your projects rather than dealing with the various technicalities and edge cases of video playback on the browser.
-
-<div style="text-align: center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/sz4Fmf3zyho?si=e4Ry5jcYAvxPfAKe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div>
+An A-Frame component and primitive for playing videos in AR. `<ar-video-player>` is tailored for encantar.js. Unlike A-Frame's standard `<a-video>`, `<ar-video-player>` handles corner cases for AR and includes easy-to-use controls, so you can focus on creating and designing your projects rather than dealing with the various technicalities of video playback in the browser.
 
 !!! tip "It's easy to use!"
 
     The Video Player Add-On includes a working demo that you can easily modify. This page documents it in depth and is meant to be used as a reference.
+
+<div style="text-align: center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sz4Fmf3zyho?si=e4Ry5jcYAvxPfAKe" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
 
 ## Properties
 
@@ -39,7 +39,7 @@ An A-Frame solution for playing videos in AR. `<ar-video-player>` is tailored fo
     </a-assets>
     ```
 
-!!! tip "Aspect ratio"
+!!! info "Aspect ratio"
 
     Make sure that the `width` and the `height` of your `<ar-video-player>` match the aspect ratio of your video. The default size is appropriate for the commonly used 16:9 widescreen ratio.
 
@@ -54,8 +54,8 @@ Add the `ar-video-control` component to a descendant of `<ar-video-player>` as i
 ```html
 <ar-video-player src="#my-video">
 
-    <!-- The play button is a descendant of ar-video-player -->
-    <ar-button id="play-button" position="0 0.9 0"
+    <!-- The play button is placed inside ar-video-player -->
+    <ar-button id="play-button" position="0 -0.9 0"
         ar-video-control="action: play"
     ></ar-button>
 
@@ -80,6 +80,7 @@ Add the `ar-video-control` component to a descendant of `<ar-video-player>` as i
 | `"mute"` | Mute the video. |
 | `"unmute"` | Unmute the video. |
 | `"toggleAudio"` | Toggle the audio. |
+| `""` | Do nothing. |
 
 ## Declarative handlers
 
@@ -113,7 +114,7 @@ These handlers can be added to `<ar-video-player>` itself or to any of its desce
      Make it disappear when the video ends or is paused. -->
 <ar-video-player src="#my-video">
 
-    <!-- The pause button is a descendant of ar-video-player -->
+    <!-- The pause button is placed inside ar-video-player -->
     <ar-button id="pause-button" position="0 -0.9 0"
         visible="false" enabled="false"
         ar-onvideoplay="visible: true; ar-button.enabled: true"
@@ -136,7 +137,7 @@ The following special properties are used to further customize the declarative h
 
 !!! question "What about event-set?"
 
-    Declarative handlers are similar to A-Frame's event-set in their usage, but there are differences behind the scenes. Whenever working with the Video Player, usage of the declarative handlers presented in this page is preferred.
+    Declarative handlers are similar to A-Frame's event-set in their usage, but there are differences behind the scenes. Whenever working with the Video Player, usage of the declarative handlers presented in this page is recommended.
 
 ### Multiple handlers
 
@@ -171,8 +172,8 @@ The `<ar-video-player>` emits the following events based on the state of the und
 
 | Method | Description |
 | ------ | ----------- |
-| `invoke(action)` | Perform an [action](#video-controls). |
+| `invoke(action)` | Perform an [action](#actions). |
 
 ## Autoplay
 
-Usage of the `autoplay` attribute on the `<video>` tag is discouraged. Video playback may be blocked due to browser policies and the Video Player will not show up in AR as soon as the page is loaded. It's typically better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If the page receives no user interaction, then you may still play your video as long as it's muted. See also: [artargetfound](../api/plugin-aframe.md#artargetfound) event.
+Usage of the `autoplay` attribute on the `<video>` tag is discouraged. Video playback may be blocked due to browser policies. In addition, the Video Player will not show up in AR at the exact moment the page is loaded. It's typically better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If the page receives no user interaction, then you may still play your video as long as it's muted. See also: [artargetfound](../api/plugin-aframe.md#artargetfound) event.

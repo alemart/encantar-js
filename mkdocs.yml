@@ -50,6 +50,7 @@ nav:
     - 'Welcome!': 'index.md'
     - 'Download': 'download.md'
     - 'Demos': 'demos.md'
+    - 'Add-Ons': 'addons/index.md'
     - 'Learn': 'tutorial/introduction.md'
     - 'API Reference': 'api/ar.md'
     - 'Recommendations': 'recommendations.md'
@@ -58,6 +59,13 @@ nav:
     - 'License': 'license.md'
   - 'Download': 'download.md'
   - 'Demos': 'demos.md'
+  - 'Add-Ons':
+    - 'Introduction': 'addons/index.md'
+    - 'AR Button API': 'addons/ar-button.md'
+    - 'AR Clickable API': 'addons/ar-clickable.md'
+    - 'Video Player API': 'addons/ar-video-player.md'
+    - 'Asset Manager API': 'addons/asset-manager.md'
+    - 'More Add-Ons': 'addons/more-addons.md'
   - 'Learn':
     - 'Introduction': 'tutorial/introduction.md'
     - 'Concepts': 'tutorial/concepts.md'
@@ -79,6 +87,10 @@ nav:
       - 'Time': 'api/time-manager.md'
       - 'Settings': 'api/settings.md'
       - 'Resolution': 'api/resolution.md'
+    - 'Plugins':
+      - 'A-Frame': 'api/plugin-aframe.md'
+      - 'Babylon.js': 'api/plugin-babylon.md'
+      - 'Three.js': 'api/plugin-three.md'
     - 'Trackers':
       - 'Image tracker':
         - 'ImageTracker': 'api/image-tracker.md'
@@ -99,6 +111,10 @@ nav:
       - 'VideoSource': 'api/video-source.md'
       - 'PointerSource': 'api/pointer-source.md'
       - 'Source': 'api/source.md'
+    - 'Visualization':
+      - 'Viewport': 'api/viewport.md'
+      - 'HUD': 'api/hud.md'
+      - 'Gizmos': 'api/gizmos.md'
     - 'Geometry':
       - 'Pose': 'api/pose.md'
       - 'Viewer': 'api/viewer.md'
@@ -110,19 +126,11 @@ nav:
       - 'Vector3': 'api/vector3.md'
       - 'Quaternion': 'api/quaternion.md'
       - 'Ray': 'api/ray.md'
-    - 'Visualization':
-      - 'Viewport': 'api/viewport.md'
-      - 'HUD': 'api/hud.md'
-      - 'Gizmos': 'api/gizmos.md'
     - 'Events':
       - 'AREvent': 'api/ar-event.md'
       - 'AREventListener': 'api/ar-event-listener.md'
       - 'AREventTarget': 'api/ar-event-target.md'
       - 'AREventType': 'api/ar-event-type.md'
-    - 'Plugins':
-      - 'A-Frame': 'api/plugin-aframe.md'
-      - 'Babylon.js': 'api/plugin-babylon.md'
-      - 'Three.js': 'api/plugin-three.md'
     - 'Speedy':
       - 'Speedy': 'api/speedy.md'
       - 'SpeedySize': 'api/speedy-size.md'
