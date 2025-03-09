@@ -1,5 +1,13 @@
 # Release notes
 
+## 0.4.2 - March 9th, 2025
+
+* Made the tracking more robust, particularly on steep angles
+* Implemented a new PnP technique
+* Introduced Add-Ons: Video Player, AR Buttons and AR Clickables
+* A-Frame plugin: introduced new events
+* Various other changes
+
 ## 0.4.1 - January 20th, 2025
 
 * Documented the plugins in Markdown
