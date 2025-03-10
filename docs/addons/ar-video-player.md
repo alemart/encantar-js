@@ -15,6 +15,7 @@ An A-Frame component and primitive for playing videos in AR. `<ar-video-player>`
 | Property | Description | Default |
 | -------- | ----------- | ------- |
 | `src` | Query selector of a `<video>` element. | `""` |
+| `autoplay` | Whether or not the video should play as soon as the target is found. When enabling autoplay, your `<video>` element should be muted in order to comply with [browser policies](#autoplay). *Since:* 1.1.0 | `false` |
 | `width` | Width of the player. | `2` |
 | `height` | Height of the player. | `1.125` |
 
@@ -176,4 +177,28 @@ The `<ar-video-player>` emits the following events based on the state of the und
 
 ## Autoplay
 
-Usage of the `autoplay` attribute on the `<video>` tag is discouraged. Video playback may be blocked due to browser policies. In addition, the Video Player will not show up in AR at the exact moment the page is loaded. It's typically better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If the page receives no user interaction, then you may still play your video as long as it's muted. See also: [artargetfound](../api/plugin-aframe.md#artargetfound) event.
+Due to browser policies, there are restrictions to be aware of when using autoplay:
+
+* Usage of the [autoplay](#properties) setting on `<ar-video-player>` should be accompanied by a `muted` attribute on the `<video>` tag. If the page receives no user interaction, then you may only play your video automatically if it's muted.
+* Usage of the `autoplay` attribute on the `<video>` tag is discouraged. Video playback may be blocked. In addition, the Video Player will not show up in AR at the exact moment the page is loaded.
+* Ponder whether or not playing an initially muted video makes sense for your project. It may be better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If you decide to use autoplay, have a unmute button nearby.
+
+*Example*
+
+```html
+<ar-root>
+    <ar-video-player src="#my-video" autoplay="true">
+        <!-- ... video controls ... -->
+    </ar-video-player>
+</ar-root>
+
+<!-- ... -->
+
+<a-assets>
+    <!-- Notice the muted attribute -->
+    <video id="my-video" playsinline muted>
+        <source src="assets/my-video.mp4" type="video/mp4" />
+        <source src="assets/my-video.webm" type="video/webm" />
+    </video>
+</a-assets>
+```
