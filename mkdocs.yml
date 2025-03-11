@@ -60,7 +60,7 @@ nav:
   - 'Download': 'download.md'
   - 'Demos': 'demos.md'
   - 'Add-Ons':
-    - 'Introduction': 'addons/index.md'
+    - 'Add-Ons': 'addons/index.md'
     - 'AR Button API': 'addons/ar-button.md'
     - 'AR Clickable API': 'addons/ar-clickable.md'
     - 'Video Player API': 'addons/ar-video-player.md'
