@@ -25,18 +25,18 @@ An A-Frame component and primitive for playing videos in AR. `<ar-video-player>`
 
     ```html
     <ar-root>
-      <ar-video-player src="#my-video">
-        <!-- ... video controls ... -->
-      </ar-video-player>
+        <ar-video-player src="#my-video">
+            <!-- ... video controls ... -->
+        </ar-video-player>
     </ar-root>
 
     <!-- ... -->
 
     <a-assets>
-      <video id="my-video" playsinline>
-        <source src="assets/my-video.mp4" type="video/mp4" />
-        <source src="assets/my-video.webm" type="video/webm" />
-      </video>
+        <video id="my-video" playsinline>
+            <source src="assets/my-video.mp4" type="video/mp4" />
+            <source src="assets/my-video.webm" type="video/webm" />
+        </video>
     </a-assets>
     ```
 
@@ -89,13 +89,13 @@ You may want to play different videos depending on the target that is being trac
 
 ```html
 <ar-root>
-  <ar-video-player width="2" height="1.125">
+    <ar-video-player width="2" height="1.125">
 
-    <!-- Set different videos for different targets -->
-    <ar-video-player-source reference-image="mage" src="#mage-video"></ar-video-player-source>
-    <ar-video-player-source reference-image="cat" src="#cat-video"></ar-video-player-source>
+        <!-- Set different videos for different targets -->
+        <ar-video-player-source reference-image="mage" src="#mage-video"></ar-video-player-source>
+        <ar-video-player-source reference-image="cat" src="#cat-video"></ar-video-player-source>
 
-  </ar-video-player>
+    </ar-video-player>
 </ar-root>
 ```
 
@@ -129,7 +129,7 @@ These handlers can be added to `<ar-video-player>` itself or to any of its desce
     ar-onvideopause="opacity: 0.5"
     ar-onvideoended="opacity: 0.5"
 >
-  <!-- ... video controls ... -->
+    <!-- ... video controls ... -->
 </ar-video-player>
 ```
 
@@ -175,7 +175,7 @@ Use double-underscores (`__`) to attach multiple handlers of the same type to a 
     ar-onvideoended__1="_target: #animated-character-1; visible: true"
     ar-onvideoended__2="_target: #animated-character-2; visible: true"
 >
-  <!-- ... video controls ... -->
+    <!-- ... video controls ... -->
 </ar-video-player>
 
 <!-- ... -->
