@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.2-dev
+ * encantar.js version 0.4.3-dev
  * GPU-accelerated Augmented Reality for the web
  * Copyright 2022-2025 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-03-09T14:38:31.156Z
+ * Date: 2025-03-11T13:44:38.981Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -20814,7 +20814,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Engine version
          */
         static get version() {
-          return "0.4.2-dev";
+          return "0.4.3-dev";
         }
         /**
          * Speedy Vision

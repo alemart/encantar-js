@@ -19,7 +19,7 @@
     
     
       
-        <title>Introduction - encantar.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>Add-Ons - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
@@ -56,7 +56,7 @@
 
     
     
-<meta property="og:title" content="Introduction - encantar.js: GPU-accelerated Augmented Reality for the web">
+<meta property="og:title" content="Add-Ons - encantar.js: GPU-accelerated Augmented Reality for the web">
 <meta property="og:description" content="The Augmented Reality engine that will enchant you!">
 <meta property="og:url" content="https://encantar.dev/">
 <meta property="og:type" content="website">
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction
+              Add-Ons
             
           </span>
         </div>
@@ -402,9 +402,69 @@
   
   
     <li class="md-nav__item">
-      <a href="./" class="md-nav__link">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Add-Ons
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Add-Ons
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#video-player" class="md-nav__link">
+    Video Player
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ar-buttons" class="md-nav__link">
+    AR Buttons
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ar-clickables" class="md-nav__link">
+    AR Clickables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#asset-manager" class="md-nav__link">
+    Asset Manager
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -576,12 +636,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Introduction
+          Add-Ons
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Introduction
+        Add-Ons
       </a>
       
         
@@ -1998,11 +2058,14 @@
 <h1 id="add-ons">Add-Ons</h1>
 <p>Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. They're offered to supporters who purchase the various demos. Become a supporter and get exclusive access to these features!</p>
 <style>
-.addon-container { display: flex; flex-direction: row; justify-content: space-between; align-items: center; margin: 4em 0; }
+.addon-container { margin: 4em 0; }
 .addon-container h2 { margin-top: 0; }
 .addon-container img { width: 100%; height: auto; }
-.addon-container:nth-child(2n+1) > div:nth-child(2) { min-width: 426px; margin-left: 32px; }
-.addon-container:nth-child(2n) > div:nth-child(2) { min-width: 426px; margin-right: 32px; order: -1; }
+@media screen and (min-width: 768px) {
+  .addon-container { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+  .addon-container:nth-child(2n+1) > div:nth-child(2) { min-width: 426px; margin-left: 32px; }
+  .addon-container:nth-child(2n) > div:nth-child(2) { min-width: 426px; margin-right: 32px; order: -1; }
+}
 </style>
 
 <p><link rel="stylesheet" href="../style/lite-yt-embed.css"></p>
@@ -2012,7 +2075,7 @@
 <div>
 <h2 id="video-player">Video Player</h2>
 <p>Enchant your audience using this <a href="ar-video-player/">easy-to-use &amp; customizable</a> Video Player! Videos in AR are suitable for: product marketing, AR business cards, educational materials, interactive art, and more!</p>
-<p><a class="md-button _blank" href="https://ko-fi.com/s/697a184728">I want this!</a></p>
+<p><a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-video-player" data-goatcounter-click>I want this!</a></p>
 </div>
 <div>
     <lite-youtube videoid="sz4Fmf3zyho"></lite-youtube>
@@ -2022,7 +2085,7 @@
 <div>
 <h2 id="ar-buttons">AR Buttons</h2>
 <p>Add interactivity to your scenes with easy-to-use buttons for AR! You can <a href="ar-button/">customize their images and colors</a>. They're bundled with the Video Player.</p>
-<p><a class="md-button _blank" href="https://ko-fi.com/s/697a184728">I want this!</a></p>
+<p><a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-buttons" data-goatcounter-click>I want this!</a></p>
 </div>
 <div>
 <p><img alt="AR Buttons" src="../img/addon-buttons.gif" /></p>
@@ -2032,7 +2095,7 @@
 <div>
 <h2 id="ar-clickables">AR Clickables</h2>
 <p>Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. AR Clickables are based on the <a href="../api/pointer-tracker/">Pointer Tracker</a>. They are the building blocks of AR Buttons and are included with them.</p>
-<p><a class="md-button _blank" href="https://ko-fi.com/s/697a184728">I want this!</a></p>
+<p><a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-clickables" data-goatcounter-click>I want this!</a></p>
 </div>
 <div>
 <p><img alt="AR Clickables" src="../img/addon-clickables.gif" /></p>
@@ -2042,7 +2105,7 @@
 <div>
 <h2 id="asset-manager">Asset Manager</h2>
 <p>Framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. This Add-On is bundled with the core.</p>
-<p><a class="md-button _blank" href="https://ko-fi.com/s/3ee4182cb6">I want this!</a></p>
+<p><a href="https://ko-fi.com/s/3ee4182cb6" target="_blank" rel="external" class="md-button" id="addon-want-asset-manager" data-goatcounter-click>I want this!</a></p>
 </div>
 <div>
 <p><img alt="Asset Manager" src="../img/demo-cat.gif" /></p>

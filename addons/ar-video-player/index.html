@@ -567,7 +567,7 @@
   
     <li class="md-nav__item">
       <a href="../" class="md-nav__link">
-        Introduction
+        Add-Ons
       </a>
     </li>
   
@@ -673,6 +673,26 @@
           <li class="md-nav__item">
   <a href="#actions" class="md-nav__link">
     Actions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-videos" class="md-nav__link">
+    Multiple videos
+  </a>
+  
+    <nav class="md-nav" aria-label="Multiple videos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties_2" class="md-nav__link">
+    Properties
   </a>
   
 </li>
@@ -2058,6 +2078,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#multiple-videos" class="md-nav__link">
+    Multiple videos
+  </a>
+  
+    <nav class="md-nav" aria-label="Multiple videos">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#properties_2" class="md-nav__link">
+    Properties
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#declarative-handlers" class="md-nav__link">
     Declarative handlers
   </a>
@@ -2132,7 +2172,7 @@
 
 
 <h1 id="video-player">Video Player</h1>
-<p>An A-Frame component and primitive for playing videos in AR. <code>&lt;ar-video-player&gt;</code> is tailored for encantar.js. Unlike A-Frame's standard <code>&lt;a-video&gt;</code>, <code>&lt;ar-video-player&gt;</code> handles corner cases for AR and includes easy-to-use controls, so you can focus on creating and designing your projects rather than dealing with the various technicalities of video playback in the browser.</p>
+<p>An A-Frame component and primitive for playing videos in AR. <code>&lt;ar-video-player&gt;</code> is tailored for encantar.js. Unlike A-Frame's standard <code>&lt;a-video&gt;</code>, <code>&lt;ar-video-player&gt;</code> handles corner cases for AR and includes easy-to-use controls, so you can focus on creating your projects rather than dealing with the various technicalities and quirks of video playback in the browser.</p>
 <div class="admonition tip">
 <p class="admonition-title">It's easy to use!</p>
 <p>The Video Player Add-On includes a working demo that you can easily modify. This page documents it in depth and is meant to be used as a reference.</p>
@@ -2156,6 +2196,11 @@
 <td><code>""</code></td>
 </tr>
 <tr>
+<td><code>autoplay</code></td>
+<td>Whether or not the video should play as soon as the target is found. When enabling autoplay, your <code>&lt;video&gt;</code> element should be muted in order to comply with <a href="#autoplay">browser policies</a>. <em>Since:</em> 1.1.0</td>
+<td><code>false</code></td>
+</tr>
+<tr>
 <td><code>width</code></td>
 <td>Width of the player.</td>
 <td><code>2</code></td>
@@ -2171,18 +2216,18 @@
 <p class="admonition-title">Tip</p>
 <p>Place your <code>&lt;video&gt;</code> tag(s) inside <code>&lt;a-assets&gt;</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">&lt;</span><span class="nt">ar-root</span><span class="p">&gt;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  <span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span><span class="p">&gt;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="cm">&lt;!-- ... video controls ... --&gt;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  <span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="cm">&lt;!-- ... video controls ... --&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="cm">&lt;!-- ... --&gt;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">&lt;</span><span class="nt">a-assets</span><span class="p">&gt;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">playsinline</span><span class="p">&gt;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;assets/my-video.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span> <span class="p">/&gt;</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;assets/my-video.webm&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/webm&quot;</span> <span class="p">/&gt;</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">playsinline</span><span class="p">&gt;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>        <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;assets/my-video.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;assets/my-video.webm&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/webm&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">&lt;/</span><span class="nt">a-assets</span><span class="p">&gt;</span>
 </code></pre></div>
 </div>
@@ -2267,6 +2312,41 @@
 </tr>
 </tbody>
 </table>
+<h2 id="multiple-videos">Multiple videos</h2>
+<p>You may play different videos depending on the target that is being tracked. This can be accomplished by setting an <code>&lt;ar-video-player-source&gt;</code> for each reference image as in the example below:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;2&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;1.125&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="cm">&lt;!-- Set different videos for different targets --&gt;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>        <span class="p">&lt;</span><span class="nt">ar-video-player-source</span> <span class="na">reference-image</span><span class="o">=</span><span class="s">&quot;mage&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#mage-video&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-video-player-source</span><span class="p">&gt;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="p">&lt;</span><span class="nt">ar-video-player-source</span> <span class="na">reference-image</span><span class="o">=</span><span class="s">&quot;cat&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#cat-video&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">ar-video-player-source</span><span class="p">&gt;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><em>Since:</em> 1.1.0</p>
+<h3 id="properties_2">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reference-image</code></td>
+<td>The name of a <a href="../../api/plugin-aframe/#ar-reference-image">reference image</a>.</td>
+<td><code>""</code></td>
+</tr>
+<tr>
+<td><code>src</code></td>
+<td>Query selector of a <code>&lt;video&gt;</code> element.</td>
+<td><code>""</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id="declarative-handlers">Declarative handlers</h2>
 <h3 id="overview_1">Overview</h3>
 <p>Declarative event handlers are components used to register event listeners that set properties. They provide an easy way to create interactivity within your HTML page. There is a component for each <a href="#event">event</a>:</p>
@@ -2293,30 +2373,30 @@
 </tbody>
 </table>
 <p>These handlers can be added to <code>&lt;ar-video-player&gt;</code> itself or to any of its descendants:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cm">&lt;!-- Make the video player translucent when not playing a video --&gt;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span> <span class="na">transparent</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="na">opacity</span><span class="o">=</span><span class="s">&quot;0.5&quot;</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="na">ar-onvideoplay</span><span class="o">=</span><span class="s">&quot;opacity: 1&quot;</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="na">ar-onvideopause</span><span class="o">=</span><span class="s">&quot;opacity: 0.5&quot;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="na">ar-onvideoended</span><span class="o">=</span><span class="s">&quot;opacity: 0.5&quot;</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">&gt;</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  <span class="cm">&lt;!-- ... video controls ... --&gt;</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cm">&lt;!-- Make the video player translucent when not playing a video --&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span> <span class="na">transparent</span><span class="o">=</span><span class="s">&quot;true&quot;</span> <span class="na">opacity</span><span class="o">=</span><span class="s">&quot;0.5&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="na">ar-onvideoplay</span><span class="o">=</span><span class="s">&quot;opacity: 1&quot;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="na">ar-onvideopause</span><span class="o">=</span><span class="s">&quot;opacity: 0.5&quot;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="na">ar-onvideoended</span><span class="o">=</span><span class="s">&quot;opacity: 0.5&quot;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">&gt;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="cm">&lt;!-- ... video controls ... --&gt;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
 </code></pre></div>
 <p><a href="#video-controls">Video controls</a> may be combined with declarative handlers for easy customization:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cm">&lt;!-- Make the pause button appear when the video starts playing.</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cm">     Make it disappear when the video ends or is paused. --&gt;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span><span class="p">&gt;</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="cm">&lt;!-- The pause button is placed inside ar-video-player --&gt;</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="p">&lt;</span><span class="nt">ar-button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;pause-button&quot;</span> <span class="na">position</span><span class="o">=</span><span class="s">&quot;0 -0.9 0&quot;</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="na">visible</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="na">enabled</span><span class="o">=</span><span class="s">&quot;false&quot;</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="na">ar-onvideoplay</span><span class="o">=</span><span class="s">&quot;visible: true; ar-button.enabled: true&quot;</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>        <span class="na">ar-onvideopause</span><span class="o">=</span><span class="s">&quot;visible: false; ar-button.enabled: false&quot;</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="na">ar-onvideoended</span><span class="o">=</span><span class="s">&quot;visible: false; ar-button.enabled: false&quot;</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="na">ar-video-control</span><span class="o">=</span><span class="s">&quot;action: pause&quot;</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="p">&gt;&lt;/</span><span class="nt">ar-button</span><span class="p">&gt;</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cm">&lt;!-- Make the pause button appear when the video starts playing.</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cm">     Make it disappear when the video ends or is paused. --&gt;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="cm">&lt;!-- The pause button is placed inside ar-video-player --&gt;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="p">&lt;</span><span class="nt">ar-button</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;pause-button&quot;</span> <span class="na">position</span><span class="o">=</span><span class="s">&quot;0 -0.9 0&quot;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="na">visible</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="na">enabled</span><span class="o">=</span><span class="s">&quot;false&quot;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="na">ar-onvideoplay</span><span class="o">=</span><span class="s">&quot;visible: true; ar-button.enabled: true&quot;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="na">ar-onvideopause</span><span class="o">=</span><span class="s">&quot;visible: false; ar-button.enabled: false&quot;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="na">ar-onvideoended</span><span class="o">=</span><span class="s">&quot;visible: false; ar-button.enabled: false&quot;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="na">ar-video-control</span><span class="o">=</span><span class="s">&quot;action: pause&quot;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="p">&gt;&lt;/</span><span class="nt">ar-button</span><span class="p">&gt;</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
 </code></pre></div>
 <h3 id="special-properties">Special properties</h3>
 <p>The following special properties are used to further customize the declarative handlers:</p>
@@ -2344,18 +2424,18 @@
 </div>
 <h3 id="multiple-handlers">Multiple handlers</h3>
 <p>Use double-underscores (<code>__</code>) to attach multiple handlers of the same type to a single entity:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cm">&lt;!-- Make two animated characters show up as soon as the video reaches its end --&gt;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="na">ar-onvideoended__1</span><span class="o">=</span><span class="s">&quot;_target: #animated-character-1; visible: true&quot;</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="na">ar-onvideoended__2</span><span class="o">=</span><span class="s">&quot;_target: #animated-character-2; visible: true&quot;</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">&gt;</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>  <span class="cm">&lt;!-- ... video controls ... --&gt;</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cm">&lt;!-- ... --&gt;</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">&lt;</span><span class="nt">a-entity</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;animated-character-1&quot;</span> <span class="na">visible</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="err">...</span> <span class="p">&gt;&lt;/</span><span class="nt">a-entity</span><span class="p">&gt;</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">&lt;</span><span class="nt">a-entity</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;animated-character-2&quot;</span> <span class="na">visible</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="err">...</span> <span class="p">&gt;&lt;/</span><span class="nt">a-entity</span><span class="p">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cm">&lt;!-- Make two animated characters show up as soon as the video reaches its end --&gt;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="na">ar-onvideoended__1</span><span class="o">=</span><span class="s">&quot;_target: #animated-character-1; visible: true&quot;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="na">ar-onvideoended__2</span><span class="o">=</span><span class="s">&quot;_target: #animated-character-2; visible: true&quot;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">&gt;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="cm">&lt;!-- ... video controls ... --&gt;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="cm">&lt;!-- ... --&gt;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">&lt;</span><span class="nt">a-entity</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;animated-character-1&quot;</span> <span class="na">visible</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="err">...</span> <span class="p">&gt;&lt;/</span><span class="nt">a-entity</span><span class="p">&gt;</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">&lt;</span><span class="nt">a-entity</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;animated-character-2&quot;</span> <span class="na">visible</span><span class="o">=</span><span class="s">&quot;false&quot;</span> <span class="err">...</span> <span class="p">&gt;&lt;/</span><span class="nt">a-entity</span><span class="p">&gt;</span>
 </code></pre></div>
 <h2 id="events">Events</h2>
 <p>The <code>&lt;ar-video-player&gt;</code> emits the following events based on the state of the underlying <code>&lt;video&gt;</code> element:</p>
@@ -2397,7 +2477,29 @@
 </tbody>
 </table>
 <h2 id="autoplay">Autoplay</h2>
-<p>Usage of the <code>autoplay</code> attribute on the <code>&lt;video&gt;</code> tag is discouraged. Video playback may be blocked due to browser policies. In addition, the Video Player will not show up in AR at the exact moment the page is loaded. It's typically better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If the page receives no user interaction, then you may still play your video as long as it's muted. See also: <a href="../../api/plugin-aframe/#artargetfound">artargetfound</a> event.</p>
+<p>Due to browser policies, there are restrictions to be aware of when using autoplay:</p>
+<ul>
+<li>Usage of the <a href="#properties">autoplay</a> setting on <code>&lt;ar-video-player&gt;</code> should be accompanied by a <code>muted</code> attribute on the <code>&lt;video&gt;</code> tag. If the page receives no user interaction, then you may only play your video automatically if it's muted.</li>
+<li>Usage of the <code>autoplay</code> attribute on the <code>&lt;video&gt;</code> tag is discouraged. Video playback may be blocked. In addition, the Video Player will not show up in AR at the exact moment the page is loaded.</li>
+<li>Ponder whether or not playing an initially muted video makes sense for your project. It may be better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If you decide to use autoplay, have a <a href="#video-controls">unmute button</a> nearby.</li>
+</ul>
+<p><em>Example</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">&lt;</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;#my-video&quot;</span> <span class="na">autoplay</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>        <span class="cm">&lt;!-- ... video controls ... --&gt;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="p">&lt;/</span><span class="nt">ar-video-player</span><span class="p">&gt;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">&lt;/</span><span class="nt">ar-root</span><span class="p">&gt;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="cm">&lt;!-- ... --&gt;</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="p">&lt;</span><span class="nt">a-assets</span><span class="p">&gt;</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="cm">&lt;!-- Notice the muted attribute --&gt;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="p">&lt;</span><span class="nt">video</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-video&quot;</span> <span class="na">playsinline</span> <span class="na">muted</span><span class="p">&gt;</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>        <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;assets/my-video.mp4&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/mp4&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="p">&lt;</span><span class="nt">source</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;assets/my-video.webm&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;video/webm&quot;</span> <span class="p">/&gt;</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="p">&lt;/</span><span class="nt">video</span><span class="p">&gt;</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="p">&lt;/</span><span class="nt">a-assets</span><span class="p">&gt;</span>
+</code></pre></div>
 
               
 
