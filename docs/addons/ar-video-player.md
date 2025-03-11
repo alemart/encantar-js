@@ -1,6 +1,6 @@
 # Video Player
 
-An A-Frame component and primitive for playing videos in AR. `<ar-video-player>` is tailored for encantar.js. Unlike A-Frame's standard `<a-video>`, `<ar-video-player>` handles corner cases for AR and includes easy-to-use controls, so you can focus on creating your projects rather than dealing with the various technicalities and quirks of video playback in the browser.
+An A-Frame component and primitive for playing videos in AR. `<ar-video-player>` is tailored for encantar.js. Unlike the standard `<a-video>`, `<ar-video-player>` handles corner cases for AR and includes easy-to-use controls, so you can focus on your projects rather than dealing with technicalities and quirks of video playback in the browser.
 
 !!! tip "It's easy to use!"
 
@@ -85,7 +85,7 @@ Add the `ar-video-control` component to a descendant of `<ar-video-player>` as i
 
 ## Multiple videos
 
-You may play different videos depending on the target that is being tracked. This can be accomplished by setting an `<ar-video-player-source>` for each reference image as in the example below:
+You may play different videos depending on the target that is being tracked. This can be accomplished by setting an `<ar-video-player-source>` for each reference image:
 
 ```html
 <ar-root>
@@ -204,7 +204,7 @@ The `<ar-video-player>` emits the following events based on the state of the und
 
 Due to browser policies, there are restrictions to be aware of when using autoplay:
 
-* Usage of the [autoplay](#properties) setting on `<ar-video-player>` should be accompanied by a `muted` attribute on the `<video>` tag. If the page receives no user interaction, then you may only play your video automatically if it's muted.
+* Usage of the [autoplay](#properties) setting on `<ar-video-player>` should be accompanied by a `muted` attribute on the `<video>` tag. If the page receives no user interaction, then you may only play your video automatically if it's effectively muted.
 * Usage of the `autoplay` attribute on the `<video>` tag is discouraged. Video playback may be blocked. In addition, the Video Player will not show up in AR at the exact moment the page is loaded.
 * Ponder whether or not playing an initially muted video makes sense for your project. It may be better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If you decide to use autoplay, have a [unmute button](#video-controls) nearby.
 
