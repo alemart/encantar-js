@@ -2172,7 +2172,7 @@
 
 
 <h1 id="video-player">Video Player</h1>
-<p>An A-Frame component and primitive for playing videos in AR. <code>&lt;ar-video-player&gt;</code> is tailored for encantar.js. Unlike A-Frame's standard <code>&lt;a-video&gt;</code>, <code>&lt;ar-video-player&gt;</code> handles corner cases for AR and includes easy-to-use controls, so you can focus on creating your projects rather than dealing with the various technicalities and quirks of video playback in the browser.</p>
+<p>An A-Frame component and primitive for playing videos in AR. <code>&lt;ar-video-player&gt;</code> is tailored for encantar.js. Unlike the standard <code>&lt;a-video&gt;</code>, <code>&lt;ar-video-player&gt;</code> handles corner cases for AR and includes easy-to-use controls, so you can focus on your projects rather than dealing with technicalities and quirks of video playback in the browser.</p>
 <div class="admonition tip">
 <p class="admonition-title">It's easy to use!</p>
 <p>The Video Player Add-On includes a working demo that you can easily modify. This page documents it in depth and is meant to be used as a reference.</p>
@@ -2313,7 +2313,7 @@
 </tbody>
 </table>
 <h2 id="multiple-videos">Multiple videos</h2>
-<p>You may play different videos depending on the target that is being tracked. This can be accomplished by setting an <code>&lt;ar-video-player-source&gt;</code> for each reference image as in the example below:</p>
+<p>You may play different videos depending on the target that is being tracked. This can be accomplished by setting an <code>&lt;ar-video-player-source&gt;</code> for each reference image:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">ar-root</span><span class="p">&gt;</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="p">&lt;</span><span class="nt">ar-video-player</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;2&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;1.125&quot;</span><span class="p">&gt;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
@@ -2479,7 +2479,7 @@
 <h2 id="autoplay">Autoplay</h2>
 <p>Due to browser policies, there are restrictions to be aware of when using autoplay:</p>
 <ul>
-<li>Usage of the <a href="#properties">autoplay</a> setting on <code>&lt;ar-video-player&gt;</code> should be accompanied by a <code>muted</code> attribute on the <code>&lt;video&gt;</code> tag. If the page receives no user interaction, then you may only play your video automatically if it's muted.</li>
+<li>Usage of the <a href="#properties">autoplay</a> setting on <code>&lt;ar-video-player&gt;</code> should be accompanied by a <code>muted</code> attribute on the <code>&lt;video&gt;</code> tag. If the page receives no user interaction, then you may only play your video automatically if it's effectively muted.</li>
 <li>Usage of the <code>autoplay</code> attribute on the <code>&lt;video&gt;</code> tag is discouraged. Video playback may be blocked. In addition, the Video Player will not show up in AR at the exact moment the page is loaded.</li>
 <li>Ponder whether or not playing an initially muted video makes sense for your project. It may be better to wait for user input in order to initiate the playback, e.g., have the user click on a play button. If you decide to use autoplay, have a <a href="#video-controls">unmute button</a> nearby.</li>
 </ul>
