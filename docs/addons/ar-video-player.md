@@ -83,6 +83,31 @@ Add the `ar-video-control` component to a descendant of `<ar-video-player>` as i
 | `"toggleAudio"` | Toggle the audio. |
 | `""` | Do nothing. |
 
+## Multiple videos
+
+You may want to play different videos depending on the target that is being tracked. This can be accomplished by setting an `<ar-video-player-source>` for each reference image as in the example below:
+
+```html
+<ar-root>
+  <ar-video-player width="2" height="1.125">
+
+    <!-- Set different videos for different targets -->
+    <ar-video-player-source reference-image="mage" src="#mage-video"></ar-video-player-source>
+    <ar-video-player-source reference-image="cat" src="#cat-video"></ar-video-player-source>
+
+  </ar-video-player>
+</ar-root>
+```
+
+*Since:* 1.1.0
+
+### Properties
+
+| Property | Description | Default |
+| -------- | ----------- | ------- |
+| `reference-image` | The name of a [reference image](../api/plugin-aframe.md#ar-reference-image). | `""` |
+| `src` | Query selector of a `<video>` element. | `""` |
+
 ## Declarative handlers
 
 ### Overview
