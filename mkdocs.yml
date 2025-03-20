@@ -10,7 +10,10 @@ repo_url: https://github.com/alemart/encantar-js
 theme:
   name: material
   custom_dir: docs_overrides
-  features: [ 'navigation.tabs', 'navigation.tabs.sticky' ]
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.footer
   palette:
     primary: deep purple
     accent: yellow
@@ -23,6 +26,9 @@ plugins:
   - mkdocs-simple-hooks:
       hooks:
         on_post_build: 'docs.hooks:copy_static_files'
+  - redirects:
+      redirect_maps:
+        'api/index.md': 'api/ar.md'
 
 markdown_extensions:
   - admonition
@@ -52,7 +58,7 @@ nav:
     - 'Demos': 'demos.md'
     - 'Add-Ons': 'addons/index.md'
     - 'Learn': 'tutorial/introduction.md'
-    - 'API Reference': 'api/ar.md'
+    - 'API Reference': 'api/index.md'
     - 'Recommendations': 'recommendations.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'Support my work': 'support-my-work.md'
@@ -78,7 +84,7 @@ nav:
     - 'Recommendations': 'recommendations.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'Questions & Answers': 'faq.md'
-    - 'API Reference': 'api/ar.md'
+    - 'API Reference': 'api/index.md'
   - 'API':
     - 'General':
       - 'AR': 'api/ar.md'
