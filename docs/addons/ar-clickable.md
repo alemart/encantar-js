@@ -18,7 +18,7 @@ An A-Frame component that turns 3D and 2D objects into "clickables" that respond
 
 ### Overview
 
-Declarative event handlers are components used to register event listeners that set properties. They provide an easy way to create interactivity within your HTML page. There is a component for each [event](#event):
+Declarative event handlers are components used to register event listeners that set properties. They provide an easy way to create interactivity within your HTML page. There is a component for each [event](#events):
 
 | Handler | Description |
 | ------- | ----------- |

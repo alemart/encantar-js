@@ -112,7 +112,7 @@ You may play different videos depending on the target that is being tracked. Thi
 
 ### Overview
 
-Declarative event handlers are components used to register event listeners that set properties. They provide an easy way to create interactivity within your HTML page. There is a component for each [event](#event):
+Declarative event handlers are components used to register event listeners that set properties. They provide an easy way to create interactivity within your HTML page. There is a component for each [event](#events):
 
 | Handler | Description |
 | ------- | ----------- |
