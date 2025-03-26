@@ -81,3 +81,12 @@ img.responsive {
     border-color: var(--md-accent-fg-color);
     background-color: var(--md-accent-fg-color);
 }
+
+#announcement a {
+    font-weight: bold;
+    color: white;
+}
+
+#announcement a:hover, #announcement a:active {
+    color: #ffee11;
+}

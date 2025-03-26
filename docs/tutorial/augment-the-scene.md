@@ -12,7 +12,7 @@ Once you pick a 3D rendering technology, you need to integrate it with encantar.
 
 Writing a plugin is a task of moderate complexity. It requires dealing with maths and with some idiosyncrasies of the 3D rendering technologies in order to make sure that it all works as intended. I provide easy-to-use plugins that work with different 3D rendering technologies, so that you don't need to deal with that complexity yourself. Plugins are shipped as JavaScript (.js) files. You just need to add a plugin to your web page, and then the integration will be done for you!
 
-[Get the plugins in the demos](../../demos){ .md-button .md-button--primary ._blank }
+[Get the plugins in the demos](../demos.md){ .md-button .md-button--primary ._blank }
 
 ## Create the virtual scene
 

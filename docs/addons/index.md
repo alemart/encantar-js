@@ -23,7 +23,7 @@ Add-Ons provide an enriched experience with additional features that enhance the
 
 Enchant your audience using this [easy-to-use &amp; customizable](./ar-video-player.md) Video Player! Videos in AR are suitable for: product marketing, AR business cards, educational materials, interactive art, and more!
 
-<a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-video-player" data-goatcounter-click>I want this!</a>
+<a href="https://encantar.gumroad.com/l/video-player" target="_blank" rel="external" class="md-button" id="addon-want-video-player" data-goatcounter-click>I want this!</a>
 
   </div>
   <div>
@@ -38,7 +38,7 @@ Enchant your audience using this [easy-to-use &amp; customizable](./ar-video-pla
 
 Add interactivity to your scenes with easy-to-use buttons for AR! You can [customize their images and colors](./ar-button.md). They're bundled with the Video Player.
 
-<a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-buttons" data-goatcounter-click>I want this!</a>
+<a href="https://encantar.gumroad.com/l/video-player" target="_blank" rel="external" class="md-button" id="addon-want-buttons" data-goatcounter-click>I want this!</a>
 
   </div>
   <div markdown>
@@ -55,7 +55,7 @@ Add interactivity to your scenes with easy-to-use buttons for AR! You can [custo
 
 Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. AR Clickables are based on the [Pointer Tracker](../api/pointer-tracker.md). They are the building blocks of AR Buttons and are included with them.
 
-<a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-clickables" data-goatcounter-click>I want this!</a>
+<a href="https://encantar.gumroad.com/l/video-player" target="_blank" rel="external" class="md-button" id="addon-want-clickables" data-goatcounter-click>I want this!</a>
 
   </div>
   <div markdown>
@@ -72,7 +72,7 @@ Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. A
 
 Framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. This Add-On is bundled with the core.
 
-<a href="https://ko-fi.com/s/3ee4182cb6" target="_blank" rel="external" class="md-button" id="addon-want-asset-manager" data-goatcounter-click>I want this!</a>
+<a href="https://encantar.gumroad.com/l/encantar" target="_blank" rel="external" class="md-button" id="addon-want-asset-manager" data-goatcounter-click>I want this!</a>
 
   </div>
   <div markdown>

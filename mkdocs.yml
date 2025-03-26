@@ -17,6 +17,8 @@ theme:
   palette:
     primary: deep purple
     accent: yellow
+  logo: 'img/logo.png'
+  favicon: 'img/favicon.png'
 
 extra_css: [ 'style/extra.css' ]
 extra_javascript: [ 'js/extra.js' ]
@@ -53,18 +55,17 @@ dev_addr: 127.0.0.1:8008
 
 nav:
   - 'Home':
-    - 'Welcome!': 'index.md'
+    - 'Home': 'home.md'
     - 'Download': 'download.md'
     - 'Demos': 'demos.md'
     - 'Add-Ons': 'addons/index.md'
-    - 'Learn': 'tutorial/introduction.md'
+    - 'Learn': 'tutorial/index.md'
     - 'API Reference': 'api/index.md'
-    - 'Recommendations': 'recommendations.md'
-    - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'Support my work': 'support-my-work.md'
     - 'License': 'license.md'
   - 'Download': 'download.md'
-  - 'Demos': 'demos.md'
+  - 'Demos':
+    - 'Demos': 'demos.md'
   - 'Add-Ons':
     - 'Add-Ons': 'addons/index.md'
     - 'AR Button API': 'addons/ar-button.md'
@@ -73,7 +74,7 @@ nav:
     - 'Asset Manager API': 'addons/asset-manager.md'
     - 'More Add-Ons': 'addons/more-addons.md'
   - 'Learn':
-    - 'Introduction': 'tutorial/introduction.md'
+    - 'Introduction': 'tutorial/index.md'
     - 'Concepts': 'tutorial/concepts.md'
     - 'Set up a web server': 'tutorial/set-up-a-web-server.md'
     - 'Set up the tracker': 'tutorial/set-up-the-tracker.md'

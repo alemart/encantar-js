@@ -1,10 +1,20 @@
-# encantar.js WebAR engine
+# Welcome to encantar.js!
 
 The Augmented Reality engine that will enchant you!
 
-:star2: **[Try it!](https://encantar.dev/demos/hello-aframe/poster.html)** | :video_game: **[Play a game!](https://encantar.dev/demos/basketball/poster.html)** | :magic_wand: **[Demos](https://encantar.dev/demos/)** | :heart_eyes: **[Add-Ons](https://encantar.dev/addons/)** | :books: **[Learn](https://encantar.dev/tutorial/)**
+<style>
+.md-button { padding-left: 1.5em !important; padding-right: 1.5em !important; }
+#gallery { display: flex; justify-content: center; }
+#gallery img { height: 128px; margin: 0 2px; }
+</style>
 
-<a href="https://encantar.dev/demos/hello-aframe/poster.html"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://encantar.dev/demos/basketball/poster.html"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://encantar.dev/addons/"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
+[:star2: Try it!](../demos/hello-aframe/poster.html){ .md-button ._blank } [:video_game: Play a game!](../demos/basketball/poster.html){ .md-button ._blank } [:sparkles: Demos](./demos.md){ .md-button } [:heart_eyes: Add-Ons](./addons/index.md){ .md-button } [:books: Learn](./tutorial/index.md){ .md-button }
+
+<div id="gallery">
+  <a href="../demos/hello-aframe/poster.html" target="_blank"><img src="../img/mage.gif" alt="Demo"></a>
+  <a href="../demos/basketball/poster.html" target="_blank"><img src="../img/basketball.gif" alt="Game"></a>
+  <a href="../addons/"><img src="../img/video-player.gif" alt="Video Player"></a>
+</div>
 
 ## Features
 
@@ -26,8 +36,8 @@ The Augmented Reality engine that will enchant you!
 encantar.js is compatible with all major web browsers:
 
 | Chrome | Edge | Firefox | Opera | Safari* |
-| ------ | ---- | ------- | ----- | ------- |
-| ✔      | ✔    | ✔       | ✔     | ✔       |
+|:------:|:----:|:-------:|:-----:|:-------:|
+| :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 \* use Safari 15.2 or later.
 
@@ -35,4 +45,4 @@ encantar.js requires WebGL2 and WebAssembly, which are widely supported.
 
 ## About
 
-encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [LGPL](LICENSE.md). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
+encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [LGPL](./license.md). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision).

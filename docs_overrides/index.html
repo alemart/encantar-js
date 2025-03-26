@@ -20,13 +20,6 @@
     --md-secondary-fg-color: var(--md-accent-fg-color);
 }
 
-.md-button {
-    --md-primary-bg-color: var(--md-primary-fg-color);
-    --md-primary-fg-color: var(--md-primary-bg-color);
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
-
 #splash {
     display: flex;
     align-items: center;
@@ -45,11 +38,10 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-image: url(img/mage.gif);
+    background-image: url(img/splash.gif);
     background-repeat: no-repeat;
-    background-position: 50% 0;
     background-size: cover;
-    opacity: 0.05;
+    opacity: 0.1;
 }
 
 .splash-container {
@@ -81,13 +73,30 @@
     font-size: 1.8em;
 }
 
+.splash-text h2 {
+    margin: 0.5em 0 0.5em 0;
+    color: var(--md-primary-bg-color);
+    font-size: 1.25em;
+}
+
 .splash-image > * {
     width: 80%;
     border-radius: 32px;
     border: 4px solid var(--md-primary-fg-color--light);
 }
 
+#splash nav {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    text-align: center;
+    margin: 24px auto;
+    row-gap: 16px;
+}
+
 @media screen and (min-width: 1220px) {
+/*
     .splash-container {
         align-items: center;
         flex-direction: row;
@@ -108,6 +117,20 @@
     .splash-image > * {
         width: 100%;
     }
+*/
+}
+
+.md-button:not(:hover,:focus) {
+    /*background-color: var(--md-primary-fg-color) !important;*/
+    background-color: none !important;
+    border-color: var(--md-primary-bg-color) !important;
+    color: var(--md-primary-bg-color) !important;
+}
+
+.md-button.md-button--primary:not(:hover,:focus) {
+    background-color: var(--md-primary-bg-color) !important;
+    border-color: var(--md-primary-bg-color) !important;
+    color: var(--md-primary-fg-color) !important;
 }
 
 @keyframes appear {
@@ -128,13 +151,16 @@
 <section id="splash">
     <div class="splash-container md-grid">
         <div class="splash-text md-typeset appear text-center">
-            <h1>&#x2728; encant<span style="color: #ffd500">ar</span>.js &#x2728;</h1>
-            <p>The Augmented Reality engine that will enchant you!</p>
-            <a href="{{ './getting-started' | url }}" class="md-button">Get started</a>
+            <h1>encant<em>ar</em>.js</h1>
+            <h2>GPU-accelerated Augmented Reality for the web</h2>
+            <nav>
+                <a href="{{ './home' | url }}" class="md-button md-button--primary" id="splash-get-started" data-goatcounter-click>Get started</a>
+                <a href="{{ './demos/hello-aframe/poster.html' | url }}" class="md-button" target="_blank" id="splash-try-demo" data-goatcounter-click>Try a demo</a>
+            </nav>
         </div>
         <!--
-        <div class="splash-image">
-            <video poster="{{ './img/demo-cool3.webp' | url }}" muted loop playsinline autoplay>
+        <div class="splash-image appear">
+            <video poster="{{ './img/demo-cat.gif' | url }}" muted loop playsinline autoplay>
                 <source src="{{ './img/demo-cool3.webm' | url }}" type="video/webm" />
                 <source src="{{ './img/demo-cool3.mp4' | url }}" type="video/mp4" />
             </video>

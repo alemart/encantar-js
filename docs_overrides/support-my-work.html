@@ -1,11 +1,79 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="refresh" content="0; url='https://encantar.dev/demos/assets/promo.html'">
-        <title>encantar.js - Support my work</title>
-    </head>
-    <body>
-        <p><a href="https://encantar.dev/demos/assets/promo.html">Redirecting...</a></p>
-    </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="encantar.js: GPU-accelerated Augmented Reality for the web">
+  <meta name="author" content="Alexandre Martins">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thank you for trying encantar.js!</title>
+  <style>
+  html {
+    line-height: 1.6;
+    margin: 0.5em max(1ch, calc((100vw - 56ch) / 2));
+    font-size: clamp(1rem, 2vw, 2rem);
+    font-family: serif;
+    background: #fffae9;
+    color: #1a170d;
+  }
+  a:any-link {
+    color: #857952;
+  }
+  .button {
+    display: inline-block;
+    margin: 0.5em 0;
+    padding: 1em 2em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    /*background: #e9e0c2;*/
+    background: #fff12c;
+    color: #d88519 !important;
+    border-radius: 64px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.125s ease-out;
+  }
+  .button:hover {
+    transform: translateX(-50%) scale(1.0625);
+  }
+  h1 {
+    font-size: 1.33em;
+  }
+  h2 {
+    font-size: 1em;
+  }
+  </style>
+  <script data-goatcounter="https://encantar-js.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
+    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
+    document.querySelectorAll('a.email').forEach(function(a) {
+      a.href = link;
+      if(a.innerText == '')
+        a.innerText = link.substring(7);
+    });
+  });
+  </script>
+</head>
+<body>
+
+<h1>Thank you for trying encantar.js!</h1>
+
+<h2>Would you like to see more of open-source AR?</h2>
+
+<p>encantar.js is developed independently. Your support is important for the work to continue. Support it by purchasing your copy!</p>
+
+<a href="https://encantar.gumroad.com/l/encantar" rel="external" target="_blank" class="button" id="support-purchase-button" data-goatcounter-click>Support this work</a>
+
+<h2>Spread the word!</h2>
+
+<p>Are you building something cool? Share it on social media! If you're enchanted by encantar.js, why wouldn't you let your friends know about this tech and what you're building with it? &#x1F60E;</p>
+
+<h2>Technical support</h2>
+
+<p>Need help? Get expert guidance on WebAR with encantar.js by contacting <a href="#" class="email" id="contact-technical-support" data-goatcounter-click></a>.</p>
+<p>Not a technical person? Get help with installation, maintenance, custom development and more. <a href="#" class="email" id="contact-technical-support2" data-goatcounter-click>Contact support</a> for professional services.</p>
+
+</body>
 </html>
