@@ -14,28 +14,31 @@
       
         <link rel="canonical" href="https://encantar.dev/">
       
-      <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.4">
+      
+      
+      
+      <link rel="icon" href="img/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
     
     
       
-        <title>Welcome! - encantar.js: GPU-accelerated Augmented Reality for the web</title>
+        <title>encantar.js WebAR Engine - encantar.js: GPU-accelerated Augmented Reality for the web</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.2d9f7617.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.4af4bdda.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
-        
-          
-          
-          <meta name="theme-color" content="#7e56c2">
-        
+        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
       
+      
+
+
     
     
 
+      
+    
 <script data-goatcounter="https://encantar-js.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
     
@@ -50,13 +53,14 @@
     
       <link rel="stylesheet" href="style/extra.css">
     
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-<meta property="og:title" content="Welcome! - encantar.js: GPU-accelerated Augmented Reality for the web">
+    
+<meta property="og:title" content="encantar.js WebAR Engine - encantar.js: GPU-accelerated Augmented Reality for the web">
 <meta property="og:description" content="The Augmented Reality engine that will enchant you!">
 <meta property="og:url" content="https://encantar.dev/">
 <meta property="og:type" content="website">
@@ -71,19 +75,13 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="deep-purple" data-md-color-accent="yellow">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="yellow">
   
-    
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#welcome-to-encantarjs" class="md-skip">
-          Skip to content
-        </a>
       
     </div>
     <div data-md-component="announce">
@@ -95,16 +93,16 @@
 
   
 
-<header class="md-header md-header--lifted" data-md-component="header">
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-header__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="img/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -116,17 +114,21 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome!
+              encantar.js WebAR Engine
             
           </span>
         </div>
       </div>
     </div>
     
+      
+    
+    
     
     
       <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
       </label>
       <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
@@ -134,24 +136,27 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
-        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
           </div>
-          <ol class="md-search-result__list"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
         </div>
       </div>
     </div>
@@ -160,10 +165,10 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/alemart/encantar-js/" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/alemart/encantar-js" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
   </div>
   <div class="md-source__repository">
     alemart/encantar-js
@@ -176,103 +181,122 @@
     
       
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-tabs__inner md-grid">
+  <div class="md-grid">
     <ul class="md-tabs__list">
       
         
   
   
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="home/" class="md-tabs__link">
+          
+  
+  Home
+
+        </a>
+      </li>
     
   
 
-
+      
+        
   
   
   
     <li class="md-tabs__item">
-      <a href="." class="md-tabs__link md-tabs__link--active">
-        Home
+      <a href="download/" class="md-tabs__link">
+        
+  
+    
+  
+  Download
+
       </a>
     </li>
   
 
       
         
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="download/" class="md-tabs__link">
-      Download
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="demos/" class="md-tabs__link">
-      Demos
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="addons/" class="md-tabs__link">
-        Add-Ons
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="tutorial/introduction/" class="md-tabs__link">
-        Learn
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
   
   
   
     
+    
+      <li class="md-tabs__item">
+        <a href="demos/" class="md-tabs__link">
+          
+  
+  Demos
 
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="api/ar/" class="md-tabs__link">
-        API
-      </a>
-    </li>
+        </a>
+      </li>
+    
   
 
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="addons/" class="md-tabs__link">
+          
+  
+  Add-Ons
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="tutorial/" class="md-tabs__link">
+          
+  
+  Learn
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="api/ar/" class="md-tabs__link">
+          
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+    
   
 
       
@@ -286,1884 +310,203 @@
     <div class="md-container" data-md-component="container">
       
       
+
         
       
+
+<style>
+.md-main {
+    display: none;
+}
+
+.md-nav {
+    display: none;
+}
+
+.md-header {
+    box-shadow: none !important;
+}
+
+:root {
+    --md-secondary-fg-color: var(--md-accent-fg-color);
+}
+
+#splash {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    background-color: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+#splash::before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(img/splash.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.1;
+}
+
+.splash-container {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+}
+
+.splash-text {
+    font-size: 16pt;
+    padding: 0 14px 0 14px; /* align to header */
+    text-align: center;
+}
+
+.splash-image {
+    text-align: center;
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.splash-text em {
+    font-style: normal;
+    color: var(--md-accent-fg-color);
+}
+
+.splash-text h1 {
+    margin: 0.5em 0 0.5em 0;
+    color: var(--md-primary-bg-color);
+    font-size: 1.8em;
+}
+
+.splash-text h2 {
+    margin: 0.5em 0 0.5em 0;
+    color: var(--md-primary-bg-color);
+    font-size: 1.25em;
+}
+
+.splash-image > * {
+    width: 80%;
+    border-radius: 32px;
+    border: 4px solid var(--md-primary-fg-color--light);
+}
+
+#splash nav {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    text-align: center;
+    margin: 24px auto;
+    row-gap: 16px;
+}
+
+@media screen and (min-width: 1220px) {
+/*
+    .splash-container {
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .splash-text {
+        flex: 14;
+        text-align: left;
+    }
+
+    .splash-image {
+        flex: 9;
+        text-align: right;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .splash-image > * {
+        width: 100%;
+    }
+*/
+}
+
+.md-button:not(:hover,:focus) {
+    /*background-color: var(--md-primary-fg-color) !important;*/
+    background-color: none !important;
+    border-color: var(--md-primary-bg-color) !important;
+    color: var(--md-primary-bg-color) !important;
+}
+
+.md-button.md-button--primary:not(:hover,:focus) {
+    background-color: var(--md-primary-bg-color) !important;
+    border-color: var(--md-primary-bg-color) !important;
+    color: var(--md-primary-fg-color) !important;
+}
+
+@keyframes appear {
+    from { transform: translateY(10%); opacity: 0.01; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.appear {
+    animation: appear 0.5s ease-out 0.2s;
+    animation-fill-mode: both;
+}
+
+.text-center {
+    text-align: center;
+}
+</style>
+
+<section id="splash">
+    <div class="splash-container md-grid">
+        <div class="splash-text md-typeset appear text-center">
+            <h1>encant<em>ar</em>.js</h1>
+            <h2>GPU-accelerated Augmented Reality for the web</h2>
+            <nav>
+                <a href="home" class="md-button md-button--primary" id="splash-get-started" data-goatcounter-click>Get started</a>
+                <a href="demos/hello-aframe/poster.html" class="md-button" target="_blank" id="splash-try-demo" data-goatcounter-click>Try a demo</a>
+            </nav>
+        </div>
+        <!--
+        <div class="splash-image appear">
+            <video poster="img/demo-cat.gif" muted loop playsinline autoplay>
+                <source src="img/demo-cool3.webm" type="video/webm" />
+                <source src="img/demo-cool3.mp4" type="video/mp4" />
+            </video>
+        </div>
+        -->
+    </div>
+</section>
+
+
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
           
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-  
-
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="." title="encantar.js: GPU-accelerated Augmented Reality for the web" class="md-nav__button md-logo" aria-label="encantar.js: GPU-accelerated Augmented Reality for the web" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    encantar.js: GPU-accelerated Augmented Reality for the web
-  </label>
-  
-    <div class="md-nav__source">
-      <a href="https://github.com/alemart/encantar-js/" title="Go to repository" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    alemart/encantar-js
-  </div>
-</a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-  
-  
-    
-  
-  
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_1">
-          Home
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Home" data-md-level="1">
-        <label class="md-nav__title" for="__nav_1">
-          <span class="md-nav__icon md-icon"></span>
-          Home
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
           
-            
-              
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Welcome!
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
-        Welcome!
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-points" class="md-nav__link">
-    Key points
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#browser-compatibility" class="md-nav__link">
-    Browser compatibility
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#about" class="md-nav__link">
-    About
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="download/" class="md-nav__link">
-        Download
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="demos/" class="md-nav__link">
-        Demos
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="addons/" class="md-nav__link">
-        Add-Ons
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/introduction/" class="md-nav__link">
-        Learn
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ar/" class="md-nav__link">
-        API Reference
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="recommendations/" class="md-nav__link">
-        Recommendations
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guidelines-for-images/" class="md-nav__link">
-        Guidelines for Images
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="support-my-work/" class="md-nav__link">
-        Support my work
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="license/" class="md-nav__link">
-        License
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="download/" class="md-nav__link">
-        Download
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="demos/" class="md-nav__link">
-        Demos
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_4">
-          Add-Ons
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Add-Ons" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          Add-Ons
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="addons/" class="md-nav__link">
-        Add-Ons
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="addons/ar-button/" class="md-nav__link">
-        AR Button API
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="addons/ar-clickable/" class="md-nav__link">
-        AR Clickable API
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="addons/ar-video-player/" class="md-nav__link">
-        Video Player API
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="addons/asset-manager/" class="md-nav__link">
-        Asset Manager API
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="addons/more-addons/" class="md-nav__link">
-        More Add-Ons
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_5">
-          Learn
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Learn" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
-          <span class="md-nav__icon md-icon"></span>
-          Learn
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/introduction/" class="md-nav__link">
-        Introduction
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/concepts/" class="md-nav__link">
-        Concepts
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/set-up-a-web-server/" class="md-nav__link">
-        Set up a web server
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/set-up-the-tracker/" class="md-nav__link">
-        Set up the tracker
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/set-up-the-session/" class="md-nav__link">
-        Set up the session
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/activate-your-webcam/" class="md-nav__link">
-        Activate your webcam
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/augment-the-scene/" class="md-nav__link">
-        Augment the scene
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="tutorial/next-steps/" class="md-nav__link">
-        Next steps
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="recommendations/" class="md-nav__link">
-        Recommendations
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="guidelines-for-images/" class="md-nav__link">
-        Guidelines for Images
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="faq/" class="md-nav__link">
-        Questions & Answers
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ar/" class="md-nav__link">
-        API Reference
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6">
-          API
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="API" data-md-level="1">
-        <label class="md-nav__title" for="__nav_6">
-          <span class="md-nav__icon md-icon"></span>
-          API
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_1">
-          General
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="General" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_1">
-          <span class="md-nav__icon md-icon"></span>
-          General
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ar/" class="md-nav__link">
-        AR
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/session/" class="md-nav__link">
-        Session
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/frame/" class="md-nav__link">
-        Frame
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/time-manager/" class="md-nav__link">
-        Time
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/settings/" class="md-nav__link">
-        Settings
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/resolution/" class="md-nav__link">
-        Resolution
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_2" type="checkbox" id="__nav_6_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_2">
-          Plugins
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Plugins" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_2">
-          <span class="md-nav__icon md-icon"></span>
-          Plugins
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/plugin-aframe/" class="md-nav__link">
-        A-Frame
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/plugin-babylon/" class="md-nav__link">
-        Babylon.js
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/plugin-three/" class="md-nav__link">
-        Three.js
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_3" type="checkbox" id="__nav_6_3" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_3">
-          Trackers
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Trackers" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_3">
-          <span class="md-nav__icon md-icon"></span>
-          Trackers
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_3_1" type="checkbox" id="__nav_6_3_1" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_3_1">
-          Image tracker
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Image tracker" data-md-level="3">
-        <label class="md-nav__title" for="__nav_6_3_1">
-          <span class="md-nav__icon md-icon"></span>
-          Image tracker
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/image-tracker/" class="md-nav__link">
-        ImageTracker
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/reference-image/" class="md-nav__link">
-        ReferenceImage
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/reference-image-database/" class="md-nav__link">
-        ReferenceImageDatabase
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/image-tracker-result/" class="md-nav__link">
-        ImageTrackerResult
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/trackable-image/" class="md-nav__link">
-        TrackableImage
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_3_2" type="checkbox" id="__nav_6_3_2" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_3_2">
-          Pointer tracker
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Pointer tracker" data-md-level="3">
-        <label class="md-nav__title" for="__nav_6_3_2">
-          <span class="md-nav__icon md-icon"></span>
-          Pointer tracker
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/pointer-tracker/" class="md-nav__link">
-        PointerTracker
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/pointer-tracker-result/" class="md-nav__link">
-        PointerTrackerResult
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/trackable-pointer/" class="md-nav__link">
-        TrackablePointer
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/tracker/" class="md-nav__link">
-        Tracker
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/tracker-result/" class="md-nav__link">
-        TrackerResult
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/trackable/" class="md-nav__link">
-        Trackable
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_4" type="checkbox" id="__nav_6_4" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_4">
-          Sources
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Sources" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_4">
-          <span class="md-nav__icon md-icon"></span>
-          Sources
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/camera-source/" class="md-nav__link">
-        CameraSource
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/canvas-source/" class="md-nav__link">
-        CanvasSource
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/video-source/" class="md-nav__link">
-        VideoSource
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/pointer-source/" class="md-nav__link">
-        PointerSource
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/source/" class="md-nav__link">
-        Source
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_5" type="checkbox" id="__nav_6_5" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_5">
-          Visualization
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Visualization" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_5">
-          <span class="md-nav__icon md-icon"></span>
-          Visualization
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/viewport/" class="md-nav__link">
-        Viewport
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/hud/" class="md-nav__link">
-        HUD
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/gizmos/" class="md-nav__link">
-        Gizmos
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_6" type="checkbox" id="__nav_6_6" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_6">
-          Geometry
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Geometry" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_6">
-          <span class="md-nav__icon md-icon"></span>
-          Geometry
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/pose/" class="md-nav__link">
-        Pose
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/viewer/" class="md-nav__link">
-        Viewer
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/viewer-pose/" class="md-nav__link">
-        ViewerPose
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/view/" class="md-nav__link">
-        View
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/perspective-view/" class="md-nav__link">
-        PerspectiveView
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/transform/" class="md-nav__link">
-        Transform
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/vector2/" class="md-nav__link">
-        Vector2
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/vector3/" class="md-nav__link">
-        Vector3
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/quaternion/" class="md-nav__link">
-        Quaternion
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ray/" class="md-nav__link">
-        Ray
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_7" type="checkbox" id="__nav_6_7" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_7">
-          Events
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Events" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_7">
-          <span class="md-nav__icon md-icon"></span>
-          Events
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ar-event/" class="md-nav__link">
-        AREvent
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ar-event-listener/" class="md-nav__link">
-        AREventListener
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ar-event-target/" class="md-nav__link">
-        AREventTarget
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/ar-event-type/" class="md-nav__link">
-        AREventType
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_8" type="checkbox" id="__nav_6_8" >
-      
-      
-      
-      
-        <label class="md-nav__link" for="__nav_6_8">
-          Speedy
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" aria-label="Speedy" data-md-level="2">
-        <label class="md-nav__title" for="__nav_6_8">
-          <span class="md-nav__icon md-icon"></span>
-          Speedy
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/speedy/" class="md-nav__link">
-        Speedy
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/speedy-size/" class="md-nav__link">
-        SpeedySize
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/speedy-matrix/" class="md-nav__link">
-        SpeedyMatrix
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="api/speedy-promise/" class="md-nav__link">
-        SpeedyPromise
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-points" class="md-nav__link">
-    Key points
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#browser-compatibility" class="md-nav__link">
-    Browser compatibility
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#about" class="md-nav__link">
-    About
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
-
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
                 
-<a href="https://github.com/alemart/encantar-js/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-</a>
-
-
-
-<h1 id="welcome-to-encantarjs">Welcome to encantar.js!</h1>
-<p>The Augmented Reality engine that will enchant you!</p>
-<p><img alt="❤️" class="gemoji heart" src="https://github.githubassets.com/images/icons/emoji/unicode/2764.png" title=":heart:" /> encantar.js is an Augmented Reality technology which I develop independently. Support this work by <a href="download/">purchasing your copy</a>. You can also <a href="https://github.com/sponsors/alemart">become a sponsor</a>.</p>
-<style>
-.md-button { padding-left: 1.5em !important; padding-right: 1.5em !important; }
-#gallery { display: flex; justify-content: center; }
-#gallery img { height: 128px; margin: 0 2px; }
-</style>
-
-<p><a class="md-button _blank" href="./demos/hello-aframe/poster.html"><img alt="🌟" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f31f.png" title=":star2:" /> Try it!</a> <a class="md-button _blank" href="./demos/basketball/poster.html"><img alt="🎮" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3ae.png" title=":video_game:" /> Play a game!</a> <a class="md-button _blank" href="demos/"><img alt="✨" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" title=":sparkles:" /> Demos</a> <a class="md-button" href="addons/"><img alt="😍" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f60d.png" title=":heart_eyes:" /> Add-Ons</a> <a class="md-button" href="tutorial/introduction/"><img alt="📚" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f4da.png" title=":books:" /> Learn</a></p>
-<div id="gallery">
-  <a href="demos/hello-aframe/poster.html" target="_blank"><img src="img/mage.gif" alt="Demo"></a>
-  <a href="demos/basketball/poster.html" target="_blank"><img src="img/basketball.gif" alt="Game"></a>
-  <a href="addons/"><img src="img/video-player.gif" alt="Video Player"></a>
-</div>
-
-<h2 id="features">Features</h2>
-<ul>
-<li><strong>Image tracking</strong>: track detailed images such as book covers, cartoons and photos. No need of manual training!</li>
-<li><strong>Pointer tracking</strong>: create interactive experiences based on touch and mouse input with an easy-to-use API.</li>
-<li><strong>Plugins</strong>: use encantar.js with the 3D framework of your choice, including: A-Frame, Babylon.js, Three.js and more!</li>
-<li><strong>Add-Ons</strong>: create rich experiences with additional features that enhance the core of encantar.js!</li>
-</ul>
-<h2 id="key-points">Key points</h2>
-<ul>
-<li><strong>AR everywhere</strong>: it runs on Android, on iOS, and even on Desktop computers! Only a modern web browser is required.</li>
-<li><strong>Easy to use</strong>: just load a static HTML page! No need of heavy app downloads, server-side components or subscriptions.</li>
-<li><strong>Device-agnostic</strong>: no need of AR-capable devices! encantar.js is AR built from scratch with computer vision!</li>
-<li><strong>Fast &amp; powerful</strong>: encantar.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.</li>
-<li><strong>Open source</strong>: personal, professional and educational uses are allowed.</li>
-</ul>
-<h2 id="browser-compatibility">Browser compatibility</h2>
-<p>encantar.js is compatible with all major web browsers:</p>
-<table>
-<thead>
-<tr>
-<th align="center">Chrome</th>
-<th align="center">Edge</th>
-<th align="center">Firefox</th>
-<th align="center">Opera</th>
-<th align="center">Safari*</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center"><img alt="✔️" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" title=":heavy_check_mark:" /></td>
-<td align="center"><img alt="✔️" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" title=":heavy_check_mark:" /></td>
-<td align="center"><img alt="✔️" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" title=":heavy_check_mark:" /></td>
-<td align="center"><img alt="✔️" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" title=":heavy_check_mark:" /></td>
-<td align="center"><img alt="✔️" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2714.png" title=":heavy_check_mark:" /></td>
-</tr>
-</tbody>
-</table>
-<p>* use Safari 15.2 or later.</p>
-<p>encantar.js requires WebGL2 and WebAssembly, which are widely supported.</p>
-<h2 id="about">About</h2>
-<p>encantar.js is developed by <a href="https://github.com/alemart">Alexandre Martins</a> and released under the <a href="license/">LGPL</a>. It is based on <a href="https://github.com/alemart/speedy-vision">Speedy Vision</a>.</p>
-
-              
-
-            </article>
-          </div>
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
       </main>
       
-<button id="support-button" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
-    &#x1F468;&#x200D;&#x1F4BB; Need help?
-</button>
-<section id="support-widget" class="md-typeset invisible">
-    <h4>Technical support</h4>
-    <p>Get expert guidance on WebAR with encantar.js by contacting the developer at <a href="#" class="support-link" id="technical-support-widget" data-goatcounter-click></a>.</p>
-    <p>If you have any projects that you want created or modified, feel free to get in touch!</p>
-</section>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
-    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
-    document.querySelectorAll('a.support-link').forEach(function(a) {
-        a.href = link;
-        if(a.innerText.length == 0)
-            a.innerText = link.substring(7);
-    });
-});
-</script>
-
-        <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-      
-        
-        <a href="download/" class="md-footer__link md-footer__link--next" aria-label="Next: Download" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Download
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <!--
-  Copyright (c) 2016-2022 Martin Donath <martin.donath@squidfunk.com>
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files (the "Software"), to
-  deal in the Software without restriction, including without limitation the
-  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
-  sell copies of the Software, and to permit persons to whom the Software is
-  furnished to do so, subject to the following conditions:
-
-  The above copyright notice and this permission notice shall be included in
-  all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
-  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-  IN THE SOFTWARE.
--->
-
-<!-- Copyright and theme information - modified by Alexandre -->
-<div class="md-copyright">
-    <div class="md-copyright__highlight">
-      encantar.js: GPU-accelerated Augmented Reality for the web.
-      Copyright &copy; 2022 - present Alexandre Martins.
-    </div>
-  
-    This page is licensed under the
-    <a
-      href="http://creativecommons.org/licenses/by/4.0"
-      target="_blank" rel="license"
-    >
-      Creative Commons Attribution 4.0 International License
-    </a>
-    and is made with
-    <a
-      href="https://squidfunk.github.io/mkdocs-material"
-      target="_blank" rel="noopener"
-    >
-      Material for MkDocs
-    </a>
-  
-</div>
-      
-    </div>
-  </div>
-</footer>
-      
-
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.tabs.sticky"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="assets/javascripts/bundle.5413a266.min.js"></script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.footer"], "search": "assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.c8b220af.min.js"></script>
       
         <script src="js/extra.js"></script>
       
