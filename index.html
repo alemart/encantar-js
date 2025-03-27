@@ -349,10 +349,17 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-image: url(img/splash.gif);
+    background-image: url(img/splash.webp);
+    background-position: 80% 25%;
     background-repeat: no-repeat;
     background-size: cover;
-    opacity: 0.1;
+    opacity: 0.25;
+}
+
+@media screen and (min-width: 1220px) {
+    #splash::before {
+        background-position: center;
+    }
 }
 
 .splash-container {

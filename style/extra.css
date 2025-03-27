@@ -84,6 +84,9 @@ img.responsive {
 
 #announcement a {
     font-weight: bold;
+}
+
+#announcement a, #announcement a:visited {
     color: white;
 }
 
