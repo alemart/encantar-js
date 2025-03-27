@@ -1,3 +1,6 @@
+---
+template: "home.html"
+---
 # Welcome to encantar.js!
 
 The Augmented Reality engine that will enchant you!

@@ -29,7 +29,7 @@
 
     ---
 
-    <a href="https://encantar.gumroad.com/l/encantar" class="md-button md-button--primary" target="_blank" rel="external" id="launch-demo-encantar" data-goatcounter-click>Download</a>
+    <a href="https://ko-fi.com/s/3ee4182cb6" class="md-button md-button--primary" target="_blank" rel="external" id="launch-demo-encantar" data-goatcounter-click>Download</a>
 
 -   ### Video Player with Buttons
 
@@ -41,7 +41,7 @@
 
     ---
 
-    <a href="https://encantar.gumroad.com/l/video-player" class="md-button md-button--primary" target="_blank" rel="external" id="launch-demo-video-player" data-goatcounter-click>Download</a>
+    <a href="https://ko-fi.com/s/697a184728" class="md-button md-button--primary" target="_blank" rel="external" id="launch-demo-video-player" data-goatcounter-click>Download</a>
 
 -   ### Magic AR Basketball
 
