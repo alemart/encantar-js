@@ -65,10 +65,13 @@ export class FullscreenButton
 
     /**
      * Initialize
+     * @param parent parent node
+     * @param isVisible
      */
-    init(): void
+    init(parent: Node, isVisible: boolean): void
     {
-        this._viewport.hud.container.appendChild(this._button);
+        parent.appendChild(this._button);
+        this._button.hidden = !isVisible;
         this._viewport.addEventListener('fullscreenchange', this._boundEventHandler);
     }
 
@@ -95,6 +98,7 @@ export class FullscreenButton
         button.style.height = BUTTON_SIZE + 'px';
 
         button.style.opacity = '0.5';
+        button.style.zIndex = '1000000';
         button.style.cursor = 'pointer';
         button.style.outline = 'none';
         (button.style as any)['-webkit-tap-highlight-color'] = 'transparent';

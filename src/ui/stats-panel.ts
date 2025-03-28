@@ -49,9 +49,6 @@ const BUTTON_ICONS = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYA
  */
 export class StatsPanel
 {
-    /** The viewport associated to this panel */
-    private readonly _viewport: Viewport;
-
     /** A container for the panel */
     private readonly _container: HTMLDivElement;
 
@@ -63,15 +60,22 @@ export class StatsPanel
 
     /**
      * Constructor
-     * @param viewport Viewport
      */
-    constructor(viewport: Viewport)
+    constructor()
     {
-        this._viewport = viewport;
-        this._lastUpdate = 0;
-
         this._container = this._createContainer();
-        viewport.hud.container.appendChild(this._container);
+        this._lastUpdate = 0;
+    }
+
+    /**
+     * Initialize the panel
+     * @param parent parent node
+     * @param isVisible
+     */
+    init(parent: Node, isVisible: boolean): void
+    {
+        parent.appendChild(this._container);
+        this._container.hidden = !isVisible;
     }
 
     /**
@@ -97,22 +101,6 @@ export class StatsPanel
             this._lastUpdate = time;
             this._update(sources, trackers, viewport, fps, gpu);
         }
-    }
-
-    /**
-     * Visibility of the panel
-     */
-    get visible(): boolean
-    {
-        return !this._container.hidden;
-    }
-
-    /**
-     * Visibility of the panel
-     */
-    set visible(visible: boolean)
-    {
-        this._container.hidden = !visible;
     }
 
     /**

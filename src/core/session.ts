@@ -31,7 +31,6 @@ import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessD
 import { Viewport } from './viewport';
 import { Settings } from './settings';
 import { Stats } from './stats';
-import { StatsPanel } from '../ui/stats-panel';
 import { Gizmos } from '../ui/gizmos';
 import { Frame } from './frame';
 import { Tracker } from '../trackers/tracker';
@@ -132,9 +131,6 @@ export class Session extends AREventTarget<SessionEventType>
     /** Render stats (FPS) */
     private _renderStats: Stats;
 
-    /** Stats panel */
-    private _statsPanel: StatsPanel;
-
     /** Gizmos */
     private _gizmos: Gizmos;
 
@@ -174,13 +170,9 @@ export class Session extends AREventTarget<SessionEventType>
         // setup the viewport
         this._viewport = viewport;
         if(this._primarySource !== null)
-            this._viewport._init(() => this._primarySource!._internalMedia.size, mode);
+            this._viewport._init(() => this._primarySource!._internalMedia.size, mode, stats);
         else
-            this._viewport._init(() => Utils.resolution('sm', window.innerWidth / window.innerHeight), mode);
-
-        // setup the stats panel
-        this._statsPanel = new StatsPanel(this._viewport);
-        this._statsPanel.visible = stats;
+            this._viewport._init(() => Utils.resolution('sm', window.innerWidth / window.innerHeight), mode, stats);
 
         // done!
         Session._count++;
@@ -397,7 +389,6 @@ export class Session extends AREventTarget<SessionEventType>
             // release internal components
             this._updateStats.reset();
             this._renderStats.reset();
-            this._statsPanel.release();
             this._viewport._release();
 
             // end the session
@@ -735,8 +726,11 @@ export class Session extends AREventTarget<SessionEventType>
 
                 // update internals
                 this._renderStats.update();
-                this._statsPanel.update(time, this._sources, this._trackers, this._viewport, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
                 this._frameReady = false;
+
+                // update stats panel
+                const statsPanel = this._viewport.hud._statsPanel;
+                statsPanel.update(time, this._sources, this._trackers, this._viewport, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
 
             }
             else {

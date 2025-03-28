@@ -26,7 +26,6 @@ import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { SessionMode } from './session';
 import { HUD, HUDContainer } from './hud';
-import { FullscreenButton } from '../ui/fullscreen-button';
 import { Vector2 } from '../geometry/vector2';
 import { Resolution } from '../utils/resolution';
 import { Nullable } from '../utils/utils';
@@ -794,6 +793,9 @@ export class Viewport extends ViewportEventTarget
     /** Viewport resolution (controls the size of the drawing buffer of the foreground canvas) */
     private readonly _resolution: Resolution;
 
+    /** Viewport settings */
+    private readonly _settings: Readonly<Required<ViewportSettings>>
+
     /** The containers */
     private readonly _containers: ViewportContainers;
 
@@ -815,8 +817,6 @@ export class Viewport extends ViewportEventTarget
     /** Fullscreen utilities */
     private readonly _fullscreen: ViewportFullscreenHelper;
 
-    /** Built-in fullscreen button */
-    private readonly _fullscreenButton: Nullable<FullscreenButton>;
 
 
 
@@ -827,9 +827,10 @@ export class Viewport extends ViewportEventTarget
      */
     constructor(viewportSettings: ViewportSettings)
     {
-        const settings = Object.assign({}, DEFAULT_VIEWPORT_SETTINGS, viewportSettings);
-
         super();
+
+        const settings = Object.assign({}, DEFAULT_VIEWPORT_SETTINGS, viewportSettings);
+        this._settings = Object.freeze(settings);
 
         const guessedAspectRatio = window.innerWidth / window.innerHeight;
         const initialSize = Utils.resolution(settings.resolution, guessedAspectRatio);
@@ -839,17 +840,13 @@ export class Viewport extends ViewportEventTarget
         this._style = settings.style;
 
         this._containers = new ViewportContainers(settings.container);
-        this._hud = new HUD(this._subContainer, settings.hudContainer);
+        this._hud = new HUD(this, this._subContainer, settings.hudContainer);
         this._canvases = new ViewportCanvases(this._subContainer, initialSize, settings.canvas);
 
         this._resizer = new ViewportResizer(this);
         this._resizer.setStrategyByName(this._style);
 
         this._fullscreen = new ViewportFullscreenHelper(this);
-        this._fullscreenButton = null;
-
-        if(settings.fullscreenUI && this.fullscreenAvailable)
-            this._fullscreenButton = new FullscreenButton(this);
     }
 
     /**
@@ -1054,9 +1051,10 @@ export class Viewport extends ViewportEventTarget
      * Initialize the viewport (when the session starts)
      * @param getMediaSize
      * @param sessionMode
+     * @param wantStatsPanel
      * @internal
      */
-    _init(getMediaSize: ViewportSizeGetter, sessionMode: SessionMode): void
+    _init(getMediaSize: ViewportSizeGetter, sessionMode: SessionMode, wantStatsPanel: boolean): void
     {
         // validate if the viewport style matches the session mode
         if(sessionMode == 'immersive') {
@@ -1079,11 +1077,13 @@ export class Viewport extends ViewportEventTarget
 
         // initialize the components
         this._containers.init();
-        this._hud._init(HUD_ZINDEX);
         this._canvases.init();
         this._resizer.init();
         this._fullscreen.init();
-        this._fullscreenButton?.init();
+
+        // initialize the HUD
+        const wantFullscreenButton = this.fullscreenAvailable && this._settings.fullscreenUI;
+        this._hud._init(HUD_ZINDEX, wantStatsPanel, wantFullscreenButton);
     }
 
     /**
@@ -1092,11 +1092,10 @@ export class Viewport extends ViewportEventTarget
      */
     _release(): void
     {
-        this._fullscreenButton?.release();
+        this._hud._release();
         this._fullscreen.release();
         this._resizer.release();
         this._canvases.release();
-        this._hud._release();
         this._containers.release();
     }
 }

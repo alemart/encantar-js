@@ -20,7 +20,10 @@
  * Heads Up Display
  */
 
-import { Nullable, Utils } from "../utils/utils";
+import { Viewport } from './viewport';
+import { StatsPanel } from '../ui/stats-panel';
+import { FullscreenButton } from '../ui/fullscreen-button';
+import { Nullable, Utils } from '../utils/utils';
 
 /** HUD container */
 export type HUDContainer = HTMLDivElement;
@@ -36,14 +39,24 @@ export class HUD
     /** Whether or not we have created our own container */
     private _isOwnContainer: boolean;
 
+    /** Container for the internal components */
+    private _internalContainer: ShadowRoot;
+
+    /** Stats panel */
+    #statsPanel: StatsPanel;
+
+    /** Fullscreen button */
+    #fullscreenButton: FullscreenButton;
+
 
 
     /**
      * Constructor
+     * @param viewport viewport
      * @param parent parent of the hud container
      * @param hudContainer an existing hud container (optional)
      */
-    constructor(parent: HTMLElement, hudContainer: Nullable<HUDContainer>)
+    constructor(viewport: Viewport, parent: HTMLElement, hudContainer: Nullable<HUDContainer> = null)
     {
         this._container = hudContainer || this._createContainer(parent);
         this._isOwnContainer = (hudContainer == null);
@@ -59,6 +72,14 @@ export class HUD
             Utils.warning(`The container of the HUD should have the hidden attribute`);
             this._container.hidden = true;
         }
+
+        // create a shadow tree for the internal components
+        this._internalContainer = parent.attachShadow({ mode: 'closed' });
+        this._internalContainer.appendChild(document.createElement('slot'));
+
+        // create internal components
+        this.#statsPanel = new StatsPanel();
+        this.#fullscreenButton = new FullscreenButton(viewport);
     }
 
     /**
@@ -86,14 +107,28 @@ export class HUD
     }
 
     /**
-     * Initialize the HUD
-     * @param zIndex the z-index of the container
+     * Stats panel
      * @internal
      */
-    _init(zIndex: number): void
+    get _statsPanel(): StatsPanel
     {
-        const container = this._container;
+        return this.#statsPanel; // same name
+    }
 
+    /**
+     * Initialize the HUD
+     * @param zIndex the z-index of the container
+     * @param wantStatsPanel
+     * @param wantFullscreenButton
+     * @internal
+     */
+    _init(zIndex: number, wantStatsPanel: boolean, wantFullscreenButton: boolean): void
+    {
+        const parent = this._internalContainer;
+        this.#statsPanel.init(parent, wantStatsPanel);
+        this.#fullscreenButton.init(parent, wantFullscreenButton);
+
+        const container = this._container;
         container.style.position = 'absolute';
         container.style.left = container.style.top = '0px';
         container.style.right = container.style.bottom = '0px';
@@ -112,6 +147,9 @@ export class HUD
     {
         this.visible = false;
 
+        this.#fullscreenButton.release();
+        this.#statsPanel.release();
+
         if(this._isOwnContainer) {
             this._isOwnContainer = false;
             this._container.remove();
@@ -125,7 +163,7 @@ export class HUD
      */
     private _createContainer(parent: HTMLElement): HUDContainer
     {
-        const node = document.createElement('div') as HTMLDivElement;
+        const node = document.createElement('div');
 
         node.hidden = true;
         parent.insertAdjacentElement('afterbegin', node);
