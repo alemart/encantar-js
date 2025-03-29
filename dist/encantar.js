@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-03-11T13:44:38.981Z
+ * Date: 2025-03-29T14:55:20.638Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -14,6 +14,9 @@ var AR = (() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __typeError = (msg) => {
+    throw TypeError(msg);
+  };
   var __esm = (fn, res) => function __init() {
     return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
   };
@@ -36,6 +39,10 @@ var AR = (() => {
     isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
     mod
   ));
+  var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
+  var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
+  var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+  var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 
   // node_modules/speedy-vision/dist/speedy-vision.js
   var require_speedy_vision = __commonJS({
@@ -13369,200 +13376,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     }
   });
 
-  // src/ui/stats-panel.ts
-  var UPDATE_INTERVAL2, POWER_ICON, BUTTON_ICONS, StatsPanel;
-  var init_stats_panel = __esm({
-    "src/ui/stats-panel.ts"() {
-      "use strict";
-      init_settings2();
-      init_main();
-      UPDATE_INTERVAL2 = 500;
-      POWER_ICON = Object.freeze({
-        "default": "",
-        "low-power": "&#x1F50B",
-        "high-performance": "&#x26A1"
-      });
-      BUTTON_ICONS = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAVUlEQVRIS2NkGGDAOMD2M4w6YDQE8IbAfyBgBAJSEipIDy712MzCaTiyQdRwBC4zsDoAmy8ocQQ+vRgOIDUI8UUPMVFIUvySkhaIVTvqgNEQGPAQAABSNiARgz5LggAAAABJRU5ErkJggg==";
-      StatsPanel = class {
-        /**
-         * Constructor
-         * @param viewport Viewport
-         */
-        constructor(viewport) {
-          this._viewport = viewport;
-          this._lastUpdate = 0;
-          this._container = this._createContainer();
-          viewport.hud.container.appendChild(this._container);
-        }
-        /**
-         * Release the panel
-         */
-        release() {
-          this._container.remove();
-        }
-        /**
-         * A method to be called in the update loop
-         * @param time current time in ms
-         * @param sources the sources of media linked to the session
-         * @param trackers the trackers attached to the session
-         * @param viewport the viewport
-         * @param gpu GPU cycles per second
-         * @param fps frames per second
-         */
-        update(time, sources, trackers, viewport, gpu, fps) {
-          if (time >= this._lastUpdate + UPDATE_INTERVAL2) {
-            this._lastUpdate = time;
-            this._update(sources, trackers, viewport, fps, gpu);
-          }
-        }
-        /**
-         * Visibility of the panel
-         */
-        get visible() {
-          return !this._container.hidden;
-        }
-        /**
-         * Visibility of the panel
-         */
-        set visible(visible) {
-          this._container.hidden = !visible;
-        }
-        /**
-         * Update the contents of the panel
-         * @param sources the sources of media linked to the session
-         * @param trackers the trackers attached to the session
-         * @param viewport the viewport
-         * @param fps frames per second
-         * @param gpu GPU cycles per second
-         */
-        _update(sources, trackers, viewport, fps, gpu) {
-          const lfps = this._label("_ar_fps");
-          if (lfps !== null) {
-            lfps.style.color = this._color(fps);
-            lfps.innerText = String(fps);
-          }
-          const lgpu = this._label("_ar_gpu");
-          if (lgpu !== null) {
-            lgpu.style.color = this._color(gpu);
-            lgpu.innerText = String(gpu);
-          }
-          const lpower = this._label("_ar_power");
-          if (lpower !== null)
-            lpower.innerHTML = POWER_ICON[Settings.powerPreference];
-          const lin = this._label("_ar_in");
-          if (lin !== null) {
-            const sourceStats = sources.map((source) => source._stats).join(", ");
-            lin.innerText = sourceStats;
-          }
-          const lout = this._label("_ar_out");
-          if (lout !== null) {
-            const trackerStats = trackers.map((tracker) => tracker._stats).join(", ");
-            lout.innerText = trackerStats;
-          }
-          const lview = this._label("_ar_view");
-          if (lview !== null) {
-            const size = viewport.virtualSize;
-            lview.innerText = `${size.width}x${size.height} rendering`;
-          }
-        }
-        /**
-         * Get a label of the panel
-         * @param className
-         * @returns the HTML element, or null if it doesn't exist
-         */
-        _label(className) {
-          return this._container.getElementsByClassName(className).item(0);
-        }
-        /**
-         * Associate a color to a frequency number
-         * @param f frequency given in cycles per second
-         * @returns colorized number (HTML)
-         */
-        _color(f) {
-          const GREEN = "#0f0", YELLOW = "#ff0", RED = "#f33";
-          const color3 = f >= 50 ? GREEN : f >= 30 ? YELLOW : RED;
-          const color2 = f >= 30 ? GREEN : RED;
-          const color = Settings.powerPreference != "low-power" ? color3 : color2;
-          return color;
-        }
-        /**
-         * Create the container for the panel
-         * @returns a container
-         */
-        _createContainer() {
-          const container = document.createElement("div");
-          container.style.position = "absolute";
-          container.style.left = container.style.top = "0px";
-          container.style.zIndex = "1000000";
-          container.style.padding = "0px";
-          container.appendChild(this._createTitle());
-          container.appendChild(this._createContent());
-          return container;
-        }
-        /**
-         * Create a title
-         * @returns a title
-         */
-        _createTitle() {
-          const title = document.createElement("div");
-          const button = document.createElement("button");
-          title.style.display = "flex";
-          title.style.backgroundColor = "#7e56c2";
-          title.style.color = "white";
-          title.style.fontFamily = "monospace";
-          title.style.fontSize = "14px";
-          title.style.fontWeight = "bold";
-          title.style.paddingRight = "4px";
-          title.innerText = "encantar.js " + AR.version;
-          button.style.width = "18px";
-          button.style.height = "18px";
-          button.style.marginRight = "4px";
-          button.style.backgroundColor = "#7e56c2";
-          button.style.backgroundImage = "url(" + BUTTON_ICONS + ")";
-          button.style.backgroundRepeat = "no-repeat";
-          button.style.backgroundPosition = "0 0";
-          button.style.borderWidth = "2px";
-          button.style.borderColor = "#b588fb #46346a #46346a #b588fb";
-          title.insertBefore(button, title.firstChild);
-          button.addEventListener("click", () => {
-            const container = title.parentNode;
-            const details = container && container.querySelector("._ar_details");
-            if (!details)
-              return;
-            details.hidden = !details.hidden;
-            button.style.backgroundPosition = details.hidden ? "0 0 " : "-16px 0";
-          });
-          return title;
-        }
-        /**
-         * Create a content container
-         * @returns a content container
-         */
-        _createContent() {
-          const content = document.createElement("div");
-          const details = document.createElement("div");
-          content.style.backgroundColor = "rgba(0,0,0,0.5)";
-          content.style.color = "white";
-          content.style.fontFamily = "monospace";
-          content.style.fontSize = "14px";
-          content.style.padding = "2px";
-          content.style.whiteSpace = "pre-line";
-          details.classList.add("_ar_details");
-          details.hidden = true;
-          const append = (div, html) => div.insertAdjacentHTML("beforeend", html);
-          append(content, 'FPS: <span class="_ar_fps"></span> | ');
-          append(content, 'GPU: <span class="_ar_gpu"></span> ');
-          append(content, '<span class="_ar_power"></span>');
-          append(details, 'IN: <span class="_ar_in"></span><br>');
-          append(details, 'OUT: <span class="_ar_out"></span><br>');
-          append(details, 'VIEW: <span class="_ar_view"></span>');
-          content.appendChild(details);
-          return content;
-        }
-      };
-    }
-  });
-
   // src/trackers/image-tracker/settings.ts
   var TRAIN_MAX_KEYPOINTS, TRAIN_IMAGE_SCALE, NIS_SIZE, SCAN_MATCH_RATIO, SCAN_MAX_KEYPOINTS, SCAN_PYRAMID_LEVELS, SCAN_PYRAMID_SCALEFACTOR, SCAN_FAST_THRESHOLD, SCAN_MIN_MATCHES, SCAN_CONSECUTIVE_FRAMES, SCAN_RANSAC_REPROJECTIONERROR_NIS, SCAN_RANSAC_REPROJECTIONERROR_NDC, SCAN_LSH_TABLES, SCAN_LSH_HASHSIZE, SCAN_WITH_NIGHTVISION, NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY, NIGHTVISION_QUALITY, ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_METHOD, PRE_TRACK_MIN_MATCHES, PRE_TRACK_MAX_ITERATIONS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MIN_MATCHES, TRACK_MAX_KEYPOINTS, TRACK_DETECTOR_CAPACITY, TRACK_HARRIS_QUALITY, TRACK_WITH_NIGHTVISION, TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_RECTIFIED_SCALE, TRACK_RANSAC_REPROJECTIONERROR_NIS, TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_GRID_GRANULARITY, TRACK_MATCH_RATIO, TRACK_LOST_TOLERANCE;
   var init_settings = __esm({
@@ -13942,7 +13755,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       init_errors();
       init_settings2();
       init_stats();
-      init_stats_panel();
       init_gizmos();
       init_frame();
       init_time_manager();
@@ -13984,11 +13796,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           this._primarySource = this._findPrimarySource(sources);
           this._viewport = viewport;
           if (this._primarySource !== null)
-            this._viewport._init(() => this._primarySource._internalMedia.size, mode);
+            this._viewport._init(() => this._primarySource._internalMedia.size, mode, stats);
           else
-            this._viewport._init(() => Utils.resolution("sm", window.innerWidth / window.innerHeight), mode);
-          this._statsPanel = new StatsPanel(this._viewport);
-          this._statsPanel.visible = stats;
+            this._viewport._init(() => Utils.resolution("sm", window.innerWidth / window.innerHeight), mode, stats);
           _Session._count++;
           Utils.log(`The ${this._mode} session is now active!`);
         }
@@ -14101,7 +13911,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             this._trackers.length = 0;
             this._updateStats.reset();
             this._renderStats.reset();
-            this._statsPanel.release();
             this._viewport._release();
             _Session._count--;
             const event = new SessionEvent("end");
@@ -14343,8 +14152,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               for (let i = 0; i < rafQueue.length; i++)
                 rafQueue[i][1].call(void 0, time, frame);
               this._renderStats.update();
-              this._statsPanel.update(time, this._sources, this._trackers, this._viewport, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
               this._frameReady = false;
+              const statsPanel = this._viewport.hud._statsPanel;
+              statsPanel.update(time, this._sources, this._trackers, this._viewport, this._updateStats.cyclesPerSecond, this._renderStats.cyclesPerSecond);
             } else {
               ;
               this._renderStats.update();
@@ -19929,84 +19739,189 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     }
   });
 
-  // src/core/hud.ts
-  var HUD;
-  var init_hud = __esm({
-    "src/core/hud.ts"() {
+  // src/ui/stats-panel.ts
+  var UPDATE_INTERVAL2, POWER_ICON, BUTTON_ICONS, StatsPanel;
+  var init_stats_panel = __esm({
+    "src/ui/stats-panel.ts"() {
       "use strict";
-      init_utils();
-      HUD = class {
+      init_settings2();
+      init_main();
+      UPDATE_INTERVAL2 = 500;
+      POWER_ICON = Object.freeze({
+        "default": "",
+        "low-power": "&#x1F50B",
+        "high-performance": "&#x26A1"
+      });
+      BUTTON_ICONS = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAVUlEQVRIS2NkGGDAOMD2M4w6YDQE8IbAfyBgBAJSEipIDy712MzCaTiyQdRwBC4zsDoAmy8ocQQ+vRgOIDUI8UUPMVFIUvySkhaIVTvqgNEQGPAQAABSNiARgz5LggAAAABJRU5ErkJggg==";
+      StatsPanel = class {
         /**
          * Constructor
-         * @param parent parent of the hud container
-         * @param hudContainer an existing hud container (optional)
          */
-        constructor(parent, hudContainer) {
-          this._container = hudContainer || this._createContainer(parent);
-          this._isOwnContainer = hudContainer == null;
-          if (this._container.parentElement !== parent) {
-            this._container.remove();
-            parent.insertAdjacentElement("afterbegin", this._container);
+        constructor() {
+          this._container = this._createContainer();
+          this._lastUpdate = 0;
+        }
+        /**
+         * Initialize the panel
+         * @param parent parent node
+         * @param isVisible
+         */
+        init(parent, isVisible) {
+          parent.appendChild(this._container);
+          this._container.hidden = !isVisible;
+        }
+        /**
+         * Release the panel
+         */
+        release() {
+          this._container.remove();
+        }
+        /**
+         * A method to be called in the update loop
+         * @param time current time in ms
+         * @param sources the sources of media linked to the session
+         * @param trackers the trackers attached to the session
+         * @param viewport the viewport
+         * @param gpu GPU cycles per second
+         * @param fps frames per second
+         */
+        update(time, sources, trackers, viewport, gpu, fps) {
+          if (time >= this._lastUpdate + UPDATE_INTERVAL2) {
+            this._lastUpdate = time;
+            this._update(sources, trackers, viewport, fps, gpu);
           }
-          if (!this._container.hidden) {
-            Utils.warning(`The container of the HUD should have the hidden attribute`);
-            this._container.hidden = true;
+        }
+        /**
+         * Update the contents of the panel
+         * @param sources the sources of media linked to the session
+         * @param trackers the trackers attached to the session
+         * @param viewport the viewport
+         * @param fps frames per second
+         * @param gpu GPU cycles per second
+         */
+        _update(sources, trackers, viewport, fps, gpu) {
+          const lfps = this._label("_ar_fps");
+          if (lfps !== null) {
+            lfps.style.color = this._color(fps);
+            lfps.innerText = String(fps);
+          }
+          const lgpu = this._label("_ar_gpu");
+          if (lgpu !== null) {
+            lgpu.style.color = this._color(gpu);
+            lgpu.innerText = String(gpu);
+          }
+          const lpower = this._label("_ar_power");
+          if (lpower !== null)
+            lpower.innerHTML = POWER_ICON[Settings.powerPreference];
+          const lin = this._label("_ar_in");
+          if (lin !== null) {
+            const sourceStats = sources.map((source) => source._stats).join(", ");
+            lin.innerText = sourceStats;
+          }
+          const lout = this._label("_ar_out");
+          if (lout !== null) {
+            const trackerStats = trackers.map((tracker) => tracker._stats).join(", ");
+            lout.innerText = trackerStats;
+          }
+          const lview = this._label("_ar_view");
+          if (lview !== null) {
+            const size = viewport.virtualSize;
+            lview.innerText = `${size.width}x${size.height} rendering`;
           }
         }
         /**
-         * The container of the HUD
+         * Get a label of the panel
+         * @param className
+         * @returns the HTML element, or null if it doesn't exist
          */
-        get container() {
-          return this._container;
+        _label(className) {
+          return this._container.getElementsByClassName(className).item(0);
         }
         /**
-         * Whether or not the HUD is visible
+         * Associate a color to a frequency number
+         * @param f frequency given in cycles per second
+         * @returns colorized number (HTML)
          */
-        get visible() {
-          return !this._container.hidden;
+        _color(f) {
+          const GREEN = "#0f0", YELLOW = "#ff0", RED = "#f33";
+          const color3 = f >= 50 ? GREEN : f >= 30 ? YELLOW : RED;
+          const color2 = f >= 30 ? GREEN : RED;
+          const color = Settings.powerPreference != "low-power" ? color3 : color2;
+          return color;
         }
         /**
-         * Whether or not the HUD is visible
+         * Create the container for the panel
+         * @returns a container
          */
-        set visible(visible) {
-          this._container.hidden = !visible;
-        }
-        /**
-         * Initialize the HUD
-         * @param zIndex the z-index of the container
-         * @internal
-         */
-        _init(zIndex) {
-          const container = this._container;
+        _createContainer() {
+          const container = document.createElement("div");
           container.style.position = "absolute";
           container.style.left = container.style.top = "0px";
-          container.style.right = container.style.bottom = "0px";
-          container.style.padding = container.style.margin = "0px";
-          container.style.zIndex = String(zIndex);
-          container.style.userSelect = "none";
-          this.visible = true;
+          container.style.zIndex = "1000000";
+          container.style.padding = "0px";
+          container.appendChild(this._createTitle());
+          container.appendChild(this._createContent());
+          return container;
         }
         /**
-         * Release the HUD
-         * @internal
+         * Create a title
+         * @returns a title
          */
-        _release() {
-          this.visible = false;
-          if (this._isOwnContainer) {
-            this._isOwnContainer = false;
-            this._container.remove();
-          }
+        _createTitle() {
+          const title = document.createElement("div");
+          const button = document.createElement("button");
+          title.style.display = "flex";
+          title.style.backgroundColor = "#7e56c2";
+          title.style.color = "white";
+          title.style.fontFamily = "monospace";
+          title.style.fontSize = "14px";
+          title.style.fontWeight = "bold";
+          title.style.paddingRight = "4px";
+          title.innerText = "encantar.js " + AR.version;
+          button.style.width = "18px";
+          button.style.height = "18px";
+          button.style.marginRight = "4px";
+          button.style.backgroundColor = "#7e56c2";
+          button.style.backgroundImage = "url(" + BUTTON_ICONS + ")";
+          button.style.backgroundRepeat = "no-repeat";
+          button.style.backgroundPosition = "0 0";
+          button.style.borderWidth = "2px";
+          button.style.borderColor = "#b588fb #46346a #46346a #b588fb";
+          title.insertBefore(button, title.firstChild);
+          button.addEventListener("click", () => {
+            const container = title.parentNode;
+            const details = container && container.querySelector("._ar_details");
+            if (!details)
+              return;
+            details.hidden = !details.hidden;
+            button.style.backgroundPosition = details.hidden ? "0 0 " : "-16px 0";
+          });
+          return title;
         }
         /**
-         * Create a HUD container as an immediate child of the input node
-         * @param parent parent container
-         * @returns HUD container
+         * Create a content container
+         * @returns a content container
          */
-        _createContainer(parent) {
-          const node = document.createElement("div");
-          node.hidden = true;
-          parent.insertAdjacentElement("afterbegin", node);
-          return node;
+        _createContent() {
+          const content = document.createElement("div");
+          const details = document.createElement("div");
+          content.style.backgroundColor = "rgba(0,0,0,0.5)";
+          content.style.color = "white";
+          content.style.fontFamily = "monospace";
+          content.style.fontSize = "14px";
+          content.style.padding = "2px";
+          content.style.whiteSpace = "pre-line";
+          details.classList.add("_ar_details");
+          details.hidden = true;
+          const append = (div, html) => div.insertAdjacentHTML("beforeend", html);
+          append(content, 'FPS: <span class="_ar_fps"></span> | ');
+          append(content, 'GPU: <span class="_ar_gpu"></span> ');
+          append(content, '<span class="_ar_power"></span>');
+          append(details, 'IN: <span class="_ar_in"></span><br>');
+          append(details, 'OUT: <span class="_ar_out"></span><br>');
+          append(details, 'VIEW: <span class="_ar_view"></span>');
+          content.appendChild(details);
+          return content;
         }
       };
     }
@@ -20033,9 +19948,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         }
         /**
          * Initialize
+         * @param parent parent node
+         * @param isVisible
          */
-        init() {
-          this._viewport.hud.container.appendChild(this._button);
+        init(parent, isVisible) {
+          parent.appendChild(this._button);
+          this._button.hidden = !isVisible;
           this._viewport.addEventListener("fullscreenchange", this._boundEventHandler);
         }
         /**
@@ -20056,6 +19974,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           button.style.width = BUTTON_SIZE + "px";
           button.style.height = BUTTON_SIZE + "px";
           button.style.opacity = "0.5";
+          button.style.zIndex = "1000000";
           button.style.cursor = "pointer";
           button.style.outline = "none";
           button.style["-webkit-tap-highlight-color"] = "transparent";
@@ -20103,6 +20022,211 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     }
   });
 
+  // src/ui/support-widget.ts
+  var SupportWidget;
+  var init_support_widget = __esm({
+    "src/ui/support-widget.ts"() {
+      "use strict";
+      SupportWidget = class {
+        /**
+         * Constructor
+         */
+        constructor() {
+          this._element = this._createElement();
+        }
+        /**
+         * Initialize
+         * @param parent parent node
+         */
+        init(parent) {
+          parent.appendChild(this._element);
+        }
+        /**
+         * Release
+         */
+        release() {
+          this._element.remove();
+        }
+        /**
+         * Create the element of the widget
+         */
+        _createElement() {
+          const button = document.createElement("button");
+          button.innerText = "Support encantar.js";
+          button.style.font = "bold small-caps 1.25rem sans-serif";
+          button.style.color = "white";
+          button.style.padding = "0.5rem";
+          button.style.maxWidth = "40%";
+          button.style.position = "absolute";
+          button.style.bottom = "0";
+          button.style.right = "50%";
+          button.style.transform = "translateX(50%)";
+          button.style.opacity = "0.75";
+          button.style.zIndex = "1000000";
+          button.style.cursor = "pointer";
+          button.style.outline = "none";
+          button.style["-webkit-tap-highlight-color"] = "transparent";
+          button.draggable = false;
+          button.hidden = !!(0 & 1);
+          button.style.backgroundColor = "rgba(0,0,0,0.25)";
+          button.style.borderColor = "white";
+          button.style.borderStyle = "solid";
+          button.style.borderWidth = "2px";
+          button.style.borderTopLeftRadius = "8px";
+          button.style.borderTopRightRadius = "8px";
+          button.style.borderBottomStyle = "none";
+          const highlight = () => {
+            button.style.backgroundColor = "#ffd500";
+            button.style.borderColor = "#ffd500";
+            button.style.opacity = "1.0";
+          };
+          const dehighlight = () => {
+            button.style.backgroundColor = "rgba(0,0,0,0.25)";
+            button.style.borderColor = "white";
+            button.style.opacity = "0.75";
+          };
+          button.addEventListener("pointerdown", highlight);
+          button.addEventListener("pointerup", dehighlight);
+          button.addEventListener("pointerleave", dehighlight);
+          button.addEventListener("click", () => {
+            location.href = "https://encantar.dev/supporter";
+          });
+          return button;
+        }
+      };
+    }
+  });
+
+  // src/core/hud.ts
+  var _statsPanel, _fullscreenButton, _supportWidget, HUD;
+  var init_hud = __esm({
+    "src/core/hud.ts"() {
+      "use strict";
+      init_stats_panel();
+      init_fullscreen_button();
+      init_support_widget();
+      init_utils();
+      HUD = class {
+        /**
+         * Constructor
+         * @param viewport viewport
+         * @param parent parent of the hud container
+         * @param hudContainer an existing hud container (optional)
+         */
+        constructor(viewport, parent, hudContainer = null) {
+          /** Stats panel */
+          __privateAdd(this, _statsPanel);
+          /** Fullscreen button */
+          __privateAdd(this, _fullscreenButton);
+          /** Support widget */
+          __privateAdd(this, _supportWidget);
+          this._container = hudContainer || this._createContainer(parent);
+          this._isOwnContainer = hudContainer == null;
+          if (this._container.parentElement !== parent) {
+            this._container.remove();
+            parent.insertAdjacentElement("afterbegin", this._container);
+          }
+          if (!this._container.hidden) {
+            Utils.warning(`The container of the HUD should have the hidden attribute`);
+            this._container.hidden = true;
+          }
+          this._internalContainer = parent.attachShadow({ mode: "closed" });
+          this._internalContainer.appendChild(document.createElement("slot"));
+          __privateSet(this, _statsPanel, new StatsPanel());
+          __privateSet(this, _fullscreenButton, new FullscreenButton(viewport));
+          __privateSet(this, _supportWidget, new SupportWidget());
+        }
+        /**
+         * The container of the HUD
+         */
+        get container() {
+          return this._container;
+        }
+        /**
+         * Whether or not the HUD is visible
+         * @deprecated what's the purpose of this being public?
+         */
+        get visible() {
+          return this._visible;
+        }
+        /**
+         * Whether or not the HUD is visible
+         * @deprecated what's the purpose of this being public?
+         */
+        set visible(visible) {
+        }
+        /**
+         * Stats panel
+         * @internal
+         */
+        get _statsPanel() {
+          return __privateGet(this, _statsPanel);
+        }
+        /**
+         * Initialize the HUD
+         * @param zIndex the z-index of the container
+         * @param wantStatsPanel
+         * @param wantFullscreenButton
+         * @internal
+         */
+        _init(zIndex, wantStatsPanel, wantFullscreenButton) {
+          const parent = this._internalContainer;
+          __privateGet(this, _statsPanel).init(parent, wantStatsPanel);
+          __privateGet(this, _fullscreenButton).init(parent, wantFullscreenButton);
+          __privateGet(this, _supportWidget).init(parent);
+          const container = this._container;
+          container.style.position = "absolute";
+          container.style.left = container.style.top = "0px";
+          container.style.right = container.style.bottom = "0px";
+          container.style.padding = container.style.margin = "0px";
+          container.style.zIndex = String(zIndex);
+          container.style.userSelect = "none";
+          this._visible = true;
+        }
+        /**
+         * Release the HUD
+         * @internal
+         */
+        _release() {
+          this._visible = false;
+          __privateGet(this, _supportWidget).release();
+          __privateGet(this, _fullscreenButton).release();
+          __privateGet(this, _statsPanel).release();
+          if (this._isOwnContainer) {
+            this._isOwnContainer = false;
+            this._container.remove();
+          }
+        }
+        /**
+         * Create a HUD container as an immediate child of the input node
+         * @param parent parent container
+         * @returns HUD container
+         */
+        _createContainer(parent) {
+          const node = document.createElement("div");
+          node.hidden = true;
+          parent.insertAdjacentElement("afterbegin", node);
+          return node;
+        }
+        /**
+         * Whether or not the HUD is visible
+         */
+        get _visible() {
+          return !this._container.hidden;
+        }
+        /**
+         * Whether or not the HUD is visible
+         */
+        set _visible(visible) {
+          this._container.hidden = !visible;
+        }
+      };
+      _statsPanel = new WeakMap();
+      _fullscreenButton = new WeakMap();
+      _supportWidget = new WeakMap();
+    }
+  });
+
   // src/core/viewport.ts
   var import_speedy_vision28, ViewportEvent, ViewportEventTarget, DEFAULT_VIEWPORT_SETTINGS, BASE_ZINDEX, BACKGROUND_ZINDEX, FOREGROUND_ZINDEX, HUD_ZINDEX, ViewportContainers, ViewportCanvases, ViewportFullscreenHelper, ViewportResizer, ViewportResizeStrategy, InlineResizeStrategy, ImmersiveResizeStrategy, BestFitResizeStrategy, StretchResizeStrategy, Viewport;
   var init_viewport = __esm({
@@ -20111,7 +20235,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       init_main();
       import_speedy_vision28 = __toESM(require_speedy_vision(), 1);
       init_hud();
-      init_fullscreen_button();
       init_vector2();
       init_utils();
       init_ar_events();
@@ -20570,22 +20693,20 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @param viewportSettings
          */
         constructor(viewportSettings) {
-          const settings = Object.assign({}, DEFAULT_VIEWPORT_SETTINGS, viewportSettings);
           super();
+          const settings = Object.assign({}, DEFAULT_VIEWPORT_SETTINGS, viewportSettings);
+          this._settings = Object.freeze(settings);
           const guessedAspectRatio = window.innerWidth / window.innerHeight;
           const initialSize = Utils.resolution(settings.resolution, guessedAspectRatio);
           this._mediaSize = () => initialSize;
           this._resolution = settings.resolution;
           this._style = settings.style;
           this._containers = new ViewportContainers(settings.container);
-          this._hud = new HUD(this._subContainer, settings.hudContainer);
+          this._hud = new HUD(this, this._subContainer, settings.hudContainer);
           this._canvases = new ViewportCanvases(this._subContainer, initialSize, settings.canvas);
           this._resizer = new ViewportResizer(this);
           this._resizer.setStrategyByName(this._style);
           this._fullscreen = new ViewportFullscreenHelper(this);
-          this._fullscreenButton = null;
-          if (settings.fullscreenUI && this.fullscreenAvailable)
-            this._fullscreenButton = new FullscreenButton(this);
         }
         /**
          * Viewport container
@@ -20740,9 +20861,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Initialize the viewport (when the session starts)
          * @param getMediaSize
          * @param sessionMode
+         * @param wantStatsPanel
          * @internal
          */
-        _init(getMediaSize, sessionMode) {
+        _init(getMediaSize, sessionMode, wantStatsPanel) {
           if (sessionMode == "immersive") {
             if (this._style != "best-fit" && this._style != "stretch") {
               Utils.warning(`Invalid viewport style "${this._style}" for the "${sessionMode}" mode`);
@@ -20758,22 +20880,21 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           }
           this._mediaSize = getMediaSize;
           this._containers.init();
-          this._hud._init(HUD_ZINDEX);
           this._canvases.init();
           this._resizer.init();
           this._fullscreen.init();
-          this._fullscreenButton?.init();
+          const wantFullscreenButton = this.fullscreenAvailable && this._settings.fullscreenUI;
+          this._hud._init(HUD_ZINDEX, wantStatsPanel, wantFullscreenButton);
         }
         /**
          * Release the viewport (when the session ends)
          * @internal
          */
         _release() {
-          this._fullscreenButton?.release();
+          this._hud._release();
           this._fullscreen.release();
           this._resizer.release();
           this._canvases.release();
-          this._hud._release();
           this._containers.release();
         }
       };
