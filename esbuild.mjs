@@ -24,6 +24,7 @@ const options = {
     define: {
         __AR_VERSION__: JSON.stringify(pack.version),
         __AR_WEBSITE__: JSON.stringify(pack.homepage),
+        __AR_FLAGS__  : String(process.env.AR_FLAGS ?? 0),
     },
     legalComments: 'inline',
     banner: { js: generateBanner() },
