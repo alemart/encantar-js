@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-03-29T14:55:20.638Z
+ * Date: 2025-03-29T15:13:17.124Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -19857,7 +19857,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const container = document.createElement("div");
           container.style.position = "absolute";
           container.style.left = container.style.top = "0px";
-          container.style.zIndex = "1000000";
           container.style.padding = "0px";
           container.appendChild(this._createTitle());
           container.appendChild(this._createContent());
@@ -19974,7 +19973,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           button.style.width = BUTTON_SIZE + "px";
           button.style.height = BUTTON_SIZE + "px";
           button.style.opacity = "0.5";
-          button.style.zIndex = "1000000";
           button.style.cursor = "pointer";
           button.style.outline = "none";
           button.style["-webkit-tap-highlight-color"] = "transparent";
@@ -20062,7 +20060,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           button.style.right = "50%";
           button.style.transform = "translateX(50%)";
           button.style.opacity = "0.75";
-          button.style.zIndex = "1000000";
           button.style.cursor = "pointer";
           button.style.outline = "none";
           button.style["-webkit-tap-highlight-color"] = "transparent";
@@ -20174,6 +20171,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           __privateGet(this, _statsPanel).init(parent, wantStatsPanel);
           __privateGet(this, _fullscreenButton).init(parent, wantFullscreenButton);
           __privateGet(this, _supportWidget).init(parent);
+          for (const element of parent.children) {
+            if (element.style.getPropertyValue("pointer-events") == "")
+              element.style.pointerEvents = "auto";
+            if (element.style.getPropertyValue("z-index") == "")
+              element.style.zIndex = "1000000";
+          }
           const container = this._container;
           container.style.position = "absolute";
           container.style.left = container.style.top = "0px";
