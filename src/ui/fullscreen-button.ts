@@ -98,7 +98,6 @@ export class FullscreenButton
         button.style.height = BUTTON_SIZE + 'px';
 
         button.style.opacity = '0.5';
-        button.style.zIndex = '1000000';
         button.style.cursor = 'pointer';
         button.style.outline = 'none';
         (button.style as any)['-webkit-tap-highlight-color'] = 'transparent';

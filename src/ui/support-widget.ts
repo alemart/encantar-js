@@ -86,7 +86,6 @@ export class SupportWidget
         button.style.transform = 'translateX(50%)';
 
         button.style.opacity = '0.75';
-        button.style.zIndex = '1000000';
         button.style.cursor = 'pointer';
         button.style.outline = 'none';
         (button.style as any)['-webkit-tap-highlight-color'] = 'transparent';

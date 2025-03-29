@@ -136,6 +136,13 @@ export class HUD
         this.#fullscreenButton.init(parent, wantFullscreenButton);
         this.#supportWidget.init(parent);
 
+        for(const element of parent.children as any as HTMLElement[]) {
+            if(element.style.getPropertyValue('pointer-events') == '')
+                element.style.pointerEvents = 'auto'; // accept pointer input
+            if(element.style.getPropertyValue('z-index') == '')
+                element.style.zIndex = '1000000';
+        }
+
         const container = this._container;
         container.style.position = 'absolute';
         container.style.left = container.style.top = '0px';

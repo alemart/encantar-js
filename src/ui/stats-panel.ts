@@ -184,7 +184,6 @@ export class StatsPanel
 
         container.style.position = 'absolute';
         container.style.left = container.style.top = '0px';
-        container.style.zIndex = '1000000';
         container.style.padding = '0px';
 
         container.appendChild(this._createTitle());
