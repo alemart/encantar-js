@@ -92,18 +92,20 @@ export class HUD
 
     /**
      * Whether or not the HUD is visible
+     * @deprecated what's the purpose of this being public?
      */
     get visible(): boolean
     {
-        return !this._container.hidden;
+        return this._visible;
     }
 
     /**
      * Whether or not the HUD is visible
+     * @deprecated what's the purpose of this being public?
      */
     set visible(visible: boolean)
     {
-        this._container.hidden = !visible;
+        // this setter does nothing since 0.4.3
     }
 
     /**
@@ -136,7 +138,7 @@ export class HUD
         container.style.zIndex = String(zIndex);
         container.style.userSelect = 'none';
 
-        this.visible = true;
+        this._visible = true;
     }
 
     /**
@@ -145,7 +147,7 @@ export class HUD
      */
     _release(): void
     {
-        this.visible = false;
+        this._visible = false;
 
         this.#fullscreenButton.release();
         this.#statsPanel.release();
@@ -169,5 +171,21 @@ export class HUD
         parent.insertAdjacentElement('afterbegin', node);
 
         return node;
+    }
+
+    /**
+     * Whether or not the HUD is visible
+     */
+    private get _visible(): boolean
+    {
+        return !this._container.hidden;
+    }
+
+    /**
+     * Whether or not the HUD is visible
+     */
+    private set _visible(visible: boolean)
+    {
+        this._container.hidden = !visible;
     }
 }
