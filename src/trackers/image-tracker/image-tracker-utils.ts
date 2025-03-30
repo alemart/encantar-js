@@ -227,6 +227,88 @@ export class ImageTrackerUtils
     }
 
     /**
+     * Interpolation filter for homographies
+     * In its simplest form, it's similar to linear interpolation: src (1-alpha) + dest alpha
+     * @param src homography
+     * @param dest homography
+     * @param alpha interpolation factor in [0,1]
+     * @param beta correction strength for noisy corners (optional)
+     * @param tau translation factor (optional)
+     * @returns interpolated homography
+     */
+    static interpolateHomographies(src: SpeedyMatrix, dest: SpeedyMatrix, alpha: number, beta: number = 0, tau: number = 0): SpeedyPromise<SpeedyMatrix>
+    {
+        const d = new Array<number>(4), q = new Array<number>(8), p = [
+            // NDC
+            -1, 1,
+            1, 1,
+            1, -1,
+            -1, -1,
+        ];
+
+        const ha = src.read(), hb = dest.read();
+        for(let i = 0, j = 0; i < 4; i++, j += 2) {
+            const x = p[j], y = p[j+1];
+
+            const hax = ha[0] * x + ha[3] * y + ha[6];
+            const hay = ha[1] * x + ha[4] * y + ha[7];
+            const haz = ha[2] * x + ha[5] * y + ha[8];
+
+            const hbx = hb[0] * x + hb[3] * y + hb[6];
+            const hby = hb[1] * x + hb[4] * y + hb[7];
+            const hbz = hb[2] * x + hb[5] * y + hb[8];
+
+            const dx = hbx/hbz - hax/haz;
+            const dy = hby/hbz - hay/haz;
+            d[i] = dx*dx + dy*dy;
+        }
+
+        let tx = 0, ty = 0;
+        const max = Math.max(d[0], d[1], d[2], d[3]); // max = Math.max(...d)
+        const min = Math.min(d[0], d[1], d[2], d[3]);
+        for(let i = 0, j = 0; i < 4; i++, j += 2) {
+            const x = p[j], y = p[j+1];
+
+            const hax = ha[0] * x + ha[3] * y + ha[6];
+            const hay = ha[1] * x + ha[4] * y + ha[7];
+            const haz = ha[2] * x + ha[5] * y + ha[8];
+
+            const hbx = hb[0] * x + hb[3] * y + hb[6];
+            const hby = hb[1] * x + hb[4] * y + hb[7];
+            const hbz = hb[2] * x + hb[5] * y + hb[8];
+
+            if(d[i] == min) {
+                // we take the min for the translation
+                // because there may be noisy corners
+                tx = hbx/hbz - hax/haz;
+                ty = hby/hbz - hay/haz;
+            }
+
+            // compute the interpolation factor t = t(alpha, beta)
+            // t is alpha if beta is zero
+            const f = 1 - Math.sqrt(d[i] / max); // f is zero when d[i] is max (hence, it minimizes t and contributes to src)
+            const g = alpha * (1 + beta * f);
+            const t = Math.max(0, Math.min(g, 1)); // clamp
+            const _t = 1 - t;
+
+            // a (1-t) + b t
+            q[ j ] = (hax/haz) * _t + (hbx/hbz) * t;
+            q[j+1] = (hay/haz) * _t + (hby/hbz) * t;
+        }
+
+        for(let j = 0; j < 8; j += 2) {
+            q[ j ] += tx * tau;
+            q[j+1] += ty * tau;
+        }
+
+        return Speedy.Matrix.perspective(
+            Speedy.Matrix.Zeros(3),
+            Speedy.Matrix(2, 4, p),
+            Speedy.Matrix(2, 4, q)
+        );
+    }
+
+    /**
      * Given n > 0 pairs of keypoints in NDC as a 2 x 2n [ src | dest ] matrix,
      * find a 6 DoF perspective warp (homography) from src to dest in NDC
      * @param cameraIntrinsics 3x3 camera intrinsics
