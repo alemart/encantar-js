@@ -918,10 +918,10 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
 
     /* async */ tracker()
     {
-        const tracker = AR.Tracker.Image();
+        const tracker = AR.Tracker.Image({
+            resolution: this.data.resolution
+        });
         const referenceImages = [];
-
-        tracker.resolution = this.data.resolution;
 
         for(const child of this.el.children) {
             if(child.components !== undefined) {
@@ -946,6 +946,9 @@ AFRAME.registerComponent('ar-image-tracker', ARComponent({
 AFRAME.registerPrimitive('ar-image-tracker', {
     defaultComponents: {
         'ar-image-tracker': {}
+    },
+    mappings: {
+        'resolution': 'ar-image-tracker.resolution',
     }
 });
 
