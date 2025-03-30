@@ -42,13 +42,14 @@ body {
 }
 
 #info {
-    top: 24px;
-    right: 24px;
+    bottom: 24px;
+    left: 24px;
     background-image: url(../assets/info.svg);
 }
 
 #like {
-    bottom: 24px;
-    left: 24px;
+    top: 24px;
+    right: 24px;
     background-image: url(../assets/heart.svg);
+    display: none;
 }
