@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-03-30T04:32:10.698Z
+ * Date: 2025-03-30T05:03:03.047Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -13420,11 +13420,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       TRACK_RANSAC_REPROJECTIONERROR_NIS = NIS_SIZE * 0.0125 * 0.5 | 0;
       TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
       TRACK_GRID_GRANULARITY = 15;
-      TRACK_MATCH_RATIO = 0.7;
+      TRACK_MATCH_RATIO = 0.65;
       TRACK_LOST_TOLERANCE = 15;
-      TRACK_FILTER_ALPHA = 0.125;
+      TRACK_FILTER_ALPHA = 0.2;
       TRACK_FILTER_BETA = 1;
-      TRACK_FILTER_TAU = 0.25;
+      TRACK_FILTER_TAU = 0.2;
     }
   });
 
@@ -15385,8 +15385,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               tx = hbx / hbz - hax / haz;
               ty = hby / hbz - hay / haz;
             }
+            const gamma = alpha * Math.pow(2, -beta);
             const f = 1 - Math.sqrt(d[i] / max);
-            const g = alpha * (1 + beta * f);
+            const g = (alpha - gamma) * f + gamma;
             const t2 = Math.max(0, Math.min(g, 1));
             const _t = 1 - t2;
             q2[j] = hax / haz * _t + hbx / hbz * t2;
