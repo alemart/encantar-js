@@ -138,16 +138,16 @@ export const TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR
 export const TRACK_GRID_GRANULARITY = 15; //20; //10; // the value of N
 
 /** Used to identify the best maches */
-export const TRACK_MATCH_RATIO = 0.7; // usually a value in [0.6, 0.8] - low values => strict tracking
+export const TRACK_MATCH_RATIO = 0.65; // usually a value in [0.6, 0.8] - low values => strict tracking
 
 /** Number of consecutive frames in which we tolerate a  "target lost" situation */
 export const TRACK_LOST_TOLERANCE = 15;
 
 /** Interpolation filter: interpolation factor */
-export const TRACK_FILTER_ALPHA = 0.125;
+export const TRACK_FILTER_ALPHA = 0.2;
 
 /** Interpolation filter: correction strength for noisy corners */
 export const TRACK_FILTER_BETA = 1;
 
 /** Interpolation filter: translation factor */
-export const TRACK_FILTER_TAU = 0.25;
+export const TRACK_FILTER_TAU = 0.2;

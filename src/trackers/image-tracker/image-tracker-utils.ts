@@ -285,9 +285,10 @@ export class ImageTrackerUtils
             }
 
             // compute the interpolation factor t = t(alpha, beta)
-            // t is alpha if beta is zero
+            // t is (clamped) alpha if beta is zero
+            const gamma = alpha * Math.pow(2, -beta);
             const f = 1 - Math.sqrt(d[i] / max); // f is zero when d[i] is max (hence, it minimizes t and contributes to src)
-            const g = alpha * (1 + beta * f);
+            const g = (alpha - gamma) * f + gamma;
             const t = Math.max(0, Math.min(g, 1)); // clamp
             const _t = 1 - t;
 
