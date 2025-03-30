@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-03-29T15:13:17.124Z
+ * Date: 2025-03-30T04:32:10.698Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -13377,7 +13377,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/settings.ts
-  var TRAIN_MAX_KEYPOINTS, TRAIN_IMAGE_SCALE, NIS_SIZE, SCAN_MATCH_RATIO, SCAN_MAX_KEYPOINTS, SCAN_PYRAMID_LEVELS, SCAN_PYRAMID_SCALEFACTOR, SCAN_FAST_THRESHOLD, SCAN_MIN_MATCHES, SCAN_CONSECUTIVE_FRAMES, SCAN_RANSAC_REPROJECTIONERROR_NIS, SCAN_RANSAC_REPROJECTIONERROR_NDC, SCAN_LSH_TABLES, SCAN_LSH_HASHSIZE, SCAN_WITH_NIGHTVISION, NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY, NIGHTVISION_QUALITY, ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_METHOD, PRE_TRACK_MIN_MATCHES, PRE_TRACK_MAX_ITERATIONS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MIN_MATCHES, TRACK_MAX_KEYPOINTS, TRACK_DETECTOR_CAPACITY, TRACK_HARRIS_QUALITY, TRACK_WITH_NIGHTVISION, TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_RECTIFIED_SCALE, TRACK_RANSAC_REPROJECTIONERROR_NIS, TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_GRID_GRANULARITY, TRACK_MATCH_RATIO, TRACK_LOST_TOLERANCE;
+  var TRAIN_MAX_KEYPOINTS, TRAIN_IMAGE_SCALE, NIS_SIZE, SCAN_MATCH_RATIO, SCAN_MAX_KEYPOINTS, SCAN_PYRAMID_LEVELS, SCAN_PYRAMID_SCALEFACTOR, SCAN_FAST_THRESHOLD, SCAN_MIN_MATCHES, SCAN_CONSECUTIVE_FRAMES, SCAN_RANSAC_REPROJECTIONERROR_NIS, SCAN_RANSAC_REPROJECTIONERROR_NDC, SCAN_LSH_TABLES, SCAN_LSH_HASHSIZE, SCAN_WITH_NIGHTVISION, NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY, NIGHTVISION_QUALITY, ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_METHOD, PRE_TRACK_MIN_MATCHES, PRE_TRACK_MAX_ITERATIONS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MIN_MATCHES, TRACK_MAX_KEYPOINTS, TRACK_DETECTOR_CAPACITY, TRACK_HARRIS_QUALITY, TRACK_WITH_NIGHTVISION, TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_RECTIFIED_SCALE, TRACK_RANSAC_REPROJECTIONERROR_NIS, TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_GRID_GRANULARITY, TRACK_MATCH_RATIO, TRACK_LOST_TOLERANCE, TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_FILTER_TAU;
   var init_settings = __esm({
     "src/trackers/image-tracker/settings.ts"() {
       "use strict";
@@ -13417,11 +13417,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       TRACK_RECTIFIED_BORDER = 0.15;
       TRACK_CLIPPING_BORDER = TRACK_RECTIFIED_BORDER * 1.2;
       TRACK_RECTIFIED_SCALE = 1 - 2 * TRACK_RECTIFIED_BORDER;
-      TRACK_RANSAC_REPROJECTIONERROR_NIS = NIS_SIZE * 0.0125 | 0;
+      TRACK_RANSAC_REPROJECTIONERROR_NIS = NIS_SIZE * 0.0125 * 0.5 | 0;
       TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
-      TRACK_GRID_GRANULARITY = 10;
+      TRACK_GRID_GRANULARITY = 15;
       TRACK_MATCH_RATIO = 0.7;
       TRACK_LOST_TOLERANCE = 15;
+      TRACK_FILTER_ALPHA = 0.125;
+      TRACK_FILTER_BETA = 1;
+      TRACK_FILTER_TAU = 0.25;
     }
   });
 
@@ -15331,6 +15334,73 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             data[k + 1] = 1 - dest.y * scale2;
           }
           return import_speedy_vision9.default.Matrix(2, 2 * n, data);
+        }
+        /**
+         * Interpolation filter for homographies
+         * In its simplest form, it's similar to linear interpolation: src (1-alpha) + dest alpha
+         * @param src homography
+         * @param dest homography
+         * @param alpha interpolation factor in [0,1]
+         * @param beta correction strength for noisy corners (optional)
+         * @param tau translation factor (optional)
+         * @returns interpolated homography
+         */
+        static interpolateHomographies(src, dest, alpha, beta = 0, tau = 0) {
+          const d = new Array(4), q2 = new Array(8), p2 = [
+            // NDC
+            -1,
+            1,
+            1,
+            1,
+            1,
+            -1,
+            -1,
+            -1
+          ];
+          const ha = src.read(), hb = dest.read();
+          for (let i = 0, j = 0; i < 4; i++, j += 2) {
+            const x = p2[j], y = p2[j + 1];
+            const hax = ha[0] * x + ha[3] * y + ha[6];
+            const hay = ha[1] * x + ha[4] * y + ha[7];
+            const haz = ha[2] * x + ha[5] * y + ha[8];
+            const hbx = hb[0] * x + hb[3] * y + hb[6];
+            const hby = hb[1] * x + hb[4] * y + hb[7];
+            const hbz = hb[2] * x + hb[5] * y + hb[8];
+            const dx = hbx / hbz - hax / haz;
+            const dy = hby / hbz - hay / haz;
+            d[i] = dx * dx + dy * dy;
+          }
+          let tx = 0, ty = 0;
+          const max = Math.max(d[0], d[1], d[2], d[3]);
+          const min = Math.min(d[0], d[1], d[2], d[3]);
+          for (let i = 0, j = 0; i < 4; i++, j += 2) {
+            const x = p2[j], y = p2[j + 1];
+            const hax = ha[0] * x + ha[3] * y + ha[6];
+            const hay = ha[1] * x + ha[4] * y + ha[7];
+            const haz = ha[2] * x + ha[5] * y + ha[8];
+            const hbx = hb[0] * x + hb[3] * y + hb[6];
+            const hby = hb[1] * x + hb[4] * y + hb[7];
+            const hbz = hb[2] * x + hb[5] * y + hb[8];
+            if (d[i] == min) {
+              tx = hbx / hbz - hax / haz;
+              ty = hby / hbz - hay / haz;
+            }
+            const f = 1 - Math.sqrt(d[i] / max);
+            const g = alpha * (1 + beta * f);
+            const t2 = Math.max(0, Math.min(g, 1));
+            const _t = 1 - t2;
+            q2[j] = hax / haz * _t + hbx / hbz * t2;
+            q2[j + 1] = hay / haz * _t + hby / hbz * t2;
+          }
+          for (let j = 0; j < 8; j += 2) {
+            q2[j] += tx * tau;
+            q2[j + 1] += ty * tau;
+          }
+          return import_speedy_vision9.default.Matrix.perspective(
+            import_speedy_vision9.default.Matrix.Zeros(3),
+            import_speedy_vision9.default.Matrix(2, 4, p2),
+            import_speedy_vision9.default.Matrix(2, 4, q2)
+          );
         }
         /**
          * Given n > 0 pairs of keypoints in NDC as a 2 x 2n [ src | dest ] matrix,
@@ -18168,21 +18238,24 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             if (pairs.length < TRACK_MIN_MATCHES)
               throw new TrackingError("Not enough data points to continue the tracking");
             const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
-            return import_speedy_vision21.default.Promise.all([
-              //this._findAffineMotionNDC(points),
-              //this._findPerspectiveMotionNDC(points),
-              this._find6DoFPerspectiveMotionNDC(points),
-              import_speedy_vision21.default.Promise.resolve(NO_MOTION)
-            ]);
-          }).then(([warpMotion, poseMotion]) => {
+            return this._find6DoFPerspectiveMotionNDC(points);
+          }).then((warpMotion) => {
             const lowPower = Settings.powerPreference == "low-power";
             const delay = NUMBER_OF_PBOS * (!lowPower ? 2 : 1);
             if (!USE_TURBO || this._counter % delay == 1)
               this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
-            this._poseHomography.setToSync(poseMotion.times(this._warpHomography));
+            this._counter = (this._counter + 1) % delay;
+            return ImageTrackerUtils.interpolateHomographies(
+              this._poseHomography,
+              import_speedy_vision21.default.Matrix(warpMotion.times(this._warpHomography)),
+              TRACK_FILTER_ALPHA,
+              TRACK_FILTER_BETA,
+              TRACK_FILTER_TAU
+            );
+          }).then((filteredHomography) => {
+            this._poseHomography.setToSync(filteredHomography);
             if (Number.isNaN(this._poseHomography.at(0, 0)))
               throw new NumericalError("Bad homography");
-            this._counter = (this._counter + 1) % delay;
             const scale2 = ImageTrackerUtils.bestFitScaleNDC(1 / referenceImage.aspectRatio);
             const homography = import_speedy_vision21.default.Matrix(this._poseHomography.times(scale2));
             return this._camera.update(homography);
