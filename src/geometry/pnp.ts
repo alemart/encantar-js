@@ -902,6 +902,7 @@ export function solvePlanarPnPRansac(referencePoints: SpeedyMatrix, observedPoin
         // We're just using n = 4. We'll refine the homography later.
         const newPose = pose;
         const newError = error;
+        //const newError = n - count;
 
         // Not the best model? Discard it
         if(newError > bestError)

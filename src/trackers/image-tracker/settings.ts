@@ -129,16 +129,25 @@ export const TRACK_CLIPPING_BORDER = TRACK_RECTIFIED_BORDER * 1.20; //1.25; //1.
 export const TRACK_RECTIFIED_SCALE = 1 - 2 * TRACK_RECTIFIED_BORDER;
 
 /** Reprojection error, in NIS pixels, used when estimating a motion model (tracking state) */
-export const TRACK_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125) | 0;
+export const TRACK_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125 * 0.5) | 0;
 
 /** Reprojection error, in NDC, used when estimating a motion model (tracking state) */
 export const TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
 
 /** We use a N x N grid to spatially distribute the keypoints in order to compute a better homography */
-export const TRACK_GRID_GRANULARITY = 10; //20; // the value of N
+export const TRACK_GRID_GRANULARITY = 15; //20; //10; // the value of N
 
 /** Used to identify the best maches */
 export const TRACK_MATCH_RATIO = 0.7; // usually a value in [0.6, 0.8] - low values => strict tracking
 
 /** Number of consecutive frames in which we tolerate a  "target lost" situation */
 export const TRACK_LOST_TOLERANCE = 15;
+
+/** Interpolation filter: interpolation factor */
+export const TRACK_FILTER_ALPHA = 0.125;
+
+/** Interpolation filter: correction strength for noisy corners */
+export const TRACK_FILTER_BETA = 1;
+
+/** Interpolation filter: translation factor */
+export const TRACK_FILTER_TAU = 0.25;

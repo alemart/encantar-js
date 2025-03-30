@@ -57,6 +57,7 @@ import {
     SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA,
     TRACK_HARRIS_QUALITY, TRACK_DETECTOR_CAPACITY, TRACK_MAX_KEYPOINTS,
     TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MATCH_RATIO,
+    TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_FILTER_TAU,
     NIGHTVISION_QUALITY, SUBPIXEL_METHOD,
 } from '../settings';
 import { Settings } from '../../../core/settings';
@@ -298,17 +299,12 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             if(pairs.length < TRACK_MIN_MATCHES)
                 throw new TrackingError('Not enough data points to continue the tracking');
 
-            // find motion models
+            // find motion model
             const points = ImageTrackerUtils.compilePairsOfKeypointsNDC(pairs);
-            return Speedy.Promise.all<SpeedyMatrixExpr>([
-                //this._findAffineMotionNDC(points),
-                //this._findPerspectiveMotionNDC(points),
-                this._find6DoFPerspectiveMotionNDC(points),
-                Speedy.Promise.resolve(NO_MOTION),
-            ]);
+            return this._find6DoFPerspectiveMotionNDC(points);
 
         })
-        .then(([warpMotion, poseMotion]) => {
+        .then(warpMotion => {
 
             const lowPower = (Settings.powerPreference == 'low-power');
             const delay = NUMBER_OF_PBOS * (!lowPower ? 2 : 1);
@@ -317,14 +313,25 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             if(!USE_TURBO || this._counter % delay == 1) // skip the first frame (PBOs)
                 this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
 
-            // update pose homography
-            //poseMotion = warpMotion; // commented: reduce jitter, increase delay
-            this._poseHomography.setToSync(poseMotion.times(this._warpHomography));
-            if(Number.isNaN(this._poseHomography.at(0,0)))
-                throw new NumericalError('Bad homography'); // normalize? 1 / h33
-
             // update counter
             this._counter = (this._counter + 1) % delay;
+
+            // apply filter
+            return ImageTrackerUtils.interpolateHomographies(
+                this._poseHomography,
+                Speedy.Matrix(warpMotion.times(this._warpHomography)),
+                TRACK_FILTER_ALPHA,
+                TRACK_FILTER_BETA,
+                TRACK_FILTER_TAU
+            );
+
+        })
+        .then(filteredHomography => {
+
+            // update pose homography
+            this._poseHomography.setToSync(filteredHomography);
+            if(Number.isNaN(this._poseHomography.at(0,0)))
+                throw new NumericalError('Bad homography'); // normalize? 1 / h33
 
             /*
             // test
@@ -344,6 +351,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
             // update camera model
             return this._camera.update(homography);
+
         })
         .then(() => {
 
