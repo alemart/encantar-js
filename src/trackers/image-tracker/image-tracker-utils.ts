@@ -234,9 +234,10 @@ export class ImageTrackerUtils
      * @param alpha interpolation factor in [0,1]
      * @param beta correction strength for noisy corners (optional)
      * @param tau translation factor (optional)
+     * @param omega rotational factor (optional)
      * @returns interpolated homography
      */
-    static interpolateHomographies(src: SpeedyMatrix, dest: SpeedyMatrix, alpha: number, beta: number = 0, tau: number = 0): SpeedyPromise<SpeedyMatrix>
+    static interpolateHomographies(src: SpeedyMatrix, dest: SpeedyMatrix, alpha: number, beta: number = 0, tau: number = 0, omega: number = 0): SpeedyPromise<SpeedyMatrix>
     {
         const d = new Array<number>(4), q = new Array<number>(8), p = [
             // NDC
@@ -263,7 +264,7 @@ export class ImageTrackerUtils
             d[i] = dx*dx + dy*dy;
         }
 
-        let tx = 0, ty = 0;
+        let tx = 0, ty = 0, sin = 0, cos = 1;
         const max = Math.max(d[0], d[1], d[2], d[3]); // max = Math.max(...d)
         const min = Math.min(d[0], d[1], d[2], d[3]);
         for(let i = 0, j = 0; i < 4; i++, j += 2) {
@@ -277,24 +278,44 @@ export class ImageTrackerUtils
             const hby = hb[1] * x + hb[4] * y + hb[7];
             const hbz = hb[2] * x + hb[5] * y + hb[8];
 
-            if(d[i] == min) {
+            const ax = hax/haz, ay = hay/haz;
+            const bx = hbx/hbz, by = hby/hbz;
+
+            // correct noisy corners, if any
+            if(d[i] == min && min <= 0.5 * max) {
                 // we take the min for the translation
                 // because there may be noisy corners
-                tx = hbx/hbz - hax/haz;
-                ty = hby/hbz - hay/haz;
+                tx = bx - ax;
+                ty = by - ay;
+
+                const dot = ax * bx + ay * by;
+                const signedArea = ax * by - ay * bx;
+                const la2 = ax * ax + ay * ay;
+                const lb2 = bx * bx + by * by;
+                const lalb = Math.sqrt(la2 * lb2);
+
+                sin = signedArea / lalb;
+                cos = dot / lalb;
             }
 
             // compute the interpolation factor t = t(alpha, beta)
             // t is (clamped) alpha if beta is zero
             const gamma = alpha * Math.pow(2, -beta);
             const f = 1 - Math.sqrt(d[i] / max); // f is zero when d[i] is max (hence, it minimizes t and contributes to src)
-            const g = (alpha - gamma) * f + gamma;
+            const g = (alpha - gamma) * f + gamma; // gamma when f is zero; alpha when f is one
             const t = Math.max(0, Math.min(g, 1)); // clamp
             const _t = 1 - t;
 
             // a (1-t) + b t
-            q[ j ] = (hax/haz) * _t + (hbx/hbz) * t;
-            q[j+1] = (hay/haz) * _t + (hby/hbz) * t;
+            q[ j ] = ax * _t + bx * t;
+            q[j+1] = ay * _t + by * t;
+        }
+
+        const _omega = 1 - omega;
+        for(let j = 0; j < 8; j += 2) {
+            const x = q[j], y = q[j+1];
+            q[ j ] = x * _omega + (x * cos - y * sin) * omega;
+            q[j+1] = y * _omega + (x * sin + y * cos) * omega;
         }
 
         for(let j = 0; j < 8; j += 2) {

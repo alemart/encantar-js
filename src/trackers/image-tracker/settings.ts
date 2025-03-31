@@ -151,3 +151,6 @@ export const TRACK_FILTER_BETA = 1;
 
 /** Interpolation filter: translation factor */
 export const TRACK_FILTER_TAU = 0.2;
+
+/** Interpolation filter: rotational factor */
+export const TRACK_FILTER_OMEGA = 0.05; // keep it close to zero

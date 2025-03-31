@@ -57,7 +57,7 @@ import {
     SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA,
     TRACK_HARRIS_QUALITY, TRACK_DETECTOR_CAPACITY, TRACK_MAX_KEYPOINTS,
     TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MATCH_RATIO,
-    TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_FILTER_TAU,
+    TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_FILTER_TAU, TRACK_FILTER_OMEGA,
     NIGHTVISION_QUALITY, SUBPIXEL_METHOD,
 } from '../settings';
 import { Settings } from '../../../core/settings';
@@ -322,7 +322,8 @@ export class ImageTrackerTrackingState extends ImageTrackerState
                 Speedy.Matrix(warpMotion.times(this._warpHomography)),
                 TRACK_FILTER_ALPHA,
                 TRACK_FILTER_BETA,
-                TRACK_FILTER_TAU
+                TRACK_FILTER_TAU,
+                TRACK_FILTER_OMEGA
             );
 
         })
@@ -335,10 +336,9 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
             /*
             // test
-            console.log("POSE ", this._poseHomography.toString());
             console.log("WARP ", this._warpHomography.toString());
-            console.log("AMOT ", Speedy.Matrix(warpMotion).toString());
-            console.log("PMOT ", Speedy.Matrix(poseMotion).toString());
+            console.log("POSE ", this._poseHomography.toString());
+            console.log("FILT ", filteredHomography.toString());
             */
 
             // We transform the keypoints of the reference image to NDC as a
