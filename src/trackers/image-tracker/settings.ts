@@ -95,14 +95,23 @@ export const SUBPIXEL_METHOD = 'bilinear-upsample'; // 'quadratic1d';
 /** Minimum acceptable number of matched keypoints when in a pre-tracking state */
 export const PRE_TRACK_MIN_MATCHES = 4;
 
-/** Maximum number of iterations in Pre-tracking B */
-export const PRE_TRACK_MAX_ITERATIONS = 3;
+/** Used to identify the best maches */
+export const PRE_TRACK_MATCH_RATIO = 0.6; // usually a value in [0.6, 0.8] - low values => strict tracking
 
 /** Reprojection error, in NIS pixels, used when pre-tracking */
 export const PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS = (NIS_SIZE * 0.0125 * 0.5) | 0;
 
 /** Reprojection error, in NDC, used when pre-tracking */
 export const PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC = PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
+
+/** Interpolation filter: interpolation factor */
+export const PRE_TRACK_FILTER_ALPHA = 0.8;
+
+/** Interpolation filter: correction strength for noisy corners */
+export const PRE_TRACK_FILTER_BETA = 1;
+
+/** Maximum number of iterations in Pre-tracking B */
+export const PRE_TRACK_MAX_ITERATIONS = 6; // the less the interpolation factor, the more iterations are needed
 
 /** Minimum acceptable number of matched keypoints when in the tracking state */
 export const TRACK_MIN_MATCHES = 4;//10; //20;
@@ -153,4 +162,4 @@ export const TRACK_FILTER_BETA = 1;
 export const TRACK_FILTER_TAU = 0.2;
 
 /** Interpolation filter: rotational factor */
-export const TRACK_FILTER_OMEGA = 0.05; // keep it close to zero
+export const TRACK_FILTER_OMEGA = 0.05; // keep it zero or close to zero

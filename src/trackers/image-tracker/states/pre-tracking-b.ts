@@ -50,7 +50,8 @@ import {
     TRACK_HARRIS_QUALITY, TRACK_DETECTOR_CAPACITY, TRACK_MAX_KEYPOINTS,
     SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA,
     PRE_TRACK_MIN_MATCHES, PRE_TRACK_MAX_ITERATIONS,
-    TRACK_MATCH_RATIO, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC,
+    PRE_TRACK_MATCH_RATIO, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC,
+    PRE_TRACK_FILTER_ALPHA, PRE_TRACK_FILTER_BETA,
     NIGHTVISION_QUALITY,
     SUBPIXEL_METHOD,
 } from '../settings';
@@ -216,7 +217,25 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
             sourceBuffer.frozen = true;
 
             // refine the homography
-            return this._homography.setTo(warp.times(this._homography));
+            //return this._homography.setTo(warp.times(this._homography));
+
+            // apply filter
+            return ImageTrackerUtils.interpolateHomographies(
+                this._homography,
+                Speedy.Matrix(warp.times(this._homography)),
+                PRE_TRACK_FILTER_ALPHA,
+                PRE_TRACK_FILTER_BETA
+            );
+
+        })
+        .then(filteredHomography => {
+
+            // test: count the number of iterations needed
+            // for stabilization with this setup of the filter
+            //console.log(this._iterations);
+
+            // refine the homography
+            return this._homography.setTo(filteredHomography);
 
         })
         .then(_ => ({
@@ -252,7 +271,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
         return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
             method: 'pransac',
             reprojectionError: PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512*8, // we want a really good homography
+            numberOfHypotheses: 512,
             bundleSize: 128,
             mask: undefined // score is not needed
         }).then(([ warp, score ]) => {
@@ -295,7 +314,7 @@ export class ImageTrackerPreTrackingBState extends ImageTrackerState
 
                 // the best match should be "much better" than the second best match,
                 // which means that they are "distinct enough"
-                if(d1 <= TRACK_MATCH_RATIO * d2) {
+                if(d1 <= PRE_TRACK_MATCH_RATIO * d2) {
                     const srcKeypoint = srcKeypoints[destKeypoint.matches[0].index];
                     pairs.push([srcKeypoint, destKeypoint]);
                 }
