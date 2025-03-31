@@ -231,7 +231,7 @@ export class ImageTrackerUtils
      * In its simplest form, it's similar to linear interpolation: src (1-alpha) + dest alpha
      * @param src homography
      * @param dest homography
-     * @param alpha interpolation factor in [0,1]
+     * @param alpha interpolation factor in [0,1] (1 means no interpolation)
      * @param beta correction strength for noisy corners (optional)
      * @param tau translation factor (optional)
      * @param omega rotational factor (optional)
@@ -267,6 +267,12 @@ export class ImageTrackerUtils
         let tx = 0, ty = 0, sin = 0, cos = 1;
         const max = Math.max(d[0], d[1], d[2], d[3]); // max = Math.max(...d)
         const min = Math.min(d[0], d[1], d[2], d[3]);
+        //const quality = min / max;
+
+        // no change?
+        if(max < 1e-5)
+            return Speedy.Promise.resolve(Speedy.Matrix(dest));
+
         for(let i = 0, j = 0; i < 4; i++, j += 2) {
             const x = p[j], y = p[j+1];
 
@@ -282,7 +288,7 @@ export class ImageTrackerUtils
             const bx = hbx/hbz, by = hby/hbz;
 
             // correct noisy corners, if any
-            if(d[i] == min && min <= 0.5 * max) {
+            if(d[i] == min) {
                 // we take the min for the translation
                 // because there may be noisy corners
                 tx = bx - ax;

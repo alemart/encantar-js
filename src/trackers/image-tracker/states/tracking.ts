@@ -306,6 +306,24 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         })
         .then(warpMotion => {
 
+            // apply filter
+            return ImageTrackerUtils.interpolateHomographies(
+                NO_MOTION,
+                Speedy.Matrix(warpMotion),
+                TRACK_FILTER_ALPHA,
+                TRACK_FILTER_BETA,
+                TRACK_FILTER_TAU,
+                TRACK_FILTER_OMEGA
+            );
+
+        })
+        .then(warpMotion => {
+
+            // update warp homography
+            this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
+            return this._warpHomography;
+
+            /*
             const lowPower = (Settings.powerPreference == 'low-power');
             const delay = NUMBER_OF_PBOS * (!lowPower ? 2 : 1);
 
@@ -319,20 +337,16 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             // apply filter
             return ImageTrackerUtils.interpolateHomographies(
                 this._poseHomography,
-                Speedy.Matrix(warpMotion.times(this._warpHomography)),
-                TRACK_FILTER_ALPHA,
-                TRACK_FILTER_BETA,
-                TRACK_FILTER_TAU,
-                TRACK_FILTER_OMEGA
+                this._warpHomography,
+                0.4,//TRACK_FILTER_ALPHA,
+                1,//TRACK_FILTER_BETA,
+                0.4,//TRACK_FILTER_TAU,
+                0.05,//TRACK_FILTER_OMEGA
             );
+            */
 
         })
         .then(filteredHomography => {
-
-            // update pose homography
-            this._poseHomography.setToSync(filteredHomography);
-            if(Number.isNaN(this._poseHomography.at(0,0)))
-                throw new NumericalError('Bad homography'); // normalize? 1 / h33
 
             /*
             // test
@@ -340,6 +354,11 @@ export class ImageTrackerTrackingState extends ImageTrackerState
             console.log("POSE ", this._poseHomography.toString());
             console.log("FILT ", filteredHomography.toString());
             */
+
+            // update pose homography
+            this._poseHomography.setToSync(filteredHomography);
+            if(Number.isNaN(this._poseHomography.at(0,0)))
+                throw new NumericalError('Bad homography'); // normalize? 1 / h33
 
             // We transform the keypoints of the reference image to NDC as a
             // convenience. However, doing so distorts the aspect ratio. Here
