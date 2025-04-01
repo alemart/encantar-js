@@ -158,14 +158,8 @@ export const TRACK_FILTER_ALPHA = 0.3; //0.4;
 /** Interpolation filter: correction strength for noisy corners */
 export const TRACK_FILTER_BETA = 1;
 
-/** Interpolation filter: translation factor */
-export const TRACK_FILTER_TAU = 0;
-
-/** Interpolation filter: rotational factor */
-export const TRACK_FILTER_OMEGA = 0; // keep it zero or close to zero
-
 /** Extrapolation filter: extrapolation factor */
-export const TRACK_EXTRAPOLATION_ALPHA = 6;
+export const TRACK_EXTRAPOLATION_ALPHA = 6; // 12+ = follows faster, but looks unstable (jitter)
 
 /** Extrapolation filter: correction strength for noisy corners */
 export const TRACK_EXTRAPOLATION_BETA = 1.33;

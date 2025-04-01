@@ -57,7 +57,7 @@ import {
     SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA,
     TRACK_HARRIS_QUALITY, TRACK_DETECTOR_CAPACITY, TRACK_MAX_KEYPOINTS,
     TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MATCH_RATIO,
-    TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_FILTER_TAU, TRACK_FILTER_OMEGA,
+    TRACK_FILTER_ALPHA, TRACK_FILTER_BETA,
     TRACK_EXTRAPOLATION_ALPHA, TRACK_EXTRAPOLATION_BETA,
     NIGHTVISION_QUALITY, SUBPIXEL_METHOD,
 } from '../settings';
@@ -90,7 +90,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
     /** current homography (for computing the pose) */
     private _poseHomography: SpeedyMatrix;
 
-    /* previous homography */
+    /* previous warp homography */
     private _prevHomography: SpeedyMatrix;
 
     /** initial keypoints (i.e., the keypoints we found when we first started tracking) */
@@ -261,13 +261,14 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
         // When using turbo, we reduce the GPU usage by skipping every other frame
         if(0 == (this._skipCounter = 1 - this._skipCounter)) {
-            const templateKeypoints = this._templateKeypoints;
+            //const templateKeypoints = this._templateKeypoints;
             const previousKeypoints = this._lastPipelineOutput.keypoints as SpeedyMatchedKeypoint[];
             //const currentKeypoints = this._predictKeypoints(previousKeypoints, templateKeypoints);
             const currentKeypoints = previousKeypoints; // this actually works
 
-            this._lastPipelineOutput.keypoints = currentKeypoints;
+            // idea: predict keypoints with optical flow?
 
+            this._lastPipelineOutput.keypoints = currentKeypoints;
             return Speedy.Promise.resolve(this._lastPipelineOutput);
         }
 
@@ -312,14 +313,15 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         })
         .then(warpMotion => {
 
+            const lowPower = (Settings.powerPreference == 'low-power');
+            const multiplier = /*!USE_TURBO ||*/ lowPower ? 2 : 1;
+
             // apply filter
             return ImageTrackerUtils.interpolateHomographies(
                 NO_MOTION,
                 Speedy.Matrix(warpMotion),
-                TRACK_FILTER_ALPHA,
-                TRACK_FILTER_BETA,
-                TRACK_FILTER_TAU,
-                TRACK_FILTER_OMEGA
+                TRACK_FILTER_ALPHA * multiplier,
+                TRACK_FILTER_BETA
             );
 
         })
@@ -336,8 +338,9 @@ export class ImageTrackerTrackingState extends ImageTrackerState
                 this._prevHomography,
                 this._warpHomography,
                 TRACK_EXTRAPOLATION_ALPHA,
-                TRACK_EXTRAPOLATION_BETA
-            );
+                TRACK_EXTRAPOLATION_BETA,
+                //2.5,0.1
+            )
 
             /*
             const lowPower = (Settings.powerPreference == 'low-power');
@@ -357,7 +360,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
                 0.4,//TRACK_FILTER_ALPHA,
                 1,//TRACK_FILTER_BETA,
                 0.4,//TRACK_FILTER_TAU,
-                0.05,//TRACK_FILTER_OMEGA
+                0.05,//TRACK_FILTER_OMEGA // keep it zero or close to zero
             );
             */
 
