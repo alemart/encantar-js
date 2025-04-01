@@ -21,16 +21,17 @@ The Augmented Reality engine that will enchant you!
 
 ## Features
 
-* **Image tracking**: track detailed images such as book covers, cartoons and photos. No need of manual training!
+* **Image tracking**: track detailed images such as book covers, cartoons and photos. No need of manual training! It's also known as natural feature tracking.
 * **Pointer tracking**: create interactive experiences based on touch and mouse input with an easy-to-use API.
 * **Plugins**: use encantar.js with the 3D framework of your choice, including: A-Frame, Babylon.js, Three.js and more!
 * **Add-Ons**: create rich experiences with additional features that enhance the core of encantar.js!
 
 ## Key points
 
-* **AR everywhere**: it runs on Android, on iOS, and even on Desktop computers! Only a modern web browser is required.
-* **Easy to use**: just load a static HTML page! No need of heavy app downloads, server-side components or subscriptions.
-* **Device-agnostic**: no need of AR-capable devices! encantar.js is AR built from scratch with computer vision!
+* **AR everywhere**: encantar.js runs on Android, on iOS, and even on Desktop computers! Only a modern web browser is required.
+* **Easy to use**: just load a static HTML page! No need of heavy app downloads or server-side components. Get started in a few minutes!
+* **No hosting fees**: other WebAR platforms require monthly subscriptions and have limits such as on the number of views. Save hundreds of dollars!
+* **Device-agnostic**: no need of WebXR or AR-capable devices! encantar.js is AR built from scratch with computer vision!
 * **Fast & powerful**: encantar.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
 * **Open source**: personal, professional and educational uses are allowed.
 
