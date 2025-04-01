@@ -78,9 +78,9 @@ export class SupportWidget
         const img = document.createElement('img');
 
         button.innerText = 'Support';
-        button.style.font = 'bold small-caps 1.25rem sans-serif';
+        button.style.font = 'bold small-caps 20px sans-serif';
         button.style.color = 'white';
-        button.style.padding = '0.5rem';
+        button.style.padding = '8px 8px 2px 8px';
         button.style.maxWidth = '40%';
 
         button.style.position = 'absolute';
