@@ -58,6 +58,7 @@ import {
     TRACK_HARRIS_QUALITY, TRACK_DETECTOR_CAPACITY, TRACK_MAX_KEYPOINTS,
     TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MATCH_RATIO,
     TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_FILTER_TAU, TRACK_FILTER_OMEGA,
+    TRACK_EXTRAPOLATION_ALPHA, TRACK_EXTRAPOLATION_BETA,
     NIGHTVISION_QUALITY, SUBPIXEL_METHOD,
 } from '../settings';
 import { Settings } from '../../../core/settings';
@@ -88,6 +89,9 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
     /** current homography (for computing the pose) */
     private _poseHomography: SpeedyMatrix;
+
+    /* previous homography */
+    private _prevHomography: SpeedyMatrix;
 
     /** initial keypoints (i.e., the keypoints we found when we first started tracking) */
     private _templateKeypoints: SpeedyKeypoint[];
@@ -129,6 +133,7 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         this._referenceImage = null;
         this._warpHomography = Speedy.Matrix.Eye(3);
         this._poseHomography = Speedy.Matrix.Eye(3);
+        this._prevHomography = Speedy.Matrix.Eye(3);
         this._templateKeypoints = [];
         this._initialScreenSize = Speedy.Size(1, 1);
         this._lastOutput = {};
@@ -159,8 +164,9 @@ export class ImageTrackerTrackingState extends ImageTrackerState
 
         // set attributes
         this._referenceImage = referenceImage;
-        this._warpHomography = Speedy.Matrix(homography);
-        this._poseHomography = Speedy.Matrix(homography);
+        this._warpHomography.setToSync(homography);
+        this._poseHomography.setToSync(homography);
+        this._prevHomography.setToSync(homography);
         this._templateKeypoints = templateKeypoints;
         this._initialScreenSize = Speedy.Size(initialScreenSize.width, initialScreenSize.height);
         this._lastOutput = {};
@@ -320,8 +326,18 @@ export class ImageTrackerTrackingState extends ImageTrackerState
         .then(warpMotion => {
 
             // update warp homography
+            this._prevHomography.setToSync(this._warpHomography);
             this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
-            return this._warpHomography;
+            //return this._warpHomography;
+
+            // extrapolate to compensante a bit the delay introduced by the
+            // previous filter
+            return ImageTrackerUtils.interpolateHomographies(
+                this._prevHomography,
+                this._warpHomography,
+                TRACK_EXTRAPOLATION_ALPHA,
+                TRACK_EXTRAPOLATION_BETA
+            );
 
             /*
             const lowPower = (Settings.powerPreference == 'low-power');

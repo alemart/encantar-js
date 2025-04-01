@@ -111,7 +111,7 @@ export const PRE_TRACK_FILTER_ALPHA = 0.8;
 export const PRE_TRACK_FILTER_BETA = 1;
 
 /** Maximum number of iterations in Pre-tracking B */
-export const PRE_TRACK_MAX_ITERATIONS = 6; // the less the interpolation factor, the more iterations are needed
+export const PRE_TRACK_MAX_ITERATIONS = 8; //6; // the less the interpolation factor, the more iterations are needed
 
 /** Minimum acceptable number of matched keypoints when in the tracking state */
 export const TRACK_MIN_MATCHES = 4;//10; //20;
@@ -153,7 +153,7 @@ export const TRACK_MATCH_RATIO = 0.7; // usually a value in [0.6, 0.8] - low val
 export const TRACK_LOST_TOLERANCE = 20; //15;
 
 /** Interpolation filter: interpolation factor */
-export const TRACK_FILTER_ALPHA = 0.3;
+export const TRACK_FILTER_ALPHA = 0.3; //0.4;
 
 /** Interpolation filter: correction strength for noisy corners */
 export const TRACK_FILTER_BETA = 1;
@@ -163,3 +163,9 @@ export const TRACK_FILTER_TAU = 0;
 
 /** Interpolation filter: rotational factor */
 export const TRACK_FILTER_OMEGA = 0; // keep it zero or close to zero
+
+/** Extrapolation filter: extrapolation factor */
+export const TRACK_EXTRAPOLATION_ALPHA = 6;
+
+/** Extrapolation filter: correction strength for noisy corners */
+export const TRACK_EXTRAPOLATION_BETA = 1.33;
