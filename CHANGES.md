@@ -1,5 +1,12 @@
 # Release notes
 
+## 0.4.3 - April 2nd, 2025
+
+* Increased the stability of the tracking
+* Refactored the HUD
+* Updated the docs
+* Small fixes
+
 ## 0.4.2 - March 9th, 2025
 
 * Made the tracking more robust, particularly on steep angles
