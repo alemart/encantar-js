@@ -49,6 +49,8 @@ async function startARSession()
     });
 
     const scan = document.getElementById('scan');
+    if(scan)
+        scan.style.pointerEvents = 'none';
 
     tracker.addEventListener('targetfound', event => {
         if(scan)

@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-03-30T05:03:03.047Z
+ * Date: 2025-04-02T01:39:03.332Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -13377,7 +13377,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/settings.ts
-  var TRAIN_MAX_KEYPOINTS, TRAIN_IMAGE_SCALE, NIS_SIZE, SCAN_MATCH_RATIO, SCAN_MAX_KEYPOINTS, SCAN_PYRAMID_LEVELS, SCAN_PYRAMID_SCALEFACTOR, SCAN_FAST_THRESHOLD, SCAN_MIN_MATCHES, SCAN_CONSECUTIVE_FRAMES, SCAN_RANSAC_REPROJECTIONERROR_NIS, SCAN_RANSAC_REPROJECTIONERROR_NDC, SCAN_LSH_TABLES, SCAN_LSH_HASHSIZE, SCAN_WITH_NIGHTVISION, NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY, NIGHTVISION_QUALITY, ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_METHOD, PRE_TRACK_MIN_MATCHES, PRE_TRACK_MAX_ITERATIONS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_MIN_MATCHES, TRACK_MAX_KEYPOINTS, TRACK_DETECTOR_CAPACITY, TRACK_HARRIS_QUALITY, TRACK_WITH_NIGHTVISION, TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_RECTIFIED_SCALE, TRACK_RANSAC_REPROJECTIONERROR_NIS, TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_GRID_GRANULARITY, TRACK_MATCH_RATIO, TRACK_LOST_TOLERANCE, TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_FILTER_TAU;
+  var TRAIN_MAX_KEYPOINTS, TRAIN_IMAGE_SCALE, NIS_SIZE, SCAN_MATCH_RATIO, SCAN_MAX_KEYPOINTS, SCAN_PYRAMID_LEVELS, SCAN_PYRAMID_SCALEFACTOR, SCAN_FAST_THRESHOLD, SCAN_MIN_MATCHES, SCAN_CONSECUTIVE_FRAMES, SCAN_RANSAC_REPROJECTIONERROR_NIS, SCAN_RANSAC_REPROJECTIONERROR_NDC, SCAN_LSH_TABLES, SCAN_LSH_HASHSIZE, SCAN_WITH_NIGHTVISION, NIGHTVISION_GAIN, NIGHTVISION_OFFSET, NIGHTVISION_DECAY, NIGHTVISION_QUALITY, ORB_GAUSSIAN_KSIZE, ORB_GAUSSIAN_SIGMA, SUBPIXEL_GAUSSIAN_KSIZE, SUBPIXEL_GAUSSIAN_SIGMA, SUBPIXEL_METHOD, PRE_TRACK_MIN_MATCHES, PRE_TRACK_MATCH_RATIO, PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS, PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC, PRE_TRACK_FILTER_ALPHA, PRE_TRACK_FILTER_BETA, PRE_TRACK_MAX_ITERATIONS, TRACK_MIN_MATCHES, TRACK_MAX_KEYPOINTS, TRACK_DETECTOR_CAPACITY, TRACK_HARRIS_QUALITY, TRACK_WITH_NIGHTVISION, TRACK_RECTIFIED_BORDER, TRACK_CLIPPING_BORDER, TRACK_RECTIFIED_SCALE, TRACK_RANSAC_REPROJECTIONERROR_NIS, TRACK_RANSAC_REPROJECTIONERROR_NDC, TRACK_GRID_GRANULARITY, TRACK_MATCH_RATIO, TRACK_LOST_TOLERANCE, TRACK_FILTER_ALPHA, TRACK_FILTER_BETA, TRACK_EXTRAPOLATION_ALPHA, TRACK_EXTRAPOLATION_BETA;
   var init_settings = __esm({
     "src/trackers/image-tracker/settings.ts"() {
       "use strict";
@@ -13406,9 +13406,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       SUBPIXEL_GAUSSIAN_SIGMA = 1;
       SUBPIXEL_METHOD = "bilinear-upsample";
       PRE_TRACK_MIN_MATCHES = 4;
-      PRE_TRACK_MAX_ITERATIONS = 3;
+      PRE_TRACK_MATCH_RATIO = 0.6;
       PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS = NIS_SIZE * 0.0125 * 0.5 | 0;
       PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC = PRE_TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
+      PRE_TRACK_FILTER_ALPHA = 0.8;
+      PRE_TRACK_FILTER_BETA = 1;
+      PRE_TRACK_MAX_ITERATIONS = 8;
       TRACK_MIN_MATCHES = 4;
       TRACK_MAX_KEYPOINTS = 200;
       TRACK_DETECTOR_CAPACITY = 2048;
@@ -13417,14 +13420,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       TRACK_RECTIFIED_BORDER = 0.15;
       TRACK_CLIPPING_BORDER = TRACK_RECTIFIED_BORDER * 1.2;
       TRACK_RECTIFIED_SCALE = 1 - 2 * TRACK_RECTIFIED_BORDER;
-      TRACK_RANSAC_REPROJECTIONERROR_NIS = NIS_SIZE * 0.0125 * 0.5 | 0;
+      TRACK_RANSAC_REPROJECTIONERROR_NIS = NIS_SIZE * 0.0125 | 0;
       TRACK_RANSAC_REPROJECTIONERROR_NDC = TRACK_RANSAC_REPROJECTIONERROR_NIS / (NIS_SIZE / 2);
       TRACK_GRID_GRANULARITY = 15;
-      TRACK_MATCH_RATIO = 0.65;
-      TRACK_LOST_TOLERANCE = 15;
-      TRACK_FILTER_ALPHA = 0.2;
+      TRACK_MATCH_RATIO = 0.7;
+      TRACK_LOST_TOLERANCE = 20;
+      TRACK_FILTER_ALPHA = 0.3;
       TRACK_FILTER_BETA = 1;
-      TRACK_FILTER_TAU = 0.2;
+      TRACK_EXTRAPOLATION_ALPHA = 6;
+      TRACK_EXTRAPOLATION_BETA = 1.33;
     }
   });
 
@@ -15340,12 +15344,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * In its simplest form, it's similar to linear interpolation: src (1-alpha) + dest alpha
          * @param src homography
          * @param dest homography
-         * @param alpha interpolation factor in [0,1]
+         * @param alpha interpolation factor in [0,1] (1 means no interpolation)
          * @param beta correction strength for noisy corners (optional)
          * @param tau translation factor (optional)
+         * @param omega rotational factor (optional)
          * @returns interpolated homography
          */
-        static interpolateHomographies(src, dest, alpha, beta = 0, tau = 0) {
+        static interpolateHomographies(src, dest, alpha, beta = 0, tau = 0, omega = 0) {
           const d = new Array(4), q2 = new Array(8), p2 = [
             // NDC
             -1,
@@ -15370,9 +15375,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const dy = hby / hbz - hay / haz;
             d[i] = dx * dx + dy * dy;
           }
-          let tx = 0, ty = 0;
+          let tx = 0, ty = 0, sin = 0, cos = 1;
           const max = Math.max(d[0], d[1], d[2], d[3]);
           const min = Math.min(d[0], d[1], d[2], d[3]);
+          if (max < 1e-5)
+            return import_speedy_vision9.default.Promise.resolve(import_speedy_vision9.default.Matrix(dest));
           for (let i = 0, j = 0; i < 4; i++, j += 2) {
             const x = p2[j], y = p2[j + 1];
             const hax = ha[0] * x + ha[3] * y + ha[6];
@@ -15381,17 +15388,32 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const hbx = hb[0] * x + hb[3] * y + hb[6];
             const hby = hb[1] * x + hb[4] * y + hb[7];
             const hbz = hb[2] * x + hb[5] * y + hb[8];
+            const ax = hax / haz, ay = hay / haz;
+            const bx = hbx / hbz, by = hby / hbz;
             if (d[i] == min) {
-              tx = hbx / hbz - hax / haz;
-              ty = hby / hbz - hay / haz;
+              tx = bx - ax;
+              ty = by - ay;
+              const dot2 = ax * bx + ay * by;
+              const signedArea = ax * by - ay * bx;
+              const la2 = ax * ax + ay * ay;
+              const lb2 = bx * bx + by * by;
+              const lalb = Math.sqrt(la2 * lb2);
+              sin = signedArea / lalb;
+              cos = dot2 / lalb;
             }
             const gamma = alpha * Math.pow(2, -beta);
             const f = 1 - Math.sqrt(d[i] / max);
             const g = (alpha - gamma) * f + gamma;
-            const t2 = Math.max(0, Math.min(g, 1));
+            const t2 = g;
             const _t = 1 - t2;
-            q2[j] = hax / haz * _t + hbx / hbz * t2;
-            q2[j + 1] = hay / haz * _t + hby / hbz * t2;
+            q2[j] = ax * _t + bx * t2;
+            q2[j + 1] = ay * _t + by * t2;
+          }
+          const _omega = 1 - omega;
+          for (let j = 0; j < 8; j += 2) {
+            const x = q2[j], y = q2[j + 1];
+            q2[j] = x * _omega + (x * cos - y * sin) * omega;
+            q2[j + 1] = y * _omega + (x * sin + y * cos) * omega;
           }
           for (let j = 0; j < 8; j += 2) {
             q2[j] += tx * tau;
@@ -16374,7 +16396,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           }).then((warp) => {
             sourceMux.port = PORT_CAMERA2;
             sourceBuffer.frozen = true;
-            return this._homography.setTo(warp.times(this._homography));
+            return ImageTrackerUtils.interpolateHomographies(
+              this._homography,
+              import_speedy_vision13.default.Matrix(warp.times(this._homography)),
+              PRE_TRACK_FILTER_ALPHA,
+              PRE_TRACK_FILTER_BETA
+            );
+          }).then((filteredHomography) => {
+            return this._homography.setTo(filteredHomography);
           }).then((_) => ({
             nextState: ++this._iterations < PRE_TRACK_MAX_ITERATIONS ? "pre-tracking-b" : "tracking",
             trackerOutput,
@@ -16404,8 +16433,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           return ImageTrackerUtils.findPerspectiveWarpNDC(points, {
             method: "pransac",
             reprojectionError: PRE_TRACK_RANSAC_REPROJECTIONERROR_NDC,
-            numberOfHypotheses: 512 * 8,
-            // we want a really good homography
+            numberOfHypotheses: 512,
             bundleSize: 128,
             mask: void 0
             // score is not needed
@@ -16434,7 +16462,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             if (destKeypoint.matches[0].index >= 0 && destKeypoint.matches[1].index >= 0) {
               const d1 = destKeypoint.matches[0].distance;
               const d2 = destKeypoint.matches[1].distance;
-              if (d1 <= TRACK_MATCH_RATIO * d2) {
+              if (d1 <= PRE_TRACK_MATCH_RATIO * d2) {
                 const srcKeypoint = srcKeypoints[destKeypoint.matches[0].index];
                 pairs.push([srcKeypoint, destKeypoint]);
               }
@@ -18097,7 +18125,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/trackers/image-tracker/states/tracking.ts
-  var import_speedy_vision21, USE_TURBO, NUMBER_OF_PBOS, NO_MOTION, ImageTrackerTrackingState;
+  var import_speedy_vision21, USE_TURBO, NO_MOTION, ImageTrackerTrackingState;
   var init_tracking = __esm({
     "src/trackers/image-tracker/states/tracking.ts"() {
       "use strict";
@@ -18114,7 +18142,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       init_settings();
       init_settings2();
       USE_TURBO = true;
-      NUMBER_OF_PBOS = 2;
       NO_MOTION = import_speedy_vision21.default.Matrix.Eye(3);
       ImageTrackerTrackingState = class extends ImageTrackerState {
         /**
@@ -18126,6 +18153,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           this._referenceImage = null;
           this._warpHomography = import_speedy_vision21.default.Matrix.Eye(3);
           this._poseHomography = import_speedy_vision21.default.Matrix.Eye(3);
+          this._prevHomography = import_speedy_vision21.default.Matrix.Eye(3);
           this._templateKeypoints = [];
           this._initialScreenSize = import_speedy_vision21.default.Size(1, 1);
           this._lastOutput = {};
@@ -18150,8 +18178,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (!referenceImage)
             throw new IllegalOperationError(`Can't track a null reference image`);
           this._referenceImage = referenceImage;
-          this._warpHomography = import_speedy_vision21.default.Matrix(homography);
-          this._poseHomography = import_speedy_vision21.default.Matrix(homography);
+          this._warpHomography.setToSync(homography);
+          this._poseHomography.setToSync(homography);
+          this._prevHomography.setToSync(homography);
           this._templateKeypoints = templateKeypoints;
           this._initialScreenSize = import_speedy_vision21.default.Size(initialScreenSize.width, initialScreenSize.height);
           this._lastOutput = {};
@@ -18210,7 +18239,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           if (!USE_TURBO || Settings.powerPreference == "low-power")
             return super._gpuUpdate();
           if (0 == (this._skipCounter = 1 - this._skipCounter)) {
-            const templateKeypoints = this._templateKeypoints;
             const previousKeypoints = this._lastPipelineOutput.keypoints;
             const currentKeypoints = previousKeypoints;
             this._lastPipelineOutput.keypoints = currentKeypoints;
@@ -18242,16 +18270,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             return this._find6DoFPerspectiveMotionNDC(points);
           }).then((warpMotion) => {
             const lowPower = Settings.powerPreference == "low-power";
-            const delay = NUMBER_OF_PBOS * (!lowPower ? 2 : 1);
-            if (!USE_TURBO || this._counter % delay == 1)
-              this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
-            this._counter = (this._counter + 1) % delay;
+            const multiplier = (
+              /*!USE_TURBO ||*/
+              lowPower ? 2 : 1
+            );
             return ImageTrackerUtils.interpolateHomographies(
-              this._poseHomography,
-              import_speedy_vision21.default.Matrix(warpMotion.times(this._warpHomography)),
-              TRACK_FILTER_ALPHA,
-              TRACK_FILTER_BETA,
-              TRACK_FILTER_TAU
+              NO_MOTION,
+              import_speedy_vision21.default.Matrix(warpMotion),
+              TRACK_FILTER_ALPHA * multiplier,
+              TRACK_FILTER_BETA
+            );
+          }).then((warpMotion) => {
+            this._prevHomography.setToSync(this._warpHomography);
+            this._warpHomography.setToSync(warpMotion.times(this._warpHomography));
+            return ImageTrackerUtils.interpolateHomographies(
+              this._prevHomography,
+              this._warpHomography,
+              TRACK_EXTRAPOLATION_ALPHA,
+              TRACK_EXTRAPOLATION_BETA
+              //2.5,0.1
             );
           }).then((filteredHomography) => {
             this._poseHomography.setToSync(filteredHomography);
@@ -20095,10 +20132,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/ui/support-widget.ts
-  var SupportWidget;
+  var SUPPORTER_URL, BUTTON_IMAGE, SupportWidget;
   var init_support_widget = __esm({
     "src/ui/support-widget.ts"() {
       "use strict";
+      SUPPORTER_URL = "https://encantar.dev/supporter";
+      BUTTON_IMAGE = "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22298.803%22%20height%3D%2266.241%22%20viewBox%3D%220%200%2079.057%2017.526%22%3E%3Cg%20aria-label%3D%22encantar.js%22%20style%3D%22font-weight%3A400%3Bfont-size%3A10.58333302px%3Bline-height%3A1.25%3Bfont-family%3Asans-serif%3Bletter-spacing%3A0%3Bword-spacing%3A0%3Bstroke%3A%23000%3Bstroke-width%3A.39686999%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A.50196078%22%20stroke%3D%22none%22%3E%3Cpath%20d%3D%22M8.488%208.848q0%20.952-.19%201.312H3.872q-.063.995-.063%201.355%200%203.323%201.503%203.323%201.143%200%202.01-1.905h.784q-.635%202.942-3.154%202.942-3.366%200-3.366-5.82%200-1.885.847-3.197Q3.45%205.355%205.25%205.355q1.545%200%202.392.974.847.952.847%202.519zm-1.905-.424q0-2.265-1.27-2.265-.55%200-.995.868-.381.741-.381%201.355v.53h2.625q.02-.255.02-.488zm11.98%205.567q0%20.72-.508%201.207-.508.465-1.228.465-2.053%200-2.053-1.905V9.715q0-.952-.36-1.82-.465-1.1-1.27-1.1-.296%200-.55.275-.254.254-.254.571-.127%205.398-.127%205.525%200%201.63%201.334%201.481v.995H8.678v-1.08q.148-.084.53-.084.402-.021.55-.17.254-.19.254-.804%200-.275-.064-.804-.042-.55-.042-.826%200-.973.17-2.73l.126-1.334q0-.508-.36-.783t-.867-.254l.02-.106q0-.423-.126-.677%201.206-.317%203.662-.931-.064.72-.064.825%200%20.233.042.402.741-.93%201.503-.93.91%200%201.948%201.311.973%201.25.973%202.202v4.318q0%201.037.36%201.354.402-.232.402-.677%200-.085-.02-.275-.022-.19-.022-.296v-.17h.91zm7.218-6.286q0%20.613-.381%201.08-.36.444-.953.444-.508%200-.867-.381-.36-.381-.36-.89%200-.38.317-.677.318-.296.699-.296.127%200%20.254.106.127.084.233.084v-.042q.02-.868-1.46-.868-1.313%200-1.8%201.355-.296.825-.296%202.455%200%202.011.148%202.942.338%202.032%201.397%202.032.656%200%201.206-.508.085-.084.868-1.016.445.212.783.55-.91%201.08-1.206%201.334-.762.656-1.609.656-2.074%200-3.027-2.095-.698-1.545-.698-3.916%200-1.672.868-3.111%201.016-1.694%202.56-1.694%201.25%200%202.202.593%201.122.698%201.122%201.863zm8.191%207.62q0%20.317-.063.529-.127%200-.402.063-.254.064-.402.064-.53%200-1.016-.36-.487-.36-.678-.868-1.08%201.122-2.497%201.122-1.292%200-2.075-.72t-.783-1.99q0-1.587.974-2.54.995-.952%202.624-.952.36%200%20.762.042.085-.444.085-.952%200-2.582-1.778-2.582-.74%200-1.122.846.381-.148.678-.148.846%200%20.846%201.334%200%20.38-.487.762-.465.36-.846.36-1.313%200-1.313-1.779%200-1.29%201.292-1.862.952-.445%202.434-.445%201.587%200%202.138%201.757.317%201.016.317%203.09%200%20.424-.021%201.292-.021.867-.021%201.312%200%202.244.72%202.244.232%200%20.55-.19.084.274.084.57zm-3.513-1.842q-.064-1.122-.064-.952%200-.635.043-1.651-.36-.106-.847-.106-.699%200-1.08.656-.338.53-.338%201.291%200%20.826.402%201.44.466.677%201.27.677.444%200%20.487-.508.084-.783.127-.847z%22%20style%3D%22font-style%3Anormal%3Bfont-variant%3Anormal%3Bfont-weight%3A400%3Bfont-stretch%3Anormal%3Bfont-size%3A21.16666603px%3Bfont-family%3ADuality%3B-inkscape-font-specification%3ADuality%3Bfill%3A%23ff95ff%3Bfill-opacity%3A1%3Bstroke%3A%23ffffea%3Bstroke-width%3A0%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A.9754902%3Bpaint-order%3Astroke%20fill%20markers%22%20transform%3D%22translate(-1.587%20-1.587)%22%2F%3E%3Cpath%20d%3D%22M43.794%2013.991q0%20.72-.508%201.207-.508.465-1.228.465-2.053%200-2.053-1.905V9.715q0-.952-.36-1.82-.466-1.1-1.27-1.1-.296%200-.55.275-.254.254-.254.571-.127%205.398-.127%205.525%200%201.63%201.333%201.481v.995H33.91v-1.08q.148-.084.53-.084.401-.021.55-.17.253-.19.253-.804%200-.275-.063-.804-.042-.55-.042-.826%200-.973.169-2.73l.127-1.334q0-.508-.36-.783t-.868-.254l.021-.106q0-.423-.127-.677%201.207-.317%203.662-.931-.063.72-.063.825%200%20.233.042.402.741-.93%201.503-.93.91%200%201.947%201.311.974%201.25.974%202.202v4.318q0%201.037.36%201.354.402-.232.402-.677%200-.085-.021-.275t-.021-.296v-.17h.91zm5.101.402q0%20.53-.508.953t-1.058.423q-1.63%200-2.011-1.1-.17-.466-.17-2.456%200-1.376-.063-3.535l-.042-1.714q-.297-.17-.678-.17-.084%200-.275.043-.17.021-.275.021.106-.423.106-.974%201.418.021%202.201-1.058.699-.953.656-2.413h.72v3.175q.402.042%201.206.19V6.88h-1.439v7.112q0%20.106.296.36h.445v-1.228h.889z%22%20style%3D%22font-style%3Anormal%3Bfont-variant%3Anormal%3Bfont-weight%3A400%3Bfont-stretch%3Anormal%3Bfont-size%3A21.16666603px%3Bfont-family%3ADuality%3B-inkscape-font-specification%3ADuality%3Bfill%3A%23ff95ff%3Bfill-opacity%3A1%3Bstroke%3A%23ffffea%3Bstroke-width%3A0%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A.9754902%3Bpaint-order%3Astroke%20fill%20markers%22%20transform%3D%22translate(-1.587%20-1.587)%22%2F%3E%3Cpath%20d%3D%22M56.917%2015.325q0%20.317-.063.529-.127%200-.403.063-.254.064-.402.064-.529%200-1.016-.36t-.677-.868q-1.08%201.122-2.498%201.122-1.29%200-2.074-.72T49%2013.165q0-1.587.973-2.54.995-.952%202.625-.952.36%200%20.762.042.085-.444.085-.952%200-2.582-1.778-2.582-.741%200-1.122.846.38-.148.677-.148.847%200%20.847%201.334%200%20.38-.487.762-.466.36-.847.36-1.312%200-1.312-1.779%200-1.29%201.291-1.862.953-.445%202.434-.445%201.588%200%202.138%201.757.318%201.016.318%203.09%200%20.424-.021%201.292-.022.867-.022%201.312%200%202.244.72%202.244.233%200%20.55-.19.085.274.085.57zm-3.514-1.842q-.063-1.122-.063-.952%200-.635.042-1.651-.36-.106-.846-.106-.699%200-1.08.656-.339.53-.339%201.291%200%20.826.403%201.44.465.677%201.27.677.444%200%20.486-.508.085-.783.127-.847z%22%20style%3D%22fill%3A%23ffea2a%3Bfill-opacity%3A1%3Bstroke%3A%23ffffea%3Bstroke-width%3A0%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A.9754902%3Bpaint-order%3Astroke%20fill%20markers%22%20transform%3D%22translate(-1.587%20-1.587)%22%2F%3E%3Cpath%20d%3D%22M64.347%207.493q0%20.571-.36%201.206-.424.741-.932.741-.677%200-1.206-.465-.53-.466-.53-1.143%200-.953%201.08-.953.106%200%20.254.064.148.063.212.063v-.042q.021-.593-.72-.593-1.757%200-1.757%203.98%200%20.36.043%201.058t.042%201.037v.36q-.021.254-.021.36%200%201.63%201.333%201.481v.995h-4.868v-1.08l.699-.148q.402-.063.592-.36.127-.211.127-.38l.106-5.864q0-.486-.36-.762-.36-.296-.868-.275l.022-.106q0-.423-.127-.677%201.121-.317%203.344-.931%200%20.021-.064.846-.042.572-.042%201.186l.572-.826q.402-.55.592-.72.36-.296.826-.296.973%200%201.481.635.53.635.53%201.609z%22%20style%3D%22fill%3A%23ffea2a%3Bfill-opacity%3A1%3Bstroke%3A%23ffffea%3Bstroke-width%3A0%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A.9754902%3Bpaint-order%3Astroke%20fill%20markers%22%20transform%3D%22translate(-1.587%20-1.587)%22%2F%3E%3Cpath%20d%3D%22M67.564%2015.113q0%20.593-.487%201.058t-1.1.466-1.059-.55q-.423-.53-.423-1.186%200-.55.508-.952.444-.36%201.037-.36.656%200%201.08.444.444.424.444%201.08z%22%20style%3D%22font-style%3Anormal%3Bfont-variant%3Anormal%3Bfont-weight%3A400%3Bfont-stretch%3Anormal%3Bfont-size%3A21.16666603px%3Bfont-family%3ADuality%3B-inkscape-font-specification%3ADuality%3Bfill%3A%23ff95ff%3Bfill-opacity%3A1%3Bstroke%3A%23ffffea%3Bstroke-width%3A0%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A.9754902%3Bpaint-order%3Astroke%20fill%20markers%22%20transform%3D%22translate(-1.587%20-1.587)%22%2F%3E%3Cpath%20d%3D%22M73.088%203.111q0%20.593-.486%201.059-.487.465-1.08.465-.635%200-1.08-.571-.402-.508-.402-1.164%200-.572.466-.932.487-.38%201.058-.38.657%200%201.08.444.444.423.444%201.08zm-.105%2013.103q0%201.08-1.016%201.99-.995.91-2.075.91-1.058%200-1.884-.572-.931-.614-.931-1.63%200-.635.275-1.1.318-.572.91-.572.508%200%20.953.275.529.318.529.783%200%20.847-.423%201.101-.254.17-1.228.254.17.148.53.339.38.211.55.211.635%200%201.079-.762.402-.656.402-1.354V7.345q0-.36-.423-.593-.423-.254-.783-.212v-.105q.02-.424-.106-.657%201.206-.338%203.64-.93zm7.662-3.197q0%20.995-.868%202.054-.847%201.037-1.841%201.037-1.567%200-2.604-.466-1.418-.635-1.418-2.01%200-.636.38-1.101.382-.487.996-.487.529%200%20.889.402.38.381.38.931%200%20.381-.338.699-.317.296-.72.296-.148%200-.275-.085-.106-.084-.148-.105.17.931%201.99.931.656%200%201.206-.423.55-.424.55-1.059%200-.762-1.121-1.524-1.905-1.333-2.053-1.481-1.122-1.038-1.122-2.456%200-.402.233-.973.804-1.99%202.413-1.99%201.27%200%202.222.614%201.143.698%201.143%201.884%200%20.635-.381%201.1t-.995.466q-.529%200-.91-.381-.36-.402-.36-.931%200-.403.318-.699.338-.317.74-.317.149%200%20.276.105.148.085.19.085.021-.085.021-.148%200-.402-.804-.614-.571-.148-1.143-.148-.466%200-.952.402-.487.381-.487.826%200%20.931.72%201.65.465.466%201.63%201.144%201.163.656%201.544%201.016.17.148.424.846.275.678.275.91z%22%20style%3D%22font-style%3Anormal%3Bfont-variant%3Anormal%3Bfont-weight%3A400%3Bfont-stretch%3Anormal%3Bfont-size%3A21.16666603px%3Bfont-family%3ADuality%3B-inkscape-font-specification%3ADuality%3Bfill%3A%23ff95ff%3Bfill-opacity%3A1%3Bstroke%3A%23ffffea%3Bstroke-width%3A0%3Bstroke-linecap%3Abutt%3Bstroke-linejoin%3Around%3Bstroke-miterlimit%3A4%3Bstroke-dasharray%3Anone%3Bstroke-dashoffset%3A0%3Bstroke-opacity%3A.9754902%3Bpaint-order%3Astroke%20fill%20markers%22%20transform%3D%22translate(-1.587%20-1.587)%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E";
       SupportWidget = class {
         /**
          * Constructor
@@ -20124,43 +20163,46 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _createElement() {
           const button = document.createElement("button");
-          button.innerText = "Support encantar.js";
-          button.style.font = "bold small-caps 1.25rem sans-serif";
+          const img = document.createElement("img");
+          button.innerText = "Support";
+          button.style.font = "bold small-caps 20px sans-serif";
           button.style.color = "white";
-          button.style.padding = "0.5rem";
+          button.style.padding = "8px 8px 2px 8px";
           button.style.maxWidth = "40%";
           button.style.position = "absolute";
           button.style.bottom = "0";
           button.style.right = "50%";
           button.style.transform = "translateX(50%)";
-          button.style.opacity = "0.75";
           button.style.cursor = "pointer";
           button.style.outline = "none";
           button.style["-webkit-tap-highlight-color"] = "transparent";
           button.draggable = false;
           button.hidden = !!(0 & 1);
-          button.style.backgroundColor = "rgba(0,0,0,0.25)";
+          button.style.backgroundColor = "rgba(0,0,0,0.4)";
           button.style.borderColor = "white";
           button.style.borderStyle = "solid";
           button.style.borderWidth = "2px";
           button.style.borderTopLeftRadius = "8px";
           button.style.borderTopRightRadius = "8px";
           button.style.borderBottomStyle = "none";
+          img.style.width = "100%";
+          img.style.maxHeight = "10vh";
+          img.style.pointerEvents = "none";
+          img.src = BUTTON_IMAGE;
+          button.appendChild(img);
           const highlight = () => {
             button.style.backgroundColor = "#ffd500";
             button.style.borderColor = "#ffd500";
-            button.style.opacity = "1.0";
           };
           const dehighlight = () => {
             button.style.backgroundColor = "rgba(0,0,0,0.25)";
             button.style.borderColor = "white";
-            button.style.opacity = "0.75";
           };
           button.addEventListener("pointerdown", highlight);
           button.addEventListener("pointerup", dehighlight);
           button.addEventListener("pointerleave", dehighlight);
           button.addEventListener("click", () => {
-            location.href = "https://encantar.dev/supporter";
+            location.href = SUPPORTER_URL;
           });
           return button;
         }

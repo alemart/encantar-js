@@ -87,6 +87,8 @@ export class BasketballGame extends ARDemo
         });
 
         const scan = document.getElementById('scan');
+        if(scan)
+            scan.style.pointerEvents = 'none';
 
         imageTracker.addEventListener('targetfound', event => {
             session.gizmos.visible = false;
