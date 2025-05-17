@@ -143,3 +143,4 @@ nav:
       - 'SpeedySize': 'api/speedy-size.md'
       - 'SpeedyMatrix': 'api/speedy-matrix.md'
       - 'SpeedyPromise': 'api/speedy-promise.md'
+  - 'Contact': 'contact.md'
