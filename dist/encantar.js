@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.3-dev
+ * encantar.js version 0.4.3
  * GPU-accelerated Augmented Reality for the web
  * Copyright 2022-2025 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-04-02T01:39:03.332Z
+ * Date: 2025-04-02T15:24:26.683Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -20177,7 +20177,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           button.style.outline = "none";
           button.style["-webkit-tap-highlight-color"] = "transparent";
           button.draggable = false;
-          button.hidden = !!(0 & 1);
+          button.hidden = !!(1 & 1);
           button.style.backgroundColor = "rgba(0,0,0,0.4)";
           button.style.borderColor = "white";
           button.style.borderStyle = "solid";
@@ -21054,7 +21054,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Engine version
          */
         static get version() {
-          return "0.4.3-dev";
+          return "0.4.3";
         }
         /**
          * Speedy Vision
@@ -21125,4 +21125,3 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
   return require_src();
 })();
-//# sourceMappingURL=encantar.js.map

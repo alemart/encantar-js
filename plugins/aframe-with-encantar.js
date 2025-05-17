@@ -8,7 +8,7 @@
 
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
-    'encantar.js': { version: '0.4.3' },
+    'encantar.js': { version: '0.4.4' },
         'A-Frame': { version: '1.6.0' }
 });
 
