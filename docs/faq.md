@@ -16,6 +16,15 @@ Refer to the [recommendations](./recommendations.md).
 
 No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely available. My intention is to give it broad compatibility.
 
+## Can I bundle it using Vite, Webpack, etc?
+
+Static linking is not allowed according to the [license](license.md). The inclusion of encantar.js in a web page using a separate script tag does not constitute static linking:
+
+```html
+<script src="path/to/encantar.js"></script>
+<script src="path/to/my-ar-experience.js"></script>
+```
+
 ## Why do my models appear "laid down" in AR?
 
 encantar.js uses a right-handed coordinate system with the Z-axis pointing "up". The same convention is used in [Blender](https://www.blender.org){ ._blank }. When exporting your own models, make sure that the Z-axis points "up" and that the ground plane is the XY-plane. If your models appear "laid down" in AR, this is probably the issue.
