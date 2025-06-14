@@ -21,11 +21,10 @@
  */
 
 import Speedy from 'speedy-vision';
-import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Utils } from '../utils/utils';
 import { Resolution } from '../utils/resolution';
-import { NotSupportedError, AccessDeniedError, IllegalOperationError } from '../utils/errors';
+import { NotSupportedError, AccessDeniedError, IllegalOperationError, IllegalArgumentError } from '../utils/errors';
 import { VideoSource } from './video-source';
 
 
@@ -46,7 +45,14 @@ export interface CameraSourceOptions
 
 /** Default options for camera sources */
 const DEFAULT_CAMERA_OPTIONS: Readonly<Required<CameraSourceOptions>> = {
-    resolution: 'md',
+    /*
+
+    we use well-known standards in landscape mode to ensure broad compatibility
+    the spec encourages User Agents to make landscape the primary orientation
+    https://w3c.github.io/mediacapture-main/#dfn-primary-orientation
+
+    */
+    resolution: '360p',
     aspectRatio: 16/9,
     constraints: { facingMode: 'environment' },
 };
@@ -90,28 +96,41 @@ export class CameraSource extends VideoSource
      */
     _init(): SpeedyPromise<void>
     {
+        const options = this._options;
+
         Utils.log('Accessing the webcam...');
 
         // validate
         if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
             throw new NotSupportedError('Unsupported browser: no navigator.mediaDevices.getUserMedia()');
 
+        // for best compatibility, always request landscape resolutions,
+        // even when mobile devices are expected to be in portrait mode
+        if(options.aspectRatio < 1) {
+            if(options.aspectRatio > 0)
+                Utils.warning(`CameraSource: an aspectRatio of ${options.aspectRatio} was requested. Prefer standard landscape settings instead`);
+            else
+                throw new IllegalArgumentError(`Invalid aspect ratio: ${options.aspectRatio}`);
+        }
+
         // set up media constraints
-        const options = this._options;
-        const size = Utils.resolution(options.resolution, options.aspectRatio);
+        const idealSize = Utils.resolution(options.resolution, options.aspectRatio);
+        const userConstraints = options.constraints;
+        const ourConstraints/*: MediaTrackConstraints*/ = {
+            width: { ideal: idealSize.width },
+            height: { ideal: idealSize.height },
+            resizeMode: 'none' // request native resolution to encourage usage of standard resolutions
+                               // users can opt-in to 'crop-and-scale' if they so desire
+        };
         const constraints: MediaStreamConstraints = {
             audio: false,
-            video: {
-                width: size.width,
-                height: size.height,
-                aspectRatio: options.aspectRatio,
-                ...options.constraints,
-            }
+            video: Object.assign({}, ourConstraints, userConstraints)
         };
 
         // load camera stream
-        return new Speedy.Promise<HTMLVideoElement>((resolve, reject) => {
-            navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+        return new Speedy.Promise<void>((resolve, reject) => {
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(stream => {
                 const video = this.video;
                 video.onloadedmetadata = () => {
                     const promise = video.play();
@@ -120,14 +139,14 @@ export class CameraSource extends VideoSource
                     // handle older browsers
                     if(promise === undefined) {
                         Utils.log(success);
-                        resolve(video);
+                        resolve();
                         return;
                     }
 
                     // handle promise
                     promise.then(() => {
                         Utils.log(success);
-                        resolve(video);
+                        resolve();
                     }).catch(error => {
                         reject(new IllegalOperationError(
                             'Webcam error!',
@@ -146,13 +165,15 @@ export class CameraSource extends VideoSource
                 video.autoplay = true;
 
                 video.srcObject = stream;
-            }).catch(error => {
+            })
+            .catch(error => {
                 reject(new AccessDeniedError(
                     'Please give access to the webcam and reload the page.',
                     error
                 ));
             });
-        }).then(_ => super._init()); // this will handle browser quirks
+        })
+        .then(() => super._init()); // this will handle browser quirks
     }
 
     /**
@@ -163,11 +184,13 @@ export class CameraSource extends VideoSource
     _release(): SpeedyPromise<void>
     {
         const video = this.video;
+
+        // stop the camera feed
         const stream = video.srcObject as MediaStream;
         const tracks = stream.getTracks();
-
-        // stop camera feed
         tracks.forEach(track => track.stop());
+
+        // release references
         video.onloadedmetadata = null;
         video.srcObject = null;
 
