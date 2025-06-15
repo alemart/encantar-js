@@ -30,7 +30,7 @@ import { Vector2 } from '../geometry/vector2';
 import { Resolution } from '../utils/resolution';
 import { Nullable } from '../utils/utils';
 import { Utils } from '../utils/utils';
-import { AREvent, AREventTarget, AREventListener } from '../utils/ar-events';
+import { AREvent, AREventTarget } from '../utils/ar-events';
 import { IllegalArgumentError, IllegalOperationError, NotSupportedError, AccessDeniedError } from '../utils/errors';
 
 
@@ -105,6 +105,9 @@ const FOREGROUND_ZINDEX = BASE_ZINDEX + 1;
 
 /** Z-index of the HUD */
 const HUD_ZINDEX = BASE_ZINDEX + 2;
+
+/** Time in ms used to throttle the resize callback of the window */
+const RESIZE_THROTTLE_DELAY = 100;
 
 
 
@@ -488,14 +491,8 @@ class ViewportResizer
     /** the viewport to be resized */
     private readonly _viewport: Viewport;
 
-    /** a helper */
-    private _timeout: Nullable<ReturnType<typeof setTimeout>>;
-
-    /** bound resize method */
-    private readonly _resize: () => void;
-
-    /** bound event trigger */
-    private readonly _triggerResize: () => void;
+    /** a timer used for throttling */
+    private _throttleTimer: Nullable<ReturnType<typeof setTimeout>>;
 
     /** resize strategy */
     private _resizeStrategy: ViewportResizeStrategy;
@@ -510,15 +507,16 @@ class ViewportResizer
     constructor(viewport: Viewport)
     {
         this._viewport = viewport;
-        this._timeout = null;
-        this._resize = this._onResize.bind(this);
-        this._triggerResize = this.triggerResize.bind(this);
+        this._throttleTimer = null;
+        this._onViewportResize = this._onViewportResize.bind(this);
+        this._onWindowResize = this._onWindowResize.bind(this);
+        this._onOrientationChange = this._onOrientationChange.bind(this);
         this._resizeStrategy = new InlineResizeStrategy();
 
         // initial setup
         // (the size is yet unknown)
-        this._viewport.addEventListener('resize', this._resize);
-        this.triggerResize(0);
+        this._viewport.addEventListener('resize', this._onViewportResize);
+        this._triggerResizeEvent();
     }
 
     /**
@@ -528,17 +526,16 @@ class ViewportResizer
     {
         // Configure the resize listener. We want the viewport to adjust itself
         // if the phone/screen is resized or changes orientation
-        window.addEventListener('resize', this._triggerResize); // a delay is welcome
+        window.addEventListener('resize', this._onWindowResize);
 
         // handle changes of orientation
-        // (is this needed? we already listen to resize events)
-        if(screen.orientation !== undefined)
-            screen.orientation.addEventListener('change', this._triggerResize);
+        if(typeof screen.orientation === 'object')
+            screen.orientation.addEventListener('change', this._onOrientationChange);
         else
-            window.addEventListener('orientationchange', this._triggerResize); // deprecated
+            window.addEventListener('orientationchange', this._onOrientationChange); // deprecated
 
         // trigger a resize to setup the sizes / the CSS
-        this.triggerResize(0);
+        this._triggerResizeEvent();
     }
 
     /**
@@ -546,37 +543,15 @@ class ViewportResizer
      */
     release(): void
     {
-        if(screen.orientation !== undefined)
-            screen.orientation.removeEventListener('change', this._triggerResize);
+        if(typeof screen.orientation === 'object')
+            screen.orientation.removeEventListener('change', this._onOrientationChange);
         else
-            window.removeEventListener('orientationchange', this._triggerResize);
+            window.removeEventListener('orientationchange', this._onOrientationChange);
 
-        window.removeEventListener('resize', this._triggerResize);
+        window.removeEventListener('resize', this._onWindowResize);
 
-        this._viewport.removeEventListener('resize', this._resize);
+        this._viewport.removeEventListener('resize', this._onViewportResize);
         this._resizeStrategy.clear(this._viewport);
-    }
-
-    /**
-     * Trigger a resize event after a delay
-     * @param delay in milliseconds
-     */
-    triggerResize(delay: number = 100): void
-    {
-        const event = new ViewportEvent('resize');
-
-        if(delay <= 0) {
-            this._viewport.dispatchEvent(event);
-            return;
-        }
-
-        if(this._timeout !== null)
-            clearTimeout(this._timeout);
-
-        this._timeout = setTimeout(() => {
-            this._timeout = null;
-            this._viewport.dispatchEvent(event);
-        }, delay);
     }
 
     /**
@@ -587,7 +562,7 @@ class ViewportResizer
     {
         this._resizeStrategy.clear(this._viewport);
         this._resizeStrategy = strategy;
-        this.triggerResize(0);
+        this._triggerResizeEvent();
     }
 
     /**
@@ -615,9 +590,94 @@ class ViewportResizer
     }
 
     /**
-     * Resize callback
+     * Trigger a resize event
      */
-    private _onResize(): void
+    private _triggerResizeEvent(): void
+    {
+        const event = new ViewportEvent('resize');
+        this._viewport.dispatchEvent(event);
+    }
+
+    /**
+     * Called when the window receives a 'resize' event
+     */
+    private _onWindowResize(): void
+    {
+        // throttle the resize callback
+        if(this._throttleTimer !== null)
+            clearTimeout(this._throttleTimer);
+
+        this._throttleTimer = setTimeout(() => {
+            this._throttleTimer = null;
+            this._triggerResizeEvent();
+        }, RESIZE_THROTTLE_DELAY);
+    }
+
+    /**
+     * Called when a change of screen orientation is detected
+     */
+    private async _onOrientationChange(): Promise<void>
+    {
+        /*
+
+        When changing the orientation of a mobile device, sometimes there will
+        be a mismatch between the viewport and the screen: one will be in
+        landscape mode and the other in portrait mode.
+
+        Ultimately, the size of the viewport is dependent on the size of the
+        underlying media (typically a camera feed). When the device is rotated,
+        the browser should rotate the camera feed automatically*. In addition,
+        it will trigger a resize event on the window, which will, in time,
+        resize the viewport. If the order of events is such that the viewport
+        is resized before the camera feed is rotated, then we will observe a
+        distorted video.
+
+        Let's correct the issue by first detecting the situation and then by
+        triggering a new resize event.
+
+        (*) at the time of this writing, when testing on Android devices, I see
+            that Chrome does it. Firefox 139 does it in one device but doesn't
+            do it in another (it's a browser bug - see below). Safari/iOS does
+            it (tested on the cloud).
+
+            https://bugzilla.mozilla.org/show_bug.cgi?id=1802849
+
+        */
+
+        const MAX_ATTEMPTS = 3;
+        const canvas = this._viewport._backgroundCanvas;
+
+        for(let i = 0; i < MAX_ATTEMPTS; i++) {
+
+            await Utils.wait(RESIZE_THROTTLE_DELAY);
+
+            // After one delay, this._viewport.aspectRatio will likely be
+            // correct, but the canvas will not reflect that if, instants ago,
+            // it was resized using the previous aspect ratio of the media.
+            const a = canvas.width / canvas.height;
+            const b = screen.width / screen.height;
+
+            // if there is a mismatch between the aspect ratios, then the last
+            // resize of the viewport took place with the previous aspect ratio
+            // of the media. This means that canvas is now incorrectly sized,
+            // and that the previous viewport resize event was ineffective.
+            if((a-1) * (b-1) < 0) { //if((a < 1 && b > 1) || (a > 1 && b < 1))
+                this._triggerResizeEvent();
+                break;
+            }
+
+            // Note: when using a canvas or a video file as a source of data,
+            // its aspect ratio is not expected to change. We will trigger an
+            // additional resize event on mobile in this case. Unlikely to be
+            // an issue.
+
+        }
+    }
+
+    /**
+     * Called when the viewport receives a 'resize' event
+     */
+    private _onViewportResize(): void
     {
         const viewport = this._viewport;
 
@@ -760,7 +820,7 @@ class BestFitResizeStrategy extends ImmersiveResizeStrategy
 
 /**
  * Immersive viewport with stretch style: it occupies the entire page and
- * fully stretches the media
+ * fully stretches the media, possibly distorting it
  */
 class StretchResizeStrategy extends ImmersiveResizeStrategy
 {
