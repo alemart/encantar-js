@@ -626,7 +626,7 @@ class ViewportResizer
 
         Ultimately, the size of the viewport is dependent on the size of the
         underlying media (typically a camera feed). When the device is rotated,
-        the browser should rotate the camera feed automatically*. In addition,
+        the browser should rotate the camera feed automatically[1]. In addition,
         it will trigger a resize event on the window, which will, in time,
         resize the viewport. If the order of events is such that the viewport
         is resized before the camera feed is rotated, then we will observe a
@@ -635,7 +635,7 @@ class ViewportResizer
         Let's correct the issue by first detecting the situation and then by
         triggering a new resize event.
 
-        (*) at the time of this writing, when testing on Android devices, I see
+        [1] at the time of this writing, when testing on Android devices, I see
             that Chrome does it. Firefox 139 does it in one device but doesn't
             do it in another (it's a browser bug - see below). Safari/iOS does
             it (tested on the cloud).
@@ -644,18 +644,19 @@ class ViewportResizer
 
         */
 
-        const MAX_ATTEMPTS = 3;
+        const MAX_ATTEMPTS = 3; //5;
         const canvas = this._viewport._backgroundCanvas;
 
         for(let i = 0; i < MAX_ATTEMPTS; i++) {
 
+            // this is polling
             await Utils.wait(RESIZE_THROTTLE_DELAY);
 
             // After one delay, this._viewport.aspectRatio will likely be
             // correct, but the canvas will not reflect that if, instants ago,
             // it was resized using the previous aspect ratio of the media.
             const a = canvas.width / canvas.height;
-            const b = screen.width / screen.height;
+            const b = this._aspectRatioOfScreen();
 
             // if there is a mismatch between the aspect ratios, then the last
             // resize of the viewport took place with the previous aspect ratio
@@ -663,15 +664,32 @@ class ViewportResizer
             // and that the previous viewport resize event was ineffective.
             if((a-1) * (b-1) < 0) { //if((a < 1 && b > 1) || (a > 1 && b < 1))
                 this._triggerResizeEvent();
-                break;
+                //break; // keep listening; see [2]
             }
 
             // Note: when using a canvas or a video file as a source of data,
-            // its aspect ratio is not expected to change. We will trigger an
-            // additional resize event on mobile in this case. Unlikely to be
+            // its aspect ratio is not expected to change. We will trigger
+            // additional resize events on mobile in this case. Unlikely to be
             // an issue.
 
         }
+
+        /*
+
+        [2] is this order of events possible when changing the orientation?
+
+        1. orientationchange event is fired and handled
+        2. resize event is fired and handled
+        3. camera feed is rotated
+
+        If so, increasing the throttling will likely make the camera feed be
+        rotated first, but then the user will more easily notice the delay.
+        Increasing MAX_ATTEMPTS is a simple alternative that makes this
+        callback be executed after the video rotation, which is what we want.
+        About listening to video resize: the Viewport doesn't know about it
+        and has no access to the source of data. The Session does, however.
+
+        */
     }
 
     /**
@@ -697,6 +715,47 @@ class ViewportResizer
 
         // Call strategy
         this._resizeStrategy.resize(viewport);
+    }
+
+    /**
+     * The current aspect ratio of the screen
+     * @returns a value greater than 1 if the device is in landscape mode
+     */
+    private _aspectRatioOfScreen(): number
+    {
+        // When changing the orientation of a mobile device, screen.width and
+        // screen.height are flipped on Chrome and on Firefox, but not on Safari
+        //return screen.width / screen.height;
+
+        // These are the width and the height of the screen in landscape mode
+        const width = Math.max(screen.width, screen.height);
+        const height = Math.min(screen.width, screen.height);
+
+        // use screen.orientation if possible
+        if(typeof screen.orientation === 'object') {
+            if(screen.orientation.type.startsWith('landscape'))
+                return width / height;
+            else
+                return height / width;
+        }
+
+        // fallback for older iOS
+        // https://developer.apple.com/documentation/webkitjs/domwindow/1632568-orientation
+        if(typeof window.orientation === 'number') {
+            if(Math.abs(window.orientation) == 90)
+                return width / height;
+            else
+                return height / width;
+        }
+
+        // general fallback
+        // note: before evaluating clientWidth & clientHeight, a setTimeout(fn,
+        // t >= 100?) is necessary immediately after a change of orientation.
+        // mobile devices should not fall in this case, so no worries.
+        if(document.documentElement.clientWidth > document.documentElement.clientHeight)
+            return width / height;
+        else
+            return height / width;
     }
 }
 
