@@ -116,11 +116,9 @@ export class CameraSource extends VideoSource
         // set up media constraints
         const idealSize = Utils.resolution(options.resolution, options.aspectRatio);
         const userConstraints = options.constraints;
-        const ourConstraints/*: MediaTrackConstraints*/ = {
+        const ourConstraints: MediaTrackConstraints = {
             width: { ideal: idealSize.width },
-            height: { ideal: idealSize.height },
-            resizeMode: 'none' // request native resolution to encourage usage of standard resolutions
-                               // users can opt-in to 'crop-and-scale' if they so desire
+            height: { ideal: idealSize.height }
         };
         const constraints: MediaStreamConstraints = {
             audio: false,
