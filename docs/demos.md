@@ -29,7 +29,7 @@
 
     ---
 
-    <a href="https://ko-fi.com/s/3ee4182cb6" class="md-button md-button--primary" target="_blank" rel="external" id="launch-demo-encantar" data-goatcounter-click>Download</a>
+    <a href="../" class="md-button md-button--primary" target="_blank" rel="external" id="launch-demo-encantar" data-goatcounter-click>Download</a>
 
 -   ### Video Player with Buttons
 
@@ -47,13 +47,13 @@
 
     ---
 
-    <figure style="background-image: url(../img/basketball.gif)"></figure>
+    <figure style="background-image: url(../img/demo-basketball.gif)"></figure>
 
     A Basketball game in Augmented Reality! Play with your phone!
 
     ---
 
-    <a href="/demos/basketball/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-basketball" data-goatcounter-click>Play now!</a>
+    <a href="basketball/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-basketball" data-goatcounter-click>Play now!</a>
 
 -   ### WebAR with A-Frame
 
@@ -65,7 +65,7 @@
 
     ---
 
-    <a href="/demos/hello-aframe/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-aframe" data-goatcounter-click>Try it!</a>
+    <a href="hello-aframe/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-aframe" data-goatcounter-click>Try it!</a>
 
 -   ### WebAR with babylon.js
 
@@ -77,7 +77,7 @@
 
     ---
 
-    <a href="/demos/hello-babylon/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-babylon" data-goatcounter-click>Try it!</a>
+    <a href="hello-babylon/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-babylon" data-goatcounter-click>Try it!</a>
 
 -   ### WebAR with three.js
 
@@ -89,7 +89,7 @@
 
     ---
 
-    <a href="/demos/hello-three/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-three" data-goatcounter-click>Try it!</a>
+    <a href="hello-three/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-three" data-goatcounter-click>Try it!</a>
 
 -   ### WebAR with any framework
 
@@ -101,7 +101,7 @@
 
     ---
 
-    <a href="/demos/hello-world/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-world" data-goatcounter-click>Try it!</a>
+    <a href="hello-world/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-world" data-goatcounter-click>Try it!</a>
 
 -   ### Pure WebGL madness
 
@@ -113,7 +113,7 @@
 
     ---
 
-    <a href="/demos/hello-webgl/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-webgl" data-goatcounter-click>Try it!</a>
+    <a href="hello-webgl/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-hello-webgl" data-goatcounter-click>Try it!</a>
 
 -   ### Pointer tracking
 
@@ -125,5 +125,5 @@
 
     ---
 
-    <a href="/demos/pointer-demo/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-pointer-demo" data-goatcounter-click>Try it!</a>
+    <a href="pointer-demo/poster.html" class="md-button" target="_blank" rel="external" id="launch-demo-pointer-demo" data-goatcounter-click>Try it!</a>
 </div>

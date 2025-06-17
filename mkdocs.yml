@@ -1,7 +1,7 @@
-site_name: "encantar.js: GPU-accelerated Augmented Reality for the web"
+site_name: "encantar.js: GPU-accelerated Augmented Reality framework for the web"
 site_url: https://encantar.dev
 site_author: Alexandre Martins
-site_description: The Augmented Reality engine that will enchant you!
+site_description: The home of encantar.js, a high performance and open source Augmented Reality framework for JavaScript. No app is required for Web AR.
 copyright: Copyright &copy; 2022 - present Alexandre Martins
 
 repo_name: alemart/encantar-js
@@ -54,16 +54,7 @@ markdown_extensions:
 dev_addr: 127.0.0.1:8008
 
 nav:
-  - 'Home':
-    - 'Home': 'home.md'
-    - 'Download': 'download.md'
-    - 'Demos': 'demos.md'
-    - 'Add-Ons': 'addons/index.md'
-    - 'Learn': 'tutorial/index.md'
-    - 'API Reference': 'api/index.md'
-    - 'Support my work': 'support-my-work.md'
-    - 'License': 'license.md'
-  - 'Download': 'download.md'
+  - 'Home': 'index.md'
   - 'Demos':
     - 'Demos': 'demos.md'
   - 'Add-Ons':
@@ -85,6 +76,7 @@ nav:
     - 'Recommendations': 'recommendations.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'Questions & Answers': 'faq.md'
+    - 'License': 'license.md'
     - 'API Reference': 'api/index.md'
   - 'API':
     - 'General':

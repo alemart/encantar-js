@@ -72,7 +72,7 @@ Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. A
 
 Framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. This Add-On is bundled with the core.
 
-<a href="https://ko-fi.com/s/3ee4182cb6" target="_blank" rel="external" class="md-button" id="addon-want-asset-manager" data-goatcounter-click>I want this!</a>
+<a href="https://encantar.dev" target="_blank" rel="external" class="md-button" id="addon-want-asset-manager" data-goatcounter-click>I want this!</a>
 
   </div>
   <div markdown>

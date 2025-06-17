@@ -1,184 +1,560 @@
 {% extends "main.html" %}
 
-{% block tabs %}
-{{ super() }}
+{% block announce %}{% endblock %}
+{% block header %}{% endblock %}
+{% block tabs %}{% endblock %}
+{% block site_nav %}{% endblock %}
+{% block footer %}{% endblock %}
 
+{% block content %}
 <style>
-.md-main {
-    display: none;
-}
-
-.md-nav {
-    display: none;
-}
-
-.md-header {
-    box-shadow: none !important;
-}
-
 :root {
-    --md-secondary-fg-color: var(--md-accent-fg-color);
+  --max-width: 42rem;
+  --border-radius: 22px;
+  --hpad: 1rem;
+  --highlighted: #ffd500;
+}
+body {
+  color: var(--md-default-fg-color--light);
+  background-color: var(--md-default-bg-color);
+}
+.md-main__inner {
+  max-width: 100% !important;
+  margin-top: 0 !important;
+}
+.md-content__inner {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.md-content__inner::before {
+  height: 0 !important;
+}
+.md-footer {
+  color: var(--md-footer-fg-color);
+  text-align: center;
+  padding: 0 var(--hpad);
+}
+.md-footer .md-copyright {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+.md-footer a {
+  color: var(--md-footer-fg-color--light);
 }
 
-#splash {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-    background-color: var(--md-primary-fg-color);
-    color: var(--md-primary-bg-color);
-    padding-left: 16px;
-    padding-right: 16px;
+
+
+
+#title {
+  text-align: center;
+  padding: 1.5rem var(--hpad);
+  background-image: linear-gradient(180deg,rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 1) 100%), url('img/enchanted-sky.webp');
+  background-size: cover;
+  background-position: center;
+}
+#title h1 {
+  margin: 0;
+  font-size: 3.0rem;
+  font-weight: bold;
+  color: #ffd;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+#title h2 {
+  margin: 0.5rem 0;
+  font-size: 1.35rem;
 }
 
-#splash::before {
-    content: ' ';
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url(img/splash.webp);
-    background-position: 80% 25%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.25;
+
+
+
+#pay {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 2.5;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  padding: 3px;
+  max-width: var(--max-width);
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+  border-radius: var(--border-radius);
+}
+#pay > #amounts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 45%;
+  min-width: 320px;
+  font-size: 0.85em;
+}
+#pay > *:last-child {
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+#pay input[type="submit"] {
+  font-size: 1.0rem;
+}
+#pay input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: white;
+  margin: 0;
+}
+#pay input[type="radio"] + label {
+  padding: 0.1rem 0.5rem;
+  margin: 0 2px;
+  cursor: pointer;
+  border: 1px solid #dcdcdc;
+  border-radius: calc(var(--border-radius) / 3);
+  background: linear-gradient(180deg, white 0%, whitesmoke 100%);
+}
+#pay input[type="radio"] + label:hover {
+  border-color: var(--highlighted);
+}
+#pay input[type="radio"]:checked + label {
+  background: linear-gradient(180deg, #fffd50 0%, var(--highlighted) 100%) !important;
+  border-color: var(--highlighted) !important;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#custom-amount {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+
+  font-size: 0.75em;
+  padding: 0.5rem 0.5rem 0.5rem 2.1em;
+  margin: 0;
+  width: 100%;
+
+  border: 1px solid #dcdcdc;
+  border-radius: calc(var(--border-radius) / 3);
+  background: linear-gradient(180deg, white 0%, whitesmoke 100%);
+  color: var(--md-default-fg-color--light);
+}
+#custom-amount:focus {
+  border-color: var(--highlighted) !important;
+}
+#custom-amount:invalid {
+  border-color: salmon !important;
+}
+#dollar-sign {
+  font-size: 0.85em;
+  position: absolute;
+  left: 0.83em;
+  top: 0.33em;
+}
+#custom-amount-wrapper {
+  flex-basis: 14.9rem; /* line break */
+  visibility: hidden;
+  max-height: 0;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.2s ease-out, max-height 0.2s ease-out;
+}
+#custom-tier:checked ~ #custom-amount-wrapper {
+  visibility: visible;
+  max-height: 64px;
+  transform: scaleY(1);
 }
 
-@media screen and (min-width: 1220px) {
-    #splash::before {
-        background-position: center;
-    }
+
+
+
+
+#topics {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 var(--hpad);
+  text-align: center;
+}
+#topics article {
+  margin: 2rem 0;
+  padding: 1.2rem;
+  border-radius: var(--border-radius);
+  background-image: linear-gradient(0deg, white 0%, lemonchiffon 100%);
+}
+#topics article:first-child {
+  margin-top: 0.5rem;
+}
+#topics article h1 {
+  margin-bottom: 1.0rem;
+}
+#topics article a.md-button {
+  margin-top: 1.0rem;
+}
+#topics article p {
+  margin: 0;
+}
+#topics article img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  margin-top: 1.0rem;
+}
+#topics article ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+}
+#topics article ul li {
+  width: 33.33%;
+  display: flex;
+  align-items: center;
+  margin: 0;
 }
 
-.splash-container {
-    display: flex;
-    align-items: stretch;
-    flex-direction: column;
+
+
+
+#contact {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 var(--hpad);
+  text-align: center;
+}
+#contact article {
+  margin: 2rem 0;
+  padding: 1.2rem;
+  border-radius: var(--border-radius);
+  background-image: linear-gradient(0deg, white 0%, lemonchiffon 100%);
+}
+#contact article h1 {
+  margin-bottom: 1.0rem;
+}
+#contact article > div {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  font-size: 1.1em;
+}
+#contact article a::after {
+  content: ' \2192';
 }
 
-.splash-text {
-    font-size: 16pt;
-    padding: 0 14px 0 14px; /* align to header */
-    text-align: center;
+
+
+
+#download {
+  background-image: linear-gradient(0deg,rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 1) 100%), url('img/enchanted-sky.webp');
+  background-size: cover;
+  background-position: right bottom;
+  /*min-height: 342px;*/
+}
+#download article {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem var(--hpad);
+  font-size: 1.1em;
+  text-align: center;
+  color: #555;
+}
+#download article h1 {
+  margin: 0;
+}
+#download article p {
+  margin: 1.5rem 0;
+  font-size: 1.1em;
+}
+#download article footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+#download article footer > * {
+  margin: 0.5rem 0;
 }
 
-.splash-image {
-    text-align: center;
-    margin-top: 32px;
-    margin-bottom: 32px;
+
+
+
+#download-dialog {
+  background-color: whitesmoke;
+  color: var(--md-default-fg-color--light);
+  text-align: center;
+  padding: 1.5rem;
+  border: 0;
+  border-radius: 24px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
+  transition: opacity 0.5s ease;
 }
 
-.splash-text em {
-    font-style: normal;
-    color: var(--md-accent-fg-color);
+#download-dialog[open] {
+  opacity: 1;
 }
 
-.splash-text h1 {
-    margin: 0.5em 0 0.5em 0;
-    color: var(--md-primary-bg-color);
-    font-size: 1.8em;
+#download-dialog:not([open]) {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.splash-text h2 {
-    margin: 0.5em 0 0.5em 0;
-    color: var(--md-primary-bg-color);
-    font-size: 1.25em;
+#download-dialog::backdrop {
+  backdrop-filter: blur(8px);
+  transition: backdrop-filter 0.5s ease;
 }
 
-.splash-image > * {
-    width: 80%;
-    border-radius: 32px;
-    border: 4px solid var(--md-primary-fg-color--light);
+#download-dialog h1 {
+  margin: 1.0rem 0;
+  font-size: 1.4rem;
 }
 
-#splash nav {
-    width: 90%;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    text-align: center;
-    margin: 24px auto;
-    row-gap: 16px;
+#download-dialog-close {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.8rem;
+  font-size: 1.35rem;
+  color: var(--md-default-fg-color--light);
+  cursor: pointer;
 }
 
-@media screen and (min-width: 1220px) {
-/*
-    .splash-container {
-        align-items: center;
-        flex-direction: row;
-    }
-
-    .splash-text {
-        flex: 14;
-        text-align: left;
-    }
-
-    .splash-image {
-        flex: 9;
-        text-align: right;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-
-    .splash-image > * {
-        width: 100%;
-    }
-*/
+html:has(#download-dialog[open]) {
+  overflow: hidden;
 }
 
-.md-button:not(:hover,:focus) {
-    /*background-color: var(--md-primary-fg-color) !important;*/
-    background-color: none !important;
-    border-color: var(--md-primary-bg-color) !important;
-    color: var(--md-primary-bg-color) !important;
+
+
+
+.reveal {
+  opacity: 1;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+}
+.reveal.unrevealed {
+  opacity: 0;
+  transform: translateY(5rem);
 }
 
-.md-button.md-button--primary:not(:hover,:focus) {
-    background-color: var(--md-primary-bg-color) !important;
-    border-color: var(--md-primary-bg-color) !important;
-    color: var(--md-primary-fg-color) !important;
+
+
+
+@media screen and (min-width: 768px) {
+  /*#pay { justify-content: space-around; }*/
+  #title h1 { font-size: 4.0rem; }
+  #title h2 { font-size: 1.55rem; }
+  #topics { text-align: justify; }
+  #topics > article img { margin-top: initial; }
+  #topics > article { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+  #topics > article:nth-child(2n+1) > div:nth-child(2) { min-width: calc(var(--max-width) * 0.4); margin-left: 32px; }
+  #topics > article:nth-child(2n) > div:nth-child(2) { min-width: calc(var(--max-width) * 0.4); margin-right: 32px; order: -1; }
 }
 
-@keyframes appear {
-    from { transform: translateY(10%); opacity: 0.01; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-.appear {
-    animation: appear 0.5s ease-out 0.2s;
-    animation-fill-mode: both;
-}
-
-.text-center {
-    text-align: center;
+@media screen and (min-width: 992px) {
+  #topics { padding: 0; }
+  #contact { padding: 0; }
+  #download article footer > * { margin: 0; }
 }
 </style>
+<script>
+(function() {
 
-<section id="splash">
-    <div class="splash-container md-grid">
-        <div class="splash-text md-typeset appear text-center">
-            <h1>encant<em>ar</em>.js</h1>
-            <h2>The Augmented Reality engine that will enchant you!</h2>
-            <nav>
-                <a href="{{ './home' | url }}" class="md-button md-button--primary" id="splash-get-started" data-goatcounter-click>Get started</a>
-                <a href="{{ './demos/hello-aframe/poster.html' | url }}" class="md-button" target="_blank" id="splash-try-demo" data-goatcounter-click>Try a demo</a>
-            </nav>
-        </div>
-        <!--
-        <div class="splash-image appear">
-            <video poster="{{ './img/splash.gif' | url }}" muted loop playsinline autoplay>
-                <source src="{{ './img/demo-cool3.webm' | url }}" type="video/webm" />
-                <source src="{{ './img/demo-cool3.mp4' | url }}" type="video/mp4" />
-            </video>
-        </div>
-        -->
+window.addEventListener('load', function() {
+  setupDialog();
+  setupReveal();
+});
+
+function setupDialog()
+{
+  if(location.search.indexOf('checkout_session_id') < 0)
+    return;
+
+  try {
+    const searchParams = new URLSearchParams(location.search);
+    const sessionId = searchParams.get('checkout_session_id') || '';
+    const next = searchParams.get('next') || location.href;
+
+    const url = new URL(next);
+    url.searchParams.append('checkout_session_id', sessionId);
+
+    const button = document.getElementById('download-dialog-download');
+    const redirect = function() { location.href = url.href; };
+    button.onclick = redirect;
+    setTimeout(redirect, 3000);
+
+    const dialog = document.getElementById('download-dialog');
+    dialog.showModal();
+  }
+  catch(e) {
+    console.error(e);
+    alert(e.message);
+  }
+}
+
+function setupReveal()
+{
+  if(typeof IntersectionObserver === 'undefined')
+    return;
+
+  const observer = new IntersectionObserver(function(entries) {
+    for(const entry of entries) {
+      if(entry.intersectionRatio >= 0.125)
+        entry.target.classList.remove('unrevealed');
+      /*else if(entry.intersectionRatio == 0.0)
+        entry.target.classList.add('unrevealed');*/
+    }
+  }, { threshold: [0, 0.125] });
+
+  document.querySelectorAll('.reveal').forEach(function(reveal) {
+    reveal.classList.add('unrevealed');
+    observer.observe(reveal);
+  });
+}
+
+})();
+</script>
+
+
+
+
+<header id="title">
+  <h1>encantar.js</h1>
+  <h2>High performance open source Web AR &mdash; no app required!</h2>
+  <form id="pay" method="post" action="https://api.encantar.dev/v1/pay" autocomplete="off" onsubmit="return this.tier.value != 'custom' || this['custom-amount'].value != ''">
+    <span>Pay What You Can:</span>
+    <span id="amounts">
+      <input type="radio" id="custom-tier" name="tier" value="custom" data-goatcounter-click onchange="this.checked && document.getElementById('custom-amount').focus()">
+      <label for="custom-tier">$X</label>
+      <input type="radio" id="first-tier" name="tier" value="first" data-goatcounter-click>
+      <label for="first-tier">$29</label>
+      <input type="radio" id="second-tier" name="tier" value="second" checked data-goatcounter-click>
+      <label for="second-tier">$49</label>
+      <input type="radio" id="third-tier" name="tier" value="third" data-goatcounter-click>
+      <label for="third-tier">$99</label>
+      <input type="radio" id="fourth-tier" name="tier" value="fourth" data-goatcounter-click>
+      <label for="fourth-tier">$199</label>
+      <label for="custom-amount" id="custom-amount-wrapper">
+        <span id="dollar-sign">$</span>
+        <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter a fair dollar amount" min="0" max="999999" step="1">
+      </label>
+    </span>
+    <input type="submit" value="Get encantar.js" class="md-button md-button--primary" id="get-encantar" data-goatcounter-click>
+  </form>
+</header>
+
+
+
+
+<section id="topics">
+  <article class="reveal">
+    <div>
+      <h1>AR for all devices</h1>
+      <p>Create Augmented Reality experiences for iOS, Android and even Desktops! All devices are supported, including those without native capabilities for AR / WebXR. That's because encantar.js is built from scratch with computer vision.</p>
+      <a href="demos/hello-aframe/poster.html" target="_blank" class="md-button" id="try-demo" data-goatcounter-click>Try a demo</a>
     </div>
+    <div>
+      <img src="img/demo-cat.gif" alt="A cat in Augmented Reality" loading="lazy">
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
+      <h1>Turbocharged performance</h1>
+      <p>A modern web browser is all that is required for a high performance experience, thanks to a powerful combination of GPU acceleration, WebAssembly and mathemagical wizardry! The result? A smooth user experience!</p>
+      <a href="demos/basketball/poster.html" target="_blank" class="md-button" id="play-game" data-goatcounter-click>Play a game</a>
+    </div>
+    <div>
+      <img src="img/demo-basketball.gif" alt="Magic AR Basketball Game" loading="lazy">
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
+      <h1>Enchanted Images</h1>
+      <p>Bring images to life! Create enchanted posters, ads, books, murals and more with Image Tracking, also known as Marker Tracking or Natural Feature Tracking. Scan your own images to start the WebAR experience &ndash; all in the browser!</p>
+      <a href="demos/" target="_blank" class="md-button" id="try-more-demos" data-goatcounter-click>Try more demos</a>
+    </div>
+    <div>
+      <img src="img/mage.gif" alt="A mage in Augmented Reality" loading="lazy">
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
+      <h1>Easy to use and to deploy</h1>
+      <p>encantar.js may be combined with A-Frame, babylon.js, three.js, or any 3D engine &ndash; you choose! Also, processing is local, with no backend in the cloud &amp; no recurring fees &ndash; just a static web page.</p>
+      <a href="tutorial/" target="_blank" class="md-button" id="read-tutorial" data-goatcounter-click>Read the tutorial</a>
+    </div>
+    <div>
+      <ul>
+        <li><img src="img/logo-aframe.png" alt="A-Frame logo" loading="lazy"></li>
+        <li><img src="img/logo-babylon.png" alt="babylon.js logo" loading="lazy"></li>
+        <li><img src="img/logo-three.png" alt="three.js logo" loading="lazy"></li>
+      </ul>
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
+      <h1>Add-Ons</h1>
+      <p>Add-Ons enrich the core of encantar.js with additional and magical features, such as an easy to use Video Player for enchanting posters, murals, business cards and more! User experience is frictionless, with no need to download apps!</p>
+      <a href="addons/" target="_blank" class="md-button" id="explore-addons" data-goatcounter-click>Explore the Add-Ons</a>
+    </div>
+    <div>
+      <img src="img/video-player.gif" alt="Video player for web-based Augmented Reality" loading="lazy">
+    </div>
+  </article>
 </section>
 
-{% endblock %}
 
-{% block announce %}{% endblock %}
-{% block site_nav %}{% endblock %}
-{% block content %}{% endblock %}
-{% block footer %}{% endblock %}
+
+
+<section id="contact">
+  <article class="reveal">
+    <h1>Got a question?</h1>
+    <div>
+      <div>
+        <p>Need help with a project?</p>
+        <p><a href="contact/" target="_blank" id="talk-to-wizard" data-goatcounter-click>Talk to a wizard</a></p>
+      </div>
+      <div>
+        <p>Wanna know more?</p>
+        <p><a href="api/" target="_blank" id="study-the-api" data-goatcounter-click>Study the API</a></p>
+      </div>
+    </div>
+  </article>
+</section>
+
+
+
+
+<section id="download">
+  <article>
+    <h1>Download encantar.js</h1>
+    <p>encantar.js is created independently by Alexandre Martins and released as open source. Creating an AR engine from scratch is a difficult and time-consuming endeavor. The funds collected help to sponsor the developer. Your support is greatly appreciated! &#x1F60A;</p>
+    <footer>
+      <a href="#" class="md-button md-button--primary" id="download-pay" data-goatcounter-click>Pay What You Can</a>
+      <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
+    </footer>
+  </article>
+</section>
+
+
+
+
+<dialog id="download-dialog">
+  <form method="dialog">
+    <h1>Thank you for your interest in encantar.js</h1>
+    <p>Your download will start shortly...</p>
+    <p><button id="download-dialog-download" class="md-button md-button--primary" type="button" data-goatcounter-click>Download now</button></p>
+    <p hidden><a href="contact/" target="_blank" id="download-dialog-contact" data-goatcounter-click>Need help?</a></p>
+    <button id="download-dialog-close" type="submit">&times;</button>
+  </form>
+</dialog>
+
+
+
+
+<footer class="md-footer">
+  <div class="md-copyright">
+    <a href="https://github.com/alemart/encantar-js" target="_blank" rel="external" id="github-repository" data-goatcounter-click>encantar.js</a>: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present <a href="https://github.com/alemart" target="_blank" rel="external" id="github-profile" data-goatcounter-click>Alexandre Martins</a>
+  </div>
+</footer>
+
+{% endblock %}

@@ -2,6 +2,10 @@
 
 The `AR` namespace is the entry point of the features and components of encantar.js.
 
+!!! tip
+
+    If you're looking for a step-by-step introduction to encantar.js, take a look at the [tutorial](../tutorial/index.md).
+
 ## Properties
 
 ### Settings
