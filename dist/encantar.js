@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.3
- * GPU-accelerated Augmented Reality for the web
+ * encantar.js version 0.4.4-dev
+ * GPU-accelerated Augmented Reality framework for the web
  * Copyright 2022-2025 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-04-02T15:24:26.683Z
+ * Date: 2025-06-16T20:12:09.521Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -19583,7 +19583,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       init_errors();
       init_video_source();
       DEFAULT_CAMERA_OPTIONS = {
-        resolution: "md",
+        /*
+        
+            we use well-known standards in landscape mode to ensure broad compatibility
+            the spec encourages User Agents to make landscape the primary orientation
+            https://w3c.github.io/mediacapture-main/#dfn-primary-orientation
+        
+            */
+        resolution: "360p",
         aspectRatio: 16 / 9,
         constraints: { facingMode: "environment" }
       };
@@ -19609,19 +19616,28 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * @internal
          */
         _init() {
+          const options = this._options;
           Utils.log("Accessing the webcam...");
           if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
             throw new NotSupportedError("Unsupported browser: no navigator.mediaDevices.getUserMedia()");
-          const options = this._options;
-          const size = Utils.resolution(options.resolution, options.aspectRatio);
+          if (options.aspectRatio < 1) {
+            if (options.aspectRatio > 0)
+              Utils.warning(`CameraSource: an aspectRatio of ${options.aspectRatio} was requested. Prefer standard landscape settings instead`);
+            else
+              throw new IllegalArgumentError(`Invalid aspect ratio: ${options.aspectRatio}`);
+          }
+          const idealSize = Utils.resolution(options.resolution, options.aspectRatio);
+          const userConstraints = options.constraints;
+          const ourConstraints = {
+            width: { ideal: idealSize.width },
+            height: { ideal: idealSize.height },
+            resizeMode: "none"
+            // request native resolution to encourage usage of standard resolutions
+            // users can opt-in to 'crop-and-scale' if they so desire
+          };
           const constraints = {
             audio: false,
-            video: {
-              width: size.width,
-              height: size.height,
-              aspectRatio: options.aspectRatio,
-              ...options.constraints
-            }
+            video: Object.assign({}, ourConstraints, userConstraints)
           };
           return new import_speedy_vision26.default.Promise((resolve, reject) => {
             navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
@@ -19631,12 +19647,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                 const success = "Access to the webcam has been granted.";
                 if (promise === void 0) {
                   Utils.log(success);
-                  resolve(video);
+                  resolve();
                   return;
                 }
                 promise.then(() => {
                   Utils.log(success);
-                  resolve(video);
+                  resolve();
                 }).catch((error) => {
                   reject(new IllegalOperationError(
                     "Webcam error!",
@@ -19657,7 +19673,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
                 error
               ));
             });
-          }).then((_) => super._init());
+          }).then(() => super._init());
         }
         /**
          * Release this source of data
@@ -20177,7 +20193,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           button.style.outline = "none";
           button.style["-webkit-tap-highlight-color"] = "transparent";
           button.draggable = false;
-          button.hidden = !!(1 & 1);
+          button.hidden = !!(0 & 1);
           button.style.backgroundColor = "rgba(0,0,0,0.4)";
           button.style.borderColor = "white";
           button.style.borderStyle = "solid";
@@ -20347,7 +20363,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/core/viewport.ts
-  var import_speedy_vision28, ViewportEvent, ViewportEventTarget, DEFAULT_VIEWPORT_SETTINGS, BASE_ZINDEX, BACKGROUND_ZINDEX, FOREGROUND_ZINDEX, HUD_ZINDEX, ViewportContainers, ViewportCanvases, ViewportFullscreenHelper, ViewportResizer, ViewportResizeStrategy, InlineResizeStrategy, ImmersiveResizeStrategy, BestFitResizeStrategy, StretchResizeStrategy, Viewport;
+  var import_speedy_vision28, ViewportEvent, ViewportEventTarget, DEFAULT_VIEWPORT_SETTINGS, BASE_ZINDEX, BACKGROUND_ZINDEX, FOREGROUND_ZINDEX, HUD_ZINDEX, RESIZE_THROTTLE_DELAY, ViewportContainers, ViewportCanvases, ViewportFullscreenHelper, ViewportResizer, ViewportResizeStrategy, InlineResizeStrategy, ImmersiveResizeStrategy, BestFitResizeStrategy, StretchResizeStrategy, Viewport;
   var init_viewport = __esm({
     "src/core/viewport.ts"() {
       "use strict";
@@ -20374,6 +20390,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       BACKGROUND_ZINDEX = BASE_ZINDEX + 0;
       FOREGROUND_ZINDEX = BASE_ZINDEX + 1;
       HUD_ZINDEX = BASE_ZINDEX + 2;
+      RESIZE_THROTTLE_DELAY = 100;
       ViewportContainers = class {
         /**
          * Constructor
@@ -20623,52 +20640,36 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         constructor(viewport) {
           this._viewport = viewport;
-          this._timeout = null;
-          this._resize = this._onResize.bind(this);
-          this._triggerResize = this.triggerResize.bind(this);
+          this._throttleTimer = null;
+          this._onViewportResize = this._onViewportResize.bind(this);
+          this._onWindowResize = this._onWindowResize.bind(this);
+          this._onOrientationChange = this._onOrientationChange.bind(this);
           this._resizeStrategy = new InlineResizeStrategy();
-          this._viewport.addEventListener("resize", this._resize);
-          this.triggerResize(0);
+          this._viewport.addEventListener("resize", this._onViewportResize);
+          this._triggerResizeEvent();
         }
         /**
          * Initialize
          */
         init() {
-          window.addEventListener("resize", this._triggerResize);
-          if (screen.orientation !== void 0)
-            screen.orientation.addEventListener("change", this._triggerResize);
+          window.addEventListener("resize", this._onWindowResize);
+          if (typeof screen.orientation === "object")
+            screen.orientation.addEventListener("change", this._onOrientationChange);
           else
-            window.addEventListener("orientationchange", this._triggerResize);
-          this.triggerResize(0);
+            window.addEventListener("orientationchange", this._onOrientationChange);
+          this._triggerResizeEvent();
         }
         /**
          * Release
          */
         release() {
-          if (screen.orientation !== void 0)
-            screen.orientation.removeEventListener("change", this._triggerResize);
+          if (typeof screen.orientation === "object")
+            screen.orientation.removeEventListener("change", this._onOrientationChange);
           else
-            window.removeEventListener("orientationchange", this._triggerResize);
-          window.removeEventListener("resize", this._triggerResize);
-          this._viewport.removeEventListener("resize", this._resize);
+            window.removeEventListener("orientationchange", this._onOrientationChange);
+          window.removeEventListener("resize", this._onWindowResize);
+          this._viewport.removeEventListener("resize", this._onViewportResize);
           this._resizeStrategy.clear(this._viewport);
-        }
-        /**
-         * Trigger a resize event after a delay
-         * @param delay in milliseconds
-         */
-        triggerResize(delay = 100) {
-          const event = new ViewportEvent("resize");
-          if (delay <= 0) {
-            this._viewport.dispatchEvent(event);
-            return;
-          }
-          if (this._timeout !== null)
-            clearTimeout(this._timeout);
-          this._timeout = setTimeout(() => {
-            this._timeout = null;
-            this._viewport.dispatchEvent(event);
-          }, delay);
         }
         /**
          * Change the resize strategy
@@ -20677,7 +20678,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         setStrategy(strategy) {
           this._resizeStrategy.clear(this._viewport);
           this._resizeStrategy = strategy;
-          this.triggerResize(0);
+          this._triggerResizeEvent();
         }
         /**
          * Change the resize strategy
@@ -20699,9 +20700,42 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           }
         }
         /**
-         * Resize callback
+         * Trigger a resize event
          */
-        _onResize() {
+        _triggerResizeEvent() {
+          const event = new ViewportEvent("resize");
+          this._viewport.dispatchEvent(event);
+        }
+        /**
+         * Called when the window receives a 'resize' event
+         */
+        _onWindowResize() {
+          if (this._throttleTimer !== null)
+            clearTimeout(this._throttleTimer);
+          this._throttleTimer = setTimeout(() => {
+            this._throttleTimer = null;
+            this._triggerResizeEvent();
+          }, RESIZE_THROTTLE_DELAY);
+        }
+        /**
+         * Called when a change of screen orientation is detected
+         */
+        async _onOrientationChange() {
+          const MAX_ATTEMPTS = 3;
+          const canvas = this._viewport._backgroundCanvas;
+          for (let i = 0; i < MAX_ATTEMPTS; i++) {
+            await Utils.wait(RESIZE_THROTTLE_DELAY);
+            const a = canvas.width / canvas.height;
+            const b2 = this._aspectRatioOfScreen();
+            if ((a - 1) * (b2 - 1) < 0) {
+              this._triggerResizeEvent();
+            }
+          }
+        }
+        /**
+         * Called when the viewport receives a 'resize' event
+         */
+        _onViewportResize() {
           const viewport = this._viewport;
           const foregroundCanvas = viewport.canvas;
           const virtualSize = viewport.virtualSize;
@@ -20712,6 +20746,30 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           backgroundCanvas.width = realSize.width;
           backgroundCanvas.height = realSize.height;
           this._resizeStrategy.resize(viewport);
+        }
+        /**
+         * The current aspect ratio of the screen
+         * @returns a value greater than 1 if the device is in landscape mode
+         */
+        _aspectRatioOfScreen() {
+          const width = Math.max(screen.width, screen.height);
+          const height = Math.min(screen.width, screen.height);
+          if (typeof screen.orientation === "object") {
+            if (screen.orientation.type.startsWith("landscape"))
+              return width / height;
+            else
+              return height / width;
+          }
+          if (typeof window.orientation === "number") {
+            if (Math.abs(window.orientation) == 90)
+              return width / height;
+            else
+              return height / width;
+          }
+          if (document.documentElement.clientWidth > document.documentElement.clientHeight)
+            return width / height;
+          else
+            return height / width;
         }
       };
       ViewportResizeStrategy = class {
@@ -21054,7 +21112,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Engine version
          */
         static get version() {
-          return "0.4.3";
+          return "0.4.4-dev";
         }
         /**
          * Speedy Vision
@@ -21125,3 +21183,4 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
   return require_src();
 })();
+//# sourceMappingURL=encantar.js.map
