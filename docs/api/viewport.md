@@ -79,8 +79,9 @@ The `<canvas>` on which the virtual scene is drawn.
 
 The style determines the way the viewport appears on the screen. Different styles are applicable to different [session modes](session.md#mode). The following are valid styles:
 
-* `"best-fit"`: an immersive viewport that is scaled in a way that covers the page while preserving the aspect ratio of the augmented scene.
-* `"stretch"`: an immersive viewport that is scaled in a way that covers the entire page, stretching the augmented scene if necessary.
+* `"best-fit"`: an immersive viewport that is scaled in a way that covers the page while preserving the aspect ratio of the augmented scene. This is known as letterboxing or pillarboxing.
+* `"stretch"`: an immersive viewport that is scaled in a way that fills the entire page, stretching the augmented scene if necessary.
+* `"crop"`: an immersive viewport that is scaled in a way that fills the entire page, cropping the augmented scene if necessary to maintain its aspect ratio. *Since:* 0.4.4
 * `"inline"`: an inline viewport that follows the typical flow of a web page.
 
 The default style is `"best-fit"` in immersive mode, or `"inline"` in inline mode.

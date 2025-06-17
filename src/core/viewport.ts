@@ -52,7 +52,7 @@ class ViewportEvent extends AREvent<ViewportEventType> { }
 class ViewportEventTarget extends AREventTarget<ViewportEventType> { }
 
 /** Viewport style (immersive mode) */
-type ViewportStyle = 'best-fit' | 'stretch' | 'inline';
+type ViewportStyle = 'best-fit' | 'stretch' | 'crop' | 'inline';
 
 
 
@@ -308,6 +308,7 @@ class ViewportCanvases
         canvas.style.width = '100%';
         canvas.style.height = '100%';
         canvas.style.zIndex = String(zIndex);
+        canvas.style.objectFit = 'unset';
 
         return canvas;
     }
@@ -586,6 +587,10 @@ class ViewportResizer
                 this.setStrategy(new StretchResizeStrategy());
                 break;
 
+            case 'crop':
+                this.setStrategy(new CropResizeStrategy());
+                break;
+
             case 'inline':
                 this.setStrategy(new InlineResizeStrategy());
                 break;
@@ -786,6 +791,8 @@ abstract class ViewportResizeStrategy
     {
         viewport.container.style.cssText = '';
         viewport._subContainer.style.cssText = '';
+        viewport._backgroundCanvas.style.objectFit = 'unset';
+        viewport.canvas.style.objectFit = 'unset';
     }
 }
 
@@ -843,8 +850,8 @@ abstract class ImmersiveResizeStrategy extends ViewportResizeStrategy
 }
 
 /**
- * Immersive viewport with best-fit style: it occupies the entire page and
- * preserves the aspect ratio of the media
+ * Immersive viewport with best-fit style: it preserves the aspect ratio of the
+ * media. This is also known as letterboxing or pillarboxing
  */
 class BestFitResizeStrategy extends ImmersiveResizeStrategy
 {
@@ -883,8 +890,8 @@ class BestFitResizeStrategy extends ImmersiveResizeStrategy
 }
 
 /**
- * Immersive viewport with stretch style: it occupies the entire page and
- * fully stretches the media, possibly distorting it
+ * Immersive viewport with stretch style: it fully fills the viewport with the
+ * media, possibly distorting it
  */
 class StretchResizeStrategy extends ImmersiveResizeStrategy
 {
@@ -901,6 +908,35 @@ class StretchResizeStrategy extends ImmersiveResizeStrategy
         subContainer.style.top = '0px';
         subContainer.style.width = window.innerWidth + 'px';
         subContainer.style.height = window.innerHeight + 'px';
+
+        super.resize(viewport);
+    }
+}
+
+/**
+ * Immersive viewport with crop style: it fully fills the viewport with the
+ * media, possibly cropping and scaling it to maintain its aspect ratio
+ */
+class CropResizeStrategy extends ImmersiveResizeStrategy
+{
+    /**
+     * Resize the viewport
+     * @param viewport
+     */
+    resize(viewport: Viewport): void
+    {
+        const subContainer = viewport._subContainer;
+        const backgroundCanvas = viewport._backgroundCanvas;
+        const foregroundCanvas = viewport.canvas;
+
+        subContainer.style.position = 'absolute';
+        subContainer.style.left = '0px';
+        subContainer.style.top = '0px';
+        subContainer.style.width = window.innerWidth + 'px';
+        subContainer.style.height = window.innerHeight + 'px';
+
+        backgroundCanvas.style.objectFit = 'cover';
+        foregroundCanvas.style.objectFit = 'cover';
 
         super.resize(viewport);
     }
@@ -988,20 +1024,6 @@ export class Viewport extends ViewportEventTarget
     {
         return this._style;
     }
-
-    /**
-     * Set viewport style
-     */
-    /*
-    set style(value: ViewportStyle)
-    {
-        // note: the viewport style is independent of the session mode!
-        if(value !== this._style) {
-            this._resizer.setStrategyByName(value);
-            this._style = value;
-        }
-    }
-    */
 
     /**
      * HUD
@@ -1182,7 +1204,7 @@ export class Viewport extends ViewportEventTarget
     {
         // validate if the viewport style matches the session mode
         if(sessionMode == 'immersive') {
-            if(this._style != 'best-fit' && this._style != 'stretch') {
+            if(this._style != 'best-fit' && this._style != 'stretch' && this._style != 'crop') {
                 Utils.warning(`Invalid viewport style \"${this._style}\" for the \"${sessionMode}\" mode`);
                 this._style = 'best-fit';
                 this._resizer.setStrategyByName(this._style);
