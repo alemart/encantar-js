@@ -109,6 +109,12 @@ const HUD_ZINDEX = BASE_ZINDEX + 2;
 /** Time in ms used to throttle the resize callback of the window */
 const RESIZE_THROTTLE_DELAY = 100;
 
+/** Duration in ms of the polling after a change of orientation */
+const ORIENTATION_POLLING_DURATION = 500; // 500 ms for iOS
+
+/** Number of cycles of the polling */
+const ORIENTATION_POLLING_CYCLES = 5; // the more cycles, the quicker a cycle is
+
 
 
 
@@ -614,7 +620,7 @@ class ViewportResizer
     }
 
     /**
-     * Called when a change of screen orientation is detected
+     * Called when a change of device orientation is detected
      */
     private async _onOrientationChange(): Promise<void>
     {
@@ -644,16 +650,15 @@ class ViewportResizer
 
         */
 
-        const MAX_ATTEMPTS = 3; //5;
         const canvas = this._viewport._backgroundCanvas;
 
-        for(let i = 0; i < MAX_ATTEMPTS; i++) {
+        // this is polling
+        for(let i = 0; i < ORIENTATION_POLLING_CYCLES; i++) {
 
-            // this is polling
-            await Utils.wait(RESIZE_THROTTLE_DELAY);
+            await Utils.wait(ORIENTATION_POLLING_DURATION / ORIENTATION_POLLING_CYCLES);
 
-            // After one delay, this._viewport.aspectRatio will likely be
-            // correct, but the canvas will not reflect that if, instants ago,
+            // After the camera feed is rotated, this._viewport.aspectRatio will
+            // be correct, but the canvas will not reflect that if, instants ago,
             // it was resized using the previous aspect ratio of the media.
             const a = canvas.width / canvas.height;
             const b = this._aspectRatioOfScreen();
@@ -684,7 +689,7 @@ class ViewportResizer
 
         If so, increasing the throttling will likely make the camera feed be
         rotated first, but then the user will more easily notice the delay.
-        Increasing MAX_ATTEMPTS is a simple alternative that makes this
+        Increasing the polling time is a simple alternative that makes this
         callback be executed after the video rotation, which is what we want.
         About listening to video resize: the Viewport doesn't know about it
         and has no access to the source of data. The Session does, however.
