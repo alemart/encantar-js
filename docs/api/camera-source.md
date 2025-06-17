@@ -17,6 +17,10 @@ Create a new webcam-based source of data with the specified `settings`.
     * `aspectRatio: number`. A hint specifying the preferred aspect ratio of the video.
     * `constraints: MediaTrackConstraints`. Additional video constraints that will be passed to `navigator.mediaDevices.getUserMedia()`.
 
+!!! tip "Landscape × Portrait"
+
+    You generally do not need to specify an `aspectRatio`, as encantar.js uses a suitable default. When customizing this setting, pick standard values for landscape mode such as `16/9` or `4/3`. Pick such values even if mobile devices are expected to be in portrait mode. Using arbitrary numbers is discouraged and may produce unexpected results in different devices.
+
 **Returns**
 
 A new webcam-based source of data.
