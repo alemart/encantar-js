@@ -136,14 +136,20 @@ body {
 .md-footer a {
   color: var(--md-footer-fg-color--light);
 }
+.md-typeset h1 {
+  /*font-weight: 400;*/
+}
+.md-copyright {
+  color: var(--md-footer-fg-color--light);
+}
 
 
 
 
 #title {
   text-align: center;
-  padding: 1.5rem var(--hpad);
-  background-image: linear-gradient(180deg,rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 1) 100%), url('img/enchanted-sky.webp');
+  padding: 1.0rem var(--hpad) 0.5rem var(--hpad);
+  background-image: linear-gradient(180deg,rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 1) 100%), url('img/enchanted-sky.webp');
   background-size: cover;
   background-position: center;
 }
@@ -151,12 +157,21 @@ body {
   margin: 0;
   font-size: 3.0rem;
   font-weight: bold;
-  color: #ffd;
+  color: #ffc;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 #title h2 {
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 0 0;
   font-size: 1.35rem;
+  font-weight: bold;
+  color: #ffc;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+}
+#title video {
+  width: 100%;
+  max-width: var(--max-width);
+  border-radius: var(--border-radius);
+  margin: 1rem auto;
 }
 
 
@@ -171,14 +186,13 @@ body {
   text-align: center;
   font-size: 1.2rem;
   line-height: 2.5;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1rem;
+  margin: 0 auto 1rem auto;
   padding: 3px;
   max-width: var(--max-width);
   background-color: rgba(255, 255, 255, 0.2);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
   border-radius: var(--border-radius);
+  /*border: 2px outset rgba(126, 86, 194, 0.2);*/
 }
 #pay > #amounts {
   display: flex;
@@ -436,7 +450,7 @@ html:has(#download-dialog[open]) {
 @media screen and (min-width: 768px) {
   /*#pay { justify-content: space-around; }*/
   #title h1 { font-size: 4.0rem; }
-  #title h2 { font-size: 1.55rem; }
+  #title h2 { font-size: 1.6rem; }
   #topics { text-align: justify; }
   #topics > article img { margin-top: initial; }
   #topics > article { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
@@ -513,7 +527,11 @@ function setupReveal()
 
 <header id="title">
   <h1>encantar.js</h1>
-  <h2>High performance open source Web AR &mdash; no app required!</h2>
+  <h2>High performance Web AR framework &mdash; no app required!</h2>
+  <video autoplay loop muted playsinline controls poster="img/aframe-cat.webp">
+    <source src="img/aframe-cat.mp4" type="video/mp4" />
+    <source src="img/aframe-cat.webm" type="video/webm" />
+  </video>
   <form id="pay" method="post" action="https://api.encantar.dev/v1/pay" autocomplete="off" onsubmit="return this.tier.value != 'custom' || this['custom-amount'].value != ''">
     <span>Pay What You Can:</span>
     <span id="amounts">
@@ -547,13 +565,13 @@ function setupReveal()
       <a href="demos/hello-aframe/poster.html" target="_blank" class="md-button" id="try-demo" data-goatcounter-click>Try a demo</a>
     </div>
     <div>
-      <img src="img/demo-cat.gif" alt="A cat in Augmented Reality" loading="lazy">
+      <img src="img/mage.gif" alt="A mage in Augmented Reality" loading="lazy">
     </div>
   </article>
   <article class="reveal">
     <div>
       <h1>Turbocharged performance</h1>
-      <p>A modern web browser is all that is required for a high performance experience, thanks to a powerful combination of GPU acceleration, WebAssembly and mathemagical wizardry! The result? A smooth user experience!</p>
+      <p>A modern web browser is all that is required for a high performance experience, thanks to a powerful combination of GPU acceleration, WebAssembly and mathemagical wizardry. The result? A smooth user experience!</p>
       <a href="demos/basketball/poster.html" target="_blank" class="md-button" id="play-game" data-goatcounter-click>Play a game</a>
     </div>
     <div>
@@ -567,7 +585,7 @@ function setupReveal()
       <a href="demos/" target="_blank" class="md-button" id="try-more-demos" data-goatcounter-click>Try more demos</a>
     </div>
     <div>
-      <img src="img/mage.gif" alt="A mage in Augmented Reality" loading="lazy">
+      <img src="img/demo-cat.gif" alt="A cat in Augmented Reality" loading="lazy">
     </div>
   </article>
   <article class="reveal">
@@ -621,9 +639,9 @@ function setupReveal()
 <section id="download">
   <article>
     <h1>Download encantar.js</h1>
-    <p>encantar.js is created independently by Alexandre Martins and released as open source. Creating an AR engine from scratch is a difficult and time-consuming endeavor. The funds collected help to sponsor the developer. Your support is greatly appreciated! &#x1F60A;</p>
+    <p>encantar.js is a WebAR framework created independently by <a href="contact/" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a> and released as open source software. Get your copy and go build something magical with it! &#x1FA84;</p>
     <footer>
-      <a href="#" class="md-button md-button--primary" id="download-pay" data-goatcounter-click>Pay What You Can</a>
+      <a href="#pay" class="md-button md-button--primary" id="download-pay" data-goatcounter-click>Pay What You Can</a>
       <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
     </footer>
   </article>
@@ -647,7 +665,7 @@ function setupReveal()
 
 <footer class="md-footer">
   <div class="md-copyright">
-    <a href="https://github.com/alemart/encantar-js" target="_blank" rel="external" id="github-repository" data-goatcounter-click>encantar.js</a>: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present <a href="https://github.com/alemart" target="_blank" rel="external" id="github-profile" data-goatcounter-click>Alexandre Martins</a>
+    encantar.js: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present Alexandre Martins
   </div>
 </footer>
 

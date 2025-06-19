@@ -1048,7 +1048,7 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
         /** viewport resolution */
         'resolution': { type: 'string', default: 'lg' },
 
-        /** viewport style: "best-fit" | "stretch" | "inline" */
+        /** viewport style: "best-fit" | "stretch" | "crop" | "inline" */
         'style': { type: 'string', default: 'best-fit' },
 
     },
