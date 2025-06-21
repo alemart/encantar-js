@@ -23,6 +23,8 @@
 import { Session } from '../core/session';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
+import { ImageTracker } from './image-tracker/image-tracker';
+import { PointerTracker } from './pointer-tracker/pointer-tracker';
 
 /**
  * A Trackable is something that can be tracked
@@ -63,17 +65,20 @@ export interface TrackerOutput
  */
 export interface Tracker
 {
-    /** a string that identifies the type of the tracker */
-    readonly type: string;
+    /** check if this tracker is of a certain type - this is a convenient type-narrowing utility */
+    is<T extends keyof TrackerType>(type: T): this is TrackerType[T];
+
+    /** a string that identifies the type of the tracker @deprecated */
+    readonly type: keyof TrackerType;
 
     /** initialize tracker @internal */
-    _init: (session: Session) => SpeedyPromise<void>;
+    _init(session: Session): SpeedyPromise<void>;
 
     /** release resources @internal */
-    _release: () => SpeedyPromise<void>;
+    _release(): SpeedyPromise<void>;
 
     /** update cycle @internal */
-    _update: () => SpeedyPromise<void>;
+    _update(): SpeedyPromise<void>;
 
     /** output of the last frame @internal */
     readonly _output: TrackerOutput;
@@ -81,3 +86,12 @@ export interface Tracker
     /** stats related to this tracker @internal */
     readonly _stats: string;
 }
+
+/**
+ * A helper for type-narrowing
+ * @internal
+ */
+export type TrackerType = {
+    'image-tracker': ImageTracker,
+    'pointer-tracker': PointerTracker
+};

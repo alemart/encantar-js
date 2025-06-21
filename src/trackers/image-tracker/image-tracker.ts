@@ -33,7 +33,7 @@ import { SpeedyPipelineNodeFASTKeypointDetector } from 'speedy-vision/types/core
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { VideoSource } from '../../sources/video-source';
 import { CanvasSource } from '../../sources/canvas-source';
-import { Tracker, TrackerOutput, TrackerResult, Trackable } from '../tracker';
+import { Tracker, TrackerOutput, TrackerResult, Trackable, TrackerType } from '../tracker';
 import { Session } from '../../core/session';
 import { IllegalOperationError, IllegalArgumentError } from '../../utils/errors';
 import { Resolution } from '../../utils/resolution';
@@ -176,10 +176,20 @@ export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tr
 
     /**
      * The type of the tracker
+     * @deprecated
      */
-    get type(): string
+    get type(): keyof TrackerType
     {
         return 'image-tracker';
+    }
+
+    /**
+     * Check if this tracker is of a certain type
+     * This is a convenient type-narrowing utility
+     */
+    is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
+    {
+        return type === this.type;
     }
 
     /**

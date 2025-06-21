@@ -268,7 +268,7 @@ function encantar(demo)
         ar._pointers.length = 0;
 
         for(const result of frame.results) {
-            if(result.tracker.type == 'image-tracker') {
+            if(result.tracker.is('image-tracker')) {
                 if(result.trackables.length > 0) {
                     const trackable = result.trackables[0];
                     const projectionMatrix = result.viewer.view.projectionMatrix;
@@ -282,7 +282,7 @@ function encantar(demo)
                     found = true;
                 }
             }
-            else if(result.tracker.type == 'pointer-tracker') {
+            else if(result.tracker.is('pointer-tracker')) {
                 if(result.trackables.length > 0)
                     ar._pointers.push.apply(ar._pointers, result.trackables);
             }

@@ -22,7 +22,7 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { TrackerResult, TrackerOutput, Tracker } from '../tracker';
+import { TrackerResult, TrackerOutput, Tracker, TrackerType } from '../tracker';
 import { TrackablePointer, TrackablePointerPhase } from './trackable-pointer';
 import { PointerSource } from '../../sources/pointer-source';
 import { Vector2 } from '../../geometry/vector2';
@@ -187,10 +187,20 @@ export class PointerTracker implements Tracker
 
     /**
      * The type of the tracker
+     * @deprecated
      */
-    get type(): string
+    get type(): keyof TrackerType
     {
         return 'pointer-tracker';
+    }
+
+    /**
+     * Check if this tracker is of a certain type
+     * This is a convenient type-narrowing utility
+     */
+    is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
+    {
+        return type === this.type;
     }
 
     /**
