@@ -21,6 +21,9 @@
  */
 
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
+import { CanvasSource } from './canvas-source';
+import { PointerSource } from './pointer-source';
+import { VideoSource } from './video-source';
 
 /**
  * Abstract source of data
@@ -29,6 +32,9 @@ export interface Source
 {
     /** @internal type-identifier of the source of data */
     readonly _type: string;
+
+    /** @internal check if this source is of a certain type - this is a convenient type-narrowing utility */
+    _is<T extends keyof SourceType>(type: T): this is SourceType[T];
 
     /** @internal method to initialize the source of data (gets the data ready) */
     _init(): SpeedyPromise<void>;
@@ -39,3 +45,13 @@ export interface Source
     /** @internal stats related to this source of data */
     readonly _stats: string;
 }
+
+/**
+ * A helper for type-narrowing
+ * @internal
+ */
+export type SourceType = {
+    'video': VideoSource,
+    'canvas': CanvasSource,
+    'pointer-source': PointerSource
+};

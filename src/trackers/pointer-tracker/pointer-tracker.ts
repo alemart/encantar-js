@@ -218,8 +218,8 @@ export class PointerTracker implements Tracker
 
         // find the pointer source
         for(const source of session.sources) {
-            if(source._type == 'pointer-source') {
-                this._source = source as PointerSource;
+            if(source._is('pointer-source')) {
+                this._source = source;
                 break;
             }
         }

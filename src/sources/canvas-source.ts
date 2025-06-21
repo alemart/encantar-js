@@ -25,7 +25,7 @@ import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Utils, Nullable } from '../utils/utils';
 import { IllegalOperationError } from '../utils/errors';
-import { Source } from './source';
+import { Source, SourceType } from './source';
 
 /**
  * HTMLCanvasElement-based source of data
@@ -58,6 +58,16 @@ export class CanvasSource implements Source
     get _type(): string
     {
         return 'canvas';
+    }
+
+    /**
+     * Check if this source is of a certain type
+     * This is a convenient type-narrowing utility
+     * @internal
+     */
+    _is<T extends keyof SourceType>(type: T): this is SourceType[T]
+    {
+        return type === this._type;
     }
 
     /**

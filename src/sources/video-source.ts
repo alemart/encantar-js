@@ -25,7 +25,7 @@ import { SpeedyMedia } from 'speedy-vision/types/core/speedy-media';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { Utils, Nullable } from '../utils/utils';
 import { IllegalOperationError, NotSupportedError, TimeoutError } from '../utils/errors';
-import { Source } from './source';
+import { Source, SourceType } from './source';
 
 /** A message to be displayed if a video can't autoplay and user interaction is required */
 const ALERT_MESSAGE = 'Tap on the screen to start';
@@ -73,6 +73,16 @@ export class VideoSource implements Source
     get _type(): string
     {
         return 'video';
+    }
+
+    /**
+     * Check if this source is of a certain type
+     * This is a convenient type-narrowing utility
+     * @internal
+     */
+    _is<T extends keyof SourceType>(type: T): this is SourceType[T]
+    {
+        return type === this._type;
     }
 
     /**

@@ -514,12 +514,14 @@ export class Session extends AREventTarget<SessionEvent>
     {
         // prefer video sources
         for(let i = 0; i < sources.length; i++) {
-            if(sources[i]._type == 'video')
-                return sources[i] as VideoSource;
+            const source = sources[i];
+            if(source._is('video'))
+                return source;
         }
         for(let i = 0; i < sources.length; i++) {
-            if(sources[i]._type == 'canvas')
-                return sources[i] as CanvasSource;
+            const source = sources[i];
+            if(source._is('canvas'))
+                return source;
         }
 
         // emit warning
