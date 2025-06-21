@@ -20,7 +20,7 @@ A string representing the type of the tracker.
 
 `tracker.is(type: string): boolean`
 
-Checks if `this` tracker is of a certain `type`. This works as a convenient type-narrowing method for TypeScript users.
+Checks if `this` tracker is of a certain `type`. This is a convenient type guard for TypeScript users. See also: [TrackerResult.of](./tracker-result.md#of).
 
 *Since:* 0.4.4
 
