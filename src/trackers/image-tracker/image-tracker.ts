@@ -119,7 +119,7 @@ const DEFAULT_OPTIONS: Readonly<ImageTrackerOptions> = {
 /**
  * The ImageTracker tracks an image (one at a time)
  */
-export class ImageTracker extends AREventTarget<ImageTrackerEventType> implements Tracker
+export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tracker
 {
     /** session */
     private _session: Nullable<Session>;

@@ -93,7 +93,7 @@ const DEFAULT_OPTIONS: Readonly<Required<SessionOptions>> = {
  * A Session represents an intent to display AR content
  * and encapsulates the main loop (update-render cycle)
  */
-export class Session extends AREventTarget<SessionEventType>
+export class Session extends AREventTarget<SessionEvent>
 {
     /** Number of active sessions */
     private static _count = 0;
