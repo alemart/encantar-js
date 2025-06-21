@@ -17,3 +17,13 @@ Create a new source of data linked to the provided `canvas`.
 **Returns**
 
 A new source of data.
+
+## Properties
+
+### canvas
+
+`source.canvas: HTMLCanvasElement, read-only`
+
+The underlying `<canvas>` element.
+
+*Since:* 0.4.4

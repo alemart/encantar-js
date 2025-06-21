@@ -52,6 +52,14 @@ export class CanvasSource implements Source
     }
 
     /**
+     * The underlying <canvas> element
+     */
+    get canvas(): HTMLCanvasElement
+    {
+        return this._canvas;
+    }
+
+    /**
      * A type-identifier of the source of data
      * @internal
      */
