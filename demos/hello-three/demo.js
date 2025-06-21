@@ -69,7 +69,7 @@ class Utils
             return null;
 
         for(const result of ar.frame.results) {
-            if(result.tracker.is('image-tracker')) {
+            if(result.of('image-tracker')) {
                 if(result.trackables.length > 0) {
                     const trackable = result.trackables[0];
                     return trackable.referenceImage.name;

@@ -142,7 +142,7 @@ function animate(time, frame)
 function read(frame)
 {
     for(const result of frame.results) {
-        if(result.tracker.is('pointer-tracker')) {
+        if(result.of('pointer-tracker')) {
             const pointers = result.trackables;
             return pointers;
         }

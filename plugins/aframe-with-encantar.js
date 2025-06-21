@@ -107,7 +107,7 @@ const Utils = () => ({
             return null;
 
         for(const result of frame.results) {
-            if(result.tracker.is('image-tracker')) {
+            if(result.of('image-tracker')) {
                 for(const trackable of result.trackables) {
                     if(name === '' || name === trackable.referenceImage.name) {
                         return {
@@ -129,7 +129,7 @@ const Utils = () => ({
             return null;
 
         for(const result of frame.results) {
-            if(result.tracker.is('image-tracker')) {
+            if(result.of('image-tracker')) {
                 if(result.trackables.length > 0)
                     return result.viewer;
             }
@@ -144,7 +144,7 @@ const Utils = () => ({
             return [];
 
         for(const result of frame.results) {
-            if(result.tracker.is('pointer-tracker'))
+            if(result.of('pointer-tracker'))
                 return result.trackables;
         }
 
