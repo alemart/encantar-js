@@ -33,7 +33,7 @@ import { SpeedyPipelineNodeFASTKeypointDetector } from 'speedy-vision/types/core
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { VideoSource } from '../../sources/video-source';
 import { CanvasSource } from '../../sources/canvas-source';
-import { Tracker, TrackerOutput, TrackerResult, Trackable, TrackerType } from '../tracker';
+import { Tracker, TrackerOutput, TrackerResult, Trackable, TrackerType, TrackerResultType } from '../tracker';
 import { Session } from '../../core/session';
 import { IllegalOperationError, IllegalArgumentError } from '../../utils/errors';
 import { Resolution } from '../../utils/resolution';
@@ -65,7 +65,7 @@ export interface TrackableImage extends Trackable
 }
 
 /** Image Tracker result to be consumed by the user */
-export interface ImageTrackerResult extends TrackerResult
+export class ImageTrackerResult extends TrackerResult
 {
     /** tracker */
     readonly tracker: ImageTracker;
@@ -75,6 +75,20 @@ export interface ImageTrackerResult extends TrackerResult
 
     /** 3D virtual camera */
     readonly viewer: Viewer;
+
+    /**
+     * Constructor
+     * @param tracker
+     * @param trackables
+     * @param viewer
+     */
+    constructor(tracker: ImageTracker, trackables: TrackableImage[], viewer: Viewer)
+    {
+        super();
+        this.tracker = tracker;
+        this.trackables = trackables;
+        this.viewer = viewer;
+    }
 }
 
 /** Image Tracker output */
@@ -185,7 +199,6 @@ export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tr
 
     /**
      * Check if this tracker is of a certain type
-     * This is a convenient type-narrowing utility
      */
     is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
     {

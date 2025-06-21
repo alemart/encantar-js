@@ -31,9 +31,9 @@ import { VideoSource } from './video-source';
 export interface Source
 {
     /** @internal type-identifier of the source of data */
-    readonly _type: string;
+    readonly _type: keyof SourceType;
 
-    /** @internal check if this source is of a certain type - this is a convenient type-narrowing utility */
+    /** @internal check if this source is of a certain type */
     _is<T extends keyof SourceType>(type: T): this is SourceType[T];
 
     /** @internal method to initialize the source of data (gets the data ready) */

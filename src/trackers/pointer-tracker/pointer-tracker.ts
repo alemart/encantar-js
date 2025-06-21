@@ -34,13 +34,25 @@ import { Viewport } from '../../core/viewport';
 /**
  * A result of a PointerTracker. It's meant to be consumed by the user/application
  */
-export interface PointerTrackerResult extends TrackerResult
+export class PointerTrackerResult extends TrackerResult
 {
     /** the tracker that generated this result */
     readonly tracker: PointerTracker;
 
     /** the trackables */
     readonly trackables: TrackablePointer[];
+
+    /**
+     * Constructor
+     * @param tracker
+     * @param trackables
+     */
+    constructor(tracker: PointerTracker, trackables: TrackablePointer[])
+    {
+        super();
+        this.tracker = tracker;
+        this.trackables = trackables;
+    }
 }
 
 /**
@@ -196,7 +208,6 @@ export class PointerTracker implements Tracker
 
     /**
      * Check if this tracker is of a certain type
-     * This is a convenient type-narrowing utility
      */
     is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
     {
@@ -480,12 +491,8 @@ export class PointerTracker implements Tracker
         const trackables: TrackablePointer[] = [];
         this._activePointers.forEach(trackable => trackables.push(trackable));
 
-        return {
-            exports: {
-                tracker: this,
-                trackables: this._sortTrackables(trackables)
-            }
-        };
+        const result = new PointerTrackerResult(this, this._sortTrackables(trackables));
+        return { exports: result };
     }
 
     /**

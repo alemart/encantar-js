@@ -70,14 +70,13 @@ export class VideoSource implements Source
      * A type-identifier of the source of data
      * @internal
      */
-    get _type(): string
+    get _type(): keyof SourceType
     {
         return 'video';
     }
 
     /**
      * Check if this source is of a certain type
-     * This is a convenient type-narrowing utility
      * @internal
      */
     _is<T extends keyof SourceType>(type: T): this is SourceType[T]

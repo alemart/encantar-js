@@ -33,7 +33,7 @@ import { Settings } from './settings';
 import { Stats } from './stats';
 import { Gizmos } from '../ui/gizmos';
 import { Frame } from './frame';
-import { Tracker } from '../trackers/tracker';
+import { Trackable, Tracker, TrackerResult } from '../trackers/tracker';
 import { TimeManager } from './time-manager';
 import { Source } from '../sources/source';
 import { VideoSource } from '../sources/video-source';
@@ -86,6 +86,21 @@ const DEFAULT_OPTIONS: Readonly<Required<SessionOptions>> = {
     stats: false,
     gizmos: false,
 };
+
+/** Helper class */
+class EmptyTrackerResult extends TrackerResult
+{
+    readonly tracker: Tracker;
+    readonly trackables: Trackable[];
+
+    constructor(tracker: Tracker)
+    {
+        super();
+        this.tracker = tracker;
+        this.trackables = [];
+    }
+}
+
 
 
 
@@ -707,10 +722,7 @@ export class Session extends AREventTarget<SessionEvent>
 
                 // create a frame
                 const results = this._trackers.map(tracker =>
-                    tracker._output.exports || ({
-                        tracker: tracker,
-                        trackables: [],
-                    })
+                    tracker._output.exports || new EmptyTrackerResult(tracker)
                 );
                 const frame = new Frame(this, results);
 
