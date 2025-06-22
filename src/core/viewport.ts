@@ -46,13 +46,10 @@ type ViewportSizeGetter = () => SpeedySize;
 type ViewportEventType = 'resize' | 'fullscreenchange';
 
 /** An event emitted by a Viewport */
-class ViewportEvent extends AREvent<ViewportEventType> { }
-
-/** Viewport event target */
-class ViewportEventTarget extends AREventTarget<ViewportEventType> { }
+export class ViewportEvent extends AREvent<ViewportEventType> { }
 
 /** Viewport style (immersive mode) */
-type ViewportStyle = 'best-fit' | 'stretch' | 'crop' | 'inline';
+export type ViewportStyle = 'best-fit' | 'stretch' | 'crop' | 'inline';
 
 
 
@@ -704,8 +701,9 @@ class ViewportResizer
 
     /**
      * Called when the viewport receives a 'resize' event
+     * @param event
      */
-    private _onViewportResize(): void
+    private _onViewportResize(event: ViewportEvent): void
     {
         const viewport = this._viewport;
 
@@ -948,7 +946,7 @@ class CropResizeStrategy extends ImmersiveResizeStrategy
 /**
  * Viewport
  */
-export class Viewport extends ViewportEventTarget
+export class Viewport extends AREventTarget<ViewportEvent>
 {
     /** Viewport resolution (controls the size of the drawing buffer of the foreground canvas) */
     private readonly _resolution: Resolution;

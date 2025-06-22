@@ -20,7 +20,7 @@
  * A built-in fullscreen button introduced as a convenience
  */
 
-import { Viewport } from '../core/viewport';
+import { Viewport, ViewportEvent } from '../core/viewport';
 
 /** Button icon to be displayed when the fullscreen mode is disabled */
 const BUTTON_ICON_OFF = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAbUlEQVRYR+2WOQ4AIAgE5f+PVhobDZANBZAsraAwXMoqFil+f9GBj8BW8dIiKt45at/XgShStHgvmfdekwAdIIEyAmh1Z/U5ikmABPoRsLZWtt+5DUlgHgGr6qM1Pf9XnO131L7fJEQjyOqXEzjP1YAhNmUTrgAAAABJRU5ErkJggg==';
@@ -47,8 +47,6 @@ export class FullscreenButton
     /** The HTML element of the button */
     private readonly _button: HTMLButtonElement;
 
-    /** Bound event handler */
-    private readonly _boundEventHandler: EventListener;
 
 
 
@@ -60,7 +58,7 @@ export class FullscreenButton
     {
         this._viewport = viewport;
         this._button = this._createButton();
-        this._boundEventHandler = this._handleFullscreenEvent.bind(this);
+        this._handleFullscreenEvent = this._handleFullscreenEvent.bind(this);
     }
 
     /**
@@ -72,7 +70,7 @@ export class FullscreenButton
     {
         parent.appendChild(this._button);
         this._button.hidden = !isVisible;
-        this._viewport.addEventListener('fullscreenchange', this._boundEventHandler);
+        this._viewport.addEventListener('fullscreenchange', this._handleFullscreenEvent);
     }
 
     /**
@@ -80,7 +78,7 @@ export class FullscreenButton
      */
     release(): void
     {
-        this._viewport.removeEventListener('fullscreenchange', this._boundEventHandler);
+        this._viewport.removeEventListener('fullscreenchange', this._handleFullscreenEvent);
         this._button.remove();
     }
 
@@ -145,7 +143,7 @@ export class FullscreenButton
     /**
      * Handle a fullscreenchange event
      */
-    private _handleFullscreenEvent(event: Event): void
+    private _handleFullscreenEvent(event: ViewportEvent): void
     {
         const img = this._viewport.fullscreen ? BUTTON_ICON_ON : BUTTON_ICON_OFF;
         this._button.style.backgroundImage = 'url(' + img + ')';

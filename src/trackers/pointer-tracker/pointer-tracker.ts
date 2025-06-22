@@ -22,7 +22,7 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { TrackerResult, TrackerOutput, Tracker } from '../tracker';
+import { TrackerResult, TrackerOutput, Tracker, TrackerType } from '../tracker';
 import { TrackablePointer, TrackablePointerPhase } from './trackable-pointer';
 import { PointerSource } from '../../sources/pointer-source';
 import { Vector2 } from '../../geometry/vector2';
@@ -34,13 +34,25 @@ import { Viewport } from '../../core/viewport';
 /**
  * A result of a PointerTracker. It's meant to be consumed by the user/application
  */
-export interface PointerTrackerResult extends TrackerResult
+export class PointerTrackerResult extends TrackerResult
 {
     /** the tracker that generated this result */
     readonly tracker: PointerTracker;
 
     /** the trackables */
     readonly trackables: TrackablePointer[];
+
+    /**
+     * Constructor
+     * @param tracker
+     * @param trackables
+     */
+    constructor(tracker: PointerTracker, trackables: TrackablePointer[])
+    {
+        super();
+        this.tracker = tracker;
+        this.trackables = trackables;
+    }
 }
 
 /**
@@ -187,10 +199,19 @@ export class PointerTracker implements Tracker
 
     /**
      * The type of the tracker
+     * @deprecated
      */
-    get type(): string
+    get type(): keyof TrackerType
     {
         return 'pointer-tracker';
+    }
+
+    /**
+     * Check if this tracker is of a certain type
+     */
+    is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
+    {
+        return type === this.type;
     }
 
     /**
@@ -208,8 +229,8 @@ export class PointerTracker implements Tracker
 
         // find the pointer source
         for(const source of session.sources) {
-            if(source._type == 'pointer-source') {
-                this._source = source as PointerSource;
+            if(source._is('pointer-source')) {
+                this._source = source;
                 break;
             }
         }
@@ -470,12 +491,8 @@ export class PointerTracker implements Tracker
         const trackables: TrackablePointer[] = [];
         this._activePointers.forEach(trackable => trackables.push(trackable));
 
-        return {
-            exports: {
-                tracker: this,
-                trackables: this._sortTrackables(trackables)
-            }
-        };
+        const result = new PointerTrackerResult(this, this._sortTrackables(trackables));
+        return { exports: result };
     }
 
     /**

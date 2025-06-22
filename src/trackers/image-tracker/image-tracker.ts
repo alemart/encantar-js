@@ -33,7 +33,7 @@ import { SpeedyPipelineNodeFASTKeypointDetector } from 'speedy-vision/types/core
 import { SpeedyKeypoint } from 'speedy-vision/types/core/speedy-keypoint';
 import { VideoSource } from '../../sources/video-source';
 import { CanvasSource } from '../../sources/canvas-source';
-import { Tracker, TrackerOutput, TrackerResult, Trackable } from '../tracker';
+import { Tracker, TrackerOutput, TrackerResult, Trackable, TrackerType, TrackerResultType } from '../tracker';
 import { Session } from '../../core/session';
 import { IllegalOperationError, IllegalArgumentError } from '../../utils/errors';
 import { Resolution } from '../../utils/resolution';
@@ -65,7 +65,7 @@ export interface TrackableImage extends Trackable
 }
 
 /** Image Tracker result to be consumed by the user */
-export interface ImageTrackerResult extends TrackerResult
+export class ImageTrackerResult extends TrackerResult
 {
     /** tracker */
     readonly tracker: ImageTracker;
@@ -75,6 +75,20 @@ export interface ImageTrackerResult extends TrackerResult
 
     /** 3D virtual camera */
     readonly viewer: Viewer;
+
+    /**
+     * Constructor
+     * @param tracker
+     * @param trackables
+     * @param viewer
+     */
+    constructor(tracker: ImageTracker, trackables: TrackableImage[], viewer: Viewer)
+    {
+        super();
+        this.tracker = tracker;
+        this.trackables = trackables;
+        this.viewer = viewer;
+    }
 }
 
 /** Image Tracker output */
@@ -119,7 +133,7 @@ const DEFAULT_OPTIONS: Readonly<ImageTrackerOptions> = {
 /**
  * The ImageTracker tracks an image (one at a time)
  */
-export class ImageTracker extends AREventTarget<ImageTrackerEventType> implements Tracker
+export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tracker
 {
     /** session */
     private _session: Nullable<Session>;
@@ -176,10 +190,19 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
 
     /**
      * The type of the tracker
+     * @deprecated
      */
-    get type(): string
+    get type(): keyof TrackerType
     {
         return 'image-tracker';
+    }
+
+    /**
+     * Check if this tracker is of a certain type
+     */
+    is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
+    {
+        return type === this.type;
     }
 
     /**
@@ -261,12 +284,12 @@ export class ImageTracker extends AREventTarget<ImageTrackerEventType> implement
         // XXX also let the user specify a source manually?
         for(const source of session.sources) {
             // prefer video sources
-            if(source._type == 'video') {
-                this._source = source as VideoSource;
+            if(source._is('video')) {
+                this._source = source;
                 break;
             }
-            else if(source._type == 'canvas')
-                this._source = source as CanvasSource;
+            else if(source._is('canvas'))
+                this._source = source;
         }
         if(this._source === null)
             throw new IllegalOperationError('The image tracker requires a suitable source of data');

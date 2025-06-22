@@ -33,7 +33,7 @@ import { Settings } from './settings';
 import { Stats } from './stats';
 import { Gizmos } from '../ui/gizmos';
 import { Frame } from './frame';
-import { Tracker } from '../trackers/tracker';
+import { Trackable, Tracker, TrackerResult } from '../trackers/tracker';
 import { TimeManager } from './time-manager';
 import { Source } from '../sources/source';
 import { VideoSource } from '../sources/video-source';
@@ -87,13 +87,28 @@ const DEFAULT_OPTIONS: Readonly<Required<SessionOptions>> = {
     gizmos: false,
 };
 
+/** Helper class */
+class EmptyTrackerResult extends TrackerResult
+{
+    readonly tracker: Tracker;
+    readonly trackables: Trackable[];
+
+    constructor(tracker: Tracker)
+    {
+        super();
+        this.tracker = tracker;
+        this.trackables = [];
+    }
+}
+
+
 
 
 /**
  * A Session represents an intent to display AR content
  * and encapsulates the main loop (update-render cycle)
  */
-export class Session extends AREventTarget<SessionEventType>
+export class Session extends AREventTarget<SessionEvent>
 {
     /** Number of active sessions */
     private static _count = 0;
@@ -514,12 +529,14 @@ export class Session extends AREventTarget<SessionEventType>
     {
         // prefer video sources
         for(let i = 0; i < sources.length; i++) {
-            if(sources[i]._type == 'video')
-                return sources[i] as VideoSource;
+            const source = sources[i];
+            if(source._is('video'))
+                return source;
         }
         for(let i = 0; i < sources.length; i++) {
-            if(sources[i]._type == 'canvas')
-                return sources[i] as CanvasSource;
+            const source = sources[i];
+            if(source._is('canvas'))
+                return source;
         }
 
         // emit warning
@@ -705,10 +722,7 @@ export class Session extends AREventTarget<SessionEventType>
 
                 // create a frame
                 const results = this._trackers.map(tracker =>
-                    tracker._output.exports || ({
-                        tracker: tracker,
-                        trackables: [],
-                    })
+                    tracker._output.exports || new EmptyTrackerResult(tracker)
                 );
                 const frame = new Frame(this, results);
 

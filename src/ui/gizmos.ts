@@ -85,8 +85,9 @@ export class Gizmos
 
         // render the gizmos of each tracker
         for(let i = 0; i < trackers.length; i++) {
-            if(trackers[i].type == 'image-tracker') {
-                const output = trackers[i]._output as ImageTrackerOutput;
+            const tracker = trackers[i];
+            if(tracker.is('image-tracker')) {
+                const output = tracker._output;
                 this._imageTrackerGizmos.render(viewport, output);
             }
         }

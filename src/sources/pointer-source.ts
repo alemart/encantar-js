@@ -22,7 +22,7 @@
 
 import Speedy from 'speedy-vision';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
-import { Source } from './source';
+import { Source, SourceType } from './source';
 import { Viewport } from '../core/viewport'
 import { Utils, Nullable } from '../utils/utils';
 
@@ -55,9 +55,18 @@ export class PointerSource implements Source
      * A type-identifier of the source of data
      * @internal
      */
-    get _type(): string
+    get _type(): keyof SourceType
     {
         return 'pointer-source';
+    }
+
+    /**
+     * Check if this source is of a certain type
+     * @internal
+     */
+    _is<T extends keyof SourceType>(type: T): this is SourceType[T]
+    {
+        return type === this._type;
     }
 
     /**

@@ -22,13 +22,9 @@
 
 /**
  * AR Event Type
+ * @internal
  */
 type AREventType = string;
-
-/**
- * AR Event Listener (callback)
- */
-export type AREventListener = EventListener;
 
 /**
  * AR Event
@@ -54,9 +50,24 @@ export class AREvent<T extends AREventType> extends Event
 }
 
 /**
+ * Extract the AREventType from an AREvent
+ * @internal
+ */
+type AREventTypeOf<T> = T extends AREvent<infer U> ? U : never;
+
+/**
+ * AR Event Listener (a callback)
+ * @internal
+ */
+interface AREventListener<T>
+{
+    (evt: T extends AREvent<infer U> ? T : never): void;
+}
+
+/**
  * AR Event Target
  */
-export class AREventTarget<T extends AREventType> implements EventTarget
+export class AREventTarget<T>
 {
     /** event target delegate */
     private readonly _delegate: EventTarget;
@@ -76,9 +87,9 @@ export class AREventTarget<T extends AREventType> implements EventTarget
      * @param type event type
      * @param callback
      */
-    addEventListener(type: T, callback: AREventListener): void
+    addEventListener(type: AREventTypeOf<T>, callback: AREventListener<T>): void
     {
-        this._delegate.addEventListener(type, callback);
+        this._delegate.addEventListener(type, callback as EventListener);
     }
 
     /**
@@ -86,9 +97,9 @@ export class AREventTarget<T extends AREventType> implements EventTarget
      * @param type event type
      * @param callback
      */
-    removeEventListener(type: T, callback: AREventListener): void
+    removeEventListener(type: AREventTypeOf<T>, callback: AREventListener<T>): void
     {
-        this._delegate.removeEventListener(type, callback);
+        this._delegate.removeEventListener(type, callback as EventListener);
     }
 
     /**
@@ -97,7 +108,7 @@ export class AREventTarget<T extends AREventType> implements EventTarget
      * @returns same value as a standard event target
      * @internal
      */
-    dispatchEvent(event: AREvent<T>): boolean
+    dispatchEvent(event: T extends AREvent<infer U> ? T : never): boolean
     {
         return this._delegate.dispatchEvent(event);
     }
