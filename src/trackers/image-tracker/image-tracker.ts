@@ -125,6 +125,9 @@ const DEFAULT_OPTIONS: Readonly<ImageTrackerOptions> = {
     resolution: 'sm'
 };
 
+/** Tracker type */
+const TRACKER_TYPE: keyof TrackerType = 'image-tracker';
+
 
 
 
@@ -194,7 +197,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tr
      */
     get type(): keyof TrackerType
     {
-        return 'image-tracker';
+        return TRACKER_TYPE;
     }
 
     /**
@@ -202,7 +205,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tr
      */
     is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
     {
-        return type === this.type;
+        return type === TRACKER_TYPE;
     }
 
     /**

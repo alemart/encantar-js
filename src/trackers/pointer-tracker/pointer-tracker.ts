@@ -118,6 +118,9 @@ const DEFAULT_OPTIONS: Readonly<Required<PointerTrackerOptions>> = {
     space: 'normalized'
 };
 
+/** Tracker type */
+const TRACKER_TYPE: keyof TrackerType = 'pointer-tracker';
+
 
 
 
@@ -203,7 +206,7 @@ export class PointerTracker implements Tracker
      */
     get type(): keyof TrackerType
     {
-        return 'pointer-tracker';
+        return TRACKER_TYPE;
     }
 
     /**
@@ -211,7 +214,7 @@ export class PointerTracker implements Tracker
      */
     is<T extends keyof TrackerType>(type: T): this is TrackerType[T]
     {
-        return type === this.type;
+        return type === TRACKER_TYPE;
     }
 
     /**
