@@ -60,21 +60,12 @@ export class CanvasSource implements Source
     }
 
     /**
-     * A type-identifier of the source of data
-     * @internal
-     */
-    get _type(): keyof SourceType
-    {
-        return 'canvas';
-    }
-
-    /**
      * Check if this source is of a certain type
      * @internal
      */
     _is<T extends keyof SourceType>(type: T): this is SourceType[T]
     {
-        return type === this._type;
+        return type === 'canvas';
     }
 
     /**
@@ -111,7 +102,7 @@ export class CanvasSource implements Source
     _init(): SpeedyPromise<void>
     {
         return Speedy.load(this._canvas).then(media => {
-            Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
+            Utils.log(`Source of data is a ${media.width}x${media.height} canvas`);
             this._media = media;
         });
     }

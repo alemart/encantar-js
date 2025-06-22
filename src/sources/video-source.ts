@@ -67,21 +67,12 @@ export class VideoSource implements Source
     }
 
     /**
-     * A type-identifier of the source of data
-     * @internal
-     */
-    get _type(): keyof SourceType
-    {
-        return 'video';
-    }
-
-    /**
      * Check if this source is of a certain type
      * @internal
      */
     _is<T extends keyof SourceType>(type: T): this is SourceType[T]
     {
-        return type === this._type;
+        return type === 'video';
     }
 
     /**
@@ -117,14 +108,14 @@ export class VideoSource implements Source
      */
     _init(): SpeedyPromise<void>
     {
-        Utils.log(`Initializing ${this._type} source...`);
+        Utils.log(`Initializing video source...`);
 
         // prepare the video before loading the SpeedyMedia!
         return this._prepareVideo(this._video).then(video => {
             Utils.log('The video is prepared');
 
             return Speedy.load(video).then(media => {
-                Utils.log(`Source of data is a ${media.width}x${media.height} ${this._type}`);
+                Utils.log(`Source of data is a ${media.width}x${media.height} video`);
                 this._media = media;
             });
         });
