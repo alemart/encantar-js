@@ -284,11 +284,11 @@ export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tr
         // XXX also let the user specify a source manually?
         for(const source of session.sources) {
             // prefer video sources
-            if(source._is('video')) {
+            if(source._is('video-source')) {
                 this._source = source;
                 break;
             }
-            else if(source._is('canvas'))
+            else if(source._is('canvas-source'))
                 this._source = source;
         }
         if(this._source === null)

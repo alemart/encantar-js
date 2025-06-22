@@ -65,7 +65,7 @@ export class CanvasSource implements Source
      */
     _is<T extends keyof SourceType>(type: T): this is SourceType[T]
     {
-        return type === 'canvas';
+        return type === 'canvas-source';
     }
 
     /**

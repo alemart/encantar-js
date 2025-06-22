@@ -48,7 +48,7 @@ export interface Source
  * @internal
  */
 export type SourceType = {
-    'video': VideoSource,
-    'canvas': CanvasSource,
+    'video-source': VideoSource,
+    'canvas-source': CanvasSource,
     'pointer-source': PointerSource
 };

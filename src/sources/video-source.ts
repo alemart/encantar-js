@@ -72,7 +72,7 @@ export class VideoSource implements Source
      */
     _is<T extends keyof SourceType>(type: T): this is SourceType[T]
     {
-        return type === 'video';
+        return type === 'video-source';
     }
 
     /**
