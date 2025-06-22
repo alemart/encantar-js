@@ -74,9 +74,6 @@ export interface Tracker
     /** check if this tracker is of a certain type */
     is<T extends keyof TrackerType>(type: T): this is TrackerType[T];
 
-    /** a string that identifies the type of the tracker @deprecated */
-    readonly type: keyof TrackerType;
-
     /** initialize tracker @internal */
     _init(session: Session): SpeedyPromise<void>;
 
@@ -91,6 +88,10 @@ export interface Tracker
 
     /** stats related to this tracker @internal */
     readonly _stats: string;
+
+    /** a string that identifies the type of the tracker
+     *  @deprecated use is() instead */
+    readonly type: keyof TrackerType;
 }
 
 /**

@@ -39,7 +39,7 @@ export class TrackerFactory
 
     /**
      * Create an Image Tracker with default settings
-     * @deprecated
+     * @deprecated use Image() instead
      */
     static ImageTracker(): ImageTracker
     {

@@ -190,7 +190,7 @@ export class ImageTracker extends AREventTarget<ImageTrackerEvent> implements Tr
 
     /**
      * The type of the tracker
-     * @deprecated
+     * @deprecated use is() instead
      */
     get type(): keyof TrackerType
     {

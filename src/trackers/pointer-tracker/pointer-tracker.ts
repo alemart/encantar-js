@@ -199,7 +199,7 @@ export class PointerTracker implements Tracker
 
     /**
      * The type of the tracker
-     * @deprecated
+     * @deprecated use is() instead
      */
     get type(): keyof TrackerType
     {
