@@ -1686,6 +1686,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#is" class="md-nav__link">
+    <span class="md-ellipsis">
+      is
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2632,6 +2656,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      Methods
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#is" class="md-nav__link">
+    <span class="md-ellipsis">
+      is
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2654,11 +2702,36 @@
 
 <h1 id="tracker">Tracker</h1>
 <p>An interface that represents a generic tracker. Trackers analyze input data in some way and are meant to be attached to a <a href="../session/">session</a>. Refer to the <a href="../../tutorial/concepts/">concepts</a> for more information.</p>
-<p>An <a href="../image-tracker/">Image Tracker</a> is an implementation of a tracker.</p>
+<p>An <a href="../image-tracker/">Image Tracker</a> is an implementation of a tracker, and so is a <a href="../pointer-tracker/">PointerTracker</a>.</p>
 <h2 id="properties">Properties</h2>
 <h3 id="type">type</h3>
 <p><code>tracker.type: string, read-only</code></p>
 <p>A string representing the type of the tracker.</p>
+<p><em>Deprecated since:</em> 0.4.4. Use <code>tracker.is()</code> instead.</p>
+<h2 id="methods">Methods</h2>
+<h3 id="is">is</h3>
+<p><code>tracker.is(type: string): boolean</code></p>
+<p>Checks if <code>this</code> tracker is of a certain <code>type</code>. This is a convenient type guard for TypeScript users. See also: <a href="../tracker-result/#of">TrackerResult.of</a>.</p>
+<p><em>Since:</em> 0.4.4</p>
+<p><strong>Returns</strong></p>
+<p><code>true</code> if and only if <code>type === tracker.type</code></p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">let</span><span class="w"> </span><span class="nx">tracker</span><span class="o">:</span><span class="w"> </span><span class="kt">Tracker</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">// ...</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">if</span><span class="p">(</span><span class="nx">tracker</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;image-tracker&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="c1">// tracker is inferred to be an ImageTracker</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="p">(</span><span class="nx">tracker</span><span class="p">.</span><span class="nx">is</span><span class="p">(</span><span class="s1">&#39;pointer-tracker&#39;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="c1">// tracker is inferred to be a PointerTracker</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="p">}</span>
+</code></pre></div>
 
 
 

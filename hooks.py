@@ -11,7 +11,7 @@ def copy_static_files(config, **kwargs):
 def copy_directory(dir_path, site_dir):
     d = os.path.join(site_dir, dir_path)
     os.makedirs(d, exist_ok=True)
-    s = dir_path if dir_path != "dist" else "www/dist"
+    s = dir_path if dir_path != "dist" else "build/dist"
     copy_tree(s, d)
 
 def copy_tree(src, dst, symlinks=False, ignore=None):
