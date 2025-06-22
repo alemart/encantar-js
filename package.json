@@ -28,19 +28,21 @@
   ],
   "type": "module",
   "main": "src/main.ts",
+  "types": "build/types/main.d.ts",
   "scripts": {
     "start": "node esbuild.mjs --minify --serve",
     "prebuild": "tsc --noEmit && npm run clean",
     "build": "node esbuild.mjs && node esbuild.mjs --minify",
+    "build-types": "tsc --emitDeclarationOnly --declaration --declarationDir build/types",
     "plugins": "for f in $(find plugins/ -name *.js); do esbuild --minify < $f > ${f%.*}.min.js; done",
     "update": "npm update speedy-vision",
     "deploy": "mkdocs gh-deploy",
     "docs": "mkdocs serve",
-    "clean": "rm -rf www/dist/*.*",
+    "clean": "rm -rf www/dist/*.* && rm -rf build/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "speedy-vision": "github:alemart/speedy-vision#v0.9.1"
+    "speedy-vision": "github:alemart/speedy-vision#af1a64017ea1476fdac1adbbba4337732e5bfefb"
   },
   "devDependencies": {
     "esbuild": "0.24.2",
