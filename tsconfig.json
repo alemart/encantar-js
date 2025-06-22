@@ -3,7 +3,7 @@
         "target": "es2020",
         "module": "es6",
         "lib": ["dom", "es2020"],
-        "outDir": "./dist/",
+        "outDir": "./build",
         "sourceMap": true,
         "allowJs": true,
         "strict": true,
