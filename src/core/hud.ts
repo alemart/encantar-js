@@ -23,7 +23,6 @@
 import { Viewport } from './viewport';
 import { StatsPanel } from '../ui/stats-panel';
 import { FullscreenButton } from '../ui/fullscreen-button';
-import { SupportWidget } from '../ui/support-widget';
 import { Nullable, Utils } from '../utils/utils';
 
 /** HUD container */
@@ -49,8 +48,6 @@ export class HUD
     /** Fullscreen button */
     #fullscreenButton: FullscreenButton;
 
-    /** Support widget */
-    #supportWidget: SupportWidget;
 
 
 
@@ -84,7 +81,6 @@ export class HUD
         // create internal components
         this.#statsPanel = new StatsPanel();
         this.#fullscreenButton = new FullscreenButton(viewport);
-        this.#supportWidget = new SupportWidget();
     }
 
     /**
@@ -134,7 +130,6 @@ export class HUD
         const parent = this._internalContainer;
         this.#statsPanel.init(parent, wantStatsPanel);
         this.#fullscreenButton.init(parent, wantFullscreenButton);
-        this.#supportWidget.init(parent);
 
         for(const element of parent.children as any as HTMLElement[]) {
             if(element.style.getPropertyValue('pointer-events') == '')
@@ -162,7 +157,6 @@ export class HUD
     {
         this._visible = false;
 
-        this.#supportWidget.release();
         this.#fullscreenButton.release();
         this.#statsPanel.release();
 
