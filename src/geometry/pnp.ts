@@ -415,7 +415,7 @@ d) convert the unit quaternion to a rotation matrix
 
 AND WE'RE DONE!
 
-WOW!!!!!!!!!!!!
+YEAH!!!!!!!!!!!
 
 Now check this out: M is a 4x4 matrix of a particular form. We can compute its
 characteristic polynomial to find its eigenvalues: we'll see a quartic equation.
