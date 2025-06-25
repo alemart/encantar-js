@@ -1,40 +1,34 @@
-# encantar.js WebAR engine
+# encantar.js Web AR engine :magic_wand:
 
-The Augmented Reality engine that will enchant you!
+encantar.js is a GPU-accelerated Augmented Reality framework for the web.
 
-:heart: encantar.js is an Augmented Reality technology which I develop independently. Support this work by [purchasing your copy](https://encantar.dev/download). You can also [become a sponsor](https://github.com/sponsors/alemart).
+* It's **compatible with all platforms**: iOS, Android, Desktops...
+* It can run in devices without native support for AR / WebXR
+* It's **blazing fast**, built with GPU acceleration at its core
+* It's **easy to use** for developers and artists alike
+* **All you need is a modern web browser** - no app required!
 
-:star2: **[Try it!](https://encantar.dev/demos/hello-aframe/poster.html)** | :video_game: **[Play a game!](https://encantar.dev/demos/basketball/poster.html)** | :magic_wand: **[Demos](https://encantar.dev/demos/)** | :heart_eyes: **[Add-Ons](https://encantar.dev/addons/)** | :books: **[Learn](https://encantar.dev/tutorial/)**
+Get started at <https://encantar.dev> :magic_wand:
 
-<a href="https://encantar.dev/demos/hello-aframe/poster.html"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://encantar.dev/demos/basketball/poster.html"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://encantar.dev/addons/"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
+## Demos
 
-## Features
+<a href="https://alemart.github.io/encantar-js/demos/hello-aframe/poster.html" target="_blank"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://alemart.github.io/encantar-js/demos/basketball/poster.html" target="_blank"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://alemart.github.io/encantar-js/addons/" target="_blank"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
 
-* **Image tracking**: track detailed images such as book covers, cartoons and photos. No need of manual training!
+[More at the website...](https://encantar.dev/demos)
+
+## Core features
+
+* **Image tracking**: track detailed images such as cartoons or photos. Give it [reference images](https://encantar.dev/guidelines-for-images) and it just works!
 * **Pointer tracking**: create interactive experiences based on touch and mouse input with an easy-to-use API.
-* **Plugins**: use encantar.js with the 3D framework of your choice, including: A-Frame, Babylon.js, Three.js and more!
-* **Add-Ons**: create rich experiences with additional features that enhance the core of encantar.js!
+* **Plugins**: use encantar.js with the 3D engine of your choice: A-Frame, Babylon.js, Three.js, or any other!
 
-## Key points
+## Add-Ons
 
-* **AR everywhere**: it runs on Android, on iOS, and even on Desktop computers! Only a modern web browser is required.
-* **Easy to use**: just load a static HTML page! No need of heavy app downloads, server-side components or subscriptions.
-* **Device-agnostic**: no need of AR-capable devices! encantar.js is AR built from scratch with computer vision!
-* **Fast & powerful**: encantar.js is GPU-accelerated. It uses WebGL2 and WebAssembly for turbocharged performance.
-* **Open source**: personal, professional and educational uses are allowed.
+Additional features [available for supporters](https://encantar.dev/addons):
 
-## Browser compatibility
-
-encantar.js is compatible with all major web browsers:
-
-| Chrome | Edge | Firefox | Opera | Safari* |
-| ------ | ---- | ------- | ----- | ------- |
-| ✔      | ✔    | ✔       | ✔     | ✔       |
-
-\* use Safari 15.2 or later.
-
-encantar.js requires WebGL2 and WebAssembly, which are widely supported.
+* **Video Player**: easy-to-use video player with controls - suitable for AR books, AR business cards, interactive art, etc. [Read more...](https://encantar.dev/addons/ar-video-player)
+* **Buttons & Clickables**: easily detect and trigger reactions when buttons or 3D objects are tapped in AR. [Read more...](https://encantar.dev/addons/ar-button)
 
 ## About
 
-encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [LGPL](LICENSE.md). It is based on [Speedy Vision](https://github.com/alemart/speedy-vision).
+encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [GNU LGPL v3](LICENSE.md). It's based on [speedy-vision](https://github.com/alemart/speedy-vision).
