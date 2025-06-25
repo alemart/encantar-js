@@ -8,13 +8,21 @@ encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web
 
 Refer to the [concepts](./tutorial/concepts.md).
 
-## What are your recommendations for WebAR?
-
-Refer to the [recommendations](./recommendations.md).
-
 ## Is this WebXR?
 
-No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely available. My intention is to give it broad compatibility.
+No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely supported. My intention is to give it broad compatibility.
+
+## What about browser compatibility?
+
+encantar.js is compatible with all major web browsers:
+
+| Chrome | Edge | Firefox | Opera | Safari* |
+| ------ | ---- | ------- | ----- | ------- |
+| ✔      | ✔    | ✔       | ✔     | ✔       |
+
+\* use Safari 15.2 or later.
+
+encantar.js requires WebGL2 and WebAssembly, which are widely supported.
 
 ## Can I bundle it using Vite, Webpack, etc?
 
@@ -36,6 +44,10 @@ encantar.js uses a right-handed coordinate system with the Z-axis pointing "up".
 ## Can I increase the resolution of the tracking?
 
 Yes. You can increase the [resolution of the tracker](api/image-tracker.md#instantiation), as well as the [resolution of the camera](api/camera-source.md#instantiation), using the API. You can also increase the resolution of the rendered virtual scene by setting the [resolution of the viewport](api/viewport.md#instantiation). Performance is affected by various factors such as upload times (GPU). Test your AR experience on your target devices to find a good balance between performance and increased resolution.
+
+## Any recommendations?
+
+Refer to the [recommendations](./recommendations.md).
 
 ## I am enchanted!
 
