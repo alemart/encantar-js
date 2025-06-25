@@ -203,7 +203,7 @@ export class Session extends AREventTarget<SessionEvent>
         //alert(Utils.deviceInfo()); // debug
 
         // If Safari / iOS, require version 15.2 or later
-        if(/(Mac|iOS|iPhone|iPad|iPod)/i.test(Utils.platformString())) {
+        if(/(Mac|iOS|iPhone|iPad|iPod)/i.test(navigator.platform)) {
 
             /*
 
