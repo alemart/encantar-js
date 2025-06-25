@@ -2,6 +2,10 @@
 
 An interface specifying an image template that is fed to an [Image Tracker](image-tracker.md).
 
+!!! tip "Guidelines for Images"
+
+    Read [Guidelines for Images](../guidelines-for-images.md) for tips on how to design images that are suitable for tracking.
+
 ## Properties
 
 ### name

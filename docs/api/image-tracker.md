@@ -2,6 +2,10 @@
 
 A [tracker](tracker.md) that tracks images in a video. Images are tracked using templates known as [reference images](reference-image.md).
 
+!!! tip "Guidelines for Images"
+
+    Read [Guidelines for Images](../guidelines-for-images.md) for tips on how to design images that are suitable for tracking.
+
 ## Instantiation
 
 ### AR.Tracker.Image
