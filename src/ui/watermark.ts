@@ -51,9 +51,11 @@ export class Watermark
     /**
      * Initialize
      * @param parent parent node
+     * @param isVisible
      */
-    init(parent: Node): void
+    init(parent: Node, isVisible: boolean): void
     {
+        this._graphic.hidden = !isVisible;
         parent.appendChild(this._graphic);
 
         if(this._dialog !== null)
@@ -84,26 +86,24 @@ export class Watermark
         button.style.width = '20%';
         button.style.minWidth = '128px';
 
-        button.style.opacity = '0.4';
         button.style.cursor = 'pointer';
         button.style.outline = 'none';
         button.style.border = 'none';
         button.style.background = 'none';
         (button.style as any)['-webkit-tap-highlight-color'] = 'transparent';
         button.draggable = false;
-        button.hidden = !!(__AR_FLAGS__ & 1);
 
         img.style.width = '100%';
         img.style.pointerEvents = 'none';
-        img.style.filter = 'none';
+        img.style.filter = 'opacity(40%)';
         img.src = GRAPHIC;
         button.appendChild(img);
 
         const setPressed = (isPressed: boolean) => (() => {
             if(isPressed)
-                img.style.filter = 'brightness(0) invert(72%) sepia(41%) saturate(1108%) hue-rotate(359deg) brightness(109%) contrast(106%)';
+                img.style.filter = 'brightness(0) invert(72%) sepia(41%) saturate(1108%) hue-rotate(359deg) brightness(109%) contrast(106%) opacity(90%)';
             else
-                img.style.filter = 'none';
+                img.style.filter = 'opacity(40%)';
         });
 
         button.addEventListener('pointerdown', setPressed(true));
@@ -158,8 +158,7 @@ export class Watermark
 
         logo.src = GRAPHIC;
         logo.style.maxWidth = '100%';
-        logo.style.filter = 'invert(36%) sepia(90%) saturate(7472%) hue-rotate(268deg) brightness(92%) contrast(92%)';
-        logo.style.opacity = '0.7';
+        logo.style.filter = 'invert(36%) sepia(90%) saturate(7472%) hue-rotate(268deg) brightness(92%) contrast(92%) opacity(70%)';
         wrapper.appendChild(logo);
 
         copyrightText.innerText = 'Copyright \u00A9 2022-present Alexandre Martins';

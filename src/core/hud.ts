@@ -128,14 +128,15 @@ export class HUD
      * @param zIndex the z-index of the container
      * @param wantStatsPanel
      * @param wantFullscreenButton
+     * @param wantWatermark
      * @internal
      */
-    _init(zIndex: number, wantStatsPanel: boolean, wantFullscreenButton: boolean): void
+    _init(zIndex: number, wantStatsPanel: boolean, wantFullscreenButton: boolean, wantWatermark: boolean): void
     {
         const parent = this._internalContainer;
         this.#statsPanel.init(parent, wantStatsPanel);
         this.#fullscreenButton.init(parent, wantFullscreenButton);
-        this.#watermark.init(parent);
+        this.#watermark.init(parent, wantWatermark);
 
         for(const element of parent.children as any as HTMLElement[]) {
             if(element.style.getPropertyValue('pointer-events') == '')

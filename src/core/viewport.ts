@@ -76,6 +76,9 @@ export interface ViewportSettings
 
     /** Whether or not to include the built-in fullscreen button */
     fullscreenUI?: boolean;
+
+    /** Whether or not to display the encantar.js watermark */
+    watermark?: boolean;
 }
 
 /** Default viewport constructor settings */
@@ -86,6 +89,7 @@ const DEFAULT_VIEWPORT_SETTINGS: Readonly<Required<ViewportSettings>> = {
     style: 'best-fit',
     canvas: null,
     fullscreenUI: true,
+    watermark: true,
 };
 
 
@@ -1227,7 +1231,8 @@ export class Viewport extends AREventTarget<ViewportEvent>
 
         // initialize the HUD
         const wantFullscreenButton = this.fullscreenAvailable && this._settings.fullscreenUI;
-        this._hud._init(HUD_ZINDEX, wantStatsPanel, wantFullscreenButton);
+        const wantWatermark = this._settings.watermark;
+        this._hud._init(HUD_ZINDEX, wantStatsPanel, wantFullscreenButton, wantWatermark);
     }
 
     /**
