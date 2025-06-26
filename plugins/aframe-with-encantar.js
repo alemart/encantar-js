@@ -1064,7 +1064,6 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
         const scene = this.el.sceneEl;
         const huds = [];
         const fullscreenUI = this.el.components['ar-viewport-fullscreen-ui'];
-        const watermark = this.el.components['ar-viewport-watermark'];
 
         for(const child of this.el.children) {
             if(child.components !== undefined) {
@@ -1089,8 +1088,7 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
                 resolution: this.data.resolution,
                 style: this.data.style,
             },
-            !fullscreenUI ? {} : { fullscreenUI: fullscreenUI.data.enabled },
-            !watermark ? {} : { watermark: watermark.data.visible }
+            !fullscreenUI ? {} : { fullscreenUI: fullscreenUI.data.enabled }
         ));
     },
 
@@ -1104,7 +1102,6 @@ AFRAME.registerPrimitive('ar-viewport', {
         'resolution': 'ar-viewport.resolution',
         'style': 'ar-viewport.style',
         'fullscreen-ui': 'ar-viewport-fullscreen-ui',
-        'watermark': 'ar-viewport-watermark'
     }
 });
 
@@ -1114,17 +1111,6 @@ AFRAME.registerComponent('ar-viewport-fullscreen-ui', ARComponent({
 
         /** whether or not to include the built-in fullscreen button */
         'enabled': { type: 'boolean', default: true },
-
-    }
-
-}));
-
-AFRAME.registerComponent('ar-viewport-watermark', ARComponent({
-
-    schema: {
-
-        /** whether or not to display the encantar.js watermark */
-        'visible': { type: 'boolean', default: true },
 
     }
 

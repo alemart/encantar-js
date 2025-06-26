@@ -19,7 +19,6 @@ Create a new viewport with the specified `settings`.
     * `canvas: HTMLCanvasElement, optional`. An existing canvas on which the virtual scene will be drawn. The engine automatically creates a canvas. You should only specify an existing canvas if you must. Experimental.
     * `style: string, optional`. The [viewport style](#style). *Since:* 0.3.0
     * `fullscreenUI: boolean, optional`. Whether or not to include, as a convenience, the built-in fullscreen button on platforms in which the fullscreen mode is [available](#fullscreenavailable). Defaults to `true`. *Since:* 0.3.0
-    * `watermark: boolean, optional`. Whether or not to display the encantar.js watermark and the accompanying about box. *Since:* 0.4.4
 
 **Returns**
 
