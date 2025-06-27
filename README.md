@@ -18,16 +18,18 @@ Get started at <https://encantar.dev> :magic_wand:
 
 ## Core features
 
+Core features with [rich documentation](https://encantar.dev/api):
+
 * **Image tracking**: track detailed images such as cartoons or photos. Give it [reference images](https://encantar.dev/guidelines-for-images) and it just works!
 * **Pointer tracking**: create interactive experiences based on touch and mouse input with an easy-to-use API.
-* **Plugins**: use encantar.js with the 3D engine of your choice: A-Frame, Babylon.js, Three.js, or any other!
+* **Plugins**: use encantar.js with the 3D engine of your choice: [A-Frame](https://encantar.dev/api/plugin-aframe/), [babylon.js](https://encantar.dev/api/plugin-babylon/), [three.js](https://encantar.dev/api/plugin-three/), or any other!
 
 ## Add-Ons
 
 Additional features [available for supporters](https://encantar.dev/addons):
 
-* **Video Player**: easy-to-use video player with controls - suitable for AR books, AR business cards, interactive art, etc. [Read more...](https://encantar.dev/addons/ar-video-player)
-* **Buttons & Clickables**: easily detect and trigger reactions when buttons or 3D objects are tapped in AR. [Read more...](https://encantar.dev/addons/ar-button)
+* **Video Player**: easily play videos in AR - suitable for promotional materials, AR books, interactive art, etc. [Read more...](https://encantar.dev/addons/ar-video-player)
+* **Buttons & Clickables**: easily trigger reactions when buttons or 3D objects are tapped in AR. [Read more...](https://encantar.dev/addons/ar-button)
 
 ## About
 
