@@ -32,3 +32,6 @@ Additional features [available for supporters](https://encantar.dev/addons):
 ## About
 
 encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [GNU LGPL v3](LICENSE.md). It's based on [speedy-vision](https://github.com/alemart/speedy-vision).
+
+[![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart)
