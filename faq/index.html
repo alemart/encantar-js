@@ -964,18 +964,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-are-your-recommendations-for-webar" class="md-nav__link">
+  <a href="#is-this-webxr" class="md-nav__link">
     <span class="md-ellipsis">
-      What are your recommendations for WebAR?
+      Is this WebXR?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#is-this-webxr" class="md-nav__link">
+  <a href="#what-about-browser-compatibility" class="md-nav__link">
     <span class="md-ellipsis">
-      Is this WebXR?
+      What about browser compatibility?
     </span>
   </a>
   
@@ -1003,6 +1003,15 @@
   <a href="#can-i-increase-the-resolution-of-the-tracking" class="md-nav__link">
     <span class="md-ellipsis">
       Can I increase the resolution of the tracking?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#any-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Any recommendations?
     </span>
   </a>
   
@@ -2671,18 +2680,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-are-your-recommendations-for-webar" class="md-nav__link">
+  <a href="#is-this-webxr" class="md-nav__link">
     <span class="md-ellipsis">
-      What are your recommendations for WebAR?
+      Is this WebXR?
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#is-this-webxr" class="md-nav__link">
+  <a href="#what-about-browser-compatibility" class="md-nav__link">
     <span class="md-ellipsis">
-      Is this WebXR?
+      What about browser compatibility?
     </span>
   </a>
   
@@ -2710,6 +2719,15 @@
   <a href="#can-i-increase-the-resolution-of-the-tracking" class="md-nav__link">
     <span class="md-ellipsis">
       Can I increase the resolution of the tracking?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#any-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Any recommendations?
     </span>
   </a>
   
@@ -2749,10 +2767,32 @@
 <p>encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name is derived from the Portuguese and Spanish word <em>encantar</em>, which means: to enchant, to delight, to love, to fascinate, to put a magical spell on someone or something. <img alt="✨" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/2728.png" title=":sparkles:" /></p>
 <h2 id="what-is-webar">What is WebAR?</h2>
 <p>Refer to the <a href="../tutorial/concepts/">concepts</a>.</p>
-<h2 id="what-are-your-recommendations-for-webar">What are your recommendations for WebAR?</h2>
-<p>Refer to the <a href="../recommendations/">recommendations</a>.</p>
 <h2 id="is-this-webxr">Is this WebXR?</h2>
-<p>No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely available. My intention is to give it broad compatibility.</p>
+<p>No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely supported. My intention is to give it broad compatibility.</p>
+<h2 id="what-about-browser-compatibility">What about browser compatibility?</h2>
+<p>encantar.js is compatible with all major web browsers:</p>
+<table>
+<thead>
+<tr>
+<th>Chrome</th>
+<th>Edge</th>
+<th>Firefox</th>
+<th>Opera</th>
+<th>Safari*</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+</tr>
+</tbody>
+</table>
+<p>* use Safari 15.2 or later.</p>
+<p>encantar.js requires WebGL2 and WebAssembly, which are widely supported.</p>
 <h2 id="can-i-bundle-it-using-vite-webpack-etc">Can I bundle it using Vite, Webpack, etc?</h2>
 <p>Static linking is not allowed according to the <a href="../license/">license</a>. The inclusion of encantar.js in a web page using a separate script tag does not constitute static linking:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;path/to/encantar.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
@@ -2766,6 +2806,8 @@
 </div>
 <h2 id="can-i-increase-the-resolution-of-the-tracking">Can I increase the resolution of the tracking?</h2>
 <p>Yes. You can increase the <a href="../api/image-tracker/#instantiation">resolution of the tracker</a>, as well as the <a href="../api/camera-source/#instantiation">resolution of the camera</a>, using the API. You can also increase the resolution of the rendered virtual scene by setting the <a href="../api/viewport/#instantiation">resolution of the viewport</a>. Performance is affected by various factors such as upload times (GPU). Test your AR experience on your target devices to find a good balance between performance and increased resolution.</p>
+<h2 id="any-recommendations">Any recommendations?</h2>
+<p>Refer to the <a href="../recommendations/">recommendations</a>.</p>
 <h2 id="i-am-enchanted">I am enchanted!</h2>
 <p>I know! <img alt="😉" class="gemoji" src="https://github.githubassets.com/images/icons/emoji/unicode/1f609.png" title=":wink:" /></p>
 

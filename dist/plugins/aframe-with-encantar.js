@@ -1101,7 +1101,7 @@ AFRAME.registerPrimitive('ar-viewport', {
     mappings: {
         'resolution': 'ar-viewport.resolution',
         'style': 'ar-viewport.style',
-        'fullscreen-ui': 'ar-viewport-fullscreen-ui'
+        'fullscreen-ui': 'ar-viewport-fullscreen-ui',
     }
 });
 

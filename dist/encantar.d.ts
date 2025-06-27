@@ -169,11 +169,6 @@ declare module "utils/utils" {
          */
         static resolution(resolution: Resolution, aspectRatio: number): SpeedySize;
         /**
-         * Returns a string containing platform brand information
-         * @returns platform brand information
-         */
-        static platformString(): string;
-        /**
          * Checks if we're on iOS
          * @returns true if we're on iOS
          */
@@ -2817,38 +2812,6 @@ declare module "ui/fullscreen-button" {
          * Handle a fullscreenchange event
          */
         private _handleFullscreenEvent;
-    }
-}
-declare module "ui/watermark" {
-    /**
-     * Watermark
-     */
-    export class Watermark {
-        /** The graphic of the Watermark */
-        private readonly _graphic;
-        /** A dialog element */
-        private readonly _dialog;
-        /**
-         * Constructor
-         */
-        constructor();
-        /**
-         * Initialize
-         * @param parent parent node
-         */
-        init(parent: Node): void;
-        /**
-         * Release
-         */
-        release(): void;
-        /**
-         * Create the graphic
-         */
-        private _createGraphic;
-        /**
-         * Create the dialog box
-         */
-        private _createDialog;
     }
 }
 declare module "core/hud" {
