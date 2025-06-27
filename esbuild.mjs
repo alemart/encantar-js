@@ -29,7 +29,7 @@ const options = {
     legalComments: 'inline',
     banner: { js: generateBanner() },
     footer: { js: serve ? generateLiveReloadCode() : '' },
-    outfile: 'build/dist/' + (minify ? 'encantar.min.js' : 'encantar.js'),
+    outfile: 'build/' + (minify ? 'encantar.min.js' : 'encantar.js'),
     sourcemap: !production && 'linked',
     logLevel: 'info',
 };
