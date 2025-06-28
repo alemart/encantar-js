@@ -55,7 +55,7 @@ export class BasketballGame extends ARDemo
             );
         }
 
-        const imageTracker = AR.Tracker.Image();
+        const imageTracker = AR.Tracker.Image({ resolution: 'md' });
         await imageTracker.database.add([
         {
             name: 'mage',
