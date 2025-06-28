@@ -1,6 +1,6 @@
 {
   "name": "encantar",
-  "version": "0.4.4-dev",
+  "version": "0.4.4",
   "description": "GPU-accelerated Augmented Reality framework for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
   "homepage": "https://encantar.dev",
@@ -47,7 +47,7 @@
     "speedy-vision": "github:alemart/speedy-vision#v0.9.1"
   },
   "devDependencies": {
-    "esbuild": "0.24.2",
+    "esbuild": "^0.25.5",
     "typescript": "^4.9.5"
   },
   "config": {}
