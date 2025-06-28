@@ -20,7 +20,7 @@ Get started at <https://encantar.dev> :magic_wand:
 
 Core features with [rich documentation](https://encantar.dev/api):
 
-* **Image tracking**: track detailed images such as cartoons or photos. Give it [reference images](https://encantar.dev/guidelines-for-images) and it just works!
+* **Image tracking**: track detailed images such as cartoons or photos. Import your [custom images](https://encantar.dev/guidelines-for-images) and it just works!
 * **Pointer tracking**: create interactive experiences based on touch and mouse input with an easy-to-use API.
 * **Plugins**: use encantar.js with the 3D engine of your choice: [A-Frame](https://encantar.dev/api/plugin-aframe/), [babylon.js](https://encantar.dev/api/plugin-babylon/), [three.js](https://encantar.dev/api/plugin-three/), or any other!
 
@@ -28,12 +28,15 @@ Core features with [rich documentation](https://encantar.dev/api):
 
 Additional features [available for supporters](https://encantar.dev/addons):
 
-* **Video Player**: easily play videos in AR - suitable for promotional materials, AR books, interactive art, etc. [Read more...](https://encantar.dev/addons/ar-video-player)
+* **Video Player**: easy-to-use video player with controls - suitable for promotional materials, educational content, interactive art, and much more. [Read more...](https://encantar.dev/addons/ar-video-player)
 * **Buttons & Clickables**: easily trigger reactions when buttons or 3D objects are tapped in AR. [Read more...](https://encantar.dev/addons/ar-button)
 
 ## About
 
 encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [GNU LGPL v3](LICENSE.md). It's based on [speedy-vision](https://github.com/alemart/speedy-vision).
 
+**Enjoy my magic?** :mage_man:
+
 [![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
+
