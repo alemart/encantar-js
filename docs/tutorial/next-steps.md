@@ -62,4 +62,6 @@ If you came this far in the guide, WebAR probably excites you. It is definitely 
 
 I develop encantar.js independently. Creating this WebAR engine required a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
 
-[:heart:{ .heart } Support my work](../support-my-work.md){ .md-button }
+[![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
+
