@@ -1,5 +1,13 @@
 # Release notes
 
+## 0.4.4 - June 28th, 2025
+
+* Introduced a new Viewport style: crop
+* Fixed a potential issue related to the orientation of the device
+* Improved some types of the API
+* Tweaked the build system
+* Small changes
+
 ## 0.4.3 - April 2nd, 2025
 
 * Increased the stability of the tracking
