@@ -8,7 +8,7 @@ import * as THREE from 'three';
 
 /* Usage of the indicated versions is encouraged */
 __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
-    'encantar.js': { version: '0.4.4' },
+    'encantar.js': { version: '0.4.5' },
        'three.js': { version: '172' }
 });
 
