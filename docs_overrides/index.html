@@ -93,24 +93,38 @@ body {
   font-size: 1.2rem;
   line-height: 2.5;
   margin: 0 auto 1rem auto;
-  padding: 3px;
+  padding: 18px 3px;
   max-width: var(--max-width);
   background-color: rgba(255, 255, 255, 0.2);
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
   border-radius: var(--border-radius);
-  /*border: 2px outset rgba(126, 86, 194, 0.2);*/
 }
-#pay > #amounts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+#pay > *:nth-child(2) {
   width: 45%;
   min-width: 320px;
-  font-size: 0.85em;
 }
 #pay > *:last-child {
   margin-top: 0.7rem;
   margin-bottom: 0.7rem;
+}
+#pay #amounts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.85em;
+}
+#pay #amounts .dollar-sign::before {
+  content: "$";
+}
+#pay #amounts.euro .dollar-sign::before {
+  content: "\20AC";
+}
+#pay #currencies {
+  font-size: 0.6em;
+  font-weight: bold;
+}
+#pay #currencies input[type="radio"] + label {
+  margin: 0 !important;
 }
 #pay input[type="submit"] {
   font-size: 1.0rem;
@@ -162,12 +176,6 @@ input::-webkit-inner-spin-button {
 #custom-amount:invalid {
   border-color: salmon !important;
 }
-#dollar-sign {
-  font-size: 0.85em;
-  position: absolute;
-  left: 0.83em;
-  top: 0.33em;
-}
 #custom-amount-wrapper {
   flex-basis: 14.9rem; /* line break */
   visibility: hidden;
@@ -175,6 +183,12 @@ input::-webkit-inner-spin-button {
   transform: scaleY(0);
   transform-origin: top;
   transition: transform 0.2s ease-out, max-height 0.2s ease-out;
+}
+#custom-amount-wrapper > .dollar-sign {
+  font-size: 0.85em;
+  position: absolute;
+  left: 0.83em;
+  top: 0.33em;
 }
 #custom-tier:checked ~ #custom-amount-wrapper {
   visibility: visible;
@@ -355,6 +369,7 @@ html:has(#download-dialog[open]) {
 
 @media screen and (min-width: 768px) {
   /*#pay { justify-content: space-around; }*/
+  #pay > *:nth-child(2) { position: relative; top: 18px; }
   #title h1 { font-size: 4.0rem; }
   #title h2 { font-size: 1.6rem; }
   #topics { text-align: justify; }
@@ -440,21 +455,29 @@ function setupReveal()
   </video>
   <form id="pay" method="post" action="https://api.encantar.dev/v1/pay" autocomplete="off" onsubmit="return this.tier.value != 'custom' || this['custom-amount'].value != ''">
     <span>Pay What You Can:</span>
-    <span id="amounts">
-      <input type="radio" id="custom-tier" name="tier" value="custom" data-goatcounter-click onchange="this.checked && document.getElementById('custom-amount').focus()">
-      <label for="custom-tier">$X</label>
-      <input type="radio" id="first-tier" name="tier" value="first" data-goatcounter-click>
-      <label for="first-tier">$29</label>
-      <input type="radio" id="second-tier" name="tier" value="second" checked data-goatcounter-click>
-      <label for="second-tier">$49</label>
-      <input type="radio" id="third-tier" name="tier" value="third" data-goatcounter-click>
-      <label for="third-tier">$99</label>
-      <input type="radio" id="fourth-tier" name="tier" value="fourth" data-goatcounter-click>
-      <label for="fourth-tier">$199</label>
-      <label for="custom-amount" id="custom-amount-wrapper">
-        <span id="dollar-sign">$</span>
-        <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter a fair dollar amount" min="0" max="999999" step="1">
-      </label>
+    <span>
+      <div id="amounts" class="euro">
+        <input type="radio" id="custom-tier" name="tier" value="custom" data-goatcounter-click onchange="this.checked && document.getElementById('custom-amount').focus()">
+        <label for="custom-tier"><span class="dollar-sign"></span>X</label>
+        <input type="radio" id="first-tier" name="tier" value="first" data-goatcounter-click>
+        <label for="first-tier"><span class="dollar-sign"></span>29</label>
+        <input type="radio" id="second-tier" name="tier" value="second" checked data-goatcounter-click>
+        <label for="second-tier"><span class="dollar-sign"></span>49</label>
+        <input type="radio" id="third-tier" name="tier" value="third" data-goatcounter-click>
+        <label for="third-tier"><span class="dollar-sign"></span>99</label>
+        <input type="radio" id="fourth-tier" name="tier" value="fourth" data-goatcounter-click>
+        <label for="fourth-tier"><span class="dollar-sign"></span>199</label>
+        <label for="custom-amount" id="custom-amount-wrapper">
+          <span class="dollar-sign"></span>
+          <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter a fair amount" min="0" max="999999" step="1">
+        </label>
+      </div>
+      <div id="currencies">
+        <input type="radio" id="currency-usd" name="currency" value="usd" data-goatcounter-click onchange="this.checked && document.getElementById('amounts').classList.remove('euro')">
+        <label for="currency-usd">&#x1F1FA;&#x1F1F8; USD</label>
+        <input type="radio" id="currency-eur" name="currency" value="eur" checked data-goatcounter-click onchange="this.checked && document.getElementById('amounts').classList.add('euro')">
+        <label for="currency-eur">&#x1F1EA;&#x1F1FA; EUR</label>
+      </div>
     </span>
     <input type="submit" value="Get encantar.js" class="md-button md-button--primary" id="get-encantar" data-goatcounter-click>
   </form>
@@ -545,7 +568,7 @@ function setupReveal()
 <section id="download">
   <article>
     <h1>Download encantar.js</h1>
-    <p>encantar.js is a WebAR framework created independently by <a href="contact/" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a> and released as open source software under the GNU LGPL v3. Users are asked to support the project. Get your copy and go build something magical with it! &#x1FA84;</p>
+    <p>encantar.js is a WebAR framework created independently by <a href="contact/" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a> and released as libre and open source software under the LGPL v3. Your support is much appreciated!</p>
     <footer>
       <a href="#pay" class="md-button md-button--primary" id="download-pay" data-goatcounter-click>Pay What You Can</a>
       <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
