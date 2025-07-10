@@ -236,6 +236,7 @@ input::-webkit-inner-spin-button {
   padding: 0.5rem 0.5rem 0.5rem 2.1em;
   margin: 0;
   width: 100%;
+  height: 100%;
 
   border: 1px solid #dcdcdc;
   border-radius: calc(var(--border-radius) / 3);
@@ -249,7 +250,8 @@ input::-webkit-inner-spin-button {
   border-color: salmon !important;
 }
 #custom-amount-wrapper {
-  flex-basis: 14.9rem; /* line break */
+  /*flex-basis: 14.9rem;*/ /* line break */
+  flex-basis: 9rem; /* same line */
   visibility: hidden;
   max-height: 0;
   transform: scaleY(0);
@@ -260,9 +262,10 @@ input::-webkit-inner-spin-button {
   font-size: 0.85em;
   position: absolute;
   left: 0.83em;
-  top: 0.33em;
+  /*top: 0.33em;*/
+  top: 0.37em;
 }
-#custom-tier:checked ~ #custom-amount-wrapper {
+/*#custom-tier:checked ~*/ #custom-amount-wrapper {
   visibility: visible;
   max-height: 64px;
   transform: scaleY(1);
@@ -634,18 +637,22 @@ html:has(#donation-dialog[open]) {
     <span>
       <div id="amounts" class="euro">
         <input type="radio" id="custom-tier" name="tier" value="custom" data-goatcounter-click onchange="this.checked && document.getElementById('custom-amount').focus()">
+        <!--
         <label for="custom-tier"><span class="dollar-sign"></span>X</label>
         <input type="radio" id="first-tier" name="tier" value="first" data-goatcounter-click>
         <label for="first-tier"><span class="dollar-sign"></span>29</label>
+        -->
         <input type="radio" id="second-tier" name="tier" value="second" checked data-goatcounter-click>
         <label for="second-tier"><span class="dollar-sign"></span>49</label>
         <input type="radio" id="third-tier" name="tier" value="third" data-goatcounter-click>
         <label for="third-tier"><span class="dollar-sign"></span>99</label>
+        <!--
         <input type="radio" id="fourth-tier" name="tier" value="fourth" data-goatcounter-click>
         <label for="fourth-tier"><span class="dollar-sign"></span>199</label>
+        -->
         <label for="custom-amount" id="custom-amount-wrapper">
           <span class="dollar-sign"></span>
-          <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter the amount" min="0" max="999999" step="1">
+          <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter the amount" min="0" max="999999" step="1" oninput="document.getElementById('custom-tier').click()">
         </label>
       </div>
       <div id="currencies">
