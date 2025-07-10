@@ -1,12 +1,86 @@
 {% extends "main.html" %}
 
-{% block announce %}{% endblock %}
-{% block header %}{% endblock %}
-{% block tabs %}{% endblock %}
-{% block site_nav %}{% endblock %}
-{% block footer %}{% endblock %}
+{% block libs %}
+{{ super() }}
+<script src="js/dialog-polyfill.js"></script>
+{% endblock %}
 
-{% block content %}
+{% block scripts %}
+{{ super() }}
+<script>
+(function() {
+
+window.addEventListener('load', function() {
+  setupDialogPolyfill();
+  setupDialog();
+  setupReveal();
+});
+
+function setupDialogPolyfill()
+{
+  if(typeof HTMLDialogElement === 'undefined')
+    return;
+
+  document.querySelectorAll('dialog').forEach(function(dialog) {
+    dialogPolyfill.registerDialog(dialog);
+    dialog.classList.add('fixed');
+  });
+}
+
+function setupDialog()
+{
+  if(location.search.indexOf('checkout_session_id') < 0)
+    return;
+
+  try {
+    const searchParams = new URLSearchParams(location.search);
+    const sessionId = searchParams.get('checkout_session_id') || '';
+    const next = searchParams.get('next') || location.href;
+
+    const url = new URL(next);
+    url.searchParams.append('checkout_session_id', sessionId);
+
+    const button = document.getElementById('download-dialog-download');
+    const redirect = function() { location.href = url.href; };
+    button.onclick = redirect;
+    setTimeout(redirect, 3000);
+
+    const dialog = document.getElementById('download-dialog');
+    dialog.showModal();
+  }
+  catch(e) {
+    console.error(e);
+    alert(e.message);
+  }
+}
+
+function setupReveal()
+{
+  if(typeof IntersectionObserver === 'undefined')
+    return;
+
+  const observer = new IntersectionObserver(function(entries) {
+    for(const entry of entries) {
+      if(entry.intersectionRatio >= 0.125)
+        entry.target.classList.remove('unrevealed');
+      /*else if(entry.intersectionRatio == 0.0)
+        entry.target.classList.add('unrevealed');*/
+    }
+  }, { threshold: [0, 0.125] });
+
+  document.querySelectorAll('.reveal').forEach(function(reveal) {
+    reveal.classList.add('unrevealed');
+    observer.observe(reveal);
+  });
+}
+
+})();
+</script>
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="style/dialog-polyfill.css">
 <style>
 :root {
   --max-width: 42rem;
@@ -424,67 +498,9 @@ html:has(#donation-dialog[open]) {
   #download article footer > * { margin: 0; }
 }
 </style>
-<script>
-(function() {
+{% endblock %}
 
-window.addEventListener('load', function() {
-  setupDialog();
-  setupReveal();
-});
-
-function setupDialog()
-{
-  if(location.search.indexOf('checkout_session_id') < 0)
-    return;
-
-  try {
-    const searchParams = new URLSearchParams(location.search);
-    const sessionId = searchParams.get('checkout_session_id') || '';
-    const next = searchParams.get('next') || location.href;
-
-    const url = new URL(next);
-    url.searchParams.append('checkout_session_id', sessionId);
-
-    const button = document.getElementById('download-dialog-download');
-    const redirect = function() { location.href = url.href; };
-    button.onclick = redirect;
-    setTimeout(redirect, 3000);
-
-    const dialog = document.getElementById('download-dialog');
-    dialog.showModal();
-  }
-  catch(e) {
-    console.error(e);
-    alert(e.message);
-  }
-}
-
-function setupReveal()
-{
-  if(typeof IntersectionObserver === 'undefined')
-    return;
-
-  const observer = new IntersectionObserver(function(entries) {
-    for(const entry of entries) {
-      if(entry.intersectionRatio >= 0.125)
-        entry.target.classList.remove('unrevealed');
-      /*else if(entry.intersectionRatio == 0.0)
-        entry.target.classList.add('unrevealed');*/
-    }
-  }, { threshold: [0, 0.125] });
-
-  document.querySelectorAll('.reveal').forEach(function(reveal) {
-    reveal.classList.add('unrevealed');
-    observer.observe(reveal);
-  });
-}
-
-})();
-</script>
-
-
-
-
+{% block content %}
 <header id="title">
   <h1>encantar.js</h1>
   <h2>High performance Web AR framework &mdash; no app required!</h2>
@@ -590,6 +606,15 @@ function setupReveal()
 
 
 
+<footer class="md-footer">
+  <div class="md-copyright">
+    encantar.js: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present Alexandre Martins
+  </div>
+</footer>
+
+
+
+
 <dialog id="download-dialog">
   <form method="dialog">
     <h1>Thank you for your interest in encantar.js</h1>
@@ -634,14 +659,10 @@ function setupReveal()
   </form>
   <button id="donation-dialog-close" onclick="document.getElementById('donation-dialog').close()">&times;</button>
 </dialog>
-
-
-
-
-<footer class="md-footer">
-  <div class="md-copyright">
-    encantar.js: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present Alexandre Martins
-  </div>
-</footer>
-
 {% endblock %}
+
+{% block announce %}{% endblock %}
+{% block header %}{% endblock %}
+{% block tabs %}{% endblock %}
+{% block site_nav %}{% endblock %}
+{% block footer %}{% endblock %}
