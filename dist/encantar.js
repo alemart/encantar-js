@@ -13861,6 +13861,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             if (mode !== "inline" && _Session.count > 0)
               throw new IllegalOperationError(`Can't start multiple sessions, except in inline mode`);
             const isStableBuild = /^\d+\.\d+(\.\d+)*$/.test(AR.version);
+if(0)
             if (!isStableBuild) {
               if (!["localhost", "127.0.0.1", "[::1]", "", "encantar.dev", "alemart.github.io"].includes(location.hostname)) {
                 if (!(location.hostname.startsWith("192.168.") || location.hostname.startsWith("10.") || /^172\.(1[6-9]|2[0-9]|3[01])\./.test(location.hostname))) {
@@ -21162,4 +21163,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
   return require_src();
 })();
+document.addEventListener('DOMContentLoaded', () => {
+const pre = document.createElement('pre');
+pre.style.backgroundColor='rgba(255,255,255,0.5)';
+pre.style.color='black';
+pre.style.zIndex='1000000001';
+pre.style.position='fixed';
+pre.style.whiteSpace='pre-wrap';
+document.body.appendChild(pre);
+console.log = console.warn = console.error = function(...x) {
+	const y = x.join('\n');
+	pre.innerText = y + '\n' + pre.innerText;
+};
+});
 //# sourceMappingURL=encantar.js.map
