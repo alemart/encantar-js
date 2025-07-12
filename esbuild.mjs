@@ -1,5 +1,4 @@
 import * as esbuild from 'esbuild';
-import path from 'path';
 import { readFile } from 'fs/promises';
 
 const argv = process.argv.slice(2);
@@ -45,8 +44,8 @@ await ctx.serve({
     host: '0.0.0.0',
     port: 8000,
     servedir: 'www',
-    keyfile: path.join(import.meta.dirname, '.local-server.key'),
-    certfile: path.join(import.meta.dirname, '.local-server.cert'),
+    keyfile: new URL('.local-server.key', import.meta.url).pathname,
+    certfile: new URL('.local-server.cert', import.meta.url).pathname,
 });
 
 function generateBanner()
