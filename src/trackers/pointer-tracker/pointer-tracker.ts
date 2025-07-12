@@ -349,6 +349,12 @@ export class PointerTracker implements Tracker
             // what if we receive 'began' after 'ended' in the same frame?
             else if(phase == 'began' && current) {
                 if(current.phase == 'ended' || current.phase == 'canceled') {
+                    // ignore the 'began' and maintain the 'ended'
+                    // issue on Epiphany: pointerenter may come after a pointerup -> pointerleave sequence
+                    if(event.type == 'pointerenter')
+                        continue;
+
+                    // ignore the 'ended' and the 'began'
                     this._newPointers.delete(id);
                     continue;
                 }
