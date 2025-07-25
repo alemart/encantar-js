@@ -14,6 +14,9 @@ window.addEventListener('load', function() {
   setupDialogPolyfill();
   setupDialog();
   setupReveal();
+
+  if(location.hash == '#download')
+    document.querySelector('#donation-dialog').showModal();
 });
 
 function setupDialogPolyfill()
@@ -182,6 +185,18 @@ body {
   margin: 0.5rem 0 0 0;
   font-size: 1.4rem;
 }
+#pay #actions {
+  display: flex;
+  flex-direction: column;
+  line-height: initial;
+}
+#pay #actions > * {
+  margin-top: 0.7rem;
+  font-size: 1rem;
+}
+#pay #actions > :not(.md-button) {
+  font-size: 0.8rem;
+}
 #pay #amounts {
   display: flex;
   flex-wrap: wrap;
@@ -252,8 +267,8 @@ input::-webkit-inner-spin-button {
   border-color: salmon !important;
 }
 #custom-amount-wrapper {
-  /*flex-basis: 14.9rem;*/ /* line break */
-  flex-basis: 9rem; /* same line */
+  flex-basis: 13.8rem; /* line break */
+  /*flex-basis: 9rem*/; /* same line */
   visibility: hidden;
   max-height: 0;
   transform: scaleY(0);
@@ -267,10 +282,13 @@ input::-webkit-inner-spin-button {
   /*top: 0.33em;*/
   top: 0.37em;
 }
-/*#custom-tier:checked ~*/ #custom-amount-wrapper {
+#custom-tier:checked ~ #custom-amount-wrapper {
   visibility: visible;
   max-height: 64px;
   transform: scaleY(1);
+}
+#donation-dialog {
+  transform: translate(0, -35%) !important;
 }
 
 
@@ -314,10 +332,14 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 #topics article ul li {
-  width: 33.33%;
+  min-width: 33.33%;
+  max-width: 50%;
   display: flex;
   align-items: center;
   margin: 0;
+}
+#topics article ul li img {
+  border-radius: 0;
 }
 
 
@@ -372,7 +394,7 @@ input::-webkit-inner-spin-button {
 }
 #download article p {
   margin: 1.5rem 0;
-  font-size: 1.1em;
+  font-size: 1.05em;
 }
 #download article footer {
   display: flex;
@@ -522,7 +544,7 @@ html:has(#donation-dialog[open]) {
   <article class="reveal">
     <div>
       <h1>AR for all devices</h1>
-      <p>Create Augmented Reality experiences for iOS, Android and even Desktops! All devices are supported, including those without native capabilities for AR / WebXR. That's because encantar.js is built from scratch with computer vision.</p>
+      <p>Create Augmented Reality experiences for iOS, Android and even Desktops! All devices are supported, including those without native capabilities for AR / WebXR. User experience is frictionless, with no need to download apps!</p>
       <a href="demos/hello-aframe/poster.html" target="_blank" class="md-button" id="try-demo" data-goatcounter-click>Try a demo</a>
     </div>
     <div>
@@ -541,19 +563,22 @@ html:has(#donation-dialog[open]) {
   </article>
   <article class="reveal">
     <div>
-      <h1>Enchanted Images</h1>
-      <p>Bring images to life! Create enchanted posters, ads, books, murals and more with Image Tracking, also known as Marker Tracking or Natural Feature Tracking. Scan your own images to start the WebAR experience &ndash; all in the browser!</p>
-      <a href="demos/" target="_blank" class="md-button" id="try-more-demos" data-goatcounter-click>Try more demos</a>
+      <h1>Open Source AR</h1>
+      <p>encantar.js is one of the few open source Augmented Reality frameworks in existence. Your WebAR content is not tied to any platform or service. Host it wherever you want: there is no vendor lock-in and no usage limit.</p>
+      <a href="tutorial/" target="_blank" class="md-button" id="read-tutorial" data-goatcounter-click>Get started now</a>
     </div>
     <div>
-      <img src="img/demo-cat.gif" alt="A cat in Augmented Reality" loading="lazy">
+      <ul>
+        <li><img src="img/open-source.png" alt="Open Source" loading="lazy" style="margin:1.33rem"></li>
+        <li><img src="img/lgpl.png" alt="GNU LGPL" loading="lazy"></li>
+      </ul>
     </div>
   </article>
   <article class="reveal">
     <div>
       <h1>Easy to use and to deploy</h1>
-      <p>encantar.js may be combined with A-Frame, babylon.js, three.js, or any 3D engine &ndash; you choose! Also, processing is local, with no backend in the cloud &amp; no recurring fees &ndash; just a static web page.</p>
-      <a href="tutorial/" target="_blank" class="md-button" id="read-tutorial" data-goatcounter-click>Read the tutorial</a>
+      <p>encantar.js may be combined with A-Frame, babylon.js, three.js, or any 3D engine &ndash; you choose! Also, all processing is performed on the user's device. A static web page is all you need!</p>
+      <a href="demos/" target="_blank" class="md-button" id="try-more-demos" data-goatcounter-click>See for yourself</a>
     </div>
     <div>
       <ul>
@@ -565,12 +590,32 @@ html:has(#donation-dialog[open]) {
   </article>
   <article class="reveal">
     <div>
+      <h1>Enchanted Images</h1>
+      <p>Bring images to life! Create enchanted posters, ads, books, murals and more with Image Tracking, also known as Marker Tracking or Natural Feature Tracking. Scan your own images to start the WebAR experience &ndash; all in the browser!</p>
+      <a href="guidelines-for-images/" target="_blank" class="md-button" id="guidelines-for-images" data-goatcounter-click>View the Guidelines</a>
+    </div>
+    <div>
+      <img src="img/demo-cat.gif" alt="A cat in Augmented Reality" loading="lazy">
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
       <h1>Add-Ons</h1>
-      <p>Add-Ons enrich the core of encantar.js with additional and magical features, such as an easy to use Video Player for enchanting posters, murals, business cards and more! User experience is frictionless, with no need to download apps!</p>
+      <p>Add-Ons enrich the core of encantar.js with additional features, such as easy to use Buttons for triggering events, as well as a pre-built Video Player for enchanting posters, murals, business cards and more!</p>
       <a href="addons/" target="_blank" class="md-button" id="explore-addons" data-goatcounter-click>Explore the Add-Ons</a>
     </div>
     <div>
       <img src="img/video-player.gif" alt="Video player for web-based Augmented Reality" loading="lazy">
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
+      <h1>Documentation</h1>
+      <p>Extensive documentation accompanies the software. While you can quickly get magic done just by modifying the demos, the API Spellbook provides magical formulae and a comprehensive view of the technical aspects of AR magic.</p>
+      <a href="api/" target="_blank" class="md-button" id="open-api-reference" data-goatcounter-click>Explore the API</a>
+    </div>
+    <div>
+      <img src="img/witch-coder.webp" alt="Cartoon" loading="lazy">
     </div>
   </article>
 </section>
@@ -581,6 +626,9 @@ html:has(#donation-dialog[open]) {
 <section id="contact">
   <article class="reveal">
     <h1>Got a question?</h1>
+      <p>Usually you can go a long way with the publicly available resources, which include the written materials and the various demos. If for some reason you need one-to-one assistance, consultancy services are available.</p>
+      <a href="contact/" target="_blank" id="talk-to-wizard" data-goatcounter-click>Talk to a wizard</a>
+<!--
     <div>
       <div>
         <p>Need help with a project?</p>
@@ -591,6 +639,7 @@ html:has(#donation-dialog[open]) {
         <p><a href="api/" target="_blank" id="study-the-api" data-goatcounter-click>Study the API</a></p>
       </div>
     </div>
+-->
   </article>
 </section>
 
@@ -600,7 +649,7 @@ html:has(#donation-dialog[open]) {
 <section id="download">
   <article>
     <h1>Download</h1>
-    <p>encantar.js is a WebAR framework created independently by <a href="contact/" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a> and released as open source software under the LGPL. Your support is much appreciated!</p>
+    <p>encantar.js is created independently by <a href="contact/" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author. Your support is much appreciated!</p>
     <footer>
       <button class="md-button md-button--primary" id="download-button" data-goatcounter-click onclick="document.getElementById('donation-dialog').showModal()">Download encantar.js</button>
       <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
@@ -620,7 +669,7 @@ html:has(#donation-dialog[open]) {
 
 
 
-<dialog id="download-dialog">
+<dialog id="download-dialog" class="fixed">
   <form method="dialog">
     <h1>Thank you for your interest in encantar.js</h1>
     <p>Your download will start shortly...</p>
@@ -632,29 +681,23 @@ html:has(#donation-dialog[open]) {
 
 
 
-<dialog id="donation-dialog">
+<dialog id="donation-dialog" class="fixed">
   <form id="pay" method="post" action="https://api.encantar.dev/v1/pay" autocomplete="off" onsubmit="return this.tier.value != 'custom' || this['custom-amount'].value != ''">
-    <h1>Download and donate <span class="heart">&#x1f496;</span></h1>
-    <p>Support the project with an amount:</p>
+    <h1>Do you appreciate this? <span class="heart">&#x1f496;</span></h1>
+    <p>Support Open Source Augmented Reality!</p>
     <span>
       <div id="amounts" class="euro">
-        <input type="radio" id="custom-tier" name="tier" value="custom" data-goatcounter-click onchange="this.checked && document.getElementById('custom-amount').focus()">
-        <!--
-        <label for="custom-tier"><span class="dollar-sign"></span>X</label>
-        <input type="radio" id="first-tier" name="tier" value="first" data-goatcounter-click>
-        <label for="first-tier"><span class="dollar-sign"></span>29</label>
-        -->
-        <input type="radio" id="second-tier" name="tier" value="second" checked data-goatcounter-click>
-        <label for="second-tier"><span class="dollar-sign"></span>49</label>
-        <input type="radio" id="third-tier" name="tier" value="third" data-goatcounter-click>
-        <label for="third-tier"><span class="dollar-sign"></span>99</label>
-        <!--
-        <input type="radio" id="fourth-tier" name="tier" value="fourth" data-goatcounter-click>
-        <label for="fourth-tier"><span class="dollar-sign"></span>199</label>
-        -->
+        <input type="radio" id="first-tier" name="tier" value="fifty" data-goatcounter-click>
+        <label for="first-tier"><span class="dollar-sign"></span>50</label>
+        <input type="radio" id="second-tier" name="tier" value="one-hundred" data-goatcounter-click>
+        <label for="second-tier"><span class="dollar-sign"></span>100</label>
+        <input type="radio" id="third-tier" name="tier" value="two-hundred" data-goatcounter-click>
+        <label for="third-tier"><span class="dollar-sign"></span>200</label>
+        <input type="radio" id="custom-tier" name="tier" value="custom" data-goatcounter-click required onchange="this.checked && document.getElementById('custom-amount').focus()">
+        <label for="custom-tier">Other</label>
         <label for="custom-amount" id="custom-amount-wrapper">
           <span class="dollar-sign"></span>
-          <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter the amount" min="0" max="999999" step="1" oninput="document.getElementById('custom-tier').click()">
+          <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter an amount" min="0" max="999999" step="1" oninput="document.getElementById('custom-tier').click()">
         </label>
       </div>
       <div id="currencies">
@@ -664,9 +707,12 @@ html:has(#donation-dialog[open]) {
         <label for="currency-eur">&#x1F1EA;&#x1F1FA; EUR</label>
       </div>
     </span>
-    <input type="submit" value="Download" class="md-button md-button--primary" id="get-encantar" data-goatcounter-click>
+    <div id="actions">
+      <button type="submit" class="md-button md-button--primary" id="donate-stripe" data-goatcounter-click>Donate &amp; Download</button>
+      <a href="https://www.paypal.com/donate/?hosted_button_id=3H4CAJ9832GCJ" rel="external" class="md-button md-button-primary" id="donate-paypal" data-goatcounter-click>Donate via PayPal</a>
+    </div>
   </form>
-  <button id="donation-dialog-close" onclick="document.getElementById('donation-dialog').close()">&times;</button>
+  <button id="donation-dialog-close" onclick="this.parentNode.close()">&times;</button>
 </dialog>
 {% endblock %}
 
