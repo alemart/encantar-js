@@ -28,7 +28,7 @@ A new image tracker.
 **Example**
 
 ```js
-const imageTracker = AR.Tracker.Image({
+const tracker = AR.Tracker.Image({
     resolution: "sm"
 });
 ```
