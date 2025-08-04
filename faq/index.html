@@ -1051,6 +1051,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-do-i-know-which-image-is-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do I know which image is detected?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#any-recommendations" class="md-nav__link">
     <span class="md-ellipsis">
       Any recommendations?
@@ -2838,6 +2847,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#how-do-i-know-which-image-is-detected" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do I know which image is detected?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#any-recommendations" class="md-nav__link">
     <span class="md-ellipsis">
       Any recommendations?
@@ -2919,6 +2937,19 @@
 </div>
 <h2 id="can-i-increase-the-resolution-of-the-tracking">Can I increase the resolution of the tracking?</h2>
 <p>Yes. You can increase the <a href="../api/image-tracker/#instantiation">resolution of the tracker</a>, as well as the <a href="../api/camera-source/#instantiation">resolution of the camera</a>, using the API. You can also increase the resolution of the rendered virtual scene by setting the <a href="../api/viewport/#instantiation">resolution of the viewport</a>. Performance is affected by various factors such as upload times (GPU). Test your AR experience on your target devices to find a good balance between performance and increased resolution.</p>
+<h2 id="how-do-i-know-which-image-is-detected">How do I know which image is detected?</h2>
+<p>Add an <a href="../api/image-tracker/#targetfound">event listener</a> to the Image Tracker, as in the example:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">tracker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">AR</span><span class="p">.</span><span class="nx">Tracker</span><span class="p">.</span><span class="nx">Image</span><span class="p">();</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">// ...</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nx">tracker</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;targetfound&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">event</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="c1">// print the name of the Reference Image</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Found target: &#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">event</span><span class="p">.</span><span class="nx">referenceImage</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="p">});</span>
+</code></pre></div>
 <h2 id="any-recommendations">Any recommendations?</h2>
 <p>Refer to the <a href="../recommendations/">recommendations</a>.</p>
 <h2 id="i-am-enchanted">I am enchanted!</h2>

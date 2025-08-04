@@ -115,141 +115,6 @@ body {
 
 
 
-#pay {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  text-align: center;
-  font-size: 1.2rem;
-  line-height: 2.5;
-}
-#pay > * {
-  width: 100%;
-  min-width: 320px;
-}
-#pay > p {
-  font-size: 1.0rem;
-}
-#pay input[type="submit"] {
-  font-size: 1.0rem;
-  margin: 1.0rem 0 0 0;
-}
-#pay > h1 {
-  margin: 0.5rem 0 0 0;
-  font-size: 1.4rem;
-}
-#pay #actions {
-  display: flex;
-  flex-direction: column;
-  line-height: initial;
-}
-#pay #actions > * {
-  margin-top: 0.7rem;
-  font-size: 1rem;
-}
-#pay #actions > :not(.md-button) {
-  font-size: 0.8rem;
-}
-#pay #amounts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  font-size: 0.85em;
-}
-#pay #amounts .dollar-sign::before {
-  content: "$";
-}
-#pay #amounts.euro .dollar-sign::before {
-  content: "\20AC";
-}
-#pay #currencies {
-  font-size: 0.6em;
-  font-weight: bold;
-}
-#pay #currencies input[type="radio"] + label {
-  margin: 0 !important;
-}
-#pay input[type="radio"] {
-  width: 0;
-  opacity: 0;
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: white;
-  margin: 0;
-}
-#pay input[type="radio"] + label {
-  padding: 0.1rem 0.5rem;
-  margin: 0 2px;
-  cursor: pointer;
-  border: 1px solid #dcdcdc;
-  border-radius: calc(var(--border-radius) / 3);
-  background: linear-gradient(180deg, white 0%, whitesmoke 100%);
-}
-#pay input[type="radio"] + label:hover {
-  border-color: var(--highlighted);
-}
-#pay input[type="radio"]:checked + label {
-  background: linear-gradient(180deg, #fffd50 0%, var(--highlighted) 100%) !important;
-  border-color: var(--highlighted) !important;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-#custom-amount {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-
-  font-size: 0.75em;
-  padding: 0.5rem 0.5rem 0.5rem 2.1em;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-
-  border: 1px solid #dcdcdc;
-  border-radius: calc(var(--border-radius) / 3);
-  background: linear-gradient(180deg, white 0%, whitesmoke 100%);
-  color: var(--md-default-fg-color--light);
-}
-#custom-amount:focus {
-  border-color: var(--highlighted) !important;
-}
-#custom-amount:invalid {
-  border-color: salmon !important;
-}
-#custom-amount-wrapper {
-  flex-basis: 13.8rem; /* line break */
-  /*flex-basis: 9rem*/; /* same line */
-  visibility: hidden;
-  max-height: 0;
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 0.2s ease-out, max-height 0.2s ease-out;
-}
-#custom-amount-wrapper > .dollar-sign {
-  font-size: 0.85em;
-  position: absolute;
-  left: 0.83em;
-  /*top: 0.33em;*/
-  top: 0.37em;
-}
-#custom-tier:checked ~ #custom-amount-wrapper {
-  visibility: visible;
-  max-height: 64px;
-  transform: scaleY(1);
-}
-#donation-dialog {
-  transform: translate(0, -35%) !important;
-}
-
-
-
-
-
 #topics {
   max-width: var(--max-width);
   margin-left: auto;
@@ -322,9 +187,11 @@ input::-webkit-inner-spin-button {
   flex-wrap: wrap;
   font-size: 1.1em;
 }
+/*
 #contact article a::after {
   content: ' \2192';
 }
+*/
 
 
 
@@ -363,7 +230,8 @@ input::-webkit-inner-spin-button {
 
 
 
-#download-dialog {
+dialog {
+  /*background-color: var(--md-default-bg-color);*/
   background-color: whitesmoke;
   color: var(--md-default-fg-color--light);
   text-align: center;
@@ -374,26 +242,26 @@ input::-webkit-inner-spin-button {
   transition: opacity 0.5s ease;
 }
 
-#download-dialog[open] {
+dialog[open] {
   opacity: 1;
 }
 
-#download-dialog:not([open]) {
+dialog:not([open]) {
   opacity: 0;
   pointer-events: none;
 }
 
-#download-dialog::backdrop {
+dialog::backdrop {
   backdrop-filter: blur(8px);
   transition: backdrop-filter 0.5s ease;
 }
 
-#download-dialog h1 {
+dialog h1 {
   margin: 1.0rem 0;
   font-size: 1.4rem;
 }
 
-#download-dialog-close {
+dialog .close {
   position: absolute;
   top: 0.3rem;
   right: 0.8rem;
@@ -402,50 +270,71 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
-html:has(#download-dialog[open]) {
+html:has(dialog[open]) {
   overflow: hidden;
 }
 
 
 
 
-#donation-dialog {
-  max-width: var(--max-width);
-  background-color: whitesmoke;
-  color: var(--md-default-fg-color--light);
-  text-align: center;
-  padding: 1.5rem;
-  border: 0;
-  border-radius: 24px;
-  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
-  transition: opacity 0.5s ease;
+#bundle-dialog label {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  margin-bottom: 1rem;
 }
 
-#donation-dialog[open] {
-  opacity: 1;
+#bundle-dialog footer {
+  margin-top: 1rem;
 }
 
-#donation-dialog:not([open]) {
+#bundle-dialog input[type="radio"] {
+  position: absolute;
   opacity: 0;
-  pointer-events: none;
 }
 
-#donation-dialog::backdrop {
-  backdrop-filter: blur(8px);
-  transition: backdrop-filter 0.5s ease;
+#bundle-dialog button[type="submit"] {
+  margin-top: 0.75rem;
+  width: 100%;
 }
 
-#donation-dialog-close {
-  position: absolute;
-  top: 0.3rem;
-  right: 0.8rem;
-  font-size: 1.35rem;
-  color: var(--md-default-fg-color--light);
+#bundle-dialog label:hover {
   cursor: pointer;
 }
 
-html:has(#donation-dialog[open]) {
-  overflow: hidden;
+.custom-radio {
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  background-color: var(--md-primary-bg-color);
+  border-radius: 50%;
+  border: 2px solid var(--md-default-fg-color--light);
+  margin-right: 0.75rem;
+}
+
+.custom-radio:hover, label:hover > .custom-radio {
+  background-color: var(--md-default-bg-color--lighter);
+}
+
+.custom-radio:after {
+  content: "";
+  display: block;
+  position: relative;
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--md-primary-fg-color);
+  visibility: hidden;
+}
+
+input[type="radio"]:checked ~ .custom-radio {
+  border-color: var(--md-primary-fg-color);
+}
+
+input[type="radio"]:checked ~ .custom-radio:after {
+  visibility: visible;
 }
 
 
@@ -464,7 +353,6 @@ html:has(#donation-dialog[open]) {
 
 
 @media screen and (min-width: 768px) {
-  /*#pay { justify-content: space-around; }*/
   #title h1 { font-size: 4.0rem; }
   #title h2 { font-size: 1.6rem; }
   #topics { text-align: justify; }
@@ -585,7 +473,7 @@ html:has(#donation-dialog[open]) {
     <div>
       <h1>Open Source AR</h1>
       <p>encantar.js is one of the few open source Augmented Reality frameworks in existence. Your WebAR content is not tied to any platform. Host it wherever you want: there is no vendor lock-in and no usage limit.</p>
-      <a href="tutorial/" target="_blank" class="md-button" id="read-tutorial" data-goatcounter-click>Get started now</a>
+      <a href="tutorial/" target="_blank" class="md-button" id="read-tutorial" data-goatcounter-click>Read the tutorial</a>
     </div>
     <div>
       <ul>
@@ -646,20 +534,8 @@ html:has(#donation-dialog[open]) {
 <section id="contact">
   <article class="reveal">
     <h1>Need help?</h1>
-      <p>Usually you can go a long way with the publicly available resources, which include the written materials and the various demos. If for some reason you need one-to-one assistance, consultancy services are available.</p>
-      <a href="contact/" target="_blank" id="talk-to-wizard" data-goatcounter-click>Talk to a wizard</a>
-<!--
-    <div>
-      <div>
-        <p>Need help with a project?</p>
-        <p><a href="contact/" target="_blank" id="talk-to-wizard" data-goatcounter-click>Talk to a wizard</a></p>
-      </div>
-      <div>
-        <p>Wanna know more?</p>
-        <p><a href="api/" target="_blank" id="study-the-api" data-goatcounter-click>Study the API</a></p>
-      </div>
-    </div>
--->
+    <p>Usually you can go a long way with the publicly available resources, which include the written materials and the various demos. If you need one-to-one assistance, consultancy services are available.</p>
+    <a href="contact/" target="_blank" class="md-button" id="talk-to-wizard" data-goatcounter-click>Talk to a wizard</a>
   </article>
 </section>
 
@@ -671,7 +547,7 @@ html:has(#donation-dialog[open]) {
     <h1>Download</h1>
     <p>encantar.js is created independently by <a href="contact/" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author. Your support is much appreciated!</p>
     <footer>
-      <button class="md-button md-button--primary" id="download-button" data-goatcounter-click onclick="document.getElementById('donation-dialog').showModal()">Download encantar.js</button>
+      <button class="md-button md-button--primary" id="download-button" data-goatcounter-click onclick="document.getElementById('bundle-dialog').showModal()">Download encantar.js</button>
       <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
     </footer>
   </article>
@@ -689,50 +565,38 @@ html:has(#donation-dialog[open]) {
 
 
 
-<dialog id="download-dialog" class="fixed">
-  <form method="dialog">
-    <h1>Thank you for your interest in encantar.js</h1>
-    <p>Your download will start shortly...</p>
-    <p><button id="download-dialog-download" class="md-button md-button--primary" type="button" data-goatcounter-click>Download now</button></p>
-    <button id="download-dialog-close" type="submit">&times;</button>
-  </form>
-</dialog>
-
-
-
-
-<dialog id="donation-dialog" class="fixed">
-  <form id="pay" method="post" action="https://api.encantar.dev/v1/pay" autocomplete="off" onsubmit="return this.tier.value != 'custom' || this['custom-amount'].value != ''">
-    <h1>Do you appreciate this? <span class="heart">&#x1f496;</span></h1>
-    <p>Support Open Source Augmented Reality!</p>
-    <span>
-      <div id="amounts" class="euro">
-        <input type="radio" id="first-tier" name="tier" value="fifty" data-goatcounter-click>
-        <label for="first-tier"><span class="dollar-sign"></span>50</label>
-        <input type="radio" id="second-tier" name="tier" value="one-hundred" data-goatcounter-click>
-        <label for="second-tier"><span class="dollar-sign"></span>100</label>
-        <input type="radio" id="third-tier" name="tier" value="two-hundred" data-goatcounter-click>
-        <label for="third-tier"><span class="dollar-sign"></span>200</label>
-        <input type="radio" id="custom-tier" name="tier" value="custom" data-goatcounter-click required onchange="this.checked && document.getElementById('custom-amount').focus()">
-        <label for="custom-tier">Other</label>
-        <label for="custom-amount" id="custom-amount-wrapper">
-          <span class="dollar-sign"></span>
-          <input type="number" id="custom-amount" name="custom-amount" value="" placeholder="Enter an amount" min="0" max="999999" step="1" oninput="document.getElementById('custom-tier').click()">
-        </label>
+<dialog id="bundle-dialog" class="fixed">
+  <h1>Select a bundle</h1>
+  <form autocomplete="off" onsubmit="location.href = this.elements.bundle.value; return false">
+    <label>
+      <input type="radio" id="standard-bundle" name="bundle" value="https://ko-fi.com/s/3ee4182cb6" checked data-goatcounter-click>
+      <span class="custom-radio"></span>
+      <div>
+        <strong>Standard Bundle</strong><br>
+        Production-ready, pre-built encantar.js with core features and demos
       </div>
-      <div id="currencies">
-        <input type="radio" id="currency-usd" name="currency" value="usd" data-goatcounter-click onchange="this.checked && document.getElementById('amounts').classList.remove('euro')">
-        <label for="currency-usd">&#x1F1FA;&#x1F1F8; USD</label>
-        <input type="radio" id="currency-eur" name="currency" value="eur" checked data-goatcounter-click onchange="this.checked && document.getElementById('amounts').classList.add('euro')">
-        <label for="currency-eur">&#x1F1EA;&#x1F1FA; EUR</label>
+    </label>
+    <label>
+      <input type="radio" id="plus-bundle" name="bundle" value="https://ko-fi.com/s/697a184728" data-goatcounter-click>
+      <span class="custom-radio"></span>
+      <div>
+        <strong>Plus! Bundle</strong><br>
+        Everything in Standard + <a href="addons/" id="exclusive-addons" target="_blank" data-goatcounter-click>Exclusive Add-Ons for rich AR experiences</a>
       </div>
-    </span>
-    <div id="actions">
-      <button type="submit" class="md-button md-button--primary" id="donate-stripe" data-goatcounter-click>Donate &amp; Download</button>
-      <a href="https://www.paypal.com/donate/?hosted_button_id=3H4CAJ9832GCJ" rel="external" class="md-button md-button-primary" id="donate-paypal" data-goatcounter-click>Donate via PayPal</a>
-    </div>
+    </label>
+    <label>
+      <input type="radio" id="source-bundle" name="bundle" value="https://github.com/alemart/encantar-js" data-goatcounter-click>
+      <span class="custom-radio"></span>
+      <div>
+        <strong>Source Bundle</strong><br>
+        Source code for Augmented Reality and Computer Vision nerds
+      </div>
+    </label>
+    <footer>
+      <button type="submit" class="md-button md-button--primary" id="download-bundle" data-goatcounter-click>OK</button>
+    </footer>
   </form>
-  <button id="donation-dialog-close" onclick="this.parentNode.close()">&times;</button>
+  <button id="donation-dialog-close" class="close" onclick="this.parentNode.close()">&times;</button>
 </dialog>
 
               </article>
@@ -770,7 +634,7 @@ window.addEventListener('load', function() {
   setupReveal();
 
   if(location.hash == '#download')
-    document.querySelector('#donation-dialog').showModal();
+    document.querySelector('#bundle-dialog').showModal();
 });
 
 function setupDialogPolyfill()
