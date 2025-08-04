@@ -1,6 +1,10 @@
 # Add-Ons
 
-Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. They're offered to supporters who purchase the various demos. Become a supporter and get exclusive access to these features!
+Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. They're offered to supporters in the Plus! Bundle. Become a supporter and get exclusive access to these features! &#x1F60D;
+
+<div style="text-align:center">
+  <a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button md-button--primary" id="addon-want-plus-bundle" data-goatcounter-click>I want the Plus! Bundle</a>
+</div>
 
 <style>
 .addon-container { margin: 4em 0; }
@@ -21,9 +25,13 @@ Add-Ons provide an enriched experience with additional features that enhance the
 
 ## Video Player
 
-Enchant your audience using this [easy-to-use &amp; customizable](./ar-video-player.md) Video Player! Videos in AR are suitable for: product marketing, AR business cards, educational materials, interactive art, and more!
+Enchant your audience using this easy-to-use &amp; customizable Video Player! Videos in AR are suitable for: product marketing, AR business cards, educational materials, interactive art, and more!
 
+[Tell me more](./ar-video-player.md){ .md-button }
+
+<!--
 <a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-video-player" data-goatcounter-click>I want this!</a>
+-->
 
   </div>
   <div>
@@ -36,9 +44,13 @@ Enchant your audience using this [easy-to-use &amp; customizable](./ar-video-pla
 
 ## AR Buttons
 
-Add interactivity to your scenes with easy-to-use buttons for AR! You can [customize their images and colors](./ar-button.md). They're bundled with the Video Player.
+Add interactivity to your scenes with easy-to-use buttons for AR! You can customize their images and colors. They're bundled with the Video Player.
 
+[Tell me more](./ar-button.md){ .md-button }
+
+<!--
 <a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-buttons" data-goatcounter-click>I want this!</a>
+-->
 
   </div>
   <div markdown>
@@ -55,7 +67,11 @@ Add interactivity to your scenes with easy-to-use buttons for AR! You can [custo
 
 Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. AR Clickables are based on the [Pointer Tracker](../api/pointer-tracker.md). They are the building blocks of AR Buttons and are included with them.
 
+[Tell me more](./ar-clickable.md){ .md-button }
+
+<!--
 <a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-clickables" data-goatcounter-click>I want this!</a>
+-->
 
   </div>
   <div markdown>
@@ -72,7 +88,11 @@ Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. A
 
 Framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. This Add-On is bundled with the core.
 
+[Tell me more](./more-addons.md){ .md-button }
+
+<!--
 <a href="https://encantar.dev" target="_blank" rel="external" class="md-button" id="addon-want-asset-manager" data-goatcounter-click>I want this!</a>
+-->
 
   </div>
   <div markdown>
