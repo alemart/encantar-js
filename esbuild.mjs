@@ -42,7 +42,7 @@ const ctx = await esbuild.context(options);
 await ctx.watch();
 await ctx.serve({
     host: '0.0.0.0',
-    port: 8000,
+    port: Number(process.env.PORT ?? 8000),
     servedir: 'www',
     keyfile: new URL('.local-server.key', import.meta.url).pathname,
     certfile: new URL('.local-server.cert', import.meta.url).pathname,
