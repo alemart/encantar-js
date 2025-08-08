@@ -1,9 +1,9 @@
 # Add-Ons
 
-Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. They're offered to supporters in the Plus! Bundle. Become a supporter and get exclusive access to these features! &#x1F60D;
+Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. Become a supporter and get exclusive access to these features! &#x1F60D;
 
 <div style="text-align:center">
-  <a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button md-button--primary" id="addon-want-plus-bundle" data-goatcounter-click>I want the Plus! Bundle</a>
+  <a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button md-button--primary" id="addon-want-plus-bundle" data-goatcounter-click>I want the Add-Ons!</a>
 </div>
 
 <style>
@@ -29,10 +29,6 @@ Enchant your audience using this easy-to-use &amp; customizable Video Player! Vi
 
 [Tell me more](./ar-video-player.md){ .md-button }
 
-<!--
-<a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-video-player" data-goatcounter-click>I want this!</a>
--->
-
   </div>
   <div>
     <lite-youtube videoid="sz4Fmf3zyho"></lite-youtube>
@@ -47,10 +43,6 @@ Enchant your audience using this easy-to-use &amp; customizable Video Player! Vi
 Add interactivity to your scenes with easy-to-use buttons for AR! You can customize their images and colors. They're bundled with the Video Player.
 
 [Tell me more](./ar-button.md){ .md-button }
-
-<!--
-<a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-buttons" data-goatcounter-click>I want this!</a>
--->
 
   </div>
   <div markdown>
@@ -69,10 +61,6 @@ Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. A
 
 [Tell me more](./ar-clickable.md){ .md-button }
 
-<!--
-<a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button" id="addon-want-clickables" data-goatcounter-click>I want this!</a>
--->
-
   </div>
   <div markdown>
 
@@ -89,10 +77,6 @@ Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. A
 Framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. This Add-On is bundled with the core.
 
 [Tell me more](./more-addons.md){ .md-button }
-
-<!--
-<a href="https://encantar.dev" target="_blank" rel="external" class="md-button" id="addon-want-asset-manager" data-goatcounter-click>I want this!</a>
--->
 
   </div>
   <div markdown>
