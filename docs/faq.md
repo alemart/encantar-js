@@ -26,7 +26,7 @@ encantar.js requires WebGL2 and WebAssembly, which are widely supported.
 
 ## Can I bundle it using Vite, Webpack, etc?
 
-Static linking is not allowed according to the [license](license.md). The inclusion of encantar.js in a web page using a separate script tag does not constitute static linking:
+Static linking is not allowed according to the [LGPL](license.md). The inclusion of encantar.js in a web page using a separate script tag does not constitute static linking provided that [section 4](license.md#4-combined-works) of the license is met:
 
 ```html
 <script src="path/to/encantar.js"></script>
