@@ -2,7 +2,6 @@
 
 {% block libs %}
 {{ super() }}
-<script src="js/dialog-polyfill.js"></script>
 {% endblock %}
 
 {% block scripts %}
@@ -12,7 +11,6 @@
 
 window.addEventListener('load', function() {
   setupDialogPolyfill();
-  setupDialog();
   setupReveal();
 
   if(location.hash == '#download')
@@ -21,39 +19,25 @@ window.addEventListener('load', function() {
 
 function setupDialogPolyfill()
 {
-  if(typeof HTMLDialogElement === 'undefined')
+  if(typeof HTMLDialogElement !== 'undefined')
     return;
 
-  document.querySelectorAll('dialog').forEach(function(dialog) {
-    dialogPolyfill.registerDialog(dialog);
-    dialog.classList.add('fixed');
-  });
-}
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = 'style/dialog-polyfill.css';
+  document.head.prepend(link);
 
-function setupDialog()
-{
-  if(location.search.indexOf('checkout_session_id') < 0)
-    return;
+  const script = document.createElement('script');
+  script.onload = registerDialogs;
+  script.src = 'js/dialog-polyfill.js';
+  document.head.append(script);
 
-  try {
-    const searchParams = new URLSearchParams(location.search);
-    const sessionId = searchParams.get('checkout_session_id') || '';
-    const next = searchParams.get('next') || location.href;
-
-    const url = new URL(next);
-    url.searchParams.append('checkout_session_id', sessionId);
-
-    const button = document.getElementById('download-dialog-download');
-    const redirect = function() { location.href = url.href; };
-    button.onclick = redirect;
-    setTimeout(redirect, 3000);
-
-    const dialog = document.getElementById('download-dialog');
-    dialog.showModal();
-  }
-  catch(e) {
-    console.error(e);
-    alert(e.message);
+  function registerDialogs()
+  {
+    document.querySelectorAll('dialog').forEach(function(dialog) {
+      dialogPolyfill.registerDialog(dialog);
+      dialog.classList.add('fixed');
+    });
   }
 }
 
@@ -83,7 +67,6 @@ function setupReveal()
 
 {% block styles %}
 {{ super() }}
-<link rel="stylesheet" href="style/dialog-polyfill.css">
 <style>
 :root {
   --max-width: 42rem;
@@ -206,37 +189,6 @@ body {
 #topics article ul li img {
   border-radius: 0;
 }
-
-
-
-
-#contact {
-  max-width: var(--max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 var(--hpad);
-  text-align: center;
-}
-#contact article {
-  margin: 2rem 0;
-  padding: 1.2rem;
-  border-radius: var(--border-radius);
-  background-image: linear-gradient(0deg, white 0%, lemonchiffon 100%);
-}
-#contact article h1 {
-  margin-bottom: 1.0rem;
-}
-#contact article > div {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  font-size: 1.1em;
-}
-/*
-#contact article a::after {
-  content: ' \2192';
-}
-*/
 
 
 
@@ -409,7 +361,6 @@ input[type="radio"]:checked ~ .custom-radio:after {
 
 @media screen and (min-width: 992px) {
   #topics { padding: 0; }
-  #contact { padding: 0; }
   #download article footer > * { margin: 0; }
 }
 </style>
@@ -453,7 +404,7 @@ input[type="radio"]:checked ~ .custom-radio:after {
     <div>
       <h1>Open Source AR</h1>
       <p>encantar.js is one of the few open source Augmented Reality frameworks in existence. Your WebAR content is not tied to any platform. Host it wherever you want: there is no vendor lock-in and no usage limit.</p>
-      <a href="tutorial/" target="_blank" class="md-button" id="read-tutorial" data-goatcounter-click>Read the tutorial</a>
+      <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source" data-goatcounter-click>Browse the source</a>
     </div>
     <div>
       <ul>
@@ -511,21 +462,10 @@ input[type="radio"]:checked ~ .custom-radio:after {
 
 
 
-<section id="contact">
-  <article class="reveal">
-    <h1>Need help?</h1>
-    <p>Usually you can go a long way with the publicly available resources, which include the written materials and the various demos. If you need one-to-one assistance, consultancy services are available.</p>
-    <a href="contact/" target="_blank" class="md-button" id="talk-to-wizard" data-goatcounter-click>Talk to a wizard</a>
-  </article>
-</section>
-
-
-
-
 <section id="download">
   <article>
     <h1>Download</h1>
-    <p>encantar.js is created independently by <a href="contact/" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author. Your support is much appreciated!</p>
+    <p>encantar.js is created independently by <a href="https://github.com/alemart" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author. Your support is much appreciated!</p>
     <footer>
       <button class="md-button md-button--primary" id="download-button" data-goatcounter-click onclick="document.getElementById('bundle-dialog').showModal()">Download encantar.js</button>
       <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
@@ -536,20 +476,11 @@ input[type="radio"]:checked ~ .custom-radio:after {
 
 
 
-<footer class="md-footer">
-  <div class="md-copyright">
-    encantar.js: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present Alexandre Martins
-  </div>
-</footer>
-
-
-
-
-<dialog id="bundle-dialog" class="fixed">
+<dialog id="bundle-dialog">
   <h1>Select an option</h1>
   <form autocomplete="off" onsubmit="location.href = this.elements.bundle.value; return false">
     <label>
-      <input type="radio" name="bundle" value="https://ko-fi.com/s/3ee4182cb6" checked data-goatcounter-click>
+      <input type="radio" name="bundle" value="https://ko-fi.com/s/a9b92194e0" checked data-goatcounter-click>
       <span class="custom-radio"></span>
       <div>
         <strong>Standard Bundle</strong><br>
@@ -578,6 +509,15 @@ input[type="radio"]:checked ~ .custom-radio:after {
   </form>
   <button id="donation-dialog-close" class="close" onclick="this.parentNode.close()">&times;</button>
 </dialog>
+
+
+
+
+<footer class="md-footer">
+  <div class="md-copyright">
+    encantar.js: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present Alexandre Martins
+  </div>
+</footer>
 {% endblock %}
 
 {% block announce %}{% endblock %}
