@@ -76,7 +76,7 @@ Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. A
 
 Framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. This Add-On is bundled with the core.
 
-[Tell me more](./more-addons.md){ .md-button }
+[Tell me more](./asset-manager.md){ .md-button }
 
   </div>
   <div markdown>
