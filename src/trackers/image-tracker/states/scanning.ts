@@ -261,13 +261,11 @@ export class ImageTrackerScanningState extends ImageTrackerState
                 // the best match should be "much better" than the second best match,
                 // which means that they are "distinct enough"
                 if(d1 <= SCAN_MATCH_RATIO * d2) {
-                    const idx1 = this._imageTracker._referenceImageIndexOfKeypoint(keypoint.matches[0].index);
-                    //const idx2 = this._imageTracker._referenceImageIndexOfKeypoint(keypoint.matches[1].index);
-                    //if(idx1 == idx2 && idx1 >= 0) {
-                    if(idx1 >= 0) {
-                        if(!Object.prototype.hasOwnProperty.call(matchedKeypointsPerImageIndex, idx1))
-                            matchedKeypointsPerImageIndex[idx1] = [];
-                        matchedKeypointsPerImageIndex[idx1].push(keypoint);
+                    const idx = this._imageTracker._referenceImageIndexOfKeypoint(keypoint.matches[0].index);
+                    if(idx >= 0) {
+                        if(!Object.prototype.hasOwnProperty.call(matchedKeypointsPerImageIndex, idx))
+                            matchedKeypointsPerImageIndex[idx] = [];
+                        matchedKeypointsPerImageIndex[idx].push(keypoint);
                     }
                 }
 
