@@ -243,6 +243,7 @@ class ARSystem
 export function encantar(demo)
 {
     const ar = new ARSystem();
+    let _matrix = null;
 
     function animate(time, frame)
     {
@@ -290,10 +291,12 @@ export function encantar(demo)
     {
         ar._camera.projectionMatrix.fromArray(projectionMatrix.read());
         ar._camera.projectionMatrixInverse.copy(ar._camera.projectionMatrix).invert();
-        ar._camera.matrix.fromArray(viewMatrixInverse.read());
-        ar._camera.updateMatrixWorld(true);
-        ar._origin.matrix.fromArray(modelMatrix.read());
-        ar._origin.updateMatrixWorld(true);
+
+        _matrix.fromArray(viewMatrixInverse.read());
+        _matrix.decompose(ar._camera.position, ar._camera.quaternion, ar._camera.scale);
+
+        _matrix.fromArray(modelMatrix.read());
+        _matrix.decompose(ar._origin.position, ar._origin.quaternion, ar._origin.scale);
     }
 
     return Promise.resolve()
@@ -306,9 +309,9 @@ export function encantar(demo)
         ar._session = session;
 
         ar._scene = new THREE.Scene();
+        _matrix = new THREE.Matrix4();
 
         ar._origin = new THREE.Group();
-        ar._origin.matrixAutoUpdate = false;
         ar._origin.visible = false;
         ar._scene.add(ar._origin);
 
@@ -316,7 +319,6 @@ export function encantar(demo)
         ar._origin.add(ar._root);
 
         ar._camera = new THREE.PerspectiveCamera();
-        ar._camera.matrixAutoUpdate = false;
 
         ar._renderer = new THREE.WebGLRenderer({
             canvas: session.viewport.canvas,
