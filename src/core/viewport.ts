@@ -789,8 +789,6 @@ abstract class ViewportResizeStrategy
     {
         viewport.container.style.cssText = '';
         viewport._subContainer.style.cssText = '';
-        viewport._backgroundCanvas.style.objectFit = 'unset';
-        viewport.canvas.style.objectFit = 'unset';
     }
 }
 
@@ -937,6 +935,21 @@ class CropResizeStrategy extends ImmersiveResizeStrategy
         foregroundCanvas.style.objectFit = 'cover';
 
         super.resize(viewport);
+    }
+
+    /**
+     * Clear CSS rules
+     * @param viewport
+     */
+    clear(viewport: Viewport): void
+    {
+        const backgroundCanvas = viewport._backgroundCanvas;
+        const foregroundCanvas = viewport.canvas;
+
+        backgroundCanvas.style.objectFit = 'unset';
+        foregroundCanvas.style.objectFit = 'unset';
+
+        super.clear(viewport);
     }
 }
 
