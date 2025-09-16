@@ -1080,7 +1080,7 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
         else if(huds.length == 0)
             huds.push(undefined);
 
-        return AR.Viewport(Object.assign(
+        return this._fix(AR.Viewport(Object.assign(
             {
                 container: this.el,
                 hudContainer: huds[0],
@@ -1089,7 +1089,20 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
                 style: this.data.style,
             },
             !fullscreenUI ? {} : { fullscreenUI: fullscreenUI.data.enabled }
-        ));
+        )));
+    },
+
+    _fix(viewport)
+    {
+        // fix a bug relative to the A-Frame Inspector not showing up
+        viewport.addEventListener('resize', () => {
+            setTimeout(() => {
+                const AFRAME_INSPECTOR_ZINDEX = 999999; // z-index of #inspectorContainer, which may or may not exist
+                viewport.container.style.zIndex = String(AFRAME_INSPECTOR_ZINDEX - 1);
+            });
+        });
+
+        return viewport;
     },
 
 }));
