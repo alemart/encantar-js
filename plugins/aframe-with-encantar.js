@@ -249,6 +249,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
             this.session = session;
             this._configureSession();
             this._startAnimationLoop();
+            this._injectInspectorEvent();
 
             // we're done!
             const scene = this.el;
@@ -419,6 +420,41 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
         const newPointers = this._utils.findTrackablePointers(this.frame);
         if(newPointers.length > 0)
             this.pointers.push.apply(this.pointers, newPointers);
+    },
+
+    _injectInspectorEvent()
+    {
+        const scene = this.el;
+        const inspector = scene.components.inspector;
+        const openInspector = inspector.openInspector;
+        let isOpen = false;
+        let isFirstOpen = true;
+
+        inspector.openInspector = function(focusEl) {
+            if(isFirstOpen) {
+                isFirstOpen = false;
+                setupObserver();
+            }
+
+            openInspector.call(inspector, focusEl);
+        };
+
+        function setupObserver()
+        {
+            const observer = new MutationObserver(function(mutations) {
+                for(const mutation of mutations) {
+                    if(mutation.attributeName == 'class') {
+                        const hasClass = mutation.target.classList.contains('aframe-inspector-opened');
+                        if(isOpen != hasClass) {
+                            isOpen = hasClass;
+                            scene.emit('arinspectortoggled', { isOpen });
+                        }
+                    }
+                }
+            });
+
+            observer.observe(document.body, { attributes: true });
+        }
     },
 
 }));
@@ -1097,12 +1133,15 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
 
     _fix(viewport)
     {
-        // fix a bug relative to the A-Frame Inspector not showing up
-        viewport.addEventListener('resize', () => {
-            setTimeout(() => {
-                const AFRAME_INSPECTOR_ZINDEX = 999999; // z-index of #inspectorContainer, which may or may not exist
-                viewport.container.style.zIndex = String(AFRAME_INSPECTOR_ZINDEX - 1);
-            });
+        this.el.sceneEl.addEventListener('arinspectortoggled', ev => {
+
+            // fix a bug relative to the A-Frame Inspector not showing up
+            const AFRAME_INSPECTOR_ZINDEX = 999999; // z-index of #inspectorContainer
+            viewport.container.style.zIndex = String(AFRAME_INSPECTOR_ZINDEX - 1);
+
+            // fix the gizmos of the Inspector
+            viewport.hud.container.hidden = ev.detail.isOpen;
+
         });
 
         return viewport;
