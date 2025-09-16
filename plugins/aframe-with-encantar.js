@@ -535,6 +535,7 @@ AFRAME.registerComponent('encantar', ARComponent({
 AFRAME.registerComponent('ar-camera', ARComponent({
 
     dependencies: ['camera'],
+    _matrix: null,
 
     init()
     {
@@ -545,8 +546,7 @@ AFRAME.registerComponent('ar-camera', ARComponent({
         el.setAttribute('look-controls', { enabled: false });
         el.setAttribute('position', { x: 0, y: 0, z: 0 }); // A-Frame sets y = 1.6m for VR
         
-        const camera = el.getObject3D('camera');
-        camera.matrixAutoUpdate = false;
+        this._matrix = new THREE.Matrix4();
     },
 
     tick()
@@ -561,8 +561,8 @@ AFRAME.registerComponent('ar-camera', ARComponent({
         const camera = el.getObject3D('camera');
         camera.projectionMatrix.fromArray(tracked.projectionMatrix.read());
         camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-        camera.matrix.fromArray(tracked.viewMatrixInverse.read());
-        camera.updateMatrixWorld(true);
+        this._matrix.fromArray(tracked.viewMatrixInverse.read());
+        this._matrix.decompose(camera.position, camera.quaternion, camera.scale);
 
         //console.log('projectionMatrix', tracked.projectionMatrix.read());
         //console.log('viewMatrixInverse', tracked.viewMatrixInverse.read());
@@ -599,18 +599,19 @@ AFRAME.registerComponent('ar-root', ARComponent({
     },
 
     _origin: null,
+    _matrix: null,
     _firstRun: true,
 
     init()
     {
         const origin = new THREE.Group();
-        origin.matrixAutoUpdate = false;
-
         const root = this.el.object3D;
+
         root.parent.add(origin);
         origin.add(root);
 
         this._origin = origin;
+        this._matrix = new THREE.Matrix4();
         this._firstRun = true;
 
         this.ar.registerRoot(this);
@@ -623,7 +624,9 @@ AFRAME.registerComponent('ar-root', ARComponent({
 
         origin.parent.add(root);
         origin.removeFromParent();
+
         this._origin = null;
+        this._matrix = null;
 
         this.ar.unregisterRoot(this);
     },
@@ -658,8 +661,8 @@ AFRAME.registerComponent('ar-root', ARComponent({
         }
 
         const origin = this._origin;
-        origin.matrix.fromArray(tracked.modelMatrix.read());
-        origin.updateMatrixWorld(true);
+        this._matrix.fromArray(tracked.modelMatrix.read());
+        this._matrix.decompose(origin.position, origin.quaternion, origin.scale);
         this.el.play();
 
         //console.log('modelMatrix', tracked.modelMatrix.toString());
