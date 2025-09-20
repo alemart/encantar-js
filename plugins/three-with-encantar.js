@@ -7,9 +7,9 @@
 import * as THREE from 'three';
 
 /* Usage of the indicated versions is encouraged */
-__THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
+USING({
     'encantar.js': { version: '0.4.5' },
-       'three.js': { version: '172' }
+       'three.js': { version: '173' }
 });
 
 /**
@@ -365,7 +365,7 @@ export function encantar(demo)
  * Version check
  * @param {object} libs
  */
-function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(libs)
+function USING(libs)
 {
     window.addEventListener('load', () => {
         try { AR;
