@@ -7,9 +7,9 @@
 (function() {
 
 /* Usage of the indicated versions is encouraged */
-__THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
+USING({
     'encantar.js': { version: '0.4.5' },
-        'A-Frame': { version: '1.6.0' }
+        'A-Frame': { version: '1.7.1' }
 });
 
 /**
@@ -1218,7 +1218,7 @@ AFRAME.registerPrimitive('ar-hud', {
  * Version check
  * @param {object} libs
  */
-function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(libs)
+function USING(libs)
 {
     window.addEventListener('load', () => {
         try { AR, AFRAME;
