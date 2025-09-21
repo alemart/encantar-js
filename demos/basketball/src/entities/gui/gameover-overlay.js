@@ -49,6 +49,7 @@ export class GameOverOverlay extends GUIControl
         title.fontSize = 80;
         title.top = '-192px';
         title.left = '0px';
+        title.resizeToFit = true;
         container.addControl(title);
 
         rank.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
@@ -58,6 +59,7 @@ export class GameOverOverlay extends GUIControl
         rank.fontFamily = 'sans-serif';
         rank.fontStyle = 'bold';
         rank.fontSize = 112;
+        rank.resizeToFit = true;
         container.addControl(rank);
 
         circle.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
@@ -79,6 +81,7 @@ export class GameOverOverlay extends GUIControl
         message.left = '0px';
         message.paddingLeft = '10%';
         message.paddingRight = '10%';
+        message.resizeToFit = true;
         container.addControl(message);
 
         return container;

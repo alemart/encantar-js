@@ -57,9 +57,7 @@ export class ScoreText extends Entity
         material.diffuseTexture = new BABYLON.Texture(url);
         material.diffuseTexture.hasAlpha = true;
         material.useAlphaFromDiffuseTexture = true;
-        material.frontUVs = BABYLON.Vector4.Zero();
         material.alpha = 0;
-        material.unlit = true;
 
         const ar = this.ar;
         mesh.parent = ar.root;
@@ -102,27 +100,30 @@ export class ScoreText extends Entity
      */
     setScore(score)
     {
+        if(this._score === score)
+            return this;
+
         const uvs = new Array(8).fill(0);
         const d = 1 / 1024;
 
         if(score == 2) {
-            uvs[0] = 7/8;
-            uvs[1] = 6/8;
-            uvs[2] = 6/8 + d;
-            uvs[3] = 6/8;
-            uvs[4] = 6/8 + d;
-            uvs[5] = 7/8 - d;
-            uvs[6] = 7/8;
-            uvs[7] = 7/8 - d;
-        }
-        else if(score == 3) {
-            uvs[0] = 8/8 - d;
+            uvs[0] = 6/8 + d;
             uvs[1] = 6/8;
             uvs[2] = 7/8;
             uvs[3] = 6/8;
             uvs[4] = 7/8;
             uvs[5] = 7/8 - d;
-            uvs[6] = 8/8 - d;
+            uvs[6] = 6/8 + d;
+            uvs[7] = 7/8 - d;
+        }
+        else if(score == 3) {
+            uvs[0] = 7/8;
+            uvs[1] = 6/8;
+            uvs[2] = 8/8 - d;
+            uvs[3] = 6/8;
+            uvs[4] = 8/8 - d;
+            uvs[5] = 7/8 - d;
+            uvs[6] = 7/8;
             uvs[7] = 7/8 - d;
         }
 
