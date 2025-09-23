@@ -14,7 +14,7 @@ window.addEventListener('load', function() {
   setupReveal();
 
   if(location.hash == '#download')
-    document.querySelector('#bundle-dialog').showModal();
+    document.querySelector('#download-dialog').showModal();
 });
 
 function setupDialogPolyfill()
@@ -212,7 +212,7 @@ body {
   margin: 0;
 }
 #download article p {
-  margin: 1.5rem 0;
+  margin: 1.5rem 3.5rem;
   font-size: 1.05em;
 }
 #download article footer {
@@ -228,6 +228,7 @@ body {
 
 
 dialog {
+  max-width: calc(var(--max-width) * 0.72);
   /*background-color: var(--md-default-bg-color);*/
   background-color: whitesmoke;
   color: var(--md-default-fg-color--light);
@@ -274,64 +275,83 @@ html:has(dialog[open]) {
 
 
 
-#bundle-dialog label {
+#pay {
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-align: left;
-  margin-bottom: 1rem;
+  align-content: center;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 2.5;
 }
-
-#bundle-dialog footer {
-  margin-top: 1rem;
-}
-
-#bundle-dialog input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-}
-
-#bundle-dialog button[type="submit"] {
-  margin-top: 0.75rem;
+#pay > * {
   width: 100%;
+  min-width: 320px;
 }
-
-#bundle-dialog label:hover {
+#pay p {
+  font-size: 1.0rem;
+}
+#pay input[type="submit"] {
+  font-size: 1.0rem;
+  /*margin: 1.0rem 0 0 0;*/
+}
+#pay h1 {
+  margin: 0.5rem 0 0 0;
+  font-size: 1.4rem;
+}
+#pay #amounts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 0.85em;
+}
+#pay #amounts .dollar-sign::before {
+  content: "$";
+}
+#pay input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: white;
+  margin: 0;
+}
+#pay input[type="radio"] + label {
+  padding: 0.1rem 0.5rem;
+  /*margin: 0 2px;*/
   cursor: pointer;
+  border: 1px solid #dcdcdc;
+  /*border-radius: calc(var(--border-radius) / 3);*/
+  background: linear-gradient(180deg, white 0%, whitesmoke 100%);
+  min-width: 80px;
 }
-
-.custom-radio {
-  min-width: 24px;
-  width: 24px;
-  height: 24px;
-  background-color: var(--md-primary-bg-color);
-  border-radius: 50%;
-  border: 2px solid var(--md-default-fg-color--light);
-  margin-right: 0.75rem;
+#pay input[type="radio"] + label:first-of-type {
+  border-top-left-radius: calc(var(--border-radius) / 2);
+  border-bottom-left-radius: calc(var(--border-radius) / 2);
 }
-
-.custom-radio:hover, label:hover > .custom-radio {
-  background-color: var(--md-default-bg-color--lighter);
+#pay input[type="radio"] + label:last-of-type {
+  border-top-right-radius: calc(var(--border-radius) / 2);
+  border-bottom-right-radius: calc(var(--border-radius) / 2);
 }
-
-.custom-radio:after {
-  content: "";
-  display: block;
-  position: relative;
-  top: 4px;
-  left: 4px;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--md-primary-fg-color);
-  visibility: hidden;
+#pay input[type="radio"] + label:hover {
+  border-color: var(--highlighted);
 }
-
-input[type="radio"]:checked ~ .custom-radio {
-  border-color: var(--md-primary-fg-color);
+#pay input[type="radio"]:checked + label {
+  background: linear-gradient(180deg, #fffd50 0%, var(--highlighted) 100%) !important;
+  border-color: var(--highlighted) !important;
 }
-
-input[type="radio"]:checked ~ .custom-radio:after {
-  visibility: visible;
+#pay #amounts p {
+  display: none;
+  order: 100;
+  flex-basis: 100%;
+}
+#pay #amounts p:has(+ input[type="radio"]:checked) {
+  display: inline-block;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 
@@ -465,9 +485,9 @@ input[type="radio"]:checked ~ .custom-radio:after {
 <section id="download">
   <article>
     <h1>Download</h1>
-    <p>encantar.js is created independently by <a href="https://github.com/alemart" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author. Your support is much appreciated!</p>
+    <p>encantar.js is created independently by <a href="https://github.com/alemart" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author.</p>
     <footer>
-      <button class="md-button md-button--primary" id="download-button" data-goatcounter-click onclick="document.getElementById('bundle-dialog').showModal()">Download encantar.js</button>
+      <button class="md-button md-button--primary" id="download-button" data-goatcounter-click onclick="document.getElementById('download-dialog').showModal()">Download encantar.js</button>
       <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
     </footer>
   </article>
@@ -476,36 +496,22 @@ input[type="radio"]:checked ~ .custom-radio:after {
 
 
 
-<dialog id="bundle-dialog">
-  <h1>Select an option</h1>
-  <form autocomplete="off" onsubmit="location.href = this.elements.bundle.value; return false">
-    <label>
-      <input type="radio" name="bundle" value="https://ko-fi.com/s/697a184728" checked data-goatcounter-click>
-      <span class="custom-radio"></span>
-      <div>
-        <strong>encantar.js Full</strong><br>
-        encantar.js with <a href="addons/" id="exclusive-addons" target="_blank" data-goatcounter-click>Add-Ons for rich AR experiences</a>
-      </div>
-    </label>
-    <label>
-      <input type="radio" name="bundle" value="https://ko-fi.com/s/a9b92194e0" data-goatcounter-click>
-      <span class="custom-radio"></span>
-      <div>
-        <strong>encantar.js</strong><br>
-        encantar.js with core features and demos
-      </div>
-    </label>
-    <label>
-      <input type="radio" name="bundle" value="https://github.com/alemart/encantar-js" data-goatcounter-click>
-      <span class="custom-radio"></span>
-      <div>
-        <strong>Source Code</strong><br>
-        for Augmented Reality and Computer Vision nerds
-      </div>
-    </label>
-    <footer>
-      <button type="submit" class="md-button md-button--primary" id="download-bundle" data-goatcounter-click>OK</button>
-    </footer>
+<dialog id="download-dialog">
+  <form id="pay" method="post" autocomplete="off" onsubmit="location.href = this.elements.bundle.value; return false">
+    <h1>Thank you for your interest in encantar.js</h1>
+    <p>Please support the developer with an amount:</p>
+    <div id="amounts">
+      <p>You'll receive encantar.js plus <a href="addons/" id="link-addons" target="_blank" data-goatcounter-click>Add-Ons for enhanced AR</a>.</p>
+      <input type="radio" id="second-bundle" name="bundle" value="https://ko-fi.com/s/697a184728" checked data-goatcounter-click>
+      <label for="second-bundle"><span class="dollar-sign"></span>99</label>
+      <p>You'll receive a ready-to-use package with encantar.js!</p>
+      <input type="radio" id="first-bundle" name="bundle" value="https://ko-fi.com/s/3ee4182cb6" checked data-goatcounter-click>
+      <label for="first-bundle"><span class="dollar-sign"></span>49</label>
+      <p>You'll access the source code on GitHub.</p>
+      <input type="radio" id="zeroth-bundle" name="bundle" value="https://github.com/alemart/encantar-js" data-goatcounter-click>
+      <label for="zeroth-bundle"><span class="dollar-sign"></span>0</label>
+    </div>
+    <input type="submit" value="Download" class="md-button md-button--primary" id="get-encantar" data-goatcounter-click>
   </form>
   <button class="close" onclick="this.parentNode.close()">&times;</button>
 </dialog>
