@@ -52,6 +52,7 @@ export class TutorialOverlay extends GUIControl
         text.top = '0%';
         text.left = 0;
         text.zIndex = 1;
+        text.resizeToFit = true;
         container.addControl(text);
 
         hand.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;

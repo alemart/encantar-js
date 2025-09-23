@@ -27,6 +27,7 @@ export class GameController extends Entity
         this._ballsLeft = NUMBER_OF_BALLS;
         this._score = 0;
         this._gameStarted = false;
+        this._isTracking = false;
     }
 
     /**
@@ -76,10 +77,12 @@ export class GameController extends Entity
                 break;
 
             case 'gameoverdismissed':
-                this._broadcast(new GameEvent('restarted'));
+                if(this._isTracking)
+                    this._broadcast(new GameEvent('restarted'));
                 break;
 
             case 'targetfound':
+                this._isTracking = true;
                 if(this._gameStarted)
                     this._broadcast(new GameEvent('restarted'));
                 else
@@ -87,6 +90,7 @@ export class GameController extends Entity
                 break;
 
             case 'targetlost':
+                this._isTracking = false;
                 if(this._gameStarted)
                     this._broadcast(new GameEvent('paused'));
                 else

@@ -23,19 +23,25 @@ export class Jukebox extends Entity
     constructor(game)
     {
         super(game);
+        this._audioEngine = null;
         this._sound = new Map();
         this._music = null;
     }
 
     /**
      * Initialize the entity
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    init()
+    async init()
     {
-        this._loadSounds();
-        this._loadMusic();
-        BABYLON.Engine.audioEngine.useCustomUnlockedButton = true;
+        this._audioEngine = await BABYLON.CreateAudioEngineAsync({
+            disableDefaultUI: true,
+        });
+
+        await this._loadSounds();
+        await this._loadMusic();
+
+        this._audioEngine.listener.attach(this.ar.scene.activeCamera);
     }
 
     /**
@@ -72,7 +78,7 @@ export class Jukebox extends Entity
             case 'started':
             case 'restarted':
                 this._music.setVolume(0.5);
-                if(!this._music.isPlaying)
+                if(!this._isPlaying(this._music))
                     this._music.play();
                 break;
 
@@ -88,21 +94,25 @@ export class Jukebox extends Entity
             case 'muted':
                 this._mute();
                 break;
+
+            case 'awakened':
+                this._audioEngine.unlockAsync();
+                break;
         }
     }
 
     /**
      * Load the sound effects
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    _loadSounds()
+    async _loadSounds()
     {
         const soundFiles = ASSET_LIST.filter(asset => asset.endsWith('.wav'));
 
         for(const filepath of soundFiles) {
             const url = this._game.assetManager.url(filepath);
             const soundName = filepath.substring(0, filepath.length - 4);
-            const sound = new BABYLON.Sound(soundName, url);
+            const sound = await BABYLON.CreateSoundAsync(soundName, url);
 
             this._sound.set(soundName, sound);
         }
@@ -110,12 +120,28 @@ export class Jukebox extends Entity
 
     /**
      * Load the music
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    _loadMusic()
+    async _loadMusic()
     {
         const url = this._game.assetManager.url('music.mp3');
-        this._music = new BABYLON.Sound('music', url, this.ar.scene, null, { loop: true });
+        this._music = await BABYLON.CreateSoundAsync('music', url, {
+            maxInstances: 1,
+            loop: true
+        });
+    }
+
+    /**
+     * Check if a sound is playing
+     * @param {BABYLON.StaticSound} sound
+     * @returns {boolean}
+     */
+    _isPlaying(sound)
+    {
+        return sound && (
+            sound.state == BABYLON.SoundState.Starting ||
+            sound.state == BABYLON.SoundState.Started
+        );
     }
 
     /**
@@ -130,15 +156,11 @@ export class Jukebox extends Entity
         if(!sfx)
             return;
 
-        if(!BABYLON.Engine.audioEngine.unlocked)
-            BABYLON.Engine.audioEngine.unlock();
-
-        if(position !== null) {
-            sfx.spatialSound = true;
-            sfx.setPosition(position);
-        }
-        else
-            sfx.spatialSound = false;
+        /*
+        // spatial audio
+        if(position !== null)
+            sfx.spatial.position.copyFrom(position);
+        */
 
         sfx.play();
     }
@@ -149,7 +171,7 @@ export class Jukebox extends Entity
      */
     _mute()
     {
-        BABYLON.Engine.audioEngine.setGlobalVolume(0.0);
+        this._audioEngine.setVolume(0.0);
     }
 
     /**
@@ -158,6 +180,6 @@ export class Jukebox extends Entity
      */
     _unmute()
     {
-        BABYLON.Engine.audioEngine.setGlobalVolume(1.0);
+        this._audioEngine.setVolume(1.0);
     }
 }

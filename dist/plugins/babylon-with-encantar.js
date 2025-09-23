@@ -5,9 +5,9 @@
  */
 
 /* Usage of the indicated versions is encouraged */
-__THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
+USING({
     'encantar.js': { version: '0.4.5' },
-     'babylon.js': { version: '7.38.0' }
+     'babylon.js': { version: '8.28.2' }
 });
 
 /**
@@ -400,7 +400,7 @@ function encantar(demo)
  * Version check
  * @param {object} libs
  */
-function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(libs)
+function USING(libs)
 {
     window.addEventListener('load', () => {
         try { AR, BABYLON;

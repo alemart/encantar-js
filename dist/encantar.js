@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-07-12T01:22:59.425Z
+ * Date: 2025-09-23T19:08:13.271Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -15983,11 +15983,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             if (keypoint.matches[0].index >= 0 && keypoint.matches[1].index >= 0) {
               const d1 = keypoint.matches[0].distance, d2 = keypoint.matches[1].distance;
               if (d1 <= SCAN_MATCH_RATIO * d2) {
-                const idx1 = this._imageTracker._referenceImageIndexOfKeypoint(keypoint.matches[0].index);
-                if (idx1 >= 0) {
-                  if (!Object.prototype.hasOwnProperty.call(matchedKeypointsPerImageIndex, idx1))
-                    matchedKeypointsPerImageIndex[idx1] = [];
-                  matchedKeypointsPerImageIndex[idx1].push(keypoint);
+                const idx = this._imageTracker._referenceImageIndexOfKeypoint(keypoint.matches[0].index);
+                if (idx >= 0) {
+                  if (!Object.prototype.hasOwnProperty.call(matchedKeypointsPerImageIndex, idx))
+                    matchedKeypointsPerImageIndex[idx] = [];
+                  matchedKeypointsPerImageIndex[idx].push(keypoint);
                 }
               }
             }
@@ -20753,8 +20753,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         clear(viewport) {
           viewport.container.style.cssText = "";
           viewport._subContainer.style.cssText = "";
-          viewport._backgroundCanvas.style.objectFit = "unset";
-          viewport.canvas.style.objectFit = "unset";
         }
       };
       InlineResizeStrategy = class extends ViewportResizeStrategy {
@@ -20856,6 +20854,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           backgroundCanvas.style.objectFit = "cover";
           foregroundCanvas.style.objectFit = "cover";
           super.resize(viewport);
+        }
+        /**
+         * Clear CSS rules
+         * @param viewport
+         */
+        clear(viewport) {
+          const backgroundCanvas = viewport._backgroundCanvas;
+          const foregroundCanvas = viewport.canvas;
+          backgroundCanvas.style.objectFit = "unset";
+          foregroundCanvas.style.objectFit = "unset";
+          super.clear(viewport);
         }
       };
       Viewport = class extends AREventTarget {

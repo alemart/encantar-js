@@ -7,9 +7,9 @@
 (function() {
 
 /* Usage of the indicated versions is encouraged */
-__THIS_PLUGIN_HAS_BEEN_TESTED_WITH__({
+USING({
     'encantar.js': { version: '0.4.5' },
-        'A-Frame': { version: '1.6.0' }
+        'A-Frame': { version: '1.7.1' }
 });
 
 /**
@@ -249,6 +249,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
             this.session = session;
             this._configureSession();
             this._startAnimationLoop();
+            this._injectInspectorEvent();
 
             // we're done!
             const scene = this.el;
@@ -421,6 +422,41 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
             this.pointers.push.apply(this.pointers, newPointers);
     },
 
+    _injectInspectorEvent()
+    {
+        const scene = this.el;
+        const inspector = scene.components.inspector;
+        const openInspector = inspector.openInspector;
+        let isOpen = false;
+        let isFirstOpen = true;
+
+        inspector.openInspector = function(focusEl) {
+            if(isFirstOpen) {
+                isFirstOpen = false;
+                setupObserver();
+            }
+
+            openInspector.call(inspector, focusEl);
+        };
+
+        function setupObserver()
+        {
+            const observer = new MutationObserver(function(mutations) {
+                for(const mutation of mutations) {
+                    if(mutation.attributeName == 'class') {
+                        const hasClass = mutation.target.classList.contains('aframe-inspector-opened');
+                        if(isOpen != hasClass) {
+                            isOpen = hasClass;
+                            scene.emit('arinspectortoggled', { isOpen });
+                        }
+                    }
+                }
+            });
+
+            observer.observe(document.body, { attributes: true });
+        }
+    },
+
 }));
 
 /**
@@ -535,6 +571,7 @@ AFRAME.registerComponent('encantar', ARComponent({
 AFRAME.registerComponent('ar-camera', ARComponent({
 
     dependencies: ['camera'],
+    _matrix: null,
 
     init()
     {
@@ -545,8 +582,7 @@ AFRAME.registerComponent('ar-camera', ARComponent({
         el.setAttribute('look-controls', { enabled: false });
         el.setAttribute('position', { x: 0, y: 0, z: 0 }); // A-Frame sets y = 1.6m for VR
         
-        const camera = el.getObject3D('camera');
-        camera.matrixAutoUpdate = false;
+        this._matrix = new THREE.Matrix4();
     },
 
     tick()
@@ -561,8 +597,8 @@ AFRAME.registerComponent('ar-camera', ARComponent({
         const camera = el.getObject3D('camera');
         camera.projectionMatrix.fromArray(tracked.projectionMatrix.read());
         camera.projectionMatrixInverse.copy(camera.projectionMatrix).invert();
-        camera.matrix.fromArray(tracked.viewMatrixInverse.read());
-        camera.updateMatrixWorld(true);
+        this._matrix.fromArray(tracked.viewMatrixInverse.read());
+        this._matrix.decompose(camera.position, camera.quaternion, camera.scale);
 
         //console.log('projectionMatrix', tracked.projectionMatrix.read());
         //console.log('viewMatrixInverse', tracked.viewMatrixInverse.read());
@@ -599,18 +635,19 @@ AFRAME.registerComponent('ar-root', ARComponent({
     },
 
     _origin: null,
+    _matrix: null,
     _firstRun: true,
 
     init()
     {
         const origin = new THREE.Group();
-        origin.matrixAutoUpdate = false;
-
         const root = this.el.object3D;
+
         root.parent.add(origin);
         origin.add(root);
 
         this._origin = origin;
+        this._matrix = new THREE.Matrix4();
         this._firstRun = true;
 
         this.ar.registerRoot(this);
@@ -623,7 +660,9 @@ AFRAME.registerComponent('ar-root', ARComponent({
 
         origin.parent.add(root);
         origin.removeFromParent();
+
         this._origin = null;
+        this._matrix = null;
 
         this.ar.unregisterRoot(this);
     },
@@ -658,8 +697,8 @@ AFRAME.registerComponent('ar-root', ARComponent({
         }
 
         const origin = this._origin;
-        origin.matrix.fromArray(tracked.modelMatrix.read());
-        origin.updateMatrixWorld(true);
+        this._matrix.fromArray(tracked.modelMatrix.read());
+        this._matrix.decompose(origin.position, origin.quaternion, origin.scale);
         this.el.play();
 
         //console.log('modelMatrix', tracked.modelMatrix.toString());
@@ -1080,7 +1119,7 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
         else if(huds.length == 0)
             huds.push(undefined);
 
-        return AR.Viewport(Object.assign(
+        return this._fix(AR.Viewport(Object.assign(
             {
                 container: this.el,
                 hudContainer: huds[0],
@@ -1089,7 +1128,23 @@ AFRAME.registerComponent('ar-viewport', ARComponent({
                 style: this.data.style,
             },
             !fullscreenUI ? {} : { fullscreenUI: fullscreenUI.data.enabled }
-        ));
+        )));
+    },
+
+    _fix(viewport)
+    {
+        this.el.sceneEl.addEventListener('arinspectortoggled', ev => {
+
+            // fix a bug relative to the A-Frame Inspector not showing up
+            const AFRAME_INSPECTOR_ZINDEX = 999999; // z-index of #inspectorContainer
+            viewport.container.style.zIndex = String(AFRAME_INSPECTOR_ZINDEX - 1);
+
+            // fix the gizmos of the Inspector
+            viewport.hud.container.hidden = ev.detail.isOpen;
+
+        });
+
+        return viewport;
     },
 
 }));
@@ -1163,7 +1218,7 @@ AFRAME.registerPrimitive('ar-hud', {
  * Version check
  * @param {object} libs
  */
-function __THIS_PLUGIN_HAS_BEEN_TESTED_WITH__(libs)
+function USING(libs)
 {
     window.addEventListener('load', () => {
         try { AR, AFRAME;
