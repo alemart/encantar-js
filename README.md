@@ -11,16 +11,17 @@ encantar.js is a GPU-accelerated Augmented Reality framework for the web.
 
 Get started at <https://encantar.dev> :magic_wand:
 
-**Enjoy my magic?** :mage_man:
+## Support this work
+
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
 
 [![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
 
 ## Demos
 
 Select any picture below, or [browse the website](https://encantar.dev/demos) for more!
 
-<a href="https://alemart.github.io/encantar-js/demos/hello-aframe/poster.html" target="_blank"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://alemart.github.io/encantar-js/demos/basketball/poster.html" target="_blank"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://alemart.github.io/encantar-js/addons/" target="_blank"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
+<a href="https://encantar.dev/demos/hello-aframe/poster.html" target="_blank"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://encantar.dev/demos/basketball/poster.html" target="_blank"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://encantar.dev/addons/" target="_blank"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
 
 ## Documentation
 
