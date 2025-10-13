@@ -11,11 +11,11 @@ encantar.js is a GPU-accelerated Augmented Reality framework for the web.
 
 Get started at <https://encantar.dev> :magic_wand:
 
-## Support this work
+## Support open-source webAR
 
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
+Help make open-source webAR possible:
 
-[![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart) [![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
 
 ## Demos
 

@@ -238,6 +238,8 @@ dialog {
   border-radius: 24px;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
   transition: opacity 0.5s ease;
+  text-align: center;
+  font-size: 0.8rem;
 }
 
 dialog[open] {
@@ -255,8 +257,8 @@ dialog::backdrop {
 }
 
 dialog h1 {
-  margin: 1.0rem 0;
-  font-size: 1.4rem;
+  margin: 0 0 1.1rem 0 !important;
+  font-size: 1.25rem;
 }
 
 dialog .close {
@@ -272,86 +274,24 @@ html:has(dialog[open]) {
   overflow: hidden;
 }
 
-
-
-
-#pay {
+dialog footer {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  text-align: center;
-  font-size: 1.2rem;
-  line-height: 2.5;
+  justify-content: space-evenly;
 }
-#pay > * {
-  width: 100%;
-  min-width: 320px;
+
+dialog footer > * {
+  margin-top: 1.0rem;
+  min-width: 40%;
 }
-#pay p {
-  font-size: 1.0rem;
+
+dialog ul {
+  text-align: justify;
+  list-style-position: inside;
 }
-#pay input[type="submit"] {
-  font-size: 1.0rem;
-  /*margin: 1.0rem 0 0 0;*/
-}
-#pay h1 {
-  margin: 0.5rem 0 0 0;
-  font-size: 1.4rem;
-}
-#pay #amounts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  font-size: 0.85em;
-}
-#pay #amounts .dollar-sign::before {
-  content: "$";
-}
-#pay input[type="radio"] {
-  -webkit-appearance: none;
-  appearance: none;
-  background-color: white;
-  margin: 0;
-}
-#pay input[type="radio"] + label {
-  padding: 0.1rem 0.5rem;
-  /*margin: 0 2px;*/
-  cursor: pointer;
-  border: 1px solid #dcdcdc;
-  /*border-radius: calc(var(--border-radius) / 3);*/
-  background: linear-gradient(180deg, white 0%, whitesmoke 100%);
-  min-width: 80px;
-}
-#pay input[type="radio"] + label:first-of-type {
-  border-top-left-radius: calc(var(--border-radius) / 2);
-  border-bottom-left-radius: calc(var(--border-radius) / 2);
-}
-#pay input[type="radio"] + label:last-of-type {
-  border-top-right-radius: calc(var(--border-radius) / 2);
-  border-bottom-right-radius: calc(var(--border-radius) / 2);
-}
-#pay input[type="radio"] + label:hover {
-  border-color: var(--highlighted);
-}
-#pay input[type="radio"]:checked + label {
-  background: linear-gradient(180deg, #fffd50 0%, var(--highlighted) 100%) !important;
-  border-color: var(--highlighted) !important;
-}
-#pay #amounts p {
-  display: none;
-  order: 100;
-  flex-basis: 100%;
-}
-#pay #amounts p:has(+ input[type="radio"]:checked) {
-  display: inline-block;
-}
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+
+dialog *:focus-visible {
+  outline: 0;
 }
 
 
@@ -488,7 +428,6 @@ input::-webkit-inner-spin-button {
     <p>encantar.js is created independently by <a href="https://github.com/alemart" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author.</p>
     <footer>
       <button class="md-button md-button--primary" id="download-button" data-goatcounter-click onclick="document.getElementById('download-dialog').showModal()">Download encantar.js</button>
-      <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor on GitHub</a>
     </footer>
   </article>
 </section>
@@ -497,23 +436,19 @@ input::-webkit-inner-spin-button {
 
 
 <dialog id="download-dialog">
-  <form id="pay" method="post" autocomplete="off" onsubmit="location.href = this.elements.bundle.value; return false">
-    <h1>Thank you for your interest in encantar.js</h1>
-    <p>Please support the developer with an amount:</p>
-    <div id="amounts">
-      <p>You'll receive encantar.js plus <a href="addons/" id="link-addons" target="_blank" data-goatcounter-click>Add-Ons for enhanced AR</a>.</p>
-      <input type="radio" id="second-bundle" name="bundle" value="https://ko-fi.com/s/697a184728" checked data-goatcounter-click>
-      <label for="second-bundle"><span class="dollar-sign"></span>99</label>
-      <p>You'll receive a ready-to-use package with encantar.js!</p>
-      <input type="radio" id="first-bundle" name="bundle" value="https://ko-fi.com/s/3ee4182cb6" checked data-goatcounter-click>
-      <label for="first-bundle"><span class="dollar-sign"></span>49</label>
-      <p>You'll access the source code on GitHub.</p>
-      <input type="radio" id="zeroth-bundle" name="bundle" value="https://github.com/alemart/encantar-js" data-goatcounter-click>
-      <label for="zeroth-bundle"><span class="dollar-sign"></span>0</label>
-    </div>
-    <input type="submit" value="Download" class="md-button md-button--primary" id="get-encantar" data-goatcounter-click>
-  </form>
   <button class="close" onclick="this.parentNode.close()">&times;</button>
+  <h1>Support open-source WebAR</h1>
+  <p>Time and time again I see people dissatisfied with the current state of WebAR, searching for open-source alternatives. Are you looking for this?</p>
+  <ul>
+    <li>Create WebAR experiences for any platform</li>
+    <li>Break free from vendor lock-in and usage limits</li>
+    <li>Foster the AR ecosystem with an open-source alternative</li>
+  </ul>
+  <p>Help make this possible by supporting the development of encantar.js!</p>
+  <footer>
+    <a href="https://ko-fi.com/s/3ee4182cb6" target="_blank" class="md-button" id="download-encantar" data-goatcounter-click>Download</a>
+    <a href="https://github.com/sponsors/alemart" target="_blank" class="md-button" id="download-sponsor" data-goatcounter-click>Sponsor</a>
+  </footer>
 </dialog>
 
 
