@@ -1,4 +1,6 @@
-# encantar.js Web AR engine :magic_wand:
+# encantar.js webAR engine :magic_wand:
+
+[![GitHub](https://img.shields.io/github/license/alemart/encantar-js)](LICENSE) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/encantar-js)](https://github.com/alemart/encantar-js/releases) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart)
 
 encantar.js is a GPU-accelerated Augmented Reality framework for the web.
 
