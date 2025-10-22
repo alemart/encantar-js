@@ -488,6 +488,57 @@ class ViewportFullscreenHelper
 
 
 /**
+ * Utility for taking snapshots of the AR scene
+ */
+export class ViewportSnapshotter
+{
+    /** reference to the viewport */
+    private readonly _viewport: Viewport;
+
+    /** lazily instantiated canvas */
+    private _canvas: Nullable<HTMLCanvasElement>;
+
+
+
+
+    /**
+     * Constructor
+     */
+    constructor(viewport: Viewport)
+    {
+        this._viewport = viewport;
+        this._canvas = null;
+    }
+
+    /**
+     * Take a snapshot of the AR scene
+     * @param resolution optional resolution type. If unspecified, the resolution of the viewport will be used
+     * @returns a promise to an ImageBitmap. Tip: for efficient usage, transfer the bitmap or close it when you're done
+     */
+    takeSnapshot(resolution?: Resolution): SpeedyPromise<ImageBitmap>
+    {
+        const viewport = this._viewport;
+        const size = Utils.resolution(resolution ?? viewport.resolution, viewport.aspectRatio);
+        const canvas = this._canvas ?? (this._canvas = document.createElement('canvas'));
+        const ctx = canvas.getContext('2d')!;
+
+        canvas.width = size.width;
+        canvas.height = size.height;
+        ctx.imageSmoothingQuality = 'high';
+
+        ctx.drawImage(viewport._backgroundCanvas, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(viewport.canvas, 0, 0, canvas.width, canvas.height);
+
+        return new Speedy.Promise<ImageBitmap>((resolve, reject) =>
+            createImageBitmap(canvas).then(resolve, reject)
+        );
+    }
+}
+
+
+
+
+/**
  * Helper class to resize the viewport
  */
 class ViewportResizer
@@ -988,6 +1039,9 @@ export class Viewport extends AREventTarget<ViewportEvent>
     /** Fullscreen utilities */
     private readonly _fullscreen: ViewportFullscreenHelper;
 
+    /** Snapshotter */
+    private readonly _snapshotter: ViewportSnapshotter;
+
 
 
 
@@ -1018,6 +1072,7 @@ export class Viewport extends AREventTarget<ViewportEvent>
         this._resizer.setStrategyByName(this._style);
 
         this._fullscreen = new ViewportFullscreenHelper(this);
+        this._snapshotter = new ViewportSnapshotter(this);
     }
 
     /**
@@ -1202,6 +1257,16 @@ export class Viewport extends AREventTarget<ViewportEvent>
 
         // done!
         return new Vector2(x, y);
+    }
+
+    /**
+     * Take a snapshot of the AR scene
+     * @param resolution optional resolution type. If unspecified, the resolution of the viewport will be used
+     * @returns a promise to an ImageBitmap. Tip: for efficient usage, transfer the bitmap or close it when you're done
+     */
+    takeSnapshot(resolution?: Resolution): SpeedyPromise<ImageBitmap>
+    {
+        return this._snapshotter.takeSnapshot(resolution);
     }
 
     /**

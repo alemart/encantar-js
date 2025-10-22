@@ -189,6 +189,22 @@ Convert a pixel `position` given in [canvas](#canvas) space to a corresponding p
 
 An equivalent position in space units.
 
+### takeSnapshot
+
+`viewport.takeSnapshot(resolution: Resolution): SpeedyPromise<ImageBitmap>`
+
+Take a snapshot of the AR scene.
+
+*Since:* 0.4.5
+
+**Arguments**
+
+- `resolution: Resolution, optional`. The [resolution](resolution.md) of the snapshot. If unspecified, the [resolution of the viewport](#resolution) will be used.
+
+**Returns**
+
+A promise that resolves to an `ImageBitmap` featuring the snapshot.
+
 ## Events
 
 A viewport is an [AREventTarget](ar-event-target.md). You can listen to the following events:
