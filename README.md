@@ -16,7 +16,7 @@ Get started at <https://encantar.dev> :magic_wand:
 ## Help make open source webAR possible
 
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
-[![Give thanks via Ko-fi](docs/img/give-thanks.png)](https://ko-fi.com/alemart)
+[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart)
 
 ## Demos
 
