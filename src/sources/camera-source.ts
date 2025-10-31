@@ -165,10 +165,18 @@ export class CameraSource extends VideoSource
                 video.srcObject = stream;
             })
             .catch(error => {
-                reject(new AccessDeniedError(
-                    'Please give access to the webcam and reload the page.',
-                    error
-                ));
+                if(typeof OverconstrainedError !== 'undefined' && error instanceof OverconstrainedError) {
+                    reject(new NotSupportedError(
+                        'Unsupported camera constraints: ' + JSON.stringify(constraints),
+                        error
+                    ));
+                }
+                else {
+                    reject(new AccessDeniedError(
+                        'Please give access to the webcam and reload the page.',
+                        error
+                    ));
+                }
             });
         })
         .then(() => super._init()); // this will handle browser quirks
