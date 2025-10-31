@@ -253,7 +253,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
 
             // we're done!
             const scene = this.el;
-            scene.emit('arready', { ar: this });
+            scene.emit('arready', { ar: this }); // this bubbles
             scene.emit('ar-started', { ar: this }); // backwards compatibility with 0.3.0 - 0.4.1
             return session;
         })
