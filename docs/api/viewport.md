@@ -197,6 +197,10 @@ Take a snapshot of the AR scene.
 
 *Since:* 0.4.5
 
+!!! tip
+
+    If your virtual objects do not show up in the snapshot, redraw your scene just before calling this method (either inside or outside your render loop).
+
 **Arguments**
 
 - `resolution: Resolution, optional`. The [resolution](resolution.md) of the snapshot. If unspecified, the [resolution of the viewport](#resolution) will be used.
@@ -204,6 +208,10 @@ Take a snapshot of the AR scene.
 **Returns**
 
 A promise that resolves to an `ImageBitmap` featuring the snapshot.
+
+!!! warning
+
+    The returned promise will be rejected if a canvas is [tainted](https://developer.mozilla.org/en-US/docs/Web/HTML/How_to/CORS_enabled_image){ ._blank } due to cross-origin issues.
 
 ## Events
 

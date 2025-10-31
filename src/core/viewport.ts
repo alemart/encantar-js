@@ -496,7 +496,8 @@ export class ViewportSnapshotter
     private readonly _viewport: Viewport;
 
     /** lazily instantiated canvas */
-    private _canvas: Nullable<HTMLCanvasElement>;
+    private _canvas: Nullable<HTMLCanvasElement | OffscreenCanvas>;
+
 
 
 
@@ -519,8 +520,8 @@ export class ViewportSnapshotter
     {
         const viewport = this._viewport;
         const size = Utils.resolution(resolution ?? viewport.resolution, viewport.aspectRatio);
-        const canvas = this._canvas ?? (this._canvas = document.createElement('canvas'));
-        const ctx = canvas.getContext('2d')!;
+        const canvas = this._canvas ?? (this._canvas = this._createCanvas(size.width, size.height));
+        const ctx = canvas.getContext('2d') as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 
         canvas.width = size.width;
         canvas.height = size.height;
@@ -529,9 +530,39 @@ export class ViewportSnapshotter
         ctx.drawImage(viewport._backgroundCanvas, 0, 0, canvas.width, canvas.height);
         ctx.drawImage(viewport.canvas, 0, 0, canvas.width, canvas.height);
 
-        return new Speedy.Promise<ImageBitmap>((resolve, reject) =>
-            createImageBitmap(canvas).then(resolve, reject)
-        );
+        return new Speedy.Promise<ImageBitmap>((resolve, reject) => {
+            if('transferToImageBitmap' in canvas) {
+                // OffscreenCanvas
+                try {
+                    const bmp = canvas.transferToImageBitmap();
+                    resolve(bmp);
+                }
+                catch(error) {
+                    reject(error as Error);
+                }
+            }
+            else {
+                // <canvas>
+                createImageBitmap(canvas).then(resolve, reject);
+            }
+        });
+    }
+
+    /**
+     * Create a canvas with the specified size
+     * @param width in pixels
+     * @param height in pixels
+     * @returns a new canvas (or offscreen canvas if it's supported)
+     */
+    private _createCanvas(width: number, height: number): HTMLCanvasElement | OffscreenCanvas
+    {
+        if(typeof OffscreenCanvas !== 'undefined')
+            return new OffscreenCanvas(width, height);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        return canvas;
     }
 }
 
