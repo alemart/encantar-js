@@ -1,6 +1,6 @@
 # Asset Manager
 
-A framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. Preloading assets is typically done in the `preload()` method when using the plugins for [babylon.js](../api/plugin-babylon.md#preload) or [three.js](../api/plugin-three.md#preload).
+A framework-agnostic solution for preloading assets such as: 3D models, video clips, audio files and more. Preloading assets is typically done in the `preload()` method when using the plugins for [babylon.js](../api/plugin-babylon.md#preload) or [three.js](../api/plugin-three.md#preload). This Add-On is bundled with the core.
 
 ## Methods
 

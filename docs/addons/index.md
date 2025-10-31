@@ -1,9 +1,9 @@
 # Add-Ons
 
-Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. Take a look at these enchanting features! &#x1F60D;
+Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. They are provided as extra perks for supporters. Take a look at these enchanting features! &#x1F60D;
 
-<div style="text-align:center">
-  <a href="https://ko-fi.com/s/697a184728" target="_blank" rel="external" class="md-button md-button--primary" id="i-want-addons" data-goatcounter-click>I want the Add-Ons!</a>
+<div style="text-align:center" markdown>
+[I want the Add-Ons!](https://ko-fi.com/alemart/shop){ .md-button .md-button--primary ._blank }
 </div>
 
 <style>
@@ -32,6 +32,21 @@ Enchant your audience using this easy-to-use &amp; customizable Video Player! Vi
   </div>
   <div>
     <lite-youtube videoid="sz4Fmf3zyho"></lite-youtube>
+  </div>
+</div>
+
+<div class="addon-container" markdown>
+  <div markdown>
+
+## Take Photos
+
+Make your WebAR experiences memorable! Users can take photos with AR content just by tapping a button, as in a camera app. Photos can be downloaded, shared on social media, and more!
+
+[Tell me more](./ar-snapshot-button.md){ .md-button }
+
+  </div>
+  <div>
+    <lite-youtube videoid="_mCskPWLBl8"></lite-youtube>
   </div>
 </div>
 

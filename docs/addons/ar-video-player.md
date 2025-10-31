@@ -10,6 +10,10 @@ An A-Frame component and primitive for playing videos in AR. `<ar-video-player>`
 <script src="../../js/lite-yt-embed.js"></script>
 <lite-youtube videoid="sz4Fmf3zyho"></lite-youtube>
 
+<div style="text-align:center" markdown>
+[I want this Add-On!](https://ko-fi.com/s/697a184728){ .md-button .md-button--primary ._blank }
+</div>
+
 ## Properties
 
 | Property | Description | Default |

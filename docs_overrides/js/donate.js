@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     script.addEventListener('load', function() {
         kofiWidgetOverlay.draw('alemart', {
             'type': 'floating-chat',
-            'floating-chat.donateButton.text': 'Give thanks',
+            'floating-chat.donateButton.text': 'Support this work',
             'floating-chat.donateButton.background-color': '#7E56C2',
             'floating-chat.donateButton.text-color': 'white'
         });
@@ -30,10 +30,15 @@ document.addEventListener('DOMContentLoaded', function() {
             bottom: 18px !important;
             right: 12px !important;
             left: initial !important;
+            text-wrap: nowrap !important;
+            max-width: 225px !important;
+        }
+        .floatingchat-container, .floatingchat-container-mobi {
+            width: 100% !important;
         }
         @media only screen and (max-device-width: 750px) {
             .floatingchat-container-wrap-mobi {
-                width: 50% !important;
+                width: 100% !important;
             }
         }
     `));

@@ -60,8 +60,7 @@ So far we've just created a static HTML page. The next step is to make your page
 
 If you came this far in the guide, WebAR probably excites you. It is definitely something you want. I know, it is awesome! The possibilities are endless. Even better than getting your creative juices boiling with enthusiasm is the feeling of joy I have for sharing this work with you.
 
-I develop encantar.js independently. Creating this WebAR engine required a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
+I develop encantar.js independently. Creating this WebAR engine requires a lot of time, effort, skill and specialized knowledge. Please support my work today, so that I can make it even more awesome!
 
-[![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J41O00K)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
-
+[![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart)

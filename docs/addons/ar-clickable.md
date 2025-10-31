@@ -8,6 +8,10 @@ An A-Frame component that turns 3D and 2D objects into "clickables" that respond
 
 ![AR Clickables](../img/addon-clickables.gif){ .responsive }
 
+<div style="text-align:center" markdown>
+[I want this Add-On!](https://ko-fi.com/s/697a184728){ .md-button .md-button--primary ._blank }
+</div>
+
 ## Properties
 
 | Property | Description | Default |
