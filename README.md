@@ -15,8 +15,10 @@ Get started at <https://encantar.dev> :magic_wand:
 
 ## Help make open source webAR possible
 
+I develop open source webAR independently. Support my work to help me continue it.
+
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github&style=for-the-badge)](https://github.com/sponsors/alemart)
-[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart)
+[![Donate via Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alemart)
 
 ## Demos
 
@@ -30,6 +32,7 @@ Learn the incantations:
 
 * [Tutorial for aspiring wizards](https://encantar.dev/tutorial)
 * [API Spellbook](https://encantar.dev/api)
+* [FAQ](https://encantar.dev/faq)
 
 ## Core features
 
@@ -45,6 +48,7 @@ Core incantations:
 
 * **Video Player**: easy-to-use video player with controls - suitable for promotional materials, educational content, interactive art, and much more.
 * **Buttons & Clickables**: easily trigger reactions when buttons or 3D objects are tapped in AR.
+* **Take Photos**: make your webAR experiences memorable! Turn them into a camera app.
 
 ## About
 
