@@ -259,6 +259,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
         })
         .catch(error => {
             console.error(error);
+            alert('Can\'t start AR session!\n\n' + error.toString()); // being vocal about initialization errors may be helpful on mobile
             throw error;
         });
     },
