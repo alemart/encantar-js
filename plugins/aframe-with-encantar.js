@@ -447,7 +447,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
                         const hasClass = mutation.target.classList.contains('aframe-inspector-opened');
                         if(isOpen != hasClass) {
                             isOpen = hasClass;
-                            scene.emit('arinspectortoggled', { isOpen });
+                            scene.emit('arinspectortoggled', { ar: this, isOpen });
                         }
                     }
                 }
