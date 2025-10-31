@@ -4,17 +4,9 @@
 
 encantar.js is a standalone GPU-accelerated Augmented Reality engine for the web. The name is derived from the Portuguese and Spanish word _encantar_, which means: to enchant, to delight, to love, to fascinate, to put a magical spell on someone or something. :sparkles:
 
-## What is WebAR?
+## What about its compatibility?
 
-Refer to the [concepts](./tutorial/concepts.md).
-
-## Is this WebXR?
-
-No, encantar.js is not WebXR. The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely supported. My intention is to give it broad compatibility.
-
-## What about browser compatibility?
-
-encantar.js is compatible with all major web browsers:
+encantar.js runs in any device and is compatible with all major web browsers:
 
 | Chrome | Edge | Firefox | Opera | Safari* |
 | ------ | ---- | ------- | ----- | ------- |
@@ -23,6 +15,27 @@ encantar.js is compatible with all major web browsers:
 \* use Safari 15.2 or later.
 
 encantar.js requires WebGL2 and WebAssembly, which are widely supported.
+
+## Is this WebXR?
+
+No, encantar.js is not WebXR. It's [WebAR](#what-is-webar). The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely supported. My intention is to give it broad compatibility.
+
+## What is WebAR?
+
+As explained in the [concepts page](tutorial/concepts.md), WebAR is a set of technologies used to create Augmented Reality experiences that run in web browsers. WebAR makes it easy for users to experience AR, because they can have immediate access to the AR experiences. All they have to do is open a web page. They are not tied to specific platforms and they also don't need to download apps.
+
+## Any recommendations?
+
+For a good experience:
+
+* Don't move the camera nor the target image too quickly. This produces motion blur.
+* The target image should appear clearly in the video.
+* The physical environment should be properly illuminated.
+* If you're scanning the image on a screen, make sure to adjust the brightness. If the screen is too bright (too dark), it will cause overexposure (underexposure) in the video and tracking difficulties - details of the images will be lost. Screen reflections are also undesirable.
+* If you print the image, avoid shiny materials (e.g., glossy paper). They may generate artifacts in the image and interfere with the tracking. Prefer non-reflective materials.
+* Avoid low-quality cameras. Cameras of common smartphones are okay.
+
+See also: [Guidelines for Images](guidelines-for-images.md).
 
 ## Can I bundle it using Vite, Webpack, etc?
 
@@ -61,10 +74,6 @@ tracker.addEventListener('targetfound', event => {
 
 });
 ```
-
-## Any recommendations?
-
-Refer to the [recommendations](./recommendations.md).
 
 ## I am enchanted!
 
