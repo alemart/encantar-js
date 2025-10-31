@@ -1,5 +1,15 @@
 # Release notes
 
+## 0.4.5 - October 31st, 2025
+
+* New Street Art demo
+* Add Viewport.takeSnapshot()
+* Updated the A-Frame, babylon.js and three.js plugins
+* A-Frame plugin: fixed a bug related to the inspector not showing up
+* Basketball game: upgraded to the new audio engine of babylon.js
+* Fixed a bug on the Pointer Tracker
+* Small changes and improvements
+
 ## 0.4.4 - June 28th, 2025
 
 * Introduced a new Viewport style: crop
