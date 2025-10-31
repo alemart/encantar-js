@@ -189,7 +189,7 @@ The `<ar-sources>` primitive is used to specify the [sources of data](./source.m
 
 ```html
 <ar-sources>
-    <ar-camera-source resolution="md"></ar-camera-source>
+    <ar-camera-source resolution="360p"></ar-camera-source>
 </ar-sources>
 ```
 

@@ -767,7 +767,7 @@ AFRAME.registerComponent('ar-camera-source', ARComponent({
     schema: {
 
         /** video resolution */
-        'resolution': { type: 'string', default: 'md' },
+        'resolution': { type: 'string', default: '360p' },
 
         /** facing mode: "environment" | "user" */
         'facingMode': { type: 'string', default: 'environment' },
