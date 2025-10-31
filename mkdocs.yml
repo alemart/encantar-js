@@ -74,11 +74,6 @@ nav:
     - 'Activate your webcam': 'tutorial/activate-your-webcam.md'
     - 'Augment the scene': 'tutorial/augment-the-scene.md'
     - 'Next steps': 'tutorial/next-steps.md'
-    - 'Recommendations': 'recommendations.md'
-    - 'Guidelines for Images': 'guidelines-for-images.md'
-    - 'Questions & Answers': 'faq.md'
-    - 'License': 'license.md'
-    - 'API Reference': 'api/index.md'
   - 'API':
     - 'General':
       - 'AR': 'api/ar.md'
@@ -136,3 +131,7 @@ nav:
       - 'SpeedySize': 'api/speedy-size.md'
       - 'SpeedyMatrix': 'api/speedy-matrix.md'
       - 'SpeedyPromise': 'api/speedy-promise.md'
+  - 'Help':
+    - 'Questions & Answers': 'faq.md'
+    - 'Guidelines for Images': 'guidelines-for-images.md'
+    - 'License': 'license.md'
