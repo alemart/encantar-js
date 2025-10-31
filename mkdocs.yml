@@ -62,6 +62,7 @@ nav:
     - 'AR Button API': 'addons/ar-button.md'
     - 'AR Clickable API': 'addons/ar-clickable.md'
     - 'Video Player API': 'addons/ar-video-player.md'
+    - 'Take Photos API': 'addons/ar-snapshot-button.md'
     - 'Asset Manager API': 'addons/asset-manager.md'
     - 'More Add-Ons': 'addons/more-addons.md'
   - 'Learn':
