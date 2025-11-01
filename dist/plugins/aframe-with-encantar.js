@@ -253,12 +253,13 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
 
             // we're done!
             const scene = this.el;
-            scene.emit('arready', { ar: this });
+            scene.emit('arready', { ar: this }); // this bubbles
             scene.emit('ar-started', { ar: this }); // backwards compatibility with 0.3.0 - 0.4.1
             return session;
         })
         .catch(error => {
             console.error(error);
+            alert('Can\'t start AR session!\n\n' + error.toString()); // being vocal about initialization errors may be helpful on mobile
             throw error;
         });
     },
@@ -447,7 +448,7 @@ AFRAME.registerSystem('ar', Object.assign(ARBaseSystem(), {
                         const hasClass = mutation.target.classList.contains('aframe-inspector-opened');
                         if(isOpen != hasClass) {
                             isOpen = hasClass;
-                            scene.emit('arinspectortoggled', { isOpen });
+                            scene.emit('arinspectortoggled', { ar: this, isOpen });
                         }
                     }
                 }
@@ -767,7 +768,7 @@ AFRAME.registerComponent('ar-camera-source', ARComponent({
     schema: {
 
         /** video resolution */
-        'resolution': { type: 'string', default: 'md' },
+        'resolution': { type: 'string', default: '360p' },
 
         /** facing mode: "environment" | "user" */
         'facingMode': { type: 'string', default: 'environment' },

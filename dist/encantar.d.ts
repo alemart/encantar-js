@@ -2924,6 +2924,32 @@ declare module "core/viewport" {
         fullscreenUI?: boolean;
     }
     /**
+     * Utility for taking snapshots of the AR scene
+     */
+    export class ViewportSnapshotter {
+        /** reference to the viewport */
+        private readonly _viewport;
+        /** lazily instantiated canvas */
+        private _canvas;
+        /**
+         * Constructor
+         */
+        constructor(viewport: Viewport);
+        /**
+         * Take a snapshot of the AR scene
+         * @param resolution optional resolution type. If unspecified, the resolution of the viewport will be used
+         * @returns a promise to an ImageBitmap. Tip: for efficient usage, transfer the bitmap or close it when you're done
+         */
+        takeSnapshot(resolution?: Resolution): SpeedyPromise<ImageBitmap>;
+        /**
+         * Create a canvas with the specified size
+         * @param width in pixels
+         * @param height in pixels
+         * @returns a new canvas (or offscreen canvas if it's supported)
+         */
+        private _createCanvas;
+    }
+    /**
      * Viewport
      */
     export class Viewport extends AREventTarget<ViewportEvent> {
@@ -2945,6 +2971,8 @@ declare module "core/viewport" {
         private _mediaSize;
         /** Fullscreen utilities */
         private readonly _fullscreen;
+        /** Snapshotter */
+        private readonly _snapshotter;
         /**
          * Constructor
          * @param viewportSettings
@@ -3030,6 +3058,12 @@ declare module "core/viewport" {
          * @returns an equivalent position in space units
          */
         convertFromPixels(position: Vector2, space?: "normalized" | "adjusted"): Vector2;
+        /**
+         * Take a snapshot of the AR scene
+         * @param resolution optional resolution type. If unspecified, the resolution of the viewport will be used
+         * @returns a promise to an ImageBitmap. Tip: for efficient usage, transfer the bitmap or close it when you're done
+         */
+        takeSnapshot(resolution?: Resolution): SpeedyPromise<ImageBitmap>;
         /**
          * Initialize the viewport (when the session starts)
          * @param getMediaSize

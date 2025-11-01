@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.5-dev
+ * encantar.js version 0.4.5
  * GPU-accelerated Augmented Reality framework for the web
  * Copyright 2022-2025 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-09-23T19:08:13.271Z
+ * Date: 2025-10-31T23:52:28.000Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -19723,10 +19723,17 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               video.autoplay = true;
               video.srcObject = stream;
             }).catch((error) => {
-              reject(new AccessDeniedError(
-                "Please give access to the webcam and reload the page.",
-                error
-              ));
+              if (typeof OverconstrainedError !== "undefined" && error instanceof OverconstrainedError) {
+                reject(new NotSupportedError(
+                  "Unsupported camera constraints: " + JSON.stringify(constraints),
+                  error
+                ));
+              } else {
+                reject(new AccessDeniedError(
+                  "Please give access to the webcam and reload the page.",
+                  error
+                ));
+              }
             });
           }).then(() => super._init());
         }
@@ -20332,7 +20339,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
 
   // src/core/viewport.ts
-  var import_speedy_vision28, ViewportEvent, DEFAULT_VIEWPORT_SETTINGS, BASE_ZINDEX, BACKGROUND_ZINDEX, FOREGROUND_ZINDEX, HUD_ZINDEX, RESIZE_THROTTLE_DELAY, ORIENTATION_POLLING_DURATION, ORIENTATION_POLLING_CYCLES, ViewportContainers, ViewportCanvases, ViewportFullscreenHelper, ViewportResizer, ViewportResizeStrategy, InlineResizeStrategy, ImmersiveResizeStrategy, BestFitResizeStrategy, StretchResizeStrategy, CropResizeStrategy, Viewport;
+  var import_speedy_vision28, ViewportEvent, DEFAULT_VIEWPORT_SETTINGS, BASE_ZINDEX, BACKGROUND_ZINDEX, FOREGROUND_ZINDEX, HUD_ZINDEX, RESIZE_THROTTLE_DELAY, ORIENTATION_POLLING_DURATION, ORIENTATION_POLLING_CYCLES, ViewportContainers, ViewportCanvases, ViewportFullscreenHelper, ViewportSnapshotter, ViewportResizer, ViewportResizeStrategy, InlineResizeStrategy, ImmersiveResizeStrategy, BestFitResizeStrategy, StretchResizeStrategy, CropResizeStrategy, Viewport;
   var init_viewport = __esm({
     "src/core/viewport.ts"() {
       "use strict";
@@ -20601,6 +20608,57 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
         _triggerEvent() {
           const event = new ViewportEvent("fullscreenchange");
           this._viewport.dispatchEvent(event);
+        }
+      };
+      ViewportSnapshotter = class {
+        /**
+         * Constructor
+         */
+        constructor(viewport) {
+          this._viewport = viewport;
+          this._canvas = null;
+        }
+        /**
+         * Take a snapshot of the AR scene
+         * @param resolution optional resolution type. If unspecified, the resolution of the viewport will be used
+         * @returns a promise to an ImageBitmap. Tip: for efficient usage, transfer the bitmap or close it when you're done
+         */
+        takeSnapshot(resolution) {
+          const viewport = this._viewport;
+          const size = Utils.resolution(resolution ?? viewport.resolution, viewport.aspectRatio);
+          const canvas = this._canvas ?? (this._canvas = this._createCanvas(size.width, size.height));
+          const ctx = canvas.getContext("2d");
+          canvas.width = size.width;
+          canvas.height = size.height;
+          ctx.imageSmoothingQuality = "high";
+          ctx.drawImage(viewport._backgroundCanvas, 0, 0, canvas.width, canvas.height);
+          ctx.drawImage(viewport.canvas, 0, 0, canvas.width, canvas.height);
+          return new import_speedy_vision28.default.Promise((resolve, reject) => {
+            if ("transferToImageBitmap" in canvas) {
+              try {
+                const bmp = canvas.transferToImageBitmap();
+                resolve(bmp);
+              } catch (error) {
+                reject(error);
+              }
+            } else {
+              createImageBitmap(canvas).then(resolve, reject);
+            }
+          });
+        }
+        /**
+         * Create a canvas with the specified size
+         * @param width in pixels
+         * @param height in pixels
+         * @returns a new canvas (or offscreen canvas if it's supported)
+         */
+        _createCanvas(width, height) {
+          if (typeof OffscreenCanvas !== "undefined")
+            return new OffscreenCanvas(width, height);
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          return canvas;
         }
       };
       ViewportResizer = class {
@@ -20887,6 +20945,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           this._resizer = new ViewportResizer(this);
           this._resizer.setStrategyByName(this._style);
           this._fullscreen = new ViewportFullscreenHelper(this);
+          this._snapshotter = new ViewportSnapshotter(this);
         }
         /**
          * Viewport container
@@ -21025,6 +21084,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           return new Vector2(x, y);
         }
         /**
+         * Take a snapshot of the AR scene
+         * @param resolution optional resolution type. If unspecified, the resolution of the viewport will be used
+         * @returns a promise to an ImageBitmap. Tip: for efficient usage, transfer the bitmap or close it when you're done
+         */
+        takeSnapshot(resolution) {
+          return this._snapshotter.takeSnapshot(resolution);
+        }
+        /**
          * Initialize the viewport (when the session starts)
          * @param getMediaSize
          * @param sessionMode
@@ -21102,7 +21169,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Engine version
          */
         static get version() {
-          return "0.4.5-dev";
+          return "0.4.5";
         }
         /**
          * Speedy Vision
@@ -21173,4 +21240,3 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
   return require_src();
 })();
-//# sourceMappingURL=encantar.js.map

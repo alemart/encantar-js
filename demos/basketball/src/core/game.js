@@ -55,7 +55,10 @@ export class BasketballGame extends ARDemo
             );
         }
 
-        const imageTracker = AR.Tracker.Image({ resolution: 'md' });
+        const params = new URLSearchParams(location.search);
+        const resolution = params.get('resolution') ?? '360p';
+
+        const imageTracker = AR.Tracker.Image({ resolution });
         await imageTracker.database.add([
         {
             name: 'poster',

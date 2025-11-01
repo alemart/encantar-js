@@ -7,7 +7,7 @@
 /* Usage of the indicated versions is encouraged */
 USING({
     'encantar.js': { version: '0.4.5' },
-     'babylon.js': { version: '8.28.2' }
+     'babylon.js': { version: '8.34.0' }
 });
 
 /**
