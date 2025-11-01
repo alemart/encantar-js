@@ -18,7 +18,7 @@ encantar.js requires WebGL2 and WebAssembly, which are widely supported.
 
 ## Is this WebXR?
 
-No, encantar.js is not WebXR. It's [WebAR](#what-is-webar). The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely supported. My intention is to give it broad compatibility.
+No, encantar.js is not WebXR. It's [WebAR](#what-is-webar). The WebXR API allows you to access functionalities of VR and AR-capable devices in web browsers. It relies on other technologies, such as Google's ARCore or Apple's ARKit, to run the show. Those technologies are great, though they are supported on specific devices, which may or may not match your users' devices. Also, at the time of this writing, WebXR is unsupported on iPhone except through unofficial workarounds. On the other hand, encantar.js is fully standalone and is built from scratch using standard web technologies such as WebGL2 and WebAssembly, which are widely supported. It works on mobile and even on Desktop computers. My intention is to give it broad compatibility.
 
 ## What is WebAR?
 
