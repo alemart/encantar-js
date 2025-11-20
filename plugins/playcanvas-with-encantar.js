@@ -1,6 +1,6 @@
 /*!
  * PlayCanvas plugin for encantar.js
- * @author Victor M. Feliz (MotivaCG) based on Alexandre Martins
+ * @author Victor M. Feliz (MotivaCG) and Alexandre Martins
  * @license LGPL-3.0-or-later
  */
 
@@ -321,7 +321,9 @@ function encantar(demo)
         ar._session = session;
 
         // Initialize PlayCanvas Application
-        const canvas = session.viewport.canvas;
+        const viewport = session.viewport;
+        const canvas = viewport.canvas;
+
         ar._app = new pc.Application(canvas, {
             graphicsDeviceOptions: { 
                 alpha: true,
@@ -332,6 +334,11 @@ function encantar(demo)
             touch: new pc.TouchDevice(canvas)
         });
 
+        ar._app._allowResize = false; // respect the settings of the viewport; encantar alone handles the resize
+        ar._app.setCanvasFillMode(pc.FILLMODE_NONE, viewport.virtualSize.width, viewport.virtualSize.height);
+        ar._app.setCanvasResolution(pc.RESOLUTION_FIXED, viewport.virtualSize.width, viewport.virtualSize.height);
+
+        ar._app.autoRender = false; // We drive the loop via encantar, not PlayCanvas internal loop
         ar._app.start();
 
         // Setup helper objects for matrix math to avoid GC
@@ -367,21 +374,12 @@ function encantar(demo)
             ar._pointers.length = 0;
         });
 
-        session.viewport.addEventListener('resize', event => {
-            ar._app.resizeCanvas();
-        });
-
-        // Handle initial resize
-        ar._app.resizeCanvas();
-
         return Promise.resolve()
         .then(() => {
             return demo.init();
         })
         .then(() => {
             session.addEventListener('end', event => { demo.release(); });
-            // We drive the loop via encantar, not PlayCanvas internal loop
-            ar._app.autoRender = false; 
             session.requestAnimationFrame(animate);
             return ar;
         })
