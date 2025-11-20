@@ -296,8 +296,8 @@ function encantar(demo)
         // 2. Update Camera Pose (View Matrix Inverse)
         _mat.data.set(viewMatrixInverse.read());
         _mat.getTranslation(_pos);
-        _mat.getRotation(_rot);
         _mat.getScale(_scl);
+        _rot.setFromMat4(_mat);
         ar._camera.setPosition(_pos);
         ar._camera.setRotation(_rot);
         // We generally don't scale the camera
@@ -305,8 +305,8 @@ function encantar(demo)
         // 3. Update Origin/Root Pose (Model Matrix)
         _mat.data.set(modelMatrix.read());
         _mat.getTranslation(_pos);
-        _mat.getRotation(_rot);
         _mat.getScale(_scl);
+        _rot.setFromMat4(_mat);
         ar._origin.setPosition(_pos);
         ar._origin.setRotation(_rot);
         ar._origin.setLocalScale(_scl);
