@@ -27,3 +27,4 @@ site/
 docs/__pycache__/*
 demos/**/*.blend1
 build/
+dist/
