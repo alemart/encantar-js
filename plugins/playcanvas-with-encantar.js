@@ -246,6 +246,7 @@ function encantar(demo)
         // We use a small delta because AR loop handles timing
         ar._app.tick(1000 / 60); 
         
+        ar._app.renderNextFrame = true;
         ar._session.requestAnimationFrame(animate);
     }
 
@@ -259,11 +260,11 @@ function encantar(demo)
             if(result.of('image-tracker')) {
                 if(result.trackables.length > 0) {
                     const trackable = result.trackables[0];
-                    const projectionMatrix = result.viewer.view.projectionMatrix;
+                    const perspectiveView = result.viewer.view;
                     const viewMatrixInverse = result.viewer.pose.transform.matrix;
                     const modelMatrix = trackable.pose.transform.matrix;
 
-                    align(projectionMatrix, viewMatrixInverse, modelMatrix);
+                    align(perspectiveView, viewMatrixInverse, modelMatrix);
                     ar._origin.enabled = true;
                     ar._viewer = result.viewer;
 
@@ -280,18 +281,19 @@ function encantar(demo)
             ar._origin.enabled = false;
     }
 
-    function align(projectionMatrix, viewMatrixInverse, modelMatrix)
+    function align(perspectiveView, viewMatrixInverse, modelMatrix)
     {
         // 1. Update Camera Projection
         // PlayCanvas uses a Mat4 property on the camera component if we want custom projection
         const camComp = ar._camera.camera;
-        _mat.data.set(projectionMatrix.read());
+        _mat.data.set(perspectiveView.projectionMatrix.read());
         camComp.projectionMatrix.copy(_mat);
-        // We must override the calculateProjection method to prevent PC from overwriting it
-        camComp.calculateProjection = function(mat) {
-             mat.copy(this.projectionMatrix); 
-             return mat;
-        };
+
+        // some methods of the camera component depend on the projection parameters
+        camComp.nearClip = perspectiveView.near;
+        camComp.farClip = perspectiveView.far;
+        camComp.fov = perspectiveView.fovy * pc.math.RAD_TO_DEG;
+        camComp.aspectRatio = perspectiveView.aspect;
 
         // 2. Update Camera Pose (View Matrix Inverse)
         _mat.data.set(viewMatrixInverse.read());
@@ -361,9 +363,13 @@ function encantar(demo)
         ar._camera = new pc.Entity('ar-camera');
         ar._camera.addComponent('camera', {
             clearColor: new pc.Color(0, 0, 0, 0), // Transparent background
-            farClip: 1000,
-            nearClip: 0.1
+            aspectRatioMode: pc.ASPECT_MANUAL
         });
+        ar._camera.camera.calculateProjection = function(mat) {
+             // We must override the calculateProjection method to prevent PC from overwriting it
+             mat.copy(this.projectionMatrix);
+             return mat;
+        };
         ar._app.root.addChild(ar._camera);
 
         // Event Listeners
