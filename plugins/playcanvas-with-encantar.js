@@ -70,6 +70,15 @@ class ARDemo
     }
 
     /**
+     * User-provided canvas (optional)
+     * @returns {HTMLCanvasElement | null}
+     */
+    get canvas()
+    {
+        return null;
+    }
+
+    /**
      * Constructor
      */
     constructor()
@@ -314,20 +323,13 @@ function encantar(demo)
         ar._origin.setLocalScale(_scl);
     }
 
-    return Promise.resolve()
-    .then(() => demo.preload())
-    .then(() => demo.startSession())
-    .then(session => {
-
-        demo._ar = ar;
-        ar._session = session;
-
-        // Initialize PlayCanvas Application
-        const viewport = session.viewport;
-        const canvas = viewport.canvas;
+    function create3DEngine(canvas)
+    {
+        if(ar._app || !canvas)
+            return false;
 
         ar._app = new pc.Application(canvas, {
-            graphicsDeviceOptions: { 
+            graphicsDeviceOptions: {
                 alpha: true,
                 preserveDrawingBuffer: false,
                 antialias: true
@@ -335,6 +337,29 @@ function encantar(demo)
             mouse: new pc.Mouse(canvas),
             touch: new pc.TouchDevice(canvas)
         });
+
+        return true;
+    }
+
+    return Promise.resolve()
+    .then(() => demo._ar = ar)
+    .then(() => (demo.canvas !== null) && create3DEngine(demo.canvas)) // if possible, create pc.Application before calling demo.preload()
+    .then(() => demo.preload())
+    .then(() => demo.startSession())
+    .then(session => {
+
+        ar._session = session;
+
+        // Initialize PlayCanvas Application
+        const viewport = session.viewport;
+        const canvas = viewport.canvas;
+
+        if(!ar._app)
+            create3DEngine(canvas);
+        else if(demo.canvas !== canvas) {
+            session.end();
+            throw new Error('Invalid canvas. Have you checked your viewport?');
+        }
 
         ar._app._allowResize = false; // respect the settings of the viewport; encantar alone handles the resize
         ar._app.setCanvasFillMode(pc.FILLMODE_NONE, viewport.virtualSize.width, viewport.virtualSize.height);
