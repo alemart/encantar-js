@@ -104,10 +104,6 @@ class EnchantedDemo extends ARDemo
      * Start the AR session
      * @returns {Promise<Session>}
      */
-    /**
-     * Start the AR session
-     * @returns {Promise<Session>}
-     */
     async startSession()
     {
         if(!AR.isSupported()) {
@@ -123,11 +119,12 @@ class EnchantedDemo extends ARDemo
 
         // 2. Setup Viewport
         const viewport = AR.Viewport({
+            canvas: this.canvas,
             container: document.getElementById('ar-viewport'),
             hudContainer: document.getElementById('ar-hud')
         });
 
-        // 3. Setup Source (CORREGIDO)
+        // 3. Setup Source
         const videoElement = document.getElementById('my-video');
         const source = videoElement ? AR.Source.Video(videoElement) : AR.Source.Camera();
 
@@ -159,15 +156,34 @@ class EnchantedDemo extends ARDemo
 
         return session;
     }
+
+    /**
+     * Preload assets
+     * @returns {Promise<void>}
+     */
+    async preload()
+    {
+        const ar = this.ar;
+        const app = ar.app;
+
+        const [ texCircle, texText, modelMage, modelCat ] = await Promise.all([
+            Utils.loadTexture(app, '../assets/magic-circle.png'),
+            Utils.loadTexture(app, '../assets/it-works.png'),
+            Utils.loadGLB(app, '../assets/mage.glb', 'mage'),
+            Utils.loadGLB(app, '../assets/cat.glb', 'cat')
+        ]);
+
+        this._objects.assets = { texCircle, texText, modelMage, modelCat };
+    }
     
     /**
      * Initialization
-     * Note: Asset loading moved here because we need 'this.ar.app' instance
+     * @returns {Promise<void>}
      */
     async init()
     {
         const ar = this.ar;
-        const app = ar.app; 
+        const app = ar.app;
 
         // 1. Coordinate System Adjustment
         Utils.switchToFrontView(ar);
@@ -185,26 +201,15 @@ class EnchantedDemo extends ARDemo
         
         app.scene.ambientLight = new pc.Color(0.5, 0.5, 0.5);
 
-        // 3. Async Asset Loading
-        try {
-            const [texCircle, texText, modelMage, modelCat] = await Promise.all([
-                Utils.loadTexture(app, '../assets/magic-circle.png'),
-                Utils.loadTexture(app, '../assets/it-works.png'),
-                Utils.loadGLB(app, '../assets/mage.glb', 'mage'),
-                Utils.loadGLB(app, '../assets/cat.glb', 'cat')
-            ]);
+        // 3. Scene Composition
+        const assets = this._objects.assets;
+        this._initMagicCircle(assets.texCircle);
+        this._initText(assets.texText);
+        this._initMage(assets.modelMage);
+        this._initCat(assets.modelCat);
 
-            // 4. Scene Composition
-            this._initMagicCircle(texCircle);
-            this._initText(texText);
-            this._initMage(modelMage);
-            this._initCat(modelCat);
-
-            this._initialized = true;
-            
-        } catch (e) {
-            console.error("Error loading assets:", e);
-        }
+        // done!
+        this._initialized = true;
     }
 
     /**
@@ -219,6 +224,20 @@ class EnchantedDemo extends ARDemo
 
         this._animateMagicCircle(delta);
         // GLB animations (AnimComponent/AnimationComponent) are automatically ticked by ar.app.tick() in the plugin
+    }
+
+    /**
+     * User-provided canvas
+     * @returns {HTMLCanvasElement}
+     */
+    get canvas()
+    {
+        const canvas = document.getElementById('ar-canvas');
+
+        if(!canvas)
+            throw new Error(`Can't find ar-canvas`);
+
+        return canvas;
     }
 
     // ------------------------------------------------------------------------
