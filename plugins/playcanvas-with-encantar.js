@@ -325,9 +325,6 @@ function encantar(demo)
 
     function create3DEngine(canvas)
     {
-        if(ar._app || !canvas)
-            return false;
-
         ar._app = new pc.Application(canvas, {
             graphicsDeviceOptions: {
                 alpha: true,
@@ -337,8 +334,6 @@ function encantar(demo)
             mouse: new pc.Mouse(canvas),
             touch: new pc.TouchDevice(canvas)
         });
-
-        return true;
     }
 
     return Promise.resolve()
