@@ -28,7 +28,7 @@ class ARDemo
 
     /**
      * Initialization
-     * @returns {void | Promise<void> | SpeedyPromise<void>}
+     * @returns {void | Promise<void>}
      */
     init()
     {
@@ -53,7 +53,7 @@ class ARDemo
 
     /**
      * Preload resources before starting the AR session
-     * @returns {Promise<void> | SpeedyPromise<void>}
+     * @returns {Promise<void>}
      */
     preload()
     {
@@ -342,8 +342,10 @@ function encantar(demo)
         demo._ar = ar;
 
         // if possible, create the 3D engine before preloading the assets
-        if(demo.canvas !== null)
+        if(demo.canvas !== null) {
             create3DEngine(demo.canvas);
+            demo.canvas.hidden = true;
+        }
     }
 
     // start the lifecycle
@@ -356,20 +358,19 @@ function encantar(demo)
         ar._session = session;
 
         // Initialize PlayCanvas Application
-        const viewport = session.viewport;
-        const canvas = viewport.canvas;
-
         if(!ar._app)
-            create3DEngine(canvas);
-        else if(demo.canvas !== canvas) {
+            create3DEngine(session.viewport.canvas);
+        else if(demo.canvas === session.viewport.canvas)
+            demo.canvas.hidden = false;
+        else {
             session.end();
-            throw new Error('Invalid canvas. Have you checked your viewport?');
+            throw new Error('ar-canvas mismatch'); // Tip: check your AR viewport
         }
 
+        const { width, height } = session.viewport.virtualSize;
         ar._app._allowResize = false; // respect the settings of the viewport; encantar alone handles the resize
-        ar._app.setCanvasFillMode(pc.FILLMODE_NONE, viewport.virtualSize.width, viewport.virtualSize.height);
-        ar._app.setCanvasResolution(pc.RESOLUTION_FIXED, viewport.virtualSize.width, viewport.virtualSize.height);
-
+        ar._app.setCanvasFillMode(pc.FILLMODE_NONE, width, height);
+        ar._app.setCanvasResolution(pc.RESOLUTION_FIXED, width, height);
         ar._app.autoRender = false; // We drive the loop via encantar, not PlayCanvas internal loop
         ar._app.start();
 
@@ -410,6 +411,7 @@ function encantar(demo)
             ar._pointers.length = 0;
         });
 
+        // initialize the demo and start the main loop
         return Promise.resolve()
         .then(() => {
             return demo.init();

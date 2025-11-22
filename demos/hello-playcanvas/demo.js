@@ -236,7 +236,7 @@ class EnchantedDemo extends ARDemo
         const canvas = document.getElementById('ar-canvas');
 
         if(!canvas)
-            throw new Error(`Missing ar-canvas`);
+            throw new Error('Missing ar-canvas');
 
         return canvas;
     }
