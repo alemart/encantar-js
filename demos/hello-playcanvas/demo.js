@@ -227,7 +227,7 @@ class EnchantedDemo extends ARDemo
     }
 
     /**
-     * User-provided canvas
+     * User-provided canvas. If provided, use it in your AR Viewport
      * @returns {HTMLCanvasElement}
      */
     get canvas()
@@ -235,7 +235,7 @@ class EnchantedDemo extends ARDemo
         const canvas = document.getElementById('ar-canvas');
 
         if(!canvas)
-            throw new Error(`Can't find ar-canvas`);
+            throw new Error(`Missing ar-canvas`);
 
         return canvas;
     }

@@ -70,7 +70,7 @@ class ARDemo
     }
 
     /**
-     * User-provided canvas (optional)
+     * User-provided canvas. If provided, use it in your AR Viewport
      * @returns {HTMLCanvasElement | null}
      */
     get canvas()
@@ -336,9 +336,13 @@ function encantar(demo)
         });
     }
 
+    // if possible, create the 3D engine before preloading the assets
+    demo._ar = ar;
+    if(demo.canvas !== null)
+        create3DEngine(demo.canvas);
+
+    // start the lifecycle
     return Promise.resolve()
-    .then(() => demo._ar = ar)
-    .then(() => (demo.canvas !== null) && create3DEngine(demo.canvas)) // if possible, create pc.Application before calling demo.preload()
     .then(() => demo.preload())
     .then(() => demo.startSession())
     .then(session => {
