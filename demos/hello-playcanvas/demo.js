@@ -227,8 +227,9 @@ class EnchantedDemo extends ARDemo
     }
 
     /**
-     * User-provided canvas. If provided, use it in your AR Viewport
-     * @returns {HTMLCanvasElement}
+     * User-provided canvas (optional)
+     * If provided, use it in your AR Viewport
+     * @returns {HTMLCanvasElement | null}
      */
     get canvas()
     {

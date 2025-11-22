@@ -70,7 +70,8 @@ class ARDemo
     }
 
     /**
-     * User-provided canvas. If provided, use it in your AR Viewport
+     * User-provided canvas (optional)
+     * If provided, use it in your AR Viewport
      * @returns {HTMLCanvasElement | null}
      */
     get canvas()
@@ -336,13 +337,18 @@ function encantar(demo)
         });
     }
 
-    // if possible, create the 3D engine before preloading the assets
-    demo._ar = ar;
-    if(demo.canvas !== null)
-        create3DEngine(demo.canvas);
+    function awake()
+    {
+        demo._ar = ar;
+
+        // if possible, create the 3D engine before preloading the assets
+        if(demo.canvas !== null)
+            create3DEngine(demo.canvas);
+    }
 
     // start the lifecycle
     return Promise.resolve()
+    .then(() => awake())
     .then(() => demo.preload())
     .then(() => demo.startSession())
     .then(session => {
