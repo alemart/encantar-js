@@ -17,7 +17,6 @@ class EnchantedDemo extends ARDemo
     {
         super();
 
-        this._assetManager = new AssetManager();
         this._objects = { };
         this._initialized = false;
     }
@@ -48,6 +47,7 @@ class EnchantedDemo extends ARDemo
         ]);
 
         const viewport = AR.Viewport({
+            canvas: this.canvas,
             container: document.getElementById('ar-viewport'),
             hudContainer: document.getElementById('ar-hud')
         });
@@ -92,24 +92,10 @@ class EnchantedDemo extends ARDemo
      * Preload resources before starting the AR session
      * @returns {Promise<void>}
      */
-    preload()
+    async preload()
     {
         console.log('Preloading assets...');
 
-        return this._assetManager.preload([
-            '../assets/mage.glb',
-            '../assets/cat.glb',
-            '../assets/magic-circle.png',
-            '../assets/it-works.png',
-        ], { timeout: 20 });
-    }
-
-    /**
-     * Initialization
-     * @returns {Promise<void>}
-     */
-    async init()
-    {
         // Do not automatically play an animation when loading GLTF models
         BABYLON.SceneLoader.OnPluginActivatedObservable.add(loader => {
             if(loader.name == 'gltf') {
@@ -117,6 +103,22 @@ class EnchantedDemo extends ARDemo
             }
         });
 
+        // Load GLTF models
+        const [ mage, cat ] = await Promise.all([
+            BABYLON.ImportMeshAsync('../assets/mage.glb'),
+            BABYLON.ImportMeshAsync('../assets/cat.glb')
+        ]);
+
+        // Save references
+        this._objects.gltf = { mage, cat };
+    }
+
+    /**
+     * Initialization
+     * @returns {void}
+     */
+    init()
+    {
         // Change the point of view - slightly
         const ar = this.ar;
         ar.root.position.y = -0.8;
@@ -125,11 +127,8 @@ class EnchantedDemo extends ARDemo
         this._initLight();
         this._initText();
         this._initMagicCircle();
-
-        await Promise.all([
-            this._initMage(),
-            this._initCat(),
-        ]);
+        this._initMage();
+        this._initCat();
 
         // done!
         this._initialized = true;
@@ -147,6 +146,20 @@ class EnchantedDemo extends ARDemo
         this._animateMagicCircle(delta);
     }
 
+    /**
+     * User-provided canvas (optional)
+     * If provided, use it in your AR Viewport
+     * @returns {HTMLCanvasElement | null}
+     */
+    get canvas()
+    {
+        const canvas = document.getElementById('ar-canvas');
+
+        if(!canvas)
+            throw new Error('Missing ar-canvas');
+
+        return canvas;
+    }
 
     // ------------------------------------------------------------------------
 
@@ -165,9 +178,8 @@ class EnchantedDemo extends ARDemo
     {
         // create a magic circle
         const material = new BABYLON.StandardMaterial('magic-circle-material');
-        const url = this._assetManager.url('magic-circle.png');
 
-        material.diffuseTexture = new BABYLON.Texture(url);
+        material.diffuseTexture = new BABYLON.Texture('../assets/magic-circle.png');
         material.diffuseTexture.hasAlpha = true;
         material.useAlphaFromDiffuseTexture = true;
         material.diffuseColor.set(0, 0, 0);
@@ -195,9 +207,8 @@ class EnchantedDemo extends ARDemo
     _initText()
     {
         const material = new BABYLON.StandardMaterial('text-material');
-        const url = this._assetManager.url('it-works.png');
 
-        material.diffuseTexture = new BABYLON.Texture(url);
+        material.diffuseTexture = new BABYLON.Texture('../assets/it-works.png');
         material.diffuseTexture.hasAlpha = true;
         material.useAlphaFromDiffuseTexture = true;
         material.diffuseColor.set(0, 0, 0);
@@ -220,11 +231,10 @@ class EnchantedDemo extends ARDemo
         this._objects.text = text;
     }
 
-    async _initMage()
+    _initMage()
     {
         // load the mage
-        const file = this._assetManager.file('mage.glb');
-        const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '', file);
+        const gltf = this._objects.gltf.mage;
         const mage = gltf.meshes[0];
         mage.scaling.set(0.7, 0.7, 0.7);
 
@@ -241,10 +251,9 @@ class EnchantedDemo extends ARDemo
         this._objects.mage = mage;
     }
 
-    async _initCat()
+    _initCat()
     {
-        const file = this._assetManager.file('cat.glb');
-        const gltf = await BABYLON.SceneLoader.ImportMeshAsync('', '', file);
+        const gltf = this._objects.gltf.cat;
         const cat = gltf.meshes[0];
         cat.scaling.set(0.7, 0.7, 0.7);
 
