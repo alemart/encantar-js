@@ -30,7 +30,7 @@ export class ARDemo
 
     /**
      * Initialization
-     * @returns {void | Promise<void> | SpeedyPromise<void>}
+     * @returns {void | Promise<void>}
      */
     init()
     {
@@ -55,11 +55,21 @@ export class ARDemo
 
     /**
      * Preload resources before starting the AR session
-     * @returns {Promise<void> | SpeedyPromise<void>}
+     * @returns {Promise<void>}
      */
     preload()
     {
         return Promise.resolve();
+    }
+
+    /**
+     * User-provided canvas (optional)
+     * If provided, use it in your AR Viewport
+     * @returns {HTMLCanvasElement | null}
+     */
+    get canvas()
+    {
+        return null;
     }
 
     /**
@@ -243,7 +253,7 @@ class ARSystem
 export function encantar(demo)
 {
     const ar = new ARSystem();
-    let _matrix = null;
+    let _tmpMat = null;
 
     function animate(time, frame)
     {
@@ -292,25 +302,60 @@ export function encantar(demo)
         ar._camera.projectionMatrix.fromArray(projectionMatrix.read());
         ar._camera.projectionMatrixInverse.copy(ar._camera.projectionMatrix).invert();
 
-        _matrix.fromArray(viewMatrixInverse.read());
-        _matrix.decompose(ar._camera.position, ar._camera.quaternion, ar._camera.scale);
+        _tmpMat.fromArray(viewMatrixInverse.read());
+        _tmpMat.decompose(ar._camera.position, ar._camera.quaternion, ar._camera.scale);
 
-        _matrix.fromArray(modelMatrix.read());
-        _matrix.decompose(ar._origin.position, ar._origin.quaternion, ar._origin.scale);
+        _tmpMat.fromArray(modelMatrix.read());
+        _tmpMat.decompose(ar._origin.position, ar._origin.quaternion, ar._origin.scale);
     }
 
+    function create3DEngine(canvas)
+    {
+        ar._scene = new THREE.Scene();
+        ar._renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            alpha: true,
+        });
+    }
+
+    function awake()
+    {
+        demo._ar = ar;
+
+        // if possible, create the 3D engine before preloading the assets
+        if(demo.canvas !== null) {
+            create3DEngine(demo.canvas);
+            demo.canvas.hidden = true;
+        }
+    }
+
+    // start the lifecycle
     return Promise.resolve()
+    .then(() => awake())
     .then(() => demo.preload())
     .then(() => demo.startSession()) // Promise or SpeedyPromise
     .then(session => {
 
-        demo._ar = ar;
-
         ar._session = session;
 
-        ar._scene = new THREE.Scene();
-        _matrix = new THREE.Matrix4();
+        // setup the 3D engine
+        if(!ar._renderer)
+            create3DEngine(session.viewport.canvas);
+        else if(demo.canvas === session.viewport.canvas)
+            demo.canvas.hidden = false;
+        else {
+            session.end();
+            throw new Error('ar-canvas mismatch'); // Tip: check your AR viewport
+        }
 
+        // create auxiliary variable
+        _tmpMat = new THREE.Matrix4();
+
+        // setup camera
+        ar._camera = new THREE.PerspectiveCamera();
+        ar._scene.add(ar._camera);
+
+        // setup scene hierarchy
         ar._origin = new THREE.Group();
         ar._origin.visible = false;
         ar._scene.add(ar._origin);
@@ -318,13 +363,7 @@ export function encantar(demo)
         ar._root = new THREE.Group();
         ar._origin.add(ar._root);
 
-        ar._camera = new THREE.PerspectiveCamera();
-
-        ar._renderer = new THREE.WebGLRenderer({
-            canvas: session.viewport.canvas,
-            alpha: true,
-        });
-
+        // setup event listeners
         session.addEventListener('end', event => {
             ar._origin.visible = false;
             ar._viewer = null;
@@ -338,6 +377,7 @@ export function encantar(demo)
             ar._renderer.setSize(size.width, size.height, false);
         });
 
+        // initialize the demo and start the main loop
         return Promise.resolve()
         .then(() => {
             return demo.init();

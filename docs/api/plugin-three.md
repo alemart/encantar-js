@@ -76,7 +76,7 @@ A reference to the [ARSystem](#arsystem), or `null` if the demo hasn't been star
 
 ### startSession
 
-`demo.startSession(): Promise<Session> | SpeedyPromise<Session>`
+`startSession(): Promise<Session> | SpeedyPromise<Session>`
 
 Start the AR [Session](session.md). This method receives no arguments. It's supposed to call [AR.startSession](session.md#instantiation) with the desired settings.
 
@@ -94,7 +94,7 @@ A promise that resolves to a Session.
 
 ### init
 
-`demo.init(): void | Promise<void> | SpeedyPromise<void>`
+`init(): void | Promise<void>`
 
 Use this method to initialize your 3D scene. See also: [ar](#ar), [preload](#preload)
 
@@ -122,13 +122,13 @@ class MyDemo extends ARDemo
 }
 ```
 
-!!! tip
+!!! warning "Important"
 
-    Load external assets in [preload](#preload). Method `init` shouldn't take too long to run because the session is already started. See also: [lifecycle](#lifecycle)
+    Load external assets in [preload](#preload). `init` shouldn't take too long to run because the session has already started, and the user is about to begin to interact with the software. See also: [lifecycle](#lifecycle)
 
 ### update
 
-`demo.update(): void`
+`update(): void`
 
 Animation step, called during the animation loop. You may want to do something with [ar.session](#session) or [ar.frame](#frame).
 
@@ -160,7 +160,7 @@ Release resources soon after the AR session is ended.
 
 ### preload
 
-`preload(): Promise<void> | SpeedyPromise<void>`
+`preload(): Promise<void>`
 
 Preload resources before starting the AR session. See also: [init](#init), [startSession](#startsession)
 
@@ -169,6 +169,32 @@ Preload resources before starting the AR session. See also: [init](#init), [star
 **Returns**
 
 A promise that resolves to `undefined`.
+
+### canvas
+
+`get canvas(): HTMLCanvasElement | null`
+
+Optional user-provided canvas. If specified, use it in your viewport when [starting the session](#startsession).
+
+*Since:* 0.4.6
+
+**Returns**
+
+The canvas in which the virtual scene will be drawn.
+
+**Example**
+
+```js
+get canvas()
+{
+    const canvas = document.getElementById('ar-canvas');
+
+    if(!canvas)
+        throw new Error('Missing ar-canvas');
+
+    return canvas;
+}
+```
 
 ## ARSystem
 
