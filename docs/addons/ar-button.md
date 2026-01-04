@@ -9,7 +9,7 @@ An A-Frame component and primitive for creating buttons. Buttons respond to clic
 ![AR Buttons](../img/addon-buttons.gif){ .responsive }
 
 <div style="text-align:center" markdown>
-[I want this Add-On!](https://ko-fi.com/s/697a184728){ .md-button .md-button--primary ._blank }
+[I want this Add-On!](/buy/ar-button){ .md-button .md-button--primary ._blank }
 </div>
 
 ## Properties

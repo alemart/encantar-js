@@ -31,6 +31,12 @@ plugins:
   - redirects:
       redirect_maps:
         'api/index.md': 'api/ar.md'
+        'buy/index.md': 'https://ko-fi.com/s/3ee4182cb6'
+        'buy/ar-button.md': 'https://ko-fi.com/s/697a184728'
+        'buy/ar-clickable.md': 'https://ko-fi.com/s/697a184728'
+        'buy/ar-video-player.md': 'https://ko-fi.com/s/697a184728'
+        'buy/ar-snapshot-button.md': 'https://ko-fi.com/s/513dcaf94a'
+        'download.md': 'https://ko-fi.com/s/3ee4182cb6'
 
 markdown_extensions:
   - admonition

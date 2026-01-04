@@ -7,7 +7,7 @@ Make your WebAR experiences memorable! Simply drop `<ar-snapshot-button>` into y
 <lite-youtube videoid="_mCskPWLBl8"></lite-youtube>
 
 <div style="text-align:center" markdown>
-[I want this Add-On!](https://ko-fi.com/s/513dcaf94a){ .md-button .md-button--primary ._blank }
+[I want this Add-On!](/buy/ar-snapshot-button){ .md-button .md-button--primary ._blank }
 </div>
 
 ## Overview

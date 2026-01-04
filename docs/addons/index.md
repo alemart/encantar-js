@@ -2,25 +2,22 @@
 
 Add-Ons provide an enriched experience with additional features that enhance the core of encantar.js. They are provided as extra perks for supporters. Take a look at these enchanting features! &#x1F60D;
 
-<div style="text-align:center" markdown>
-[I want the Add-Ons!](https://ko-fi.com/alemart/shop){ .md-button .md-button--primary ._blank }
-</div>
-
 <style>
-.addon-container { margin: 4em 0; }
-.addon-container h2 { margin-top: 0; }
-.addon-container img { width: 100%; height: auto; }
+#addons .container { margin: 4em 0; }
+#addons .container h2 { margin-top: 0; }
+#addons .container img { width: 100%; height: auto; }
 @media screen and (min-width: 768px) {
-  .addon-container { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
-  .addon-container:nth-child(2n+1) > div:nth-child(2) { min-width: 426px; margin-left: 32px; }
-  .addon-container:nth-child(2n) > div:nth-child(2) { min-width: 426px; margin-right: 32px; order: -1; }
+  #addons .container { display: flex; flex-direction: row; justify-content: space-between; align-items: center; }
+  #addons .container:nth-child(2n+1) > div:nth-child(2) { min-width: 426px; margin-left: 32px; }
+  #addons .container:nth-child(2n) > div:nth-child(2) { min-width: 426px; margin-right: 32px; order: -1; }
 }
 </style>
 
 <link rel="stylesheet" href="../style/lite-yt-embed.css">
 <script src="../js/lite-yt-embed.js"></script>
 
-<div class="addon-container" markdown>
+<section id="addons" markdown>
+<div class="container" markdown>
   <div markdown>
 
 ## Video Player
@@ -35,7 +32,7 @@ Enchant your audience using this easy-to-use &amp; customizable Video Player! Vi
   </div>
 </div>
 
-<div class="addon-container" markdown>
+<div class="container" markdown>
   <div markdown>
 
 ## Take Photos
@@ -50,7 +47,7 @@ Make your WebAR experiences memorable! Users can take photos with AR content jus
   </div>
 </div>
 
-<div class="addon-container" markdown>
+<div class="container" markdown>
   <div markdown>
 
 ## AR Buttons
@@ -67,7 +64,7 @@ Add interactivity to your scenes with easy-to-use buttons for AR! You can custom
   </div>
 </div>
 
-<div class="addon-container" markdown>
+<div class="container" markdown>
   <div markdown>
 
 ## AR Clickables
@@ -84,7 +81,7 @@ Turn 3D and 2D objects into "clickables" that respond to touch or mouse input. A
   </div>
 </div>
 
-<div class="addon-container" markdown>
+<div class="container" markdown>
   <div markdown>
 
 ## Asset Manager
@@ -100,3 +97,4 @@ Framework-agnostic solution for preloading assets such as: 3D models, video clip
 
   </div>
 </div>
+</section>
