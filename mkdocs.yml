@@ -138,6 +138,7 @@ nav:
       - 'SpeedyMatrix': 'api/speedy-matrix.md'
       - 'SpeedyPromise': 'api/speedy-promise.md'
   - 'Help':
+    - 'Contact': 'contact.md'
     - 'Questions & Answers': 'faq.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'License': 'license.md'
