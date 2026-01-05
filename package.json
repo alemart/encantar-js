@@ -32,13 +32,12 @@
   "scripts": {
     "prebuild": "tsc --noEmit && npm run clean",
     "build": "npm run build-encantar && npm run build-types && npm run build-plugins && npm run build-addons",
-    "build-encantar": "node -e \"require('fs').mkdirSync('build', {recursive:true})\" && node esbuild.mjs && node esbuild.mjs --minify",
-    "build-types": "node -e \"require('fs').mkdirSync('build', {recursive:true})\" && tsc --emitDeclarationOnly --isolatedModules false --declaration --outFile build/encantar.d.ts",
-    "build-types-dir": "node -e \"require('fs').mkdirSync('build/types', {recursive:true})\" && tsc --emitDeclarationOnly --declaration --declarationDir build/types",
+    "build-encantar": "shx mkdir -p build && node esbuild.mjs && node esbuild.mjs --minify",
+    "build-types": "shx mkdir -p build && tsc --emitDeclarationOnly --isolatedModules false --declaration --outFile build/encantar.d.ts",
+    "build-types-dir": "shx mkdir -p build/types && tsc --emitDeclarationOnly --declaration --declarationDir build/types",
     "build-plugins": "node build-extras.mjs plugins",
     "build-addons": "node build-extras.mjs addons",
-    "copy-dist": "node -e \"require('fs').cpSync('build', 'dist', {recursive: true}); console.log('Copiado build/ -> dist/')\"",
-    "clean": "node -e \"require('fs').rmSync('build', {recursive:true, force:true})\"",
+    "clean": "shx rm -rf build",
     "start": "node esbuild.mjs --minify --serve",
     "update": "npm update speedy-vision",
     "deploy": "mkdocs gh-deploy",
@@ -50,6 +49,7 @@
   },
   "devDependencies": {
     "esbuild": "^0.25.5",
+    "shx": "^0.4.0",
     "typescript": "^4.9.5"
   },
   "config": {}

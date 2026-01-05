@@ -1,5 +1,5 @@
+import * as esbuild from 'esbuild';
 import { mkdirSync, readdirSync, copyFileSync, existsSync } from 'fs';
-import { execSync } from 'child_process';
 import { join } from 'path';
 
 // Get target from arguments: 'plugins', 'addons', or empty (both)
@@ -33,10 +33,13 @@ for (const folder of foldersToProcess) {
 
         // 2. Minify using esbuild
         try {
-            // We use --outfile to ensure cross-platform compatibility (avoids '>' operator issues in Windows)
-            execSync(`npx esbuild "${srcPath}" --minify --outfile="${minPath}"`, { stdio: 'inherit' });
+            await esbuild.build({
+                minify: true,
+                outfile: minPath,
+                entryPoints: [ srcPath ],
+            });
         } catch (e) {
-            console.error(`❌ Error minifying ${file}`);
+            console.error(`❌ Error minifying ${file}.`, e);
         }
     }
 }
