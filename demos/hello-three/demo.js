@@ -205,7 +205,7 @@ class EnchantedDemo extends ARDemo
     }
 
     /**
-     * Animation loop
+     * Animation step - called every frame
      * @returns {void}
      */
     update()

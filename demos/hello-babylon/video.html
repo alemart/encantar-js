@@ -9,16 +9,16 @@
         <script src="https://cdn.jsdelivr.net/npm/babylonjs@8.34.0/babylon.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/babylonjs-loaders@8.34.0/babylonjs.loaders.min.js"></script>
         <script src="../../dist/plugins/babylon-with-encantar.min.js"></script>
-        <script src="../../dist/addons/asset-manager.min.js"></script>
         <script src="demo.js"></script>
     </head>
     <body>
         <div id="ar-viewport">
             <div id="ar-hud" hidden>
-                <a id="info" href="NOTICE.html" draggable="false"></a>
-                <a id="like" href="https://ko-fi.com/alemart" draggable="false"></a>
+                <a id="info" href="NOTICE.html" draggable="false" aria-description="Attribution notices"></a>
+                <a id="like" href="https://alemart.github.io/encantar-js" draggable="false" aria-description="Powered by encantar.js"></a>
                 <img id="scan" src="../assets/scan.png" draggable="false">
             </div>
+            <canvas id="ar-canvas"></canvas>
         </div>
         <img id="mage" src="../assets/mage.webp" hidden>
         <img id="cat" src="../assets/cat.webp" hidden>

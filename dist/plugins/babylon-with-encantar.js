@@ -6,7 +6,7 @@
 
 /* Usage of the indicated versions is encouraged */
 USING({
-    'encantar.js': { version: '0.4.5' },
+    'encantar.js': { version: '0.4.6' },
      'babylon.js': { version: '8.34.0' }
 });
 
@@ -28,7 +28,7 @@ class ARDemo
 
     /**
      * Initialization
-     * @returns {void | Promise<void> | SpeedyPromise<void>}
+     * @returns {void | Promise<void>}
      */
     init()
     {
@@ -53,11 +53,21 @@ class ARDemo
 
     /**
      * Preload resources before starting the AR session
-     * @returns {Promise<void> | SpeedyPromise<void>}
+     * @returns {Promise<void>}
      */
     preload()
     {
         return Promise.resolve();
+    }
+
+    /**
+     * User-provided canvas (optional)
+     * If provided, use it in your AR Viewport
+     * @returns {HTMLCanvasElement | null}
+     */
+    get canvas()
+    {
+        return null;
     }
 
     /**
@@ -241,12 +251,18 @@ class ARSystem
 function encantar(demo)
 {
     const ar = new ARSystem();
-    const flipZ = new BABYLON.Matrix().copyFromFloats(
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0,-1, 0,
-        0, 0, 0, 1
-    );
+    let _flipZ = null;
+    let _tmpMat = null;
+    let _viewMat = null;
+    let _projMat = null;
+
+    function convertToRef(speedyMatrix, babylonMatrix)
+    {
+        // encantar.js uses column vectors stored in column-major format,
+        // whereas babylon.js uses row vectors stored in row-major format
+        // (y = Ax vs y = xA). So, we return the transpose of the transpose.
+        return babylonMatrix.fromArray(speedyMatrix.read());
+    }
 
     function animate(time, frame)
     {
@@ -295,44 +311,63 @@ function encantar(demo)
     function align(projectionMatrix, viewMatrix, modelMatrix)
     {
         if(ar._scene.useRightHandedSystem)
-            ar._camera.freezeProjectionMatrix(convert(projectionMatrix));
+            ar._camera.freezeProjectionMatrix(convertToRef(projectionMatrix, _projMat));
         else
-            ar._camera.freezeProjectionMatrix(convert(projectionMatrix).multiply(flipZ));
+            ar._camera.freezeProjectionMatrix(convertToRef(projectionMatrix, _tmpMat).multiplyToRef(_flipZ, _projMat));
 
-        ar._camera.setViewMatrix(convert(viewMatrix));
+        ar._camera.setViewMatrix(convertToRef(viewMatrix, _viewMat));
 
-        convert(modelMatrix).decomposeToTransformNode(ar._origin);
+        convertToRef(modelMatrix, _tmpMat).decomposeToTransformNode(ar._origin);
     }
 
-    function convert(matrix)
+    function create3DEngine(canvas)
     {
-        // encantar.js uses column vectors stored in column-major format,
-        // whereas babylon.js uses row vectors stored in row-major format
-        // (y = Ax vs y = xA). So, we return the transpose of the transpose.
-        return new BABYLON.Matrix().fromArray(matrix.read());
+        ar._engine = new BABYLON.Engine(canvas, false, {
+            premultipliedAlpha: true
+        });
+
+        ar._scene = new BABYLON.Scene(ar._engine);
+        ar._scene.useRightHandedSystem = true;
     }
 
+    function awake()
+    {
+        demo._ar = ar;
+
+        // if possible, create the 3D engine before preloading the assets
+        if(demo.canvas !== null) {
+            create3DEngine(demo.canvas);
+            demo.canvas.hidden = true;
+        }
+    }
+
+    // start the lifecycle
     return Promise.resolve()
+    .then(() => awake())
     .then(() => demo.preload())
     .then(() => demo.startSession()) // Promise or SpeedyPromise
     .then(session => {
 
-        demo._ar = ar;
-
         ar._session = session;
+
+        // setup the 3D engine
+        if(!ar._engine)
+            create3DEngine(session.viewport.canvas);
+        else if(demo.canvas === session.viewport.canvas)
+            demo.canvas.hidden = false;
+        else {
+            session.end();
+            throw new Error('ar-canvas mismatch'); // Tip: check your AR viewport
+        }
+
+        ar._scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
 
         BABYLON.Engine.prototype.resize = function(forceSetSize = false) {
             // make babylon.js respect the resolution of the viewport
             const size = session.viewport.virtualSize;
             this.setSize(size.width, size.height, forceSetSize);
         };
-        ar._engine = new BABYLON.Engine(session.viewport.canvas, false, {
-            premultipliedAlpha: true
-        });
 
-        ar._scene = new BABYLON.Scene(ar._engine);
-        ar._scene.useRightHandedSystem = true;
-        ar._scene.clearColor = new BABYLON.Color4(0, 0, 0, 0);
         ar._scene._inputManager._updatePointerPosition = function(evt) {
             // adjust babylon.js pointers to the resolution of the viewport
             const engine = this._scene.getEngine();
@@ -345,11 +380,18 @@ function encantar(demo)
             this._unTranslatedPointerY = this._pointerY;
         };
 
-        ar._origin = new BABYLON.TransformNode('ar-origin', ar._scene);
-        ar._root = new BABYLON.TransformNode('ar-root', ar._scene);
-        ar._root.parent = ar._origin;
-        ar._origin.setEnabled(false);
+        // create auxiliary variables
+        _tmpMat = new BABYLON.Matrix();
+        _viewMat = new BABYLON.Matrix();
+        _projMat = new BABYLON.Matrix();
+        _flipZ = new BABYLON.Matrix().copyFromFloats(
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0,-1, 0,
+            0, 0, 0, 1
+        );
 
+        // setup camera
         ar._camera = new BABYLON.Camera('ar-camera', BABYLON.Vector3.Zero(), ar._scene);
         ar._camera._tmpQuaternion = BABYLON.Quaternion.Identity();
         ar._camera._customViewMatrix = BABYLON.Matrix.Identity();
@@ -362,6 +404,13 @@ function encantar(demo)
             this._globalPosition.copyFrom(this.position);
         };
 
+        // setup scene hierarchy
+        ar._origin = new BABYLON.TransformNode('ar-origin', ar._scene);
+        ar._root = new BABYLON.TransformNode('ar-root', ar._scene);
+        ar._root.parent = ar._origin;
+        ar._origin.setEnabled(false);
+
+        // setup event listeners
         session.addEventListener('end', event => {
             ar._origin.setEnabled(false);
             ar._viewer = null;
@@ -373,6 +422,7 @@ function encantar(demo)
             ar._engine.resize();
         });
 
+        // initialize the demo and start the main loop
         return Promise.resolve()
         .then(() => {
             return demo.init();

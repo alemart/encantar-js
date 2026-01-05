@@ -1388,6 +1388,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      canvas
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3047,6 +3056,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#canvas" class="md-nav__link">
+    <span class="md-ellipsis">
+      canvas
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3275,7 +3293,7 @@ flowchart TD
 <p>A reference to the <a href="#arsystem">ARSystem</a>, or <code>null</code> if the demo hasn't been started yet. See also: <a href="#lifecycle">lifecycle</a></p>
 <p><em>Since:</em> 0.4.0</p>
 <h3 id="startsession">startSession</h3>
-<p><code>demo.startSession(): Promise&lt;Session&gt; | SpeedyPromise&lt;Session&gt;</code></p>
+<p><code>startSession(): Promise&lt;Session&gt; | SpeedyPromise&lt;Session&gt;</code></p>
 <p>Start the AR <a href="../session/">Session</a>. This method receives no arguments. It's supposed to call <a href="../session/#instantiation">AR.startSession</a> with the desired settings.</p>
 <p><strong>Returns</strong></p>
 <p>A promise that resolves to a Session.</p>
@@ -3288,7 +3306,7 @@ flowchart TD
 <p>The tracking begins when the session is started.</p>
 </div>
 <h3 id="init">init</h3>
-<p><code>demo.init(): void | Promise&lt;void&gt; | SpeedyPromise&lt;void&gt;</code></p>
+<p><code>init(): void | Promise&lt;void&gt;</code></p>
 <p>Use this method to initialize your 3D scene. See also: <a href="#ar">ar</a>, <a href="#preload">preload</a></p>
 <p><strong>Returns</strong></p>
 <p><code>undefined</code>, or a promise that resolves to <code>undefined</code>.</p>
@@ -3309,12 +3327,12 @@ flowchart TD
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="c1">// ...</span>
 <a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="p">}</span>
 </code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Load external assets in <a href="#preload">preload</a>. Method <code>init</code> shouldn't take too long to run because the session is already started. See also: <a href="#lifecycle">lifecycle</a></p>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>Load external assets in <a href="#preload">preload</a>. <code>init</code> shouldn't take too long to run because the session has already started, and the user is about to begin to interact with the software. See also: <a href="#lifecycle">lifecycle</a></p>
 </div>
 <h3 id="update">update</h3>
-<p><code>demo.update(): void</code></p>
+<p><code>update(): void</code></p>
 <p>Animation step, called during the animation loop. You may want to do something with <a href="#session">ar.session</a> or <a href="#frame">ar.frame</a>.</p>
 <p><strong>Example</strong></p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">class</span><span class="w"> </span><span class="nx">MyDemo</span><span class="w"> </span><span class="k">extends</span><span class="w"> </span><span class="nx">ARDemo</span>
@@ -3337,11 +3355,28 @@ flowchart TD
 <p><code>release(): void</code></p>
 <p>Release resources soon after the AR session is ended.</p>
 <h3 id="preload">preload</h3>
-<p><code>preload(): Promise&lt;void&gt; | SpeedyPromise&lt;void&gt;</code></p>
+<p><code>preload(): Promise&lt;void&gt;</code></p>
 <p>Preload resources before starting the AR session. See also: <a href="#init">init</a>, <a href="#startsession">startSession</a></p>
 <p><em>Since:</em> 0.4.0</p>
 <p><strong>Returns</strong></p>
 <p>A promise that resolves to <code>undefined</code>.</p>
+<h3 id="canvas">canvas</h3>
+<p><code>get canvas(): HTMLCanvasElement | null</code></p>
+<p>Optional user-provided canvas. If specified, use it in your viewport when <a href="#startsession">starting the session</a>.</p>
+<p><em>Since:</em> 0.4.6</p>
+<p><strong>Returns</strong></p>
+<p>The canvas in which the virtual scene will be drawn.</p>
+<p><strong>Example</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">get</span><span class="w"> </span><span class="nx">canvas</span><span class="p">()</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">canvas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;ar-canvas&#39;</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">canvas</span><span class="p">)</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="s1">&#39;Missing ar-canvas&#39;</span><span class="p">);</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">canvas</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">}</span>
+</code></pre></div>
 <h2 id="arsystem">ARSystem</h2>
 <p><code>ARSystem</code> is a helper for creating Augmented Reality experiences. Access it via <a href="#ar">ARDemo.ar</a>.</p>
 <h3 id="session">session</h3>

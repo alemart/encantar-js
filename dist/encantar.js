@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.5
+ * encantar.js version 0.4.6-dev
  * GPU-accelerated Augmented Reality framework for the web
- * Copyright 2022-2025 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
+ * Copyright 2022-2026 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2025-10-31T23:52:28.000Z
+ * Date: 2026-01-05T04:30:20.488Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -20209,13 +20209,213 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     }
   });
 
+  // src/ui/reminder-dialog.ts
+  var TITLE, MESSAGE, PRIMARY_ACTION, SECONDARY_ACTION, TARGET_URL, ONE_DAY, REMINDER_TIMEOUT, REMINDER_KEY, AR_FLAGS, ReminderDialog;
+  var init_reminder_dialog = __esm({
+    "src/ui/reminder-dialog.ts"() {
+      "use strict";
+      TITLE = "Purchase your copy of encantar.js!";
+      MESSAGE = `encantar.js is an open, fast, easy-to-use, and broadly compatible Augmented Reality solution that works in any modern browser and web server. It has no vendor lock-in, DRM, artificial scarcity, or gatekeeping. Your projects are yours to keep and deploy.
+
+Bringing open Augmented Reality to you isn't free of cost. The depth and breadth of this work are huge, requiring considerable time and skill. I'm a developer working independently on this software from the ground up. Your purchase will support me directly.
+
+This software respects you and puts you in control \u2014 values often overlooked in the tech industry. Do you value your freedom? Will you contribute to making open-source sustainable? With a one-time purchase, you'll become a backer of open-source AR \u2014 and together, we'll make technology empower us all.`;
+      PRIMARY_ACTION = "Buy now";
+      SECONDARY_ACTION = "Try it";
+      TARGET_URL = "https://alemart.github.io/encantar-js/buy";
+      ONE_DAY = 86400;
+      REMINDER_TIMEOUT = ONE_DAY;
+      REMINDER_KEY = "encantar-reminder-0.4.6-dev";
+      AR_FLAGS = Number(0);
+      ReminderDialog = class {
+        /**
+         * Constructor
+         */
+        constructor() {
+          this._dialog = this._createDialog();
+        }
+        /**
+         * Initialize
+         * @param parent parent node
+         */
+        init(parent) {
+          if (this._dialog !== null) {
+            parent.appendChild(this._dialog);
+            setTimeout(() => this._show(), 500);
+          }
+        }
+        /**
+         * Release
+         */
+        release() {
+          if (this._dialog !== null)
+            this._dialog.remove();
+        }
+        /**
+         * Show the reminder
+         * @returns true on success
+         */
+        _show() {
+          if (this._dialog === null)
+            return false;
+          this._dialog.showModal();
+          return true;
+        }
+        /**
+         * Close the reminder
+         * @returns true on success
+         */
+        _close() {
+          if (this._dialog === null || !this._dialog.open)
+            return false;
+          const now = Math.floor(Date.now() * 1e-3);
+          localStorage.setItem(REMINDER_KEY, String(now));
+          this._dialog.close();
+          return true;
+        }
+        /**
+         * Whether or not the reminder should be displayed at this time
+         * @returns a boolean
+         */
+        _isEnabled() {
+          if (AR_FLAGS & 1)
+            return false;
+          const now = Math.floor(Date.now() * 1e-3);
+          const lastReminder = Number(localStorage.getItem(REMINDER_KEY) ?? "0");
+          return now >= lastReminder + REMINDER_TIMEOUT || lastReminder >= now;
+        }
+        /**
+         * Create the dialog element
+         * @returns the dialog element
+         */
+        _createDialog() {
+          const TRANSPARENT_COLOR = "transparent";
+          const BACKGROUND_COLOR = "whitesmoke";
+          const PRIMARY_COLOR = "#6366f1";
+          const SECONDARY_COLOR = BACKGROUND_COLOR;
+          const PRIMARY_HIGHLIGHTED_COLOR = "gold";
+          const SECONDARY_HIGHLIGHTED_COLOR = "black";
+          const FONT_FAMILY = "sans-serif";
+          const TEXT_COLOR = "#333";
+          const TEXT_SIZE = "16px";
+          const TITLE_COLOR = PRIMARY_COLOR;
+          const TITLE_SIZE = "20px";
+          if (!this._isEnabled())
+            return null;
+          if (typeof HTMLDialogElement === "undefined")
+            return null;
+          const dialog = document.createElement("dialog");
+          const content = document.createElement("div");
+          const title = document.createElement("h1");
+          const message = document.createElement("p");
+          const buttonWrapper = document.createElement("div");
+          const primaryButton = document.createElement("button");
+          const secondaryButton = document.createElement("button");
+          const closeButton = document.createElement("button");
+          dialog.style.width = "95%";
+          dialog.style.minWidth = "300px";
+          dialog.style.borderRadius = "8px";
+          dialog.style.border = "none";
+          dialog.style.backgroundColor = BACKGROUND_COLOR;
+          dialog.style.padding = "0";
+          dialog.style.boxShadow = "4px 4px 20px rgba(0,0,0,0.75)";
+          dialog.style.userSelect = "none";
+          dialog.addEventListener("click", (e) => dialog === e.target && dialog.close());
+          content.style.textAlign = "center";
+          content.style.fontSize = TEXT_SIZE;
+          content.style.fontFamily = FONT_FAMILY;
+          content.style.color = TEXT_COLOR;
+          content.style.padding = "20px";
+          content.style.margin = "0";
+          dialog.appendChild(content);
+          title.style.fontSize = TITLE_SIZE;
+          title.style.color = TITLE_COLOR;
+          title.style.margin = "0";
+          title.style.fontWeight = "bold";
+          title.innerText = TITLE;
+          content.appendChild(title);
+          message.innerText = MESSAGE;
+          message.style.padding = "8px 0";
+          message.style.textAlign = "justify";
+          content.appendChild(message);
+          buttonWrapper.style.display = "flex";
+          buttonWrapper.style.justifyContent = "space-evenly";
+          content.appendChild(buttonWrapper);
+          const highlight = (el, bg, fg, border) => () => {
+            el.style.backgroundColor = bg;
+            el.style.color = fg;
+            el.style.border = "2px solid " + border;
+          };
+          primaryButton.style.cursor = "pointer";
+          primaryButton.style.fontSize = TEXT_SIZE;
+          primaryButton.style.fontWeight = "bold";
+          primaryButton.style.fontFamily = FONT_FAMILY;
+          primaryButton.style.color = SECONDARY_COLOR;
+          primaryButton.style.backgroundColor = PRIMARY_COLOR;
+          primaryButton.style.border = "2px solid " + PRIMARY_COLOR;
+          primaryButton.style.padding = "12px 24px";
+          primaryButton.style.outline = "none";
+          primaryButton.style.minWidth = "120px";
+          primaryButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
+          primaryButton.innerText = PRIMARY_ACTION;
+          primaryButton.setAttribute("autofocus", "");
+          primaryButton.addEventListener("click", () => {
+            location.href = TARGET_URL;
+            this._close();
+          });
+          primaryButton.addEventListener("pointerdown", highlight(primaryButton, PRIMARY_HIGHLIGHTED_COLOR, SECONDARY_HIGHLIGHTED_COLOR, PRIMARY_HIGHLIGHTED_COLOR));
+          primaryButton.addEventListener("pointerup", highlight(primaryButton, PRIMARY_COLOR, SECONDARY_COLOR, PRIMARY_COLOR));
+          primaryButton.addEventListener("pointerleave", highlight(primaryButton, PRIMARY_COLOR, SECONDARY_COLOR, PRIMARY_COLOR));
+          buttonWrapper.appendChild(primaryButton);
+          secondaryButton.style.cursor = "pointer";
+          secondaryButton.style.fontSize = TEXT_SIZE;
+          secondaryButton.style.fontWeight = "bold";
+          secondaryButton.style.fontFamily = FONT_FAMILY;
+          secondaryButton.style.color = PRIMARY_COLOR;
+          secondaryButton.style.backgroundColor = SECONDARY_COLOR;
+          secondaryButton.style.border = "2px solid " + PRIMARY_COLOR;
+          secondaryButton.style.padding = "12px 24px";
+          secondaryButton.style.marginLeft = "12px";
+          secondaryButton.style.outline = "none";
+          secondaryButton.style.minWidth = "120px";
+          primaryButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
+          secondaryButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
+          secondaryButton.innerText = SECONDARY_ACTION;
+          secondaryButton.addEventListener("click", () => this._close());
+          secondaryButton.addEventListener("pointerdown", highlight(secondaryButton, PRIMARY_HIGHLIGHTED_COLOR, SECONDARY_HIGHLIGHTED_COLOR, PRIMARY_HIGHLIGHTED_COLOR));
+          secondaryButton.addEventListener("pointerup", highlight(secondaryButton, SECONDARY_COLOR, PRIMARY_COLOR, PRIMARY_COLOR));
+          secondaryButton.addEventListener("pointerleave", highlight(secondaryButton, SECONDARY_COLOR, PRIMARY_COLOR, PRIMARY_COLOR));
+          buttonWrapper.appendChild(secondaryButton);
+          closeButton.style.cursor = "pointer";
+          closeButton.style.fontSize = TEXT_SIZE;
+          closeButton.style.fontFamily = FONT_FAMILY;
+          closeButton.style.color = TEXT_COLOR;
+          closeButton.style.opacity = "0.5";
+          closeButton.style.position = "absolute";
+          closeButton.style.top = "8px";
+          closeButton.style.right = "8px";
+          closeButton.style.border = "none";
+          closeButton.style.padding = "8px";
+          closeButton.style.backgroundColor = TRANSPARENT_COLOR;
+          closeButton.style.outline = "none";
+          closeButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
+          closeButton.innerHTML = "&#x2715;";
+          closeButton.addEventListener("click", () => this._close());
+          content.appendChild(closeButton);
+          return dialog;
+        }
+      };
+    }
+  });
+
   // src/core/hud.ts
-  var _statsPanel, _fullscreenButton, HUD;
+  var _statsPanel, _fullscreenButton, _reminderDialog, HUD;
   var init_hud = __esm({
     "src/core/hud.ts"() {
       "use strict";
       init_stats_panel();
       init_fullscreen_button();
+      init_reminder_dialog();
       init_utils();
       HUD = class {
         /**
@@ -20229,6 +20429,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           __privateAdd(this, _statsPanel);
           /** Fullscreen button */
           __privateAdd(this, _fullscreenButton);
+          /** Reminder dialog */
+          __privateAdd(this, _reminderDialog);
           this._container = hudContainer || this._createContainer(parent);
           this._isOwnContainer = hudContainer == null;
           if (this._container.parentElement !== parent) {
@@ -20243,6 +20445,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           this._internalContainer.appendChild(document.createElement("slot"));
           __privateSet(this, _statsPanel, new StatsPanel());
           __privateSet(this, _fullscreenButton, new FullscreenButton(viewport));
+          __privateSet(this, _reminderDialog, new ReminderDialog());
         }
         /**
          * The container of the HUD
@@ -20281,6 +20484,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           const parent = this._internalContainer;
           __privateGet(this, _statsPanel).init(parent, wantStatsPanel);
           __privateGet(this, _fullscreenButton).init(parent, wantFullscreenButton);
+          __privateGet(this, _reminderDialog).init(parent);
           for (const element of parent.children) {
             if (element.style.getPropertyValue("pointer-events") == "")
               element.style.pointerEvents = "auto";
@@ -20302,6 +20506,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          */
         _release() {
           this._visible = false;
+          __privateGet(this, _reminderDialog).release();
           __privateGet(this, _fullscreenButton).release();
           __privateGet(this, _statsPanel).release();
           if (this._isOwnContainer) {
@@ -20335,6 +20540,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
       };
       _statsPanel = new WeakMap();
       _fullscreenButton = new WeakMap();
+      _reminderDialog = new WeakMap();
     }
   });
 
@@ -21169,7 +21375,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
          * Engine version
          */
         static get version() {
-          return "0.4.5";
+          return "0.4.6-dev";
         }
         /**
          * Speedy Vision
@@ -21240,3 +21446,4 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   });
   return require_src();
 })();
+//# sourceMappingURL=encantar.js.map

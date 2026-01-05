@@ -2814,6 +2814,48 @@ declare module "ui/fullscreen-button" {
         private _handleFullscreenEvent;
     }
 }
+declare module "ui/reminder-dialog" {
+    /**
+     * Reminder dialog
+     */
+    export class ReminderDialog {
+        /** A dialog element */
+        private readonly _dialog;
+        /**
+         * Constructor
+         */
+        constructor();
+        /**
+         * Initialize
+         * @param parent parent node
+         */
+        init(parent: Node): void;
+        /**
+         * Release
+         */
+        release(): void;
+        /**
+         * Show the reminder
+         * @returns true on success
+         */
+        private _show;
+        /**
+         * Close the reminder
+         * @returns true on success
+         */
+        private _close;
+        /**
+         * Whether or not the reminder should be displayed at this time
+         * @returns a boolean
+         */
+        private _isEnabled;
+        /**
+         * Create the dialog element
+         * @returns the dialog element
+         */
+        private _createDialog;
+    }
+}
 declare module "core/hud" {
     import { Viewport } from "core/viewport";
     import { StatsPanel } from "ui/stats-panel";
