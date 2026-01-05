@@ -12,6 +12,7 @@
 window.addEventListener('load', function() {
   setupDialogPolyfill();
   setupReveal();
+  setupCounter();
 
   if(location.hash == '#download')
     document.querySelector('#download-dialog').showModal();
@@ -59,6 +60,23 @@ function setupReveal()
     reveal.classList.add('unrevealed');
     observer.observe(reveal);
   });
+}
+
+function setupCounter()
+{
+  const t = setInterval(function() {
+    if(window.goatcounter && window.goatcounter.count) {
+      document.querySelectorAll('a, button').forEach(el =>
+        el.id && el.addEventListener('click', function() {
+          window.goatcounter.count({
+            path: el.id,
+            event: true,
+          });
+        })
+      );
+      clearInterval(t);
+    }
+  }, 500);
 }
 
 })();
@@ -228,18 +246,19 @@ body {
 
 
 dialog {
-  max-width: calc(var(--max-width) * 0.72);
   /*background-color: var(--md-default-bg-color);*/
   background-color: whitesmoke;
   color: var(--md-default-fg-color--light);
   text-align: center;
-  padding: 1.5rem;
+  padding: 0;
   border: 0;
   border-radius: 24px;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2);
   transition: opacity 0.5s ease;
-  text-align: center;
-  font-size: 0.8rem;
+}
+
+dialog .wrapper {
+  padding: 1.5rem;
 }
 
 dialog[open] {
@@ -257,8 +276,8 @@ dialog::backdrop {
 }
 
 dialog h1 {
-  margin: 0 0 1.1rem 0 !important;
-  font-size: 1.25rem;
+  margin: 1.0rem 0;
+  font-size: 1.4rem;
 }
 
 dialog .close {
@@ -274,24 +293,64 @@ html:has(dialog[open]) {
   overflow: hidden;
 }
 
-dialog footer {
+dialog label {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  align-items: center;
+  text-align: left;
+  margin-bottom: 1rem;
 }
 
-dialog footer > * {
-  margin-top: 1.0rem;
-  min-width: 30%;
+dialog footer {
+  margin-top: 1rem;
 }
 
-dialog ul {
-  text-align: justify;
-  list-style-position: inside;
+dialog input[type="radio"] {
+  position: absolute;
+  opacity: 0;
 }
 
-dialog *:focus-visible {
-  outline: 0;
+dialog button[type="submit"] {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+dialog label:hover {
+  cursor: pointer;
+}
+
+.custom-radio {
+  min-width: 24px;
+  width: 24px;
+  height: 24px;
+  background-color: var(--md-primary-bg-color);
+  border-radius: 50%;
+  border: 2px solid var(--md-default-fg-color--light);
+  margin-right: 0.75rem;
+}
+
+.custom-radio:hover, label:hover > .custom-radio {
+  background-color: var(--md-default-bg-color--lighter);
+}
+
+.custom-radio:after {
+  content: "";
+  display: block;
+  position: relative;
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--md-primary-fg-color);
+  visibility: hidden;
+}
+
+input[type="radio"]:checked ~ .custom-radio {
+  border-color: var(--md-primary-fg-color);
+}
+
+input[type="radio"]:checked ~ .custom-radio:after {
+  visibility: visible;
 }
 
 
@@ -344,7 +403,7 @@ dialog *:focus-visible {
     <div>
       <h1>AR for all devices</h1>
       <p>Create Augmented Reality experiences for iOS, Android and even Desktops! All devices are supported, including those without native capabilities for AR / WebXR. User experience is frictionless, with no need to download apps!</p>
-      <a href="demos/hello-aframe/poster.html" target="_blank" class="md-button" id="try-demo" data-goatcounter-click>Try a demo</a>
+      <a href="demos/hello-aframe/poster.html" target="_blank" class="md-button" id="try-demo">Try a demo</a>
     </div>
     <div>
       <img src="img/mage.gif" alt="A mage in Augmented Reality" loading="lazy">
@@ -354,7 +413,7 @@ dialog *:focus-visible {
     <div>
       <h1>Turbocharged performance</h1>
       <p>A modern web browser is all that is required for a high performance experience, thanks to a powerful combination of GPU acceleration, WebAssembly and mathemagical wizardry. The result? A smooth user experience!</p>
-      <a href="demos/basketball/poster.html" target="_blank" class="md-button" id="play-game" data-goatcounter-click>Play a game</a>
+      <a href="demos/basketball/poster.html" target="_blank" class="md-button" id="play-game">Play a game</a>
     </div>
     <div>
       <img src="img/demo-basketball.gif" alt="Magic AR Basketball Game" loading="lazy">
@@ -364,7 +423,7 @@ dialog *:focus-visible {
     <div>
       <h1>Open Source AR</h1>
       <p>encantar.js is a fully open source Augmented Reality engine built from scratch with Computer Vision. Your WebAR content is not tied to any platform. Host it wherever you want: there is no vendor lock-in and no usage limit.</p>
-      <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source" data-goatcounter-click>Browse the source</a>
+      <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source">Browse the source</a>
     </div>
     <div>
       <ul>
@@ -377,7 +436,7 @@ dialog *:focus-visible {
     <div>
       <h1>Easy to use and to deploy</h1>
       <p>encantar.js may be combined with A-Frame, babylon.js, three.js, or any 3D engine &ndash; you choose! Also, all processing is performed on the user's device. A static web page is all you need!</p>
-      <a href="demos/" target="_blank" class="md-button" id="try-more-demos" data-goatcounter-click>See for yourself</a>
+      <a href="demos/" target="_blank" class="md-button" id="try-more-demos">See for yourself</a>
     </div>
     <div>
       <ul>
@@ -391,7 +450,7 @@ dialog *:focus-visible {
     <div>
       <h1>Enchanted Images</h1>
       <p>Bring images to life! Create enchanted posters, ads, books, murals and more with Image Tracking, also known as Marker Tracking or Natural Feature Tracking. Scan your own images to start the WebAR experience &ndash; all in the browser!</p>
-      <a href="guidelines-for-images/" target="_blank" class="md-button" id="guidelines-for-images" data-goatcounter-click>View the Guidelines</a>
+      <a href="guidelines-for-images/" target="_blank" class="md-button" id="guidelines-for-images">View the Guidelines</a>
     </div>
     <div>
       <img src="img/demo-cat.gif" alt="A cat in Augmented Reality" loading="lazy">
@@ -401,7 +460,7 @@ dialog *:focus-visible {
     <div>
       <h1>Add-Ons</h1>
       <p>Add-Ons enrich the core of encantar.js with magical additional features, such as easy to use Buttons for triggering events, as well as a pre-built Video Player for enchanting posters, murals, business cards and more!</p>
-      <a href="addons/" target="_blank" class="md-button" id="explore-addons" data-goatcounter-click>Explore the Add-Ons</a>
+      <a href="addons/" target="_blank" class="md-button" id="explore-addons">Explore the Add-Ons</a>
     </div>
     <div>
       <img src="img/video-player.gif" alt="Video player for web-based Augmented Reality" loading="lazy">
@@ -411,7 +470,7 @@ dialog *:focus-visible {
     <div>
       <h1>Documentation</h1>
       <p>Extensive documentation accompanies the software. While you can quickly get magic done just by modifying the demos, the API Spellbook provides magical formulae and a comprehensive view of the technical aspects of AR magic.</p>
-      <a href="api/" target="_blank" class="md-button" id="open-api-reference" data-goatcounter-click>Explore the API</a>
+      <a href="api/" target="_blank" class="md-button" id="open-api-reference">Explore the API</a>
     </div>
     <div>
       <img src="img/witch-coder.webp" alt="Cartoon" loading="lazy">
@@ -425,12 +484,51 @@ dialog *:focus-visible {
 <section id="download">
   <article>
     <h1>Download</h1>
-    <p>encantar.js is created independently by <a href="https://github.com/alemart" target="_blank" id="author-name" data-goatcounter-click>Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision" data-goatcounter-click>speedy-vision</a>, an open source computer vision library created by the same author.</p>
+    <p>encantar.js is created independently by <a href="https://github.com/alemart" target="_blank" id="author-name">Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision">speedy-vision</a>, an open source computer vision library created by the same author.</p>
     <footer>
-      <a href="download/" target="_blank" id="download-button" class="md-button md-button--primary" data-goatcounter-click>Download encantar.js</a>
+      <button class="md-button md-button--primary" id="download-button" onclick="document.getElementById('download-dialog').showModal()">Download encantar.js</button>
     </footer>
   </article>
 </section>
+
+
+
+
+<dialog id="download-dialog" onclick="event.target === this && this.close()">
+  <div class="wrapper">
+    <h1>Select an option</h1>
+    <form autocomplete="off" onsubmit="location.href = this.elements.option.value; return false">
+      <label>
+        <input type="radio" name="option" value="/buy" checked>
+        <span class="custom-radio"></span>
+        <div>
+          <strong>Production-ready version</strong><br>
+          Just download it and use it in your projects.
+        </div>
+      </label>
+      <label>
+        <input type="radio" name="option" value="/addons">
+        <span class="custom-radio"></span>
+        <div>
+          <strong>Add-Ons</strong><br>
+          Get it with Add-Ons for rich AR experiences.
+        </div>
+      </label>
+      <label>
+        <input type="radio" name="option" value="https://github.com/alemart/encantar-js">
+        <span class="custom-radio"></span>
+        <div>
+          <strong>Source code</strong><br>
+          Build it yourself. Test the bleeding edge.
+        </div>
+      </label>
+      <footer>
+        <button type="submit" class="md-button md-button--primary">OK</button>
+      </footer>
+    </form>
+  </div>
+  <button class="close" onclick="this.parentNode.close()">&times;</button>
+</dialog>
 
 
 
