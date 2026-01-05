@@ -7,6 +7,7 @@ const pack = JSON.parse(json);
 const production = !pack.version.endsWith('-dev');
 const minify = (argv.indexOf('--minify') >= 0);
 const serve = (argv.indexOf('--serve') >= 0);
+const AR_FLAGS = +(process.env.AR_FLAGS ?? 0);
 
 const options = {
     //entryPoints: ['src/main.ts'], // AR.AR
@@ -23,7 +24,7 @@ const options = {
     define: {
         __AR_VERSION__: JSON.stringify(pack.version),
         __AR_WEBSITE__: JSON.stringify(pack.homepage),
-        __AR_FLAGS__  : String(process.env.AR_FLAGS ?? 0),
+        __AR_FLAGS__  : String(AR_FLAGS),
     },
     legalComments: 'inline',
     banner: { js: generateBanner() },
@@ -32,6 +33,10 @@ const options = {
     sourcemap: !production && 'linked',
     logLevel: 'info',
 };
+
+if(AR_FLAGS & 1) {
+    console.log('%s 👍 Reminder disabled - thanks for supporting open-source AR! %s', '\x1b[33m', '\x1b[0m');
+}
 
 if(!serve) {
     await esbuild.build(options);
