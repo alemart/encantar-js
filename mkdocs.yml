@@ -65,11 +65,11 @@ nav:
     - 'Demos': 'demos.md'
   - 'Add-Ons':
     - 'Add-Ons': 'addons/index.md'
-    - 'AR Button API': 'addons/ar-button.md'
-    - 'AR Clickable API': 'addons/ar-clickable.md'
-    - 'Video Player API': 'addons/ar-video-player.md'
-    - 'Take Photos API': 'addons/ar-snapshot-button.md'
-    - 'Asset Manager API': 'addons/asset-manager.md'
+    - 'AR Button': 'addons/ar-button.md'
+    - 'AR Clickable': 'addons/ar-clickable.md'
+    - 'Video Player': 'addons/ar-video-player.md'
+    - 'Take Photos': 'addons/ar-snapshot-button.md'
+    - 'Asset Manager': 'addons/asset-manager.md'
     - 'More Add-Ons': 'addons/more-addons.md'
   - 'Learn':
     - 'Introduction': 'tutorial/index.md'
