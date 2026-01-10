@@ -80,7 +80,7 @@
 
     ---
 
-    <figure style="background-image: url(../img/demo-basketball.gif)"></figure>
+    <figure style="background-image: url(../img/demo-basketball2.gif)"></figure>
 
     Basketball game in WebAR. Based on babylon.js. Play with your phone!
 
