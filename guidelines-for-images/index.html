@@ -3054,7 +3054,27 @@
         
       </main>
       
-<script src="/js/donate.js"></script>
+
+<!-- Think of a different layout? -->
+<button id="support-button" style="right:12px;left:initial;bottom:18px" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
+    &#x1F468;&#x200D;&#x1F4BB;
+    Contact support
+</button>
+<section id="support-widget" class="md-typeset invisible" style="right:12px;left:initial;bottom:80px;width:350px">
+    <h4>Do you need help?</h4>
+    <p>Send your inquiries to <a class="support-link" href="#"></a>. I will respond to you as soon as possible.</p>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
+    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
+    document.querySelectorAll('a.support-link').forEach(function(a) {
+        a.href = link;
+        if(a.innerText.length == 0)
+            a.innerText = link.substring(7);
+    });
+});
+</script>
 
 
         <footer class="md-footer">
