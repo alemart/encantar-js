@@ -19,15 +19,17 @@
 {% endblock %}
 
 {% block footer %}
-<script src="/js/donate.js"></script>
 {% if false %}
+<script src="/js/donate.js"></script>
+{% else %}
 <!-- Think of a different layout? -->
-<button id="support-button" style="right:12px;left:initial;bottom:75px" onclick="document.getElementById('support-widget').classList.toggle('invisible')" data-goatcounter-click>
-    &#x1F468;&#x200D;&#x1F4BB; Need help?
+<button id="support-button" style="right:12px;left:initial;bottom:18px" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
+    &#x1F468;&#x200D;&#x1F4BB;
+    Contact support
 </button>
-<section id="support-widget" class="md-typeset invisible" style="right:12px;left:initial;bottom:137px">
-    <h4>Contact the developer &#x1F9D9;&#x200D;&#x2642;&#xFE0F;</h4>
-    <p>Get expert guidance on WebAR with encantar.js by contacting me at <a class="support-link" href="#"></a>.</p>
+<section id="support-widget" class="md-typeset invisible" style="right:12px;left:initial;bottom:80px;width:350px">
+    <h4>Support</h4>
+    <p>If you have any questions, please send your inquiries to <a class="support-link" href="#"></a>. I will respond to you as soon as possible.</p>
 </section>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
