@@ -18,60 +18,9 @@
 }
 </style>
 
+## Basics
+
 <div class="grid cards" markdown>
--   ### Magic AR Basketball
-
-    ---
-
-    <figure style="background-image: url(../img/demo-basketball.gif)"></figure>
-
-    Basketball game in WebAR. Based on babylon.js. Play with your phone!
-
-    ---
-
-    [Play now!](/demos/basketball/poster.html){ .md-button ._blank }
-
--   ### Video Player with Buttons
-
-    ---
-
-    <figure style="background-image: url(../img/video-player.gif)"></figure>
-
-    Enchant your audience with video clips in Augmented Reality! (1)
-    { .annotate }
-
-    1.  This demo is part of an Add-On.
-
-    ---
-
-    [Explore](addons/ar-video-player.md){ .md-button ._blank }
-
--   ### Street Art
-
-    ---
-
-    <figure style="background-image: url(../img/street-art.jpg)"></figure>
-
-    WebAR template for art and entertainment. Based on A-Frame.
-
-    ---
-
-    [Try it!](/demos/street-art/index.html){ .md-button ._blank }
-
--   ### Take Photos
-
-    ---
-
-    <figure style="background-image: url(../img/take-photos.jpg)"></figure>
-
-    Let your users take AR photos, as in a camera app. (1)
-    { .annotate }
-
-    1.  This demo is part of an Add-On.
-
-    ---
-
-    [Explore](addons/ar-snapshot-button.md){ .md-button ._blank }
 
 -   ### WebAR with A-Frame
 
@@ -120,6 +69,72 @@
     ---
 
     [Try it!](/demos/hello-world/poster.html){ .md-button ._blank }
+
+</div>
+
+## Games & fun
+
+<div class="grid cards" markdown>
+
+-   ### Magic AR Basketball
+
+    ---
+
+    <figure style="background-image: url(../img/demo-basketball.gif)"></figure>
+
+    Basketball game in WebAR. Based on babylon.js. Play with your phone!
+
+    ---
+
+    [Play now!](/demos/basketball/poster.html){ .md-button ._blank }
+
+-   ### Street Art
+
+    ---
+
+    <figure style="background-image: url(../img/street-art.jpg)"></figure>
+
+    WebAR template for art and entertainment. Based on A-Frame.
+
+    ---
+
+    [Try it!](/demos/street-art/index.html){ .md-button ._blank }
+
+</div>
+
+## Extras
+
+<div class="grid cards" markdown>
+
+-   ### Video Player with Buttons
+
+    ---
+
+    <figure style="background-image: url(../img/video-player.gif)"></figure>
+
+    Enchant your audience with video clips in Augmented Reality! (1)
+    { .annotate }
+
+    1.  This demo is part of an Add-On.
+
+    ---
+
+    [Explore](addons/ar-video-player.md){ .md-button ._blank }
+
+-   ### Take Photos
+
+    ---
+
+    <figure style="background-image: url(../img/take-photos.jpg)"></figure>
+
+    Let your users take AR photos, as in a camera app. (1)
+    { .annotate }
+
+    1.  This demo is part of an Add-On.
+
+    ---
+
+    [Explore](addons/ar-snapshot-button.md){ .md-button ._blank }
 
 -   ### Pure WebGL madness
 
