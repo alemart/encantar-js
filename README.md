@@ -27,6 +27,8 @@ Developing an Augmented Reality engine from scratch with Computer Vision is a ma
 * [Buy the Add-Ons](https://encantar.dev/addons)
 * [Sponsor me on GitHub](https://github.com/sponsors/alemart)
 
+If you use the software commercially, it's especially important to purchase your copy and support the project on which you rely.
+
 Ultimately, the funding comes back to you as more software, increased value, and greater enjoyment!
 
 ## Features
