@@ -34,7 +34,8 @@ I know that the reminder may be a bit annoying for some people, but it's importa
 for the sustainability of the project, and I've kept it gentle. In contrast, ads
 on mobile apps are quite aggressive. I prefer to keep it gentle.
 
-If you have not yet purchased it, think things over, and then decide consciously.
+Ethical software is designed to respect, empower, and put you in control, but it's a
+two-way street. Act consciously. If you haven't yet made a purchase, please do so.
 
 Thank you for supporting open-source Augmented Reality.
 
