@@ -401,7 +401,7 @@ input[type="radio"]:checked ~ .custom-radio:after {
 <section id="topics">
   <article class="reveal">
     <div>
-      <h1>AR for all devices</h1>
+      <h1>Web AR for all devices</h1>
       <p>Create Augmented Reality experiences for iOS, Android and even Desktops! All devices are supported, including those without native capabilities for AR / WebXR. User experience is frictionless, with no need to download apps!</p>
       <a href="demos/hello-aframe/poster.html" target="_blank" class="md-button" id="try-demo">Try a demo</a>
     </div>
@@ -421,19 +421,6 @@ input[type="radio"]:checked ~ .custom-radio:after {
   </article>
   <article class="reveal">
     <div>
-      <h1>Open Source AR</h1>
-      <p>encantar.js is a fully open source Augmented Reality engine built from scratch with Computer Vision. Your WebAR content is not tied to any platform. Host it wherever you want: there is no vendor lock-in and no usage limit.</p>
-      <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source">Browse the source</a>
-    </div>
-    <div>
-      <ul>
-        <li><img src="img/open-source.png" alt="Open Source" loading="lazy" style="padding:1.33rem"></li>
-        <li><img src="img/lgpl.png" alt="GNU LGPL" loading="lazy"></li>
-      </ul>
-    </div>
-  </article>
-  <article class="reveal">
-    <div>
       <h1>Easy to use and to deploy</h1>
       <p>encantar.js may be combined with A-Frame, babylon.js, three.js, or any 3D engine &ndash; you choose! Also, all processing is performed on the user's device. A static web page is all you need!</p>
       <a href="demos/" target="_blank" class="md-button" id="try-more-demos">See for yourself</a>
@@ -443,6 +430,19 @@ input[type="radio"]:checked ~ .custom-radio:after {
         <li><img src="img/logo-aframe.png" alt="A-Frame logo" loading="lazy"></li>
         <li><img src="img/logo-babylon.png" alt="babylon.js logo" loading="lazy"></li>
         <li><img src="img/logo-three.png" alt="three.js logo" loading="lazy"></li>
+      </ul>
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
+      <h1>Open Source Web AR</h1>
+      <p>encantar.js is a fully open source Augmented Reality engine built from scratch with Computer Vision. Your WebAR content is not tied to any platform. Host it wherever you want: there is no vendor lock-in and no usage limit.</p>
+      <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source">Browse the source</a>
+    </div>
+    <div>
+      <ul>
+        <li><img src="img/open-source.png" alt="Open Source" loading="lazy" style="padding:1.33rem"></li>
+        <li><img src="img/lgpl.png" alt="GNU LGPL" loading="lazy"></li>
       </ul>
     </div>
   </article>
@@ -535,7 +535,7 @@ input[type="radio"]:checked ~ .custom-radio:after {
 
 <footer class="md-footer">
   <div class="md-copyright">
-    encantar.js: GPU-accelerated Augmented Reality framework for the web. Copyright &copy; 2022 &ndash; present Alexandre Martins
+    {{ config.site_name }}. {{ config.copyright }}
   </div>
 </footer>
 {% endblock %}
