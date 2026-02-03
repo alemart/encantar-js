@@ -389,10 +389,13 @@ input[type="radio"]:checked ~ .custom-radio:after {
 <header id="title">
   <h1>encantar.js</h1>
   <h2>High performance Web AR framework &mdash; no app required!</h2>
+  <br>
+<!--
   <video autoplay loop muted playsinline controls poster="img/aframe-cat.webp">
     <source src="img/aframe-cat.mp4" type="video/mp4" />
     <source src="img/aframe-cat.webm" type="video/webm" />
   </video>
+-->
 </header>
 
 
@@ -411,12 +414,25 @@ input[type="radio"]:checked ~ .custom-radio:after {
   </article>
   <article class="reveal">
     <div>
-      <h1>Turbocharged performance</h1>
+      <h1>High performance</h1>
       <p>A modern web browser is all that is required for a high performance experience, thanks to a powerful combination of GPU acceleration, WebAssembly and mathemagical wizardry. The result? A smooth user experience!</p>
       <a href="demos/basketball/poster.html" target="_blank" class="md-button" id="play-game">Play a game</a>
     </div>
     <div>
       <img src="img/demo-basketball.gif" alt="Magic AR Basketball Game" loading="lazy">
+    </div>
+  </article>
+  <article class="reveal">
+    <div>
+      <h1>No vendor lock-in</h1>
+      <p>You rely on a SaaS. Tomorrow the platform shuts down, leaving you and thousands of other creators in distress. Open Source offers a cost-effective alternative with no recurring fees. You're in control!</p>
+      <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source">Browse the source</a>
+    </div>
+    <div>
+      <ul>
+        <li><img src="img/open-source.png" alt="Open Source" loading="lazy" style="padding:1.33rem"></li>
+        <li><img src="img/lgpl.png" alt="GNU LGPL" loading="lazy"></li>
+      </ul>
     </div>
   </article>
   <article class="reveal">
@@ -435,20 +451,7 @@ input[type="radio"]:checked ~ .custom-radio:after {
   </article>
   <article class="reveal">
     <div>
-      <h1>Open Source Web AR</h1>
-      <p>encantar.js is a fully open source Augmented Reality engine built from scratch with Computer Vision. Your WebAR content is not tied to any platform. Host it wherever you want: there is no vendor lock-in and no usage limit.</p>
-      <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source">Browse the source</a>
-    </div>
-    <div>
-      <ul>
-        <li><img src="img/open-source.png" alt="Open Source" loading="lazy" style="padding:1.33rem"></li>
-        <li><img src="img/lgpl.png" alt="GNU LGPL" loading="lazy"></li>
-      </ul>
-    </div>
-  </article>
-  <article class="reveal">
-    <div>
-      <h1>Enchanted Images</h1>
+      <h1>Image Tracking</h1>
       <p>Bring images to life! Create enchanted posters, ads, books, murals and more with Image Tracking, also known as Marker Tracking or Natural Feature Tracking. Scan your own images to start the WebAR experience &ndash; all in the browser!</p>
       <a href="guidelines-for-images/" target="_blank" class="md-button" id="guidelines-for-images">View the Guidelines</a>
     </div>
@@ -484,7 +487,7 @@ input[type="radio"]:checked ~ .custom-radio:after {
 <section id="download">
   <article>
     <h1>Download</h1>
-    <p>encantar.js is created independently by <a href="https://github.com/alemart" target="_blank" id="author-name">Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision">speedy-vision</a>, an open source computer vision library created by the same author.</p>
+    <p>encantar.js is created by <a href="https://github.com/alemart" target="_blank" id="author-name">Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision">speedy-vision</a>, a computer vision library created by the same author.</p>
     <footer>
       <button class="md-button md-button--primary" id="download-button" onclick="document.getElementById('download-dialog').showModal()">Download encantar.js</button>
     </footer>
@@ -533,11 +536,15 @@ input[type="radio"]:checked ~ .custom-radio:after {
 
 
 
+{% if false %}
 <footer class="md-footer">
   <div class="md-copyright">
     {{ config.site_name }}. {{ config.copyright }}
   </div>
 </footer>
+{% else %}
+<footer></footer>
+{% endif %}
 {% endblock %}
 
 {% block announce %}{% endblock %}
