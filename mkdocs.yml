@@ -1,7 +1,7 @@
-site_name: "encantar.js WebAR: Open Source Augmented Reality framework for JavaScript"
+site_name: "encantar.js WebAR: Open Source Augmented Reality framework for web browsers"
 site_url: https://encantar.dev
 site_author: Alexandre Martins
-site_description: The home of encantar.js, a high performance and open source Augmented Reality framework for JavaScript. No app is required for Web AR.
+site_description: The home of encantar.js, a high performance and open source Augmented Reality framework for web browsers. No app is required for Web AR.
 copyright: Copyright &copy; 2022 - present Alexandre Martins
 
 repo_name: alemart/encantar-js

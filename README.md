@@ -1,17 +1,22 @@
-# encantar.js webAR engine 🪄
+# encantar.js WebAR engine
 
 [![GitHub](https://img.shields.io/github/license/alemart/encantar-js)](LICENSE) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/encantar-js)](https://github.com/alemart/encantar-js/releases) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart)
 
-encantar.js is a high performance and open source Augmented Reality framework for the web.
+encantar.js is a high performance and open source Augmented Reality framework for the web. Users experience AR in the browser, without the friction of downloading apps.
 
-* It's **compatible with all platforms**: iOS, Android, Desktops...
-* It **runs in devices without native support** for AR / WebXR
-* It's **blazing fast**, built with GPU acceleration at its core
+* It's a **blazing fast WebAR engine for all platforms**: iOS, Android, Desktops...
+    * It runs in devices without AR / WebXR support thanks to its custom trackers
+    * It's built from scratch with GPU acceleration and WebAssembly at its core
 * It's **easy to use** for developers and artists alike
-* It's **open source**, with no vendor lock-in and no usage limits
-* **All you need is a modern web browser** - no app required!
+    * Use it with: A-Frame, babylon.js, three.js, and other 3D engines
+    * Various demos are available for remixing
+* It's **open source**, with no usage limits and no recurring fees
+    * It has no vendor lock-in: upload your WebAR experiences to your own server
+    * It empowers you: never again be in distress if an AR service is shut down
 
-Get started at <https://encantar.dev> 🪄
+🪄 Get started at <https://encantar.dev>
+
+📫 [Contact me](mailto:support@encantar.dev) if you need support / expert help.
 
 ## Demos
 
@@ -19,17 +24,17 @@ Pick any demo below, or [browse the website](https://encantar.dev/demos) for mor
 
 <a href="https://encantar.dev/demos/hello-aframe/poster.html" target="_blank"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://encantar.dev/demos/basketball/poster.html" target="_blank"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://encantar.dev/addons/ar-video-player" target="_blank"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
 
-## Fundraising
+## Support open source WebAR
 
-Developing an Augmented Reality engine from scratch with Computer Vision is a massive undertaking. Here's how you can support development:
+Do you value open source Augmented Reality? Here's how you can support development:
 
 * [Purchase your copy of the software](https://encantar.dev/buy)
 * [Buy the Add-Ons](https://encantar.dev/addons)
 * [Sponsor me on GitHub](https://github.com/sponsors/alemart)
 
-If you use the software commercially, it's especially important to purchase your copy and support the project on which you rely.
+Ultimately, your support comes back to you as more software, increased value, and greater enjoyment!
 
-Ultimately, the funding comes back to you as more software, increased value, and greater enjoyment!
+Developing an Augmented Reality engine from scratch with Computer Vision is a massive undertaking, yet it happened! 😀
 
 ## Features
 
@@ -42,7 +47,6 @@ Ultimately, the funding comes back to you as more software, increased value, and
 * [Tutorial for aspiring wizards](https://encantar.dev/tutorial)
 * [API Spellbook](https://encantar.dev/api)
 * [FAQ](https://encantar.dev/faq)
-* [Need expert help? Consult me](mailto:support@encantar.dev?subject=AR+consulting)
 
 ## About
 
