@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2026-01-09T14:03:02.014Z
+ * Date: 2026-02-08T16:01:38.207Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -20226,7 +20226,7 @@ This software respects you and puts you in control \u2014 values often overlooke
       ONE_DAY = 86400;
       REMINDER_TIMEOUT = ONE_DAY;
       REMINDER_KEY = "encantar-reminder-0.4.6-dev";
-      AR_FLAGS = Number(0);
+      AR_FLAGS = Number(1);
       ReminderDialog = class {
         /**
          * Constructor
