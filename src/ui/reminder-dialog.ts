@@ -22,22 +22,10 @@
 
 /*
 
-You disable the reminder by making a purchase. If you're working directly with
-the source code, you can disable it by setting the environment variable AR_FLAGS
-to 1 before invoking the bundler, or simply by hacking the code below.
-
-When disabling the reminder, keep in mind that purchases are used to support
-this indie project. If you're reading this text, you're likely a tech-savvy
-individual who understands that software development isn't free of cost.
-
-I know that the reminder may be a bit annoying for some people, but it's important
-for the sustainability of the project, and I've kept it gentle. In contrast, ads
-on mobile apps are quite aggressive. I prefer to keep it gentle.
-
-Ethical software is designed to respect, empower, and put you in control, but it's a
-two-way street. Act consciously. If you haven't yet made a purchase, please do so.
-
-Thank you for supporting open-source Augmented Reality.
+Open source software respects and empowers you, but developing it isn't free of
+cost. The reminder below asks you to support the project. It may be disabled by
+setting the environment variable AR_FLAGS to 1. I know that the reminder may be
+a bit annoying to some people, but I've kept it gentle :)
 
 */
 
