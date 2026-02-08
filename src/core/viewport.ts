@@ -214,10 +214,14 @@ class ViewportCanvases
         if(fgCanvas !== null && !(fgCanvas instanceof HTMLCanvasElement))
             throw new IllegalArgumentError('Not a canvas: ' + fgCanvas);
 
-        this._originalCSSTextOfForegroundCanvas = fgCanvas ? fgCanvas.style.cssText : '';
+        this._originalCSSTextOfForegroundCanvas = '';
+        if(fgCanvas !== null) {
+            this._originalCSSTextOfForegroundCanvas = fgCanvas.style.cssText;
+            fgCanvas.style.cssText = '';
+        }
 
         this._foregroundCanvas = this._styleCanvas(
-            fgCanvas || this._createCanvas(initialSize),
+            fgCanvas ?? this._createCanvas(initialSize),
             FOREGROUND_ZINDEX
         );
 
