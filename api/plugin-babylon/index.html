@@ -3339,7 +3339,7 @@
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Important</p>
-<p>Load external assets in <a href="#preload">preload</a>. <code>init</code> shouldn't take too long to run because the session has already started, and the user is about to begin to interact with the software. See also: <a href="#lifecycle">lifecycle</a></p>
+<p>Load external assets in <a href="#preload">preload</a>. <code>init</code> shouldn't take too long to run because the session has already started, and the user is about to begin interacting with the software. See also: <a href="#lifecycle">lifecycle</a></p>
 </div>
 <h3 id="update">update</h3>
 <p><code>update(): void</code></p>
@@ -3372,7 +3372,7 @@
 <p>A promise that resolves to <code>undefined</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The babylon.js <a href="#scene">scene</a> and <a href="#engine">engine</a> will only be available during preload if you provide your own <a href="#canvas">canvas</a>.</p>
+<p>The babylon.js <a href="#scene">scene</a> and <a href="#engine">engine</a> will only be available during the preload stage if you provide your own <a href="#canvas">canvas</a>.</p>
 </div>
 <h3 id="canvas">canvas</h3>
 <p><code>get canvas(): HTMLCanvasElement | null</code></p>

@@ -3352,7 +3352,7 @@ flowchart TD
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Important</p>
-<p>Load external assets in <a href="#preload">preload</a>. <code>init</code> shouldn't take too long to run because the session has already started, and the user is about to begin to interact with the software. See also: <a href="#lifecycle">lifecycle</a></p>
+<p>Load external assets in <a href="#preload">preload</a>. <code>init</code> shouldn't take too long to run because the session has already started, and the user is about to begin interacting with the software. See also: <a href="#lifecycle">lifecycle</a></p>
 </div>
 <h3 id="update">update</h3>
 <p><code>update(): void</code></p>
@@ -3383,6 +3383,10 @@ flowchart TD
 <p><em>Since:</em> 0.4.0</p>
 <p><strong>Returns</strong></p>
 <p>A promise that resolves to <code>undefined</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The three.js <a href="#scene">scene</a> and <a href="#renderer">renderer</a> will only be available during the preload stage if you provide your own <a href="#canvas">canvas</a>.</p>
+</div>
 <h3 id="canvas">canvas</h3>
 <p><code>get canvas(): HTMLCanvasElement | null</code></p>
 <p>Optional user-provided canvas. If specified, use it in your viewport when <a href="#startsession">starting the session</a>.</p>
