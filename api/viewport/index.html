@@ -3182,7 +3182,7 @@
 <li><code>container: HTMLDivElement</code>. A <code>&lt;div&gt;</code> that will contain the augmented scene.</li>
 <li><code>hudContainer: HTMLDivElement, optional</code>. An overlay that will be displayed in front of the augmented scene. It must be a direct child of <code>container</code> in the DOM tree.</li>
 <li><code>resolution: Resolution, optional</code>. The <a href="../resolution/">resolution</a> of the virtual scene.</li>
-<li><code>canvas: HTMLCanvasElement, optional</code>. An existing canvas on which the virtual scene will be drawn. The engine automatically creates a canvas. You should only specify an existing canvas if you must. Experimental.</li>
+<li><code>canvas: HTMLCanvasElement, optional</code>. A canvas on which the virtual scene will be drawn. If unspecified, the engine will automatically creates a canvas for you.</li>
 <li><code>style: string, optional</code>. The <a href="#style">viewport style</a>. <em>Since:</em> 0.3.0</li>
 <li><code>fullscreenUI: boolean, optional</code>. Whether or not to include, as a convenience, the built-in fullscreen button on platforms in which the fullscreen mode is <a href="#fullscreenavailable">available</a>. Defaults to <code>true</code>. <em>Since:</em> 0.3.0</li>
 </ul>
