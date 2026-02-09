@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2026-02-08T16:01:38.207Z
+ * Date: 2026-02-09T01:49:45.559Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -20624,9 +20624,13 @@ This software respects you and puts you in control \u2014 values often overlooke
         constructor(parent, initialSize, fgCanvas = null) {
           if (fgCanvas !== null && !(fgCanvas instanceof HTMLCanvasElement))
             throw new IllegalArgumentError("Not a canvas: " + fgCanvas);
-          this._originalCSSTextOfForegroundCanvas = fgCanvas ? fgCanvas.style.cssText : "";
+          this._originalCSSTextOfForegroundCanvas = "";
+          if (fgCanvas !== null) {
+            this._originalCSSTextOfForegroundCanvas = fgCanvas.style.cssText;
+            fgCanvas.style.cssText = "";
+          }
           this._foregroundCanvas = this._styleCanvas(
-            fgCanvas || this._createCanvas(initialSize),
+            fgCanvas ?? this._createCanvas(initialSize),
             FOREGROUND_ZINDEX
           );
           this._foregroundCanvas.style.background = "transparent";
