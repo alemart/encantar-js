@@ -124,7 +124,7 @@ class MyDemo extends ARDemo
 
 !!! warning "Important"
 
-    Load external assets in [preload](#preload). `init` shouldn't take too long to run because the session has already started, and the user is about to begin to interact with the software. See also: [lifecycle](#lifecycle)
+    Load external assets in [preload](#preload). `init` shouldn't take too long to run because the session has already started, and the user is about to begin interacting with the software. See also: [lifecycle](#lifecycle)
 
 ### update
 
@@ -169,6 +169,10 @@ Preload resources before starting the AR session. See also: [init](#init), [star
 **Returns**
 
 A promise that resolves to `undefined`.
+
+!!! note
+
+    The three.js [scene](#scene) and [renderer](#renderer) will only be available during the preload stage if you provide your own [canvas](#canvas).
 
 ### canvas
 

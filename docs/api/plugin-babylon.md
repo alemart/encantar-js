@@ -111,7 +111,7 @@ class MyDemo extends ARDemo
 
 !!! warning "Important"
 
-    Load external assets in [preload](#preload). `init` shouldn't take too long to run because the session has already started, and the user is about to begin to interact with the software. See also: [lifecycle](#lifecycle)
+    Load external assets in [preload](#preload). `init` shouldn't take too long to run because the session has already started, and the user is about to begin interacting with the software. See also: [lifecycle](#lifecycle)
 
 ### update
 
@@ -159,7 +159,7 @@ A promise that resolves to `undefined`.
 
 !!! note
 
-    The babylon.js [scene](#scene) and [engine](#engine) will only be available during preload if you provide your own [canvas](#canvas).
+    The babylon.js [scene](#scene) and [engine](#engine) will only be available during the preload stage if you provide your own [canvas](#canvas).
 
 ### canvas
 
