@@ -6,36 +6,61 @@ const json = await readFile(new URL('./package.json', import.meta.url), { encodi
 const pack = JSON.parse(json);
 const production = !pack.version.endsWith('-dev');
 const minify = (argv.indexOf('--minify') >= 0);
+const esm = (argv.indexOf('--esm') >= 0);
 const serve = (argv.indexOf('--serve') >= 0);
 const AR_FLAGS = +(process.env.AR_FLAGS ?? 0);
 
-const options = {
-    //entryPoints: ['src/main.ts'], // AR.AR
-    stdin: {
-        contents: 'import { AR } from "./main.ts";\nmodule.exports = AR;',
-        resolveDir: 'src',
-        sourcefile: 'index.ts',
-    },
+const options = Object.assign({
+
     bundle: true,
-    minify: minify,
+    platform: 'browser',
     target: ['es2020'],
-    format: 'iife',
-    globalName: 'AR',
+    minify: minify,
+
     define: {
         __AR_VERSION__: JSON.stringify(pack.version),
         __AR_WEBSITE__: JSON.stringify(pack.homepage),
         __AR_FLAGS__  : String(AR_FLAGS),
     },
+
     legalComments: 'inline',
     banner: { js: generateBanner() },
     footer: { js: serve ? generateLiveReloadCode() : '' },
-    outfile: 'build/' + (minify ? 'encantar.min.js' : 'encantar.js'),
     sourcemap: !production && 'linked',
     logLevel: 'info',
-};
+
+}, esm ? {
+
+    // ESM
+    format: 'esm',
+    outfile: 'build/' + (minify ? 'encantar.module.min.js' : 'encantar.module.js'),
+    //entryPoints: ['src/main.ts'], // error with --serve
+    stdin: {
+        contents: 'import { AR } from "./main.ts"; export { AR };',
+        resolveDir: 'src',
+        sourcefile: 'index.ts',
+    },
+
+} : {
+
+    // IIFE
+    format: 'iife',
+    globalName: 'AR',
+    outfile: 'build/' + (minify ? 'encantar.min.js' : 'encantar.js'),
+    stdin: {
+        contents: (`
+            import { AR } from "./main.ts";
+            window.Speedy = window.Speedy || AR.Speedy;
+            module.exports = AR;
+        `),
+        resolveDir: 'src',
+        sourcefile: 'index.ts',
+    },
+
+});
 
 if(AR_FLAGS & 1) {
-    console.log('%s 👍 Reminder disabled - thanks for supporting open-source AR! %s', '\x1b[33m', '\x1b[0m');
+    console.log('%s 👍 Reminder disabled - thank you for supporting open-source AR! %s', '\x1b[33m', '\x1b[0m');
 }
 
 if(!serve) {
