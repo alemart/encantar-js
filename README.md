@@ -2,17 +2,13 @@
 
 [![GitHub](https://img.shields.io/github/license/alemart/encantar-js)](LICENSE) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/alemart/encantar-js)](https://github.com/alemart/encantar-js/releases) [![GitHub Repo stars](https://img.shields.io/github/stars/alemart/encantar-js?logo=github)](https://github.com/alemart/encantar-js/stargazers) [![GitHub Sponsors](https://img.shields.io/github/sponsors/alemart?logo=github)](https://github.com/sponsors/alemart)
 
-encantar.js is a high performance and open source Augmented Reality framework for the web. Users experience AR in the browser, without the friction of downloading apps.
+encantar.js is a high performance Augmented Reality framework for the web. Users experience AR in the browser, without the friction of downloading apps.
 
-* It's a **blazing fast WebAR engine for all platforms**: iOS, Android, Desktops...
-    * It runs in devices without AR / WebXR support thanks to its custom trackers
-    * It's built from scratch with GPU acceleration and WebAssembly at its core
-* It's **easy to use** for developers and artists alike
-    * Use it with: A-Frame, babylon.js, three.js, and other 3D engines
-    * Various demos are available for remixing
-* It's **open source**, with no usage limits and no recurring fees
-    * It has no vendor lock-in: upload your WebAR experiences to your own server
-    * It empowers you: never again be in distress if an AR service is shut down
+* It's a blazing fast WebAR engine compatible with all platforms: iOS, Android, Desktops...
+* It doesn't need WebXR support, thanks to its custom trackers based on Computer Vision
+* It's built from scratch with GPU acceleration and WebAssembly at its core
+* It can be used with A-Frame, babylon.js, three.js, and other 3D engines
+* It's easy to use for developers and artists alike
 
 🪄 Get started at <https://encantar.dev>
 
