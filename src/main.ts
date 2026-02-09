@@ -135,9 +135,6 @@ export class AR
 // Freeze the namespace
 Object.freeze(AR);
 
-// Add Speedy Vision to global scope
-((window: any) => window.Speedy = window.Speedy || Speedy)(window);
-
 // Display a notice
 Utils.log(
     `encantar.js version ${AR.version}. ` +
