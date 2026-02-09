@@ -4,6 +4,7 @@
  * @license LGPL-3.0-or-later
  */
 
+import { AR } from 'encantar';
 import * as THREE from 'three';
 
 /* Usage of the indicated versions is encouraged */
@@ -408,7 +409,7 @@ export function encantar(demo)
 function USING(libs)
 {
     window.addEventListener('load', () => {
-        try { AR;
+        try {
             const versionOf = { 'encantar.js': AR.version.replace(/-.*$/, ''), 'three.js': THREE.REVISION };
             const check = (x,v,w) => v != w ? console.warn(`\n\n\nWARNING\n\nThis plugin has been tested with ${x} version ${v}. The version in use is ${w}. Usage of ${x} version ${v} is recommended instead.\n\n\n`) : void 0;
             for(const [lib, expected] of Object.entries(libs))
