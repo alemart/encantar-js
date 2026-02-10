@@ -19,9 +19,12 @@
 {% endblock %}
 
 {% block footer %}
-{% if false %}
-<script src="/js/donate.js"></script>
-{% else %}
+{% if True %}
+<a href="/contact" id="support-button" class="md-button" style="right:12px;left:initial;bottom:18px">
+    &#x1F468;&#x200D;&#x1F4BB;
+    Need help?
+</a>
+{% elif True %}
 <!-- Think of a different layout? -->
 <button id="support-button" style="right:12px;left:initial;bottom:18px" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
     &#x1F468;&#x200D;&#x1F4BB;
@@ -42,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+{% else %}
+<script src="/js/donate.js"></script>
 {% endif %}
 {{ super() }}
 {% endblock %}
