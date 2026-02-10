@@ -2915,26 +2915,10 @@
       </main>
       
 
-<!-- Think of a different layout? -->
-<button id="support-button" style="right:12px;left:initial;bottom:18px" onclick="document.getElementById('support-widget').classList.toggle('invisible')">
+<a href="/contact" id="support-button" class="md-button" style="right:12px;left:initial;bottom:18px">
     &#x1F468;&#x200D;&#x1F4BB;
     Need help?
-</button>
-<section id="support-widget" class="md-typeset invisible" style="right:12px;left:initial;bottom:80px;width:350px">
-    <h4>Get expert help</h4>
-    <p>If you have any questions, please send your inquiries to <a class="support-link" href="#"></a>. I will respond to you as soon as possible.</p>
-</section>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
-    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
-    document.querySelectorAll('a.support-link').forEach(function(a) {
-        a.href = link;
-        if(a.innerText.length == 0)
-            a.innerText = link.substring(7);
-    });
-});
-</script>
+</a>
 
 
         <footer class="md-footer">
