@@ -26,6 +26,8 @@ import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { AssertionError, IllegalArgumentError } from './errors';
 import { Resolution, computeResolution } from './resolution';
 
+declare const __AR_VERSION__: string;
+
 /**
  * Nullable type
  */
@@ -210,5 +212,13 @@ export class Utils
             userAgent: navigator.userAgent,
             userAgentData: (navigator as any).userAgentData || null,
         }, null, 2);
+    }
+
+    /**
+     * Engine version
+     */
+    static get engineVersion(): string
+    {
+        return __AR_VERSION__;
     }
 }

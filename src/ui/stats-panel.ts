@@ -25,8 +25,7 @@ import { Settings, PowerPreference } from '../core/settings';
 import { Viewport } from '../core/viewport';
 import { Tracker } from '../trackers/tracker';
 import { Source } from '../sources/source';
-import { Nullable } from '../utils/utils';
-import { AR } from '../main';
+import { Utils, Nullable } from '../utils/utils';
 
 
 /** Update interval, in ms */
@@ -208,7 +207,7 @@ export class StatsPanel
         title.style.fontSize = '14px';
         title.style.fontWeight = 'bold';
         title.style.paddingRight = '4px';
-        title.innerText = 'encantar.js ' + AR.version;
+        title.innerText = 'encantar.js ' + Utils.engineVersion;
 
         button.style.width = '18px';
         button.style.height = '18px';

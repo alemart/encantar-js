@@ -31,7 +31,6 @@ import { Vector2 } from './geometry/vector2';
 import { Vector3 } from './geometry/vector3';
 import { Utils } from './utils/utils';
 
-declare const __AR_VERSION__: string;
 declare const __AR_WEBSITE__: string;
 
 /**
@@ -63,7 +62,7 @@ export class AR
      */
     static get version(): string
     {
-        return __AR_VERSION__;
+        return Utils.engineVersion;
     }
 
     /**

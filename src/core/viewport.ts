@@ -20,7 +20,6 @@
  * Viewport
  */
 
-import { AR } from '../main';
 import Speedy from 'speedy-vision';
 import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
@@ -235,7 +234,7 @@ class ViewportCanvases
         this._backgroundCanvas.hidden = true;
         this._foregroundCanvas.hidden = true;
 
-        const engineInfo = 'encantar.js ' + AR.version;
+        const engineInfo = 'encantar.js ' + Utils.engineVersion;
         this._backgroundCanvas.dataset.arEngine = engineInfo;
         this._foregroundCanvas.dataset.arEngine = engineInfo;
 
