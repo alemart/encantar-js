@@ -5,7 +5,7 @@
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2026-02-09T01:49:45.559Z
+ * Date: 2026-02-09T23:40:17.931Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -21434,7 +21434,6 @@ This software respects you and puts you in control \u2014 values often overlooke
         }
       };
       Object.freeze(AR);
-      ((window2) => window2.Speedy = window2.Speedy || import_speedy_vision29.default)(window);
       Utils.log(
         `encantar.js version ${AR.version}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. https://encantar.dev`
       );
@@ -21445,6 +21444,7 @@ This software respects you and puts you in control \u2014 values often overlooke
   var require_src = __commonJS({
     "src/index.ts"(exports, module) {
       init_main();
+      window.Speedy = window.Speedy || AR.Speedy;
       module.exports = AR;
     }
   });

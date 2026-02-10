@@ -3,6 +3,7 @@
  * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
  */
 
+import { AR } from 'encantar';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { encantar, ARDemo } from 'three-with-encantar';
