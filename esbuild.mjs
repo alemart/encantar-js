@@ -36,7 +36,7 @@ const options = Object.assign({
     outfile: 'build/' + (minify ? 'encantar.module.min.js' : 'encantar.module.js'),
     //entryPoints: ['src/main.ts'], // error with --serve
     stdin: {
-        contents: 'import { AR } from "./main.ts"; export { AR };',
+        contents: 'export * from "./main.ts";',
         resolveDir: 'src',
         sourcefile: 'index.ts',
     },
@@ -49,7 +49,7 @@ const options = Object.assign({
     outfile: 'build/' + (minify ? 'encantar.min.js' : 'encantar.js'),
     stdin: {
         contents: (`
-            import { AR } from "./main.ts";
+            import * as AR from "./main.ts";
             window.Speedy = window.Speedy || AR.Speedy;
             module.exports = AR;
         `),
