@@ -5,9 +5,9 @@
 encantar.js is a high performance Augmented Reality framework for the web. Users experience AR in the browser, without the friction of downloading apps.
 
 * It's a blazing fast WebAR engine compatible with all platforms: iOS, Android, Desktops...
-* It doesn't need WebXR support, thanks to its custom trackers based on Computer Vision
+* It doesn't require WebXR support, thanks to its custom trackers based on Computer Vision
 * It's built from scratch with GPU acceleration and WebAssembly at its core
-* It can be used with A-Frame, babylon.js, three.js, and other 3D engines
+* It can be used with: A-Frame, babylon.js, three.js, as well as other 3D engines
 * It's easy to use for developers and artists alike
 
 🪄 Get started at <https://encantar.dev>
