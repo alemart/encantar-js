@@ -6,7 +6,7 @@ const json = await readFile(new URL('./package.json', import.meta.url), { encodi
 const pack = JSON.parse(json);
 const production = !pack.version.endsWith('-dev');
 const minify = (argv.indexOf('--minify') >= 0);
-const esm = (argv.indexOf('--esm') >= 0);
+const esm = (argv.indexOf('--module') >= 0);
 const serve = (argv.indexOf('--serve') >= 0);
 const AR_FLAGS = +(process.env.AR_FLAGS ?? 0);
 
