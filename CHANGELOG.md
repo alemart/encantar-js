@@ -1,5 +1,15 @@
 # Release notes
 
+## 0.4.6 - February 12th, 2026
+
+* Exported the library as a module, as well as an IIFE
+* The three.js plugin and demo now use encantar.js as a module
+* Build system: added support for Windows (MotivaCG)
+* three.js / babylon.js plugins: if possible, create the scene before preloading the assets
+* Simplified the babylon.js demo by removing the Asset Manager
+* Introduced the reminder dialog
+* Updated the docs
+
 ## 0.4.5 - October 31st, 2025
 
 * Introduced the Street Art demo
