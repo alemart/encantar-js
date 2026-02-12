@@ -1,6 +1,6 @@
 {
   "name": "encantar",
-  "version": "0.4.6-dev",
+  "version": "0.4.6",
   "description": "GPU-accelerated Augmented Reality framework for the web",
   "author": "Alexandre Martins <alemartf@gmail.com> (https://github.com/alemart)",
   "homepage": "https://encantar.dev",
