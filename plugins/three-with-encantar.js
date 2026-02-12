@@ -9,7 +9,7 @@ import * as THREE from 'three';
 
 /* Usage of the indicated versions is encouraged */
 USING({
-    'encantar.js': { version: '0.4.6' },
+    'encantar.js': { version: '0.4.7' },
        'three.js': { version: '173' }
 });
 
