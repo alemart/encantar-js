@@ -4,7 +4,7 @@
  * @license LGPL-3.0-or-later
  */
 
-import { AR } from 'encantar';
+import * as AR from 'encantar';
 import * as THREE from 'three';
 
 /* Usage of the indicated versions is encouraged */

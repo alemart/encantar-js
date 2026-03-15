@@ -182,6 +182,10 @@ declare module "utils/utils" {
          * Device-specific information for debugging purposes
          */
         static deviceInfo(): string;
+        /**
+         * Engine version
+         */
+        static get engineVersion(): string;
     }
 }
 declare module "utils/ar-events" {
@@ -3579,64 +3583,59 @@ declare module "main" {
     import { Session, SessionOptions } from "core/session";
     import { TrackerFactory } from "trackers/tracker-factory";
     import { SourceFactory } from "sources/source-factory";
-    import { Viewport, ViewportSettings } from "core/viewport";
-    import { Vector2 } from "geometry/vector2";
-    import { Vector3 } from "geometry/vector3";
+    import { Viewport as _Viewport, ViewportSettings } from "core/viewport";
+    import { Vector2 as _Vector2 } from "geometry/vector2";
+    import { Vector3 as _Vector3 } from "geometry/vector3";
     /**
-     * GPU-accelerated Augmented Reality for the web
+     * Start a new session
+     * @param options
+     * @returns a promise that resolves to a new session
      */
-    export class AR {
-        /**
-         * Start a new session
-         * @param options
-         * @returns a promise that resolves to a new session
-         */
-        static startSession(options?: SessionOptions): SpeedyPromise<Session>;
-        /**
-         * Checks if the engine can be run in the browser the client is using
-         * @returns true if the engine is compatible with the browser
-         */
-        static isSupported(): boolean;
-        /**
-         * Engine version
-         */
-        static get version(): string;
-        /**
-         * Speedy Vision
-         */
-        static get Speedy(): typeof Speedy;
-        /**
-         * Trackers
-         */
-        static get Tracker(): typeof TrackerFactory;
-        /**
-         * Sources of data
-         */
-        static get Source(): typeof SourceFactory;
-        /**
-         * Create a viewport
-         * @param settings
-         * @returns a new viewport with the specified settings
-         */
-        static Viewport(settings: ViewportSettings): Viewport;
-        /**
-         * Create a new 2D vector
-         * @param x x-coordinate
-         * @param y y-coordinate
-         * @returns a new 2D vector with the provided coordinates
-         */
-        static Vector2(x: number, y: number): Vector2;
-        /**
-         * Create a new 3D vector
-         * @param x x-coordinate
-         * @param y y-coordinate
-         * @param z z-coordinate
-         * @returns a new 3D vector with the provided coordinates
-         */
-        static Vector3(x: number, y: number, z: number): Vector3;
-        /**
-         * Global Settings
-         */
-        static get Settings(): typeof Settings;
-    }
+    export function startSession(options?: SessionOptions): SpeedyPromise<Session>;
+    /**
+     * Checks if the engine can be run in the browser the client is using
+     * @returns true if the engine is compatible with the browser
+     */
+    export function isSupported(): boolean;
+    /**
+     * Engine version
+     */
+    export const version: string;
+    /**
+     * Global Settings
+     */
+    export { Settings };
+    /**
+     * Speedy Vision
+     */
+    export { Speedy };
+    /**
+     * Trackers
+     */
+    export const Tracker: typeof TrackerFactory;
+    /**
+     * Sources of data
+     */
+    export const Source: typeof SourceFactory;
+    /**
+     * Create a viewport
+     * @param settings
+     * @returns a new viewport with the specified settings
+     */
+    export function Viewport(settings: ViewportSettings): _Viewport;
+    /**
+     * Create a new 2D vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @returns a new 2D vector with the provided coordinates
+     */
+    export function Vector2(x: number, y: number): _Vector2;
+    /**
+     * Create a new 3D vector
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @param z z-coordinate
+     * @returns a new 3D vector with the provided coordinates
+     */
+    export function Vector3(x: number, y: number, z: number): _Vector3;
 }

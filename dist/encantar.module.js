@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.6-dev
+ * encantar.js version 0.4.6
  * GPU-accelerated Augmented Reality framework for the web
  * Copyright 2022-2026 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2026-02-09T23:40:19.576Z
+ * Date: 2026-02-12T19:03:46.501Z
 */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -13239,6 +13239,12 @@ var Utils = class _Utils {
       userAgentData: navigator.userAgentData || null
     }, null, 2);
   }
+  /**
+   * Engine version
+   */
+  static get engineVersion() {
+    return "0.4.6";
+  }
 };
 
 // src/utils/ar-events.ts
@@ -13750,10 +13756,10 @@ var _Session = class _Session extends AREventTarget {
       const safari = /(AppleWebKit)\/.* (Version)\/([\d\.]+)/.exec(navigator.userAgent);
       const matches = safari || ios;
       if (matches !== null) {
-        const version = matches[3] || "0.0";
-        const [x, y] = version.split(/[\._]/).map((v2) => parseInt(v2) | 0);
+        const version2 = matches[3] || "0.0";
+        const [x, y] = version2.split(/[\._]/).map((v2) => parseInt(v2) | 0);
         if (x < 15 || x == 15 && y < 2) {
-          Utils.error(`${matches === safari ? "Safari" : "iOS"} version ${version} is not supported! User agent: ${navigator.userAgent}`);
+          Utils.error(`${matches === safari ? "Safari" : "iOS"} version ${version2} is not supported! User agent: ${navigator.userAgent}`);
           return false;
         }
       } else
@@ -13781,7 +13787,7 @@ var _Session = class _Session extends AREventTarget {
         throw new NotSupportedError("You need a browser/device compatible with WebGL2 and WebAssembly in order to experience Augmented Reality with encantar.js");
       if (mode !== "inline" && _Session.count > 0)
         throw new IllegalOperationError(`Can't start multiple sessions, except in inline mode`);
-      const isStableBuild = /^\d+\.\d+(\.\d+)*$/.test(AR.version);
+      const isStableBuild = /^\d+\.\d+(\.\d+)*$/.test(Utils.engineVersion);
       if (!isStableBuild) {
         if (!["localhost", "127.0.0.1", "[::1]", "", "encantar.dev", "alemart.github.io"].includes(location.hostname)) {
           if (!(location.hostname.startsWith("192.168.") || location.hostname.startsWith("10.") || /^172\.(1[6-9]|2[0-9]|3[01])\./.test(location.hostname))) {
@@ -19713,7 +19719,7 @@ var StatsPanel = class {
     title.style.fontSize = "14px";
     title.style.fontWeight = "bold";
     title.style.paddingRight = "4px";
-    title.innerText = "encantar.js " + AR.version;
+    title.innerText = "encantar.js " + Utils.engineVersion;
     button.style.width = "18px";
     button.style.height = "18px";
     button.style.marginRight = "4px";
@@ -19861,7 +19867,7 @@ var SECONDARY_ACTION = "Try it";
 var TARGET_URL = "https://alemart.github.io/encantar-js/buy";
 var ONE_DAY = 86400;
 var REMINDER_TIMEOUT = ONE_DAY;
-var REMINDER_KEY = "encantar-reminder-0.4.6-dev";
+var REMINDER_KEY = "encantar-reminder-0.4.6";
 var AR_FLAGS = Number(1);
 var ReminderDialog = class {
   /**
@@ -20254,7 +20260,7 @@ var ViewportCanvases = class {
     );
     this._backgroundCanvas.hidden = true;
     this._foregroundCanvas.hidden = true;
-    const engineInfo = "encantar.js " + AR.version;
+    const engineInfo = "encantar.js " + Utils.engineVersion;
     this._backgroundCanvas.dataset.arEngine = engineInfo;
     this._foregroundCanvas.dataset.arEngine = engineInfo;
     parent.appendChild(this._backgroundCanvas);
@@ -20958,85 +20964,37 @@ var Viewport = class extends AREventTarget {
 };
 
 // src/main.ts
-var AR = class {
-  /**
-   * Start a new session
-   * @param options
-   * @returns a promise that resolves to a new session
-   */
-  static startSession(options) {
-    return Session.instantiate(options);
-  }
-  /**
-   * Checks if the engine can be run in the browser the client is using
-   * @returns true if the engine is compatible with the browser
-   */
-  static isSupported() {
-    return Session.isSupported();
-  }
-  /**
-   * Engine version
-   */
-  static get version() {
-    return "0.4.6-dev";
-  }
-  /**
-   * Speedy Vision
-   */
-  static get Speedy() {
-    return import_speedy_vision29.default;
-  }
-  /**
-   * Trackers
-   */
-  static get Tracker() {
-    return TrackerFactory;
-  }
-  /**
-   * Sources of data
-   */
-  static get Source() {
-    return SourceFactory;
-  }
-  /**
-   * Create a viewport
-   * @param settings
-   * @returns a new viewport with the specified settings
-   */
-  static Viewport(settings) {
-    return new Viewport(settings);
-  }
-  /**
-   * Create a new 2D vector
-   * @param x x-coordinate
-   * @param y y-coordinate
-   * @returns a new 2D vector with the provided coordinates
-   */
-  static Vector2(x, y) {
-    return new Vector2(x, y);
-  }
-  /**
-   * Create a new 3D vector
-   * @param x x-coordinate
-   * @param y y-coordinate
-   * @param z z-coordinate
-   * @returns a new 3D vector with the provided coordinates
-   */
-  static Vector3(x, y, z) {
-    return new Vector3(x, y, z);
-  }
-  /**
-   * Global Settings
-   */
-  static get Settings() {
-    return Settings;
-  }
-};
-Object.freeze(AR);
 Utils.log(
-  `encantar.js version ${AR.version}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. https://encantar.dev`
+  `encantar.js version ${Utils.engineVersion}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. https://encantar.dev`
 );
+function startSession(options) {
+  return Session.instantiate(options);
+}
+function isSupported() {
+  return Session.isSupported();
+}
+var version = Utils.engineVersion;
+var Tracker4 = TrackerFactory;
+var Source = SourceFactory;
+function Viewport2(settings) {
+  return new Viewport(settings);
+}
+function Vector22(x, y) {
+  return new Vector2(x, y);
+}
+function Vector32(x, y, z) {
+  return new Vector3(x, y, z);
+}
+var export_Speedy = import_speedy_vision29.default;
 export {
-  AR
+  Settings,
+  Source,
+  export_Speedy as Speedy,
+  Tracker4 as Tracker,
+  Vector22 as Vector2,
+  Vector32 as Vector3,
+  Viewport2 as Viewport,
+  isSupported,
+  startSession,
+  version
 };
-//# sourceMappingURL=encantar.module.js.map

@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.6-dev
+ * encantar.js version 0.4.6
  * GPU-accelerated Augmented Reality framework for the web
  * Copyright 2022-2026 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
  * https://encantar.dev
  *
  * @license LGPL-3.0-or-later
- * Date: 2026-02-09T23:40:17.931Z
+ * Date: 2026-02-12T19:03:44.811Z
 */
 var AR = (() => {
   var __create = Object.create;
@@ -22,6 +22,10 @@ var AR = (() => {
   };
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -13251,6 +13255,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             userAgentData: navigator.userAgentData || null
           }, null, 2);
         }
+        /**
+         * Engine version
+         */
+        static get engineVersion() {
+          return "0.4.6";
+        }
       };
     }
   });
@@ -13758,7 +13768,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     "src/core/session.ts"() {
       "use strict";
       import_speedy_vision3 = __toESM(require_speedy_vision(), 1);
-      init_main();
       init_utils();
       init_ar_events();
       init_errors();
@@ -13829,10 +13838,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             const safari = /(AppleWebKit)\/.* (Version)\/([\d\.]+)/.exec(navigator.userAgent);
             const matches = safari || ios;
             if (matches !== null) {
-              const version = matches[3] || "0.0";
-              const [x, y] = version.split(/[\._]/).map((v2) => parseInt(v2) | 0);
+              const version2 = matches[3] || "0.0";
+              const [x, y] = version2.split(/[\._]/).map((v2) => parseInt(v2) | 0);
               if (x < 15 || x == 15 && y < 2) {
-                Utils.error(`${matches === safari ? "Safari" : "iOS"} version ${version} is not supported! User agent: ${navigator.userAgent}`);
+                Utils.error(`${matches === safari ? "Safari" : "iOS"} version ${version2} is not supported! User agent: ${navigator.userAgent}`);
                 return false;
               }
             } else
@@ -13860,7 +13869,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               throw new NotSupportedError("You need a browser/device compatible with WebGL2 and WebAssembly in order to experience Augmented Reality with encantar.js");
             if (mode !== "inline" && _Session.count > 0)
               throw new IllegalOperationError(`Can't start multiple sessions, except in inline mode`);
-            const isStableBuild = /^\d+\.\d+(\.\d+)*$/.test(AR.version);
+            const isStableBuild = /^\d+\.\d+(\.\d+)*$/.test(Utils.engineVersion);
             if (!isStableBuild) {
               if (!["localhost", "127.0.0.1", "[::1]", "", "encantar.dev", "alemart.github.io"].includes(location.hostname)) {
                 if (!(location.hostname.startsWith("192.168.") || location.hostname.startsWith("10.") || /^172\.(1[6-9]|2[0-9]|3[01])\./.test(location.hostname))) {
@@ -19934,7 +19943,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
     "src/ui/stats-panel.ts"() {
       "use strict";
       init_settings2();
-      init_main();
+      init_utils();
       UPDATE_INTERVAL2 = 500;
       POWER_ICON = Object.freeze({
         "default": "",
@@ -20065,7 +20074,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
           title.style.fontSize = "14px";
           title.style.fontWeight = "bold";
           title.style.paddingRight = "4px";
-          title.innerText = "encantar.js " + AR.version;
+          title.innerText = "encantar.js " + Utils.engineVersion;
           button.style.width = "18px";
           button.style.height = "18px";
           button.style.marginRight = "4px";
@@ -20225,7 +20234,7 @@ This software respects you and puts you in control \u2014 values often overlooke
       TARGET_URL = "https://alemart.github.io/encantar-js/buy";
       ONE_DAY = 86400;
       REMINDER_TIMEOUT = ONE_DAY;
-      REMINDER_KEY = "encantar-reminder-0.4.6-dev";
+      REMINDER_KEY = "encantar-reminder-0.4.6";
       AR_FLAGS = Number(1);
       ReminderDialog = class {
         /**
@@ -20549,7 +20558,6 @@ This software respects you and puts you in control \u2014 values often overlooke
   var init_viewport = __esm({
     "src/core/viewport.ts"() {
       "use strict";
-      init_main();
       import_speedy_vision28 = __toESM(require_speedy_vision(), 1);
       init_hud();
       init_vector2();
@@ -20640,7 +20648,7 @@ This software respects you and puts you in control \u2014 values often overlooke
           );
           this._backgroundCanvas.hidden = true;
           this._foregroundCanvas.hidden = true;
-          const engineInfo = "encantar.js " + AR.version;
+          const engineInfo = "encantar.js " + Utils.engineVersion;
           this._backgroundCanvas.dataset.arEngine = engineInfo;
           this._foregroundCanvas.dataset.arEngine = engineInfo;
           parent.appendChild(this._backgroundCanvas);
@@ -21346,7 +21354,35 @@ This software respects you and puts you in control \u2014 values often overlooke
   });
 
   // src/main.ts
-  var import_speedy_vision29, AR;
+  var main_exports = {};
+  __export(main_exports, {
+    Settings: () => Settings,
+    Source: () => Source,
+    Speedy: () => import_speedy_vision29.default,
+    Tracker: () => Tracker4,
+    Vector2: () => Vector22,
+    Vector3: () => Vector32,
+    Viewport: () => Viewport2,
+    isSupported: () => isSupported,
+    startSession: () => startSession,
+    version: () => version
+  });
+  function startSession(options) {
+    return Session.instantiate(options);
+  }
+  function isSupported() {
+    return Session.isSupported();
+  }
+  function Viewport2(settings) {
+    return new Viewport(settings);
+  }
+  function Vector22(x, y) {
+    return new Vector2(x, y);
+  }
+  function Vector32(x, y, z) {
+    return new Vector3(x, y, z);
+  }
+  var import_speedy_vision29, version, Tracker4, Source;
   var init_main = __esm({
     "src/main.ts"() {
       "use strict";
@@ -21359,84 +21395,12 @@ This software respects you and puts you in control \u2014 values often overlooke
       init_vector2();
       init_vector3();
       init_utils();
-      AR = class {
-        /**
-         * Start a new session
-         * @param options
-         * @returns a promise that resolves to a new session
-         */
-        static startSession(options) {
-          return Session.instantiate(options);
-        }
-        /**
-         * Checks if the engine can be run in the browser the client is using
-         * @returns true if the engine is compatible with the browser
-         */
-        static isSupported() {
-          return Session.isSupported();
-        }
-        /**
-         * Engine version
-         */
-        static get version() {
-          return "0.4.6-dev";
-        }
-        /**
-         * Speedy Vision
-         */
-        static get Speedy() {
-          return import_speedy_vision29.default;
-        }
-        /**
-         * Trackers
-         */
-        static get Tracker() {
-          return TrackerFactory;
-        }
-        /**
-         * Sources of data
-         */
-        static get Source() {
-          return SourceFactory;
-        }
-        /**
-         * Create a viewport
-         * @param settings
-         * @returns a new viewport with the specified settings
-         */
-        static Viewport(settings) {
-          return new Viewport(settings);
-        }
-        /**
-         * Create a new 2D vector
-         * @param x x-coordinate
-         * @param y y-coordinate
-         * @returns a new 2D vector with the provided coordinates
-         */
-        static Vector2(x, y) {
-          return new Vector2(x, y);
-        }
-        /**
-         * Create a new 3D vector
-         * @param x x-coordinate
-         * @param y y-coordinate
-         * @param z z-coordinate
-         * @returns a new 3D vector with the provided coordinates
-         */
-        static Vector3(x, y, z) {
-          return new Vector3(x, y, z);
-        }
-        /**
-         * Global Settings
-         */
-        static get Settings() {
-          return Settings;
-        }
-      };
-      Object.freeze(AR);
       Utils.log(
-        `encantar.js version ${AR.version}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. https://encantar.dev`
+        `encantar.js version ${Utils.engineVersion}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. https://encantar.dev`
       );
+      version = Utils.engineVersion;
+      Tracker4 = TrackerFactory;
+      Source = SourceFactory;
     }
   });
 
@@ -21444,10 +21408,9 @@ This software respects you and puts you in control \u2014 values often overlooke
   var require_src = __commonJS({
     "src/index.ts"(exports, module) {
       init_main();
-      window.Speedy = window.Speedy || AR.Speedy;
-      module.exports = AR;
+      window.Speedy = window.Speedy || import_speedy_vision29.default;
+      module.exports = main_exports;
     }
   });
   return require_src();
 })();
-//# sourceMappingURL=encantar.js.map
