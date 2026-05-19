@@ -1,3 +1,9 @@
+/**
+ * @file Build script
+ * @author Alexandre Martins
+ * @license LGPL-3.0-or-later
+ */
+
 import * as esbuild from 'esbuild';
 import { readFile } from 'fs/promises';
 

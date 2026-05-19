@@ -1,3 +1,9 @@
+/**
+ * @file Utility for building extras
+ * @author MotivaCG
+ * @license LGPL-3.0-or-later
+ */
+
 import * as esbuild from 'esbuild';
 import { mkdirSync, readdirSync, copyFileSync, existsSync } from 'fs';
 import { join } from 'path';
