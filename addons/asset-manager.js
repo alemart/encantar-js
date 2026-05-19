@@ -1,8 +1,8 @@
-/*!
- * An Asset Manager for AR
- * @version 1.0.0
- * @author Alexandre Martins (https://encantar.dev)
- * @license LGPL-3.0-or-later
+/**
+ * @file Engine-agnostic Asset Manager
+ * @version 1.1.0
+ * @author Alexandre Martins
+ * @license Apache-2.0
  */
 
 /**

@@ -1,8 +1,8 @@
-/*!
- * A-Frame scan gimmick for encantar.js
- * @version 1.2.0
- * @author Alexandre Martins (https://encantar.dev)
- * @license LGPL-3.0-or-later
+/**
+ * @file A-Frame scan gimmick for encantar.js
+ * @version 1.3.0
+ * @author Alexandre Martins
+ * @license Apache-2.0
  */
 
 (function() {

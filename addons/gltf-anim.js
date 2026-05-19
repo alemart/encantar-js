@@ -1,7 +1,8 @@
-/*!
- * A minimalistic A-Frame component for animating 3D models
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
- * @license MIT
+/**
+ * @file A minimalistic A-Frame component for animating 3D models
+ * @version 1.1.0
+ * @author Alexandre Martins
+ * @license Apache-2.0
  */
 
 AFRAME.registerComponent('gltf-anim', {
