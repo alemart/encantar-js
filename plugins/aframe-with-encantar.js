@@ -1,14 +1,14 @@
-/*!
- * A-Frame plugin for encantar.js
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
- * @license LGPL-3.0-or-later
+/**
+ * @file A-Frame plugin for encantar.js
+ * @author Alexandre Martins
+ * @license GPL-3.0-or-later
  */
 
 (function() {
 
 /* Usage of the indicated versions is encouraged */
 USING({
-    'encantar.js': { version: '0.4.7' },
+    'encantar.js': { version: '0.5.0' },
         'A-Frame': { version: '1.7.1' }
 });
 

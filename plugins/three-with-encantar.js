@@ -1,7 +1,7 @@
-/*!
- * three.js plugin for encantar.js
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
- * @license LGPL-3.0-or-later
+/**
+ * @file three.js plugin for encantar.js
+ * @author Alexandre Martins
+ * @license GPL-3.0-or-later
  */
 
 import * as AR from 'encantar';
@@ -9,7 +9,7 @@ import * as THREE from 'three';
 
 /* Usage of the indicated versions is encouraged */
 USING({
-    'encantar.js': { version: '0.4.7' },
+    'encantar.js': { version: '0.5.0' },
        'three.js': { version: '173' }
 });
 
