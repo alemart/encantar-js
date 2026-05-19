@@ -1,17 +1,5 @@
 # Contact
 
-Please send your inquiries to <a class="contact-link"><noscript>support@this.domain</noscript></a>.
+I'm happy to help with library-specific questions. Just reach out to me at <a class="contact-link"><noscript>support@this.domain</noscript></a>. Note that my support does not include services like custom development or debugging your application, unless we have a separate agreement.
 
-Also, see the [FAQ](faq.md).
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
-    var link = salad.split('').map(function(c) { return String.fromCharCode(c.charCodeAt(0)-1); }).join('');
-    document.querySelectorAll('a.contact-link').forEach(function(a) {
-        a.href = link;
-        if(a.innerText.length == 0)
-            a.innerText = link.substring(7);
-    });
-});
-</script>
+See also: [FAQ](faq.md), [API Reference](/api).
