@@ -36,7 +36,7 @@ plugins:
         'buy/ar-clickable.md': 'https://store.encantar.dev/l/video-player-for-webar'
         'buy/ar-video-player.md': 'https://store.encantar.dev/l/video-player-for-webar'
         'buy/ar-snapshot-button.md': 'https://store.encantar.dev/l/photo-app-for-webar'
-        'download.md': 'https://store.encantar.dev/l/augmented-reality-framework-for-webar'
+        'download.md': 'https://encantar.dev/#download'
 
 markdown_extensions:
   - admonition
@@ -138,8 +138,8 @@ nav:
       - 'SpeedyMatrix': 'api/speedy-matrix.md'
       - 'SpeedyPromise': 'api/speedy-promise.md'
   - 'Help':
+    - 'FAQ': 'faq.md'
     - 'Contact': 'contact.md'
-    - 'Questions & Answers': 'faq.md'
     - 'Guidelines for Images': 'guidelines-for-images.md'
     - 'License': 'license.md'
     - 'GPL vs LGPL on the web': 'why-gpl.md'
