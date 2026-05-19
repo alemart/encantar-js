@@ -1,6 +1,7 @@
 /**
- * Augmented Reality demo using the babylon.js plugin for encantar.js
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
+ * @file Augmented Reality demo powered by encantar.js and babylon.js
+ * @author Alexandre Martins
+ * @license Apache-2.0
  */
 
 (function() {

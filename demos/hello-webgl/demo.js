@@ -1,13 +1,16 @@
+/**
+ * @file Augmented Reality demo powered by encantar.js and WebGL
+ * @author Alexandre Martins
+ * @license Apache-2.0
+ */
+
 /*
 
-Note:
-
-It is easier to use a 3D library or framework than to write WebGL code. This
-demo shows an augmented scene created with WebGL code, and is intended for
-demonstration purposes only. You don't need to write WebGL code for AR. Use
-a library or framework to render the virtual elements. See the other demos.
-
-WebGL low-level code:
+This file contains pure WebGL low-level code. It's easier to use a 3D library
+or framework than to write low-level WebGL code. This demo shows an augmented
+scene created with pure WebGL, and is intended for demonstration purposes only.
+You don't need to work with low-level WebGL code. Use a library or framework to
+render the virtual elements. See the other demos.
 
 */
 
