@@ -1,10 +1,10 @@
 /**
- * -------------------------------------------
- * Enchanted AR Basketball
- * A demo game of the encantar.js WebAR engine
- * -------------------------------------------
- * @fileoverview an entity that wraps BABYLON.GUI.Control - 2D Graphical User Interface (GUI)
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
+ * Magic AR Basketball Game
+ * WebAR demo game of encantar.js
+ *
+ * @file an entity that wraps BABYLON.GUI.Control - 2D Graphical User Interface (GUI)
+ * @author Alexandre Martins
+ * @license GPL-3.0-or-later
  */
 
 import { Entity } from '../entity.js';

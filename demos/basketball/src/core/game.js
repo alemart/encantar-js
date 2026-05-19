@@ -1,10 +1,10 @@
 /**
- * -------------------------------------------
- * Magic AR Basketball
- * A demo game of the encantar.js WebAR engine
- * -------------------------------------------
- * @fileoverview The main class of the game, which handles its lifecycle
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
+ * Magic AR Basketball Game
+ * WebAR demo game of encantar.js
+ *
+ * @file The main class of the game, which handles its lifecycle
+ * @author Alexandre Martins
+ * @license GPL-3.0-or-later
  */
 
 import { ASSET_LIST } from './asset-list.js';

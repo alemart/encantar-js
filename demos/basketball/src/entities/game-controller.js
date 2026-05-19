@@ -1,10 +1,10 @@
 /**
- * -------------------------------------------
- * Magic AR Basketball
- * A demo game of the encantar.js WebAR engine
- * -------------------------------------------
- * @fileoverview The Game Controller manages the state of the game
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
+ * Magic AR Basketball Game
+ * WebAR demo game of encantar.js
+ *
+ * @file The Game Controller manages the state of the game
+ * @author Alexandre Martins
+ * @license GPL-3.0-or-later
  */
 
 import { Entity } from './entity.js';
