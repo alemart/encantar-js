@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to encantar.js!
 
-I don't accept contributions to the core engine (`src/**`) at this time, but suggestions and bug reports are welcome!
+I don't accept contributions to GPL-licensed content at this time (including the core engine at `src/**`), but suggestions and bug reports are welcome!
 
 For all other contributions, you must certify that you have the right to submit them in accordance with the [Developer Certificate of Origin (DCO)](https://developercertificate.org). Each commit must be signed using your real name and a valid email address. You can sign a commit using `git commit --signoff`.
 
