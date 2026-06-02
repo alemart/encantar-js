@@ -25,8 +25,7 @@ import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
 import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
 import { AssertionError, IllegalArgumentError } from './errors';
 import { Resolution, computeResolution } from './resolution';
-
-declare const __AR_VERSION__: string;
+import { AR_VERSION } from './metadata';
 
 /**
  * Nullable type
@@ -219,6 +218,6 @@ export class Utils
      */
     static get engineVersion(): string
     {
-        return __AR_VERSION__;
+        return AR_VERSION;
     }
 }

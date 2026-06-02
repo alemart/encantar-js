@@ -30,14 +30,13 @@ import { Viewport as _Viewport, ViewportSettings } from './core/viewport';
 import { Vector2 as _Vector2 } from './geometry/vector2';
 import { Vector3 as _Vector3 } from './geometry/vector3';
 import { Utils } from './utils/utils';
-
-declare const __AR_WEBSITE__: string;
+import { AR_WEBSITE } from './utils/metadata';
 
 // Display a notice
 Utils.log(
     `encantar.js version ${Utils.engineVersion}. ` +
     `GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` +
-    __AR_WEBSITE__
+    AR_WEBSITE
 );
 
 /**
