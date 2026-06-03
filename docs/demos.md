@@ -72,21 +72,9 @@
 
 </div>
 
-## Games & fun
+## Extras
 
 <div class="grid cards" markdown>
-
--   ### Magic AR Basketball
-
-    ---
-
-    <figure style="background-image: url(../img/demo-basketball2.gif)"></figure>
-
-    Basketball game based on babylon.js. Play with your phone!
-
-    ---
-
-    [Play now!](/demos/basketball/poster.html){ .md-button ._blank }
 
 -   ### Street Art
 
@@ -99,42 +87,6 @@
     ---
 
     [Try it!](/demos/street-art/index.html){ .md-button ._blank }
-
-</div>
-
-## Extras
-
-<div class="grid cards" markdown>
-
--   ### Video Player with Buttons
-
-    ---
-
-    <figure style="background-image: url(../img/video-player.gif)"></figure>
-
-    Enchant your audience with video clips in Augmented Reality! (1)
-    { .annotate }
-
-    1.  This demo is part of an Add-On.
-
-    ---
-
-    [Explore](addons/ar-video-player.md){ .md-button ._blank }
-
--   ### Take Photos
-
-    ---
-
-    <figure style="background-image: url(../img/take-photos.jpg)"></figure>
-
-    Let your users take AR photos, as in a camera app. (1)
-    { .annotate }
-
-    1.  This demo is part of an Add-On.
-
-    ---
-
-    [Explore](addons/ar-snapshot-button.md){ .md-button ._blank }
 
 -   ### Pure WebGL madness
 

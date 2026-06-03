@@ -63,6 +63,8 @@ nav:
   - 'Home': 'index.md'
   - 'Demos':
     - 'Demos': 'demos.md'
+  - 'Games':
+    - 'Games': 'games.md'
   - 'Add-Ons':
     - 'Add-Ons': 'addons/index.md'
     - 'AR Button': 'addons/ar-button.md'
