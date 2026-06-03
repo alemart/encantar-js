@@ -27,7 +27,7 @@
     "3d"
   ],
   "type": "module",
-  "main": "src/main.ts",
+  "main": "dist/encantar.module.js",
   "scripts": {
     "start": "npm run build && npm run dev",
     "clean": "shx rm -rf dist",
