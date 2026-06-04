@@ -175,8 +175,6 @@ Because you'll receive [benefits that are essential for professional proprietary
 
 Building a WebAR technology from scratch with computer vision is a massive R&D undertaking. By choosing the Commercial Edition, you receive a professional-grade tool with added benefits, as well as the peace of mind that comes with the knowing that your access to it will not &mdash; and effectively cannot &mdash; be removed. Your AR projects are yours to keep and share!
 
-See also: [Why GPL?](./why-gpl.md)
-
 ### Do I receive support?
 
 [I'm happy to answer library-related questions](contact.md), but purchasing the Commercial Edition does not include support services such as debugging your code, unless we have a separate agreement.
