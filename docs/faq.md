@@ -43,10 +43,6 @@ See also: [Guidelines for Images](guidelines-for-images.md).
 
 [Get in touch here](contact.md).
 
-### I am enchanted!
-
-I know! :wink:
-
 ## Licensing
 
 ### Is encantar.js free or paid?
@@ -62,7 +58,7 @@ The Free Edition is licensed under version 3 of the [GNU GPL](license.md). You m
 
 If you're unable to meet the requirements of the GPL, then you need the Commercial Edition:
 
-- Purchase the Commercial Edition for non-free/proprietary projects.
+- Purchase the Commercial Edition for distributing non-free/proprietary projects to others (browser delivery counts as distribution). Use it in production.
 - Using the Free Edition for internal development/prototyping is permitted as long as your proprietary application is **not** distributed to others. Don't use it in production.
 
 |   | Free Edition | Commercial Edition |
@@ -74,7 +70,7 @@ If you're unable to meet the requirements of the GPL, then you need the Commerci
 | Suitable for proprietary works | No | **Yes** |
 
 <div style="text-align:center" markdown>
-!!! tip "The Commercial Edition is great for:"
+!!! info "The Commercial Edition is great for:"
 
     💼 **Agencies** requiring brand control.
 
@@ -84,6 +80,8 @@ If you're unable to meet the requirements of the GPL, then you need the Commerci
 
     [Buy Now](/buy){ .md-button .md-button--primary }
 </div>
+
+See also: [What do I get with the Commercial Edition?](#what-do-i-get-with-the-commercial-edition)
 
 ### Can I use the Free Edition for my free and open-source application?
 
@@ -95,7 +93,7 @@ You may use the Free Edition for internal development/prototyping, provided that
 
 ### Can I embed the Commercial Edition in my proprietary application?
 
-Yes. When using the Commercial Edition, copyleft applies to the library, but it does **not** extend to your application. You can close the source code of your proprietary application and distribute it under terms of your choice. However, if you modify the library, you can't make your modifications proprietary.
+Yes. When using the Commercial Edition, copyleft applies to the library, but it does **not** extend to your application. You can close the source code of your proprietary application and distribute it under the terms of your choice. However, if you modify the library, you can't make your modifications proprietary.
 
 ### I'm a non-profit. Do I have to purchase the Commercial Edition?
 
@@ -106,11 +104,11 @@ If you distribute your application, and all its parts, as free and open-source s
 Yes, provided that you:
 
 - a) [purchase the Commercial Edition](/buy); or
-- b) replace the watermark with an equivalent feature that retains the same author attributions and legal notices. Such feature must be **convenient and prominently visible in the user interface**.
+- b) replace the watermark with an equivalent feature that retains the same author attributions and legal notices. Such feature must be **convenient and prominently visible in the user interface**, like the watermark is.
 
 Let's take a look at the requirement:
 
-> Pursuant to Section 7(b) of the GNU General Public License version 3 ("GPLv3"), **you must retain the author attributions and the legal notices displayed by means of this encantar.js Library Watermark** in all works based on this library (including applications that are combined with or linked to this library), in the form of convenient and prominently visible Appropriate Legal Notices (defined in the GPLv3).
+> Pursuant to Section 7(b) of the GNU General Public License version 3 ("GPLv3"), **you must retain the author attributions and the legal notices displayed by means of the encantar.js Library Watermark** in all covered works (including all applications that are combined with or linked to this library, and all other works based on this library), in the form of convenient and prominently visible Appropriate Legal Notices (defined in the GPLv3).
 
 Section 7b of the GPLv3 states that the license may be supplemented with terms:
 
@@ -120,15 +118,29 @@ The definition of "Appropriate Legal Notices" is in Section 0 of the license:
 
 > An interactive user interface displays "Appropriate Legal Notices" to the extent that it includes a **convenient and prominently visible** feature that (1) displays an appropriate copyright notice, and (2) tells the user that there is no warranty for the work (except to the extent that warranties are provided), that licensees may convey the work under this License, and how to view a copy of this License. If the interface presents a list of user commands or options, such as a menu, a prominent item in the list meets this criterion.
 
-The encantar.js watermark and its accompanying About box fulfill the aforementioned requirement by default. They are displayed prominently on the screen: an approach particularly suited for mobile AR. An alternative implementation consists of displaying these author attributions and legal notices in an "About" or "Copyright Notices" section of your own, seamlessly integrated into your design, as long as they are **convenient and prominently visible in the user interface**. [This example](/demos/hello-world/NOTICE.html) and [this demo](/demos/hello-world/index.html) illustrate such implementations.
+The encantar.js watermark and its accompanying About box fulfill the aforementioned requirement by default. They are displayed conveniently and prominently on the screen: an approach particularly suited for mobile AR. An alternative implementation consists of displaying these author attributions and legal notices in an "About" or "Copyright Notices" section of your own, seamlessly integrated into your design, as long as they are **convenient and prominently visible in the user interface**. [These demos](demos.md) illustrate such implementations.
 
 !!! tip
 
     The [Commercial Edition](/buy) does not display the watermark. It's suitable for professional works requiring increased brand control.
 
+## Commercial Edition
+
 ### What do I get with the Commercial Edition?
 
 The Commercial Edition is essential for professional proprietary work. When you purchase it, you receive a license key that unlocks a special permission. That permission allows you to distribute your proprietary applications with specific versions of the library, with no need to display the Watermark Notices in the user interface. In addition, you receive 1 year of library updates covered by that permission. After that period, you may continue to receive updates if you renew your purchase.
+
+<div style="text-align:center" markdown>
+!!! info "The Commercial Edition offers you:"
+
+    ✅ Permission to distribute proprietary applications.
+
+    ✅ Brand control: no Watermark Notices.
+
+    ✅ One year of library updates.
+
+    [Buy Now](/buy){ .md-button .md-button--primary }
+</div>
 
 See also: [Which edition should I pick?](#which-edition-should-i-pick), [Can I remove the encantar.js watermark?](#can-i-remove-the-encantarjs-watermark)
 
@@ -142,9 +154,13 @@ No. That is an additional permission only granted by the author of the library. 
 
 ### What if I'm making applications for clients?
 
-Whoever distributes an application to others under their name must have a license key issued in their name, unless the [requirements of the GPL](#which-edition-should-i-pick) are fully met. Browser delivery counts as distribution. If your clients are distributing proprietary applications under their name (for example, through their own domain or app store account), then each of your clients needs a license key issued in their name. If you are the one distributing proprietary applications under your name, then you need a license key issued in your name.
+Ask yourself: who is going to distribute the application?
 
-License keys are not transferable. A separate license key is required for each client who distributes a proprietary application. You can ask your client to buy a license key.
+Whoever distributes a proprietary application to others must have a license key. Browser delivery counts as distribution. If your clients are distributing proprietary applications (for example, through their own domain or app store account), then each of your clients needs their own license key. If you are the one distributing proprietary applications, then you need your own license key.
+
+License keys are not transferable. A separate license key is required for each client who distributes proprietary applications. You can ask your client to buy a license key.
+
+Your client doesn't need a separate license key if you are going to distribute the application through your own domain (assuming you have your own license key). In this case, you, the author of the application, must be able to distribute that application under your name.
 
 A license key may be issued to an individual or to a company. The licensee must be the one distributing the application.
 
@@ -195,3 +211,7 @@ tracker.addEventListener('targetfound', event => {
 
 });
 ```
+
+### I am enchanted!
+
+I know! :wink:
