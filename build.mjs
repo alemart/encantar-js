@@ -24,7 +24,7 @@ program
 // -----------------------------------------------------------------------------
 // Core library
 // -----------------------------------------------------------------------------
-program.command('core')
+program.command('lib')
     .description('build the core library')
     .addArgument(new Argument('[format]', 'output format').choices(['iife', 'esm']).default('iife'))
     .option('-d, --output-directory <outdir>', 'output directory', 'dist')
