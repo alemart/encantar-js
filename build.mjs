@@ -56,14 +56,14 @@ program.command('core')
 program.command('plugins')
     .description('build the plugins')
     .argument('[plugin_name]', 'if specified, build only a specific plugin')
-    .option('-d, --output-directory <outdir>', 'output directory', 'dist/plugins')
+    .option('-d, --output-directory <outdir>', 'output directory', path.join('dist', 'plugins'))
     .option('-m, --minify', 'whether or not to minify the output')
     .action(async (name, options) => {
 
         console.log(`🔨 Building the${options.minify ? ' minified' : ''} plugins to ${options.outputDirectory}...`);
 
         try {
-            const plugins = fs.readdirSync('plugins')
+            const plugins = fs.readdirSync(path.join('src', 'plugins'))
                               .filter(file => file.endsWith('.js'))
                               .map(file => file.replace(/\.js$/, ''))
                               .filter(plugin => !name || plugin === name);
@@ -74,7 +74,7 @@ program.command('plugins')
             for(const plugin of plugins) {
                 console.log(plugin);
                 await buildExtra({
-                    filepath: path.join('plugins', plugin + '.js'),
+                    filepath: path.join('src', 'plugins', plugin + '.js'),
                     outdir: options.outputDirectory,
                     minify: options.minify,
                 });
@@ -97,14 +97,14 @@ program.command('plugins')
 program.command('addons')
     .description('build the addons')
     .argument('[addon_name]', 'if specified, build only a specific addon')
-    .option('-d, --output-directory <outdir>', 'output directory', 'dist/addons')
+    .option('-d, --output-directory <outdir>', 'output directory', path.join('dist', 'addons'))
     .option('-m, --minify', 'whether or not to minify the output')
     .action(async (name, options) => {
 
         console.log(`🔨 Building the${options.minify ? ' minified' : ''} addons to ${options.outputDirectory}...`);
 
         try {
-            const addons = fs.readdirSync('addons')
+            const addons = fs.readdirSync(path.join('src', 'addons'))
                              .filter(file => file.endsWith('.js'))
                              .map(file => file.replace(/\.js$/, ''))
                              .filter(addon => !name || addon === name);
@@ -115,7 +115,7 @@ program.command('addons')
             for(const addon of addons) {
                 console.log(addon);
                 await buildExtra({
-                    filepath: path.join('addons', addon + '.js'),
+                    filepath: path.join('src', 'addons', addon + '.js'),
                     outdir: options.outputDirectory,
                     minify: options.minify,
                 });
@@ -189,16 +189,17 @@ function buildLibrary({ format = 'iife', outdir = 'dist', minify = false } = {})
 {
     const { version, homepage } = metadata;
     const development = version.endsWith('-dev');
+    const libdir = path.join('src', 'lib');
 
     const esm = {
         format: 'esm',
         outfile: path.join(outdir, minify ? 'encantar.module.min.js' : 'encantar.module.js'),
         stdin: {
             contents: 'export * from "./main.ts";',
-            resolveDir: 'src',
+            resolveDir: libdir,
             sourcefile: 'index.ts',
         },
-        //entryPoints: ['src/main.ts'], // error with serve
+        //entryPoints: [path.join(libdir, 'main.ts')], // error with serve
     };
 
     const iife = {
@@ -211,7 +212,7 @@ function buildLibrary({ format = 'iife', outdir = 'dist', minify = false } = {})
                 window.Speedy = window.Speedy || AR.Speedy;
                 module.exports = AR;
             `),
-            resolveDir: 'src',
+            resolveDir: libdir,
             sourcefile: 'index.ts',
         },
     };
@@ -277,7 +278,7 @@ function generateBanner()
 
 function readMetadata()
 {
-    const url = new URL('./package.json', import.meta.url);
+    const url = new URL('package.json', import.meta.url);
     const json = fs.readFileSync(url, { encoding: 'utf8' });
 
     return Object.freeze(JSON.parse(json));
