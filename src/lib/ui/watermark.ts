@@ -26,18 +26,17 @@
  *                                                                            *
  * Pursuant to Section 7(b) of the GNU General Public License version 3       *
  * ("GPLv3"), you must retain the author attributions and the legal notices   *
- * displayed by means of the encantar.js Library Watermark in all covered     *
- * works (including all applications that are combined with or linked to      *
- * this library, and all other works based on this library), in the form of   *
- * convenient and prominently visible Appropriate Legal Notices (defined in   *
- * the GPLv3).                                                                *
+ * displayed by means of the encantar.js Library Watermark in all works that  *
+ * are combined with or linked to this library, as well as in all other works *
+ * based on this library, and in the form of convenient and prominently       *
+ * visible Appropriate Legal Notices (defined in the GPLv3).                  *
  *                                                                            *
  * You may not propagate or modify a covered work except as expressly         *
  * provided under the License, which includes this requirement to preserve    *
- * the specified author attributions and legal notices. Any attempt otherwise *
- * to propagate or modify a covered work is void, and will automatically      *
- * terminate your rights under the License (the termination procedure of the  *
- * GPLv3 applies).                                                            *
+ * the specified author attributions and legal notices in the user interface. *
+ * Any attempt otherwise to propagate or modify a covered work is void, and   *
+ * will automatically terminate your rights under the License                 *
+ * (the termination procedure of the GPLv3 applies).                          *
  *                                                                            *
  * For more information, read the FAQ at                                      *
  * https://alemart.github.io/encantar-js/faq                                  *
@@ -65,8 +64,8 @@ const ABOUT_ICON = '&#x1F9D9;&#x200D;&#x2642;';
 const ABOUT_TITLE = ABOUT_ICON + '<br>encantar.js';
 const ABOUT_SUBTITLE = 'GPU-accelerated Augmented Reality library for the web';
 const ABOUT_COPYRIGHT = 'Copyright (C) 2022-2026 Alexandre Martins'.replace('(C)', '&copy;');
-const ABOUT_LEGAL = `encantar.js is free and open-source software. You can redistribute it under the terms of the <a href="https://www.gnu.org/licenses" rel="license" style="color:${ABOUT_PRIMARY_COLOR};text-decoration:underline">GNU General Public License version 3</a>. This library is provided "AS IS", WITHOUT ANY WARRANTY.`;
-const ABOUT_MADE_WITH = 'This experience is made with encantar.js. With encantar.js, a modern web browser is all you need to experience Augmented Reality (AR). Discover how you too can create magical AR content that works everywhere, with no need to download apps!';
+const ABOUT_LEGAL = `This work is made with <a href="${ABOUT_WEBSITE}" rel="external" style="color:${ABOUT_PRIMARY_COLOR};text-decoration:underline">encantar.js</a>, a free and open-source library for creating Augmented Reality experiences for the web. You can redistribute it under the terms of the <a href="https://www.gnu.org/licenses" rel="license" style="color:${ABOUT_PRIMARY_COLOR};text-decoration:underline">GNU General Public License version 3</a>. This library is provided "AS IS", WITHOUT ANY WARRANTY.`;
+const ABOUT_SUPPLEMENT = 'With encantar.js, a modern web browser is all you need to experience Augmented Reality (AR). Discover how you too can create magical AR content that works everywhere, with no need to download apps!';
 const ABOUT_PRIMARY_ACTION = 'Show me';
 const ABOUT_SECONDARY_ACTION = 'Not now';
 
@@ -212,7 +211,7 @@ class AboutBox
         firstParagraph.innerHTML = ABOUT_LEGAL;
         textWrapper.appendChild(firstParagraph);
 
-        secondParagraph.innerText = ABOUT_MADE_WITH;
+        secondParagraph.innerText = ABOUT_SUPPLEMENT;
         textWrapper.appendChild(secondParagraph);
 
         buttonWrapper.style.display = 'flex';
