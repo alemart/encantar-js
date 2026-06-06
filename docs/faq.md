@@ -108,7 +108,7 @@ Yes, provided that you:
 
 Let's take a look at the requirement:
 
-> Pursuant to Section 7(b) of the GNU General Public License version 3 ("GPLv3"), **you must retain the author attributions and the legal notices displayed by means of the encantar.js Library Watermark** in all covered works (including all applications that are combined with or linked to this library, and all other works based on this library), in the form of convenient and prominently visible Appropriate Legal Notices (defined in the GPLv3).
+> Pursuant to Section 7(b) of the GNU General Public License version 3 ("GPLv3"), **you must retain the author attributions and the legal notices displayed by means of the encantar.js Library Watermark** in all works that are combined with or linked to this library, as well as in all other works based on this library, and in the form of convenient and prominently visible Appropriate Legal Notices (defined in the GPLv3).
 
 Section 7b of the GPLv3 states that the license may be supplemented with terms:
 
