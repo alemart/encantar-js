@@ -1,3 +1,24 @@
+# License
+
+encantar.js is a software library licensed under the GNU General Public License
+version 3, supplemented with the following additional terms:
+
+Pursuant to Section 7(b) of the GNU General Public License version 3 ("GPLv3"),
+you must retain the author attributions and the legal notices displayed by means
+of the **encantar.js Library Watermark** in all works that are combined with or
+linked to this library, as well as in all other works based on this library, and
+in the form of convenient and prominently visible Appropriate Legal Notices
+(defined in the GPLv3).
+
+You may not propagate or modify a covered work except as expressly provided
+under this License, which includes this requirement to preserve the specified
+author attributions and legal notices in the user interface. Any attempt
+otherwise to propagate or modify a covered work is void, and will automatically
+terminate your rights under this License (the termination procedure of the GPLv3
+applies).
+
+-----
+
 # GNU GENERAL PUBLIC LICENSE
 
 Version 3, 29 June 2007
