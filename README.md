@@ -1,6 +1,6 @@
-# encantar.js WebAR engine
+# encantar.js: GPU-accelerated Augmented Reality library for the web
 
-Create high performance Augmented Reality experiences compatible with any modern web browser and device. No app download is required for WebAR. WebXR support isn't necessary either.
+Enchant your users with high performance Augmented Reality experiences compatible with any modern web browser. Users don't need to download apps, and WebXR support isn't required.
 
 🧙‍♂️ Get started at <https://encantar.dev>
 
@@ -10,15 +10,15 @@ Create high performance Augmented Reality experiences compatible with any modern
 * [Demos](#demos)
 * [Download](#download)
 * [Documentation](#documentation)
-* [Commercial support](#commercial-support)
+* [Support](#support)
 * [About](#about)
 
 ## Features
 
 * **Broad compatibility** - Create WebAR experiences for all platforms: iOS, Android, Desktops. WebXR support isn't required thanks to encantar's custom trackers based on Computer Vision.
 * **High performance** - Deliver blazing fast AR experiences to a wide user base through encantar's GPU-accelerated trackers and WebAssembly-powered computational wizardry.
-* **Modularity** - Use encantar.js with the 3D engine of your choice: [A-Frame](https://encantar.dev/api/plugin-aframe/), [babylon.js](https://encantar.dev/api/plugin-babylon/), [three.js](https://encantar.dev/api/plugin-three/), or any other!
-* **Image tracking** - Track [custom images](https://encantar.dev/guidelines-for-images) such as cartoons or photos with no need of compiling. This is also known as Natural Feature Tracking.
+* **Modularity** - Use encantar.js with the 3D engine of your choice: [A-Frame](https://encantar.dev/api/plugin-aframe), [babylon.js](https://encantar.dev/api/plugin-babylon), [three.js](https://encantar.dev/api/plugin-three), or any other!
+* **Image tracking** - Track [custom images](https://encantar.dev/guidelines-for-images) such as cartoons or photos with no need of custom setup. This is known as Natural Feature Tracking.
 * **Pointer tracking** - Create interactive experiences based on touch and mouse input with an easy-to-use API.
 * **Add-Ons** - Enchant your users with [additional features](https://encantar.dev/addons) that enhance the core of encantar.js!
 
@@ -30,19 +30,36 @@ Pick any demo below, or [browse the website](https://encantar.dev/demos) for mor
 
 ## Download
 
-Download and build [the latest release](https://github.com/alemart/encantar-js/releases/latest). Replace `VERSION` with ![GitHub Release](https://img.shields.io/github/v/release/alemart/encantar-js?label=%20&color=royalblue) on the command line:
+There are two editions: [free](#free-edition) and [commercial](#commercial-edition). They are functionally equivalent, but have [significant differences in usage rights](https://encantar.dev/faq#licensing).
+
+### Free Edition
+
+[Download the Free Edition](https://github.com/alemart/encantar-js/releases/latest) for creating and distributing free and open-source projects, or for developing internal prototypes of non-free/proprietary projects (no distribution rights under the GPL).
 
 ```
-# Download
-npm install alemart/encantar-js#VERSION
-cd node_modules/encantar
+# Extract the package
+unzip encantar-js-VERSION.zip
+cd encantar-js-VERSION
 
-# Build
+# Install the dependencies
 npm install
-npm run build
+
+# Build the library and test it with a local web server
+npm start
+
+# Build and test with HTTPS
+# npm run build && npm run dev -- --secure
 ```
 
-🪄 Support open-source AR. [Purchase your copy of the software](https://encantar.dev/buy) for production use.
+🪄 Next, open <http://localhost:8000/demos/hello-aframe/video.html>. Also try the [different demos](http://localhost:8000/demos) in a mobile phone. The latest version of the library is ![GitHub Release](https://img.shields.io/github/v/release/alemart/encantar-js?label=%20&color=royalblue)
+
+### Commercial Edition
+
+[Purchase the Commercial Edition](https://encantar.dev/faq#licensing) before deploying your project to production. Use it to distribute non-free/proprietary projects to others (browser delivery counts as distribution).
+
+### Add-Ons
+
+[Get extras for rich AR experiences!](https://encantar.dev/addons)
 
 ## Documentation
 
@@ -56,6 +73,6 @@ npm run build
 
 ## About
 
-encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under the [GNU LGPL v3](LICENSE.md). It's based on [speedy-vision](https://github.com/alemart/speedy-vision), a Computer Vision library for JavaScript created by the same author.
+encantar.js is developed by [Alexandre Martins](https://github.com/alemart) and released under version 3 of the [GNU GPL](LICENSE.md), with optional terms enabling usage in proprietary software. It's based on [speedy-vision](https://github.com/alemart/speedy-vision), a Computer Vision library for JavaScript created by the same author.
 
 Developing an Augmented Reality engine from scratch with Computer Vision is a massive undertaking, yet it happened! 😀
