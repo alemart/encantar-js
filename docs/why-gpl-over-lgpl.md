@@ -43,6 +43,6 @@ Experience shows that monetizing proprietary and commercial use proves vital to 
 
 Supplementing the LGPL with a linking exception was also considered, but not implemented. If the exception was gratis, then we could address the compliance boundaries and requirements, but not the funding (permissive-ish model). If it was paid, then we could address the funding to an extent, but not the compliance boundaries and requirements for gratis users. If it was partly gratis and partly paid, then it was thought not to work any better than the GPL does. Other funding models were also considered, but not adopted at the time. Since any work licensed under version 3 of the LGPL can also be modified and propagated under the terms of version 3 of the GPL, this too indicates the same solution: release the library under the GPL.
 
-At the end of the day, the chosen licensing model based on the GPL enables both free and proprietary usage, clarifies compliance, creates a channel for funding this work, and keeps the library free and open-source.
+At the end of the day, the chosen licensing model based on the GPL enables both free and proprietary usage, clarifies compliance, creates a channel for funding this work, and keeps the library free and open-source ("copyleft for the library").
 
 See also: [Licensing FAQ](faq.md#licensing).
