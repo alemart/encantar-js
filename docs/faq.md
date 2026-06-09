@@ -104,7 +104,7 @@ If you distribute your application, and all its parts, as free and open-source s
 Yes, provided that you:
 
 - a) [purchase the Commercial Edition](/buy); or
-- b) replace the watermark with an equivalent feature that retains the same author attributions and legal notices. Such feature must be **convenient and prominently visible in the user interface**, like the watermark is.
+- b) replace the watermark with an equivalent feature that retains the same author attributions and legal notices. Such feature must be **convenient and prominently visible in the user interface**. In this case, you won't remove the watermark entirely, only change its form.
 
 Let's take a look at the requirement:
 
@@ -118,7 +118,7 @@ The definition of "Appropriate Legal Notices" is in Section 0 of the license:
 
 > An interactive user interface displays "Appropriate Legal Notices" to the extent that it includes a **convenient and prominently visible** feature that (1) displays an appropriate copyright notice, and (2) tells the user that there is no warranty for the work (except to the extent that warranties are provided), that licensees may convey the work under this License, and how to view a copy of this License. If the interface presents a list of user commands or options, such as a menu, a prominent item in the list meets this criterion.
 
-The encantar.js watermark and its accompanying About box fulfill the aforementioned requirement by default. They are displayed conveniently and prominently on the screen: an approach particularly suited for mobile AR. An alternative implementation consists of displaying these author attributions and legal notices in an "About" or "Copyright Notices" section of your own, seamlessly integrated into your design, as long as they are **convenient and prominently visible in the user interface**. [These demos](demos.md) illustrate such implementations.
+The encantar.js watermark and its accompanying About box fulfill the aforementioned requirement by default. They are displayed conveniently and prominently on the screen: an approach particularly suited for mobile AR. An alternative implementation consists of displaying these author attributions and legal notices in an "About" or "Legal Notices" section of your own, seamlessly integrated into your design, as long as they are **convenient and prominently visible in the user interface**. [This demo](/demos/hello-world) illustrates such implementation.
 
 !!! tip
 
