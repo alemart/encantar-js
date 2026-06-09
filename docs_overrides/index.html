@@ -14,8 +14,10 @@ window.addEventListener('load', function() {
   setupReveal();
   setupCounter();
 
-  if(location.hash == '#download')
-    document.querySelector('#download-dialog').showModal();
+  if(location.hash == '#download') {
+    location.href = 'https://github.com/alemart/encantar-js#download';
+    //document.querySelector('#download-dialog').showModal();
+  }
 });
 
 function setupDialogPolyfill()
