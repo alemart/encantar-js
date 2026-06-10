@@ -45,4 +45,4 @@ Supplementing the LGPL with a linking exception was also considered, but not imp
 
 At the end of the day, the chosen licensing model based on the GPL enables both free and proprietary usage, clarifies compliance, creates a channel for funding this work, and keeps the library free and open-source ("copyleft for the library").
 
-See also: [Licensing FAQ](faq.md#licensing).
+See also: [Licensing FAQ](faq.md#licensing), [Grace for Early Works](https://github.com/alemart/encantar-js/releases/tag/v0.5.0){ ._blank }.
