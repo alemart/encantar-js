@@ -34,28 +34,33 @@ There are two editions: [free](#free-edition) and [commercial](#commercial-editi
 
 ### Free Edition
 
-[Download the Free Edition](https://github.com/alemart/encantar-js/releases/latest) for creating and distributing free and open-source projects, or for developing internal prototypes of non-free/proprietary projects (no distribution rights under the GPL).
+[Download the Free Edition](https://github.com/alemart/encantar-js/releases) for creating and distributing free and open-source projects, or for developing internal prototypes of non-free/proprietary projects (no distribution rights under the GPL).
 
-```
-# Extract the package
-unzip encantar-js-VERSION.zip
-cd encantar-js-VERSION
-
-# Install the dependencies
-npm install
-
-# Build the library and test it with a local web server
-npm start
-
-# Build and test with HTTPS
-# npm run build && npm run dev -- --secure
-```
-
-🪄 Next, open <http://localhost:8000/demos/hello-aframe/video.html>. Also try the [different demos](http://localhost:8000/demos) in a mobile phone. The latest version of the library is ![GitHub Release](https://img.shields.io/github/v/release/alemart/encantar-js?label=%20&color=royalblue)
+> [!TIP]
+>
+> **Quick Start**
+>
+> 1. Download and extract [encantar-js-VERSION-free.zip](https://github.com/alemart/encantar-js/releases)
+> 2. Download and run [Servez](https://greggman.github.io/servez), a simple local web server
+> 3. In *Folder to Serve*, specify the folder named `encantar-js-VERSION-free` extracted in step 1
+> 4. Change the *Port* to 8000
+> 5. Click on *Start* to launch the local web server
+>
+> Next, open <http://localhost:8000/demos/hello-aframe/video.html>. Also try the [different demos](http://localhost:8000/demos) on a mobile phone.
+>
+> When testing WebAR with a webcam, it's recommended to launch the web server using HTTPS.
+>
+> Enjoy! 🪄
+>
+> **Do you prefer the Command Line?**
+>
+> `npx http-server -p 8000 /path/to/encantar-js-VERSION-free/`
+>
+> The latest version of the library is ![GitHub Release](https://img.shields.io/github/v/release/alemart/encantar-js?label=%20&color=royalblue)
 
 ### Commercial Edition
 
-[Purchase the Commercial Edition](https://encantar.dev/faq#licensing) before deploying your project to production. Use it to distribute non-free/proprietary projects to others (browser delivery counts as distribution).
+[Purchase the Commercial Edition](https://encantar.dev/faq#licensing) before distributing your non-free/proprietary projects to others (browser delivery counts as distribution). Use it in production.
 
 ### Add-Ons
 
