@@ -34,29 +34,7 @@ There are two editions: [free](#free-edition) and [commercial](#commercial-editi
 
 ### Free Edition
 
-[Download the Free Edition](https://github.com/alemart/encantar-js/releases) for creating and distributing free and open-source projects, or for developing internal prototypes of non-free/proprietary projects (no distribution rights under the GPL).
-
-> [!TIP]
->
-> **Quick Start**
->
-> 1. Download and extract [encantar-js-VERSION-free.zip](https://github.com/alemart/encantar-js/releases)
-> 2. Download and run [Servez](https://greggman.github.io/servez), a simple local web server
-> 3. In *Folder to Serve*, specify the folder named `encantar-js-VERSION-free` extracted in step 1
-> 4. Change the *Port* to 8000
-> 5. Click on *Start* to launch the local web server
->
-> Next, open <http://localhost:8000/demos/hello-aframe/video.html>. Also try the [different demos](http://localhost:8000/demos) on a mobile phone.
->
-> When testing WebAR with a webcam, it's recommended to launch the web server using HTTPS.
->
-> Enjoy! 🪄
->
-> **Do you prefer the Command Line?**
->
-> `npx http-server -p 8000 /path/to/encantar-js-VERSION-free/`
->
-> The latest version of the library is ![GitHub Release](https://img.shields.io/github/v/release/alemart/encantar-js?label=%20&color=royalblue)
+[Download the Free Edition](#quick-start) for creating and distributing free and open-source projects, or for developing internal prototypes of non-free/proprietary projects (no distribution rights under the GPL).
 
 ### Commercial Edition
 
@@ -65,6 +43,32 @@ There are two editions: [free](#free-edition) and [commercial](#commercial-editi
 ### Add-Ons
 
 [Get extras for rich AR experiences!](https://encantar.dev/addons)
+
+### Quick Start
+
+Get started with the Free Edition:
+
+1. Download and extract [encantar-free-VERSION.zip](https://github.com/alemart/encantar-js/releases)
+2. Download and run [Servez](https://greggman.github.io/servez), a simple local web server
+3. In *Folder to Serve*, specify the folder named `encantar-free-VERSION` extracted in step 1
+4. Change the *Port* to 8000
+5. Click on *Start* to launch the local web server
+
+Next, open <http://localhost:8000/demos/hello-aframe/video.html>. Also try the [different demos](http://localhost:8000/demos) on a mobile phone. Enjoy! 🪄
+
+When testing WebAR with a webcam, it's recommended to launch the web server using HTTPS.
+
+> [!TIP]
+>
+> **Try online**
+>
+> You can also [try the demos online](#demos)!
+>
+> **Do you prefer the Command Line?**
+> 
+> `npx http-server -p 8000 /path/to/encantar-free-VERSION/`
+> 
+> The latest version of the library is ![GitHub Release](https://img.shields.io/github/v/release/alemart/encantar-js?label=%20&color=royalblue)
 
 ## Documentation
 
