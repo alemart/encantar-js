@@ -1,5 +1,15 @@
 # Release notes
 
+## 0.5.0 - June 11th, 2026
+
+* Relicensed the core library and the plugins to the GPL
+* Relicensed the demos and the built-in addons to Apache
+* Relicensed the Basketball Game to the GPL
+* Introduced a simplified build system
+* Introduced the metadata module
+* Introduced the watermark
+* Updated the documentation
+
 ## 0.4.6 - February 12th, 2026
 
 * Exported the library as a module, as well as an IIFE
