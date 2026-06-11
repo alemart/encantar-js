@@ -254,6 +254,11 @@ function buildExtra({ filepath = '', outdir = 'dist', minify = false } = {})
         outExtension: { '.js': minify ? '.min.js' : '.js' },
         outdir: outdir,
         minify: minify,
+        define: {
+            __AR_VERSION__: JSON.stringify(metadata.version),
+            __AR_WEBSITE__: JSON.stringify(metadata.homepage),
+            __AR_FLAGS__  : process.env.AR_FLAGS ?? '0',
+        },
     });
 }
 
@@ -265,7 +270,7 @@ function generateBanner()
 
     return [
     `/*!`,
-    ` * encantar.js version ${version}`,
+    ` * encantar.js Free Edition version ${version}`,
     ` * ${description}`,
     ` * Copyright 2022-${year} ${author.replace('@', ' at ')}`,
     ` * ${homepage}`,
