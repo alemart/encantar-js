@@ -1,7 +1,7 @@
 /**
- * encantar.js pointer demo
- * @license LGPL-3.0-or-later
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
+ * @file Pointer demo of encantar.js
+ * @author Alexandre Martins
+ * @license Apache-2.0
  */
 
 (function() {

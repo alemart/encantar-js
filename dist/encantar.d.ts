@@ -99,6 +99,14 @@ declare module "utils/resolution" {
      */
     export function computeResolution(resolution: Resolution, aspectRatio: number): SpeedySize;
 }
+declare module "utils/metadata" {
+    /** Compile-time flags */
+    export const AR_FLAGS: number;
+    /** Version of the library */
+    export const AR_VERSION: string;
+    /** Website of the library */
+    export const AR_WEBSITE: string;
+}
 declare module "utils/utils" {
     import { SpeedySize } from 'speedy-vision/types/core/speedy-size';
     import { SpeedyPromise } from 'speedy-vision/types/core/speedy-promise';
@@ -2818,13 +2826,38 @@ declare module "ui/fullscreen-button" {
         private _handleFullscreenEvent;
     }
 }
-declare module "ui/reminder-dialog" {
+declare module "ui/watermark" {
+    /******************************************************************************
+     *                                                                            *
+     * PRESERVATION OF AUTHOR ATTRIBUTIONS AND LEGAL NOTICES                      *
+     *                                                                            *
+     * Pursuant to Section 7(b) of the GNU General Public License version 3       *
+     * ("GPLv3"), you must retain the author attributions and the legal notices   *
+     * displayed by means of the encantar.js Library Watermark in all works that  *
+     * are combined with or linked to this library, as well as in all other works *
+     * based on this library, and in the form of convenient and prominently       *
+     * visible Appropriate Legal Notices (defined in the GPLv3).                  *
+     *                                                                            *
+     * You may not propagate or modify a covered work except as expressly         *
+     * provided under the License, which includes this requirement to preserve    *
+     * the specified author attributions and legal notices in the user interface. *
+     * Any attempt otherwise to propagate or modify a covered work is void, and   *
+     * will automatically terminate your rights under the License                 *
+     * (the termination procedure of the GPLv3 applies).                          *
+     *                                                                            *
+     * For more information, read the FAQ at                                      *
+     * https://alemart.github.io/encantar-js/faq                                  *
+     *                                                                            *
+     ******************************************************************************/
+    import { Nullable } from "utils/utils";
     /**
-     * Reminder dialog
+     * About box
      */
-    export class ReminderDialog {
+    class AboutBox {
         /** A dialog element */
-        private readonly _dialog;
+        private _dialog;
+        /** Parent element */
+        private _parent;
         /**
          * Constructor
          */
@@ -2839,25 +2872,58 @@ declare module "ui/reminder-dialog" {
          */
         release(): void;
         /**
-         * Show the reminder
+         * Show the About box
          * @returns true on success
          */
-        private _show;
+        show(): boolean;
         /**
-         * Close the reminder
-         * @returns true on success
+         * Reparent
+         * @param newParent new parent node
+         * @internal
          */
-        private _close;
-        /**
-         * Whether or not the reminder should be displayed at this time
-         * @returns a boolean
-         */
-        private _isEnabled;
+        _reparent(newParent: Node): void;
         /**
          * Create the dialog element
-         * @returns the dialog element
          */
         private _createDialog;
+    }
+    /**
+     * Watermark
+     */
+    export class Watermark {
+        /** The graphic of the Watermark */
+        private readonly _graphic;
+        /** About box */
+        private readonly _aboutBox;
+        /** Parent node */
+        private _parent;
+        /**
+         * Constructor
+         */
+        constructor();
+        /**
+         * Initialize
+         * @param parent parent node
+         */
+        init(parent: Node): void;
+        /**
+         * Release
+         */
+        release(): void;
+        /**
+         * A reference to the About box
+         */
+        get aboutBox(): AboutBox;
+        /**
+         * Reparent
+         * @param newParent new parent node, or null to revert to the original parent
+         * @internal
+         */
+        _reparent(newParent: Nullable<Node>): void;
+        /**
+         * Create the graphic
+         */
+        private _createGraphic;
     }
 }
 declare module "core/hud" {

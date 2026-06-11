@@ -1,10 +1,10 @@
 /**
- * -------------------------------------------
- * Magic AR Basketball
- * A demo game of the encantar.js WebAR engine
- * -------------------------------------------
- * @fileoverview Main function
- * @author Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart/encantar-js)
+ * Magic AR Basketball Game
+ * WebAR demo game of encantar.js
+ *
+ * @file Main function
+ * @author Alexandre Martins
+ * @license GPL-3.0-or-later
  */
 
 import { BasketballGame } from './core/game.js';

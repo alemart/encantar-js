@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The home of encantar.js, a high performance and open source Augmented Reality framework for web browsers. No app is required for Web AR.">
+        <meta name="description" content="encantar.js is a high performance and open source Augmented Reality framework for creating WebAR experiences.">
       
       
         <meta name="author" content="Alexandre Martins">
@@ -24,7 +24,7 @@
     
     
       
-        <title>encantar.js WebAR: Open Source Augmented Reality framework for web browsers</title>
+        <title>encantar.js: GPU-accelerated Augmented Reality library for the web</title>
       
     
     
@@ -343,6 +343,17 @@ input[type="radio"]:checked ~ .custom-radio:after {
       
     
 <script data-goatcounter="https://encantar-js.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var salad = 'nbjmup;tvqqpsuAfodboubs/efw';
+    var link = salad.split('').map(c => String.fromCharCode(c.charCodeAt(0)-1)).join('');
+    document.querySelectorAll('a.contact-link').forEach(function(a) {
+        a.href = link;
+        if(a.innerText.length == 0)
+            a.innerText = link.substring(7);
+    });
+});
+</script>
 
 
     
@@ -364,8 +375,8 @@ input[type="radio"]:checked ~ .custom-radio:after {
     
     
     
-<meta property="og:title" content="Home - encantar.js WebAR: Open Source Augmented Reality framework for web browsers">
-<meta property="og:description" content="The home of encantar.js, a high performance and open source Augmented Reality framework for web browsers. No app is required for Web AR.">
+<meta property="og:title" content="Home - encantar.js: GPU-accelerated Augmented Reality library for the web">
+<meta property="og:description" content="encantar.js is a high performance and open source Augmented Reality framework for creating WebAR experiences.">
 <meta property="og:url" content="https://encantar.dev/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -445,11 +456,8 @@ input[type="radio"]:checked ~ .custom-radio:after {
       <p>Tomorrow the platform you rely on shuts down, leaving you and many other creators in distress. Sounds familiar? Open Source offers a cost-effective alternative with no recurring fees. You're in control!</p>
       <a href="https://github.com/alemart/encantar-js" rel="external" target="_blank" class="md-button" id="browse-source">Browse the source</a>
     </div>
-    <div>
-      <ul>
-        <li><img src="img/open-source.png" alt="Open Source" loading="lazy" style="padding:1.33rem"></li>
-        <li><img src="img/lgpl.png" alt="GNU LGPL" loading="lazy"></li>
-      </ul>
+    <div style="text-align:center">
+      <img src="img/open-source.png" alt="Open Source" loading="lazy" style="width:50%">
     </div>
   </article>
   <article class="reveal">
@@ -506,7 +514,10 @@ input[type="radio"]:checked ~ .custom-radio:after {
     <h1>Download</h1>
     <p>encantar.js is created by <a href="https://github.com/alemart" target="_blank" id="author-name">Alexandre Martins</a>. It's based on <a href="https://github.com/alemart/speedy-vision" target="_blank" rel="external" id="speedy-vision">speedy-vision</a>, a computer vision library created by the same author.</p>
     <footer>
+      <!--
       <button class="md-button md-button--primary" id="download-button" onclick="document.getElementById('download-dialog').showModal()">Download encantar.js</button>
+      -->
+      <a class="md-button md-button--primary" id="download-button" href="https://github.com/alemart/encantar-js#download">Download encantar.js</a>
     </footer>
   </article>
 </section>
@@ -522,8 +533,16 @@ input[type="radio"]:checked ~ .custom-radio:after {
         <input type="radio" name="option" value="/buy" checked>
         <span class="custom-radio"></span>
         <div>
-          <strong>Production-ready version</strong><br>
-          Just download it and use it in your projects.
+          <strong>Commercial Edition</strong><br>
+          You're making proprietary software.
+        </div>
+      </label>
+      <label>
+        <input type="radio" name="option" value="https://github.com/alemart/encantar-js#download">
+        <span class="custom-radio"></span>
+        <div>
+          <strong>Free Edition</strong><br>
+          You're making free software.
         </div>
       </label>
       <label>
@@ -531,15 +550,7 @@ input[type="radio"]:checked ~ .custom-radio:after {
         <span class="custom-radio"></span>
         <div>
           <strong>Add-Ons</strong><br>
-          Get it with Add-Ons for rich AR experiences.
-        </div>
-      </label>
-      <label>
-        <input type="radio" name="option" value="https://github.com/alemart/encantar-js">
-        <span class="custom-radio"></span>
-        <div>
-          <strong>Source code</strong><br>
-          Build it yourself. Test the bleeding edge.
+          Extras for rich AR experiences.
         </div>
       </label>
       <footer>
@@ -591,8 +602,10 @@ window.addEventListener('load', function() {
   setupReveal();
   setupCounter();
 
-  if(location.hash == '#download')
-    document.querySelector('#download-dialog').showModal();
+  if(location.hash == '#download') {
+    location.href = 'https://github.com/alemart/encantar-js#download';
+    //document.querySelector('#download-dialog').showModal();
+  }
 });
 
 function setupDialogPolyfill()

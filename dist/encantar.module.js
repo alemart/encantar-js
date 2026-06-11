@@ -1,11 +1,11 @@
 /*!
- * encantar.js version 0.4.6
- * GPU-accelerated Augmented Reality framework for the web
- * Copyright 2022-2026 Alexandre Martins <alemartf(at)gmail.com> (https://github.com/alemart)
- * https://encantar.dev
+ * encantar.js Free Edition version 0.5.0
+ * GPU-accelerated Augmented Reality library for the web
+ * Copyright 2022-2026 Alexandre Martins <alemartf at gmail.com>
+ * https://github.com/alemart/encantar-js
  *
- * @license LGPL-3.0-or-later
- * Date: 2026-02-12T19:03:46.501Z
+ * @license GPL-3.0-or-later
+ * Date: 2026-06-11T17:53:42.646Z
 */
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -69,7 +69,7 @@ var require_speedy_vision = __commonJS({
             /***/
             2199: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -133,12 +133,12 @@ var require_speedy_vision = __commonJS({
                     loggingMode = mode;
                   }
                 }
-              }
+              })
             ),
             /***/
             6306: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -568,12 +568,12 @@ var require_speedy_vision = __commonJS({
                     wasm.exports.Mat32_qr_ols(resultptr, leftptr, rightptr, 2);
                   }
                 }
-              }
+              })
             ),
             /***/
             6465: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -800,12 +800,12 @@ var require_speedy_vision = __commonJS({
                     throw new _utils_errors__WEBPACK_IMPORTED_MODULE_1__.NO(`Can't load the WebAssembly routines: ${err}`, err);
                   });
                 })(_memory);
-              }
+              })
             ),
             /***/
             4188: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.r(__webpack_exports__2);
                 __webpack_require__2.d(__webpack_exports__2, {
@@ -1098,12 +1098,12 @@ ${fmt}
                     return this;
                   }
                 }
-              }
+              })
             ),
             /***/
             6634: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -1125,12 +1125,12 @@ ${fmt}
                     throw new _utils_errors__WEBPACK_IMPORTED_MODULE_0__.aQ(`Namespaces can't be instantiated`);
                   }
                 }
-              }
+              })
             ),
             /***/
             9192: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -1460,12 +1460,12 @@ ${fmt}
                   static _snop() {
                   }
                 }
-              }
+              })
             ),
             /***/
             9420: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   gx: () => (
@@ -1710,7 +1710,7 @@ uniform highp vec2 texSize;
 @include "global.glsl"
 
 `;
-                const PRIVATE_TOKEN = Symbol();
+                const PRIVATE_TOKEN = /* @__PURE__ */ Symbol();
                 class ShaderDeclaration {
                   /**
                    * @private Constructor
@@ -1987,12 +1987,12 @@ uniform highp vec2 texSize;
                 function createShader(source, vssource = void 0) {
                   return new MemoryShaderDeclarationBuilder(PRIVATE_TOKEN, source, vssource);
                 }
-              }
+              })
             ),
             /***/
             1672: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.r(__webpack_exports__2);
                 __webpack_require__2.d(__webpack_exports__2, {
@@ -2076,12 +2076,12 @@ uniform highp vec2 texSize;
     `;
                   return (0, _shader_declaration__WEBPACK_IMPORTED_MODULE_0__.gx)(source).withArguments("image");
                 }
-              }
+              })
             ),
             /***/
             1001: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -2096,7 +2096,7 @@ uniform highp vec2 texSize;
                 var _utils_observable__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__2(3211);
                 var _core_speedy_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__2(9192);
                 var _utils_errors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__2(8581);
-                const SINGLETON_KEY = Symbol();
+                const SINGLETON_KEY = /* @__PURE__ */ Symbol();
                 const DEFAULT_POWER_PREFERENCE = "default";
                 const CANVAS_WIDTH = 16, CANVAS_HEIGHT = 16;
                 let instance = null;
@@ -2283,12 +2283,12 @@ uniform highp vec2 texSize;
                     return instance != null;
                   }
                 }
-              }
+              })
             ),
             /***/
             8581: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -2546,12 +2546,12 @@ uniform highp vec2 texSize;
                     super(`WebAssembly error. ${message}`, cause);
                   }
                 }
-              }
+              })
             ),
             /***/
             3816: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.r(__webpack_exports__2);
                 __webpack_require__2.d(__webpack_exports__2, {
@@ -2658,15 +2658,15 @@ uniform highp vec2 texSize;
                 const MATCH_INDEX_MASK = (1 << MATCH_INDEX_BITS) - 1;
                 const MATCH_MAX_INDEX = (1 << MATCH_INDEX_BITS) - 1;
                 const MATCH_MAX_DISTANCE = (1 << 32 - MATCH_INDEX_BITS) - 1;
-                const LITTLE_ENDIAN = function() {
+                const LITTLE_ENDIAN = (function() {
                   return 51966 === new Uint16Array(new Uint8Array([254, 202]).buffer)[0];
-                }();
-              }
+                })();
+              })
             ),
             /***/
             3211: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -2719,12 +2719,12 @@ uniform highp vec2 texSize;
                     for (let i = 0; i < this._subscribers.length; i++) this._subscribers[i].apply(this._thisptr[i], this._args[i]);
                   }
                 }
-              }
+              })
             ),
             /***/
             6049: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -2750,16 +2750,16 @@ uniform highp vec2 texSize;
                   /* harmony export */
                 });
                 const MediaType = Object.freeze({
-                  Image: Symbol("Image"),
-                  Video: Symbol("Video"),
-                  Canvas: Symbol("Canvas"),
-                  OffscreenCanvas: Symbol("OffscreenCanvas"),
-                  Bitmap: Symbol("Bitmap"),
-                  Data: Symbol("Data")
+                  Image: /* @__PURE__ */ Symbol("Image"),
+                  Video: /* @__PURE__ */ Symbol("Video"),
+                  Canvas: /* @__PURE__ */ Symbol("Canvas"),
+                  OffscreenCanvas: /* @__PURE__ */ Symbol("OffscreenCanvas"),
+                  Bitmap: /* @__PURE__ */ Symbol("Bitmap"),
+                  Data: /* @__PURE__ */ Symbol("Data")
                 });
                 const ImageFormat = Object.freeze({
-                  RGBA: Symbol("RGBA"),
-                  GREY: Symbol("GREY")
+                  RGBA: /* @__PURE__ */ Symbol("RGBA"),
+                  GREY: /* @__PURE__ */ Symbol("GREY")
                 });
                 const PixelComponent = Object.freeze({
                   RED: 1,
@@ -2775,12 +2775,12 @@ uniform highp vec2 texSize;
                   [PixelComponent.BLUE]: 2,
                   [PixelComponent.ALPHA]: 3
                 });
-              }
+              })
             ),
             /***/
             9037: (
               /***/
-              (__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
+              ((__unused_webpack_module, __webpack_exports__2, __webpack_require__2) => {
                 "use strict";
                 __webpack_require__2.d(__webpack_exports__2, {
                   /* harmony export */
@@ -3067,12 +3067,12 @@ uniform highp vec2 texSize;
                     return navigator.platform;
                   }
                 }
-              }
+              })
             ),
             /***/
             5235: (
               /***/
-              (module2, __unused_webpack_exports, __webpack_require__2) => {
+              ((module2, __unused_webpack_exports, __webpack_require__2) => {
                 var map = {
                   "./colors.glsl": 8609,
                   "./filters.glsl": 4672,
@@ -3106,12 +3106,12 @@ uniform highp vec2 texSize;
                 webpackContext.resolve = webpackContextResolve;
                 module2.exports = webpackContext;
                 webpackContext.id = 5235;
-              }
+              })
             ),
             /***/
             4606: (
               /***/
-              (module2, __unused_webpack_exports, __webpack_require__2) => {
+              ((module2, __unused_webpack_exports, __webpack_require__2) => {
                 var map = {
                   "./filters/convolution": 1672,
                   "./filters/convolution.js": 1672,
@@ -3207,523 +3207,523 @@ uniform highp vec2 texSize;
                 webpackContext.resolve = webpackContextResolve;
                 module2.exports = webpackContext;
                 webpackContext.id = 4606;
-              }
+              })
             ),
             /***/
             8211: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#if !defined(KERNEL_SIZE) || !defined(AXIS) || (AXIS != 0 && AXIS != 1)\n#error Undefined KERNEL_SIZE / AXIS\n#endif\nuniform sampler2D image;\nuniform float kernel[@KERNEL_SIZE@];\nconst ivec2 axis = ivec2(1-AXIS, AXIS);\n#define S(x,k) result += pixelAtShortOffset(image, ivec2((x),(x)) * axis) * kernel[k]\nvoid main()\n{\nvec4 result = vec4(0.0f);\n#if KERNEL_SIZE == 3\nS(-1, 2);\nS( 0, 1);\nS( 1, 0);\n#elif KERNEL_SIZE == 5\nS(-2, 4);\nS(-1, 3);\nS( 0, 2);\nS( 1, 1);\nS( 2, 0);\n#elif KERNEL_SIZE == 7\nS(-3, 6);\nS(-2, 5);\nS(-1, 4);\nS( 0, 3);\nS( 1, 2);\nS( 2, 1);\nS( 3, 0);\n#elif KERNEL_SIZE == 9\nS(-4, 8);\nS(-3, 7);\nS(-2, 6);\nS(-1, 5);\nS( 0, 4);\nS( 1, 3);\nS( 2, 2);\nS( 3, 1);\nS( 4, 0);\n#elif KERNEL_SIZE == 11\nS(-5, 10);\nS(-4, 9);\nS(-3, 8);\nS(-2, 7);\nS(-1, 6);\nS( 0, 5);\nS( 1, 4);\nS( 2, 3);\nS( 3, 2);\nS( 4, 1);\nS( 5, 0);\n#elif KERNEL_SIZE == 13\nS(-6, 12);\nS(-5, 11);\nS(-4, 10);\nS(-3, 9);\nS(-2, 8);\nS(-1, 7);\nS( 0, 6);\nS( 1, 5);\nS( 2, 4);\nS( 3, 3);\nS( 4, 2);\nS( 5, 1);\nS( 6, 0);\n#elif KERNEL_SIZE == 15\nS(-7, 14);\nS(-6, 13);\nS(-5, 12);\nS(-4, 11);\nS(-3, 10);\nS(-2, 9);\nS(-1, 8);\nS( 0, 7);\nS( 1, 6);\nS( 2, 5);\nS( 3, 4);\nS( 4, 3);\nS( 5, 2);\nS( 6, 1);\nS( 7, 0);\n#else\n#error Invalid parameters\n#endif\ncolor = vec4(result.rgb, 1.0f);\n}";
-              }
+              })
             ),
             /***/
             7360: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef KERNEL_SIZE_SQUARED\n#error Must define KERNEL_SIZE_SQUARED\n#endif\nuniform sampler2D image;\nuniform float kernel[@KERNEL_SIZE_SQUARED@];\n#define S(x,y,k) result += pixelAtShortOffset(image, ivec2((x),(y))) * kernel[k]\nvoid main()\n{\nvec4 result = vec4(0.0f);\n#if KERNEL_SIZE_SQUARED == 9\nS(-1,-1, 8);\nS(-1, 0, 7);\nS(-1, 1, 6);\nS( 0,-1, 5);\nS( 0, 0, 4);\nS( 0, 1, 3);\nS( 1,-1, 2);\nS( 1, 0, 1);\nS( 1, 1, 0);\n#elif KERNEL_SIZE_SQUARED == 25\nS(-2,-2, 24);\nS(-2,-1, 23);\nS(-2, 0, 22);\nS(-2, 1, 21);\nS(-2, 2, 20);\nS(-1,-2, 19);\nS(-1,-1, 18);\nS(-1, 0, 17);\nS(-1, 1, 16);\nS(-1, 2, 15);\nS( 0,-2, 14);\nS( 0,-1, 13);\nS( 0, 0, 12);\nS( 0, 1, 11);\nS( 0, 2, 10);\nS( 1,-2, 9);\nS( 1,-1, 8);\nS( 1, 0, 7);\nS( 1, 1, 6);\nS( 1, 2, 5);\nS( 2,-2, 4);\nS( 2,-1, 3);\nS( 2, 0, 2);\nS( 2, 1, 1);\nS( 2, 2, 0);\n#elif KERNEL_SIZE_SQUARED == 49\nS(-3,-3, 48);\nS(-3,-2, 47);\nS(-3,-1, 46);\nS(-3, 0, 45);\nS(-3, 1, 44);\nS(-3, 2, 43);\nS(-3, 3, 42);\nS(-2,-3, 41);\nS(-2,-2, 40);\nS(-2,-1, 39);\nS(-2, 0, 38);\nS(-2, 1, 37);\nS(-2, 2, 36);\nS(-2, 3, 35);\nS(-1,-3, 34);\nS(-1,-2, 33);\nS(-1,-1, 32);\nS(-1, 0, 31);\nS(-1, 1, 30);\nS(-1, 2, 29);\nS(-1, 3, 28);\nS( 0,-3, 27);\nS( 0,-2, 26);\nS( 0,-1, 25);\nS( 0, 0, 24);\nS( 0, 1, 23);\nS( 0, 2, 22);\nS( 0, 3, 21);\nS( 1,-3, 20);\nS( 1,-2, 19);\nS( 1,-1, 18);\nS( 1, 0, 17);\nS( 1, 1, 16);\nS( 1, 2, 15);\nS( 1, 3, 14);\nS( 2,-3, 13);\nS( 2,-2, 12);\nS( 2,-1, 11);\nS( 2, 0, 10);\nS( 2, 1, 9);\nS( 2, 2, 8);\nS( 2, 3, 7);\nS( 3,-3, 6);\nS( 3,-2, 5);\nS( 3,-1, 4);\nS( 3, 0, 3);\nS( 3, 1, 2);\nS( 3, 2, 1);\nS( 3, 3, 0);\n#else\n#error Invalid KERNEL_SIZE_SQUARED\n#endif\ncolor = vec4(result.rgb, 1.0f);\n}";
-              }
+              })
             ),
             /***/
             8191: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform sampler2D image;\n#define X(i,j) t = vec2(min(p[i], p[j]), max(p[i], p[j])); p[i] = t.x; p[j] = t.y;\n#define S(i,x,y) p[i] = pixelAtShortOffset(image, ivec2((x),(y))).g\nvoid main()\n{\nfloat median;\nvec2 t;\n#if !defined(KERNEL_SIZE)\n#error Must define KERNEL_SIZE\n#elif KERNEL_SIZE == 3\nfloat p[9];\nS(0,-1,-1);\nS(1, 0,-1);\nS(2, 1,-1);\nS(3,-1, 0);\nS(4, 0, 0);\nS(5, 1, 0);\nS(6,-1, 1);\nS(7, 0, 1);\nS(8, 1, 1);\nX(1,2);X(4,5);X(7,8);X(0,1);X(3,4);X(6,7);X(1,2);X(4,5);X(7,8);X(0,3);X(5,8);X(4,7);X(3,6);X(1,4);X(2,5);X(4,7);X(4,2);X(6,4);X(4,2);\nmedian = p[4];\n#elif KERNEL_SIZE == 5\nfloat p[25];\nS( 0,-2,-2);\nS( 1,-1,-2);\nS( 2, 0,-2);\nS( 3, 1,-2);\nS( 4, 2,-2);\nS( 5,-2,-1);\nS( 6,-1,-1);\nS( 7, 0,-1);\nS( 8, 1,-1);\nS( 9, 2,-1);\nS(10,-2, 0);\nS(11,-1, 0);\nS(12, 0, 0);\nS(13, 1, 0);\nS(14, 2, 0);\nS(15,-2, 1);\nS(16,-1, 1);\nS(17, 0, 1);\nS(18, 1, 1);\nS(19, 2, 1);\nS(20,-2, 2);\nS(21,-1, 2);\nS(22, 0, 2);\nS(23, 1, 2);\nS(24, 2, 2);\nX(0,1);X(3,4);X(2,4);X(2,3);X(6,7);X(5,7);X(5,6);X(9,10);X(8,10);X(8,9);X(12,13);X(11,13);X(11,12);X(15,16);X(14,16);X(14,15);X(18,19);X(17,19);X(17,18);X(21,22);X(20,22);X(20,21);X(23,24);X(2,5);X(3,6);X(0,6);X(0,3);X(4,7);X(1,7);X(1,4);X(11,14);X(8,14);X(8,11);X(12,15);X(9,15);X(9,12);X(13,16);X(10,16);X(10,13);X(20,23);X(17,23);X(17,20);X(21,24);X(18,24);X(18,21);X(19,22);X(8,17);X(9,18);X(0,18);X(0,9);X(10,19);X(1,19);X(1,10);X(11,20);X(2,20);X(2,11);X(12,21);X(3,21);X(3,12);X(13,22);X(4,22);X(4,13);X(14,23);X(5,23);X(5,14);X(15,24);X(6,24);X(6,15);X(7,16);X(7,19);X(13,21);X(15,23);X(7,13);X(7,15);X(1,9);X(3,11);X(5,17);X(11,17);X(9,17);X(4,10);X(6,12);X(7,14);X(4,6);X(4,7);X(12,14);X(10,14);X(6,7);X(10,12);X(6,10);X(6,17);X(12,17);X(7,17);X(7,10);X(12,18);X(7,12);X(10,18);X(12,20);X(10,20);X(10,12);\nmedian = p[12];\n#elif KERNEL_SIZE == 7\nfloat p[49];\nS( 0,-3,-3);\nS( 1,-2,-3);\nS( 2,-1,-3);\nS( 3, 0,-3);\nS( 4, 1,-3);\nS( 5, 2,-3);\nS( 6, 3,-3);\nS( 7,-3,-2);\nS( 8,-2,-2);\nS( 9,-1,-2);\nS(10, 0,-2);\nS(11, 1,-2);\nS(12, 2,-2);\nS(13, 3,-2);\nS(14,-3,-1);\nS(15,-2,-1);\nS(16,-1,-1);\nS(17, 0,-1);\nS(18, 1,-1);\nS(19, 2,-1);\nS(20, 3,-1);\nS(21,-3, 0);\nS(22,-2, 0);\nS(23,-1, 0);\nS(24, 0, 0);\nS(25, 1, 0);\nS(26, 2, 0);\nS(27, 3, 0);\nS(28,-3, 1);\nS(29,-2, 1);\nS(30,-1, 1);\nS(31, 0, 1);\nS(32, 1, 1);\nS(33, 2, 1);\nS(34, 3, 1);\nS(35,-3, 2);\nS(36,-2, 2);\nS(37,-1, 2);\nS(38, 0, 2);\nS(39, 1, 2);\nS(40, 2, 2);\nS(41, 3, 2);\nS(42,-3, 3);\nS(43,-2, 3);\nS(44,-1, 3);\nS(45, 0, 3);\nS(46, 1, 3);\nS(47, 2, 3);\nS(48, 3, 3);\nX(0,1);X(2,3);X(0,2);X(1,3);X(1,2);X(4,5);X(6,7);X(4,6);X(5,7);X(5,6);X(0,4);X(2,6);X(2,4);X(1,5);X(3,7);X(3,5);X(1,2);X(3,4);X(5,6);X(8,9);X(10,11);X(8,10);X(9,11);X(9,10);X(12,13);X(14,15);X(12,14);X(13,15);X(13,14);X(8,12);X(10,14);X(10,12);X(9,13);X(11,15);X(11,13);X(9,10);X(11,12);X(13,14);X(0,8);X(4,12);X(4,8);X(2,10);X(6,14);X(6,10);X(2,4);X(6,8);X(10,12);X(1,9);X(5,13);X(5,9);X(3,11);X(7,15);X(7,11);X(3,5);X(7,9);X(11,13);X(1,2);X(3,4);X(5,6);X(7,8);X(9,10);X(11,12);X(13,14);X(16,17);X(18,19);X(16,18);X(17,19);X(17,18);X(20,21);X(22,23);X(20,22);X(21,23);X(21,22);X(16,20);X(18,22);X(18,20);X(17,21);X(19,23);X(19,21);X(17,18);X(19,20);X(21,22);X(24,25);X(26,27);X(24,26);X(25,27);X(25,26);X(28,29);X(30,31);X(28,30);X(29,31);X(29,30);X(24,28);X(26,30);X(26,28);X(25,29);X(27,31);X(27,29);X(25,26);X(27,28);X(29,30);X(16,24);X(20,28);X(20,24);X(18,26);X(22,30);X(22,26);X(18,20);X(22,24);X(26,28);X(17,25);X(21,29);X(21,25);X(19,27);X(23,31);X(23,27);X(19,21);X(23,25);X(27,29);X(17,18);X(19,20);X(21,22);X(23,24);X(25,26);X(27,28);X(29,30);X(0,16);X(8,24);X(8,16);X(4,20);X(12,28);X(12,20);X(4,8);X(12,16);X(20,24);X(2,18);X(10,26);X(10,18);X(6,22);X(14,30);X(14,22);X(6,10);X(14,18);X(22,26);X(2,4);X(6,8);X(10,12);X(14,16);X(18,20);X(22,24);X(26,28);X(1,17);X(9,25);X(9,17);X(5,21);X(13,29);X(13,21);X(5,9);X(13,17);X(21,25);X(3,19);X(11,27);X(11,19);X(7,23);X(15,31);X(15,23);X(7,11);X(15,19);X(23,27);X(3,5);X(7,9);X(11,13);X(15,17);X(19,21);X(23,25);X(27,29);X(1,2);X(3,4);X(5,6);X(7,8);X(9,10);X(11,12);X(13,14);X(15,16);X(17,18);X(19,20);X(21,22);X(23,24);X(25,26);X(27,28);X(29,30);X(32,33);X(34,35);X(32,34);X(33,35);X(33,34);X(36,37);X(38,39);X(36,38);X(37,39);X(37,38);X(32,36);X(34,38);X(34,36);X(33,37);X(35,39);X(35,37);X(33,34);X(35,36);X(37,38);X(40,41);X(42,43);X(40,42);X(41,43);X(41,42);X(44,45);X(46,47);X(44,46);X(45,47);X(45,46);X(40,44);X(42,46);X(42,44);X(41,45);X(43,47);X(43,45);X(41,42);X(43,44);X(45,46);X(32,40);X(36,44);X(36,40);X(34,42);X(38,46);X(38,42);X(34,36);X(38,40);X(42,44);X(33,41);X(37,45);X(37,41);X(35,43);X(39,47);X(39,43);X(35,37);X(39,41);X(43,45);X(33,34);X(35,36);X(37,38);X(39,40);X(41,42);X(43,44);X(45,46);X(32,48);X(40,48);X(36,40);X(44,48);X(38,42);X(34,36);X(38,40);X(42,44);X(46,48);X(37,41);X(39,43);X(35,37);X(39,41);X(43,45);X(33,34);X(35,36);X(37,38);X(39,40);X(41,42);X(43,44);X(45,46);X(47,48);X(0,32);X(16,48);X(16,32);X(8,40);X(24,40);X(8,16);X(24,32);X(40,48);X(4,36);X(20,36);X(12,44);X(28,44);X(12,20);X(28,36);X(4,8);X(12,16);X(20,24);X(28,32);X(36,40);X(44,48);X(2,34);X(18,34);X(10,42);X(26,42);X(10,18);X(26,34);X(6,38);X(22,38);X(14,46);X(30,46);X(14,22);X(30,38);X(6,10);X(14,18);X(22,26);X(30,34);X(38,42);X(2,4);X(6,8);X(10,12);X(14,16);X(18,20);X(22,24);X(26,28);X(30,32);X(34,36);X(38,40);X(42,44);X(46,48);X(1,33);X(17,33);X(9,41);X(25,41);X(9,17);X(25,33);X(5,37);X(21,37);X(13,45);X(29,45);X(13,21);X(29,37);X(5,9);X(13,17);X(21,25);X(29,33);X(37,41);X(3,35);X(19,35);X(11,43);X(27,43);X(11,19);X(27,35);X(7,39);X(23,39);X(15,47);X(31,47);X(15,23);X(31,39);X(7,11);X(15,19);X(23,27);X(31,35);X(39,43);X(3,5);X(7,9);X(11,13);X(15,17);X(19,21);X(23,25);X(27,29);X(31,33);X(35,37);X(39,41);X(43,45);X(1,2);X(3,4);X(5,6);X(7,8);X(9,10);X(11,12);X(13,14);X(15,16);X(17,18);X(19,20);X(21,22);X(23,24);\nmedian = p[24];\n#else\n#error Unsupported kernel size\n#endif\ncolor = vec4(median, median, median, 1.0f);\n}";
-              }
+              })
             ),
             /***/
             4438: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform sampler2D image;\nuniform sampler2D illuminationMap;\nuniform float gain;\nuniform float offset;\nuniform float decay;\n#ifndef GREYSCALE\n#error Must define GREYSCALE\n#endif\n#if GREYSCALE == 0\nconst mat3 rgb2yuv = mat3(\n0.299f, -0.14713f, 0.615f,\n0.587f, -0.28886f, -0.51499f,\n0.114f, 0.436f, -0.10001f\n);\nconst mat3 yuv2rgb = mat3(\n1.0f, 1.0f, 1.0f,\n0.0f, -0.39465f, 2.03211f,\n1.13983f, -0.58060f, 0.0f\n);\n#endif\nconst float eps = 0.0001f;\nconst float sqrt2 = 1.4142135623730951f;\nconst float magic = 20.0f;\nconst vec2 center = vec2(0.5f);\nvoid main()\n{\nvec4 pixel = threadPixel(image);\nvec4 imapPixel = threadPixel(illuminationMap);\nfloat lambda = -sqrt2 * log(max(1.0f - decay, eps));\nfloat dist = length(texCoord - center);\nfloat vgain = gain * exp(-lambda * dist);\nfloat normalizedGain = 2.0f * vgain;\nfloat normalizedOffset = 2.0f * offset - 1.0f;\n#if GREYSCALE != 0\nfloat luma = 1.0 / (1.0 + exp(-normalizedGain * magic * (pixel.g - imapPixel.g)));\nluma = clamp(luma + normalizedOffset, 0.0f, 1.0f);\ncolor = vec4(luma, luma, luma, 1.0f);\n#else\nvec3 yuvPixel = rgb2yuv * pixel.rgb;\nvec3 yuvImapPixel = rgb2yuv * imapPixel.rgb;\nfloat luma = 1.0 / (1.0 + exp(-normalizedGain * magic * (yuvPixel.r - yuvImapPixel.r)));\nluma += normalizedOffset;\nvec3 rgbCorrectedPixel = yuv2rgb * vec3(luma, yuvPixel.gb);\nrgbCorrectedPixel = clamp(rgbCorrectedPixel, 0.0f, 1.0f);\ncolor = vec4(rgbCorrectedPixel, 1.0f);\n#endif\n}";
-              }
+              })
             ),
             /***/
             5867: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef GREYSCALE\n#error Must define GREYSCALE\n#endif\n#if GREYSCALE != 0\nuniform sampler2D minmax2d;\n#else\nuniform sampler2D minmax2dRGB[3];\n#endif\nuniform float minValue;\nuniform float maxValue;\nconst float eps = 1.0f / 255.0f;\nvoid main()\n{\nvec2 minmax = clamp(vec2(minValue, maxValue), 0.0f, 255.0f) / 255.0f;\nvec4 newMin = vec4(minmax.x);\nvec4 newRange = vec4(minmax.y - minmax.x);\nvec4 alpha = vec4(1.0f, newMin.x, newRange.x, 1.0f);\n#if GREYSCALE != 0\nvec4 pixel = threadPixel(minmax2d);\nmat4 channel = mat4(pixel, pixel, pixel, alpha);\n#else\nmat4 channel = mat4(\nthreadPixel(minmax2dRGB[0]),\nthreadPixel(minmax2dRGB[1]),\nthreadPixel(minmax2dRGB[2]),\nalpha\n);\n#endif\nvec4 oldMin = vec4(channel[0].g, channel[1].g, channel[2].g, channel[3].g);\nvec4 oldRange = max(vec4(channel[0].b, channel[1].b, channel[2].b, channel[3].b), eps);\nvec4 oldIntensity = vec4(channel[0].a, channel[1].a, channel[2].a, channel[3].a);\nvec4 newIntensity = (oldIntensity - oldMin) * newRange / oldRange + newMin;\ncolor = newIntensity;\n}";
-              }
+              })
             ),
             /***/
             9252: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "const vec4 grey = vec4(0.299f, 0.587f, 0.114f, 0.0f);\nuniform sampler2D image;\nvoid main()\n{\nvec4 pixel = threadPixel(image);\nfloat g = dot(pixel, grey);\ncolor = vec4(g, g, g, 1.0f);\n}";
-              }
+              })
             ),
             /***/
             8609: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _COLORS_GLSL\n#define _COLORS_GLSL\n#define PIXELCOMPONENT_RED   @PIXELCOMPONENT_RED@\n#define PIXELCOMPONENT_GREEN @PIXELCOMPONENT_GREEN@\n#define PIXELCOMPONENT_BLUE  @PIXELCOMPONENT_BLUE@\n#define PIXELCOMPONENT_ALPHA @PIXELCOMPONENT_ALPHA@\n#endif";
-              }
+              })
             ),
             /***/
             4672: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _FILTERS_GLSL\n#define _FILTERS_GLSL\nfloat laplacian(sampler2D pyramid, vec2 position, float lod)\n{\nfloat pot = exp2(lod);\nivec2 pyrBaseSize = textureSize(pyramid, 0);\nconst vec3 ones = vec3(1.0f);\nconst mat3 kernel = mat3(\n0,-1, 0,\n-1, 4,-1,\n0,-1, 0\n);\n#define LPC(x,y) pyrSubpixelAtExOffset(pyramid, position, lod, pot, ivec2((x),(y)), pyrBaseSize).g\nmat3 neighborhood = mat3(\n0.0f, LPC(0,-1), 0.0f,\nLPC(-1,0), LPC(0,0), LPC(1,0),\n0.0f, LPC(0,1), 0.0f\n);\nmat3 m = matrixCompMult(neighborhood, kernel);\nreturn dot(ones, vec3(\ndot(m[0], ones),\ndot(m[1], ones),\ndot(m[2], ones)\n)) * (1.0f + lod);\n}\n#endif";
-              }
+              })
             ),
             /***/
             9778: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _FIXEDPOINT_GLSL\n#define _FIXEDPOINT_GLSL\n#define fixed_t int\n#define fixed2_t ivec2\nconst int FIX_BITS = int(@FIX_BITS@);\nconst float FIX_RESOLUTION = float(@FIX_RESOLUTION@);\n#define itofix(x) fixed_t((x) << FIX_BITS)\n#define fixtoi(f) int((x) >> FIX_BITS)\n#define ftofix(x) fixed_t((x) * FIX_RESOLUTION + 0.5f)\n#define fixtof(f) (float(f) / FIX_RESOLUTION)\n#define ivec2tofix(x) fixed2_t((x) << FIX_BITS)\n#define fixtoivec2(f) ivec2((f) >> FIX_BITS)\n#define vec2tofix(v) fixed2_t((v) * FIX_RESOLUTION + vec2(0.5f))\n#define fixtovec2(f) (vec2(f) / FIX_RESOLUTION)\n#endif";
-              }
+              })
             ),
             /***/
             8710: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _FLOAT16_GLSL\n#define _FLOAT16_GLSL\n#define encodeFloat16(f) (vec2(packf16(f)) / 255.0f)\n#define decodeFloat16(v) unpackf16(uvec2((v) * 255.0f))\n#define encodePairOfFloat16(f) vec4(encodeFloat16((f).x), encodeFloat16((f).y))\n#define decodePairOfFloat16(v) vec2(decodeFloat16((v).rg), decodeFloat16((v).ba))\n#define encodeNullPairOfFloat16() vec4(1.0f)\n#define isNullPairOfFloat16(v) all(equal((v), encodeNullPairOfFloat16()))\n#define encodeDiscardedPairOfFloat16() vec4(0.0f, 1.0f, 0.0f, 1.0f)\n#define isDiscardedPairOfFloat16(v) all(equal((v), encodeDiscardedPairOfFloat16()))\n#define encodeFloat16NaN() vec2(0.5f, 1.0f)\n#define isEncodedFloat16NaN(v) all(equal((v), encodeFloat16NaN()))\nuvec2 packf16( float f)\n{\nuint y = packHalf2x16(vec2(f, 0.0f));\nreturn uvec2(y, y >> 8u) & 0xFFu;\n}\nfloat unpackf16(uvec2 v)\n{\nv &= 0xFFu;\nreturn unpackHalf2x16(v.x | (v.y << 8u)).x;\n}\nbool isEncodedFloat16Zero(vec2 v)\n{\nuvec2 w = uvec2(v * 255.0f);\nreturn 0u == w.x + w.y * (0x80u - w.y);\n}\n#endif";
-              }
+              })
             ),
             /***/
             2434: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _GLOBAL_GLSL\n#define _GLOBAL_GLSL\n#define threadLocation() ivec2(texCoord * texSize)\n#define outputSize() ivec2(texSize)\n#define threadPixel(img) textureLod((img), texCoord, 0.0f)\n#define pixelAt(img, pos) texelFetch((img), (pos), 0)\n#define pixelAtShortOffset(img, offset) textureLodOffset((img), texCoord, 0.0f, (offset))\n#define pixelAtLongOffset(img, offset) textureLod((img), texCoord + vec2(offset) / texSize, 0.0f)\n#endif";
-              }
+              })
             ),
             /***/
             439: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '#ifndef _INT32_GLSL\n#define _INT32_GLSL\n@include "platform.glsl"\nuint decodeUint32(vec4 rgba)\n{\nuvec4 v = uvec4(rgba * 255.0f) & 255u;\nreturn v.x | (v.y << 8u) | (v.z << 16u) | (v.w << 24u);\n}\nvec4 encodeUint32(uint value)\n{\n#if defined(APPLE_GPU) || (defined(APPLE) && defined(INTEL_GRAPHICS))\nuvec4 v = uvec4(value, value / 256u, value / 65536u, value / 16777216u) % 256u;\nreturn vec4(v) / 255.0f;\n#else\nuvec4 v = uvec4(value, value >> 8u, value >> 16u, value >> 24u) & 255u;\nreturn vec4(v) / 255.0f;\n#endif\n}\n#endif';
-              }
+              })
             ),
             /***/
             8545: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _KEYPOINT_DESCRIPTORS_GLSL\n#define _KEYPOINT_DESCRIPTORS_GLSL\n#if !defined(DESCRIPTOR_SIZE)\n#error Must define DESCRIPTOR_SIZE\n#elif !defined(_KEYPOINTS_GLSL)\n#error Must include keypoints.glsl\n#endif\nuint[DESCRIPTOR_SIZE] readKeypointDescriptor(sampler2D encodedKeypoints, int descriptorSize, int extraSize, int encoderLength, KeypointAddress address)\n{\nint descriptorOffset = sizeofEncodedKeypoint(0, extraSize) / 4;\nKeypointAddress descriptorAddress = KeypointAddress(address.base, descriptorOffset);\nuint[DESCRIPTOR_SIZE] descriptor;\nvec4 pixel; uvec4 bytes;\n@unroll\nfor(int i = 0; i < DESCRIPTOR_SIZE; i += 4) {\npixel = readKeypointData(encodedKeypoints, encoderLength, descriptorAddress);\nbytes = uvec4(pixel * 255.0f);\ndescriptor[i]   = bytes.r;\ndescriptor[i+1] = bytes.g;\ndescriptor[i+2] = bytes.b;\ndescriptor[i+3] = bytes.a;\ndescriptorAddress.offset++;\n}\nreturn descriptor;\n}\nuint[DESCRIPTOR_SIZE] readKeypointDescriptorFromDB(sampler2D descriptorDB, int descriptorDBStride, int index)\n{\nuint[DESCRIPTOR_SIZE] descriptor;\nint rasterIndex = index * (DESCRIPTOR_SIZE / 4) * int(index >= 0);\nvec4 pixel; uvec4 bytes; ivec2 pos;\n@unroll\nfor(int i = 0; i < DESCRIPTOR_SIZE; i += 4) {\npos = ivec2(rasterIndex % descriptorDBStride, rasterIndex / descriptorDBStride);\npixel = (index >= 0) ? texelFetch(descriptorDB, pos, 0) : vec4(0.0f);\nbytes = uvec4(pixel * 255.0f);\ndescriptor[i]   = bytes.r;\ndescriptor[i+1] = bytes.g;\ndescriptor[i+2] = bytes.b;\ndescriptor[i+3] = bytes.a;\nrasterIndex++;\n}\nreturn descriptor;\n}\nint distanceBetweenKeypointDescriptors(uint[DESCRIPTOR_SIZE] a, uint[DESCRIPTOR_SIZE] b)\n{\nconst int[256] POPCNT = int[256](0,1,1,2,1,2,2,3,1,2,2,3,2,3,3,4,1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,1,2,2,3,2,3,3,4,2,3,3,4,3,4,4,5,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,2,3,3,4,3,4,4,5,3,4,4,5,4,5,5,6,3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,3,4,4,5,4,5,5,6,4,5,5,6,5,6,6,7,4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8);\nuvec4 xor, u, v;\nint dist = 0;\nivec4 bits;\n@unroll\nfor(int i = 0; i < DESCRIPTOR_SIZE; i += 4) {\nu = uvec4(a[i], a[i+1], a[i+2], a[i+3]);\nv = uvec4(b[i], b[i+1], b[i+2], b[i+3]);\nxor = (u ^ v) & 255u;\nbits = ivec4(POPCNT[xor.x], POPCNT[xor.y], POPCNT[xor.z], POPCNT[xor.w]);\ndist += bits.x + bits.y + bits.z + bits.w;\n}\nreturn dist;\n}\n#endif";
-              }
+              })
             ),
             /***/
             6762: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '#ifndef _KEYPOINT_MATCHES_GLSL\n#define _KEYPOINT_MATCHES_GLSL\n@include "int32.glsl"\nconst int MATCH_INDEX_BITS = int(@MATCH_INDEX_BITS@);\nconst int MATCH_INDEX_MASK = int(@MATCH_INDEX_MASK@);\nconst int MATCH_MAX_INDEX = int(@MATCH_MAX_INDEX@);\nconst int MATCH_MAX_DISTANCE = int(@MATCH_MAX_DISTANCE@);\nstruct KeypointMatch\n{\nint index;\nint dist;\n};\nvec4 encodeKeypointMatch(KeypointMatch candidate)\n{\nuint index = uint(candidate.index) & uint(MATCH_INDEX_MASK);\nuint dist = uint(clamp(candidate.dist, 0, MATCH_MAX_DISTANCE));\nuint u32 = index | (dist << MATCH_INDEX_BITS);\nreturn encodeUint32(u32);\n}\nKeypointMatch decodeKeypointMatch(vec4 rgba)\n{\nuint u32 = decodeUint32(rgba);\nint dist = int(u32 >> MATCH_INDEX_BITS);\nint index = int(u32 & uint(MATCH_INDEX_MASK));\nreturn KeypointMatch(index, dist);\n}\nconst KeypointMatch MATCH_NOT_FOUND = KeypointMatch(MATCH_MAX_INDEX, MATCH_MAX_DISTANCE);\n#endif';
-              }
+              })
             ),
             /***/
             7639: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '#ifndef _KEYPOINTS_GLSL\n#define _KEYPOINTS_GLSL\n@include "math.glsl"\n@include "fixed-point.glsl"\n@include "float16.glsl"\n@include "pyramids.glsl"\nstruct Keypoint\n{\nvec2 position;\nfloat lod;\nfloat orientation;\nfloat score;\nuint flags;\n};\nstruct KeypointAddress\n{\nint base;\nint offset;\n};\nconst int MIN_KEYPOINT_SIZE = int(@MIN_KEYPOINT_SIZE@);\nconst int MAX_DESCRIPTOR_SIZE = int(@MAX_DESCRIPTOR_SIZE@);\nconst uint KPF_NONE = 0u;\nconst uint KPF_NULL = 1u;\nconst uint KPF_DISCARDED = 2u;\n#define encodeKeypointScore(score) encodeFloat16(score)\n#define decodeKeypointScore(encodedScore) decodeFloat16(encodedScore)\n#define encodeKeypointOrientation(angle) ((angle) * INV_PI_OVER_2 + 0.5f)\n#define decodeKeypointOrientation(value) ((value) * TWO_PI - PI)\n#define encodeNullKeypoint() (vec4(1.0f))\n#define encodeDiscardedKeypoint() (vec4(0.0f))\n#define isNullKeypoint(keypoint) ((((keypoint).flags) & KPF_NULL) != 0u)\n#define isDiscardedKeypoint(keypoint) ((((keypoint).flags) & KPF_DISCARDED) != 0u)\n#define isBadKeypoint(keypoint) ((keypoint).score < 0.0f)\n#define sizeofEncodedKeypoint(descriptorSize, extraSize) (MIN_KEYPOINT_SIZE + (descriptorSize) + (extraSize))\n#define sizeofEncodedKeypointHeader() sizeofEncodedKeypoint(0,0)\n#define findKeypointIndex(address, descriptorSize, extraSize) ((address).base / ((sizeofEncodedKeypoint((descriptorSize), (extraSize))) / 4))\nvec4 readKeypointData(sampler2D encodedKeypoints, int encoderLength, KeypointAddress address)\n{\nint rasterIndex = address.base + address.offset;\nvec4 data = pixelAt(encodedKeypoints, ivec2(rasterIndex % encoderLength, rasterIndex / encoderLength));\nreturn rasterIndex < encoderLength * encoderLength ? data : encodeNullKeypoint();\n}\nKeypointAddress findKeypointAddress(ivec2 thread, int encoderLength, int descriptorSize, int extraSize)\n{\nint threadRaster = thread.y * encoderLength + thread.x;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nint keypointIndex = int(threadRaster / pixelsPerKeypoint);\nKeypointAddress address = KeypointAddress(\nkeypointIndex * pixelsPerKeypoint,\nthreadRaster % pixelsPerKeypoint\n);\nreturn address;\n}\nKeypoint decodeKeypoint(sampler2D encodedKeypoints, int encoderLength, KeypointAddress address)\n{\nKeypoint keypoint;\nKeypointAddress positionAddress = KeypointAddress(address.base, 0);\nKeypointAddress propertiesAddress = KeypointAddress(address.base, 1);\nvec4 rawEncodedPosition = readKeypointData(encodedKeypoints, encoderLength, positionAddress);\nivec4 encodedPosition = ivec4(rawEncodedPosition * 255.0f);\nkeypoint.position = fixtovec2(fixed2_t(\nencodedPosition.r | (encodedPosition.g << 8),\nencodedPosition.b | (encodedPosition.a << 8)\n));\nvec4 rawEncodedProperties = readKeypointData(encodedKeypoints, encoderLength, propertiesAddress);\nkeypoint.lod = decodeLod(rawEncodedProperties.r);\nkeypoint.orientation = decodeKeypointOrientation(rawEncodedProperties.g);\nkeypoint.score = decodeKeypointScore(rawEncodedProperties.ba);\nbool isNull = all(equal(rawEncodedPosition, vec4(1)));\nbool isDiscarded = all(equal(rawEncodedPosition + rawEncodedProperties, vec4(0)));\nkeypoint.score = (isNull || isDiscarded) ? -1.0f : keypoint.score;\nkeypoint.flags = KPF_NONE;\nkeypoint.flags |= KPF_NULL * uint(isNull);\nkeypoint.flags |= KPF_DISCARDED * uint(isDiscarded);\nreturn keypoint;\n}\nvec4 encodeKeypointPosition(vec2 position)\n{\nconst vec2 zeros = vec2(0.0f);\nfixed2_t pos = vec2tofix(max(position, zeros));\nfixed2_t lo = pos & 255;\nfixed2_t hi = (pos >> 8) & 255;\nreturn vec4(lo.x, hi.x, lo.y, hi.y) / 255.0f;\n}\n#endif';
-              }
+              })
             ),
             /***/
             431: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _MATH_GLSL\n#define _MATH_GLSL\n#define TWO_PI          6.28318530718f\n#define PI              3.14159265359f\n#define PI_OVER_2       1.57079632679f\n#define PI_OVER_4       0.78539816339f\n#define INV_PI          0.3183098861837907f\n#define INV_PI_OVER_2   0.15915494309189535f\nconst highp float INFINITY = 1.0f / 0.0f;\nfloat fastAtan(float x)\n{\nfloat w = 1.0f - abs(x);\nreturn (w >= 0.0f) ? ((PI_OVER_4 + 0.273f * w) * x) :\n(sign(x) * PI_OVER_2 - (PI_OVER_4 + 0.273f * (1.0f - abs(1.0f / x))) / x);\n}\nfloat fastAtan2(float y, float x)\n{\nreturn (x == 0.0f) ? PI_OVER_2 * sign(y) : fastAtan(y / x) + float(x < 0.0f) * PI * sign(y);\n}\n#endif";
-              }
+              })
             ),
             /***/
             6822: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _PLATFORM_GLSL\n#define _PLATFORM_GLSL\n#if @APPLE@\n#define APPLE 1\n#endif\n#if @APPLE_GPU@\n#define APPLE_GPU 1\n#endif\n#if @INTEL_GRAPHICS@\n#define INTEL_GRAPHICS 1\n#endif\n#endif";
-              }
+              })
             ),
             /***/
             2728: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _PYRAMIDS_GLSL\n#define _PYRAMIDS_GLSL\n#define pyrPixel(pyr, lod) textureLod((pyr), texCoord, (lod))\n#define pyrPixelAtOffset(pyr, lod, pot, offset) textureLod((pyr), texCoord + ((pot) * vec2(offset)) / texSize, (lod))\n#define pyrPixelAt(pyr, pos, lod) textureLod((pyr), (vec2(pos) + vec2(0.5f)) / texSize, (lod))\n#define pyrPixelAtEx(pyr, pos, lod, pyrBaseSize) textureLod((pyr), (vec2(pos) + vec2(0.5f)) / vec2(pyrBaseSize), (lod))\n#define pyrSubpixelAtEx(pyr, pos, lod, pyrBaseSize) textureLod((pyr), ((pos) + vec2(0.5f)) / vec2(pyrBaseSize), (lod))\n#define pyrSubpixelAtExOffset(pyr, pos, lod, pot, offset, pyrBaseSize) textureLod((pyr), (((pos) + vec2(0.5f)) + ((pot) * vec2(offset))) / vec2(pyrBaseSize), (lod))\nconst int PYRAMID_MAX_LEVELS = int(@PYRAMID_MAX_LEVELS@);\nconst float F_PYRAMID_MAX_LEVELS = float(@PYRAMID_MAX_LEVELS@);\nconst float LOG2_PYRAMID_MAX_SCALE = float(@LOG2_PYRAMID_MAX_SCALE@);\n#define encodeLod(lod) ((LOG2_PYRAMID_MAX_SCALE + (lod)) / (LOG2_PYRAMID_MAX_SCALE + F_PYRAMID_MAX_LEVELS))\nfloat decodeLod(float encodedLod)\n{\nfloat lod = encodedLod * (LOG2_PYRAMID_MAX_SCALE + F_PYRAMID_MAX_LEVELS) - LOG2_PYRAMID_MAX_SCALE;\nreturn lod - lod * step(1.0f, encodedLod);\n}\n#define LOD_EPS 0.0625f\nconst float ENCODED_LOD_EPS = (LOD_EPS / (LOG2_PYRAMID_MAX_SCALE + F_PYRAMID_MAX_LEVELS));\n#define isSameLod(lod1, lod2) (abs((lod1) - (lod2)) < LOD_EPS)\n#define isSameEncodedLod(alpha1, alpha2) (abs((alpha1) - (alpha2)) < ENCODED_LOD_EPS)\n#endif";
-              }
+              })
             ),
             /***/
             6823: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#ifndef _SUBPIXEL_GLSL\n#define _SUBPIXEL_GLSL\n#define subpixelAt(image, pos) textureLod((image), ((pos) + vec2(0.5f)) / texSize, 0.0f)\nvec4 subpixelAtBI(sampler2D image, vec2 pos)\n{\nvec2 frc = fract(pos);\nvec2 ifrc = vec2(1.0f) - frc;\nvec2 p = (floor(pos) + vec2(0.5f)) / vec2(textureSize(image, 0));\nvec4 pix00 = textureLod(image, p, 0.0f);\nvec4 pix10 = textureLodOffset(image, p, 0.0f, ivec2(1,0));\nvec4 pix01 = textureLodOffset(image, p, 0.0f, ivec2(0,1));\nvec4 pix11 = textureLodOffset(image, p, 0.0f, ivec2(1,1));\nmat4 pix = mat4(pix00, pix10, pix01, pix11);\nvec4 mul = vec4(ifrc.x * ifrc.y, frc.x * ifrc.y, ifrc.x * frc.y, frc.x * frc.y);\nreturn pix * mul;\n}\n#endif";
-              }
+              })
             ),
             /***/
             1341: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D inputEncodedKeypoints;\nuniform int inputDescriptorSize;\nuniform int inputExtraSize;\nuniform int inputEncoderLength;\nuniform int outputDescriptorSize;\nuniform int outputExtraSize;\nuniform int outputEncoderLength;\nconst vec4 EMPTY_DESCRIPTOR = vec4(0.0f);\nvoid main()\n{\nivec2 thread = threadLocation();\nKeypointAddress myAddress = findKeypointAddress(thread, outputEncoderLength, outputDescriptorSize, outputExtraSize);\nint myIndex = findKeypointIndex(myAddress, outputDescriptorSize, outputExtraSize);\nint headerSize = sizeofEncodedKeypointHeader();\nbool isDescriptor = (myAddress.offset >= (headerSize + outputExtraSize) / 4);\nint addressOffset = myAddress.offset;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(inputDescriptorSize, inputExtraSize) / 4;\nKeypointAddress otherAddress = KeypointAddress(myIndex * pixelsPerKeypoint, addressOffset);\ncolor = isDescriptor ? EMPTY_DESCRIPTOR : readKeypointData(inputEncodedKeypoints, inputEncoderLength, otherAddress);\n}';
-              }
+              })
             ),
             /***/
             7833: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D inputEncodedKeypoints;\nuniform int inputDescriptorSize;\nuniform int inputExtraSize;\nuniform int inputEncoderLength;\nuniform int outputDescriptorSize;\nuniform int outputExtraSize;\nuniform int outputEncoderLength;\nvoid main()\n{\nivec2 thread = threadLocation();\nKeypointAddress myAddress = findKeypointAddress(thread, outputEncoderLength, outputDescriptorSize, outputExtraSize);\nint myIndex = findKeypointIndex(myAddress, outputDescriptorSize, outputExtraSize);\nint headerSize = sizeofEncodedKeypointHeader();\nbool isHead = (myAddress.offset < headerSize / 4);\nbool isDescriptor = (myAddress.offset >= (headerSize + outputExtraSize) / 4);\nbool isExtra = (!isHead && !isDescriptor);\nint numberOfExtraPixels = outputExtraSize / 4;\nint addressOffset = myAddress.offset - int(isDescriptor) * numberOfExtraPixels;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(inputDescriptorSize, inputExtraSize) / 4;\nKeypointAddress otherAddress = KeypointAddress(myIndex * pixelsPerKeypoint, addressOffset);\ncolor = isExtra ? vec4(0.0f) : readKeypointData(inputEncodedKeypoints, inputEncoderLength, otherAddress);\n}';
-              }
+              })
             ),
             /***/
             2352: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform mat3 homography;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nvoid main()\n{\nvec4 pixel = threadPixel(encodedKeypoints);\nivec2 thread = threadLocation();\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\ncolor = pixel;\nif(address.offset != 0)\nreturn;\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\nif(isBadKeypoint(keypoint))\nreturn;\nvec3 pos3 = homography * vec3(keypoint.position, 1.0f);\ncolor = encodeKeypointPosition(pos3.xy / pos3.z);\n}';
-              }
+              })
             ),
             /***/
             7541: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "keypoint-descriptors.glsl"\n@include "keypoint-matches.glsl"\nuniform sampler2D encodedMatches;\nuniform sampler2D encodedFilters;\nuniform int matcherLength;\nuniform sampler2D dbEncodedKeypoints;\nuniform int dbDescriptorSize;\nuniform int dbExtraSize;\nuniform int dbEncoderLength;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nuniform int passId;\n#ifndef NUMBER_OF_KEYPOINTS_PER_PASS\n#error Undefined NUMBER_OF_KEYPOINTS_PER_PASS\n#endif\nconst int INFINITE_DISTANCE = MATCH_MAX_DISTANCE + 1;\nvoid main()\n{\nivec2 thread = threadLocation();\nint keypointIndex = thread.x + thread.y * matcherLength;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = KeypointAddress(keypointIndex * pixelsPerKeypoint, 0);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\ncolor = encodeKeypointMatch(MATCH_NOT_FOUND);\nif(isBadKeypoint(keypoint))\nreturn;\nKeypointMatch bestMatch = decodeKeypointMatch(threadPixel(encodedMatches));\nKeypointMatch filterMatch = decodeKeypointMatch(threadPixel(encodedFilters));\nuint[DESCRIPTOR_SIZE] descriptor = readKeypointDescriptor(encodedKeypoints, descriptorSize, extraSize, encoderLength, address);\nuint[DESCRIPTOR_SIZE] dbDescriptor;\nint dbPixelsPerKeypoint = sizeofEncodedKeypoint(dbDescriptorSize, dbExtraSize) / 4;\nfor(int i = 0; i < NUMBER_OF_KEYPOINTS_PER_PASS; i++) {\nint dbKeypointIndex = passId * NUMBER_OF_KEYPOINTS_PER_PASS + i;\nKeypointAddress dbAddress = KeypointAddress(dbKeypointIndex * dbPixelsPerKeypoint, 0);\nKeypoint dbKeypoint = decodeKeypoint(dbEncodedKeypoints, dbEncoderLength, dbAddress);\ndbDescriptor = readKeypointDescriptor(dbEncodedKeypoints, dbDescriptorSize, dbExtraSize, dbEncoderLength, dbAddress);\nint dist = !isBadKeypoint(dbKeypoint) ? distanceBetweenKeypointDescriptors(descriptor, dbDescriptor) : INFINITE_DISTANCE;\nbestMatch.index = all(bvec2(\ndist < bestMatch.dist || (dist == bestMatch.dist && dbKeypointIndex > bestMatch.index),\ndist > filterMatch.dist || (dist == filterMatch.dist && dbKeypointIndex < filterMatch.index)\n)) ? dbKeypointIndex : bestMatch.index;\nbestMatch.dist = dbKeypointIndex == bestMatch.index ? dist : bestMatch.dist;\n}\ncolor = encodeKeypointMatch(bestMatch);\n}';
-              }
+              })
             ),
             /***/
             4868: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform int imageWidth;\nuniform int imageHeight;\nuniform int borderTop;\nuniform int borderRight;\nuniform int borderBottom;\nuniform int borderLeft;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nvoid main()\n{\nivec2 thread = threadLocation();\nKeypointAddress addr = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, addr);\nvec2 p = keypoint.position;\nbool withinBorder = any(lessThan(\nvec4(p.x, p.y, -p.x, -p.y),\nvec4(borderLeft, borderTop, borderRight - (imageWidth - 1), borderBottom - (imageHeight - 1))\n));\nvec4 pixel = threadPixel(encodedKeypoints);\nvec4 nullPixel = encodeNullKeypoint();\ncolor = withinBorder ? nullPixel : pixel;\n}';
-              }
+              })
             ),
             /***/
             5591: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nuniform int maxKeypoints;\nvoid main()\n{\nivec2 thread = threadLocation();\nint newEncoderLength = outputSize().x;\nKeypointAddress address = findKeypointAddress(thread, newEncoderLength, descriptorSize, extraSize);\nint index = findKeypointIndex(address, descriptorSize, extraSize);\nvec4 pixel = readKeypointData(encodedKeypoints, encoderLength, address);\ncolor = index < maxKeypoints ? pixel : encodeNullKeypoint();\n}';
-              }
+              })
             ),
             /***/
             191: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D encodedKeypointsA;\nuniform int encoderLengthA;\nuniform sampler2D encodedKeypointsB;\nuniform int encoderLengthB;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nuniform float threshold;\nvoid main()\n{\nivec2 thread = threadLocation();\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint index = findKeypointIndex(address, descriptorSize, extraSize);\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nvec4 data = readKeypointData(encodedKeypointsA, encoderLengthA, address);\ncolor = data;\nif(address.offset >= sizeofEncodedKeypointHeader() / 4)\nreturn;\nKeypoint keypointA = decodeKeypoint(encodedKeypointsA, encoderLengthA, address);\nKeypoint keypointB = decodeKeypoint(encodedKeypointsB, encoderLengthB, address);\ncolor = encodeNullKeypoint();\nif(isNullKeypoint(keypointA) && isNullKeypoint(keypointB))\nreturn;\ncolor = encodeDiscardedKeypoint();\nif(isDiscardedKeypoint(keypointA) || isDiscardedKeypoint(keypointB))\nreturn;\ncolor = encodeDiscardedKeypoint();\nif(isNullKeypoint(keypointA) || isNullKeypoint(keypointB))\nreturn;\nvec2 delta = keypointA.position - keypointB.position;\nbool shouldKeep = (dot(delta, delta) <= threshold * threshold);\ncolor = shouldKeep ? data : encodeDiscardedKeypoint();\n}';
-              }
+              })
             ),
             /***/
             5467: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "float16.glsl"\nuniform sampler2D offsetsImage;\nuniform ivec2 imageSize;\n#ifndef MAX_ITERATIONS\n#error Undefined MAX_ITERATIONS\n#endif\n#define decodeSkipOffset(pixel) (int((pixel).g * 255.0f) | (int((pixel).a * 255.0f) << 8))\n#define encodeSkipOffset(offset) (vec2((offset) & 255, (offset) >> 8) / 255.0f)\nvoid main()\n{\nvec4 pixel = threadPixel(offsetsImage);\nivec2 thread = threadLocation();\nint rasterIndex = thread.y * imageSize.x + thread.x;\nint offset = decodeSkipOffset(pixel);\nint totalOffset = offset;\nvec2 encodedScore = pixel.rb;\nivec2 pos = thread; int allow = 1;\n@unroll\nfor(int i = 0; i < MAX_ITERATIONS; i++) {\nallow *= int(pos.y < imageSize.y) * int(isEncodedFloat16Zero(pixel.rb));\nrasterIndex += allow * offset;\npos = ivec2(rasterIndex % imageSize.x, rasterIndex / imageSize.x);\npixel = pixelAt(offsetsImage, pos);\noffset = decodeSkipOffset(pixel);\ntotalOffset += allow * offset;\n}\ntotalOffset = min(totalOffset, 65535);\ncolor.rb = encodedScore;\ncolor.ga = encodeSkipOffset(totalOffset);\n}';
-              }
+              })
             ),
             /***/
             336: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "float16.glsl"\nuniform sampler2D corners;\nuniform ivec2 imageSize;\nvoid main()\n{\nvec4 pixel = threadPixel(corners);\nivec2 pos = threadLocation();\nvec2 encodedScore = pixel.rb;\nint offset = 0, allow = 1, jumped = 0;\n#define READ(j) ; \\\nallow *= int(pos.y < imageSize.y) * int(isEncodedFloat16Zero(pixel.rb)); \\\noffset += allow; \\\npos.x = (pos.x + 1) % imageSize.x; \\\npos.y += int(pos.x == 0); \\\npixel = (0 != (jumped |= int(pos.x == 0))) ? pixelAtShortOffset(corners, ivec2((j),1)) : pixelAtShortOffset(corners, ivec2((j),0))\nREAD(1); READ(2); READ(3); READ(4); READ(5); READ(6); READ(7);\ncolor.rb = encodedScore;\ncolor.ga = vec2(offset, 0) / 255.0f;\n}';
-              }
+              })
             ),
             /***/
             8968: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D offsetsImage;\nuniform ivec2 imageSize;\nuniform int passId;\nuniform int numPasses;\nuniform int keypointLimit;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#define decodeSkipOffset(pixel) (int((pixel).g * 255.0f) | (int((pixel).a * 255.0f) << 8))\nbool findQthKeypoint(int q, int p, inout ivec2 position, out vec4 pixel)\n{\nint notFirstPass = int(passId > 0);\nposition *= notFirstPass;\np |= -(1 - notFirstPass);\np -= notFirstPass;\nint rasterIndex = position.y * imageSize.x + position.x;\nwhile(position.y < imageSize.y && p != q) {\nposition = ivec2(rasterIndex % imageSize.x, rasterIndex / imageSize.x);\npixel = texelFetch(offsetsImage, position, 0);\np += int(!isEncodedFloat16Zero(pixel.rb));\nrasterIndex += max(1, decodeSkipOffset(pixel));\n}\nreturn (p == q);\n}\nvoid main()\n{\nivec2 thread = threadLocation();\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint q = findKeypointIndex(address, descriptorSize, extraSize);\ncolor = vec4(0.0f);\nif(address.offset != 0)\nreturn;\ncolor = threadPixel(encodedKeypoints);\nint numPixels = encoderLength * encoderLength;\nint maxKeypoints = numPixels / pixelsPerKeypoint;\nint maxKeypointsPerPass = maxKeypoints / numPasses + int(maxKeypoints % numPasses != 0);\nint targetPassId = q / maxKeypointsPerPass;\nif(passId != targetPassId)\nreturn;\nint lastIndexFromPrevPass = passId * maxKeypointsPerPass - 1;\nKeypointAddress lastAddressFromPrevPass = KeypointAddress(max(0, lastIndexFromPrevPass) * pixelsPerKeypoint, 0);\nKeypoint lastKeypointFromPrevPass = decodeKeypoint(encodedKeypoints, encoderLength, lastAddressFromPrevPass);\nivec2 position = passId > 0 ? ivec2(lastKeypointFromPrevPass.position) : ivec2(0);\nvec4 pixel;\ncolor = encodeNullKeypoint();\nif(q >= min(maxKeypoints, keypointLimit) || !findQthKeypoint(q, lastIndexFromPrevPass, position, pixel))\nreturn;\ncolor = encodeKeypointPosition(vec2(position));\n}';
-              }
+              })
             ),
             /***/
             1733: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D corners;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nvoid main()\n{\nivec2 thread = threadLocation();\nvec4 pixel = threadPixel(encodedKeypoints);\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint q = findKeypointIndex(address, descriptorSize, extraSize);\ncolor = pixel;\nif(address.offset != 1)\nreturn;\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\nvec4 kpix = pixelAt(corners, ivec2(keypoint.position));\nkeypoint.score = decodeFloat16(kpix.rb);\ncolor.r = kpix.a;\ncolor.g = encodeKeypointOrientation(0.0f);\ncolor.ba = encodeKeypointScore(keypoint.score);\n}';
-              }
+              })
             ),
             /***/
             9674: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D corners;\nuniform mediump usampler2D lookupTable;\nuniform int stride;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nuniform int encoderCapacity;\nconst uvec2 NULL_ELEMENT = uvec2(0xFFFFu);\nvoid main()\n{\nivec2 thread = threadLocation();\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint index = findKeypointIndex(address, descriptorSize, extraSize);\nivec2 pos = ivec2(index % stride, index / stride);\nuvec4 entry = texelFetch(lookupTable, pos, 0);\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nint rasterIndex = address.base + address.offset;\nint numberOfPixels = encoderLength * encoderLength;\nint numberOfValidPixels = numberOfPixels - (numberOfPixels % pixelsPerKeypoint);\nint maxEncoderCapacity = numberOfValidPixels / pixelsPerKeypoint;\ncolor = encodeNullKeypoint();\nif(all(equal(entry.xy, NULL_ELEMENT)) || index >= min(encoderCapacity, maxEncoderCapacity))\nreturn;\ncolor = encodeKeypointPosition(vec2(entry.xy));\nif(address.offset == 0)\nreturn;\ncolor = vec4(0.0f);\nif(address.offset >= sizeofEncodedKeypointHeader() / 4)\nreturn;\nvec4 pixel = texelFetch(corners, ivec2(entry.xy), 0);\nvec2 encodedScore = encodeKeypointScore(decodeFloat16(pixel.rb));\nfloat encodedOrientation = encodeKeypointOrientation(0.0f);\nfloat encodedLod = pixel.a;\ncolor = vec4(encodedLod, encodedOrientation, encodedScore);\n}';
-              }
+              })
             ),
             /***/
             2090: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nvoid main()\n{\ncolor = encodeNullKeypoint();\n}';
-              }
+              })
             ),
             /***/
             1855: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "pyramids.glsl"\n@include "float16.glsl"\nuniform sampler2D corners;\nuniform sampler2D pyramid;\nuniform float lod;\nuniform int threshold;\n#define USE_VARYINGS 1\n#if !defined(FAST_TYPE)\n#error Undefined FAST_TYPE\n#elif FAST_TYPE == 916\nin vec2 v_pix0, v_pix1, v_pix2, v_pix3, v_pix4, v_pix5, v_pix6, v_pix7,\nv_pix8, v_pix9, v_pix10,v_pix11,v_pix12,v_pix13,v_pix14,v_pix15;\n#else\n#error Invalid FAST_TYPE\n#endif\n#define PIX(x,y) pyrPixelAtOffset(pyramid, lod, pot, ivec2((x),(y))).g\n#define XIP(v) textureLod(pyramid, (v), lod).g\nvoid main()\n{\nfloat pixel = threadPixel(pyramid).g;\nvec4 prev = threadPixel(corners);\nivec2 thread = threadLocation();\nivec2 size = outputSize();\nfloat pot = exp2(lod);\nfloat t = float(clamp(threshold, 0, 255)) / 255.0f;\nfloat ct = pixel + t, c_t = pixel - t;\ncolor = vec4(prev.r, pixel, prev.ba);\n#if FAST_TYPE == 916\nconst ivec4 margin = ivec4(3, 3, 4, 4);\nif(any(lessThan(ivec4(thread, size - thread), margin)))\nreturn;\n#if USE_VARYINGS\nfloat p0 = XIP(v_pix0), p4 = XIP(v_pix4), p8 = XIP(v_pix8), p12 = XIP(v_pix12);\n#else\nfloat p0 = PIX(0,3), p4 = PIX(3,0), p8 = PIX(0,-3), p12 = PIX(-3,0);\n#endif\nbvec4 brighter = bvec4(p0 > ct, p4 > ct, p8 > ct, p12 > ct);\nbvec4 darker = bvec4(p0 < c_t, p4 < c_t, p8 < c_t, p12 < c_t);\nbvec4 bpairs = bvec4(all(brighter.xy), all(brighter.yz), all(brighter.zw), all(brighter.wx));\nbvec4 dpairs = bvec4(all(darker.xy), all(darker.yz), all(darker.zw), all(darker.wx));\nif(!(any(bpairs) || any(dpairs)))\nreturn;\n#if USE_VARYINGS\nfloat p1 = XIP(v_pix1), p2 = XIP(v_pix2), p3 = XIP(v_pix3),\np5 = XIP(v_pix5), p6 = XIP(v_pix6), p7 = XIP(v_pix7),\np9 = XIP(v_pix9), p10 = XIP(v_pix10), p11 = XIP(v_pix11),\np13 = XIP(v_pix13), p14 = XIP(v_pix14), p15 = XIP(v_pix15);\n#else\nfloat p1 = PIX(1,3), p2 = PIX(2,2), p3 = PIX(3,1),\np5 = PIX(3,-1), p6 = PIX(2,-2), p7 = PIX(1,-3),\np9 = PIX(-1,-3), p10 = PIX(-2,-2), p11 = PIX(-3,-1),\np13 = PIX(-3,1), p14 = PIX(-2,2), p15 = PIX(-1,3);\n#endif\nbool A=(p0>ct),B=(p1>ct),C=(p2>ct),D=(p3>ct),E=(p4>ct),F=(p5>ct),G=(p6>ct),H=(p7>ct),I=(p8>ct),J=(p9>ct),K=(p10>ct),L=(p11>ct),M=(p12>ct),N=(p13>ct),O=(p14>ct),P=(p15>ct),a=(p0<c_t),b=(p1<c_t),c=(p2<c_t),d=(p3<c_t),e=(p4<c_t),f=(p5<c_t),g=(p6<c_t),h=(p7<c_t),i=(p8<c_t),j=(p9<c_t),k=(p10<c_t),l=(p11<c_t),m=(p12<c_t),n=(p13<c_t),o=(p14<c_t),p=(p15<c_t);\nbool isCorner=A&&(B&&(K&&L&&J&&(M&&N&&O&&P||G&&H&&I&&(M&&N&&O||F&&(M&&N||E&&(M||D))))||C&&(K&&L&&M&&(N&&O&&P||G&&H&&I&&J&&(N&&O||F&&(N||E)))||D&&(N&&(L&&M&&(K&&G&&H&&I&&J&&(O||F)||O&&P)||k&&l&&m&&e&&f&&g&&h&&i&&j)||E&&(O&&(M&&N&&(K&&L&&G&&H&&I&&J||P)||k&&l&&m&&n&&f&&g&&h&&i&&j)||F&&(P&&(N&&O||k&&l&&m&&n&&o&&g&&h&&i&&j)||G&&(O&&P||H&&(P||I)||k&&l&&m&&n&&o&&p&&h&&i&&j)||k&&l&&m&&n&&o&&h&&i&&j&&(p||g))||k&&l&&m&&n&&h&&i&&j&&(o&&(p||g)||f&&(o&&p||g)))||k&&l&&m&&h&&i&&j&&(n&&(o&&p||g&&(o||f))||e&&(n&&o&&p||g&&(n&&o||f))))||k&&l&&h&&i&&j&&(m&&(n&&o&&p||g&&(n&&o||f&&(n||e)))||d&&(m&&n&&o&&p||g&&(m&&n&&o||f&&(m&&n||e)))))||k&&h&&i&&j&&(l&&(m&&n&&o&&p||g&&(m&&n&&o||f&&(m&&n||e&&(m||d))))||c&&(l&&m&&n&&o&&p||g&&(l&&m&&n&&o||f&&(l&&m&&n||e&&(l&&m||d))))))||K&&I&&J&&(L&&M&&N&&O&&P||G&&H&&(L&&M&&N&&O||F&&(L&&M&&N||E&&(L&&M||D&&(L||C)))))||h&&i&&j&&(b&&(k&&l&&m&&n&&o&&p||g&&(k&&l&&m&&n&&o||f&&(k&&l&&m&&n||e&&(k&&l&&m||d&&(k&&l||c)))))||k&&(l&&m&&n&&o&&p||g&&(l&&m&&n&&o||f&&(l&&m&&n||e&&(l&&m||d&&(l||c)))))))||B&&(H&&I&&J&&(K&&L&&M&&N&&O&&P&&a||G&&(K&&L&&M&&N&&O&&a||F&&(K&&L&&M&&N&&a||E&&(K&&L&&M&&a||D&&(K&&L&&a||C)))))||a&&k&&i&&j&&(l&&m&&n&&o&&p||g&&h&&(l&&m&&n&&o||f&&(l&&m&&n||e&&(l&&m||d&&(l||c))))))||C&&(K&&H&&I&&J&&(L&&M&&N&&O&&P&&a&&b||G&&(L&&M&&N&&O&&a&&b||F&&(L&&M&&N&&a&&b||E&&(L&&M&&a&&b||D))))||a&&b&&k&&l&&j&&(m&&n&&o&&p||g&&h&&i&&(m&&n&&o||f&&(m&&n||e&&(m||d)))))||D&&(K&&L&&H&&I&&J&&(M&&N&&O&&P&&a&&b&&c||G&&(M&&N&&O&&a&&b&&c||F&&(M&&N&&a&&b&&c||E)))||a&&b&&k&&l&&m&&c&&(n&&o&&p||g&&h&&i&&j&&(n&&o||f&&(n||e))))||E&&(K&&L&&M&&H&&I&&J&&(N&&O&&P&&a&&b&&c&&d||G&&(N&&O&&a&&b&&c&&d||F))||a&&b&&l&&m&&n&&c&&d&&(k&&g&&h&&i&&j&&(o||f)||o&&p))||F&&(K&&L&&M&&N&&H&&I&&J&&(O&&P&&a&&b&&c&&d&&e||G)||a&&b&&m&&n&&o&&c&&d&&e&&(k&&l&&g&&h&&i&&j||p))||G&&(K&&L&&M&&N&&O&&H&&I&&J||a&&b&&n&&o&&p&&c&&d&&e&&f)||H&&(K&&L&&M&&N&&O&&P&&I&&J||a&&b&&o&&p&&c&&d&&e&&f&&g)||a&&(b&&(k&&l&&j&&(m&&n&&o&&p||g&&h&&i&&(m&&n&&o||f&&(m&&n||e&&(m||d))))||c&&(k&&l&&m&&(n&&o&&p||g&&h&&i&&j&&(n&&o||f&&(n||e)))||d&&(l&&m&&n&&(k&&g&&h&&i&&j&&(o||f)||o&&p)||e&&(m&&n&&o&&(k&&l&&g&&h&&i&&j||p)||f&&(n&&o&&p||g&&(o&&p||h&&(p||i)))))))||k&&i&&j&&(l&&m&&n&&o&&p||g&&h&&(l&&m&&n&&o||f&&(l&&m&&n||e&&(l&&m||d&&(l||c))))))||h&&i&&j&&(k&&l&&m&&n&&o&&p||g&&(k&&l&&m&&n&&o||f&&(k&&l&&m&&n||e&&(k&&l&&m||d&&(k&&l||c&&(b||k))))));\nif(!isCorner)\nreturn;\nmat4 mp = mat4(p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15);\nmat4 mct = mp - mat4(ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct);\nmat4 mc_t = mat4(c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t) - mp;\nconst vec4 zeros = vec4(0.0f), ones = vec4(1.0f);\nvec4 bs = max(mct[0], zeros), ds = max(mc_t[0], zeros);\nbs += max(mct[1], zeros);     ds += max(mc_t[1], zeros);\nbs += max(mct[2], zeros);     ds += max(mc_t[2], zeros);\nbs += max(mct[3], zeros);     ds += max(mc_t[3], zeros);\nfloat thisScore = max(dot(bs, ones), dot(ds, ones)) / 16.0f;\nfloat prevScore = decodeFloat16(prev.rb);\nvec3 thisResult = vec3(encodeFloat16(thisScore), encodeLod(lod));\ncolor.rba = thisScore > prevScore ? thisResult : color.rba;\n#endif\n}';
-              }
+              })
             ),
             /***/
             4824: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform mediump float lod;\n#if !defined(FAST_TYPE)\n#error Undefined FAST_TYPE\n#elif FAST_TYPE == 916\nout vec2 v_pix0, v_pix1, v_pix2, v_pix3, v_pix4, v_pix5, v_pix6, v_pix7,\nv_pix8, v_pix9, v_pix10,v_pix11,v_pix12,v_pix13,v_pix14,v_pix15;\n#else\n#error Invalid FAST_TYPE\n#endif\n#define PIX(x,y) (texCoord + ((pot) * vec2((x),(y))) / texSize)\nvoid vsmain()\n{\nfloat pot = exp2(lod);\n#if FAST_TYPE == 916\nv_pix0 = PIX(0,3); v_pix1 = PIX(1,3), v_pix2 = PIX(2,2), v_pix3 = PIX(3,1);\nv_pix4 = PIX(3,0); v_pix5 = PIX(3,-1), v_pix6 = PIX(2,-2), v_pix7 = PIX(1,-3);\nv_pix8 = PIX(0,-3); v_pix9 = PIX(-1,-3), v_pix10 = PIX(-2,-2), v_pix11 = PIX(-3,-1);\nv_pix12 = PIX(-3,0); v_pix13 = PIX(-3,1), v_pix14 = PIX(-2,2), v_pix15 = PIX(-1,3);\n#endif\n}";
-              }
+              })
             ),
             /***/
             2381: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "keypoint-descriptors.glsl"\nuniform sampler2D encodedKeypointsA;\nuniform int encoderLengthA;\nuniform sampler2D encodedKeypointsB;\nuniform int encoderLengthB;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nuniform int threshold;\nvoid main()\n{\nivec2 thread = threadLocation();\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint index = findKeypointIndex(address, descriptorSize, extraSize);\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nvec4 data = readKeypointData(encodedKeypointsA, encoderLengthA, address);\ncolor = data;\nif(address.offset >= sizeofEncodedKeypointHeader() / 4)\nreturn;\nKeypoint keypointA = decodeKeypoint(encodedKeypointsA, encoderLengthA, address);\nKeypoint keypointB = decodeKeypoint(encodedKeypointsB, encoderLengthB, address);\ncolor = encodeNullKeypoint();\nif(isNullKeypoint(keypointA) && isNullKeypoint(keypointB))\nreturn;\ncolor = encodeDiscardedKeypoint();\nif(isDiscardedKeypoint(keypointA) || isDiscardedKeypoint(keypointB))\nreturn;\ncolor = encodeDiscardedKeypoint();\nif(isNullKeypoint(keypointA) || isNullKeypoint(keypointB))\nreturn;\nuint[DESCRIPTOR_SIZE] descriptorA, descriptorB;\ndescriptorA = readKeypointDescriptor(encodedKeypointsA, descriptorSize, extraSize, encoderLengthA, address);\ndescriptorB = readKeypointDescriptor(encodedKeypointsB, descriptorSize, extraSize, encoderLengthB, address);\nint dist = distanceBetweenKeypointDescriptors(descriptorA, descriptorB);\nbool shouldKeep = (dist <= threshold);\ncolor = shouldKeep ? data : encodeDiscardedKeypoint();\n}';
-              }
+              })
             ),
             /***/
             6060: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "float16.glsl"\nuniform sampler2D corners;\nuniform sampler2D maxScore;\nuniform float quality;\nvoid main()\n{\nvec4 pixel = threadPixel(corners);\nfloat score = decodeFloat16(pixel.rb);\nfloat maxval = decodeFloat16(threadPixel(maxScore).rb);\nfloat threshold = maxval * clamp(quality, 0.0f, 1.0f);\ncolor = pixel;\ncolor.rb = score >= threshold ? color.rb : encodeFloat16(0.0f);\n}';
-              }
+              })
             ),
             /***/
             9974: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "pyramids.glsl"\n@include "float16.glsl"\n@include "filters.glsl"\n#if !defined(WINDOW_SIZE)\n#error Undefined WINDOW_SIZE\n#endif\n#define WINDOW_RADIUS ((WINDOW_SIZE - 1) / 2)\nuniform sampler2D corners;\nuniform sampler2D pyramid;\nuniform sampler2D derivatives;\nuniform float lod;\nuniform float lodStep;\nuniform float gaussian[@WINDOW_SIZE@];\n#define G(x) gaussian[(x) + WINDOW_RADIUS]\n#define W(x,y) (G(x) * G(y))\n#define H(ox,oy) dpix = pixelAtShortOffset(derivatives, ivec2((ox),(oy))); \\\ndf = (1.0f + lod) * decodePairOfFloat16(dpix); \\\nh += vec3(df.x * df.x, df.x * df.y, df.y * df.y) * W((ox),(oy))\nvoid main()\n{\nfloat intensity = 0.0f;\nivec2 thread = threadLocation();\nvec4 pixel = threadPixel(corners);\nvec4 dpix = vec4(0.0f);\nvec2 df = vec2(0.0f);\nvec3 h = vec3(0.0f);\ncolor = pixel;\n#if WINDOW_SIZE == 1\nH(0,0);\n#elif WINDOW_SIZE == 3\nH(-1,-1); H(0,-1); H(1,-1);\nH(-1,0); H(0,0); H(1,0);\nH(-1,1); H(0,1); H(1,1);\n#elif WINDOW_SIZE == 5\nH(-2,-2); H(-1,-2); H(0,-2); H(1,-2); H(2,-2);\nH(-2,-1); H(-1,-1); H(0,-1); H(1,-1); H(2,-1);\nH(-2,0); H(-1,0); H(0,0); H(1,0); H(2,0);\nH(-2,1); H(-1,1); H(0,1); H(1,1); H(2,1);\nH(-2,2); H(-1,2); H(0,2); H(1,2); H(2,2);\n#elif WINDOW_SIZE == 7\nH(-3,-3); H(-2,-3); H(-1,-3); H(0,-3); H(1,-3); H(2,-3); H(3,-3);\nH(-3,-2); H(-2,-2); H(-1,-2); H(0,-2); H(1,-2); H(2,-2); H(3,-2);\nH(-3,-1); H(-2,-1); H(-1,-1); H(0,-1); H(1,-1); H(2,-1); H(3,-1);\nH(-3,0); H(-2,0); H(-1,0); H(0,0); H(1,0); H(2,0); H(3,0);\nH(-3,1); H(-2,1); H(-1,1); H(0,1); H(1,1); H(2,1); H(3,1);\nH(-3,2); H(-2,2); H(-1,2); H(0,2); H(1,2); H(2,2); H(3,2);\nH(-3,3); H(-2,3); H(-1,3); H(0,3); H(1,3); H(2,3); H(3,3);\n#else\n#error Invalid WINDOW_SIZE\n#endif\nfloat response = 0.5f * (h.x + h.z - sqrt((h.x - h.z) * (h.x - h.z) + 4.0f * h.y * h.y));\nresponse /= float(WINDOW_SIZE * WINDOW_SIZE);\nfloat lodPlus = min(float(PYRAMID_MAX_LEVELS - 1), lod + lodStep);\nfloat currentScaleStrength = abs(laplacian(pyramid, vec2(thread), lod));\nfloat previousScaleStrength = abs(laplacian(pyramid, vec2(thread), lodPlus));\nfloat previousResponse = decodeFloat16(pixel.rb);\nvec4 result = vec4(encodeFloat16(response), encodeLod(lod), intensity);\ncolor.rbag = (currentScaleStrength >= previousScaleStrength || previousResponse == 0.0f) ? result : pixel.rbag;\n}';
-              }
+              })
             ),
             /***/
             3047: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoint-matches.glsl"\nvoid main()\n{\n#if ENCODE_FILTERS != 0\nKeypointMatch initial = KeypointMatch(MATCH_MAX_INDEX, 0);\n#else\nKeypointMatch initial = KeypointMatch(MATCH_MAX_INDEX, MATCH_MAX_DISTANCE);\n#endif\ncolor = encodeKeypointMatch(initial);\n}';
-              }
+              })
             ),
             /***/
             3266: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoint-matches.glsl"\nuniform sampler2D encodedMatches;\nuniform sampler2D encodedKthMatches;\nuniform int numberOfMatchesPerKeypoint;\nuniform int kthMatch;\nvoid main()\n{\nivec2 thread = threadLocation();\nivec2 matcherSize = textureSize(encodedMatches, 0);\nivec2 kthMatcherSize = textureSize(encodedKthMatches, 0);\nint rasterIndex = thread.y * matcherSize.x + thread.x;\nint matchIndex = rasterIndex / numberOfMatchesPerKeypoint;\nint matchCell = rasterIndex % numberOfMatchesPerKeypoint;\ncolor = threadPixel(encodedMatches);\nif(matchCell != kthMatch)\nreturn;\ncolor = encodeKeypointMatch(MATCH_NOT_FOUND);\nif(matchIndex >= kthMatcherSize.x * kthMatcherSize.y)\nreturn;\nivec2 pos = ivec2(matchIndex % kthMatcherSize.x, matchIndex / kthMatcherSize.x);\ncolor = texelFetch(encodedKthMatches, pos, 0);\n}';
-              }
+              })
             ),
             /***/
             8018: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "pyramids.glsl"\n@include "float16.glsl"\n@include "filters.glsl"\nuniform sampler2D corners;\nuniform sampler2D pyramid;\nuniform float lodStep;\nuniform float lodOffset;\nvoid main()\n{\nivec2 thread = threadLocation();\nvec4 pixel = threadPixel(corners);\nfloat lod = decodeLod(pixel.a);\nfloat lodMinus = max(0.0f, lod - lodStep + lodOffset);\nfloat lodPlus = min(float(PYRAMID_MAX_LEVELS - 1), lod + lodStep + lodOffset);\nfloat lapMinus = laplacian(pyramid, vec2(thread), lodMinus);\nfloat lapPlus = abs(lodPlus - lodMinus) < 1e-5 ? lapMinus : laplacian(pyramid, vec2(thread), lodPlus);\ncolor = encodePairOfFloat16(vec2(lapMinus, lapPlus));\n}';
-              }
+              })
             ),
             /***/
             3168: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "float16.glsl"\nuniform sampler2D nextPyramid;\nuniform sampler2D prevPyramid;\nuniform sampler2D encodedFlow;\nuniform sampler2D prevKeypoints;\nuniform int level;\nuniform int depth;\nuniform int numberOfIterations;\nuniform float discardThreshold;\nuniform float epsilon;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#ifndef WINDOW_SIZE\n#error Undefined WINDOW_SIZE\n#endif\n#define NEXT_IMAGE 1\n#define PREV_IMAGE 0\nconst int WINDOW_RADIUS = (WINDOW_SIZE - 1) / 2;\nconst int WINDOW_SIZE_SQUARED = (WINDOW_SIZE) * (WINDOW_SIZE);\nconst int WINDOW_SIZE_PLUS = (WINDOW_SIZE) + 2;\nconst int WINDOW_SIZE_PLUS_SQUARED = WINDOW_SIZE_PLUS * WINDOW_SIZE_PLUS;\nconst int DBL_WINDOW_SIZE_PLUS_SQUARED = 2 * WINDOW_SIZE_PLUS_SQUARED;\nconst int WINDOW_RADIUS_PLUS = (WINDOW_SIZE_PLUS - 1) / 2;\nconst highp float FLT_SCALE = 9.5367431640625e-7;\nconst highp float FLT_EPSILON = 0.00000011920929f;\nint pixelBuffer[DBL_WINDOW_SIZE_PLUS_SQUARED];\n#define prevPixel(index) pixelBuffer[(index)]\n#define nextPixel(index) pixelBuffer[WINDOW_SIZE_PLUS_SQUARED + (index)]\n#define pixelIndex(i, j) (((j) + WINDOW_RADIUS_PLUS) * WINDOW_SIZE_PLUS + ((i) + WINDOW_RADIUS_PLUS))\nivec2 derivBuffer[WINDOW_SIZE_SQUARED];\n#define derivativesAt(x, y) derivBuffer[((y) + WINDOW_RADIUS) * WINDOW_SIZE + ((x) + WINDOW_RADIUS)]\nvoid readWindow(vec2 center, float lod)\n{\nconst int r = WINDOW_RADIUS;\nivec2 pyrBaseSize = textureSize(prevPyramid, 0);\nfloat pot = exp2(lod);\nivec2 offset; int idx;\n#define readPixelsAt(ox, oy) offset = ivec2((ox), (oy)); \\\nidx = pixelIndex(offset.x, offset.y); \\\nnextPixel(idx) = int(255.0f * pyrSubpixelAtExOffset(nextPyramid, center, lod, pot, offset, pyrBaseSize).g); \\\nprevPixel(idx) = int(255.0f * pyrSubpixelAtExOffset(prevPyramid, center, lod, pot, offset, pyrBaseSize).g)\nfor(int j = 0; j < WINDOW_SIZE; j++) {\nfor(int i = 0; i < WINDOW_SIZE; i++) {\nreadPixelsAt(i-r, j-r);\n}\n}\nint r1 = r+1;\nfor(int k = 0; k < WINDOW_SIZE; k++) {\nreadPixelsAt(-r1, k-r);\nreadPixelsAt( r1, k-r);\nreadPixelsAt(k-r,-r1);\nreadPixelsAt(k-r, r1);\n}\nreadPixelsAt(-r1,-r1);\nreadPixelsAt( r1,-r1);\nreadPixelsAt(-r1, r1);\nreadPixelsAt( r1, r1);\n}\nivec2 computeDerivatives(int imageCode, ivec2 offset)\n{\nconst mat3 dx = mat3(\n3, 0, -3,\n10, 0, -10,\n3, 0, -3\n);\nconst mat3 dy = mat3(\n3, 10, 3,\n0, 0, 0,\n-3, -10, -3\n);\nint indexOffset = imageCode * WINDOW_SIZE_PLUS_SQUARED;\nmat3 window = mat3(\npixelBuffer[indexOffset + pixelIndex(offset.x-1, offset.y-1)],\npixelBuffer[indexOffset + pixelIndex(offset.x+0, offset.y-1)],\npixelBuffer[indexOffset + pixelIndex(offset.x+1, offset.y-1)],\npixelBuffer[indexOffset + pixelIndex(offset.x-1, offset.y+0)],\n0.0f,\npixelBuffer[indexOffset + pixelIndex(offset.x+1, offset.y+0)],\npixelBuffer[indexOffset + pixelIndex(offset.x-1, offset.y+1)],\npixelBuffer[indexOffset + pixelIndex(offset.x+0, offset.y+1)],\npixelBuffer[indexOffset + pixelIndex(offset.x+1, offset.y+1)]\n);\nmat3 fx = matrixCompMult(dx, window);\nmat3 fy = matrixCompMult(dy, window);\nconst vec3 ones = vec3(1.0f);\nreturn ivec2(\ndot(fx[0], ones) + dot(fx[1], ones) + dot(fx[2], ones),\ndot(fy[0], ones) + dot(fy[1], ones) + dot(fy[2], ones)\n);\n}\nint readBufferedPixel(int imageCode, ivec2 offset)\n{\nconst int r = WINDOW_RADIUS;\noffset = clamp(offset, -r, r);\nint indexOffset = imageCode * WINDOW_SIZE_PLUS_SQUARED;\nreturn pixelBuffer[indexOffset + pixelIndex(offset.x, offset.y)];\n}\nint readBufferedSubpixel(int imageCode, vec2 offset)\n{\nivec2 p = ivec2(floor(offset));\nvec2 frc = fract(offset);\nvec2 ifrc = vec2(1.0f) - frc;\nvec4 pix = vec4(\nreadBufferedPixel(imageCode, p),\nreadBufferedPixel(imageCode, p + ivec2(1,0)),\nreadBufferedPixel(imageCode, p + ivec2(0,1)),\nreadBufferedPixel(imageCode, p + ivec2(1,1))\n);\nvec4 sub = vec4(\nifrc.x * ifrc.y,\nfrc.x * ifrc.y,\nifrc.x * frc.y,\nfrc.x * frc.y\n);\nreturn int(0.5f + dot(sub*pix, vec4(1.0f)));\n}\nvec2 computeMismatch(vec2 pyrGuess, vec2 localGuess)\n{\nconst int r = WINDOW_RADIUS;\nint timeDerivative;\nivec2 mismatch = ivec2(0);\nint x, y, _x, _y;\nvec2 d = pyrGuess + localGuess;\n#define innerLoop() \\\nfor(_x = 0; _x < WINDOW_SIZE; _x++) { \\\nx = _x - r; y = _y - r; \\\ntimeDerivative = ( \\\nreadBufferedSubpixel(NEXT_IMAGE, vec2(x, y) + d) - \\\nreadBufferedPixel(PREV_IMAGE, ivec2(x, y)) \\\n); \\\nmismatch += derivativesAt(x, y) * timeDerivative; \\\n}\n@unroll\nfor(_y = 0; _y < WINDOW_SIZE; _y++) {\ninnerLoop();\n}\nreturn vec2(mismatch) * FLT_SCALE;\n}\nbool isInsideImage(vec2 position)\n{\nvec2 imageSize = vec2(textureSize(nextPyramid, 0));\nvec2 border = vec2(WINDOW_SIZE);\nreturn all(bvec4(\ngreaterThanEqual(position, border),\nlessThan(position, imageSize - border)\n));\n}\nvoid main()\n{\nvec4 pixel = threadPixel(encodedFlow);\nivec2 thread = threadLocation();\nfloat windowArea = float(WINDOW_SIZE * WINDOW_SIZE);\nconst int r = WINDOW_RADIUS;\nint keypointIndex = thread.x + thread.y * outputSize().x;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = KeypointAddress(keypointIndex * pixelsPerKeypoint, 0);\nKeypoint keypoint = decodeKeypoint(prevKeypoints, encoderLength, address);\ncolor = encodeNullPairOfFloat16();\nif(isNullKeypoint(keypoint))\nreturn;\ncolor = encodeDiscardedPairOfFloat16();\nif(isBadKeypoint(keypoint))\nreturn;\nvec2 pyrGuess = (level < depth - 1) ? decodePairOfFloat16(pixel) : vec2(0.0f);\npyrGuess *= 2.0f;\nreadWindow(keypoint.position, float(level));\nivec2 derivatives;\nivec3 harris3i = ivec3(0);\nfor(int j = 0; j < WINDOW_SIZE; j++) {\nfor(int i = 0; i < WINDOW_SIZE; i++) {\nderivatives = computeDerivatives(PREV_IMAGE, ivec2(i-r, j-r));\nharris3i += ivec3(\nderivatives.x * derivatives.x,\nderivatives.x * derivatives.y,\nderivatives.y * derivatives.y\n);\nderivativesAt(i-r, j-r) = derivatives;\n}\n}\nhighp vec3 harris = vec3(harris3i) * FLT_SCALE;\nhighp mat2 invHarris = mat2(harris.z, -harris.y, -harris.y, harris.x);\nhighp float det = harris.x * harris.z - harris.y * harris.y;\nhighp float invDet = abs(det) >= FLT_EPSILON ? 1.0f / det : 0.0f;\nhighp float minEigenvalue = 0.5f * ((harris.x + harris.z) - sqrt(\n(harris.x - harris.z) * (harris.x - harris.z) + 4.0f * (harris.y * harris.y)\n));\nint niceNumbers = int(abs(det) >= FLT_EPSILON && minEigenvalue >= discardThreshold * windowArea);\nbool goodKeypoint = (level > 0) || (niceNumbers != 0);\nhighp float eps2 = epsilon * epsilon;\nhighp vec2 mismatch, delta, localGuess = vec2(0.0f);\nfor(int k = 0; k < numberOfIterations; k++) {\nmismatch = niceNumbers != 0 ? computeMismatch(pyrGuess, localGuess) : vec2(0.0f);\ndelta = mismatch * invHarris * invDet;\nniceNumbers *= int(eps2 <= dot(delta, delta));\nlocalGuess += float(niceNumbers) * delta;\n}\nvec2 opticalFlow = pyrGuess + localGuess;\nbool mustDiscard = (level == 0) && any(bvec2(\n!goodKeypoint,\n!isInsideImage(keypoint.position + opticalFlow)\n));\ncolor = !mustDiscard ? encodePairOfFloat16(opticalFlow) : encodeDiscardedPairOfFloat16();\n}';
-              }
+              })
             ),
             /***/
             3890: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '#if @FS_USE_CUSTOM_PRECISION@\nprecision mediump int;\nprecision mediump float;\n#endif\n#if !defined(STAGE)\n#error Undefined STAGE\n#elif STAGE == 1\n@include "float16.glsl"\nuniform sampler2D corners;\n#elif STAGE < 1\nuniform mediump usampler2D lookupTable;\n#else\n#define SKIP_TEXTURE_READS 1\n#define DENSITY_FACTOR 0.10\nuniform mediump usampler2D lookupTable;\nuniform int blockSize;\nuniform int width;\nuniform int height;\nin vec2 v_topLeft, v_top, v_topRight,\nv_left, v_center, v_right,\nv_bottomLeft, v_bottom, v_bottomRight;\n#endif\nconst uvec2 NULL_ELEMENT = uvec2(0xFFFFu);\nvoid main()\n{\n#if STAGE == 1\nuvec2 outSize = uvec2(outputSize());\nuvec2 thread = uvec2(threadLocation());\nuvec2 size = uvec2(textureSize(corners, 0));\nuint location = thread.y * outSize.x + thread.x;\nivec2 pos = ivec2(location % size.x, location / size.x);\nvec4 pixel = location < size.x * size.y ? texelFetch(corners, pos, 0) : vec4(0.0f);\nbool isCorner = !isEncodedFloat16Zero(pixel.rb);\ncolor = isCorner ? uvec4(uvec2(pos), 1u, 0u) : uvec4(NULL_ELEMENT, 0u, 0u);\n#elif STAGE > 1\nint dblBlockSize = 2 * blockSize;\nivec2 thread = threadLocation();\nivec2 offset = thread % dblBlockSize;\nivec2 delta = thread - offset;\n#if SKIP_TEXTURE_READS\nif(blockSize >= 8) {\nuint sb = texture(lookupTable, texCoord).z;\nfloat p = max((float(sb) / float(blockSize)) / float(blockSize), DENSITY_FACTOR);\nfloat rowthr = float(dblBlockSize) * p + 3.0f * sqrt(p * (1.0f - p));\ncolor = uvec4(NULL_ELEMENT, 4u * sb, 0u);\nif(offset.y >= max(1, int(ceil(rowthr))))\nreturn;\n}\n#endif\n#define deltaCenter ivec2(0,0)\n#define deltaTop ivec2(0,-blockSize)\n#define deltaTopRight ivec2(blockSize,-blockSize)\n#define deltaRight ivec2(blockSize,0)\n#define deltaBottomRight ivec2(blockSize,blockSize)\n#define deltaBottom ivec2(0,blockSize)\n#define deltaBottomLeft ivec2(-blockSize,blockSize)\n#define deltaLeft ivec2(-blockSize,0)\n#define deltaTopLeft ivec2(-blockSize,-blockSize)\nivec2 boundary = ivec2(width - 1, height - 1) / blockSize;\nivec2 bottomRightPos = thread + deltaBottomRight;\nuvec2 valid = uvec2(\nbottomRightPos.x < width  || bottomRightPos.x / blockSize == boundary.x,\nbottomRightPos.y < height || bottomRightPos.y / blockSize == boundary.y\n);\nuvec4 mask[4];\nmask[0] = uvec4(1u, valid.x, valid.y, valid.x * valid.y);\nmask[1] = uvec4(1u, 1u, valid.y, valid.y);\nmask[2] = uvec4(1u, valid.x, 1u, valid.x);\nmask[3] = uvec4(1u);\n#if SKIP_TEXTURE_READS\n#define calcSb(delta) texelFetch(lookupTable, blockSize * ((thread + (delta)) / blockSize), 0).z\nuint center = calcSb(deltaCenter);\nuint top = calcSb(deltaTop);\nuint topRight = calcSb(deltaTopRight);\nuint right = calcSb(deltaRight);\nuint bottomRight = calcSb(deltaBottomRight);\nuint bottom = calcSb(deltaBottom);\nuint bottomLeft = calcSb(deltaBottomLeft);\nuint left = calcSb(deltaLeft);\nuint topLeft = calcSb(deltaTopLeft);\n#else\n#define calcSb(pos) texture(lookupTable, (pos)).z\nuint center = calcSb(v_center);\nuint top = calcSb(v_top);\nuint topRight = calcSb(v_topRight);\nuint right = calcSb(v_right);\nuint bottomRight = calcSb(v_bottomRight);\nuint bottom = calcSb(v_bottom);\nuint bottomLeft = calcSb(v_bottomLeft);\nuint left = calcSb(v_left);\nuint topLeft = calcSb(v_topLeft);\n#endif\nuvec4 sums[4];\nsums[0] = uvec4(center, right, bottom, bottomRight);\nsums[1] = uvec4(left, center, bottomLeft, bottom);\nsums[2] = uvec4(top, topRight, center, right);\nsums[3] = uvec4(topLeft, top, left, center);\nivec2 cmp = ivec2(greaterThanEqual(offset, ivec2(blockSize)));\nint option = 2 * cmp.y + cmp.x;\nuvec4 cdef = sums[option] * mask[option];\nuint c2b = cdef.x, d2b = cdef.y, e2b = cdef.z, f2b = cdef.w;\nuint sb = center;\nuint s2b = c2b + d2b + e2b + f2b;\ns2b = s2b < sb ? 0xFFFFu : min(0xFFFFu, s2b);\nuint w2b = uint(min(dblBlockSize, width - delta.x));\nuvec2 uoffset = uvec2(offset);\nuint ceiling = s2b >= uoffset.x ? (s2b - uoffset.x) / w2b + uint((s2b - uoffset.x) % w2b > 0u) : 0u;\ncolor = uvec4(NULL_ELEMENT, s2b, 0u);\nif(uoffset.y >= ceiling)\nreturn;\nuint i2b = uoffset.y * w2b + uoffset.x;\nuint j2b = i2b >= c2b ? i2b - c2b : 0u;\nuint k2b = j2b >= d2b ? j2b - d2b : 0u;\nuint l2b = k2b >= e2b ? k2b - e2b : 0u;\nuint wl = uint(min(blockSize, width - delta.x));\nuint wr = uint(min(blockSize, width - delta.x - blockSize));\nivec2 magicOffset = (\n(i2b < c2b) ? ivec2(i2b % wl, i2b / wl) : (\n(j2b < d2b) ? ivec2(j2b % wr, j2b / wr) + ivec2(blockSize, 0) : (\n(k2b < e2b) ? ivec2(k2b % wl, k2b / wl) + ivec2(0, blockSize) : (\n(l2b < f2b) ? ivec2(l2b % wr, l2b / wr) + ivec2(blockSize) : ivec2(0)\n))));\nuvec2 a2b = texelFetch(lookupTable, delta + magicOffset, 0).xy;\ncolor = uvec4(a2b, s2b, 0u);\n#else\nuvec4 pix = texture(lookupTable, texCoord);\ncolor = all(equal(pix.xy, NULL_ELEMENT)) ? vec4(0,1,1,1) : vec4(1,0,0,1);\n#endif\n}';
-              }
+              })
             ),
             /***/
             8647: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "#if !defined(STAGE) || STAGE < 1\n#error Invalid STAGE\n#else\nuniform mediump int blockSize;\nout vec2 v_topLeft, v_top, v_topRight,\nv_left, v_center, v_right,\nv_bottomLeft, v_bottom, v_bottomRight;\nvoid vsmain()\n{\nfloat b = float(blockSize);\n#define V(x,y) (texCoord + (vec2((x),(y)) * b) / texSize)\nv_topLeft = V(-1,-1); v_top = V(0,-1); v_topRight = V(1,-1);\nv_left = V(-1,0); v_center = V(0,0); v_right = V(1,0);\nv_bottomLeft = V(-1,1); v_bottom = V(0,1); v_bottomRight = V(1,1);\n}\n#endif";
-              }
+              })
             ),
             /***/
             4776: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "keypoint-matches.glsl"\n@include "keypoint-descriptors.glsl"\nuniform sampler2D candidates;\nuniform sampler2D filters;\nuniform int matcherLength;\nuniform sampler2D tables;\nuniform sampler2D descriptorDB;\nuniform int tableIndex;\nuniform int bucketCapacity;\nuniform int bucketsPerTable;\nuniform int tablesStride;\nuniform int descriptorDBStride;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#if HASH_SIZE > SEQUENCE_MAXLEN\n#error LSH: invalid HASH_SIZE\n#elif SEQUENCE_COUNT * SEQUENCE_MAXLEN * 4 > 16384\n#error LSH: sequences are too large!\n#elif (SEQUENCE_COUNT * SEQUENCE_MAXLEN) % 4 > 0\n#error LSH: sequences of invalid size!\n#endif\nlayout(std140) uniform LSHSequences\n{\nuvec4 sequences[(SEQUENCE_COUNT * SEQUENCE_MAXLEN) / 4];\n};\n#if HASH_SIZE == 10\nconst int SWAP_COUNT[3] = int[3](1, 11, 56);\nconst int[56] SWAP = int[56](0,1,2,4,8,16,32,64,128,256,512,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768);\n#elif HASH_SIZE == 11\nconst int SWAP_COUNT[3] = int[3](1, 12, 67);\nconst int[67] SWAP = int[67](0,1,2,4,8,16,32,64,128,256,512,1024,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536);\n#elif HASH_SIZE == 12\nconst int SWAP_COUNT[3] = int[3](1, 13, 79);\nconst int[79] SWAP = int[79](0,1,2,4,8,16,32,64,128,256,512,1024,2048,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072);\n#elif HASH_SIZE == 13\nconst int SWAP_COUNT[3] = int[3](1, 14, 92);\nconst int[92] SWAP = int[92](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144);\n#elif HASH_SIZE == 14\nconst int SWAP_COUNT[3] = int[3](1, 15, 106);\nconst int[106] SWAP = int[106](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144,8193,8194,8196,8200,8208,8224,8256,8320,8448,8704,9216,10240,12288);\n#elif HASH_SIZE == 15\nconst int SWAP_COUNT[3] = int[3](1, 16, 121);\nconst int[121] SWAP = int[121](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144,8193,8194,8196,8200,8208,8224,8256,8320,8448,8704,9216,10240,12288,16385,16386,16388,16392,16400,16416,16448,16512,16640,16896,17408,18432,20480,24576);\n#elif HASH_SIZE == 16\nconst int SWAP_COUNT[3] = int[3](1, 17, 137);\nconst int[137] SWAP = int[137](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144,8193,8194,8196,8200,8208,8224,8256,8320,8448,8704,9216,10240,12288,16385,16386,16388,16392,16400,16416,16448,16512,16640,16896,17408,18432,20480,24576,32769,32770,32772,32776,32784,32800,32832,32896,33024,33280,33792,34816,36864,40960,49152);\n#elif HASH_SIZE == 17\nconst int SWAP_COUNT[3] = int[3](1, 18, 154);\nconst int[154] SWAP = int[154](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144,8193,8194,8196,8200,8208,8224,8256,8320,8448,8704,9216,10240,12288,16385,16386,16388,16392,16400,16416,16448,16512,16640,16896,17408,18432,20480,24576,32769,32770,32772,32776,32784,32800,32832,32896,33024,33280,33792,34816,36864,40960,49152,65537,65538,65540,65544,65552,65568,65600,65664,65792,66048,66560,67584,69632,73728,81920,98304);\n#elif HASH_SIZE == 18\nconst int SWAP_COUNT[3] = int[3](1, 19, 172);\nconst int[172] SWAP = int[172](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144,8193,8194,8196,8200,8208,8224,8256,8320,8448,8704,9216,10240,12288,16385,16386,16388,16392,16400,16416,16448,16512,16640,16896,17408,18432,20480,24576,32769,32770,32772,32776,32784,32800,32832,32896,33024,33280,33792,34816,36864,40960,49152,65537,65538,65540,65544,65552,65568,65600,65664,65792,66048,66560,67584,69632,73728,81920,98304,131073,131074,131076,131080,131088,131104,131136,131200,131328,131584,132096,133120,135168,139264,147456,163840,196608);\n#elif HASH_SIZE == 19\nconst int SWAP_COUNT[3] = int[3](1, 20, 191);\nconst int[191] SWAP = int[191](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144,8193,8194,8196,8200,8208,8224,8256,8320,8448,8704,9216,10240,12288,16385,16386,16388,16392,16400,16416,16448,16512,16640,16896,17408,18432,20480,24576,32769,32770,32772,32776,32784,32800,32832,32896,33024,33280,33792,34816,36864,40960,49152,65537,65538,65540,65544,65552,65568,65600,65664,65792,66048,66560,67584,69632,73728,81920,98304,131073,131074,131076,131080,131088,131104,131136,131200,131328,131584,132096,133120,135168,139264,147456,163840,196608,262145,262146,262148,262152,262160,262176,262208,262272,262400,262656,263168,264192,266240,270336,278528,294912,327680,393216);\n#elif HASH_SIZE == 20\nconst int SWAP_COUNT[3] = int[3](1, 21, 211);\nconst int[211] SWAP = int[211](0,1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768,65536,131072,262144,524288,3,5,6,9,10,12,17,18,20,24,33,34,36,40,48,65,66,68,72,80,96,129,130,132,136,144,160,192,257,258,260,264,272,288,320,384,513,514,516,520,528,544,576,640,768,1025,1026,1028,1032,1040,1056,1088,1152,1280,1536,2049,2050,2052,2056,2064,2080,2112,2176,2304,2560,3072,4097,4098,4100,4104,4112,4128,4160,4224,4352,4608,5120,6144,8193,8194,8196,8200,8208,8224,8256,8320,8448,8704,9216,10240,12288,16385,16386,16388,16392,16400,16416,16448,16512,16640,16896,17408,18432,20480,24576,32769,32770,32772,32776,32784,32800,32832,32896,33024,33280,33792,34816,36864,40960,49152,65537,65538,65540,65544,65552,65568,65600,65664,65792,66048,66560,67584,69632,73728,81920,98304,131073,131074,131076,131080,131088,131104,131136,131200,131328,131584,132096,133120,135168,139264,147456,163840,196608,262145,262146,262148,262152,262160,262176,262208,262272,262400,262656,263168,264192,266240,270336,278528,294912,327680,393216,524289,524290,524292,524296,524304,524320,524352,524416,524544,524800,525312,526336,528384,532480,540672,557056,589824,655360,786432);\n#else\n#error Invalid HASH_SIZE\n#endif\n#if LEVEL < 0 || LEVEL > 2\n#error Invalid LEVEL\n#endif\nconst uint END_OF_LIST = 0xFFFFFFFFu;\nconst int NUMBER_OF_HASHES = SWAP_COUNT[LEVEL];\nuint sequenceElement(int sequenceIndex, int elementIndex)\n{\nint offset = (SEQUENCE_MAXLEN) * sequenceIndex + elementIndex;\nuvec4 tuple = sequences[offset / 4];\nreturn tuple[offset & 3];\n}\nint descriptorHash(uint[DESCRIPTOR_SIZE] descriptor, int sequenceIndex)\n{\nuint bit, b, m;\nint hash = 0;\n@unroll\nfor(int i = 0; i < HASH_SIZE; i++) {\nbit = sequenceElement(sequenceIndex, i);\nb = bit >> 3u;\nm = 1u << (bit & 7u);\nhash = (hash << 1) | int((descriptor[b] & m) != 0u);\n}\nreturn hash;\n}\n#define readTableData(tables, tablesStride, rasterIndex) decodeUint32(texelFetch((tables), ivec2((rasterIndex) % (tablesStride), (rasterIndex) / (tablesStride)), 0))\nvoid main()\n{\nivec2 thread = threadLocation();\nint keypointIndex = thread.x + thread.y * matcherLength;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = KeypointAddress(keypointIndex * pixelsPerKeypoint, 0);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\ncolor = encodeKeypointMatch(MATCH_NOT_FOUND);\nif(isBadKeypoint(keypoint))\nreturn;\nKeypointMatch candidate = decodeKeypointMatch(threadPixel(candidates));\nKeypointMatch mfilter = decodeKeypointMatch(threadPixel(filters));\nuint[DESCRIPTOR_SIZE] candidateDescriptor;\nuint[DESCRIPTOR_SIZE] descriptor = readKeypointDescriptor(encodedKeypoints, descriptorSize, extraSize, encoderLength, address);\nint hash0 = descriptorHash(descriptor, tableIndex);\nfor(int h = 0; h < NUMBER_OF_HASHES; h++) {\nint hash = hash0 ^ SWAP[h];\nint tableAddress = tableIndex * bucketsPerTable * bucketCapacity;\nint bucketAddress = tableAddress + hash * bucketCapacity;\nbool validEntry = true;\nfor(int b = 0; b < bucketCapacity; b++) {\nint entryAddress = bucketAddress + b;\nuint entry = validEntry ? readTableData(tables, tablesStride, entryAddress) : END_OF_LIST;\nvalidEntry = (validEntry && entry != END_OF_LIST);\nint candidateIndex = int(entry);\ncandidateDescriptor = readKeypointDescriptorFromDB(descriptorDB, descriptorDBStride, validEntry ? candidateIndex : -1);\nint descriptorDistance = distanceBetweenKeypointDescriptors(descriptor, candidateDescriptor);\nKeypointMatch match = KeypointMatch(candidateIndex, descriptorDistance);\nbool betterThanCandidate = (match.dist < candidate.dist) || (match.dist == candidate.dist && match.index > candidate.index);\nbool worseThanFilter = (match.dist > mfilter.dist) || (match.dist == mfilter.dist && match.index < mfilter.index);\nbool nicerMatch = (validEntry && betterThanCandidate && worseThanFilter);\nivec2 v = nicerMatch ? ivec2(match.index, match.dist) : ivec2(candidate.index, candidate.dist);\ncandidate = KeypointMatch(v.x, v.y);\n}\n}\ncolor = encodeKeypointMatch(candidate);\n}';
-              }
+              })
             ),
             /***/
             2648: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "int32.glsl"\n#if !defined(STAGE)\n#error Undefined STAGE\n#elif STAGE == 1\nuniform sampler2D encodedKeypointsA;\nuniform sampler2D encodedKeypointsB;\nuniform int encoderLengthA;\nuniform int encoderLengthB;\nuniform int encoderCapacityA;\nuniform int encoderCapacityB;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#elif STAGE == 2\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nuniform int maxKeypoints;\n#elif STAGE == 3\nuniform sampler2D array;\nuniform int blockSize;\n#elif STAGE == 4\nuniform sampler2D array;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#elif STAGE == 5\nuniform sampler2D array;\n#else\n#error Invalid STAGE\n#endif\n#define NULL_KEYPOINT_INDEX 0xFFFF\nconst highp uint UNIT = 0x10000u;\nvoid main()\n{\n#if STAGE == 1\nivec2 thread = threadLocation();\nKeypointAddress addr = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint keypointIndex = findKeypointIndex(addr, descriptorSize, extraSize);\nint newKeypointIndex = keypointIndex < encoderCapacityA ? keypointIndex : keypointIndex - encoderCapacityA;\ncolor = encodeNullKeypoint();\nif(newKeypointIndex >= max(encoderCapacityA, encoderCapacityB))\nreturn;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\naddr = KeypointAddress(newKeypointIndex * pixelsPerKeypoint, addr.offset);\nvec4 dataA = readKeypointData(encodedKeypointsA, encoderLengthA, addr);\nvec4 dataB = readKeypointData(encodedKeypointsB, encoderLengthB, addr);\ncolor = keypointIndex < encoderCapacityA ? dataA : dataB;\n#elif STAGE == 2\nivec2 thread = threadLocation();\nint keypointIndex = thread.y * outputSize().x + thread.x;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress addr = KeypointAddress(keypointIndex * pixelsPerKeypoint, 0);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, addr);\nbool isValid = !isNullKeypoint(keypoint) && keypointIndex < maxKeypoints;\nkeypointIndex = isValid ? keypointIndex : NULL_KEYPOINT_INDEX;\ncolor = encodeUint32(uint(keypointIndex & 0xFFFF) | (isValid ? UNIT : 0u));\n#elif STAGE == 3\nivec2 thread = threadLocation();\nivec2 size = outputSize();\nint arrayLength = size.x * size.y;\nint arrayIndex = thread.y * size.x + thread.x;\nint arrayIndexLeft = arrayIndex - blockSize;\nint arrayIndexRight = arrayIndex + blockSize;\nint mask = int(arrayIndexRight < arrayLength || arrayIndexRight / blockSize == (arrayLength - 1) / blockSize);\narrayIndexLeft = max(0, arrayIndexLeft);\narrayIndexRight = min(arrayLength - 1, arrayIndexRight);\n#define raster2pos(k) ivec2((k) % size.x, (k) / size.x)\nuvec3 entries32 = uvec3(\ndecodeUint32(threadPixel(array)),\ndecodeUint32(texelFetch(array, raster2pos(arrayIndexLeft), 0)),\ndecodeUint32(texelFetch(array, raster2pos(arrayIndexRight), 0))\n);\nivec3 sb = ivec3((entries32 >> 16u) & 0xFFFFu);\nsb.z *= mask;\nint dblBlockSize = 2 * blockSize;\nint offset = arrayIndex % dblBlockSize;\nint s2b = sb.x + (offset < blockSize ? sb.z : sb.y);\nint l2b = offset < blockSize ? sb.x : sb.y;\nuint keypointIndex = entries32.x & 0xFFFFu;\nuint shiftedS2b = uint(s2b) << 16u;\ncolor = encodeUint32(uint(NULL_KEYPOINT_INDEX) | shiftedS2b);\nif(offset >= s2b)\nreturn;\ncolor = encodeUint32(keypointIndex | shiftedS2b);\nif(offset < l2b)\nreturn;\nvec4 entry = texelFetch(array, raster2pos(arrayIndex + blockSize - l2b), 0);\nkeypointIndex = decodeUint32(entry) & 0xFFFFu;\ncolor = encodeUint32(keypointIndex | shiftedS2b);\n#elif STAGE == 4\nivec2 thread = threadLocation();\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress addr = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint keypointIndex = findKeypointIndex(addr, descriptorSize, extraSize);\n#define raster2pos(k) ivec2((k) % size.x, (k) / size.x)\nivec2 size = textureSize(array, 0);\nuint sortedPair = decodeUint32(texelFetch(array, raster2pos(keypointIndex), 0));\nint newKeypointIndex = int(sortedPair & 0xFFFFu);\ncolor = encodeNullKeypoint();\nif(newKeypointIndex == NULL_KEYPOINT_INDEX || keypointIndex >= size.x * size.y)\nreturn;\nKeypointAddress newAddr = KeypointAddress(newKeypointIndex * pixelsPerKeypoint, addr.offset);\ncolor = readKeypointData(encodedKeypoints, encoderLength, newAddr);\n#elif STAGE == 5\nuint val = decodeUint32(threadPixel(array));\ncolor = (val & 0xFFFFu) == uint(NULL_KEYPOINT_INDEX) ? vec4(0,1,1,1) : vec4(1,0,0,1);\n#endif\n}';
-              }
+              })
             ),
             /***/
             8825: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "pyramids.glsl"\n@include "float16.glsl"\n@include "filters.glsl"\n#if !defined(USE_LAPLACIAN)\n#error Undefined USE_LAPLACIAN\n#endif\nuniform sampler2D corners;\nuniform sampler2D pyramid;\nuniform float lodStep;\n#if USE_LAPLACIAN\nuniform sampler2D pyrLaplacian;\n#endif\nvoid main()\n{\nivec2 thread = threadLocation();\nvec4 pixel = threadPixel(corners);\nfloat score = decodeFloat16(pixel.rb);\nfloat myEncodedLod = pixel.a;\nfloat lod = decodeLod(myEncodedLod);\nfloat lodPlus = lod + lodStep;\nfloat lodMinus = lod - lodStep;\nfloat pot = exp2(lod);\nfloat potPlus = exp2(lodPlus);\nfloat potMinus = exp2(lodMinus);\ncolor = pixel;\nif(score == 0.0f)\nreturn;\n#define P(p,u,v) textureLod(corners, texCoord + (p) * vec2((u),(v)) / texSize, 0.0f)\nvec4 pix[18];\n#define D(u,v) P(potMinus,(u),(v))\npix[0] = D(-1,-1); pix[1] = D(0,-1); pix[2] = D(1,-1);\npix[3] = D(-1,0); pix[4] = D(0,0); pix[5] = D(1,0);\npix[6] = D(-1,1); pix[7] = D(0,1); pix[8] = D(1,1);\n#define U(u,v) P(potPlus,(u),(v))\npix[9] = U(-1,-1); pix[10] = U(0,-1); pix[11] = U(1,-1);\npix[12] = U(-1,0); pix[13] = U(0,0); pix[14] = U(1,0);\npix[15] = U(-1,1); pix[16] = U(0,1); pix[17] = U(1,1);\nfloat scores[18];\n#define C(j) decodeFloat16(pix[j].rb)\nscores[0] = C(0); scores[1] = C(1); scores[2] = C(2);\nscores[3] = C(3); scores[4] = C(4); scores[5] = C(5);\nscores[6] = C(6); scores[7] = C(7); scores[8] = C(8);\nscores[9] = C(9); scores[10] = C(10); scores[11] = C(11);\nscores[12] = C(12); scores[13] = C(13); scores[14] = C(14);\nscores[15] = C(15); scores[16] = C(16); scores[17] = C(17);\nfloat lods[18];\n#define E(j) decodeLod(pix[j].a)\nlods[0] = E(0); lods[1] = E(1); lods[2] = E(2);\nlods[3] = E(3); lods[4] = E(4); lods[5] = E(5);\nlods[6] = E(6); lods[7] = E(7); lods[8] = E(8);\nlods[9] = E(9); lods[10] = E(10); lods[11] = E(11);\nlods[12] = E(12); lods[13] = E(13); lods[14] = E(14);\nlods[15] = E(15); lods[16] = E(16); lods[17] = E(17);\n#if USE_LAPLACIAN\n#define L(p,u,v) textureLod(pyrLaplacian, texCoord + (p) * vec2((u),(v)) / texSize, 0.0f)\nmat3 strengths[2];\nstrengths[0] = mat3(\n#define Lm(u,v) abs(decodeFloat16(L(potMinus,(u),(v)).xy))\nLm(-1,-1), Lm(0,-1), Lm(1,-1),\nLm(-1,0), Lm(0,0), Lm(1,0),\nLm(-1,1), Lm(0,1), Lm(1,1)\n);\nstrengths[1] = mat3(\n#define Lp(u,v) abs(decodeFloat16(L(potPlus,(u),(v)).zw))\nLp(-1,-1), Lp(0,-1), Lp(1,-1),\nLp(-1,0), Lp(0,0), Lp(1,0),\nLp(-1,1), Lp(0,1), Lp(1,1)\n);\nfloat myStrength = abs(laplacian(pyramid, vec2(thread), lod));\n#else\n#define L(u,v) (((v)+1)*3 + ((u)+1))\nmat3 strengths[2];\nstrengths[0] = mat3(\n#define Lm(u,v) scores[L((u),(v))]\nLm(-1,-1), Lm(0,-1), Lm(1,-1),\nLm(-1,0), Lm(0,0), Lm(1,0),\nLm(-1,1), Lm(0,1), Lm(1,1)\n);\nstrengths[1] = mat3(\n#define Lp(u,v) scores[9 + L((u),(v))]\nLp(-1,-1), Lp(0,-1), Lp(1,-1),\nLp(-1,0), Lp(0,0), Lp(1,0),\nLp(-1,1), Lp(0,1), Lp(1,1)\n);\nfloat myStrength = score;\n#endif\n#define B(j,lod) float(isSameLod(lods[j], (lod))) * float(scores[j] > 0.0f)\nmat3 nearLod[2];\nnearLod[0] = mat3(\n#define Bm(j) B((j), lodMinus)\nBm(0), Bm(1), Bm(2),\nBm(3), Bm(4), Bm(5),\nBm(6), Bm(7), Bm(8)\n);\nnearLod[1] = mat3(\n#define Bp(j) B((j), lodPlus)\nBp(9), Bp(10), Bp(11),\nBp(12), Bp(13), Bp(14),\nBp(15), Bp(16), Bp(17)\n);\nmat3 upStrengths = matrixCompMult(strengths[1], nearLod[1]);\nmat3 downStrengths = matrixCompMult(strengths[0], nearLod[0]);\nvec3 maxUpStrength3 = max(upStrengths[0], max(upStrengths[1], upStrengths[2]));\nvec3 maxDownStrength3 = max(downStrengths[0], max(downStrengths[1], downStrengths[2]));\nvec3 maxStrength3 = max(maxUpStrength3, maxDownStrength3);\nfloat maxStrength = max(maxStrength3.x, max(maxStrength3.y, maxStrength3.z));\ncolor.rb = encodeFloat16(score * step(maxStrength, myStrength));\n}';
-              }
+              })
             ),
             /***/
             5693: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "pyramids.glsl"\n@include "float16.glsl"\nuniform sampler2D corners;\nvoid main()\n{\nivec2 thread = threadLocation();\nvec4 pixel = threadPixel(corners);\nfloat encodedLod = pixel.a;\nfloat score = decodeFloat16(pixel.rb);\nfloat lod = decodeLod(encodedLod);\nfloat pot = exp2(lod);\ncolor = pixel;\nif(score == 0.0f)\nreturn;\n#if 1\nvec2 gridSize = vec2(pot);\nvec2 gridLocation = floor(mod(texCoord * texSize, gridSize));\nvec2 gridDelta = gridLocation / gridSize - vec2(0.5f);\nfloat gridStep = 1.0f / pot;\nconst float adjustment = 1.25f;\ncolor.rb = encodeFloat16(0.0f);\nif(max(abs(gridDelta.x), abs(gridDelta.y)) > adjustment * gridStep)\nreturn;\n#endif\n#define P(x,y) textureLod(corners, texCoord + pot * vec2((x), (y)) / texSize, 0.0f)\nvec4 pix[9];\npix[0] = P(-1,-1); pix[1] = P(0,-1); pix[2] = P(1,-1);\npix[3] = P(-1, 0); pix[4] = pixel;   pix[5] = P(1, 0);\npix[6] = P(-1, 1); pix[7] = P(0, 1); pix[8] = P(1, 1);\n#define S(j) decodeFloat16(pix[j].rb)\nmat3 scores = mat3(\nS(0), S(1), S(2),\nS(3), S(4), S(5),\nS(6), S(7), S(8)\n);\n#define B(j) float(isSameLod(decodeLod(pix[j].a), lod))\nmat3 sameLod = mat3(\nB(0), B(1), B(2),\nB(3), B(4), B(5),\nB(6), B(7), B(8)\n);\nmat3 sameLodScores = matrixCompMult(scores, sameLod);\nvec3 maxScore3 = max(sameLodScores[0], max(sameLodScores[1], sameLodScores[2]));\nfloat maxScore = max(maxScore3.x, max(maxScore3.y, maxScore3.z));\ncolor.rb = encodeFloat16(score * step(maxScore, score));\n}';
-              }
+              })
             ),
             /***/
             9280: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "pyramids.glsl"\n@include "float16.glsl"\nuniform sampler2D image;\nuniform float lodStep;\n#if !defined(MULTISCALE)\n#error Must define MULTISCALE\n#elif MULTISCALE != 0\n#define LOD_STEP (lodStep)\n#define USE_MIDDLE_RING\n#else\n#define LOD_STEP (0.0f)\n#endif\n#define PIX(x,y) pixelAtShortOffset(image, ivec2((x),(y)))\n#define L2(v,i) bvec2(isSameEncodedLod(v[i].a, alphaMinus), isSameEncodedLod(v[i].a, alphaPlus))\n#define L3(v,i) bvec3(isSameEncodedLod(v[i].a, alpha), isSameEncodedLod(v[i].a, alphaMinus), isSameEncodedLod(v[i].a, alphaPlus))\n#define S3(v,i) decodeFloat16(v[i].rb) * float(any(L3(v,i)))\n#define S2(v,i) decodeFloat16(v[i].rb) * float(any(L2(v,i)))\n#define P(i) S3(p,i)\n#define Q(i) S2(q,i)\n#define R(i) S2(r,i)\nconst vec4 O = vec4(0.0f);\nvoid main()\n{\nvec4 pixel = threadPixel(image);\nfloat lod = decodeLod(pixel.a);\nfloat score = decodeFloat16(pixel.rb);\ncolor = pixel;\nif(score == 0.0f)\nreturn;\nvec4 p[8];\np[0] = PIX(0,1); p[1] = PIX(1,1); p[2] = PIX(1,0); p[3] = PIX(1,-1);\np[4] = PIX(0,-1); p[5] = PIX(-1,-1); p[6] = PIX(-1,0); p[7] = PIX(-1,1);\n#ifdef USE_MIDDLE_RING\nvec4 q[16];\nq[0] = PIX(0,2); q[1] = PIX(1,2); q[2] = PIX(2,2); q[3] = PIX(2,1);\nq[4] = PIX(2,0); q[5] = PIX(2,-1); q[6] = PIX(2,-2); q[7] = PIX(1,-2);\nq[8] = PIX(0,-2); q[9] = PIX(-1,-2); q[10] = PIX(-2,-2); q[11] = PIX(-2,-1);\nq[12] = PIX(-2,0); q[13] = PIX(-2,1); q[14] = PIX(-2,2); q[15] = PIX(-1,2);\n#else\nvec4 q[16];\nq[0] = O; q[1] = O; q[2] = O; q[3] = O;\nq[4] = O; q[5] = O; q[6] = O; q[7] = O;\nq[8] = O; q[9] = O; q[10] = O; q[11] = O;\nq[12] = O; q[13] = O; q[14] = O; q[15] = O;\n#endif\n#ifdef USE_OUTER_RING\nvec4 r[16];\nr[0] = PIX(0,3); r[1] = PIX(1,3); r[2] = PIX(3,1); r[3] = PIX(3,0);\nr[4] = PIX(3,-1); r[5] = PIX(1,-3); r[6] = PIX(0,-3); r[7] = PIX(-1,-3);\nr[8] = PIX(-3,-1); r[9] = PIX(-3,0); r[10] = PIX(-3,1); r[11] = PIX(-1,3);\nr[12] = PIX(0,4); r[13] = PIX(4,0); r[14] = PIX(0,-4); r[15] = PIX(-4,0);\n#else\nvec4 r[16];\nr[0] = O; r[1] = O; r[2] = O; r[3] = O;\nr[4] = O; r[5] = O; r[6] = O; r[7] = O;\nr[8] = O; r[9] = O; r[10] = O; r[11] = O;\nr[12] = O; r[13] = O; r[14] = O; r[15] = O;\n#endif\nfloat alphaPlus = encodeLod(lod + LOD_STEP);\nfloat alphaMinus = encodeLod(lod - LOD_STEP);\nfloat alpha = encodeLod(lod);\nmat3 innerScore = mat3(\nP(0), P(1), P(2), P(3),\nP(4), P(5), P(6), P(7),\n0.0f);\nmat4 middleScore = mat4(\nQ(0), Q(1), Q(2), Q(3),\nQ(4), Q(5), Q(6), Q(7),\nQ(8), Q(9), Q(10), Q(11),\nQ(12), Q(13), Q(14), Q(15)\n);\nmat4 outerScore = mat4(\nR(0), R(1), R(2), R(3),\nR(4), R(5), R(6), R(7),\nR(8), R(9), R(10), R(11),\nR(12), R(13), R(14), R(15)\n);\nvec3 maxInnerScore3 = max(innerScore[0], max(innerScore[1], innerScore[2]));\nvec4 maxMiddleScore4 = max(max(middleScore[0], middleScore[1]), max(middleScore[2], middleScore[3]));\nvec4 maxOuterScore4 = max(max(outerScore[0], outerScore[1]), max(outerScore[2], outerScore[3]));\nfloat maxInnerScore = max(maxInnerScore3.x, max(maxInnerScore3.y, maxInnerScore3.z));\nfloat maxMiddleScore = max(max(maxMiddleScore4.x, maxMiddleScore4.y), max(maxMiddleScore4.z, maxMiddleScore4.w));\nfloat maxOuterScore = max(max(maxOuterScore4.x, maxOuterScore4.y), max(maxOuterScore4.z, maxOuterScore4.w));\nfloat maxScore = max(maxInnerScore, max(maxMiddleScore, maxOuterScore));\nfloat finalScore = step(maxScore, score) * score;\ncolor.rb = encodeFloat16(finalScore);\n}';
-              }
+              })
             ),
             /***/
             9108: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D encodedCorners;\nuniform int encoderLength;\nuniform sampler2D image;\nuniform int extraSize;\nconst int descriptorSize = 32;\n#define P(a,b,c,d) ivec4((a),(b),(c),(d))\nconst ivec4 pat31[256] = ivec4[256](\nP(8,-3,9,5),\nP(4,2,7,-12),\nP(-11,9,-8,2),\nP(7,-12,12,-13),\nP(2,-13,2,12),\nP(1,-7,1,6),\nP(-2,-10,-2,-4),\nP(-13,-13,-11,-8),\nP(-13,-3,-12,-9),\nP(10,4,11,9),\nP(-13,-8,-8,-9),\nP(-11,7,-9,12),\nP(7,7,12,6),\nP(-4,-5,-3,0),\nP(-13,2,-12,-3),\nP(-9,0,-7,5),\nP(12,-6,12,-1),\nP(-3,6,-2,12),\nP(-6,-13,-4,-8),\nP(11,-13,12,-8),\nP(4,7,5,1),\nP(5,-3,10,-3),\nP(3,-7,6,12),\nP(-8,-7,-6,-2),\nP(-2,11,-1,-10),\nP(-13,12,-8,10),\nP(-7,3,-5,-3),\nP(-4,2,-3,7),\nP(-10,-12,-6,11),\nP(5,-12,6,-7),\nP(5,-6,7,-1),\nP(1,0,4,-5),\nP(9,11,11,-13),\nP(4,7,4,12),\nP(2,-1,4,4),\nP(-4,-12,-2,7),\nP(-8,-5,-7,-10),\nP(4,11,9,12),\nP(0,-8,1,-13),\nP(-13,-2,-8,2),\nP(-3,-2,-2,3),\nP(-6,9,-4,-9),\nP(8,12,10,7),\nP(0,9,1,3),\nP(7,-5,11,-10),\nP(-13,-6,-11,0),\nP(10,7,12,1),\nP(-6,-3,-6,12),\nP(10,-9,12,-4),\nP(-13,8,-8,-12),\nP(-13,0,-8,-4),\nP(3,3,7,8),\nP(5,7,10,-7),\nP(-1,7,1,-12),\nP(3,-10,5,6),\nP(2,-4,3,-10),\nP(-13,0,-13,5),\nP(-13,-7,-12,12),\nP(-13,3,-11,8),\nP(-7,12,-4,7),\nP(6,-10,12,8),\nP(-9,-1,-7,-6),\nP(-2,-5,0,12),\nP(-12,5,-7,5),\nP(3,-10,8,-13),\nP(-7,-7,-4,5),\nP(-3,-2,-1,-7),\nP(2,9,5,-11),\nP(-11,-13,-5,-13),\nP(-1,6,0,-1),\nP(5,-3,5,2),\nP(-4,-13,-4,12),\nP(-9,-6,-9,6),\nP(-12,-10,-8,-4),\nP(10,2,12,-3),\nP(7,12,12,12),\nP(-7,-13,-6,5),\nP(-4,9,-3,4),\nP(7,-1,12,2),\nP(-7,6,-5,1),\nP(-13,11,-12,5),\nP(-3,7,-2,-6),\nP(7,-8,12,-7),\nP(-13,-7,-11,-12),\nP(1,-3,12,12),\nP(2,-6,3,0),\nP(-4,3,-2,-13),\nP(-1,-13,1,9),\nP(7,1,8,-6),\nP(1,-1,3,12),\nP(9,1,12,6),\nP(-1,-9,-1,3),\nP(-13,-13,-10,5),\nP(7,7,10,12),\nP(12,-5,12,9),\nP(6,3,7,11),\nP(5,-13,6,10),\nP(2,-12,2,3),\nP(3,8,4,-6),\nP(2,6,12,-13),\nP(9,-12,10,3),\nP(-8,4,-7,9),\nP(-11,12,-4,-6),\nP(1,12,2,-8),\nP(6,-9,7,-4),\nP(2,3,3,-2),\nP(6,3,11,0),\nP(3,-3,8,-8),\nP(7,8,9,3),\nP(-11,-5,-6,-4),\nP(-10,11,-5,10),\nP(-5,-8,-3,12),\nP(-10,5,-9,0),\nP(8,-1,12,-6),\nP(4,-6,6,-11),\nP(-10,12,-8,7),\nP(4,-2,6,7),\nP(-2,0,-2,12),\nP(-5,-8,-5,2),\nP(7,-6,10,12),\nP(-9,-13,-8,-8),\nP(-5,-13,-5,-2),\nP(8,-8,9,-13),\nP(-9,-11,-9,0),\nP(1,-8,1,-2),\nP(7,-4,9,1),\nP(-2,1,-1,-4),\nP(11,-6,12,-11),\nP(-12,-9,-6,4),\nP(3,7,7,12),\nP(5,5,10,8),\nP(0,-4,2,8),\nP(-9,12,-5,-13),\nP(0,7,2,12),\nP(-1,2,1,7),\nP(5,11,7,-9),\nP(3,5,6,-8),\nP(-13,-4,-8,9),\nP(-5,9,-3,-3),\nP(-4,-7,-3,-12),\nP(6,5,8,0),\nP(-7,6,-6,12),\nP(-13,6,-5,-2),\nP(1,-10,3,10),\nP(4,1,8,-4),\nP(-2,-2,2,-13),\nP(2,-12,12,12),\nP(-2,-13,0,-6),\nP(4,1,9,3),\nP(-6,-10,-3,-5),\nP(-3,-13,-1,1),\nP(7,5,12,-11),\nP(4,-2,5,-7),\nP(-13,9,-9,-5),\nP(7,1,8,6),\nP(7,-8,7,6),\nP(-7,-4,-7,1),\nP(-8,11,-7,-8),\nP(-13,6,-12,-8),\nP(2,4,3,9),\nP(10,-5,12,3),\nP(-6,-5,-6,7),\nP(8,-3,9,-8),\nP(2,-12,2,8),\nP(-11,-2,-10,3),\nP(-12,-13,-7,-9),\nP(-11,0,-10,-5),\nP(5,-3,11,8),\nP(-2,-13,-1,12),\nP(-1,-8,0,9),\nP(-13,-11,-12,-5),\nP(-10,-2,-10,11),\nP(-3,9,-2,-13),\nP(2,-3,3,2),\nP(-9,-13,-4,0),\nP(-4,6,-3,-10),\nP(-4,12,-2,-7),\nP(-6,-11,-4,9),\nP(6,-3,6,11),\nP(-13,11,-5,5),\nP(11,11,12,6),\nP(7,-5,12,-2),\nP(-1,12,0,7),\nP(-4,-8,-3,-2),\nP(-7,1,-6,7),\nP(-13,-12,-8,-13),\nP(-7,-2,-6,-8),\nP(-8,5,-6,-9),\nP(-5,-1,-4,5),\nP(-13,7,-8,10),\nP(1,5,5,-13),\nP(1,0,10,-13),\nP(9,12,10,-1),\nP(5,-8,10,-9),\nP(-1,11,1,-13),\nP(-9,-3,-6,2),\nP(-1,-10,1,12),\nP(-13,1,-8,-10),\nP(8,-11,10,-6),\nP(2,-13,3,-6),\nP(7,-13,12,-9),\nP(-10,-10,-5,-7),\nP(-10,-8,-8,-13),\nP(4,-6,8,5),\nP(3,12,8,-13),\nP(-4,2,-3,-3),\nP(5,-13,10,-12),\nP(4,-13,5,-1),\nP(-9,9,-4,3),\nP(0,3,3,-9),\nP(-12,1,-6,1),\nP(3,2,4,-8),\nP(-10,-10,-10,9),\nP(8,-13,12,12),\nP(-8,-12,-6,-5),\nP(2,2,3,7),\nP(10,6,11,-8),\nP(6,8,8,-12),\nP(-7,10,-6,5),\nP(-3,-9,-3,9),\nP(-1,-13,-1,5),\nP(-3,-7,-3,4),\nP(-8,-2,-8,3),\nP(4,2,12,12),\nP(2,-5,3,11),\nP(6,-9,11,-13),\nP(3,-1,7,12),\nP(11,-1,12,4),\nP(-3,0,-3,6),\nP(4,-11,4,12),\nP(2,-4,2,1),\nP(-10,-6,-8,1),\nP(-13,7,-11,1),\nP(-13,12,-11,-13),\nP(6,0,11,-13),\nP(0,-1,1,4),\nP(-13,3,-9,-2),\nP(-9,8,-6,-3),\nP(-13,-6,-8,-2),\nP(5,-9,8,10),\nP(2,7,3,-9),\nP(-1,-6,-1,-1),\nP(9,5,11,-2),\nP(11,-3,12,-8),\nP(3,0,3,5),\nP(-1,4,0,10),\nP(3,-6,4,5),\nP(-13,0,-10,5),\nP(5,8,12,11),\nP(8,9,9,-6),\nP(7,-4,8,-12),\nP(-10,4,-10,9),\nP(7,3,12,4),\nP(9,-7,10,-2),\nP(7,0,12,-2),\nP(-1,-6,0,-11)\n);\nvoid getPair(int index, mat2 rot, out vec2 p, out vec2 q)\n{\nivec4 data = pat31[index];\nvec2 op = vec2(data.xy);\nvec2 oq = vec2(data.zw);\np = rot * op;\nq = rot * oq;\n}\nvoid main()\n{\nvec4 pixel = threadPixel(encodedCorners);\nivec2 thread = threadLocation();\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint descriptorCell = address.offset - sizeofEncodedKeypoint(0, extraSize) / 4;\ncolor = pixel;\nif(descriptorCell < 0)\nreturn;\nKeypoint keypoint = decodeKeypoint(encodedCorners, encoderLength, address);\nif(isBadKeypoint(keypoint))\nreturn;\nfloat degreesOrientation = round(360.0f + degrees(keypoint.orientation));\nfloat orientation = radians(degreesOrientation - mod(degreesOrientation, 12.0f));\nfloat kcos = cos(orientation);\nfloat ksin = sin(orientation);\nmat2 rot = mat2(kcos, ksin, -ksin, kcos);\nfloat pot = exp2(keypoint.lod);\nint patternStart = 32 * descriptorCell;\nuint test[4] = uint[4](0u, 0u, 0u, 0u);\nfor(int t = 0; t < 4; t++) {\nuint bits = 0u;\nvec2 p, q;\nvec4 a, b;\nint i = t * 8;\n@unroll\nfor(int j = 0; j < 8; j++) {\ngetPair(patternStart + i + j, rot, p, q);\na = texelFetch(image, ivec2(round(keypoint.position + pot * p)), 0);\nb = texelFetch(image, ivec2(round(keypoint.position + pot * q)), 0);\nbits |= uint(a.g < b.g) << j;\n}\ntest[t] = bits;\n}\ncolor = vec4(test[0], test[1], test[2], test[3]) / 255.0f;\n}';
-              }
+              })
             ),
             /***/
             7137: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D image;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#define P(x,y) ivec2((x),(y))\nconst int diskPointCount[16] = int[16](0, 4, 12, 28, 48, 80, 112, 148, 196, 252, 316, 376, 440, 528, 612, 708);\nconst ivec2 diskPoint[708] = ivec2[708](\nP(0,-1),P(-1,0),P(1,0),P(0,1),\nP(-1,-1),P(1,-1),P(-1,1),P(1,1),P(0,-2),P(-2,0),P(2,0),P(0,2),\nP(-1,-2),P(1,-2),P(-2,-1),P(2,-1),P(-2,1),P(2,1),P(-1,2),P(1,2),P(-2,-2),P(2,-2),P(-2,2),P(2,2),P(0,-3),P(-3,0),P(3,0),P(0,3),\nP(-1,-3),P(1,-3),P(-3,-1),P(3,-1),P(-3,1),P(3,1),P(-1,3),P(1,3),P(-2,-3),P(2,-3),P(-3,-2),P(3,-2),P(-3,2),P(3,2),P(-2,3),P(2,3),P(0,-4),P(-4,0),P(4,0),P(0,4),\nP(-1,-4),P(1,-4),P(-4,-1),P(4,-1),P(-4,1),P(4,1),P(-1,4),P(1,4),P(-3,-3),P(3,-3),P(-3,3),P(3,3),P(-2,-4),P(2,-4),P(-4,-2),P(4,-2),P(-4,2),P(4,2),P(-2,4),P(2,4),P(0,-5),P(-3,-4),P(3,-4),P(-4,-3),P(4,-3),P(-5,0),P(5,0),P(-4,3),P(4,3),P(-3,4),P(3,4),P(0,5),\nP(-1,-5),P(1,-5),P(-5,-1),P(5,-1),P(-5,1),P(5,1),P(-1,5),P(1,5),P(-2,-5),P(2,-5),P(-5,-2),P(5,-2),P(-5,2),P(5,2),P(-2,5),P(2,5),P(-4,-4),P(4,-4),P(-4,4),P(4,4),P(-3,-5),P(3,-5),P(-5,-3),P(5,-3),P(-5,3),P(5,3),P(-3,5),P(3,5),P(0,-6),P(-6,0),P(6,0),P(0,6),\nP(-1,-6),P(1,-6),P(-6,-1),P(6,-1),P(-6,1),P(6,1),P(-1,6),P(1,6),P(-2,-6),P(2,-6),P(-6,-2),P(6,-2),P(-6,2),P(6,2),P(-2,6),P(2,6),P(-4,-5),P(4,-5),P(-5,-4),P(5,-4),P(-5,4),P(5,4),P(-4,5),P(4,5),P(-3,-6),P(3,-6),P(-6,-3),P(6,-3),P(-6,3),P(6,3),P(-3,6),P(3,6),P(0,-7),P(-7,0),P(7,0),P(0,7),\nP(-1,-7),P(1,-7),P(-5,-5),P(5,-5),P(-7,-1),P(7,-1),P(-7,1),P(7,1),P(-5,5),P(5,5),P(-1,7),P(1,7),P(-4,-6),P(4,-6),P(-6,-4),P(6,-4),P(-6,4),P(6,4),P(-4,6),P(4,6),P(-2,-7),P(2,-7),P(-7,-2),P(7,-2),P(-7,2),P(7,2),P(-2,7),P(2,7),P(-3,-7),P(3,-7),P(-7,-3),P(7,-3),P(-7,3),P(7,3),P(-3,7),P(3,7),P(-5,-6),P(5,-6),P(-6,-5),P(6,-5),P(-6,5),P(6,5),P(-5,6),P(5,6),P(0,-8),P(-8,0),P(8,0),P(0,8),\nP(-1,-8),P(1,-8),P(-4,-7),P(4,-7),P(-7,-4),P(7,-4),P(-8,-1),P(8,-1),P(-8,1),P(8,1),P(-7,4),P(7,4),P(-4,7),P(4,7),P(-1,8),P(1,8),P(-2,-8),P(2,-8),P(-8,-2),P(8,-2),P(-8,2),P(8,2),P(-2,8),P(2,8),P(-6,-6),P(6,-6),P(-6,6),P(6,6),P(-3,-8),P(3,-8),P(-8,-3),P(8,-3),P(-8,3),P(8,3),P(-3,8),P(3,8),P(-5,-7),P(5,-7),P(-7,-5),P(7,-5),P(-7,5),P(7,5),P(-5,7),P(5,7),P(-4,-8),P(4,-8),P(-8,-4),P(8,-4),P(-8,4),P(8,4),P(-4,8),P(4,8),P(0,-9),P(-9,0),P(9,0),P(0,9),\nP(-1,-9),P(1,-9),P(-9,-1),P(9,-1),P(-9,1),P(9,1),P(-1,9),P(1,9),P(-2,-9),P(2,-9),P(-6,-7),P(6,-7),P(-7,-6),P(7,-6),P(-9,-2),P(9,-2),P(-9,2),P(9,2),P(-7,6),P(7,6),P(-6,7),P(6,7),P(-2,9),P(2,9),P(-5,-8),P(5,-8),P(-8,-5),P(8,-5),P(-8,5),P(8,5),P(-5,8),P(5,8),P(-3,-9),P(3,-9),P(-9,-3),P(9,-3),P(-9,3),P(9,3),P(-3,9),P(3,9),P(-4,-9),P(4,-9),P(-9,-4),P(9,-4),P(-9,4),P(9,4),P(-4,9),P(4,9),P(-7,-7),P(7,-7),P(-7,7),P(7,7),P(0,-10),P(-6,-8),P(6,-8),P(-8,-6),P(8,-6),P(-10,0),P(10,0),P(-8,6),P(8,6),P(-6,8),P(6,8),P(0,10),\nP(-1,-10),P(1,-10),P(-10,-1),P(10,-1),P(-10,1),P(10,1),P(-1,10),P(1,10),P(-2,-10),P(2,-10),P(-10,-2),P(10,-2),P(-10,2),P(10,2),P(-2,10),P(2,10),P(-5,-9),P(5,-9),P(-9,-5),P(9,-5),P(-9,5),P(9,5),P(-5,9),P(5,9),P(-3,-10),P(3,-10),P(-10,-3),P(10,-3),P(-10,3),P(10,3),P(-3,10),P(3,10),P(-7,-8),P(7,-8),P(-8,-7),P(8,-7),P(-8,7),P(8,7),P(-7,8),P(7,8),P(-4,-10),P(4,-10),P(-10,-4),P(10,-4),P(-10,4),P(10,4),P(-4,10),P(4,10),P(-6,-9),P(6,-9),P(-9,-6),P(9,-6),P(-9,6),P(9,6),P(-6,9),P(6,9),P(0,-11),P(-11,0),P(11,0),P(0,11),\nP(-1,-11),P(1,-11),P(-11,-1),P(11,-1),P(-11,1),P(11,1),P(-1,11),P(1,11),P(-2,-11),P(2,-11),P(-5,-10),P(5,-10),P(-10,-5),P(10,-5),P(-11,-2),P(11,-2),P(-11,2),P(11,2),P(-10,5),P(10,5),P(-5,10),P(5,10),P(-2,11),P(2,11),P(-8,-8),P(8,-8),P(-8,8),P(8,8),P(-3,-11),P(3,-11),P(-7,-9),P(7,-9),P(-9,-7),P(9,-7),P(-11,-3),P(11,-3),P(-11,3),P(11,3),P(-9,7),P(9,7),P(-7,9),P(7,9),P(-3,11),P(3,11),P(-6,-10),P(6,-10),P(-10,-6),P(10,-6),P(-10,6),P(10,6),P(-6,10),P(6,10),P(-4,-11),P(4,-11),P(-11,-4),P(11,-4),P(-11,4),P(11,4),P(-4,11),P(4,11),P(0,-12),P(-12,0),P(12,0),P(0,12),\nP(-1,-12),P(1,-12),P(-8,-9),P(8,-9),P(-9,-8),P(9,-8),P(-12,-1),P(12,-1),P(-12,1),P(12,1),P(-9,8),P(9,8),P(-8,9),P(8,9),P(-1,12),P(1,12),P(-5,-11),P(5,-11),P(-11,-5),P(11,-5),P(-11,5),P(11,5),P(-5,11),P(5,11),P(-2,-12),P(2,-12),P(-12,-2),P(12,-2),P(-12,2),P(12,2),P(-2,12),P(2,12),P(-7,-10),P(7,-10),P(-10,-7),P(10,-7),P(-10,7),P(10,7),P(-7,10),P(7,10),P(-3,-12),P(3,-12),P(-12,-3),P(12,-3),P(-12,3),P(12,3),P(-3,12),P(3,12),P(-6,-11),P(6,-11),P(-11,-6),P(11,-6),P(-11,6),P(11,6),P(-6,11),P(6,11),P(-4,-12),P(4,-12),P(-12,-4),P(12,-4),P(-12,4),P(12,4),P(-4,12),P(4,12),P(-9,-9),P(9,-9),P(-9,9),P(9,9),P(-8,-10),P(8,-10),P(-10,-8),P(10,-8),P(-10,8),P(10,8),P(-8,10),P(8,10),P(0,-13),P(-5,-12),P(5,-12),P(-12,-5),P(12,-5),P(-13,0),P(13,0),P(-12,5),P(12,5),P(-5,12),P(5,12),P(0,13),\nP(-1,-13),P(1,-13),P(-7,-11),P(7,-11),P(-11,-7),P(11,-7),P(-13,-1),P(13,-1),P(-13,1),P(13,1),P(-11,7),P(11,7),P(-7,11),P(7,11),P(-1,13),P(1,13),P(-2,-13),P(2,-13),P(-13,-2),P(13,-2),P(-13,2),P(13,2),P(-2,13),P(2,13),P(-3,-13),P(3,-13),P(-13,-3),P(13,-3),P(-13,3),P(13,3),P(-3,13),P(3,13),P(-6,-12),P(6,-12),P(-12,-6),P(12,-6),P(-12,6),P(12,6),P(-6,12),P(6,12),P(-9,-10),P(9,-10),P(-10,-9),P(10,-9),P(-10,9),P(10,9),P(-9,10),P(9,10),P(-4,-13),P(4,-13),P(-8,-11),P(8,-11),P(-11,-8),P(11,-8),P(-13,-4),P(13,-4),P(-13,4),P(13,4),P(-11,8),P(11,8),P(-8,11),P(8,11),P(-4,13),P(4,13),P(-7,-12),P(7,-12),P(-12,-7),P(12,-7),P(-12,7),P(12,7),P(-7,12),P(7,12),P(-5,-13),P(5,-13),P(-13,-5),P(13,-5),P(-13,5),P(13,5),P(-5,13),P(5,13),P(0,-14),P(-14,0),P(14,0),P(0,14),\nP(-1,-14),P(1,-14),P(-14,-1),P(14,-1),P(-14,1),P(14,1),P(-1,14),P(1,14),P(-2,-14),P(2,-14),P(-10,-10),P(10,-10),P(-14,-2),P(14,-2),P(-14,2),P(14,2),P(-10,10),P(10,10),P(-2,14),P(2,14),P(-9,-11),P(9,-11),P(-11,-9),P(11,-9),P(-11,9),P(11,9),P(-9,11),P(9,11),P(-3,-14),P(3,-14),P(-6,-13),P(6,-13),P(-13,-6),P(13,-6),P(-14,-3),P(14,-3),P(-14,3),P(14,3),P(-13,6),P(13,6),P(-6,13),P(6,13),P(-3,14),P(3,14),P(-8,-12),P(8,-12),P(-12,-8),P(12,-8),P(-12,8),P(12,8),P(-8,12),P(8,12),P(-4,-14),P(4,-14),P(-14,-4),P(14,-4),P(-14,4),P(14,4),P(-4,14),P(4,14),P(-7,-13),P(7,-13),P(-13,-7),P(13,-7),P(-13,7),P(13,7),P(-7,13),P(7,13),P(-5,-14),P(5,-14),P(-10,-11),P(10,-11),P(-11,-10),P(11,-10),P(-14,-5),P(14,-5),P(-14,5),P(14,5),P(-11,10),P(11,10),P(-10,11),P(10,11),P(-5,14),P(5,14),P(0,-15),P(-9,-12),P(9,-12),P(-12,-9),P(12,-9),P(-15,0),P(15,0),P(-12,9),P(12,9),P(-9,12),P(9,12),P(0,15)\n);\nconst int DEFAULT_PATCH_RADIUS = 15;\nconst int MIN_PATCH_RADIUS = 2;\nvoid main()\n{\nvec4 pixel = threadPixel(encodedKeypoints);\nivec2 thread = threadLocation();\nint keypointIndex = thread.x + thread.y * outputSize().x;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = KeypointAddress(keypointIndex * pixelsPerKeypoint, 0);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\nvec2 m = vec2(0.0f);\nfloat pot = exp2(keypoint.lod);\nvec2 imageSize = vec2(textureSize(image, 0));\nint scaledRadius = int(ceil(float(DEFAULT_PATCH_RADIUS) / pot));\nint radius = max(scaledRadius, MIN_PATCH_RADIUS);\nint count = diskPointCount[radius];\nfor(int j = 0; j < count; j++) {\nvec2 offset = vec2(diskPoint[j]);\nvec2 position = keypoint.position + round(pot * offset);\nvec4 patchPixel = texture(image, (position + vec2(0.5f)) / imageSize);\nm += offset * patchPixel.g;\n}\nfloat angle = fastAtan2(m.y, m.x);\nfloat encodedOrientation = encodeKeypointOrientation(angle);\ncolor = vec4(0.0f, encodedOrientation, 0.0f, 0.0f);\n}';
-              }
+              })
             ),
             /***/
             9739: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "filters.glsl"\n#if !defined(METHOD)\n#error Undefined METHOD\n#endif\nuniform sampler2D pyramid;\nuniform float lodStep;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#if METHOD == 1\nuniform int threshold;\n#endif\nconst float eps = 1e-6;\nfloat cornerStrength(vec2 position, float lod)\n{\n#if METHOD == 0\nreturn laplacian(pyramid, position, lod);\n#elif METHOD == 1\nfloat pot = exp2(lod);\nfloat t = float(clamp(threshold, 0, 255)) / 255.0f;\n#define P(x,y) pyrPixelAtOffset(pyramid, lod, pot, ivec2((x),(y))).g\nmat4 mp = mat4(\nP(0,3),P(3,0),P(0,-3),P(-3,0),\nP(1,3),P(2,2),P(3,1),P(3,-1),\nP(2,-2),P(1,-3),P(-1,-3),P(-2,-2),\nP(-3,-1),P(-3,1),P(-2,2),P(-1,3)\n);\nfloat c = P(0,0);\nfloat ct = c + t, c_t = c - t;\nmat4 mct = mp - mat4(ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct,ct);\nmat4 mc_t = mat4(c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t,c_t) - mp;\nconst vec4 zeros = vec4(0.0f), ones = vec4(1.0f);\nvec4 bs = max(mct[0], zeros), ds = max(mc_t[0], zeros);\nbs += max(mct[1], zeros);     ds += max(mc_t[1], zeros);\nbs += max(mct[2], zeros);     ds += max(mc_t[2], zeros);\nbs += max(mct[3], zeros);     ds += max(mc_t[3], zeros);\nreturn max(dot(bs, ones), dot(ds, ones)) / 16.0f;\n#else\n#error Invalid method\n#endif\n}\nvoid main()\n{\nvec4 pixel = threadPixel(encodedKeypoints);\nivec2 thread = threadLocation();\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\ncolor = pixel;\nif(address.offset != 1)\nreturn;\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\nif(isBadKeypoint(keypoint))\nreturn;\nvec3 strength = vec3(\ncornerStrength(keypoint.position, max(0.0f, keypoint.lod - lodStep)),\ncornerStrength(keypoint.position, keypoint.lod),\ncornerStrength(keypoint.position, keypoint.lod + lodStep)\n);\nvec3 p = mat3(\n2, -3, 1,\n-4, 4, 0,\n2, -1, 0\n) * strength;\nfloat maxStrength = max(strength.x, max(strength.y, strength.z));\nvec3 diffStrength = abs(strength - vec3(maxStrength));\nvec3 strengthIndicators = vec3(lessThan(diffStrength, vec3(eps)));\nfloat maxPoint = min(1.0f, dot(vec3(0.0f, 0.5f, 1.0f), strengthIndicators));\nbool hasMax = p.x < -eps;\nfloat pmax = hasMax ? -0.5f * p.y / p.x : maxPoint;\nfloat alpha = abs(pmax - 0.5f) <= 0.5f ? pmax : maxPoint;\nfloat lodOffset = mix(-lodStep, lodStep, alpha);\nfloat lod = keypoint.lod + lodOffset;\ncolor.r = encodeLod(lod);\n}';
-              }
+              })
             ),
             /***/
             8231: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "float16.glsl"\nuniform sampler2D corners;\nuniform int iterationNumber;\nvoid main()\n{\nivec2 thread = threadLocation();\nivec2 bounds = outputSize();\nint jump = (1 << iterationNumber);\nint clusterLength = jump << 1;\nint clusterMask = clusterLength - 1;\nivec2 clusterPos = ivec2(thread >> (1 + iterationNumber)) << (1 + iterationNumber);\nivec2 next1 = clusterPos + ((thread - clusterPos + ivec2(jump, 0)) & clusterMask);\nivec2 next2 = clusterPos + ((thread - clusterPos + ivec2(0, jump)) & clusterMask);\nivec2 next3 = clusterPos + ((thread - clusterPos + ivec2(jump, jump)) & clusterMask);\nvec4 p0 = threadPixel(corners);\nvec4 p1 = texelFetch(corners, next1 % bounds, 0);\nvec4 p2 = texelFetch(corners, next2 % bounds, 0);\nvec4 p3 = texelFetch(corners, next3 % bounds, 0);\nfloat s0 = decodeFloat16(p0.rb);\nfloat s1 = decodeFloat16(p1.rb);\nfloat s2 = decodeFloat16(p2.rb);\nfloat s3 = decodeFloat16(p3.rb);\nbool b0 = s0 >= s1 && s0 >= s2 && s0 >= s3;\nbool b1 = s1 >= s0 && s1 >= s2 && s1 >= s3;\nbool b2 = s2 >= s0 && s2 >= s1 && s2 >= s3;\ncolor = vec4(0.0f);\ncolor.rb = b0 ? p0.rb : (\nb1 ? p1.rb : (\nb2 ? p2.rb : p3.rb\n)\n);\n}';
-              }
+              })
             ),
             /***/
             2518: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#if PERMUTATION_MAXLEN % 4 > 0 || PERMUTATION_MAXLEN * 4 > 16384\n#error Invalid PERMUTATION_MAXLEN\n#endif\nlayout(std140) uniform Permutation\n{\nivec4 permutation[PERMUTATION_MAXLEN / 4];\n};\nint permutationElement(int index)\n{\nint base = index - (index % PERMUTATION_MAXLEN);\nint offset = index - base;\nivec4 tuple = permutation[offset / 4];\nint newOffset = tuple[offset & 3];\nreturn base + newOffset;\n}\nvoid main()\n{\nivec2 thread = threadLocation();\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress myAddress = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint myIndex = findKeypointIndex(myAddress, descriptorSize, extraSize);\nint otherIndex = permutationElement(myIndex);\nKeypointAddress otherAddress = KeypointAddress(otherIndex * pixelsPerKeypoint, myAddress.offset);\nKeypoint myKeypoint = decodeKeypoint(encodedKeypoints, encoderLength, myAddress);\nKeypoint otherKeypoint = decodeKeypoint(encodedKeypoints, encoderLength, otherAddress);\ncolor = readKeypointData(encodedKeypoints, encoderLength, otherAddress);\n}';
-              }
+              })
             ),
             /***/
             8096: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n#if !defined(STAGE)\n#error Undefined STAGE\n#elif STAGE == 1\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#elif STAGE == 2\nuniform sampler2D permutation;\nuniform int blockSize;\nuniform int dblLog2BlockSize;\n#elif STAGE == 3\nuniform sampler2D permutation;\nuniform int maxKeypoints;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\n#else\n#error Invalid STAGE\n#endif\nstruct PermutationElement\n{\nint keypointIndex;\nfloat score;\nbool valid;\n};\nvec4 encodePermutationElement(PermutationElement element)\n{\nconst vec2 ONES = vec2(1.0f);\nvec2 encodedScore = element.valid ? encodeFloat16(element.score) : ONES;\nvec2 encodedIndex = vec2(element.keypointIndex & 255, (element.keypointIndex >> 8) & 255) / 255.0f;\nreturn vec4(encodedIndex, encodedScore);\n}\nPermutationElement decodePermutationElement(vec4 pixel)\n{\nconst vec2 ONES = vec2(1.0f);\nPermutationElement element;\nelement.keypointIndex = int(pixel.r * 255.0f) | (int(pixel.g * 255.0f) << 8);\nelement.valid = !all(equal(pixel.ba, ONES));\nelement.score = element.valid ? decodeFloat16(pixel.ba) : -1.0f;\nreturn element;\n}\nPermutationElement readPermutationElement(sampler2D permutation, int elementIndex, int stride, int height)\n{\nconst vec4 INVALID_PIXEL = vec4(1.0f);\nivec2 pos = ivec2(elementIndex % stride, elementIndex / stride);\nvec4 pixel = pos.y < height ? pixelAt(permutation, pos) : INVALID_PIXEL;\nreturn decodePermutationElement(pixel);\n}\n#if STAGE == 2\nPermutationElement selectKth(sampler2D permutation, int k, int la, int ra, int lb, int rb)\n{\nfloat scoreA, scoreB;\nint ha, hb, ma, mb;\nbool discard1stHalf, altb;\nbool locked = false;\nint tmp, result = 0;\nint stride = outputSize().x;\nint height = outputSize().y;\nfor(int i = 0; i < dblLog2BlockSize; i++) {\ntmp = (lb > rb && !locked) ? (la+k) : result;\nresult = (la > ra && !locked) ? (lb+k) : tmp;\nlocked = locked || (la > ra) || (lb > rb);\nha = (ra - la + 1) / 2;\nhb = (rb - lb + 1) / 2;\nma = la + ha;\nmb = lb + hb;\nscoreA = readPermutationElement(permutation, ma, stride, height).score;\nscoreB = readPermutationElement(permutation, mb, stride, height).score;\ndiscard1stHalf = (k > ha + hb);\naltb = (-scoreA < -scoreB);\nk -= int(discard1stHalf && altb) * (ha + 1);\nk -= int(discard1stHalf && !altb) * (hb + 1);\nla += int(discard1stHalf && altb) * (ma + 1 - la);\nlb += int(discard1stHalf && !altb) * (mb + 1 - lb);\nra += int(!discard1stHalf && !altb) * (ma - 1 - ra);\nrb += int(!discard1stHalf && altb) * (mb - 1 - rb);\n}\nreturn readPermutationElement(permutation, result, stride, height);\n}\n#endif\nvoid main()\n{\n#if STAGE == 1\nivec2 thread = threadLocation();\nint stride = outputSize().x;\nint keypointIndex = thread.y * stride + thread.x;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = KeypointAddress(keypointIndex * pixelsPerKeypoint, 0);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\nPermutationElement element;\nelement.keypointIndex = keypointIndex;\nelement.score = keypoint.score;\nelement.valid = !isBadKeypoint(keypoint);\ncolor = encodePermutationElement(element);\n#elif STAGE == 2\nivec2 thread = threadLocation();\nint stride = outputSize().x;\nint elementIndex = thread.y * stride + thread.x;\nint blockIndex = elementIndex / blockSize;\nint blockOffset = elementIndex % blockSize;\nint la = blockIndex * blockSize;\nint lb = la + blockSize / 2;\nint ra = lb - 1;\nint rb = (blockIndex + 1) * blockSize - 1;\nint k = blockOffset;\nPermutationElement element = selectKth(permutation, k, la, ra, lb, rb);\ncolor = encodePermutationElement(element);\n#elif STAGE == 3\nivec2 thread = threadLocation();\nint newEncoderLength = outputSize().x;\nKeypointAddress myAddress = findKeypointAddress(thread, newEncoderLength, descriptorSize, extraSize);\nint myKeypointIndex = findKeypointIndex(myAddress, descriptorSize, extraSize);\nivec2 psize = textureSize(permutation, 0);\nPermutationElement element = readPermutationElement(permutation, myKeypointIndex, psize.x, psize.y);\nint oldEncoderLength = textureSize(encodedKeypoints, 0).x;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = KeypointAddress(element.keypointIndex * pixelsPerKeypoint, myAddress.offset);\nvec4 keypointData = readKeypointData(encodedKeypoints, oldEncoderLength, address);\ncolor = myKeypointIndex < maxKeypoints && element.valid ? keypointData : encodeNullKeypoint();\n#endif\n}';
-              }
+              })
             ),
             /***/
             5795: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "float16.glsl"\n#if !defined(METHOD)\n#error Must define METHOD\n#endif\nuniform sampler2D pyramid;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nuniform int maxIterations;\nuniform float epsilon;\nconst int PATCH_RADIUS = 1;\nconst int PATCH_SIZE = 2 * PATCH_RADIUS + 1;\nconst int PATCH_SIZE_SQUARED = PATCH_SIZE * PATCH_SIZE;\nconst int LARGE_PATCH_RADIUS = PATCH_RADIUS + 1;\nconst int LARGE_PATCH_SIZE = 2 * LARGE_PATCH_RADIUS + 1;\nconst int LARGE_PATCH_SIZE_SQUARED = LARGE_PATCH_SIZE * LARGE_PATCH_SIZE;\nconst int LARGER_PATCH_RADIUS = LARGE_PATCH_RADIUS + 1;\nconst int LARGER_PATCH_SIZE = 2 * LARGER_PATCH_RADIUS + 1;\nconst int LARGER_PATCH_SIZE_SQUARED = LARGER_PATCH_SIZE * LARGER_PATCH_SIZE;\nconst float EPS = 1e-5;\nfloat smoothPixelBuffer[LARGER_PATCH_SIZE_SQUARED];\nvec2 derivativesBuffer[LARGE_PATCH_SIZE_SQUARED];\nfloat responseBuffer[PATCH_SIZE_SQUARED];\n#define patchPixelAt(u,v) smoothPixelBuffer[((v) + LARGER_PATCH_RADIUS) * LARGER_PATCH_SIZE + ((u) + LARGER_PATCH_RADIUS)]\n#define derivativesAt(u,v) derivativesBuffer[((v) + LARGE_PATCH_RADIUS) * LARGE_PATCH_SIZE + ((u) + LARGE_PATCH_RADIUS)]\n#define responseAt(u,v) responseBuffer[((v) + PATCH_RADIUS) * PATCH_SIZE + ((u) + PATCH_RADIUS)]\nvoid readPixels(vec2 center, float lod)\n{\nivec2 pyrBaseSize = textureSize(pyramid, 0);\nfloat pot = exp2(lod);\nint u, v;\nfor(int j = 0; j < LARGER_PATCH_SIZE; j++) {\nfor(int i = 0; i < LARGER_PATCH_SIZE; i++) {\nu = i - LARGER_PATCH_RADIUS;\nv = j - LARGER_PATCH_RADIUS;\npatchPixelAt(u,v) = pyrSubpixelAtExOffset(pyramid, center, lod, pot, ivec2(u,v), pyrBaseSize).g;\n}\n}\n}\nvoid computeDerivatives()\n{\nconst mat3 dx = mat3(\n-1, 0, 1,\n-2, 0, 2,\n-1, 0, 1\n);\nconst mat3 dy = mat3(\n1, 2, 1,\n0, 0, 0,\n-1,-2,-1\n);\nint u, v;\nmat3 pix, convX, convY;\nconst vec3 ones = vec3(1.0f);\nfor(int j = 0; j < LARGE_PATCH_SIZE; j++) {\nfor(int i = 0; i < LARGE_PATCH_SIZE; i++) {\nu = i - LARGE_PATCH_RADIUS;\nv = j - LARGE_PATCH_RADIUS;\npix = mat3(\npatchPixelAt(u+1,v+1), patchPixelAt(u+0,v+1), patchPixelAt(u-1,v+1),\npatchPixelAt(u+1,v+0), patchPixelAt(u+0,v+0), patchPixelAt(u-1,v+0),\npatchPixelAt(u+1,v-1), patchPixelAt(u+0,v-1), patchPixelAt(u-1,v-1)\n);\nconvX = matrixCompMult(dx, pix);\nconvY = matrixCompMult(dy, pix);\nderivativesAt(u,v) = vec2(\ndot(ones, vec3(\ndot(convX[0], ones),\ndot(convX[1], ones),\ndot(convX[2], ones)\n)),\ndot(ones, vec3(\ndot(convY[0], ones),\ndot(convY[1], ones),\ndot(convY[2], ones)\n))\n);\n}\n}\n}\nvec2 computeResponseMap()\n{\nfloat patchArea = float(PATCH_SIZE * PATCH_SIZE);\nvec3 h; vec2 d, c = vec2(0.0f);\nconst vec3 ones = vec3(1.0f);\nfloat response, sum = 0.0f;\nint u, v;\n#define H(r,s) d = derivativesAt((r),(s)); h += vec3(d.x * d.x, d.x * d.y, d.y * d.y)\nfor(int j = 0; j < PATCH_SIZE; j++) {\nfor(int i = 0; i < PATCH_SIZE; i++) {\nu = i - PATCH_RADIUS;\nv = j - PATCH_RADIUS;\nh = vec3(0.0f);\nH(u-1,v-1); H(u+0,v-1); H(u+1,v-1);\nH(u-1,v+0); H(u+0,v+0); H(u+1,v+0);\nH(u-1,v+1); H(u+0,v+1); H(u+1,v+1);\nresponse = 0.5f * (h.x + h.z - sqrt((h.x - h.z) * (h.x - h.z) + 4.0f * h.y * h.y));\nresponse /= patchArea;\nresponseAt(u,v) = response;\nc += vec2(u,v) * response;\nsum += response;\n}\n}\nreturn abs(sum) > EPS ? c / sum : vec2(0.0f);\n}\n#if METHOD == 0\nvec2 quadratic1d()\n{\nfloat a = 0.5f * (responseAt(-1,0) - 2.0f * responseAt(0,0) + responseAt(1,0));\nfloat b = 0.5f * (responseAt(1,0) - responseAt(-1,0));\nfloat c = responseAt(0,0);\nfloat d = 0.5f * (responseAt(0,-1) - 2.0f * responseAt(0,0) + responseAt(0,1));\nfloat e = 0.5f * (responseAt(0,1) - responseAt(0,-1));\nfloat f = responseAt(0,0);\nbool hasMax = a < -EPS && d < -EPS;\nreturn hasMax ? -0.5f * vec2(b / a, e / d) : vec2(0.0f);\n}\n#endif\n#if METHOD == 1\nvec2 taylor2d()\n{\nfloat dx = (-responseAt(-1,0) + responseAt(1,0)) * 0.5f;\nfloat dy = (-responseAt(0,-1) + responseAt(0,1)) * 0.5f;\nfloat dxx = responseAt(-1,0) - 2.0f * responseAt(0,0) + responseAt(1,0);\nfloat dyy = responseAt(0,-1) - 2.0f * responseAt(0,0) + responseAt(0,1);\nfloat dxy = (responseAt(-1,-1) + responseAt(1,1) - responseAt(1,-1) - responseAt(-1,1)) * 0.25f;\nfloat det = dxx * dyy - dxy * dxy;\nmat2 inv = mat2(dyy, -dxy, -dxy, dxx);\nbool hasMax = det > EPS && dxx < 0.0f;\nreturn hasMax ? inv * vec2(dx, dy) / (-det) : vec2(0.0f);\n}\n#endif\n#if METHOD == 2\nvoid bilinearUpsample(ivec2 patchOffset, vec4 pixelsOfPatch)\n{\nint u, v, i, j;\nvec2 frc, ifrc; vec4 sub;\nconst vec4 ones = vec4(1.0f);\nfloat s = 1.0f / float(PATCH_SIZE - 1);\nint xoff = 2 * patchOffset.x;\nint yoff = 2 * patchOffset.y;\nfor(j = 0; j < PATCH_SIZE; j++) {\nfor(i = 0; i < PATCH_SIZE; i++) {\nu = i - PATCH_RADIUS;\nv = j - PATCH_RADIUS;\nfrc = vec2(i, j) * s;\nifrc = vec2(1.0f) - frc;\nsub = vec4(\nifrc.x * ifrc.y,\nfrc.x * ifrc.y,\nifrc.x * frc.y,\nfrc.x * frc.y\n);\npatchPixelAt(u+xoff,v+yoff) = dot(sub*pixelsOfPatch, ones);\n}\n}\n}\n#endif\n#if METHOD == 3\nvoid bicubicUpsample(ivec2 patchOffset, vec4 pixelsOfPatch, vec4 dx, vec4 dy, vec4 dxy)\n{\nfloat x, y, s = 1.0f / float(PATCH_SIZE - 1);\nint u, v, i, j;\nfloat f00 = pixelsOfPatch.x;\nfloat f10 = pixelsOfPatch.y;\nfloat f01 = pixelsOfPatch.z;\nfloat f11 = pixelsOfPatch.w;\nfloat fx00 = dx.x;\nfloat fx10 = dx.y;\nfloat fx01 = dx.z;\nfloat fx11 = dx.w;\nfloat fy00 = dy.x;\nfloat fy10 = dy.y;\nfloat fy01 = dy.z;\nfloat fy11 = dy.w;\nfloat fxy00 = dxy.x;\nfloat fxy10 = dxy.y;\nfloat fxy01 = dxy.z;\nfloat fxy11 = dxy.w;\nmat4 bicubic = mat4(\n1, 0, -3, 2,\n0, 0, 3, -2,\n0, 1, -2, 1,\n0, 0, -1, 1\n) * mat4(\nf00, f10, fx00, fx10,\nf01, f11, fx01, fx11,\nfy00, fy10, fxy00, fxy10,\nfy01, fy11, fxy01, fxy11\n) * mat4(\n1, 0, 0, 0,\n0, 0, 1, 0,\n-3, 3, -2, -1,\n2, -2, 1, 1\n);\nint xoff = 2 * patchOffset.x;\nint yoff = 2 * patchOffset.y;\nfor(j = 0; j < PATCH_SIZE; j++) {\nfor(i = 0; i < PATCH_SIZE; i++) {\nu = i - PATCH_RADIUS;\nv = j - PATCH_RADIUS;\nx = float(i) * s;\ny = float(j) * s;\npatchPixelAt(u+xoff,v+yoff) = dot(\nvec4(1, x, x*x, x*x*x),\nbicubic * vec4(1, y, y*y, y*y*y)\n);\n}\n}\n}\n#endif\n#if METHOD == 2 || METHOD == 3\nvoid upsamplePatch(int left, int top, int right, int bottom)\n{\nint x, y, k;\nvec4 ptch[9];\nvec2 d00, d10, d01, d11;\nfor(k = 0; k < 9; k++) {\nx = -1 + (k % 3);\ny = -1 + (k / 3);\nptch[k] = vec4(\npatchPixelAt(left+x, top+y),\npatchPixelAt(right+x, top+y),\npatchPixelAt(left+x, bottom+y),\npatchPixelAt(right+x, bottom+y)\n);\n}\nfor(k = 0; k < 9; k++) {\nx = -1 + (k % 3);\ny = -1 + (k / 3);\n#if METHOD == 2\nbilinearUpsample(ivec2(x, y), ptch[k]);\n#elif METHOD == 3\nd00 = derivativesAt(left+x, top+y);\nd10 = derivativesAt(right+x, top+y);\nd01 = derivativesAt(left+x, bottom+y);\nd11 = derivativesAt(right+x, bottom+y);\nbicubicUpsample(ivec2(x, y), ptch[k],\nvec4(d00.x, d10.x, d01.x, d11.x),\nvec4(d00.y, d10.y, d01.y, d11.y),\n0.25f * vec4(\n(patchPixelAt(left+x + 1,top+y + 1) + patchPixelAt(left+x - 1, top+y - 1)) - (patchPixelAt(left+x + 1, top+y - 1) + patchPixelAt(left+x - 1, top+y + 1)),\n(patchPixelAt(right+x + 1,top+y + 1) + patchPixelAt(right+x - 1, top+y - 1)) - (patchPixelAt(right+x + 1, top+y - 1) + patchPixelAt(right+x - 1, top+y + 1)),\n(patchPixelAt(left+x + 1,bottom+y + 1) + patchPixelAt(left+x - 1, bottom+y - 1)) - (patchPixelAt(left+x + 1, bottom+y - 1) + patchPixelAt(left+x - 1, bottom+y + 1)),\n(patchPixelAt(right+x + 1,bottom+y + 1) + patchPixelAt(right+x - 1, bottom+y - 1)) - (patchPixelAt(right+x + 1, bottom+y - 1) + patchPixelAt(right+x - 1, bottom+y + 1))\n)\n);\n#endif\n}\n}\nvec2 upsampleResponseMap(int left, int top, int right, int bottom)\n{\nupsamplePatch(left, top, right, bottom);\ncomputeDerivatives();\nreturn computeResponseMap();\n}\nvec2 iterativeUpsample(vec2 initialGuess)\n{\nint refine = 1;\nfloat scale = 0.5f;\nfloat eps2 = epsilon * epsilon;\nvec2 guess = initialGuess, localGuess = initialGuess;\nfor(int k = 0; k < maxIterations; k++) {\nivec4 quad = ivec4(floor(localGuess.x), floor(localGuess.y), ceil(localGuess.x), ceil(localGuess.y));\nvec2 response = (refine != 0) ? upsampleResponseMap(quad.x, quad.y, quad.z, quad.w) : vec2(0.0f);\nlocalGuess = response * scale;\nguess += localGuess;\nscale *= 0.5f;\nrefine *= int(dot(localGuess, localGuess) >= eps2);\n}\nreturn guess;\n}\n#endif\nvoid main()\n{\nivec2 thread = threadLocation();\nint keypointIndex = thread.x + thread.y * outputSize().x;\nint pixelsPerKeypoint = sizeofEncodedKeypoint(descriptorSize, extraSize) / 4;\nKeypointAddress address = KeypointAddress(keypointIndex * pixelsPerKeypoint, 0);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, address);\ncolor = encodeNullPairOfFloat16();\nif(isNullKeypoint(keypoint))\nreturn;\ncolor = encodeDiscardedPairOfFloat16();\nif(isBadKeypoint(keypoint))\nreturn;\nreadPixels(keypoint.position, keypoint.lod);\ncomputeDerivatives();\nvec2 offset = computeResponseMap();\n#if METHOD == 0\noffset = quadratic1d();\n#elif METHOD == 1\noffset = taylor2d();\n#elif METHOD == 2 || METHOD == 3\noffset = iterativeUpsample(offset);\n#else\n#error Unknown METHOD\n#endif\nfloat pot = exp2(keypoint.lod);\ncolor = encodePairOfFloat16(offset * pot);\n}';
-              }
+              })
             ),
             /***/
             3169: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\n@include "float16.glsl"\nuniform sampler2D encodedFlow;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nvoid main()\n{\nvec4 pixel = threadPixel(encodedKeypoints);\nivec2 thread = threadLocation();\nint len = textureSize(encodedFlow, 0).x;\nKeypointAddress myAddress = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, myAddress);\nint myIndex = findKeypointIndex(myAddress, descriptorSize, extraSize);\ncolor = pixel;\nif(isBadKeypoint(keypoint))\nreturn;\nivec2 location = ivec2(myIndex % len, myIndex / len);\nvec4 encodedFlow = myIndex < len * len ? pixelAt(encodedFlow, location) : encodeDiscardedKeypoint();\nbool discardFlow = isDiscardedPairOfFloat16(encodedFlow);\nvec2 flow = !discardFlow ? decodePairOfFloat16(encodedFlow) : vec2(0.0f);\nvec4 newPosition = encodeKeypointPosition(keypoint.position + flow);\nvec4 newPixel = myAddress.offset == 0 ? newPosition : pixel;\ncolor = !discardFlow ? newPixel : encodeDiscardedKeypoint();\n}';
-              }
+              })
             ),
             /***/
             1337: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D encodedOrientations;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nvoid main()\n{\nvec4 pixel = threadPixel(encodedKeypoints);\nivec2 thread = threadLocation();\nKeypointAddress myAddress = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint myIndex = findKeypointIndex(myAddress, descriptorSize, extraSize);\nint orientationEncoderLength = textureSize(encodedOrientations, 0).x;\nivec2 location = ivec2(myIndex % orientationEncoderLength, myIndex / orientationEncoderLength);\nvec4 targetPixel = pixelAt(encodedOrientations, location);\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, myAddress);\nbool isValid = !isBadKeypoint(keypoint);\nfloat encodedOrientation = targetPixel.g;\ncolor = isValid && myAddress.offset == 1 ? vec4(pixel.r, encodedOrientation, pixel.ba) : pixel;\n}';
-              }
+              })
             ),
             /***/
             6187: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D encodedData;\nuniform int strideOfEncodedData;\nuniform sampler2D encodedKeypoints;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\nvec4 readEncodedData(sampler2D encodedData, int strideOfEncodedData, int elementId, int pixelsPerElement, int pixelOffset)\n{\nint rasterIndex = elementId * pixelsPerElement + pixelOffset;\nivec2 pos = ivec2(rasterIndex % strideOfEncodedData, rasterIndex / strideOfEncodedData);\nreturn texelFetch(encodedData, pos, 0);\n}\nvoid main()\n{\nivec2 thread = threadLocation();\nKeypointAddress myAddress = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint myIndex = findKeypointIndex(myAddress, descriptorSize, extraSize);\nint headerSize = sizeofEncodedKeypointHeader();\nint extraCell = myAddress.offset - headerSize / 4;\nint numberOfExtraCells = extraSize / 4;\ncolor = threadPixel(encodedKeypoints);\nif(extraCell < 0 || extraCell >= numberOfExtraCells)\nreturn;\nKeypoint keypoint = decodeKeypoint(encodedKeypoints, encoderLength, myAddress);\nif(isBadKeypoint(keypoint))\nreturn;\ncolor = readEncodedData(encodedData, strideOfEncodedData, myIndex, numberOfExtraCells, extraCell);\n}';
-              }
+              })
             ),
             /***/
             477: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "keypoints.glsl"\nuniform sampler2D encodedKeypoints;\nuniform int startIndex;\nuniform int endIndex;\nuniform int descriptorSize;\nuniform int extraSize;\nuniform int encoderLength;\n#ifndef BUFFER_SIZE\n#error Undefined BUFFER_SIZE\n#endif\nlayout(std140) uniform KeypointBuffer\n{\nvec4 keypointBuffer[BUFFER_SIZE];\n};\nvoid main()\n{\nvec4 pixel = threadPixel(encodedKeypoints);\nivec2 thread = threadLocation();\nKeypointAddress address = findKeypointAddress(thread, encoderLength, descriptorSize, extraSize);\nint index = findKeypointIndex(address, descriptorSize, extraSize);\ncolor = pixel;\nif(index < startIndex)\nreturn;\ncolor = encodeNullKeypoint();\nif(index >= endIndex)\nreturn;\nvec4 data = keypointBuffer[index - startIndex];\nswitch(address.offset) {\ncase 0: {\ncolor = encodeKeypointPosition(data.xy);\nbreak;\n}\ncase 1: {\nvec2 score = encodeKeypointScore(max(data.w, 0.0f));\nfloat scale = encodeLod(data.z);\nfloat rotation = encodeKeypointOrientation(0.0f);\ncolor = vec4(scale, rotation, score);\nbreak;\n}\ndefault: {\ncolor = vec4(0.0f);\nbreak;\n}\n}\n}';
-              }
+              })
             ),
             /***/
             4050: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform sampler2D image;\nvoid main()\n{\n#if 1\ncolor = texture(image, texCoord);\n#else\nivec2 thread = threadLocation();\nivec2 pos = min(thread * 2, textureSize(image, 0) - ivec2(1));\ncolor = pixelAt(image, pos);\n#endif\n}";
-              }
+              })
             ),
             /***/
             5545: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform sampler2D image;\nvoid main()\n{\nivec2 thread = threadLocation();\nvec4 pixel = pixelAt(image, thread / 2);\ncolor = (((thread.x + thread.y) & 1) == 0) ? pixel : vec4(0.0f, 0.0f, 0.0f, pixel.a);\n}";
-              }
+              })
             ),
             /***/
             7113: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "subpixel.glsl"\nuniform sampler2D image0;\nuniform sampler2D image1;\nuniform float alpha;\nuniform float beta;\nuniform float gamma;\nconst vec4 BACKGROUND = vec4(0.0f);\nvoid main()\n{\nivec2 location = threadLocation();\nivec2 size0 = textureSize(image0, 0);\nivec2 size1 = textureSize(image1, 0);\nvec4 pix0 = all(lessThan(location, size0)) ? pixelAt(image0, location) : BACKGROUND;\nvec4 pix1 = all(lessThan(location, size1)) ? pixelAt(image1, location) : BACKGROUND;\nvec4 pix = clamp(alpha * pix0 + beta * pix1 + vec4(gamma), 0.0f, 1.0f);\ncolor = vec4(pix.rgb, 1.0f);\n}';
-              }
+              })
             ),
             /***/
             1202: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "subpixel.glsl"\nuniform sampler2D image;\nvoid main()\n{\nvec2 imageSize = vec2(textureSize(image, 0));\n#if !defined(INTERPOLATION_METHOD)\n#error Must define INTERPOLATION_METHOD\n#elif INTERPOLATION_METHOD == 0\nvec2 pos = texCoord * imageSize;\ncolor = textureLod(image, (round(pos) + vec2(0.5f)) / imageSize, 0.0f);\n#elif INTERPOLATION_METHOD == 1\ncolor = subpixelAtBI(image, texCoord * imageSize);\n#else\n#error Invalid INTERPOLATION_METHOD\n#endif\n}';
-              }
+              })
             ),
             /***/
             7971: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "subpixel.glsl"\nuniform sampler2D image;\nuniform mat3 inverseHomography;\nconst vec4 emptyColor = vec4(0.0f, 0.0f, 0.0f, 1.0f);\nvec2 perspectiveWarp(mat3 homography, vec2 p)\n{\nvec3 q = homography * vec3(p, 1.0f);\nreturn q.xy / q.z;\n}\nvoid main()\n{\nivec2 location = threadLocation();\nivec2 size = outputSize();\nconst vec2 zero = vec2(0.0f);\nvec2 target = perspectiveWarp(inverseHomography, vec2(location));\nbool withinBounds = all(bvec4(greaterThanEqual(target, zero), lessThan(target, vec2(size))));\ncolor = withinBounds ? subpixelAtBI(image, target) : emptyColor;\n}';
-              }
+              })
             ),
             /***/
             6122: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "colors.glsl"\nuniform sampler2D dest, src;\nuniform int destComponents;\nuniform int srcComponentId;\nvoid main()\n{\nvec4 destPixel = threadPixel(dest);\nvec4 srcPixel = threadPixel(src);\nbvec4 flags = bvec4(\n(destComponents & PIXELCOMPONENT_RED) != 0,\n(destComponents & PIXELCOMPONENT_GREEN) != 0,\n(destComponents & PIXELCOMPONENT_BLUE) != 0,\n(destComponents & PIXELCOMPONENT_ALPHA) != 0\n);\ncolor = mix(destPixel, vec4(srcPixel[srcComponentId]), flags);\n}';
-              }
+              })
             ),
             /***/
             371: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '#if !defined(TYPE)\n#error Undefined TYPE\n#elif TYPE == 1\n@include "keypoints.glsl"\n#define nullPixel() encodeNullKeypoint()\n#elif TYPE == 2\n@include "float16.glsl"\n#define nullPixel() encodeNullPairOfFloat16()\n#else\n#error Invalid TYPE\n#endif\nuniform sampler2D image;\nvoid main()\n{\nivec2 thread = threadLocation();\nivec2 imageSize = textureSize(image, 0);\nint rasterIndex = thread.y * outputSize().x + thread.x;\nbool isValidPixel = rasterIndex < imageSize.x * imageSize.y;\nivec2 pos = ivec2(rasterIndex % imageSize.x, rasterIndex / imageSize.x);\nvec4 nullpix = nullPixel();\ncolor = isValidPixel ? texelFetch(image, pos, 0) : nullpix;\n}';
-              }
+              })
             ),
             /***/
             7307: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform sampler2D image;\nvoid main()\n{\ncolor = threadPixel(image);\n}";
-              }
+              })
             ),
             /***/
             8614: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "colors.glsl"\nuniform sampler2D image;\nuniform int pixelComponents;\nuniform float value;\nvoid main()\n{\nvec4 pixel = threadPixel(image);\nbvec4 flags = bvec4(\n(pixelComponents & PIXELCOMPONENT_RED) != 0,\n(pixelComponents & PIXELCOMPONENT_GREEN) != 0,\n(pixelComponents & PIXELCOMPONENT_BLUE) != 0,\n(pixelComponents & PIXELCOMPONENT_ALPHA) != 0\n);\ncolor = mix(pixel, vec4(value), flags);\n}';
-              }
+              })
             ),
             /***/
             6271: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform float value;\nvoid main()\n{\ncolor = vec4(value);\n}";
-              }
+              })
             ),
             /***/
             3016: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "void vsmain()\n{\ngl_Position *= vec4(1,-1,1,1);\n}";
-              }
+              })
             ),
             /***/
             3630: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform sampler2D image;\nuniform int iterationNumber;\nvoid main()\n{\nivec2 thread = threadLocation();\nivec2 last = outputSize() - ivec2(1);\nint jump = (1 << iterationNumber);\nint clusterLength = jump << 1;\nint clusterMask = clusterLength - 1;\nivec2 clusterPos = ivec2(thread >> (1 + iterationNumber)) << (1 + iterationNumber);\nivec2 next1 = clusterPos + ((thread - clusterPos + ivec2(jump, 0)) & clusterMask);\nivec2 next2 = clusterPos + ((thread - clusterPos + ivec2(0, jump)) & clusterMask);\nivec2 next3 = clusterPos + ((thread - clusterPos + ivec2(jump, jump)) & clusterMask);\nvec4 p0 = texelFetch(image, thread, 0);\nvec4 p1 = texelFetch(image, min(next1, last), 0);\nvec4 p2 = texelFetch(image, min(next2, last), 0);\nvec4 p3 = texelFetch(image, min(next3, last), 0);\nvec4 pmax = max(max(p0, p1), max(p2, p3));\nvec4 pmin = min(min(p0, p1), min(p2, p3));\ncolor = vec4(pmax.r, pmin.g, pmax.r - pmin.g, p0.a);\n}";
-              }
+              })
             ),
             /***/
             8508: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = '@include "pyramids.glsl"\n@include "float16.glsl"\nuniform sampler2D pyramid;\nuniform float lod;\n#define USE_VARYINGS 1\nin vec2 v_pix0, v_pix1, v_pix2,\nv_pix3, v_pix4, v_pix5,\nv_pix6, v_pix7, v_pix8;\nconst mat3 hkern = mat3(\n1.0f, 0.0f,-1.0f,\n2.0f, 0.0f,-2.0f,\n1.0f, 0.0f,-1.0f\n), vkern = mat3(\n1.0f, 2.0f, 1.0f,\n0.0f, 0.0f, 0.0f,\n-1.0f,-2.0f,-1.0f\n);\n#define PIX(x,y) pyrPixelAtOffset(pyramid, lod, pot, ivec2((x),(y))).g\n#define XIP(v) textureLod(pyramid, (v), lod).g\nvoid main()\n{\nconst vec3 ones = vec3(1.0f);\nfloat pot = exp2(lod);\nmat3 win = mat3(\n#if USE_VARYINGS\nXIP(v_pix0), XIP(v_pix1), XIP(v_pix2),\nXIP(v_pix3), XIP(v_pix4), XIP(v_pix5),\nXIP(v_pix6), XIP(v_pix7), XIP(v_pix8)\n#else\nPIX(-1,-1), PIX(0,-1), PIX(1,-1),\nPIX(-1,0), PIX(0,0), PIX(1,0),\nPIX(-1,1), PIX(0,1), PIX(1,1)\n#endif\n);\nmat3 dx = matrixCompMult(hkern, win);\nmat3 dy = matrixCompMult(vkern, win);\nvec2 df = vec2(\ndot(dx[0] + dx[1] + dx[2], ones),\ndot(dy[0] + dy[1] + dy[2], ones)\n);\ncolor = encodePairOfFloat16(df);\n}';
-              }
+              })
             ),
             /***/
             8073: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = "uniform mediump float lod;\nout vec2 v_pix0, v_pix1, v_pix2,\nv_pix3, v_pix4, v_pix5,\nv_pix6, v_pix7, v_pix8;\n#define PIX(x,y) (texCoord + ((pot) * vec2((x),(y))) / texSize)\nvoid vsmain()\n{\nfloat pot = exp2(lod);\nv_pix0 = PIX(-1,-1); v_pix1 = PIX(0,-1); v_pix2 = PIX(1,-1);\nv_pix3 = PIX(-1,0); v_pix4 = PIX(0,0); v_pix5 = PIX(1,0);\nv_pix6 = PIX(-1,1); v_pix7 = PIX(0,1); v_pix8 = PIX(1,1);\n}";
-              }
+              })
             ),
             /***/
             3575: (
               /***/
-              (module2) => {
+              ((module2) => {
                 module2.exports = `AGFzbQEAAAABiwETYAABfmADf39/AX9gAX8AYAN/f38AYAF9AX9gAX8Bf2ACf38Bf2AFf39/f38B
 f2AFf39/f38AYAZ/f39/f38Bf2AAAX9gAn99AX9gA39/fQF/YAJ/fwF9YAF/AX1gBH9/f38AYAR/
 f39/AX9gEX98fHx8fHx8fHx8fHx8fHx8AGAHf39/f39/fQF/AjsEA2VudgZtZW1vcnkCAAIDZW52
@@ -4200,7 +4200,7 @@ bnNmb3JtMzIuYzozOQBBc3NlcnRpb24gZmFpbGVkIGF0IHRyYW5zZm9ybTMyLmM6NzcAQXNzZXJ0
 aW9uIGZhaWxlZCBhdCB0cmFuc2Zvcm0zMi5jOjExNAAAQbQaCwwIAAAAUA0AAAEAAAAAQcAaCyQA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 `;
-              }
+              })
             )
             /******/
           };
@@ -6115,7 +6115,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             }
             ;
             const DEFAULT_CAPACITY2 = 1024;
-            const BUCKET = Symbol("Bucket");
+            const BUCKET = /* @__PURE__ */ Symbol("Bucket");
             class TextureBucket {
               /**
                * Constructor
@@ -6198,7 +6198,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             }
             var types = __webpack_require__(6049);
             ;
-            const PRIVATE_TOKEN = Symbol();
+            const PRIVATE_TOKEN = /* @__PURE__ */ Symbol();
             class SpeedyMediaSource {
               /**
                * @protected Constructor
@@ -6966,7 +6966,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
               }
             }
             ;
-            const speedy_media_PRIVATE_TOKEN = Symbol();
+            const speedy_media_PRIVATE_TOKEN = /* @__PURE__ */ Symbol();
             class SpeedyMedia {
               /**
                * @private Constructor. It receives a VALID media source that is ALREADY LOADED.
@@ -7699,12 +7699,12 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
             }
             ;
             const SpeedyPipelineMessageType = Object.freeze({
-              Nothing: Symbol("Nothing"),
-              Image: Symbol("Image"),
-              Keypoints: Symbol("Keypoints"),
-              Vector2: Symbol("Vector2"),
-              LSHTables: Symbol("LSHTables"),
-              KeypointMatches: Symbol("KeypointMatches")
+              Nothing: /* @__PURE__ */ Symbol("Nothing"),
+              Image: /* @__PURE__ */ Symbol("Image"),
+              Keypoints: /* @__PURE__ */ Symbol("Keypoints"),
+              Vector2: /* @__PURE__ */ Symbol("Vector2"),
+              LSHTables: /* @__PURE__ */ Symbol("LSHTables"),
+              KeypointMatches: /* @__PURE__ */ Symbol("KeypointMatches")
             });
             class SpeedyPipelineMessage {
               /**
@@ -12976,19 +12976,19 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
   }
 });
 
-// src/main.ts
+// src/lib/main.ts
 var import_speedy_vision29 = __toESM(require_speedy_vision(), 1);
 
-// src/core/settings.ts
+// src/lib/core/settings.ts
 var import_speedy_vision4 = __toESM(require_speedy_vision(), 1);
 
-// src/core/session.ts
+// src/lib/core/session.ts
 var import_speedy_vision3 = __toESM(require_speedy_vision(), 1);
 
-// src/utils/utils.ts
+// src/lib/utils/utils.ts
 var import_speedy_vision2 = __toESM(require_speedy_vision(), 1);
 
-// src/utils/errors.ts
+// src/lib/utils/errors.ts
 var ARError = class extends Error {
   /**
    * Constructor
@@ -13065,7 +13065,7 @@ var TrainingError = class extends ARError {
   }
 };
 
-// src/utils/resolution.ts
+// src/lib/utils/resolution.ts
 var import_speedy_vision = __toESM(require_speedy_vision(), 1);
 var ALIAS_TO_HEIGHT = {
   "xs": 120,
@@ -13109,7 +13109,12 @@ function parseHeight(resolution) {
   return Number.NaN;
 }
 
-// src/utils/utils.ts
+// src/lib/utils/metadata.ts
+var AR_FLAGS = true ? Number(0) : 0;
+var AR_VERSION = true ? String("0.5.0") : "0.0.0-unknown";
+var AR_WEBSITE = true ? String("https://github.com/alemart/encantar-js") : "https://github.com/alemart/encantar-js";
+
+// src/lib/utils/utils.ts
 var Utils = class _Utils {
   /**
    * Log a message
@@ -13243,11 +13248,11 @@ var Utils = class _Utils {
    * Engine version
    */
   static get engineVersion() {
-    return "0.4.6";
+    return AR_VERSION;
   }
 };
 
-// src/utils/ar-events.ts
+// src/lib/utils/ar-events.ts
 var AREvent = class extends Event {
   /**
    * Constructor
@@ -13297,7 +13302,7 @@ var AREventTarget = class {
   }
 };
 
-// src/core/stats.ts
+// src/lib/core/stats.ts
 var UPDATE_INTERVAL = 0.5;
 var Stats = class {
   /**
@@ -13343,7 +13348,7 @@ var Stats = class {
   }
 };
 
-// src/trackers/image-tracker/settings.ts
+// src/lib/trackers/image-tracker/settings.ts
 var TRAIN_MAX_KEYPOINTS = 1024;
 var TRAIN_IMAGE_SCALE = 0.8;
 var NIS_SIZE = 1024;
@@ -13393,7 +13398,7 @@ var TRACK_FILTER_BETA = 1;
 var TRACK_EXTRAPOLATION_ALPHA = 6;
 var TRACK_EXTRAPOLATION_BETA = 1.33;
 
-// src/ui/gizmos.ts
+// src/lib/ui/gizmos.ts
 var Gizmos = class {
   /**
    * Constructor
@@ -13575,7 +13580,7 @@ var ImageTrackerGizmos = class {
   }
 };
 
-// src/core/frame.ts
+// src/lib/core/frame.ts
 var Frame = class {
   /**
    * Constructor
@@ -13600,7 +13605,7 @@ var Frame = class {
   }
 };
 
-// src/trackers/tracker.ts
+// src/lib/trackers/tracker.ts
 var TrackerResult = class {
   /** check if this result was generated by a tracker of a certain type */
   of(trackerType) {
@@ -13608,7 +13613,7 @@ var TrackerResult = class {
   }
 };
 
-// src/core/time-manager.ts
+// src/lib/core/time-manager.ts
 var TimeManager = class {
   constructor() {
     /** time scale */
@@ -13675,7 +13680,7 @@ var TimeManager = class {
   }
 };
 
-// src/utils/asap.ts
+// src/lib/utils/asap.ts
 var callbacks = [];
 var args = [];
 var ASAP_KEY = "asap" + Math.random().toString(36).substr(1);
@@ -13695,7 +13700,7 @@ function asap(fn, ...params) {
   window.postMessage(ASAP_KEY, "*");
 }
 
-// src/core/session.ts
+// src/lib/core/session.ts
 var SessionEvent = class extends AREvent {
 };
 var DEFAULT_OPTIONS = {
@@ -13868,7 +13873,7 @@ var _Session = class _Session extends AREventTarget {
    * @returns a handle
    */
   requestAnimationFrame(callback) {
-    const handle = Symbol("raf-handle");
+    const handle = /* @__PURE__ */ Symbol("raf-handle");
     if (this._active) {
       this._rafQueue.push([handle, callback]);
     } else {
@@ -14111,7 +14116,7 @@ var _Session = class _Session extends AREventTarget {
 _Session._count = 0;
 var Session = _Session;
 
-// src/core/settings.ts
+// src/lib/core/settings.ts
 var Settings = class {
   /**
    * Power preference (may impact performance x battery life)
@@ -14139,13 +14144,13 @@ var Settings = class {
 };
 Settings._powerPreference = "default";
 
-// src/trackers/image-tracker/image-tracker.ts
+// src/lib/trackers/image-tracker/image-tracker.ts
 var import_speedy_vision22 = __toESM(require_speedy_vision(), 1);
 
-// src/trackers/image-tracker/reference-image-database.ts
+// src/lib/trackers/image-tracker/reference-image-database.ts
 var import_speedy_vision5 = __toESM(require_speedy_vision(), 1);
 
-// src/trackers/image-tracker/reference-image.ts
+// src/lib/trackers/image-tracker/reference-image.ts
 var ReferenceImageWithMedia = class {
   /**
    * Constructor
@@ -14198,7 +14203,7 @@ var ReferenceImageWithMedia = class {
   }
 };
 
-// src/trackers/image-tracker/reference-image-database.ts
+// src/lib/trackers/image-tracker/reference-image-database.ts
 var DEFAULT_CAPACITY = 100;
 var ReferenceImageDatabase = class {
   /**
@@ -14314,10 +14319,10 @@ var ReferenceImageDatabase = class {
   }
 };
 
-// src/trackers/image-tracker/states/initial.ts
+// src/lib/trackers/image-tracker/states/initial.ts
 var import_speedy_vision7 = __toESM(require_speedy_vision(), 1);
 
-// src/trackers/image-tracker/states/state.ts
+// src/lib/trackers/image-tracker/states/state.ts
 var import_speedy_vision6 = __toESM(require_speedy_vision(), 1);
 var ImageTrackerState = class {
   /**
@@ -14409,7 +14414,7 @@ var ImageTrackerState = class {
   }
 };
 
-// src/trackers/image-tracker/states/initial.ts
+// src/lib/trackers/image-tracker/states/initial.ts
 var ImageTrackerInitialState = class extends ImageTrackerState {
   /**
    * Constructor
@@ -14542,13 +14547,13 @@ var ImageTrackerInitialState = class extends ImageTrackerState {
   }
 };
 
-// src/trackers/image-tracker/states/training.ts
+// src/lib/trackers/image-tracker/states/training.ts
 var import_speedy_vision10 = __toESM(require_speedy_vision(), 1);
 
-// src/trackers/image-tracker/image-tracker-utils.ts
+// src/lib/trackers/image-tracker/image-tracker-utils.ts
 var import_speedy_vision9 = __toESM(require_speedy_vision(), 1);
 
-// src/geometry/pnp.ts
+// src/lib/geometry/pnp.ts
 var import_speedy_vision8 = __toESM(require_speedy_vision(), 1);
 var DEFAULT_SENSOR_WIDTH_IN_METERS = 5 * 1e-3;
 var DEFAULT_TARGET_WIDTH_IN_METERS = 20 * 0.01;
@@ -15090,7 +15095,7 @@ function quat2mat(R2, q2) {
   return R2;
 }
 
-// src/trackers/image-tracker/image-tracker-utils.ts
+// src/lib/trackers/image-tracker/image-tracker-utils.ts
 var ImageTrackerUtils = class {
   /**
    * Find a transformation that converts a raster space to NIS
@@ -15516,7 +15521,7 @@ var ImageTrackerUtils = class {
   }
 };
 
-// src/trackers/image-tracker/states/training.ts
+// src/lib/trackers/image-tracker/states/training.ts
 var ImageTrackerTrainingState = class extends ImageTrackerState {
   /**
    * Constructor
@@ -15724,7 +15729,7 @@ var ImageTrackerTrainingState = class extends ImageTrackerState {
   }
 };
 
-// src/trackers/image-tracker/states/scanning.ts
+// src/lib/trackers/image-tracker/states/scanning.ts
 var import_speedy_vision11 = __toESM(require_speedy_vision(), 1);
 var PORT_CAMERA = 0;
 var PORT_MEMORY = 1;
@@ -15982,7 +15987,7 @@ var ImageTrackerScanningState = class extends ImageTrackerState {
   }
 };
 
-// src/trackers/image-tracker/states/pre-tracking-a.ts
+// src/lib/trackers/image-tracker/states/pre-tracking-a.ts
 var import_speedy_vision12 = __toESM(require_speedy_vision(), 1);
 var ImageTrackerPreTrackingAState = class extends ImageTrackerState {
   /**
@@ -16149,7 +16154,7 @@ var ImageTrackerPreTrackingAState = class extends ImageTrackerState {
   }
 };
 
-// src/trackers/image-tracker/states/pre-tracking-b.ts
+// src/lib/trackers/image-tracker/states/pre-tracking-b.ts
 var import_speedy_vision13 = __toESM(require_speedy_vision(), 1);
 var PORT_PORTAL = 0;
 var PORT_CAMERA2 = 1;
@@ -16422,10 +16427,10 @@ var ImageTrackerPreTrackingBState = class extends ImageTrackerState {
   }
 };
 
-// src/trackers/image-tracker/states/tracking.ts
+// src/lib/trackers/image-tracker/states/tracking.ts
 var import_speedy_vision21 = __toESM(require_speedy_vision(), 1);
 
-// src/trackers/image-tracker/image-tracker-event.ts
+// src/lib/trackers/image-tracker/image-tracker-event.ts
 var ImageTrackerEvent = class extends AREvent {
   /**
    * Constructor
@@ -16444,13 +16449,13 @@ var ImageTrackerEvent = class extends AREvent {
   }
 };
 
-// src/geometry/camera-model.ts
+// src/lib/geometry/camera-model.ts
 var import_speedy_vision16 = __toESM(require_speedy_vision(), 1);
 
-// src/geometry/pose-filter.ts
+// src/lib/geometry/pose-filter.ts
 var import_speedy_vision15 = __toESM(require_speedy_vision(), 1);
 
-// src/geometry/quaternion.ts
+// src/lib/geometry/quaternion.ts
 var import_speedy_vision14 = __toESM(require_speedy_vision(), 1);
 var EPSILON2 = 1e-6;
 var Quaternion = class _Quaternion {
@@ -16665,7 +16670,7 @@ var Quaternion = class _Quaternion {
   }
 };
 
-// src/geometry/vector3.ts
+// src/lib/geometry/vector3.ts
 var EPSILON3 = 1e-6;
 var ZERO = null;
 var Vector3 = class _Vector3 {
@@ -16910,7 +16915,7 @@ var Vector3 = class _Vector3 {
   }
 };
 
-// src/geometry/pose-filter.ts
+// src/lib/geometry/pose-filter.ts
 var TRANSLATION_SAMPLES = 5;
 var ROTATION_SAMPLES = 12;
 var NO_TRANSLATION = Vector3.Zero();
@@ -17004,7 +17009,7 @@ var PoseFilter = class {
   }
 };
 
-// src/geometry/camera-model.ts
+// src/lib/geometry/camera-model.ts
 var HFOV_GUESS = 60;
 var DEFAULT_SCALE = 2;
 var DEG2RAD = 0.017453292519943295;
@@ -17492,10 +17497,10 @@ var CameraModel = class {
   }
 };
 
-// src/geometry/viewer.ts
+// src/lib/geometry/viewer.ts
 var import_speedy_vision20 = __toESM(require_speedy_vision(), 1);
 
-// src/geometry/pose.ts
+// src/lib/geometry/pose.ts
 var Pose = class {
   /**
    * Constructor
@@ -17513,10 +17518,10 @@ var Pose = class {
   }
 };
 
-// src/geometry/viewer-pose.ts
+// src/lib/geometry/viewer-pose.ts
 var import_speedy_vision18 = __toESM(require_speedy_vision(), 1);
 
-// src/geometry/transform.ts
+// src/lib/geometry/transform.ts
 var import_speedy_vision17 = __toESM(require_speedy_vision(), 1);
 var EPSILON5 = 1e-6;
 var Transform = class _Transform {
@@ -17696,7 +17701,7 @@ var Transform = class _Transform {
   }
 };
 
-// src/geometry/viewer-pose.ts
+// src/lib/geometry/viewer-pose.ts
 var ViewerPose = class extends Pose {
   /**
    * Constructor
@@ -17719,7 +17724,7 @@ var ViewerPose = class extends Pose {
   }
 };
 
-// src/geometry/view.ts
+// src/lib/geometry/view.ts
 var import_speedy_vision19 = __toESM(require_speedy_vision(), 1);
 var DEFAULT_NEAR = 0.1;
 var DEFAULT_FAR = 1e4 * DEFAULT_NEAR;
@@ -17788,7 +17793,7 @@ var PerspectiveView = class {
   }
 };
 
-// src/geometry/ray.ts
+// src/lib/geometry/ray.ts
 var Ray = class {
   /**
    * Constructor
@@ -17813,7 +17818,7 @@ var Ray = class {
   }
 };
 
-// src/geometry/viewer.ts
+// src/lib/geometry/viewer.ts
 var Viewer = class {
   /**
    * Constructor
@@ -17891,7 +17896,7 @@ var Viewer = class {
   }
 };
 
-// src/trackers/image-tracker/states/tracking.ts
+// src/lib/trackers/image-tracker/states/tracking.ts
 var USE_TURBO = true;
 var NO_MOTION = import_speedy_vision21.default.Matrix.Eye(3);
 var ImageTrackerTrackingState = class extends ImageTrackerState {
@@ -18323,7 +18328,7 @@ var ImageTrackerTrackingState = class extends ImageTrackerState {
   }
 };
 
-// src/trackers/image-tracker/image-tracker.ts
+// src/lib/trackers/image-tracker/image-tracker.ts
 var ImageTrackerResult = class extends TrackerResult {
   /**
    * Constructor
@@ -18520,10 +18525,10 @@ var ImageTracker2 = class extends AREventTarget {
   }
 };
 
-// src/trackers/pointer-tracker/pointer-tracker.ts
+// src/lib/trackers/pointer-tracker/pointer-tracker.ts
 var import_speedy_vision23 = __toESM(require_speedy_vision(), 1);
 
-// src/geometry/vector2.ts
+// src/lib/geometry/vector2.ts
 var EPSILON6 = 1e-6;
 var ZERO2 = null;
 var Vector2 = class _Vector2 {
@@ -18722,7 +18727,7 @@ var Vector2 = class _Vector2 {
   }
 };
 
-// src/trackers/pointer-tracker/pointer-tracker.ts
+// src/lib/trackers/pointer-tracker/pointer-tracker.ts
 var PointerTrackerResult = class extends TrackerResult {
   /**
    * Constructor
@@ -19067,7 +19072,7 @@ var PointerTracker = class {
   }
 };
 
-// src/trackers/tracker-factory.ts
+// src/lib/trackers/tracker-factory.ts
 var TrackerFactory = class {
   /**
    * Create an Image Tracker
@@ -19092,7 +19097,7 @@ var TrackerFactory = class {
   }
 };
 
-// src/sources/video-source.ts
+// src/lib/sources/video-source.ts
 var import_speedy_vision24 = __toESM(require_speedy_vision(), 1);
 var ALERT_MESSAGE = "Tap on the screen to start";
 var displayedAlertMessage = false;
@@ -19246,7 +19251,7 @@ var VideoSource = class {
   }
 };
 
-// src/sources/canvas-source.ts
+// src/lib/sources/canvas-source.ts
 var import_speedy_vision25 = __toESM(require_speedy_vision(), 1);
 var CanvasSource = class {
   /**
@@ -19314,7 +19319,7 @@ var CanvasSource = class {
   }
 };
 
-// src/sources/camera-source.ts
+// src/lib/sources/camera-source.ts
 var import_speedy_vision26 = __toESM(require_speedy_vision(), 1);
 var DEFAULT_CAMERA_OPTIONS = {
   /*
@@ -19429,7 +19434,7 @@ var CameraSource = class extends VideoSource {
   }
 };
 
-// src/sources/pointer-source.ts
+// src/lib/sources/pointer-source.ts
 var import_speedy_vision27 = __toESM(require_speedy_vision(), 1);
 var PointerSource = class {
   /**
@@ -19550,7 +19555,7 @@ var PointerSource = class {
   }
 };
 
-// src/sources/source-factory.ts
+// src/lib/sources/source-factory.ts
 var SourceFactory = class {
   /**
    * Create a <video>-based source of data
@@ -19585,10 +19590,10 @@ var SourceFactory = class {
   }
 };
 
-// src/core/viewport.ts
+// src/lib/core/viewport.ts
 var import_speedy_vision28 = __toESM(require_speedy_vision(), 1);
 
-// src/ui/stats-panel.ts
+// src/lib/ui/stats-panel.ts
 var UPDATE_INTERVAL2 = 500;
 var POWER_ICON = Object.freeze({
   "default": "",
@@ -19767,7 +19772,7 @@ var StatsPanel = class {
   }
 };
 
-// src/ui/fullscreen-button.ts
+// src/lib/ui/fullscreen-button.ts
 var BUTTON_ICON_OFF = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAbUlEQVRYR+2WOQ4AIAgE5f+PVhobDZANBZAsraAwXMoqFil+f9GBj8BW8dIiKt45at/XgShStHgvmfdekwAdIIEyAmh1Z/U5ikmABPoRsLZWtt+5DUlgHgGr6qM1Pf9XnO131L7fJEQjyOqXEzjP1YAhNmUTrgAAAABJRU5ErkJggg==";
 var BUTTON_ICON_ON = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAZElEQVRYR+2WwRIAEAhE9f8fTQ5OhtkLxbzOyc5rJSvBYcH3FwTIBKpHb5d57Nqm5o0aCIBAPgLDxSunq69APT8RCBdwezTLHjglDAEQgEC+QZR2EqqbjprHRgSB9wjwHX9LoAHP1YAhXF4Z/QAAAABJRU5ErkJggg==";
 var BUTTON_SIZE = 64;
@@ -19855,36 +19860,41 @@ var FullscreenButton = class {
   }
 };
 
-// src/ui/reminder-dialog.ts
-var TITLE = "Purchase your copy of encantar.js!";
-var MESSAGE = `encantar.js is an open, fast, easy-to-use, and broadly compatible Augmented Reality solution that works in any modern browser and web server. It has no vendor lock-in, DRM, artificial scarcity, or gatekeeping. Your projects are yours to keep and deploy.
-
-Bringing open Augmented Reality to you isn't free of cost. The depth and breadth of this work are huge, requiring considerable time and skill. I'm a developer working independently on this software from the ground up. Your purchase will support me directly.
-
-This software respects you and puts you in control \u2014 values often overlooked in the tech industry. Do you value your freedom? Will you contribute to making open-source sustainable? With a one-time purchase, you'll become a backer of open-source AR \u2014 and together, we'll make technology empower us all.`;
-var PRIMARY_ACTION = "Buy now";
-var SECONDARY_ACTION = "Try it";
-var TARGET_URL = "https://alemart.github.io/encantar-js/buy";
-var ONE_DAY = 86400;
-var REMINDER_TIMEOUT = ONE_DAY;
-var REMINDER_KEY = "encantar-reminder-0.4.6";
-var AR_FLAGS = Number(1);
-var ReminderDialog = class {
+// src/lib/ui/watermark.ts
+var WATERMARK_CONTENT = '<svg width="96" height="48" xmlns="http://www.w3.org/2000/svg"><text x="8" y="31" fill="currentColor" font-family="sans-serif" font-weight="bold" font-size="10px" text-decoration="none">Made with</text><text x="8" y="43" fill="currentColor" font-family="sans-serif" font-weight="bold" font-size="14px" text-decoration="underline">encantar.js</text></svg>';
+var WATERMARK_COLOR = `rgba(255, 255, 255, 0.5)`;
+var WATERMARK_HIGHLIGHTED_COLOR = `rgba(255, 215, 0, 0.8)`;
+var ABOUT_BACKGROUND_COLOR = "whitesmoke";
+var ABOUT_PRIMARY_COLOR = "royalblue";
+var ABOUT_SECONDARY_COLOR = ABOUT_BACKGROUND_COLOR;
+var ABOUT_PRIMARY_HIGHLIGHTED_COLOR = "gold";
+var ABOUT_SECONDARY_HIGHLIGHTED_COLOR = "black";
+var ABOUT_TEXT_COLOR = "#333";
+var ABOUT_TEXT_SIZE = "16px";
+var ABOUT_FONT_FAMILY = "sans-serif";
+var ABOUT_WEBSITE = "https://github.com/alemart/encantar-js";
+var ABOUT_ICON = "&#x1F9D9;&#x200D;&#x2642;";
+var ABOUT_TITLE = ABOUT_ICON + "<br>encantar.js";
+var ABOUT_SUBTITLE = "GPU-accelerated Augmented Reality library for the web";
+var ABOUT_COPYRIGHT = "Copyright (C) 2022-2026 Alexandre Martins".replace("(C)", "&copy;");
+var ABOUT_LEGAL = `This work is made with <a href="${ABOUT_WEBSITE}" rel="external" style="color:${ABOUT_PRIMARY_COLOR};text-decoration:underline">encantar.js</a>, a free and open-source library for creating Augmented Reality experiences for the web. You can redistribute it under the terms of the <a href="https://www.gnu.org/licenses" rel="license" style="color:${ABOUT_PRIMARY_COLOR};text-decoration:underline">GNU General Public License version 3</a>. This library is provided "AS IS", WITHOUT ANY WARRANTY.`;
+var ABOUT_SUPPLEMENT = "With encantar.js, a modern web browser is all you need to experience Augmented Reality (AR). Discover how you too can create magical AR content that works everywhere, with no need to download apps!";
+var ABOUT_PRIMARY_ACTION = "Show me";
+var ABOUT_SECONDARY_ACTION = "Not now";
+var AboutBox = class {
   /**
    * Constructor
    */
   constructor() {
-    this._dialog = this._createDialog();
+    this._dialog = null;
+    this._parent = null;
   }
   /**
    * Initialize
    * @param parent parent node
    */
   init(parent) {
-    if (this._dialog !== null) {
-      parent.appendChild(this._dialog);
-      setTimeout(() => this._show(), 500);
-    }
+    this._parent = parent;
   }
   /**
    * Release
@@ -19892,164 +19902,215 @@ var ReminderDialog = class {
   release() {
     if (this._dialog !== null)
       this._dialog.remove();
+    this._dialog = null;
+    this._parent = null;
   }
   /**
-   * Show the reminder
+   * Show the About box
    * @returns true on success
    */
-  _show() {
-    if (this._dialog === null)
-      return false;
+  show() {
+    if (this._dialog === null) {
+      if (null === this._parent || null === (this._dialog = this._createDialog()))
+        return false;
+      this._parent.appendChild(this._dialog);
+    }
     this._dialog.showModal();
     return true;
   }
   /**
-   * Close the reminder
-   * @returns true on success
+   * Reparent
+   * @param newParent new parent node
+   * @internal
    */
-  _close() {
-    if (this._dialog === null || !this._dialog.open)
-      return false;
-    const now = Math.floor(Date.now() * 1e-3);
-    localStorage.setItem(REMINDER_KEY, String(now));
-    this._dialog.close();
-    return true;
-  }
-  /**
-   * Whether or not the reminder should be displayed at this time
-   * @returns a boolean
-   */
-  _isEnabled() {
-    if (AR_FLAGS & 1)
-      return false;
-    const now = Math.floor(Date.now() * 1e-3);
-    const lastReminder = Number(localStorage.getItem(REMINDER_KEY) ?? "0");
-    return now >= lastReminder + REMINDER_TIMEOUT || lastReminder >= now;
+  _reparent(newParent) {
+    if (newParent !== this._parent) {
+      this.release();
+      this.init(newParent);
+    }
   }
   /**
    * Create the dialog element
-   * @returns the dialog element
    */
   _createDialog() {
-    const TRANSPARENT_COLOR = "transparent";
-    const BACKGROUND_COLOR = "whitesmoke";
-    const PRIMARY_COLOR = "#6366f1";
-    const SECONDARY_COLOR = BACKGROUND_COLOR;
-    const PRIMARY_HIGHLIGHTED_COLOR = "gold";
-    const SECONDARY_HIGHLIGHTED_COLOR = "black";
-    const FONT_FAMILY = "sans-serif";
-    const TEXT_COLOR = "#333";
-    const TEXT_SIZE = "16px";
-    const TITLE_COLOR = PRIMARY_COLOR;
-    const TITLE_SIZE = "20px";
-    if (!this._isEnabled())
-      return null;
     if (typeof HTMLDialogElement === "undefined")
       return null;
     const dialog = document.createElement("dialog");
-    const content = document.createElement("div");
+    const wrapper = document.createElement("div");
+    const textWrapper = document.createElement("div");
     const title = document.createElement("h1");
-    const message = document.createElement("p");
+    const subtitle = document.createElement("h2");
+    const copyright = document.createElement("h3");
+    const firstParagraph = document.createElement("p");
+    const secondParagraph = document.createElement("p");
     const buttonWrapper = document.createElement("div");
-    const primaryButton = document.createElement("button");
-    const secondaryButton = document.createElement("button");
-    const closeButton = document.createElement("button");
-    dialog.style.width = "95%";
+    const quitButton = document.createElement("button");
+    const infoButton = document.createElement("button");
+    dialog.style.width = "67%";
     dialog.style.minWidth = "300px";
+    dialog.style.maxWidth = "800px";
     dialog.style.borderRadius = "8px";
     dialog.style.border = "none";
-    dialog.style.backgroundColor = BACKGROUND_COLOR;
+    dialog.style.backgroundColor = ABOUT_BACKGROUND_COLOR;
+    dialog.style.color = ABOUT_TEXT_COLOR;
     dialog.style.padding = "0";
     dialog.style.boxShadow = "4px 4px 20px rgba(0,0,0,0.75)";
+    dialog.style.textAlign = "center";
+    dialog.style.fontSize = ABOUT_TEXT_SIZE;
+    dialog.style.fontFamily = ABOUT_FONT_FAMILY;
     dialog.style.userSelect = "none";
+    dialog.style.pointerEvents = "auto";
+    dialog.style.letterSpacing = "0.25px";
     dialog.addEventListener("click", (e) => dialog === e.target && dialog.close());
-    content.style.textAlign = "center";
-    content.style.fontSize = TEXT_SIZE;
-    content.style.fontFamily = FONT_FAMILY;
-    content.style.color = TEXT_COLOR;
-    content.style.padding = "20px";
-    content.style.margin = "0";
-    dialog.appendChild(content);
-    title.style.fontSize = TITLE_SIZE;
-    title.style.color = TITLE_COLOR;
-    title.style.margin = "0";
-    title.style.fontWeight = "bold";
-    title.innerText = TITLE;
-    content.appendChild(title);
-    message.innerText = MESSAGE;
-    message.style.padding = "8px 0";
-    message.style.textAlign = "justify";
-    content.appendChild(message);
+    wrapper.style.padding = "24px";
+    dialog.appendChild(wrapper);
+    title.style.fontSize = "2.25em";
+    title.style.color = ABOUT_PRIMARY_COLOR;
+    title.style.margin = "4px 0";
+    title.innerHTML = ABOUT_TITLE;
+    wrapper.appendChild(title);
+    subtitle.style.fontSize = "1.35em";
+    subtitle.style.color = ABOUT_PRIMARY_COLOR;
+    subtitle.style.margin = "4px 0";
+    subtitle.innerHTML = ABOUT_SUBTITLE;
+    wrapper.appendChild(subtitle);
+    copyright.style.fontSize = "1.1em";
+    copyright.style.color = ABOUT_PRIMARY_COLOR;
+    copyright.style.margin = "4px 0";
+    copyright.innerHTML = ABOUT_COPYRIGHT;
+    wrapper.appendChild(copyright);
+    textWrapper.style.padding = "8px 0";
+    textWrapper.style.textAlign = "justify";
+    wrapper.appendChild(textWrapper);
+    firstParagraph.innerHTML = ABOUT_LEGAL;
+    textWrapper.appendChild(firstParagraph);
+    secondParagraph.innerText = ABOUT_SUPPLEMENT;
+    textWrapper.appendChild(secondParagraph);
     buttonWrapper.style.display = "flex";
-    buttonWrapper.style.justifyContent = "space-evenly";
-    content.appendChild(buttonWrapper);
-    const highlight = (el, bg, fg, border) => () => {
+    buttonWrapper.style.justifyContent = "center";
+    wrapper.appendChild(buttonWrapper);
+    const highlight = (el, bg, fg, border) => (() => {
       el.style.backgroundColor = bg;
       el.style.color = fg;
       el.style.border = "2px solid " + border;
-    };
-    primaryButton.style.cursor = "pointer";
-    primaryButton.style.fontSize = TEXT_SIZE;
-    primaryButton.style.fontWeight = "bold";
-    primaryButton.style.fontFamily = FONT_FAMILY;
-    primaryButton.style.color = SECONDARY_COLOR;
-    primaryButton.style.backgroundColor = PRIMARY_COLOR;
-    primaryButton.style.border = "2px solid " + PRIMARY_COLOR;
-    primaryButton.style.padding = "12px 24px";
-    primaryButton.style.outline = "none";
-    primaryButton.style.minWidth = "120px";
-    primaryButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
-    primaryButton.innerText = PRIMARY_ACTION;
-    primaryButton.setAttribute("autofocus", "");
-    primaryButton.addEventListener("click", () => {
-      location.href = TARGET_URL;
-      this._close();
     });
-    primaryButton.addEventListener("pointerdown", highlight(primaryButton, PRIMARY_HIGHLIGHTED_COLOR, SECONDARY_HIGHLIGHTED_COLOR, PRIMARY_HIGHLIGHTED_COLOR));
-    primaryButton.addEventListener("pointerup", highlight(primaryButton, PRIMARY_COLOR, SECONDARY_COLOR, PRIMARY_COLOR));
-    primaryButton.addEventListener("pointerleave", highlight(primaryButton, PRIMARY_COLOR, SECONDARY_COLOR, PRIMARY_COLOR));
-    buttonWrapper.appendChild(primaryButton);
-    secondaryButton.style.cursor = "pointer";
-    secondaryButton.style.fontSize = TEXT_SIZE;
-    secondaryButton.style.fontWeight = "bold";
-    secondaryButton.style.fontFamily = FONT_FAMILY;
-    secondaryButton.style.color = PRIMARY_COLOR;
-    secondaryButton.style.backgroundColor = SECONDARY_COLOR;
-    secondaryButton.style.border = "2px solid " + PRIMARY_COLOR;
-    secondaryButton.style.padding = "12px 24px";
-    secondaryButton.style.marginLeft = "12px";
-    secondaryButton.style.outline = "none";
-    secondaryButton.style.minWidth = "120px";
-    primaryButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
-    secondaryButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
-    secondaryButton.innerText = SECONDARY_ACTION;
-    secondaryButton.addEventListener("click", () => this._close());
-    secondaryButton.addEventListener("pointerdown", highlight(secondaryButton, PRIMARY_HIGHLIGHTED_COLOR, SECONDARY_HIGHLIGHTED_COLOR, PRIMARY_HIGHLIGHTED_COLOR));
-    secondaryButton.addEventListener("pointerup", highlight(secondaryButton, SECONDARY_COLOR, PRIMARY_COLOR, PRIMARY_COLOR));
-    secondaryButton.addEventListener("pointerleave", highlight(secondaryButton, SECONDARY_COLOR, PRIMARY_COLOR, PRIMARY_COLOR));
-    buttonWrapper.appendChild(secondaryButton);
-    closeButton.style.cursor = "pointer";
-    closeButton.style.fontSize = TEXT_SIZE;
-    closeButton.style.fontFamily = FONT_FAMILY;
-    closeButton.style.color = TEXT_COLOR;
-    closeButton.style.opacity = "0.5";
-    closeButton.style.position = "absolute";
-    closeButton.style.top = "8px";
-    closeButton.style.right = "8px";
-    closeButton.style.border = "none";
-    closeButton.style.padding = "8px";
-    closeButton.style.backgroundColor = TRANSPARENT_COLOR;
-    closeButton.style.outline = "none";
-    closeButton.style["-webkit-tap-highlight-color"] = TRANSPARENT_COLOR;
-    closeButton.innerHTML = "&#x2715;";
-    closeButton.addEventListener("click", () => this._close());
-    content.appendChild(closeButton);
+    infoButton.style.cursor = "pointer";
+    infoButton.style.fontSize = ABOUT_TEXT_SIZE;
+    infoButton.style.fontWeight = "bold";
+    infoButton.style.fontFamily = ABOUT_FONT_FAMILY;
+    infoButton.style.color = ABOUT_SECONDARY_COLOR;
+    infoButton.style.backgroundColor = ABOUT_PRIMARY_COLOR;
+    infoButton.style.border = "2px solid " + ABOUT_PRIMARY_COLOR;
+    infoButton.style.padding = "12px 24px";
+    infoButton.style.outline = "none";
+    infoButton.style["-webkit-tap-highlight-color"] = "transparent";
+    infoButton.innerText = ABOUT_PRIMARY_ACTION;
+    infoButton.setAttribute("autofocus", "");
+    infoButton.addEventListener("click", () => (location.href = ABOUT_WEBSITE, dialog.close()));
+    infoButton.addEventListener("pointerdown", highlight(infoButton, ABOUT_PRIMARY_HIGHLIGHTED_COLOR, ABOUT_SECONDARY_HIGHLIGHTED_COLOR, ABOUT_PRIMARY_HIGHLIGHTED_COLOR));
+    infoButton.addEventListener("pointerup", highlight(infoButton, ABOUT_PRIMARY_COLOR, ABOUT_SECONDARY_COLOR, ABOUT_PRIMARY_COLOR));
+    infoButton.addEventListener("pointerleave", highlight(infoButton, ABOUT_PRIMARY_COLOR, ABOUT_SECONDARY_COLOR, ABOUT_PRIMARY_COLOR));
+    buttonWrapper.appendChild(infoButton);
+    quitButton.style.cursor = "pointer";
+    quitButton.style.fontSize = ABOUT_TEXT_SIZE;
+    quitButton.style.fontWeight = "bold";
+    quitButton.style.fontFamily = ABOUT_FONT_FAMILY;
+    quitButton.style.color = ABOUT_PRIMARY_COLOR;
+    quitButton.style.backgroundColor = ABOUT_SECONDARY_COLOR;
+    quitButton.style.border = "2px solid " + ABOUT_PRIMARY_COLOR;
+    quitButton.style.padding = "12px 24px";
+    quitButton.style.marginLeft = "12px";
+    quitButton.style.outline = "none";
+    quitButton.style["-webkit-tap-highlight-color"] = "transparent";
+    quitButton.innerText = ABOUT_SECONDARY_ACTION;
+    quitButton.addEventListener("click", () => dialog.close());
+    quitButton.addEventListener("pointerdown", highlight(quitButton, ABOUT_PRIMARY_HIGHLIGHTED_COLOR, ABOUT_SECONDARY_HIGHLIGHTED_COLOR, ABOUT_PRIMARY_HIGHLIGHTED_COLOR));
+    quitButton.addEventListener("pointerup", highlight(quitButton, ABOUT_SECONDARY_COLOR, ABOUT_PRIMARY_COLOR, ABOUT_PRIMARY_COLOR));
+    quitButton.addEventListener("pointerleave", highlight(quitButton, ABOUT_SECONDARY_COLOR, ABOUT_PRIMARY_COLOR, ABOUT_PRIMARY_COLOR));
+    buttonWrapper.appendChild(quitButton);
     return dialog;
   }
 };
+var Watermark = class {
+  /**
+   * Constructor
+   */
+  constructor() {
+    this._parent = null;
+    this._graphic = this._createGraphic();
+    this._aboutBox = new AboutBox();
+  }
+  /**
+   * Initialize
+   * @param parent parent node
+   */
+  init(parent) {
+    this._parent = parent;
+    parent.appendChild(this._graphic);
+    this._aboutBox.init(parent);
+  }
+  /**
+   * Release
+   */
+  release() {
+    this._aboutBox.release();
+    this._graphic.remove();
+    this._parent = null;
+  }
+  /**
+   * A reference to the About box
+   */
+  get aboutBox() {
+    return this._aboutBox;
+  }
+  /**
+   * Reparent
+   * @param newParent new parent node, or null to revert to the original parent
+   * @internal
+   */
+  _reparent(newParent) {
+    if (newParent === this._parent)
+      return;
+    if (newParent === null)
+      newParent = this._parent;
+    if (newParent === null)
+      return;
+    newParent.appendChild(this._graphic);
+    this._aboutBox._reparent(newParent);
+  }
+  /**
+   * Create the graphic
+   */
+  _createGraphic() {
+    const button = document.createElement("button");
+    button.style.position = "absolute";
+    button.style.bottom = "0";
+    button.style.left = "0";
+    button.style.padding = "0";
+    button.style.margin = "0";
+    button.style.cursor = "pointer";
+    button.style.userSelect = "none";
+    button.style.pointerEvents = "auto";
+    button.style.outline = "none";
+    button.style.border = "none";
+    button.style.background = "none";
+    button.style["-webkit-tap-highlight-color"] = "transparent";
+    button.draggable = false;
+    button.hidden = !!(AR_FLAGS & 1);
+    button.style.color = WATERMARK_COLOR;
+    button.innerHTML = WATERMARK_CONTENT;
+    button.ariaDescription = "Made with encantar.js";
+    const setPressed = (isPressed) => (() => void (button.style.color = isPressed ? WATERMARK_HIGHLIGHTED_COLOR : WATERMARK_COLOR));
+    button.addEventListener("click", () => this._aboutBox.show());
+    button.addEventListener("pointerdown", setPressed(true));
+    button.addEventListener("pointerup", setPressed(false));
+    button.addEventListener("pointerleave", setPressed(false));
+    return button;
+  }
+};
 
-// src/core/hud.ts
-var _statsPanel, _fullscreenButton, _reminderDialog;
+// src/lib/core/hud.ts
+var _statsPanel, _fullscreenButton, _watermark;
 var HUD = class {
   /**
    * Constructor
@@ -20062,8 +20123,8 @@ var HUD = class {
     __privateAdd(this, _statsPanel);
     /** Fullscreen button */
     __privateAdd(this, _fullscreenButton);
-    /** Reminder dialog */
-    __privateAdd(this, _reminderDialog);
+    /** Watermark */
+    __privateAdd(this, _watermark);
     this._container = hudContainer || this._createContainer(parent);
     this._isOwnContainer = hudContainer == null;
     if (this._container.parentElement !== parent) {
@@ -20078,7 +20139,7 @@ var HUD = class {
     this._internalContainer.appendChild(document.createElement("slot"));
     __privateSet(this, _statsPanel, new StatsPanel());
     __privateSet(this, _fullscreenButton, new FullscreenButton(viewport));
-    __privateSet(this, _reminderDialog, new ReminderDialog());
+    __privateSet(this, _watermark, new Watermark());
   }
   /**
    * The container of the HUD
@@ -20117,7 +20178,7 @@ var HUD = class {
     const parent = this._internalContainer;
     __privateGet(this, _statsPanel).init(parent, wantStatsPanel);
     __privateGet(this, _fullscreenButton).init(parent, wantFullscreenButton);
-    __privateGet(this, _reminderDialog).init(parent);
+    __privateGet(this, _watermark).init(parent);
     for (const element of parent.children) {
       if (element.style.getPropertyValue("pointer-events") == "")
         element.style.pointerEvents = "auto";
@@ -20139,7 +20200,7 @@ var HUD = class {
    */
   _release() {
     this._visible = false;
-    __privateGet(this, _reminderDialog).release();
+    __privateGet(this, _watermark).release();
     __privateGet(this, _fullscreenButton).release();
     __privateGet(this, _statsPanel).release();
     if (this._isOwnContainer) {
@@ -20173,9 +20234,9 @@ var HUD = class {
 };
 _statsPanel = new WeakMap();
 _fullscreenButton = new WeakMap();
-_reminderDialog = new WeakMap();
+_watermark = new WeakMap();
 
-// src/core/viewport.ts
+// src/lib/core/viewport.ts
 var ViewportEvent = class extends AREvent {
 };
 var DEFAULT_VIEWPORT_SETTINGS = {
@@ -20260,7 +20321,7 @@ var ViewportCanvases = class {
     );
     this._backgroundCanvas.hidden = true;
     this._foregroundCanvas.hidden = true;
-    const engineInfo = "encantar.js " + Utils.engineVersion;
+    const engineInfo = "encantar.js Free Edition version " + Utils.engineVersion;
     this._backgroundCanvas.dataset.arEngine = engineInfo;
     this._foregroundCanvas.dataset.arEngine = engineInfo;
     parent.appendChild(this._backgroundCanvas);
@@ -20963,9 +21024,9 @@ var Viewport = class extends AREventTarget {
   }
 };
 
-// src/main.ts
+// src/lib/main.ts
 Utils.log(
-  `encantar.js version ${Utils.engineVersion}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. https://encantar.dev`
+  `encantar.js Free Edition version ${Utils.engineVersion}. GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` + AR_WEBSITE
 );
 function startSession(options) {
   return Session.instantiate(options);
