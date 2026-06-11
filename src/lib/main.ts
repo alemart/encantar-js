@@ -34,7 +34,7 @@ import { AR_WEBSITE } from './utils/metadata';
 
 // Display a notice
 Utils.log(
-    `encantar.js version ${Utils.engineVersion}. ` +
+    `encantar.js Free Edition version ${Utils.engineVersion}. ` +
     `GPU-accelerated Augmented Reality for the web by Alexandre Martins. ` +
     AR_WEBSITE
 );

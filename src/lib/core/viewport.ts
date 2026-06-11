@@ -234,7 +234,7 @@ class ViewportCanvases
         this._backgroundCanvas.hidden = true;
         this._foregroundCanvas.hidden = true;
 
-        const engineInfo = 'encantar.js ' + Utils.engineVersion;
+        const engineInfo = 'encantar.js Free Edition version ' + Utils.engineVersion;
         this._backgroundCanvas.dataset.arEngine = engineInfo;
         this._foregroundCanvas.dataset.arEngine = engineInfo;
 
