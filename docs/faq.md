@@ -164,6 +164,10 @@ Your client doesn't need a separate license key if you are going to distribute t
 
 A license key may be issued to an individual or to a company. The licensee must be the one distributing the application.
 
+### Can I rebrand the library and offer it as a SaaS?
+
+No. You may not rebrand the Commercial Edition or wrap it inside a product that offers similar core functionality or value. This restriction applies even if your product includes additional features (such as a visual authoring tool for other creators), and even if it's offered as a Software as a Service (SaaS). The Commercial Edition is not priced for the scale and value of platform-level redistribution. However, if you are interested in the encantar.js technology, then we may be able to [reach a custom agreement](contact.md).
+
 ### Why pay for this library if it's open-source?
 
 Because you'll receive [benefits that are essential for professional proprietary work](#which-edition-should-i-pick). Furthermore, a commercial offering is vital to sustain open-source AR. Commercial funding backs this independently developed library that:
