@@ -47,7 +47,7 @@ See also: [Guidelines for Images](guidelines-for-images.md).
 
 ### Is encantar.js free or paid?
 
-There are two editions: free and commercial. They are functionally equivalent, but have significant differences in usage rights.
+There are two editions: Free and Professional. They are functionally equivalent, but have significant differences in usage rights.
 
 ### Which edition should I pick?
 
@@ -56,13 +56,13 @@ The Free Edition is licensed under version 3 of the [GNU GPL](license.md). You m
 - Distribute your application, and all its parts, as free and open-source software under the GNU GPL. You may **not** distribute non-free/proprietary applications with the Free Edition.
 - Prominently display the [Library Watermark Notices](#can-i-remove-the-encantarjs-watermark) in the user interface.
 
-If you're unable to meet the requirements of the GPL, then you need the Commercial Edition:
+If you're unable to meet the requirements of the GPL, then you need the Professional Edition:
 
-- Purchase the Commercial Edition for distributing non-free/proprietary projects to others (browser delivery counts as distribution). Use it in production.
-- Using the Free Edition for internal development/prototyping is permitted as long as your proprietary application is **not** distributed to others. Don't use it in production.
+- Purchase the Professional Edition for distributing non-free/proprietary projects to others (browser delivery counts as distribution). Use it in production.
+- Using the Free Edition for internal development/prototyping is permitted as long as your proprietary application is **not** distributed to others. Do not use it in production.
 
-|   | Free Edition | Commercial Edition |
-| - | ------------ | ------------------ |
+|   | Free Edition | Professional Edition |
+| - | ------------ | -------------------- |
 | Your codebase | Same | Same |
 | Best for | Open-source apps / Internal prototyping | Non-free apps / Client work |
 | Keep Watermark Notices | **Mandatory** | Waived |
@@ -70,40 +70,40 @@ If you're unable to meet the requirements of the GPL, then you need the Commerci
 | Suitable for proprietary works | No | **Yes** |
 
 <div style="text-align:center" markdown>
-!!! info "The Commercial Edition is great for:"
+!!! info "The Professional Edition is great for:"
 
-    💼 **Agencies** requiring brand control.
+    👨‍💻 **Creatives** requiring brand control.
 
-    👨‍💻 **Freelancers** doing private client work.
+    🎨 **Artists** creating non-profit or for-profit artwork.
 
-    🛠️ **Indie devs** creating proprietary products.
+    💼 **Agencies** doing proprietary client work.
+
+    🛠️ **Indie devs** building proprietary products.
+
+    🧑‍🏫 **Academics** may request a separate [Academic License](#i-work-in-an-academic-institution-can-i-use-this-proprietary-edition).
 
     [Buy Now](/buy){ .md-button .md-button--primary }
 </div>
 
-See also: [What do I get with the Commercial Edition?](#what-do-i-get-with-the-commercial-edition)
+See also: [What do I get with the Professional Edition?](#what-do-i-get-with-the-professional-edition)
 
 ### Can I use the Free Edition for my free and open-source application?
 
-Yes. Since your application is free and open-source, you don't need the Commercial Edition. Include instructions for building and executing your application. Release it under the GPL.
+Yes. Since your application is free and open-source, you don't need the Professional Edition. Include instructions for building and executing your application. Release it under the GPL.
 
 ### Can I use the Free Edition for my non-free/proprietary application?
 
-You may use the Free Edition for internal development/prototyping, provided that you don't distribute your application to others. Don't use the Free Edition in production. You must [purchase the Commercial Edition](/buy) before you distribute your application to others.
+You may use the Free Edition for internal development/prototyping, provided that you don't distribute your application to others. Don't use the Free Edition in production. You must [purchase the Professional Edition](/buy) before you distribute your application to others.
 
-### Can I embed the Commercial Edition in my proprietary application?
+### Can I embed the Professional Edition in my proprietary application?
 
-Yes. When using the Commercial Edition, copyleft applies to the library, but it does **not** extend to your application. You can close the source code of your proprietary application and distribute it under the terms of your choice. However, if you modify the library, you can't make your modifications proprietary.
-
-### I'm a non-profit. Do I have to purchase the Commercial Edition?
-
-If you distribute your application, and all its parts, as free and open-source software under the GNU GPL, then you may use the Free Edition. Otherwise, you must purchase the Commercial Edition.
+Yes. When using the Professional Edition, copyleft applies to the library, but it does **not** extend to your application. You can close the source code of your proprietary application and distribute it under the terms of your choice. However, if you modify the library, you can't make your modifications proprietary.
 
 ### Can I remove the encantar.js watermark?
 
 Yes, provided that you:
 
-- a) [purchase the Commercial Edition](/buy); or
+- a) [purchase the Professional Edition](/buy); or
 - b) replace the watermark with an equivalent feature that retains the same author attributions and legal notices. Such feature must be **convenient and prominently visible in the user interface**. In this case, you won't remove the watermark entirely, only change its form.
 
 Let's take a look at the requirement:
@@ -122,16 +122,16 @@ The encantar.js watermark and its accompanying About box fulfill the aforementio
 
 !!! tip
 
-    The [Commercial Edition](/buy) does not display the watermark. It's suitable for professional works requiring increased brand control.
+    The [Professional Edition](/buy) does not display the watermark. It's suitable for professional works requiring increased brand control.
 
-## Commercial Edition
+## Professional Edition
 
-### What do I get with the Commercial Edition?
+### What do I get with the Professional Edition?
 
-The Commercial Edition is essential for professional proprietary work. When you purchase it, you receive a license key that unlocks a special permission. That permission allows you to distribute your proprietary applications with specific versions of the library, with no need to display the Watermark Notices in the user interface. In addition, you receive 1 year of library updates covered by that permission. After that period, you may continue to receive updates if you renew your purchase.
+The Professional Edition is essential for professional proprietary work. When you purchase it, you receive a license key that unlocks a special permission. That permission allows you to distribute your proprietary applications with specific versions of the library, with no need to display the Watermark Notices in the user interface. In addition, you receive 1 year of library updates covered by that permission. After that period, you may continue to receive updates if you renew your purchase.
 
 <div style="text-align:center" markdown>
-!!! info "The Commercial Edition offers you:"
+!!! info "The Professional Edition offers you:"
 
     ✅ Permission to distribute proprietary applications.
 
@@ -150,7 +150,27 @@ No. The special permission is perpetual for the covered versions of the library.
 
 ### Can I grant that special permission to others?
 
-No. That is an additional permission only granted by the author of the library. Others may receive that additional permission by purchasing the Commercial Edition themselves.
+No. That is an additional permission only granted by the author of the library. Others may receive that additional permission by purchasing the Professional Edition themselves.
+
+### Any limits on the number of applications, deployments, or end users?
+
+No, the license imposes no such limits. It's a great deal.
+
+### Does the license cover internal development, testing, and production?
+
+Yes.
+
+### I'm a large organization. Am I eligible for this proprietary edition?
+
+The Professional Edition is priced for individual creatives and small shops. While you are ineligible for this license, you may [request a separate license](contact.md) for your use case.
+
+### I work in an academic institution. Can I use this proprietary edition?
+
+The Professional Edition is priced for individual creatives and small shops. While your institution is ineligible for this license, we offer Academic Licenses [under request](contact.md), based on your use case.
+
+### What if I'm a non-profit organization?
+
+If you distribute your applications, and all their parts, as free and open-source software under the GPL, while also keeping the Watermark Notices, then you may use the [Free Edition](#which-edition-should-i-pick). Otherwise you must purchase a license, just like individuals doing non-profit works with the library.
 
 ### What if I'm making applications for clients?
 
@@ -164,9 +184,15 @@ Your client doesn't need a separate license key if you are going to distribute t
 
 A license key may be issued to an individual or to a company. The licensee must be the one distributing the application.
 
+### What if the product is beyond my means, considering my country's currency?
+
+If you are an individual creative / artist living in a country where your local currency and present earnings place this product beyond your reach, then you may [get in touch](contact.md), tell us about your situation, and request a regional discount. If a regional discount applies to your situation, then you will receive a bonus code that can make the product more affordable to you.
+
+The continued availability of this policy depends on good faith. If the total income in your household is sufficient for you to afford the normal price, then purchase the product for its normal price. Recognize that the library brings you extraordinary value. For those who do client work, the product pays for itself quickly. You are trusted not to abuse this policy, so that it can continue to exist.
+
 ### Can I rebrand the library and offer it as a SaaS?
 
-No. You may not rebrand the Commercial Edition or wrap it inside a product that offers similar core functionality or value. This restriction applies even if your product includes additional features (such as a visual authoring tool for other creators), and even if it's offered as a Software as a Service (SaaS). The Commercial Edition is not priced for the scale and value of platform-level redistribution. However, if you are interested in the encantar.js technology, then we may be able to [reach a custom agreement](contact.md).
+No. You may not rebrand the Professional Edition of the library nor wrap it inside a product that offers similar core functionality or value. [You can't grant the special permission to others](#can-i-grant-that-special-permission-to-others). These restrictions apply even if your product includes additional features (such as a visual authoring tool for other creators), and even if it's offered as a Software as a Service (SaaS). The Professional Edition is not priced for the scale and value of platform-level redistribution. However, if you are interested in this WebAR technology, then we may be able to [reach a custom agreement](contact.md).
 
 ### Why pay for this library if it's open-source?
 
@@ -177,11 +203,11 @@ Because you'll receive [benefits that are essential for professional proprietary
 3. works on any device with a modern web browser, regardless of WebXR support
 4. isn't locked into any vendor that may limit access or even disappear tomorrow
 
-Building a WebAR technology from scratch with computer vision is a massive R&D undertaking. By choosing the Commercial Edition, you receive a professional-grade tool with added benefits, as well as the peace of mind that comes with the knowing that your access to it will not &mdash; and effectively cannot &mdash; be removed. Your AR projects are yours to keep and share!
+Building a WebAR technology from scratch with computer vision is a massive R&D undertaking. By choosing the Professional Edition, you receive a professional-grade tool with added benefits, as well as the peace of mind that comes with the knowing that your access to it will not &mdash; and effectively cannot &mdash; be removed. Your AR projects are yours to keep and share!
 
 ### Do I receive support?
 
-[I'm happy to answer library-related questions](contact.md), but purchasing the Commercial Edition does not include support services such as debugging your code, unless we have a separate agreement.
+[I'm happy to answer library-related questions](contact.md), but purchasing the Professional Edition does not include support services such as debugging your code, unless we have a separate agreement.
 
 ## Technical questions
 

@@ -30,15 +30,15 @@ Pick any demo below, or [browse the website](https://encantar.dev/demos) for mor
 
 ## Download
 
-There are two editions: [free](#free-edition) and [commercial](#commercial-edition). They are functionally equivalent, but have [significant differences in usage rights](https://encantar.dev/faq#licensing).
+There are two editions: [Free](#free-edition) and [Professional](#professional-edition). They are functionally equivalent, but have [significant differences in usage rights](https://encantar.dev/faq#licensing).
 
 ### Free Edition
 
 [Download the Free Edition](#quick-start) for creating and distributing free and open-source projects, or for developing internal prototypes of non-free/proprietary projects (no distribution rights under the GPL).
 
-### Commercial Edition
+### Professional Edition
 
-[Purchase the Commercial Edition](https://encantar.dev/faq#licensing) before distributing your non-free/proprietary projects to others (browser delivery counts as distribution). Use it in production.
+[Purchase the Professional Edition](https://encantar.dev/faq#licensing) before distributing your non-free/proprietary projects to others (browser delivery counts as distribution). Use it in production.
 
 ### Add-Ons
 
