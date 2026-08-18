@@ -74,13 +74,14 @@ If you're unable to meet the requirements of the GPL, then you need the Professi
 
     👨‍💻 **Creatives** requiring brand control.
 
-    🎨 **Artists** creating non-profit or for-profit artwork.
-
     💼 **Agencies** doing proprietary client work.
 
-    🛠️ **Indie devs** building proprietary products.
+    🛠️ **Freelancers** building proprietary products.
 
-    🧑‍🏫 **Academics** may request a separate [Academic License](#i-work-in-an-academic-institution-can-i-use-this-proprietary-edition).
+    🎨 **Artists** creating non-profit or for-profit artwork.
+
+    🧑‍🏫 **Academics** using AR on the classroom or on research,<br>
+    under a separate [Academic License](#i-work-in-an-academic-institution-can-i-use-this-proprietary-edition).
 
     [Buy Now](/buy){ .md-button .md-button--primary }
 </div>
@@ -204,6 +205,10 @@ Because you'll receive [benefits that are essential for professional proprietary
 4. isn't locked into any vendor that may limit access or even disappear tomorrow
 
 Building a WebAR technology from scratch with computer vision is a massive R&D undertaking. By choosing the Professional Edition, you receive a professional-grade tool with added benefits, as well as the peace of mind that comes with the knowing that your access to it will not &mdash; and effectively cannot &mdash; be removed. Your AR projects are yours to keep and share!
+
+### Can I see this license? I am interested in making a purchase.
+
+Yes. A draft is available [under request](contact.md).
 
 ### Do I receive support?
 
