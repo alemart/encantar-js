@@ -36,7 +36,7 @@ plugins:
         'buy/ar-clickable.md': 'https://store.encantar.dev/l/video-player-for-webar'
         'buy/ar-video-player.md': 'https://store.encantar.dev/l/video-player-for-webar'
         'buy/ar-snapshot-button.md': 'https://store.encantar.dev/l/photo-app-for-webar'
-        'download.md': 'https://github.com/alemart/encantar-js#download'
+        'download.md': 'https://encantar.dev/faq#licensing'
 
 markdown_extensions:
   - admonition

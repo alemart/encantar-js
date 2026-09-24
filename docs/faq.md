@@ -45,28 +45,20 @@ See also: [Guidelines for Images](guidelines-for-images.md).
 
 ## Licensing
 
-### Is encantar.js free or paid?
-
-There are two editions: Free and Professional. They are functionally equivalent, but have significant differences in usage rights.
-
 ### Which edition should I pick?
 
-The Free Edition is licensed under version 3 of the [GNU GPL](license.md). You may use it as long as you comply with its license. Among other requirements, you need to:
+There are two editions of encantar.js. They are functionally equivalent, but have significant differences in usage rights.
 
-- Distribute your application, and all its parts, as free and open-source software under the GNU GPL. You may **not** distribute non-free/proprietary applications with the Free Edition.
-- Prominently display the [Library Watermark Notices](#can-i-remove-the-encantarjs-watermark) in the user interface.
+- [Purchase the Professional Edition](/buy){ ._blank } for distributing proprietary projects (browser delivery counts as distribution). Use it in production. No need to keep the Watermark Notices.
+- [Use the Free Edition (GPL)](https://github.com/alemart/encantar-js){ ._blank } for distributing **free projects** with the Watermark Notices and under the [GNU GPL](license.md). You may **not** distribute non-free/proprietary applications with it. However, you may use it for internal prototyping. Using it in production is not allowed.
 
-If you're unable to meet the requirements of the GPL, then you need the Professional Edition:
-
-- Purchase the Professional Edition for distributing non-free/proprietary projects to others (browser delivery counts as distribution). Use it in production.
-- Using the Free Edition for internal development/prototyping is permitted as long as your proprietary application is **not** distributed to others. Do not use it in production.
-
-|   | Free Edition | Professional Edition |
-| - | ------------ | -------------------- |
+|   | Free Edition (GPL) | Professional Edition |
+| - | ------------------ | -------------------- |
 | Your codebase | Same | Same |
-| Best for | Open-source apps / Internal prototyping | Non-free apps / Client work |
+| Best for | Free apps / Internal prototyping | Non-free apps / Client work |
 | Keep Watermark Notices | **Mandatory** | Waived |
-| Your work must be free & open | **Mandatory** | Waived |
+| Your projects must be free | **Mandatory** | Waived |
+| Production use | No, unless your app is GPL | **Yes** |
 | Suitable for proprietary works | No | **Yes** |
 
 <div style="text-align:center" markdown>
@@ -78,67 +70,24 @@ If you're unable to meet the requirements of the GPL, then you need the Professi
 
     🎨 **Artists &amp; creatives** requiring brand control
 
-    [Buy Now](/buy){ .md-button .md-button--primary }
+    [Buy Now](/buy){ .md-button .md-button--primary ._blank }
 </div>
 
-See also: [What do I get with the Professional Edition?](#what-do-i-get-with-the-professional-edition)
+### What do I receive when purchasing the Professional Edition?
 
-### Can I use the Free Edition for my free and open-source application?
-
-Yes. Since your application is free and open-source, you don't need the Professional Edition. Include instructions for building and executing your application. Release it under the GPL.
-
-### Can I use the Free Edition for my non-free/proprietary application?
-
-You may use the Free Edition for internal development/prototyping, provided that you don't distribute your application to others. Don't use the Free Edition in production. You must [purchase the Professional Edition](/buy) before you distribute your application to others.
-
-### Can I embed the Professional Edition in my proprietary application?
-
-Yes. When using the Professional Edition, copyleft applies to the library, but it does **not** extend to your application. You can close the source code of your proprietary application and distribute it under the terms of your choice. However, if you modify the library, you can't make your modifications proprietary.
-
-### Can I remove the encantar.js watermark?
-
-Yes, provided that you:
-
-- a) [purchase the Professional Edition](/buy); or
-- b) replace the watermark with an equivalent feature that retains the same author attributions and legal notices. Such feature must be **convenient and prominently visible in the user interface**. In this case, you won't remove the watermark entirely, only change its form.
-
-Let's take a look at the requirement:
-
-> Pursuant to Section 7(b) of the GNU General Public License version 3 ("GPLv3"), **you must retain the author attributions and the legal notices displayed by means of the encantar.js Library Watermark** in all works that are combined with or linked to this library, as well as in all other works based on this library, and in the form of convenient and prominently visible Appropriate Legal Notices (defined in the GPLv3).
-
-Section 7b of the GPLv3 states that the license may be supplemented with terms:
-
-> b) Requiring preservation of specified reasonable legal notices or author attributions in that material or in the Appropriate Legal Notices displayed by works containing it
-
-The definition of "Appropriate Legal Notices" is in Section 0 of the license:
-
-> An interactive user interface displays "Appropriate Legal Notices" to the extent that it includes a **convenient and prominently visible** feature that (1) displays an appropriate copyright notice, and (2) tells the user that there is no warranty for the work (except to the extent that warranties are provided), that licensees may convey the work under this License, and how to view a copy of this License. If the interface presents a list of user commands or options, such as a menu, a prominent item in the list meets this criterion.
-
-The encantar.js watermark and its accompanying About box fulfill the aforementioned requirement by default. They are displayed conveniently and prominently on the screen: an approach particularly suited for mobile AR. An alternative implementation consists of displaying these author attributions and legal notices in an "About" or "Legal Notices" section of your own, seamlessly integrated into your design, as long as they are **convenient and prominently visible in the user interface**. [This demo](/demos/hello-world) illustrates such implementation.
-
-!!! tip
-
-    The [Professional Edition](/buy) does not display the watermark. It's suitable for professional works requiring increased brand control.
-
-## Professional Edition
-
-### What do I get with the Professional Edition?
-
-The Professional Edition is essential for professional proprietary work. When you purchase it, you receive a license key that unlocks a special permission. That permission allows you to distribute your proprietary applications with specific versions of the library, with no need to display the Watermark Notices in the user interface. In addition, you receive 1 year of library updates covered by that permission. After that period, you may continue to receive updates if you renew your purchase.
+The Professional Edition is essential for professional proprietary work. When you purchase it, you receive a license key that unlocks a special permission. That permission allows you to distribute your proprietary applications with specific versions of the library, with no need to display the Watermark Notices in the user interface. In addition, you receive one year of library updates covered by that permission. After that period, you may continue to receive updates if you renew your purchase.
 
 <div style="text-align:center" markdown>
 !!! info "The Professional Edition offers you:"
 
-    ✅ Permission to distribute proprietary applications.
+    ✅ Permission to distribute proprietary applications
 
-    ✅ Brand control: no Watermark Notices.
+    ✅ Brand control: no Watermark Notices
 
-    ✅ One year of library updates.
+    ✅ One year of library updates
 
-    [Buy Now](/buy){ .md-button .md-button--primary }
+    [Buy Now](/buy){ .md-button .md-button--primary ._blank }
 </div>
-
-See also: [Which edition should I pick?](#which-edition-should-i-pick), [Can I remove the encantar.js watermark?](#can-i-remove-the-encantarjs-watermark)
 
 ### Do I have to renew my purchase each year?
 
@@ -148,6 +97,18 @@ No. The special permission is perpetual for the covered versions of the library.
 
 No. That is an additional permission only granted by the author of the library. Others may receive that additional permission by purchasing the Professional Edition themselves.
 
+### What if I'm making applications for clients?
+
+Ask yourself: who is going to distribute the application?
+
+Whoever distributes a proprietary application to others must have a license key. Browser delivery counts as distribution. If your clients are distributing proprietary applications (for example, through their own domain or app store account), then each of your clients needs their own license key. If you are the one distributing proprietary applications, then you need your own license key.
+
+License keys are not transferable. A separate license key is required for each client who distributes proprietary applications. You can ask your client to buy a license key.
+
+If you have your own license key, your client doesn't need a separate license key if you are going to distribute the application through your own domain and under your name. In this case, you, the author of the application, must be able to distribute that application under your name (not under the name of your client).
+
+A license key may be issued to an individual or to a company. The licensee must be the one distributing the application.
+
 ### Any limits on the number of applications, deployments, or end users?
 
 No, the license imposes no such limits. It's a great deal.
@@ -155,6 +116,10 @@ No, the license imposes no such limits. It's a great deal.
 ### Does the license cover internal development, testing, and production?
 
 Yes.
+
+### How can I use this library in my proprietary applications?
+
+With the Professional Edition, copyleft applies to the library, but it does **not** extend to your applications. You can close the source code of your proprietary applications and distribute them under the terms of your choice. However, if you modify the library, then you can't make your modifications to the library proprietary.
 
 ### I'm a large organization. Am I eligible for this proprietary edition?
 
@@ -166,19 +131,7 @@ The Professional Edition is priced for individual creatives and small shops. Whi
 
 ### What if I'm a non-profit organization?
 
-If you distribute your applications, and all their parts, as free and open-source software under the GPL, while also keeping the Watermark Notices, then you may use the [Free Edition](#which-edition-should-i-pick). Otherwise you must purchase a license, just like individuals doing non-profit works with the library.
-
-### What if I'm making applications for clients?
-
-Ask yourself: who is going to distribute the application?
-
-Whoever distributes a proprietary application to others must have a license key. Browser delivery counts as distribution. If your clients are distributing proprietary applications (for example, through their own domain or app store account), then each of your clients needs their own license key. If you are the one distributing proprietary applications, then you need your own license key.
-
-License keys are not transferable. A separate license key is required for each client who distributes proprietary applications. You can ask your client to buy a license key.
-
-Your client doesn't need a separate license key if you are going to distribute the application through your own domain (assuming you have your own license key). In this case, you, the author of the application, must be able to distribute that application under your name.
-
-A license key may be issued to an individual or to a company. The licensee must be the one distributing the application.
+If you distribute your applications, and all their parts, as free and open-source software under the GPL, while also keeping the Watermark Notices, then you may use the Free Edition. Otherwise you must purchase a license, just like individuals doing non-profit works with the library.
 
 ### What if the product is beyond my means, considering my country's currency?
 
@@ -193,6 +146,26 @@ No. You may not rebrand the Professional Edition of the library nor wrap it insi
 ### Can I backport new code to covered versions of the library?
 
 No. The special permission does not extend to the code of any versions of the library released after your update period. Thus, in order to use new code &mdash; and new features &mdash; you must either renew your purchase, or use the library under the GPL.
+
+### Can I remove the encantar.js watermark?
+
+Yes, provided that you [purchase the Professional Edition](/buy).
+
+When using the Free Edition, you can only replace the watermark with an equivalent feature that retains the same author attributions and legal notices. Such feature must be **convenient and prominently visible in the user interface** and let users know clearly that both the library and your own application are free software licensed under the GPLv3.
+
+Let's take a look at the requirement:
+
+> Pursuant to Section 7(b) of the GNU General Public License version 3 ("GPLv3"), **you must retain the author attributions and the legal notices displayed by means of the encantar.js Library Watermark** in all works that are combined with or linked to this library, as well as in all other works based on this library, and in the form of **convenient and prominently visible Appropriate Legal Notices** (defined in the GPLv3).
+
+Section 7b of the GPLv3 states that the license may be supplemented with terms:
+
+> b) Requiring preservation of specified reasonable legal notices or author attributions in that material or in the Appropriate Legal Notices displayed by works containing it
+
+The definition of "Appropriate Legal Notices" is in Section 0 of the license:
+
+> An interactive user interface displays "Appropriate Legal Notices" to the extent that it includes a **convenient and prominently visible** feature that (1) displays an appropriate copyright notice, and (2) tells the user that there is no warranty for the work (except to the extent that warranties are provided), that licensees may convey the work under this License, and how to view a copy of this License. If the interface presents a list of user commands or options, such as a menu, a prominent item in the list meets this criterion.
+
+The encantar.js watermark and its accompanying About box fulfill the aforementioned requirement by default. They are displayed conveniently and prominently on the screen: an approach suitable for mobile AR. Any other design must meet the same requirement. Therefore, when using the Free Edition you can't remove the watermark entirely, only change its form.
 
 ### Why pay for this library if it's open-source?
 

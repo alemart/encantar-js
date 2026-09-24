@@ -3,7 +3,7 @@
 <div align="center">
 ✅ High performance WebAR — ✅ Easy to use & deploy — ✅ Works anywhere (iOS, Android, Desktops)<br><br>
 
-[Download](#download) | [Demos](https://encantar.dev/demos) | [Addons](https://encantar.dev/addons) | [Documentation](#documentation)
+[Download](https://encantar.dev/faq#licensing) | [Demos](https://encantar.dev/demos) | [Addons](https://encantar.dev/addons) | [Documentation](#documentation)
 
 <a href="https://encantar.dev/demos/hello-aframe/poster.html" target="_blank"><img src="docs/img/mage.gif" alt="Demo" height="144"></a> <a href="https://encantar.dev/demos/basketball/poster.html" target="_blank"><img src="docs/img/basketball.gif" alt="Game" height="144"></a> <a href="https://encantar.dev/addons/ar-video-player" target="_blank"><img src="docs/img/video-player.gif" alt="Video Player" height="144"></a>
 </div>
@@ -12,9 +12,7 @@
 
 ## Download
 
-[Purchase a license](https://encantar.dev/buy) for production use, or use the [library under the GNU GPL with Watermark Notices](https://github.com/alemart/encantar-js/releases).
-
-For more information, read the [Licensing FAQ](https://encantar.dev/faq#licensing).
+🪄 [Download here!](https://encantar.dev/faq#licensing)
 
 ## Features
 
