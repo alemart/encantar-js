@@ -4,6 +4,9 @@
 .grid.cards {
     text-align: center;
 }
+.grid.cards.single {
+    max-width: 50%;
+}
 .grid.cards figure {
     display: block;
     width: 100%;
@@ -69,6 +72,24 @@
     ---
 
     [Try it!](/demos/hello-world/poster.html){ .md-button ._blank }
+
+</div>
+
+## Games
+
+<div class="grid cards single" markdown>
+
+-   ### Magic AR Basketball
+
+    ---
+
+    <figure style="background-image: url(../img/demo-basketball2.gif)"></figure>
+
+    Basketball game based on babylon.js. Play with your phone!
+
+    ---
+
+    [Play now!](/demos/basketball/poster.html){ .md-button ._blank }
 
 </div>
 
